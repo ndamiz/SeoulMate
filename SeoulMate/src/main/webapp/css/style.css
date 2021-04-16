@@ -1,4 +1,7 @@
 @charset "UTF-8";
+
+
+
 ul,li{list-style-type: none; margin: 0; padding: 0;}
 #premiumInfoImg {border: 1px solid #ddd;}
 #premiumInfoImg ul{overflow: auto;}
