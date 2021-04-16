@@ -25,4 +25,14 @@
 		<li><img src="<%=request.getContextPath()%>/img/premiumAfter.jpg" alt="" /></li>
 	</ul>
 </div>
+<div id="premiumInfoGuide">
+	<ul>
+		<li></li>
+		<li>무료</li>
+		<li>프리미엄</li>
+		<li>프리미엄요금</li>
+		<li></li>
+		<li>14,900원 / 30일</li>
+	</ul>
+</div>
 </div>
