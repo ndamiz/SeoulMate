@@ -1,0 +1,16 @@
+@font-face {
+    font-family: "BlackHanSans-Reqular.ttf";
+    url(font/BlackHanSans-Reqular.ttf) format("truetype");
+    font-style: nomarl;
+    font-weight: normal;
+}
+
+.m_title {
+    font-family: "BlackHanSans-Reqular.ttf";
+    font-size: 1rem;
+    color:#000;
+}
+.s_title {
+}
+.d_title {
+}
