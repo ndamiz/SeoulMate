@@ -18,6 +18,7 @@
 </script>
 <div class="main">
 	<h1>회원가입</h1>
+	ex)지금은 ${year}년입니다.<br/>
 	회원 정보 입력, 이메일 인증, 라이프 스타일을 등록 후 회원가입이 가능합니다.
 	<form method="post" action="memberOk">
 		<div id="memDiv">
@@ -34,7 +35,7 @@
 				<li><input type="text" name="username" placeholder="이름을 입력해주세요"/></li>
 				<li><span style="color:red;">*</span>연락처</li>
 				<li>
-					<select>
+					<select name="tel1">
 						<option>010</option>
 						<option>02</option>
 					</select>-
@@ -43,10 +44,12 @@
 				</li>
 				<li><span style="color:red;">*</span>생년월일</li>
 				<li>
-					<select>
-						<option>1990</option>
-						<option>1991</option>
-						<option>1992</option>
+					<select name="year">
+						<option value="">연도</option>
+						<c:forEach var="i" begin="0" end="${year-1920}">
+							<c:set var="yearOption" value="${year-i}"/>
+							<option value="${yearOption}">${yearOption}</option>
+						</c:forEach>
 					</select>
 				</li>
 				<li><span style="color:red;">*</span>성별</li>
