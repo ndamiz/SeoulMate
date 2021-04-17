@@ -66,7 +66,7 @@
 }
 
 .title_wrap{
-	width: 228px;
+	width: max-content;
 	margin: 0 auto;
 }
 
@@ -230,7 +230,7 @@ button, a{
 
 
 
-.checks input[type="checkbox"] { /* ì‹¤ì œ ì²´í¬ë°•ìŠ¤ëŠ” í™”ë©´ì—ì„œ ìˆ¨ê¹€ */
+.checks input[type="checkbox"] { /* ½ÇÁ¦ Ã¼Å©¹Ú½º´Â È­¸é¿¡¼­ ¼û±è */
 	position: absolute;
 	width: 1px;
 	height: 1px;
@@ -250,12 +250,12 @@ button, a{
 	-ms-user-select: none;
 }
 
-.checks input[type="checkbox"]+label:before { /* ê°€ì§œ ì²´í¬ë°•ìŠ¤ */
+.checks input[type="checkbox"]+label:before { /* °¡Â¥ Ã¼Å©¹Ú½º */
 	content: ' ';
 	display: inline-block;
-	width: 21px; /* ì²´í¬ë°•ìŠ¤ì˜ ë„ˆë¹„ë¥¼ ì§€ì • */
-	height: 21px; /* ì²´í¬ë°•ìŠ¤ì˜ ë†’ì´ë¥¼ ì§€ì • */
-	line-height: 21px; /* ì„¸ë¡œì •ë ¬ì„ ìœ„í•´ ë†’ì´ê°’ê³¼ ì¼ì¹˜ */
+	width: 21px; /* Ã¼Å©¹Ú½ºÀÇ ³Êºñ¸¦ ÁöÁ¤ */
+	height: 21px; /* Ã¼Å©¹Ú½ºÀÇ ³ôÀÌ¸¦ ÁöÁ¤ */
+	line-height: 21px; /* ¼¼·ÎÁ¤·ÄÀ» À§ÇØ ³ôÀÌ°ª°ú ÀÏÄ¡ */
 	margin: -2px 8px 0 0;
 	text-align: center;
 	vertical-align: middle;
@@ -265,8 +265,8 @@ button, a{
 }
 
 
-.checks input[type="checkbox"]:checked+label:before { /* ì²´í¬ë°•ìŠ¤ë¥¼ ì²´í¬í–ˆì„ë•Œ */
-	content: '\2714'; /* ì²´í¬í‘œì‹œ ìœ ë‹ˆì½”ë“œ ì‚¬ìš© */
+.checks input[type="checkbox"]:checked+label:before { /* Ã¼Å©¹Ú½º¸¦ Ã¼Å©ÇßÀ»¶§ */
+	content: '\2714'; /* Ã¼Å©Ç¥½Ã À¯´ÏÄÚµå »ç¿ë */
 	color: #13a89e;
 	text-shadow: 1px 1px #fff;
 	background: #fff;
