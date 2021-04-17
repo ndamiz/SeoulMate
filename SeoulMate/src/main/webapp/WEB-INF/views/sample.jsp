@@ -173,8 +173,102 @@
 					</tr>
 				</tbody>
 			</table>
+			<div class="paging">
+				<a class="first_page" href=""></a>
+				<a class="prev_page" href=""></a>
+				<a class="on" href="">1</a>
+				<a class="" href="">2</a>
+				<a class="" href="">3</a>
+				<a class="" href="">4</a>
+				<a class="next_page" href=""></a>
+				<a class="last_page" href=""></a>
+			</div>
 		</div>
 	</div>
+	
+	
+	<div class="pup_wrap">
+		<div class="pup_form">
+			<div class="pup_head">팝업명</div>
+			<div class="pup_body">
+				<div class="pup_list">
+					<div class="list_img">
+						<img src="<%=request.getContextPath()%>/img/comm/sample.png"/>
+					</div>
+					<div class="list_title">
+						<p class="s_title">user1</p>
+						<p class="s_title">남성</p>
+						<p class="s_title">31세</p>
+						<p class="d_title">서강동 / 망원동 / 합정동</p>
+						<p class="d_title">200 / 20</p>
+					</div>
+					<div class="list_btn">
+						<button class="green">승인</button>
+						<button class="green">메세지</button>
+						<button class="green">거절</button>
+					</div>
+				</div>
+				<div class="pup_list">
+					<div class="list_img">
+						<img src="<%=request.getContextPath()%>/img/comm/sample.png"/>
+					</div>
+					<div class="list_title">
+						<p class="s_title">user1</p>
+						<p class="s_title">남성</p>
+						<p class="s_title">31세</p>
+						<p class="d_title">서강동 / 망원동 / 합정동</p>
+						<p class="d_title">200 / 20</p>
+					</div>
+					<div class="list_btn">
+						<button class="green">승인</button>
+						<button class="green">메세지</button>
+						<button class="green">거절</button>
+					</div>
+				</div>
+				<div class="pup_list">
+					<div class="list_img">
+						<img src="<%=request.getContextPath()%>/img/comm/sample.png"/>
+					</div>
+					<div class="list_title">
+						<p class="s_title">user1</p>
+						<p class="s_title">남성</p>
+						<p class="s_title">31세</p>
+						<p class="d_title">서강동 / 망원동 / 합정동</p>
+						<p class="d_title">200 / 20</p>
+					</div>
+					<div class="list_btn">
+						<button class="green">승인</button>
+						<button class="green">메세지</button>
+						<button class="green">거절</button>
+					</div>
+				</div>
+				<div class="pup_list">
+					<div class="list_img">
+						<img src="<%=request.getContextPath()%>/img/comm/sample.png"/>
+					</div>
+					<div class="list_title">
+						<p class="s_title">user1</p>
+						<p class="s_title">남성</p>
+						<p class="s_title">31세</p>
+						<p class="d_title">서강동 / 망원동 / 합정동</p>
+						<p class="d_title">200 / 20</p>
+					</div>
+					<div class="list_btn">
+						<button class="green">승인</button>
+						<button class="green">메세지</button>
+						<button class="green">거절</button>
+					</div>
+				</div>
+			</div>
+			<div class="pup_bottom">
+				<a href="" class="btn_cancel">닫기</a>
+				<a href="" class="btn_save">확인</a>
+				<a href="" class="btn_del">삭제</a>
+			</div>
+			<a href="" class="btn_close">닫기</a>
+		</div>
+	</div>
+	
 </body>
 
 </html>
