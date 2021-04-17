@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-	<!-- width  600px-->
 	<div class="wrap">
+		<!-- width  600px-->
 		<div class="member_wrap">
 			<p class="m_title">강조타이틀</p>
 			<p class="s_title">서브타이틀</p>
@@ -30,9 +30,10 @@
 		</div>
 	</div>
 
-	<!-- width 1000px -->
 	<div class="wrap">
-		<div class="form_wrap">
+		<!-- width 80% -->
+		<div class="content">
+			<!-- 600px -->
 			<ul class="form_box">
 				<li>
 					<label><span class="red_txt">*</span>이메일</label>
@@ -93,10 +94,79 @@
 		</div>
 	</div>
 	
-	<!-- 1400px -->
 	<div class="wrap">
 		<div class="content">
-			
+			<table class="tb1">
+				<caption>테이블명</caption>
+				<colgroup>
+					<col width="80" />
+					<col width="120" />
+					<col />
+					<col width="100" />
+					<col width="80" />
+					<col width="80" />
+				</colgroup>
+				<thead>
+					<tr>
+						<th>번호</th>
+						<th>카테고리</th>
+						<th>제목</th>
+						<th>작성자</th>
+						<th>조회수</th>
+						<th>작성일</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td>우리집 자랑</td>
+						<td>게시글 제목입니다.</td>
+						<td>user1</td>
+						<td>10</td>
+						<td>2021-04-17</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>우리집 자랑</td>
+						<td>게시글 제목입니다.</td>
+						<td>user1</td>
+						<td>10</td>
+						<td>2021-04-17</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>우리집 자랑</td>
+						<td>게시글 제목입니다.</td>
+						<td>user1</td>
+						<td>10</td>
+						<td>2021-04-17</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>우리집 자랑</td>
+						<td>게시글 제목입니다.</td>
+						<td>user1</td>
+						<td>10</td>
+						<td>2021-04-17</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>우리집 자랑</td>
+						<td>게시글 제목입니다.</td>
+						<td>user1</td>
+						<td>10</td>
+						<td>2021-04-17</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>우리집 자랑</td>
+						<td>게시글 제목입니다.</td>
+						<td>user1</td>
+						<td>10</td>
+						<td>2021-04-17</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
 </body>
