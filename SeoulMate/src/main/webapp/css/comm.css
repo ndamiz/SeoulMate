@@ -2,7 +2,7 @@
 	font-family: "BlackHanSans";
 	src: url("fonts/BlackHanSans-Regular.ttf") format("truetype");
 }
-
+/*부트스트랩 container 역할*/
 .wrap {
 	width:100%; 
 	height:100%; 
