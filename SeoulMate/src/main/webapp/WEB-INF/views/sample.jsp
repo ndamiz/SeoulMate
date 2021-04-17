@@ -169,7 +169,7 @@
 						<td class="t_title"><a href="">게시글 제목입니다.</a></td>
 						<td>user1</td>
 						<td>10</td>
-						<td>2021-04-17</td>
+						<td>2021-04-17</td> 
 					</tr>
 				</tbody>
 			</table>
