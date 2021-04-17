@@ -82,6 +82,6 @@
 		</table>
 	</div>
 	<div>
-	<button class="b_btn green" id="premiumPayBtn">프리미엄 멤버십 가입하기</button>
+	<button class="b_btn green" id="premiumPayBtn" onclick="location.href='premiumPay'">프리미엄 멤버십 가입하기</button>
 	</div>
 </div>
