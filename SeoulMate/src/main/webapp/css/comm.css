@@ -1,0 +1,283 @@
+@font-face {
+	font-family: "BlackHanSans";
+	src: url("fonts/BlackHanSans-Regular.ttf") format("truetype");
+}
+
+.wrap {
+	width:100%; 
+	height:100%; 
+	min-height:750px;
+	padding:4rem;
+	margin : 0 auto;
+}
+
+.member_wrap {
+	width:600px; 
+	margin : 0 auto;
+}
+
+/* .form_wrap {
+	width:1000px; 
+	margin : 0 auto;
+} */
+
+.content {
+	width:80%; 
+	margin : 40px auto;
+}
+
+.m_title {
+    font-family: BlackHanSans;
+    position: relative;
+    font-size: 2.25rem;
+    color:#000;
+    padding-left: 15px;
+    margin: 40px 0;
+    line-height: 48px;
+    height: 40px;
+    vertical-align: middle;
+}
+
+.m_title::before{
+	content: "";
+	display: block;
+	position: absolute;
+	left: 1px;
+	width: 10px;
+	height: 40px;
+	background-color: #13a89e;
+}
+
+.s_title {
+	display:inline-block;
+	margin: 40px 0;
+	font-size: 1.5rem;
+	padding: 0 6px;
+	position: relative;
+	font-weight: 600;
+	color: #111215;
+}
+
+.s_title::before{
+	content: "";
+	display: block;
+	position: absolute;
+	bottom: 0;
+	z-index: -1;
+	left: 1px;
+	width: 100%;
+	height: 9px;
+	background-color: #ffeb3f;
+}
+
+.title_wrap{
+	width: max-content;
+	margin: 0 auto;
+}
+
+.title_wrap p{
+	margin: 0 auto;
+}
+
+.d_title{
+	font-size: 1.2rem;
+	color:#181818;
+}
+
+
+
+
+button, a{
+	border-radius: 20px;
+	height: 40px;
+	line-height: 40px;
+	margin: 5px;
+	box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%);
+	display: inline-block;
+}
+
+.green{
+	background-color: #13a89e;
+	color:#fff;
+}
+
+.white{
+	background-color: #fff;
+	color: #000;
+}
+
+.b_btn{
+	height: 50px;
+	font-size: 1.3rem;
+	line-height: 50px;
+	border-radius: 30px;
+	padding: 0 26px;
+}
+
+.q_btn{
+	width: 100%;
+	height: 50px;
+	margin: 5px 0;
+	font-size: 1.3rem;
+	line-height: 50px;
+	border-radius: 0;
+	padding: 0 26px;
+	text-align: center;
+}
+
+.btn_wrap{
+	display:flex;
+	width:600px;
+	margin: 40px auto 0;
+}
+.h_btn{
+	width: 50%;
+	height: 50px;
+	line-height: 50px;
+	margin:0;
+	padding: 0;
+	font-size: 1.3rem;
+	border-radius: 0;
+	text-align: center;
+}
+
+
+
+.red_txt{
+	color:#ca3d3d;
+}
+
+.form_box{
+	width: 600px;
+	margin: 0 auto;
+}
+
+.form_box li{
+	display: flex;
+	height: 50px;
+}
+
+.form_box li label{
+	line-height: 47px;
+}
+.form_box li input{
+	margin: 0 10px;
+}
+
+.form_box li input,
+.form_box li select{
+	width: 43%;
+}
+
+.form_box li > label:first-child{
+	margin-right: 10px;
+}
+
+
+
+.form_box.choice li > label{
+	width: 155px;
+}
+
+
+
+.checks label{
+	margin-left: 10px;
+}
+
+.checks {
+	position: relative;
+}
+
+.checks input[type="radio"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip:rect(0,0,0,0);
+  border: 0;
+}
+.checks input[type="radio"] + label {
+  display: inline-block;
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.checks input[type="radio"] + label:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 13px;
+  width: 21px;
+  height: 21px;
+  text-align: center;
+  background: #fff;
+  border: 1px solid #cacece;
+  border-radius: 100%;
+}
+.checks input[type="radio"]:checked + label:before {
+  background: #fff;
+  border-color: #adb8c0;
+}
+.checks input[type="radio"]:checked + label:after {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 5px;
+  width: 13px;
+  height: 13px;
+  background: #13a89e;
+  border-radius: 100%;
+}
+
+
+
+
+
+.checks input[type="checkbox"] { /* 실제 체크박스는 화면에서 숨김 */
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0
+}
+
+.checks input[type="checkbox"]+label {
+	display: inline-block;
+	position: relative;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+.checks input[type="checkbox"]+label:before { /* 가짜 체크박스 */
+	content: ' ';
+	display: inline-block;
+	width: 21px; /* 체크박스의 너비를 지정 */
+	height: 21px; /* 체크박스의 높이를 지정 */
+	line-height: 21px; /* 세로정렬을 위해 높이값과 일치 */
+	margin: -2px 8px 0 0;
+	text-align: center;
+	vertical-align: middle;
+	background: #fff;
+	border: 1px solid #cacece;
+	border-radius: 3px;
+}
+
+
+.checks input[type="checkbox"]:checked+label:before { /* 체크박스를 체크했을때 */
+	content: '\2714'; /* 체크표시 유니코드 사용 */
+	color: #13a89e;
+	text-shadow: 1px 1px #fff;
+	background: #fff;
+	border-color: #adb8c0;
+}
