@@ -96,7 +96,7 @@
 	
 	<div class="wrap">
 		<div class="content">
-			<table class="tb1">
+			<table class="tb">
 				<caption>테이블명</caption>
 				<colgroup>
 					<col width="80" />
