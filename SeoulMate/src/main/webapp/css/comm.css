@@ -389,3 +389,13 @@ table td{
 	text-align: left;
 	padding-left: 10px;
 }
+
+table a {
+	box-shadow: inherit;
+	border:none;
+	border-radius:inherit;
+	margin: 0;
+	padding: 0;
+	line-height: inherit;
+	height: inherit;
+}

@@ -126,7 +126,7 @@
 					<tr>
 						<td>1</td>
 						<td>우리집 자랑</td>
-						<td class="t_title">게시글 제목입니다.</td>
+						<td class="t_title"><a href="">게시글 제목입니다.</a></td>
 						<td>user1</td>
 						<td>10</td>
 						<td>2021-04-17</td>
