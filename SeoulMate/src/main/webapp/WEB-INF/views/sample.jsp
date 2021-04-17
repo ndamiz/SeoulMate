@@ -96,6 +96,12 @@
 	
 	<div class="wrap">
 		<div class="content">
+			<ul class="content_menu">
+				<li><a class="on">전체</a></li>
+				<li><a class="">우리집 자랑</a></li>
+				<li><a class="">중고장터</a></li>
+				<li><a class="">쉐어TIP</a></li>
+			</ul>
 			<table class="tb">
 				<caption>테이블명</caption>
 				<colgroup>
@@ -104,7 +110,7 @@
 					<col />
 					<col width="100" />
 					<col width="80" />
-					<col width="80" />
+					<col width="120" />
 				</colgroup>
 				<thead>
 					<tr>
@@ -120,7 +126,7 @@
 					<tr>
 						<td>1</td>
 						<td>우리집 자랑</td>
-						<td>게시글 제목입니다.</td>
+						<td class="t_title"><a href="">게시글 제목입니다.</a></td>
 						<td>user1</td>
 						<td>10</td>
 						<td>2021-04-17</td>
@@ -128,7 +134,7 @@
 					<tr>
 						<td>1</td>
 						<td>우리집 자랑</td>
-						<td>게시글 제목입니다.</td>
+						<td class="t_title"><a href="">게시글 제목입니다.</a></td>
 						<td>user1</td>
 						<td>10</td>
 						<td>2021-04-17</td>
@@ -136,7 +142,7 @@
 					<tr>
 						<td>1</td>
 						<td>우리집 자랑</td>
-						<td>게시글 제목입니다.</td>
+						<td class="t_title"><a href="">게시글 제목입니다.</a></td>
 						<td>user1</td>
 						<td>10</td>
 						<td>2021-04-17</td>
@@ -144,7 +150,7 @@
 					<tr>
 						<td>1</td>
 						<td>우리집 자랑</td>
-						<td>게시글 제목입니다.</td>
+						<td class="t_title"><a href="">게시글 제목입니다.</a></td>
 						<td>user1</td>
 						<td>10</td>
 						<td>2021-04-17</td>
@@ -152,7 +158,7 @@
 					<tr>
 						<td>1</td>
 						<td>우리집 자랑</td>
-						<td>게시글 제목입니다.</td>
+						<td class="t_title"><a href="">게시글 제목입니다.</a></td>
 						<td>user1</td>
 						<td>10</td>
 						<td>2021-04-17</td>
@@ -160,10 +166,10 @@
 					<tr>
 						<td>1</td>
 						<td>우리집 자랑</td>
-						<td>게시글 제목입니다.</td>
+						<td class="t_title"><a href="">게시글 제목입니다.</a></td>
 						<td>user1</td>
 						<td>10</td>
-						<td>2021-04-17</td>
+						<td>2021-04-17</td> 
 					</tr>
 				</tbody>
 			</table>
