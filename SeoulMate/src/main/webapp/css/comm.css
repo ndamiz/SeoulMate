@@ -9,7 +9,7 @@
 	min-height:750px;
 	padding:4rem;
 	margin : 0 auto;
-}
+} 
 
 .member_wrap {
 	width:600px; 
@@ -388,4 +388,14 @@ table td{
 .t_title{
 	text-align: left;
 	padding-left: 10px;
+}
+
+table a {
+	box-shadow: inherit;
+	border:none;
+	border-radius:inherit;
+	margin: 0;
+	padding: 0;
+	line-height: inherit;
+	height: inherit;
 }
