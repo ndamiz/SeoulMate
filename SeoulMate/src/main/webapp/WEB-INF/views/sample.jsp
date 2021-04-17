@@ -200,7 +200,7 @@
 						<p class="s_title">남성</p>
 						<p class="s_title">31세</p>
 						<p class="d_title">서강동 / 망원동 / 합정동</p>
-						<p class="d_title">200 / 20</p>
+						<p class="d_title">200 / 20</p> 
 					</div>
 					<div class="list_btn">
 						<button class="green">승인</button>
