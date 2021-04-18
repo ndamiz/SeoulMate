@@ -773,6 +773,8 @@ table td{
 	width: 100%;
 	background-color:#13a89e;
 	color: #fff;
+	position: fixed;
+	bottom: 0;
 }
 
 footer{
@@ -787,11 +789,12 @@ footer .logo{
 }
 
 footer .logo a{
-	width: 200px;
+	width: 170px;
 	height: 50px;
 	background: url(../img/comm/서울메이트_logo_white.png) no-repeat;
 	background-size: 80%;
-	margin-top: 5px;
+	background-position-y: 8px;
+	/* margin-top: -1px; */
 }
 
 footer a{
