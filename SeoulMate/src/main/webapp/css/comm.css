@@ -6,7 +6,7 @@
 /* 버튼 스타일 제거 */
 table a ,
 .paging a,
-.pup_wrap a, 
+.pup_wrap a,
 header a,
 header button,
 nav a,
@@ -18,7 +18,7 @@ footer a{
 	padding: 0;
 	line-height: inherit;
 	height: inherit;
-} 
+}
 
 /* header style */
 
