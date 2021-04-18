@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div class="main_wrap">
 	<div class="content">
-		<h2 class="home_title">
+		<h2 class="main_title">
 			당신과 가장 잘 맞는<br>
 			쉐어하우스 & 메이트
 		</h2>

@@ -3,6 +3,11 @@
 	src: url("fonts/BlackHanSans-Regular.ttf") format("truetype");
 }
 
+@font-face {
+	font-family: "Gugi";
+	src: url("fonts/Gugi-Regular.ttf") format("truetype");
+}
+
 /* 버튼 스타일 제거 */
 table a ,
 .paging a,
@@ -822,34 +827,74 @@ footer .foot_btns{
 	width:100%; 
 	height:100%; 
 	min-height:750px;
-	padding:4rem;
+	padding:4rem 0;
 	margin : 0 auto;
 } 
+
+.main_wrap .content{
+	position: relative;
+}
+
+.main_wrap .content .main_title{
+   	font-family: Gugi;
+    line-height: 50px;
+   	margin-top:10rem;
+    font-size: 3rem;
+    color:#000;
+    vertical-align: middle;
+}
 
 .main_wrap .content::before{
 	content:"";
 	display: block;
-	background: url(../img/main/ico_search_white.png);
+	position:absolute;
+	/* top:10rem; */
+	right: 5%;
+	width: 661px;
+	height: 459px;
+	background: url(../img/main/bg_main.png) no-repeat;
+	z-index: -111;
+	/* background-size: 80%; */
+}
+
+.main_wrap .main_search_form{
+	margin-top: 4rem;
+}
+
+.main_wrap .main_search_form button{
+	width: 50px;
+	height: 50px;
 }
 
 .main_wrap .main_search_form button::before{
 	content:"";
 	display: block;
-	width: 32px;
-	height: 32px;
-	background: url(../img/main/ico_search_white.png);
+	margin-left: -2px;
+	width: 25px;
+	height: 25px;
+	background: url(../img/main/ico_search_white.png) no-repeat;
+	background-size: cover;
+}
+
+.main_wrap .main_search_form .checks{
+	height: 50px;
+}
+
+.main_wrap .main_search_form .checks label{
+	height: 50px;
+	line-height: 50px;
+	margin-left: 0;
+	margin-right: 10px;
 }
 
 
+.main_wrap .main_search_form .checks input[type="radio"] + label:before{
+	top:15px;
+}
 
-
-
-
-
-
-
-
-
+.main_wrap .main_search_form .checks input[type="radio"]:checked + label:after{
+	top:20px;
+}
 
 
 
