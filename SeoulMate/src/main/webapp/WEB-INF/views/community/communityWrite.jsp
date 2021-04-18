@@ -3,15 +3,19 @@
 <script src="https://cdn.ckeditor.com/4.9.0/standard/ckeditor.js"></script>
 <div class="content">
 	<form id="frm" method="post" action="/home/communityWriteOk">
-	카테고리 : 
-		<select id="category" name="category">
-			<option>우리집 자랑</option>
-			<option>중고장터</option>
-			<option>쉐어TIP</option>
-			<option>자유게시판</option>
-		</select><br>
-		제목 : <input id="subject" name="subject" type="text" placeholder="제목을 입력하세요." style="width:300px;">
-		<button id="write" class="green">글쓰기</button>
+		<ul>
+			<li style="float:left; width:15%">
+				<select id="category" name="category">
+					<option>우리집 자랑</option>
+					<option>중고장터</option>
+					<option>쉐어TIP</option>
+					<option>자유게시판</option>
+				</select>
+			</li>		
+			<li style="float:left; width: 75.5%"><input id="subject" name="subject" type="text" placeholder="제목을 입력하세요." style="width:750px;"></li>
+			<li><button class="green" id="communityWrite">글쓰기</button></li>
+		</ul>
+		<br>
 		<textarea name="content"></textarea>
 	</form>
 	<script>
