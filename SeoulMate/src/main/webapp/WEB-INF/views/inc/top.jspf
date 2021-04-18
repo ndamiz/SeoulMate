@@ -31,7 +31,7 @@
 					<li><a href="" class="menu_item">프리미엄</a></li>
 					<li><a href="" class="menu_item">쉐어하우스</a></li>
 					<li><a href="" class="menu_item">하우스메이트</a></li>
-					<li><a href="" class="menu_item">커뮤니티</a></li>
+					<li><a href="/home/communityList" class="menu_item">커뮤니티</a></li>
 					<li><a href="" class="menu_item">마이페이지</a></li>
 					<li><a href="" class="menu_btn"></a></li>
 				</ul>
