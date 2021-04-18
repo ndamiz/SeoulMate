@@ -12,7 +12,7 @@
 		<script type="text/javascript" src="<%=request.getContextPath()%>/js/script.js"></script>
 		<script type="text/javascript"> 
 			$(function() {
-				var i;
+				var i; 
 				$('.sub_menu li').hover(function() {
 					i = $('.sub_menu li').index(this);
 					$('.main_menu li').eq(i).children().addClass('on');
