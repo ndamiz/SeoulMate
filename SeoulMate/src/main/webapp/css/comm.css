@@ -3,6 +3,182 @@
 	src: url("fonts/BlackHanSans-Regular.ttf") format("truetype");
 }
 
+/* 버튼 스타일 제거 */
+table a ,
+.paging a,
+.pup_wrap a,
+header a,
+header button,
+nav a,
+footer a{
+	box-shadow: none;
+	border:none;
+	border-radius:inherit;
+	margin: 0;
+	padding: 0;
+	line-height: inherit;
+	height: inherit;
+}
+
+/* header style */
+
+.header_wrap:hover .nav_wrap{
+	top:0;
+}
+
+.header_wrap{
+	width: 100%;
+	height: 90px;
+	background-color: #fff;
+	z-index: 1;
+}
+
+header .logo{
+	height: 50px;
+	float: left;
+}
+header .logo a{
+	width: 200px;
+	height: 50px;
+	background: url(../img/comm/서울메이트_logo.png) no-repeat;
+	background-size: 80%;
+	margin-top: 5px;
+}
+
+header{
+	width: 100%;
+	background-color: #fff;
+	z-index: 2;
+	position: relative;
+	border-bottom: 1px solid #eee;
+}
+
+.header_wrap header > div{
+	overflow: hidden;
+	width: 80%;
+	min-width: 950px;
+	margin: 0 auto;
+	padding: 20px 0;
+	z-index: 1;
+}
+
+.header_wrap .main_menu{
+	display: flex;
+	width: 75%;
+	float: right;
+}
+
+.header_wrap .main_menu li{
+	width: 25%;
+	height: 50px;
+	line-height: 50px;
+}
+
+.header_wrap .main_menu li:last-child{
+	text-align: center; 
+}
+
+.header_wrap .main_menu li:last-child:hover .menu_item::before{
+	content: none;
+}
+
+.header_wrap .main_menu li .menu_item{
+	display:inline-block;
+	position:relative;
+	line-height: 50px;
+	z-index: 1;
+	font-size: 1.1rem;
+	position: relative;
+	font-weight: 600;
+	color: #111215;
+	overflow: hidden;
+}
+
+.header_wrap .main_menu li .menu_item::before{
+	content: "";
+	display: block;
+	position: absolute;
+	bottom: 10px;
+	z-index: -2;
+	left: -150px;
+	width: 100%;
+	height: 9px;
+	background-color: #ffeb3f;
+	transition:.4s;
+}
+
+
+.header_wrap .main_menu li .menu_item.on::before{
+	left: 0;
+}
+
+.header_wrap .main_menu li:hover .menu_item::before{
+	left: 0;
+}
+
+.header_wrap .menu_btn{
+	margin-top: 10px;
+	width: 30px;
+	height: 30px;
+	background: url(../img/comm/fi-rr-menu-burger.svg) no-repeat;
+}
+
+
+/* header submenu */
+
+.header_wrap .nav_wrap{
+	width: 100%;
+	/* min-width: 1045px; */
+	box-shadow: 0px 8px 10px 0px rgb(0 0 0 / 10%);
+	position: relative;
+	top: -290px;
+	color: #6f7578;
+	font-size:1rem;
+	background-color: #fff;
+	z-index: 1;
+	transition:.3s;
+}
+
+.header_wrap nav{
+	width: 80%;
+	min-width: 950px;
+	margin: 0 auto;
+}
+
+.header_wrap nav ul{
+	display: flex;
+	width: 75%;
+	float: right;
+}
+
+.header_wrap nav ul li{
+	width: 25%;
+}
+
+.header_wrap nav{padding: 1rem 0;overflow: hidden;}
+
+.header_wrap .nav_bg{
+	width: 190px;
+	height: 189px;
+	background: url(../img/comm/nav_bg.png) no-repeat;
+	background-size: cover;
+	position: absolute;
+}
+
+.header_wrap nav ul li a{
+	display: block;
+	font-size: .9rem;
+	word-break: keep-all;
+	line-height: 30px;
+	transition:.3s;
+}
+
+.header_wrap nav ul li a:hover{
+	color: #13a89e;
+}
+
+/* comm style */
+
 .wrap {
 	width:100%; 
 	height:100%; 
@@ -25,6 +201,9 @@
 	width:80%; 
 	margin : 40px auto;
 }
+
+
+/* title style */
 
 .m_title {
     font-family: BlackHanSans;
@@ -71,6 +250,24 @@
 	background-color: #ffeb3f;
 }
 
+.title_wrap{
+	width: max-content;
+	margin: 0 auto;
+}
+
+.title_wrap p{
+	margin: 0 auto;
+}
+
+.d_title{
+	font-size: 1.2rem;
+	color:#181818;
+}
+
+
+
+/* content menu style */
+
 .content_menu{
 	display: flex;
 	margin: 40px 0;
@@ -82,7 +279,7 @@
 	box-shadow: inherit;
 	border:none;
 	border-radius:inherit;
-	font-size: 1.5rem;
+	font-size: 1.2rem;
 	padding: 0 6px;
 	position: relative;
 	font-weight: 600;
@@ -94,25 +291,26 @@
 	content: "";
 	display: block;
 	position: absolute;
-	bottom: 0;
 	z-index: -1;
+	bottom: 6px;
 	left: 1px;
 	width: 100%;
 	height: 9px;
 	background-color: #d2d2d2;
+	transition:.5s;
 }
 
  .content_menu a::after{
  	content: "";
-	display: block;
-	position: absolute;
-	bottom: 0;
-	z-index: -1;
-	left: 1px;
-	width: 100%;
-	height: 9px;
-	background-color: #ffeb3f;
-	z-index: -11111;
+ 	display: block;
+ 	position: absolute;
+ 	bottom: 6px;
+ 	z-index: -1;
+ 	left: 1px;
+ 	width: 100%;
+ 	height: 9px;
+ 	background-color: #ffeb3f;
+ 	z-index: -11111;
  }
 
 /*  .content_menu a:hover::after{
@@ -138,22 +336,7 @@
 }
 
 
-.title_wrap{
-	width: max-content;
-	margin: 0 auto;
-}
-
-.title_wrap p{
-	margin: 0 auto;
-}
-
-.d_title{
-	font-size: 1.2rem;
-	color:#181818;
-}
-
-
-
+/* button style */
 
 button, a{
 	border-radius: 20px;
@@ -210,6 +393,7 @@ button, a{
 }
 
 
+/* form style */
 
 .red_txt{
 	color:#ca3d3d;
@@ -241,13 +425,12 @@ button, a{
 	margin-right: 10px;
 }
 
-
-
 .form_box.choice li > label{
 	width: 155px;
 }
 
 
+/* radio button */
 
 .checks label{
 	margin-left: 10px;
@@ -304,8 +487,7 @@ button, a{
 }
 
 
-
-
+/* checkbox style */
 
 .checks input[type="checkbox"] { /* 실제 체크박스는 화면에서 숨김 */
 	position: absolute;
@@ -391,17 +573,8 @@ table td{
 	padding-left: 10px;
 }
 
-table a ,
-.paging a,
-.pup_wrap a{
-	box-shadow: none;
-	border:none;
-	border-radius:inherit;
-	margin: 0;
-	padding: 0;
-	line-height: inherit;
-	height: inherit;
-}
+
+/* paging style */
 
 .paging{
 	margin: 40px auto;
@@ -443,9 +616,7 @@ table a ,
 
 
 
-
-
-/* 팝업 스타일 */
+/* popup style */
 
 .pup_wrap{
 	display:none;
@@ -467,7 +638,6 @@ table a ,
 	border-radius: 20px;
 	background-color: #fff;
 	box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%);
-	/* z-index: 1111; */
 	overflow: hidden;
 }
 
@@ -476,9 +646,7 @@ table a ,
 	height: 50px;
 	line-height: 50px;
 	font-size: 20px;
-	/* font-weight: 500; */
 	padding-left: 20px;
-	/* text-align: center; */
 	background-color: #13a89e;
 	color: #fff;
 }
@@ -488,7 +656,6 @@ table a ,
 	height: 400px;
 	overflow: hidden;
 	overflow-y: auto;
-	/* background-color: #fdfdfe; */
 }
 
 .pup_bottom {
@@ -564,6 +731,9 @@ table a ,
 	box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%);
 }
  
+ 
+ /* popup list */
+ 
 .list_img{
 	width: 30%;
 }
@@ -594,4 +764,48 @@ table a ,
 	line-height: 30px;
 	font-size: .9rem;
 	height: 30px;
+}
+
+
+
+/* footer style */
+.foot_wrap{
+	width: 100%;
+	background-color:#13a89e;
+	color: #fff;
+}
+
+footer{
+	overflow: hidden;
+	width: 80%;
+	margin: 0 auto;
+	padding: 2rem 0;
+}
+
+footer .logo{
+	float: left;
+}
+
+footer .logo a{
+	width: 200px;
+	height: 50px;
+	background: url(../img/comm/서울메이트_logo_white.png) no-repeat;
+	background-size: 80%;
+	margin-top: 5px;
+}
+
+footer a{
+	color: #fff;
+	line-height: 50px;
+	width: 100px;
+	font-weight: 600;
+}
+
+footer p{
+	float: left;
+	line-height: 50px;
+}
+
+footer .foot_btns{
+	float: right;
 }
