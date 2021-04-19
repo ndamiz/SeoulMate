@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <style>
+	html>body>.wrap{min-height:550px;}
 	.form_box li{margin:10px 0;}
 	.form_box.choice li > label{width:130px;}
 	#userpwd, #userpwd2{width:59%;}
@@ -19,7 +20,6 @@
 	, #memDiv6>.form_box.choice li > label, #memDiv7>.form_box.choice li > label{width:170px;}
 </style>
 <script>
-	
 	$(function(){
 		//////////// 회원가입 폼 시작 ////////////
 		// 아이디 중복검사 해제
@@ -245,10 +245,7 @@
 		}
 		// 상단으로 스크롤 이동
 		function goTop(){
-			$('html').scrollTop(100);
-			// scrollTop 메서드에 0 을 넣어서 실행하면 끝 !!
-			// 간혹 이 소스가 동작하지 않는다면
-			// $('html, body') 로 해보세요~
+			$('html').scrollTop(0);
 		}
 	});
 </script>
