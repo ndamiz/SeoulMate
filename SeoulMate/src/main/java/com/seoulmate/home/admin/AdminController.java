@@ -16,7 +16,6 @@ public class AdminController {
 	public ModelAndView houseManagement() {
 		ModelAndView mav = new ModelAndView();
 		
-		
 		mav.setViewName("admin/houseManagement");
 		return mav;
 	}

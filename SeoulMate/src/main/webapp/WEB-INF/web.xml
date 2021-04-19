@@ -77,5 +77,5 @@
 			<include-prelude>/WEB-INF/views/inc/admin_top.jspf</include-prelude> 
 		</jsp-property-group>
 	</jsp-config>
-	<!--end 인클루드 -->
+	<!-- end 인클루드 -->
 </web-app>
