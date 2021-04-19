@@ -24,14 +24,14 @@ public class BoardController {
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("list", dao.comAllRecord());
-		mav.setViewName("/community/communityList");
+		mav.setViewName("/board/communityList");
 		return mav;
 	}
 	
 	//커뮤니티에 글쓰기버튼 클릭시
 	@RequestMapping("/communityWrite")
 	public String communityWrite() {
-		return "/community/communityWrite";
+		return "/board/communityWrite";
 	}
 	
 	//글쓰기 폼에서 글쓰기 클릭 -> 글 등록
