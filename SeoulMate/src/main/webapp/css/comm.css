@@ -1,16 +1,908 @@
 @font-face {
-    font-family: "BlackHanSans-Reqular.ttf";
-    url(font/BlackHanSans-Reqular.ttf) format("truetype");
-    font-style: nomarl;
-    font-weight: normal;
+	font-family: "BlackHanSans";
+	src: url("fonts/BlackHanSans-Regular.ttf") format("truetype");
 }
 
+@font-face {
+	font-family: "Gugi";
+	src: url("fonts/Gugi-Regular.ttf") format("truetype");
+}
+
+/* 버튼 스타일 제거 */
+table a ,
+.paging a,
+.pup_wrap a,
+header a,
+header button,
+nav a,
+footer a{
+	box-shadow: none;
+	border:none;
+	border-radius:inherit;
+	margin: 0;
+	padding: 0;
+	line-height: inherit;
+	height: inherit;
+}
+
+/* header style */
+
+.header_wrap:hover .nav_wrap{
+	top:0;
+}
+
+.header_wrap{
+	width: 100%;
+	height: 90px;
+	background-color: #fff;
+	z-index: 1;
+}
+
+header .logo{
+	height: 50px;
+	float: left;
+}
+header .logo a{
+	width: 200px;
+	height: 50px;
+	background: url(../img/comm/서울메이트_logo.png) no-repeat;
+	background-size: 80%;
+	margin-top: 5px;
+}
+
+header{
+	width: 100%;
+	background-color: #fff;
+	z-index: 2;
+	position: relative;
+	border-bottom: 1px solid #eee;
+}
+
+.header_wrap header > div{
+	overflow: hidden;
+	width: 80%;
+	min-width: 950px;
+	margin: 0 auto;
+	padding: 20px 0;
+	z-index: 1;
+}
+
+.header_wrap .main_menu{
+	display: flex;
+	width: 75%;
+	float: right;
+}
+
+.header_wrap .main_menu li{
+	width: 25%;
+	height: 50px;
+	line-height: 50px;
+}
+
+.header_wrap .main_menu li:last-child{
+	text-align: center; 
+}
+
+.header_wrap .main_menu li:last-child:hover .menu_item::before{
+	content: none;
+}
+
+.header_wrap .main_menu li .menu_item{
+	display:inline-block;
+	position:relative;
+	line-height: 50px;
+	z-index: 1;
+	font-size: 1.1rem;
+	position: relative;
+	font-weight: 600;
+	color: #111215;
+	overflow: hidden;
+}
+
+.header_wrap .main_menu li .menu_item::before{
+	content: "";
+	display: block;
+	position: absolute;
+	bottom: 10px;
+	z-index: -2;
+	left: -150px;
+	width: 100%;
+	height: 9px;
+	background-color: #ffeb3f;
+	transition:.4s;
+}
+
+
+.header_wrap .main_menu li .menu_item.on::before{
+	left: 0;
+}
+
+.header_wrap .main_menu li:hover .menu_item::before{
+	left: 0;
+}
+
+.header_wrap .menu_btn{
+	margin-top: 10px;
+	width: 30px;
+	height: 30px;
+	background: url(../img/comm/fi-rr-menu-burger.svg) no-repeat;
+}
+
+
+/* header submenu */
+
+.header_wrap .nav_wrap{
+	width: 100%;
+	/* min-width: 1045px; */
+	box-shadow: 0px 8px 10px 0px rgb(0 0 0 / 10%);
+	position: relative;
+	top: -290px;
+	color: #6f7578;
+	font-size:1rem;
+	background-color: #fff;
+	z-index: 1;
+	transition:.3s;
+}
+
+.header_wrap nav{
+	width: 80%;
+	min-width: 950px;
+	margin: 0 auto;
+}
+
+.header_wrap nav ul{
+	display: flex;
+	width: 75%;
+	float: right;
+}
+
+.header_wrap nav ul li{
+	width: 25%;
+}
+
+.header_wrap nav{padding: 1rem 0;overflow: hidden;}
+
+.header_wrap .nav_bg{
+	width: 190px;
+	height: 189px;
+	background: url(../img/comm/nav_bg.png) no-repeat;
+	background-size: cover;
+	position: absolute;
+}
+
+.header_wrap nav ul li a{
+	display: block;
+	font-size: .9rem;
+	word-break: keep-all;
+	line-height: 30px;
+	transition:.3s;
+}
+
+.header_wrap nav ul li a:hover{
+	color: #13a89e;
+}
+
+/* comm style */
+
+.wrap {
+	width:100%;
+	/* height:100%; */
+	min-height:750px;
+	padding:4rem;
+	margin : 0 auto;
+} 
+
+.member_wrap {
+	width:600px; 
+	margin : 0 auto;
+}
+
+/* .form_wrap { 
+	width:1000px; 
+	margin : 0 auto;
+} */
+
+.content {
+	width:80%; 
+	margin : 40px auto;
+}
+
+
+/* title style */
+
 .m_title {
-    font-family: "BlackHanSans-Reqular.ttf";
-    font-size: 1rem;
+    font-family: BlackHanSans;
+    position: relative;
+    font-size: 2.25rem;
     color:#000;
+    padding-left: 15px;
+    margin: 20px 0;
+    line-height: 48px;
+    height: 40px;
+    vertical-align: middle;
 }
+
+.m_title::before{
+	content: "";
+	display: block;
+	position: absolute;
+	left: 1px;
+	width: 10px;
+	height: 40px;
+	background-color: #13a89e;
+}
+
 .s_title {
+	display:inline-block;
+	margin: 40px 0;
+	font-size: 1.5rem;
+	z-index: 0;
+	padding: 0 6px;
+	position: relative;
+	font-weight: 600;
+	color: #111215;
 }
-.d_title {
+
+.s_title::before{
+	content: "";
+	display: block;
+	position: absolute;
+	bottom: 0;
+	z-index: -1;
+	left: 1px;
+	width: 100%;
+	height: 9px;
+	background-color: #ffeb3f;
 }
+
+.title_wrap{
+	width: max-content;
+	margin: 0 auto;
+}
+
+.title_wrap p{
+	margin: 0 auto;
+}
+
+.d_title{
+	font-size: 1.2rem;
+	color:#181818;
+}
+
+
+
+/* content menu style */
+
+.content_menu{
+	display: flex;
+	margin: 40px 0;
+}
+
+.content_menu a{
+	display:inline-block;
+	margin-right: 40px;
+	box-shadow: inherit;
+	border:none;
+	border-radius:inherit;
+	font-size: 1.2rem;
+	padding: 0 6px;
+	position: relative;
+	font-weight: 600;
+	color: #111215;
+	overflow: hidden;
+}
+
+.content_menu a::before{
+	content: "";
+	display: block;
+	position: absolute;
+	z-index: -1;
+	bottom: 6px;
+	left: 1px;
+	width: 100%;
+	height: 9px;
+	background-color: #d2d2d2;
+	transition:.5s;
+}
+
+ .content_menu a::after{
+ 	content: "";
+ 	display: block;
+ 	position: absolute;
+ 	bottom: 6px;
+ 	z-index: -1;
+ 	left: 1px;
+ 	width: 100%;
+ 	height: 9px;
+ 	background-color: #ffeb3f;
+ 	z-index: -11111;
+ }
+
+/*  .content_menu a:hover::after{
+	content: "";
+	display: block;
+	position: absolute;
+	bottom: 0;
+	z-index: -1;
+	left: 1px;
+	width: 100%;
+	height: 9px;
+	background-color: #ffeb3f;
+	transition:.5s;
+}  */
+
+.content_menu a.on::before{
+	background-color: #ffeb3f;
+}
+
+.content_menu a:hover::before{
+	left: 150px;
+	transition:.5s;
+}
+
+
+/* button style */
+
+button, a{
+	border-radius: 20px;
+	height: 40px;
+	line-height: 40px;
+	margin: 5px;
+	box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%);
+	display: inline-block;
+}
+
+.green{
+	background-color: #13a89e;
+	color:#fff;
+}
+
+.white{
+	background-color: #fff;
+	color: #000;
+}
+
+.b_btn{
+	height: 50px;
+	font-size: 1.3rem;
+	line-height: 50px;
+	border-radius: 30px;
+	padding: 0 26px;
+}
+
+.q_btn{
+	width: 100%;
+	height: 50px;
+	margin: 5px 0;
+	font-size: 1.3rem;
+	line-height: 50px;
+	border-radius: 0;
+	padding: 0 26px;
+	text-align: center;
+}
+
+.btn_wrap{
+	display:flex;
+	width:600px;
+	margin: 40px auto 0;
+}
+.h_btn{
+	width: 50%;
+	height: 50px;
+	line-height: 50px;
+	margin:0;
+	padding: 0;
+	font-size: 1.3rem;
+	border-radius: 0;
+	text-align: center;
+}
+
+
+/* form style */
+
+.red_txt{
+	color:#ca3d3d;
+}
+
+.form_box{
+	width: 600px;
+	margin: 0 auto;
+}
+
+.form_box li{
+	display: flex;
+	height: 50px;
+}
+
+.form_box li label{
+	line-height: 47px;
+}
+.form_box li input{
+	margin: 0 10px;
+}
+
+.form_box li input,
+.form_box li select{
+	/* width: 43%; */
+}
+
+.form_box li > label:first-child{
+	margin-right: 10px;
+}
+
+.form_box.choice li > label{
+	width: 155px;
+}
+
+
+/* radio button */
+
+.checks label{
+	margin-left: 10px;
+}
+
+.checks {
+	position: relative;
+}
+
+.checks input[type="radio"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip:rect(0,0,0,0);
+  border: 0;
+}
+.checks input[type="radio"] + label {
+  display: inline-block;
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.checks input[type="radio"] + label:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 13px;
+  width: 21px;
+  height: 21px;
+  text-align: center;
+  background: #fff;
+  border: 1px solid #cacece;
+  border-radius: 100%;
+}
+.checks input[type="radio"]:checked + label:before {
+  background: #fff;
+  border-color: #adb8c0;
+}
+.checks input[type="radio"]:checked + label:after {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 5px;
+  width: 13px;
+  height: 13px;
+  background: #13a89e;
+  border-radius: 100%;
+}
+
+
+/* checkbox style */
+
+.checks input[type="checkbox"] { /* 실제 체크박스는 화면에서 숨김 */
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0
+}
+
+.checks input[type="checkbox"]+label {
+	display: inline-block;
+	position: relative;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+.checks input[type="checkbox"]+label:before { /* 가짜 체크박스 */
+	content: ' ';
+	display: inline-block;
+	width: 21px; /* 체크박스의 너비를 지정 */
+	height: 21px; /* 체크박스의 높이를 지정 */
+	line-height: 21px; /* 세로정렬을 위해 높이값과 일치 */
+	margin: -2px 8px 0 0;
+	text-align: center;
+	vertical-align: middle;
+	background: #fff;
+	border: 1px solid #cacece;
+	border-radius: 3px;
+}
+
+
+.checks input[type="checkbox"]:checked+label:before { /* 체크박스를 체크했을때 */
+	content: '\2714'; /* 체크표시 유니코드 사용 */
+	color: #13a89e;
+	text-shadow: 1px 1px #fff;
+	background: #fff;
+	border-color: #adb8c0;
+}
+
+
+/* table style */
+
+table {
+	border-top: 2px solid #13a89e;
+	table-layout: fixed;
+	line-height: 40px;
+	text-align: center;
+}
+
+
+table thead th {
+	color: #1e1e1e;
+	background-color: #efefef;
+	font-weight: 600;
+	border-bottom: 1px solid #c6c6c6;
+}
+
+table td{
+	line-height: 40px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow-wrap: normal;
+	overflow: hidden;
+	border-bottom: 1px solid #c6c6c6;
+}
+
+.lnk_txt {
+	color: #258dec;
+}
+
+.lnk_txt:hover {
+	text-decoration: underline;
+}
+
+
+.t_title{
+	text-align: left;
+	padding-left: 10px;
+}
+
+
+/* paging style */
+
+.paging{
+	margin: 40px auto;
+	width: 380px;
+}
+.paging a {
+	display: inline-block;
+	margin-top: 0;
+	height: 40px;
+	line-height: 40px;
+	width: 40px;
+	overflow: hidden;
+	margin: 0 0 0 5px;
+	text-align: center;
+}
+
+.first_page{
+	background: url(../img/comm/btn_page.gif) no-repeat 0 0;
+	background-position: 0px -40px;
+}
+
+.prev_page{
+	background: url(../img/comm/btn_page.gif) no-repeat 0 0;
+	background-position: -40px -40px;
+}
+
+.next_page{
+	background: url(../img/comm/btn_page.gif) no-repeat 0 0;
+	background-position: -80px -40px;
+}
+.last_page{
+	background: url(../img/comm/btn_page.gif) no-repeat 0 0;
+	background-position: -120px -40px;
+}
+
+.paging a.on{
+	color: #13a89e;
+}
+
+
+
+/* popup style */
+
+.pup_wrap{
+	display:none;
+	width: 100%;
+	height:100vh;
+	position: fixed;
+	top:0;
+	background-color: rgb(0, 0, 0, 0.5);
+	z-index: 0;
+} 
+ 
+.pup_form{
+	width: 600px;
+	position:absolute;
+	top: 50%;
+	left: 50%;
+	margin-top:-250px;
+	margin-left:-300px;
+	border-radius: 20px;
+	background-color: #fff;
+	box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%);
+	overflow: hidden;
+}
+
+.pup_form .pup_head {
+	position: relative;
+	height: 50px;
+	line-height: 50px;
+	font-size: 20px;
+	padding-left: 20px;
+	background-color: #13a89e;
+	color: #fff;
+}
+
+.pup_body {
+	padding: 30px;
+	height: 400px;
+	overflow: hidden;
+	overflow-y: auto;
+}
+
+.pup_bottom {
+	padding: 15px 0;
+	text-align: center;
+	box-shadow: 0 -1px 22px -2px rgb(0 0 0 / 15%);
+}
+
+.pup_bottom a {
+	display: inline-block;
+	padding: 0 15px;
+	width: 130px;
+	height: 40px;
+	margin: 0 2.5px;
+	line-height: 40px;
+	color: #fff;
+	font-size: 16px;
+	font-weight: 400;
+	text-align: center;
+	border-radius: 5px;
+}
+
+.pup_bottom a.btn_cancel {
+	background-color: #8f969d;
+}
+
+.pup_bottom a.btn_save {
+	background-color: #2171cc;
+}
+
+.pup_bottom a.btn_del {
+	background-color: #ef8181;
+}
+
+.btn_close {
+	position: absolute;
+	right: 17px;
+	top: 11px;
+	width: 25px;
+	height: 25px !important;
+	font-size: 0;
+	text-indent: -9999px;
+	opacity: 0.7;
+}
+
+.btn_close:hover {
+	opacity: 1;
+}
+
+.btn_close:before, .btn_close:after {
+	position: absolute;
+	left: 15px;
+	content: ' ';
+	height: 25px;
+	width: 2px;
+	background-color: #fff;
+}
+
+.btn_close:before {
+	transform: rotate(45deg);
+}
+
+.btn_close:after {
+	transform: rotate(-45deg);
+}
+
+
+.pup_list{
+	display: flex;
+	border-radius: 10px;
+	padding: 10px;
+	margin-bottom: 20px;
+	box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%);
+}
+ 
+ 
+ /* popup list */
+ 
+.list_img{
+	width: 30%;
+}
+
+.list_img img{
+	width: 107px;
+	height: 107px;
+	border-radius: 60px;
+}
+
+.list_title{
+	width: 70%;
+}
+
+.list_title .s_title{
+	margin: 0 10px 0 0;
+	font-size: 1.3rem;
+}
+.list_title .d_title{
+	margin: 0 10px 0 0;
+	font-size: 1.1rem;
+}
+
+.list_btn button,
+.list_btn a{
+	display:block;
+	width: 81px;
+	line-height: 30px;
+	font-size: .9rem;
+	height: 30px;
+}
+
+
+
+/* footer style */
+.foot_wrap{
+	width: 100%;
+	background-color:#13a89e;
+	color: #fff;
+	position: relative;
+	bottom: 0;
+}
+
+footer{
+	overflow: hidden;
+	width: 80%;
+	margin: 0 auto;
+	padding: 2rem 0;
+}
+
+footer .logo{
+	float: left;
+}
+
+footer .logo a{
+	width: 170px;
+	height: 50px;
+	background: url(../img/comm/서울메이트_logo_white.png) no-repeat;
+	background-size: 80%;
+	background-position-y: 8px;
+	/* margin-top: -1px; */
+}
+
+footer a{
+	color: #fff;
+	line-height: 50px;
+	width: 100px;
+	font-weight: 600;
+}
+
+footer p{
+	float: left;
+	line-height: 50px;
+}
+
+footer .foot_btns{
+	float: right;
+} 
+
+
+
+/* main style */
+
+
+.main_wrap {
+	width:100%; 
+	height:100%; 
+	min-height:750px;
+	padding:4rem 0;
+	margin : 0 auto;
+} 
+
+.main_wrap .content{
+	position: relative;
+}
+
+.main_wrap .content .main_title{
+   	font-family: Gugi;
+    line-height: 50px;
+   	margin-top:10rem;
+    font-size: 3rem;
+    color:#000;
+    vertical-align: middle;
+}
+
+.main_wrap .content::before{
+	content:"";
+	display: block;
+	position:absolute;
+	/* top:10rem; */
+	right: 5%;
+	width: 661px;
+	height: 459px;
+	background: url(../img/main/bg_main.png) no-repeat;
+	z-index: -111;
+	/* background-size: 80%; */
+}
+
+.main_wrap .main_search_form{
+	margin-top: 4rem;
+}
+
+.main_wrap .main_search_form button{
+	width: 50px;
+	height: 50px;
+}
+
+.main_wrap .main_search_form button::before{
+	content:"";
+	display: block;
+	margin-left: -2px;
+	width: 25px;
+	height: 25px;
+	background: url(../img/main/ico_search_white.png) no-repeat;
+	background-size: cover;
+}
+
+.main_wrap .main_search_form .checks{
+	height: 50px;
+}
+
+.main_wrap .main_search_form .checks label{
+	height: 50px;
+	line-height: 50px;
+	margin-left: 0;
+	margin-right: 10px;
+}
+
+
+.main_wrap .main_search_form .checks input[type="radio"] + label:before{
+	top:15px;
+}
+
+.main_wrap .main_search_form .checks input[type="radio"]:checked + label:after{
+	top:20px;
+}
+
+
+
+
+
+
+
+
+
+
+
