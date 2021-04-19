@@ -21,7 +21,7 @@
 <div class="wrap">
 	<div class="member_wrap">
 		<div class="title_wrap">
-			<p class="m_title">회원 탈퇴</p>
+			<p class="s_title">회원 탈퇴</p>
 		</div>
 		<br/><br/>
 		<div class="title_wrap">
@@ -32,7 +32,6 @@
 				</div>
 			</form>
 		</div>
-		
 	</div>
 </div>
 </body>

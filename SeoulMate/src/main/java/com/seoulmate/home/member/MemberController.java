@@ -118,8 +118,21 @@ public class MemberController {
 		return "home";
 	}
 	
+	@RequestMapping("/memberProEdit")
+	public String memberProEdit() {
+		
+		return "member/memberProEdit";
+	}
+	
+	@RequestMapping("/memberProEditForm")
+	public String memberProEditForm() {
+		
+		return "member/memberProEditForm";
+	}
+	
 	@RequestMapping("/sample")
 	public String sample() {
 		return "member/sample";
 	}
+	
 }
