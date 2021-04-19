@@ -106,6 +106,18 @@ public class MemberController {
 		return mav;
 	}
 	
+	@RequestMapping("/memberExit")
+	public String memberExit() {
+		
+		return "member/memberExit";
+	}
+	
+	@RequestMapping("/memberExitOk")
+	public String memberExitOk() {
+		
+		return "home";
+	}
+	
 	@RequestMapping("/sample")
 	public String sample() {
 		return "member/sample";
