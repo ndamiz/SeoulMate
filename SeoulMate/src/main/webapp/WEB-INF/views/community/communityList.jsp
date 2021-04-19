@@ -29,7 +29,7 @@
 				<li><a class="">자유게시판</a></li>
 			</ul>
 			<ul>
-				<li id="search" style="float:left; width: 90.5%"><input type="text" placeholder="검색어을 입력해주세요" style="width:300px"><a href="" style="position:relative; top:5px; left:-55px;"><img alt="검색하기" src="<%=request.getContextPath()%>/img/community/fi-rr-search.svg" style="width:25px;"></a></li>
+				<li id="search" style="float:left; width: 90.5%"><input type="text" placeholder="검색어을 입력해주세요" style="width:300px"><a href="" style="position:relative; top:5px; left:-55px;"><img alt="검색하기" src="<%=request.getContextPath()%>/img/yun/ico_search_black.png" style="width:25px;"></a></li>
 				<li><button class="green" id="communityWrite">글쓰기</button></li>
 			</ul>
 			<br>

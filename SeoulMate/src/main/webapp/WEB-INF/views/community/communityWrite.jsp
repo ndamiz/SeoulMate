@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script src="https://cdn.ckeditor.com/4.9.0/standard/ckeditor.js"></script>
 <div class="content">
+	<p class="m_title">글 작성</p>
 	<form id="frm" method="post" action="/home/communityWriteOk">
 		<ul>
 			<li style="float:left; width:15%">
@@ -16,7 +17,7 @@
 			<li><button class="green" id="communityWrite">글쓰기</button></li>
 		</ul>
 		<br>
-		<textarea name="content"></textarea>
+		<textarea name="content" style="height:600px"></textarea>
 	</form>
 	<script>
   	  CKEDITOR.replace('content');
