@@ -824,37 +824,40 @@ footer .foot_btns{
 
 
 .main_wrap {
-	width:100%; 
-	height:100%; 
+	width:100%;
+	/* height:100%; */
 	min-height:750px;
-	padding:4rem 0;
+	/* padding:4rem 0; */
 	margin : 0 auto;
 } 
 
 .main_wrap .content{
 	position: relative;
+	height: 100vh;
+	margin: 0 auto;
 }
 
 .main_wrap .content .main_title{
    	font-family: Gugi;
-    line-height: 50px;
-   	margin-top:10rem;
-    font-size: 3rem;
-    color:#000;
-    vertical-align: middle;
+   	line-height: 50px;
+   	padding-top: 10rem;
+   	font-size: 3rem;
+   	color:#000;
+   	vertical-align: middle;
 }
 
-.main_wrap .content::before{
-	content:"";
-	display: block;
-	position:absolute;
-	/* top:10rem; */
-	right: 5%;
-	width: 661px;
-	height: 459px;
-	background: url(../img/main/bg_main.png) no-repeat;
-	z-index: -111;
-	/* background-size: 80%; */
+.main_wrap div.content::before{
+    content: "";
+    display: block;
+    position: absolute;
+    top: 14%;
+    right: 0;
+    width: 60%;
+    height: 63%;
+    background: url(../img/main/bg_main.png) no-repeat;
+    z-index: -111;
+    background-size: contain;
+    background-position: right;
 }
 
 .main_wrap .main_search_form{
@@ -864,6 +867,7 @@ footer .foot_btns{
 .main_wrap .main_search_form button{
 	width: 50px;
 	height: 50px;
+	box-shadow: 3px 2px 6px 1px #13a89e85;
 }
 
 .main_wrap .main_search_form button::before{
@@ -896,13 +900,110 @@ footer .foot_btns{
 	top:20px;
 }
 
+.main_wrap .main_search_form .search_text{
+	border-radius: 10px;
+	width: 400px;
+	margin: 5px 5px 5px 0;
+}
+
+.main_wrap .main_search_form .search_box{
+	display: flex;
+}
+
+.recommend_list .list_head{
+	padding: 40px 0;
+}
+
+.recommend_list .list_head::after {
+	content: "";
+	display: block;
+	clear: both;
+}
+.recommend_list .list_head .m_title{
+	float: left;
+	margin: 0;
+}
+
+.recommend_list .list_head a{
+	float: right;
+	line-height: 40px;
+	color: #13a89e;
+	position: relative;
+	padding-right: 19px;
+}
+
+.recommend_list .list_head a:before{
+	content:"";
+	display: block;
+	position: absolute;
+	width: 10px;
+	height: 17px;
+	top: 12px;
+	right: 0;
+	background: url(../img/main/ico_right.png) no-repeat;
+	background-size: cover;
+}
+
+.recommend_list a,
+.recommend_list button{
+	box-shadow: none;
+	border:none;
+	border-radius:inherit;
+	margin: 0;
+	padding: 0;
+	line-height: inherit;
+	height: inherit;
+}
+
+.recommend_list img{
+	width: 100%;
+	height: 100%;
+	border-radius: 30px;
+}
+
+.recommend_list .btn_star{
+	width: 40px;
+	height: 40px;
+	top: 20px;
+	right: 20px;
+	background: url(../img/comm/ico_star.png) no-repeat 0 0;
+}
+
+.recommend_list .btn_star:hover,
+.recommend_list .btn_star.on{
+	background-position: 0 -42px;
+}
 
 
+.recommend_list .list_img{
+	position: relative;
+}
 
+.recommend_list .list_img p,
+.recommend_list .list_img button{
+	position: absolute;
+}
 
+.recommend_list .list_img p{
+	width: 120px;
+	height: 120px;
+	top: 20px;
+	left: 20px;
+	padding: 20px 0 0 20px;
+	border-radius: 20px;
+	background-color: #13a89ec2;
+	color: #fff;
+	font-size: 2.5rem;
+	font-weight: 600;
+}
 
+.recommend_list .list_img p span{
+	display: block;
+	line-height:20px;
+	font-size: 1.2rem;
+}
 
-
-
-
-
+.recommend_list .list_img p b{
+	font-size: 1.5rem;
+	
+}
