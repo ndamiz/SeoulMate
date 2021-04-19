@@ -23,6 +23,7 @@ public class MemberVO {
 	private int gender;
 	
 	private String area;
+	private String aList[];
 	private String area1;
 	private String area2;
 	private String area3;
@@ -144,29 +145,45 @@ public class MemberVO {
 		this.gender = gender;
 	}
 	public String getArea() {
-		area=area1+"/"+area2+"/"+area3;
+		if(area1!=null) {
+			area+=area1+"/";
+		}
+		if(area2!=null) {
+			area+=area2+"/";
+		}
+		if(area3!=null) {
+			area+=area3;
+		}
 		return area;
 	}
 	public void setArea(String area) {
 		this.area = area;
-		String a[]=area.split("/");
-		area1=a[0];
-		area2=a[1];
-		area3=a[2];
+		if(area!=null) {
+			aList=area.split("/");
+		}
 	}
 	public String getArea1() {
+		if(aList!=null && aList.length>=1) {
+			area1=aList[0];
+		}
 		return area1;
 	}
 	public void setArea1(String area1) {
 		this.area1 = area1;
 	}
 	public String getArea2() {
+		if(aList!=null && aList.length>=2) {
+			area2=aList[1];
+		}
 		return area2;
 	}
 	public void setArea2(String area2) {
 		this.area2 = area2;
 	}
 	public String getArea3() {
+		if(aList!=null && aList.length>=3) {
+			area3=aList[2];
+		}
 		return area3;
 	}
 	public void setArea3(String area3) {

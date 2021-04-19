@@ -485,7 +485,7 @@
 				</div>
 			</div>
 			<div id="hopeChoice">
-				<p class="m_title houseChoice">희망하는 하우스메이트의 희망 성향 등록</p>
+				<p class="m_title houseChoice">희망 성향 등록</p>
 				<p class="d_title houseChoice">희망하는 하우스메이트의 라이프 스타일을 등록해주세요</p>
 				<p class="m_title mateChoice">나의 성향 등록</p>
 				<p class="d_title mateChoice">나의 라이프 스타일을 선택해주세요.</p>
