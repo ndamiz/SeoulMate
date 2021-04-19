@@ -20,7 +20,7 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml, /WEB-INF/spring/appServlet/email-context.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
@@ -52,10 +52,30 @@
 	<!--start 인클루드 -->
 	<jsp-config>
 		<jsp-property-group>
-			<url-pattern>*.jsp</url-pattern>
+			<url-pattern>/WEB-INF/views/home.jsp</url-pattern>
 			<include-prelude>/WEB-INF/views/inc/top.jspf</include-prelude> 
 			<include-coda>/WEB-INF/views/inc/footer.jspf</include-coda>
 		</jsp-property-group>
+		<jsp-property-group>
+			<url-pattern>/WEB-INF/views/member/*</url-pattern>
+			<include-prelude>/WEB-INF/views/inc/top.jspf</include-prelude> 
+			<include-coda>/WEB-INF/views/inc/footer.jspf</include-coda>
+		</jsp-property-group>
+		<jsp-property-group>
+			<url-pattern>/WEB-INF/views/board/*</url-pattern>
+			<include-prelude>/WEB-INF/views/inc/top.jspf</include-prelude> 
+			<include-coda>/WEB-INF/views/inc/footer.jspf</include-coda>
+		</jsp-property-group>
+		<jsp-property-group>
+			<url-pattern>/WEB-INF/views/premium/*</url-pattern>
+			<include-prelude>/WEB-INF/views/inc/top.jspf</include-prelude> 
+			<include-coda>/WEB-INF/views/inc/footer.jspf</include-coda>
+		</jsp-property-group>
+		
+		<jsp-property-group>
+			<url-pattern>/WEB-INF/views/admin/*</url-pattern>
+			<include-prelude>/WEB-INF/views/inc/admin_top.jspf</include-prelude> 
+		</jsp-property-group>
 	</jsp-config>
-	<!--end 인클루드 -->
+	<!-- end 인클루드 -->
 </web-app>
