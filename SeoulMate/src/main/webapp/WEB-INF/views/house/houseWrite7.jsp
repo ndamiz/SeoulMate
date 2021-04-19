@@ -8,8 +8,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/comm.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/reset.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/housemate.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/script.js"></script>
+<script type="text/javascript"></script>
+<script>
+
+$(function() {
+    $("#input-image").on('change', function(){
+        readURL(this);
+    });
+});
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+            $('#inImg').attr('src', e.target.result);
+        }
+
+      reader.readAsDataURL(input.files[0]);
+    }
+}
+
+
+</script>
 </head>
 <body>
 
@@ -19,13 +43,17 @@
 	<div class="title_wrap">
 	<p class="s_title">사진 등록 </p> <br/>
 	
-	사진 올리기 <input type="file" accept="image/*"/> <br/>
-	<input type="image" src="주소"> <br/>
+	사진 올리기 <input type="file" accept="image/*" id="input-image" /> <br/>
+			<img id="inImg" src="#" alt="upload image" />
+
+ <br/>
 	
-	<button class="green" >이전</button>
-	<button class="green" >다음</button>  
+	
+	<div class="btnclass">
+	<button class="green" onclick="location.href='<%=request.getContextPath()%>/houseWrite6'">이전</button>
+	<button class="green" onclick="location.href='<%=request.getContextPath()%>/houseWrite8'">다음</button>  
 <button class="green" >취소</button>
-	
+	</div>
 	</div>
 </div>	
 </body>

@@ -8,8 +8,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/comm.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/reset.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/housemate.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/script.js"></script>
+<style>
+.btnclass{width:300px; margin:0 auto;}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -39,60 +43,57 @@
 	<li>
 		<label><span class="red_txt">*</span>생활시간</label>
 		<div class="checks">
-			<input type="radio" id="radio1" name="character1"> 
-			<label for="radio1">야행성</label>
+			<input type="radio" id="radio4" name="character2"> 
+			<label for="radio4">야행성</label>
 			
-			<input type="radio" id="radio2" name="character1"> 
-			<label for="radio2">주행성</label>
+			<input type="radio" id="radio5" name="character2"> 
+			<label for="radio5">주행성</label>
 		</div>
 	</li>
 	
 		<li>
 		<label><span class="red_txt">*</span>반려동물</label>
 		<div class="checks">
-			<input type="radio" id="radio1" name="character1"> 
-			<label for="radio1">있음</label>
+			<input type="radio" id="radio6" name="character3"> 
+			<label for="radio6">있음</label>
 			
-			<input type="radio" id="radio2" name="character1"> 
-			<label for="radio2">없음</label>
+			<input type="radio" id="radio7" name="character3"> 
+			<label for="radio7">없음</label>
 		</div>
 	</li>
 	
 	<li>
 		<label><span class="red_txt">*</span>반려동물 거주</label>
 		<div class="checks">
-			<input type="radio" id="radio1" name="character1"> 
-			<label for="radio1">가능</label>
+			<input type="radio" id="radio8" name="character4"> 
+			<label for="radio8">가능</label>
 			
-			<input type="radio" id="radio2" name="character1"> 
-			<label for="radio2">불가능</label>
+			<input type="radio" id="radio9" name="character4"> 
+			<label for="radio9">불가능</label>
 		</div>
 	</li>
 	
 	<li>
 		<label><span class="red_txt">*</span>흡연</label>
 		<div class="checks">
-			<input type="radio" id="radio1" name="character1"> 
-			<label for="radio1">실내흡연</label>
+			<input type="radio" id="radio10" name="character5"> 
+			<label for="radio10">실내흡연</label>
 			
-			<input type="radio" id="radio2" name="character1"> 
-			<label for="radio2">실외흡연</label>
+			<input type="radio" id="radio11" name="character5"> 
+			<label for="radio11">실외흡연</label>
 			
-			<input type="radio" id="radio3" name="character1"> 
-			<label for="radio3">비흡연</label>
+			<input type="radio" id="radio12" name="character5"> 
+			<label for="radio12">비흡연</label>
 		</div>
 	</li>
 
-<!-- 생활 소음 <button class="white">조용함</button> <button class="white">보통</button> <button class="white">활발함</button> <br/> -->
-<!-- 생활 시간 <button class="white">야행성</button> <button class="white">주행성</button> <br/> -->
-<!-- 반려 동물	<button class="white">있음</button> <button class="white">없음</button> <br/> -->
-<!-- 반려동물 거주 <button class="white">가능</button> <button class="white">불가능</button> <br/> -->
-<!-- 흡연 <button class="white">실내흡연</button> <button class="white">실외흡연</button> <button class="white">비흡연</button> <br/> -->
-
 </ul>
-<button class="green" >이전</button>
-	<button class="green" onclick="document.location.href='<%=request.getContextPath()%>/houseWrite3'">다음</button>  
+
+<div class="btnclass">
+<button class="green" onclick="location.href='<%=request.getContextPath()%>/houseWrite2'">이전</button>
+	<button class="green" onclick="location.href='<%=request.getContextPath()%>/houseWrite4'">다음</button>  
 <button class="green" >취소</button>
+	</div>
 	
 	</div>
 </div>	
