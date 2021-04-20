@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/yun.css">
 <script src="https://cdn.ckeditor.com/4.9.0/standard/ckeditor.js"></script>
 <div class="content">
 	<p class="m_title">글 작성</p>
 	<form id="frm" method="post" action="/home/communityWriteOk">
 		<ul>
-			<li style="float:left; width:15%">
+			<li id="comWriteLi">
 				<select id="category" name="category">
 					<option>우리집 자랑</option>
 					<option>중고장터</option>
@@ -13,11 +14,11 @@
 					<option>자유게시판</option>
 				</select>
 			</li>		
-			<li style="float:left; width: 75.5%"><input id="subject" name="subject" type="text" placeholder="제목을 입력하세요." style="width:750px;"></li>
+			<li id="comWriteSubject"><input id="comWriteSubject" name="subject" type="text" placeholder="제목을 입력하세요."></li>
 			<li><button class="green" id="communityWrite">글쓰기</button></li>
 		</ul>
 		<br>
-		<textarea name="content" style="height:600px"></textarea>
+		<textarea name="content"></textarea>
 	</form>
 	<script>
   	  CKEDITOR.replace('content');

@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class FaqController {
 	
 	//자주하는 질문 게시판
-	@RequestMapping("/faqList")
+	@RequestMapping("/qna")
 	public String faqList() {
-		return "/faq/faqList";
+		return "/faq/qna";
 	}
 	
 	//문의하기

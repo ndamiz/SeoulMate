@@ -1,16 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<style>
-#search a{
-	box-shadow: none;
-	border:none;
-	border-radius:inherit;
-	margin: 0;
-	padding: 0;
-	line-height: inherit;
-	height: inherit;
-}
-</style>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/yun.css">
 <script>
 	$(function(){
 		$("#communityWrite").click(function(){
@@ -29,7 +19,7 @@
 				<li><a class="">자유게시판</a></li>
 			</ul>
 			<ul>
-				<li id="search" style="float:left; width: 90.5%"><input type="text" placeholder="검색어을 입력해주세요" style="width:300px"><a href="" style="position:relative; top:5px; left:-55px;"><img alt="검색하기" src="<%=request.getContextPath()%>/img/yun/ico_search_black.png" style="width:25px;"></a></li>
+				<li id="comSearchLi"><input id="comSearch" type="text" placeholder="검색어을 입력해주세요"><a href=""><img alt="검색하기" src="<%=request.getContextPath()%>/img/yun/ico_search_black.png"></a></li>
 				<li><button class="green" id="communityWrite">글쓰기</button></li>
 			</ul>
 			<br>
