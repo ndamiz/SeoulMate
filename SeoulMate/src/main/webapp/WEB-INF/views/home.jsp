@@ -6,17 +6,12 @@
 			당신과 가장 잘 맞는<br>
 			쉐어하우스 & 메이트
 		</h2>
-		
-		<form class="main_search_form" method="get" action="">
-			<div class="checks">
-				<input type="radio" id="select_house" name="main_search"> 
-				<label for="select_house">쉐어하우스</label>
-				
-				<input type="radio" id="select_mate" name="main_search"> 
-				<label for="select_mate">하우스메이트</label>
-			</div>
-			<input type="text" placeholder="지역명or지하철역을 입력하세요.">
-			<button type="submit" class="green"></button>
-		</form>
+		<a href="memberForm">회원가입</a>
+		<a href="memberEdit">회원정보 수정</a>
+		<a href="memberProEdit">성향 수정</a>
+		<a href="memberExit">회원 탈퇴</a>
+		<c:if test="${logId!=null}">
+			<p class="d_title">${logId}님 환영합니다!</p>
+		</c:if>
 	</div>
 </div>

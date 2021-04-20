@@ -4,14 +4,9 @@
 	html>body>.wrap{min-height:550px;}
 	.form_box li{margin:10px 0;}
 	.form_box.choice li > label{width:130px;}
-	#userpwd, #userpwd2{width:59%;}
-	select{width:90px; margin:0 10px;}
-	#tel2, #tel3, #birth2, #birth3, #area1, #area2, #area3{width:90px;}
-	#emailid, #emaildomain{width:125px;}
-	#emailCheck{width:284px;}
 	span{line-height: 47px;}
 	.multi{text-align:center; width:13.73px;}
-	#memDiv2, #memDiv3, #memDiv4, #memDiv5, #memDiv6, #memDiv7, .houseChoice, .mateChoice, #hopeChoice{display:none;}
+	#memDiv3, #memDiv4, #memDiv5, #memDiv6, #memDiv7, .houseChoice, .mateChoice, #hopeChoice{display:none;}
 	.half{float:left; width:50%; line-height:47px; margin:40px 0;}
 	.half>.checks>.d_title{padding:0 10px;}
 	#memDiv3>.title_wrap>.s_title, #memDiv4>.title_wrap>.s_title, #memDiv5>.title_wrap>.s_title
@@ -21,77 +16,6 @@
 </style>
 <script>
 	$(function(){
-		//////////// 회원가입 폼 시작 ////////////
-		// 아이디 중복검사 해제
-		var userid;
-		$("#userid").keyup(function(){ // 키 이벤트가 발생했을 때
-			$("#hiddenCheck").val("N");
-			userid=$("#userid").val();
-		});
-		$("#userid").change(function(){ // 마우스로 잘라내기를 했을 경우를 대비
-			if(userid!=$("#userid")){
-				$("#hiddenCheck").val("N");
-			}
-		});
-		////////////아이디 중복 확인 ////////////
-		var popupWidth=600;
-		var popupHeight=230;
-		var popupX=(window.screen.width/2)-(popupWidth/2);
-		// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
-
-		var popupY=(window.screen.height/2)-(popupHeight/2);
-		
-		$("#idCheck").click(function(){
-			if($("#userid").val()!=""){
-				window.open("idCheck?userid="+$("#userid").val(), "idchk", 'height='+popupHeight+', width='+popupWidth+', left='+ popupX + ', top='+ popupY);
-			}else{
-				alert("아이디를 입력 후 중복 검사를 눌러주세요");
-			}
-		});
-		// 1
-		$("#memNext1").click(function(){
-			// 유효성 검사
-			if($("#userid").val()==""){
-				alert("아이디를 입력하세요");
-				return false;
-			}
-			if($("#hiddenCheck").val()!="Y"){
-				alert("아이디 중복 검사를 하세요");
-				return false;
-			}
-			if($("#userpwd").val()==""){
-				alert("비밀번호를 입력하세요");
-				return false;
-			}
-			if($("#userpwd2").val()==""){
-				alert("비밀번호 확인을 입력하세요");
-				return false;
-			}
-			if($("#userpwd").val()!=$("#userpwd2").val()){
-				alert("비밀번호가 다릅니다.");
-				return false;
-			}
-			if($("#username").val()==""){
-				alert("이름을 입력하세요");
-				return false;
-			}
-			if($("#tel2").val()==""||$("#tel3").val()==""){
-				alert("전화번호를 입력하세요");
-				return false;
-			}
-			if($("#birth1").val()==""){
-				alert("연도를 선택하세요");
-				return false;
-			}
-			
-			//////////////////////////////////////
-			// 정규식 표현에 통과했을 때
-			if(regExpCheck()!=false){
-				$("#memDiv1").css("display","none");
-				$("#memDiv2").css("display", "block");
-			}
-			goTop();
-		});
 		// 2
 		$("#memPrev2").click(function(){
 			$("#memDiv1").css("display","block");
@@ -178,71 +102,6 @@
 				}
 			});
 		});
-		//////////// 정규식 표현 ////////////
-		function regExpCheck(){
-			// 아이디
-			var regId=/^[a-zA-Z]{1}[a-zA-Z0-9]{5,11}$/;
-			if(!regId.test(document.getElementById("userid").value)){
-				alert("아이디는 영문과 숫자를 조합한 6~12자리여야 합니다.");
-				return false;
-			}
-			// 비밀번호
-			var regPwd=/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,15}$/;
-			if(!regPwd.test(document.getElementById("userpwd").value)){
-				alert("비밀번호는 영문과 숫자, 특수문자를 조합한 8~15자리여야 합니다.");
-				return false;
-			}
-			// 이름
-			var regName=/^[가-힣]{2,4}$/;
-			if(!regName.test(document.getElementById("username").value)){
-				alert("이름은 한글 2~4자리여야 합니다.");
-				return false;
-			}
-			// 연락처
-			var regTel=/[0-9]{4}$/;
-			if(!regTel.test(document.getElementById("tel2").value)){ // 중간 번호
-				alert("연락처는 숫자를 4자리씩 입력해야 합니다.");
-				return false;
-			}
-			if(!regTel.test(document.getElementById("tel3").value)){ // 끝 번호
-				alert("연락처는 숫자를 4자리씩 입력해야 합니다.");
-				return false;
-			}
-			// 월
-			var regBirth2=/(0[1-9]|1[012])$/;
-			var Birth2=document.getElementById("birth2").value;
-			if(document.getElementById("birth2").value.length==1){
-				Birth2="0"+Birth2;
-				document.getElementById("birth2").value=Birth2;
-			} 
-			if(!regBirth2.test(Birth2)){ // 월
-				alert("월을 정확하게 입력해주세요.");
-				return false;
-			}
-			// 일
-			var regBirth3=/(0[1-9]|[12][0-9]|3[0-1])$/;
-			var Birth3=document.getElementById("birth3").value;
-			if(document.getElementById("birth3").value.length==1){
-				Birth3="0"+Birth3;
-				document.getElementById("birth3").value=Birth3;
-			} 
-			if(!regBirth3.test(Birth3)){ // 월
-				alert("일을 정확하게 입력해주세요.");
-				return false;
-			}
-			// 이메일 아이디
-			var regEmailId=/^\w{3,14}$/;
-			if(!regEmailId.test(document.getElementById("emailid").value)){
-				alert("이메일을 잘못 입력하셨습니다.");
-				return false;
-			}
-			// 인증 번호
-			var regEmailCheck=/[0-9]{6}$/;
-			if(!regEmailCheck.test(document.getElementById("emailCheck").value)){
-				alert("인증번호는 숫자 6자리를 입력해야 합니다.");
-				return false;
-			}
-		}
 		// 상단으로 스크롤 이동
 		function goTop(){
 			$('html').scrollTop(0);
@@ -252,72 +111,6 @@
 <div class="wrap">
 	<div class="member_wrap">
 		<form method="post" id="memId" action="memberOk">
-			<div id="memDiv1">
-				<p class="m_title">회원가입</p>
-				<p class="d_title">회원 정보 입력, 이메일 인증, 라이프 스타일을 등록 후 회원가입이 가능합니다.</p>
-				<ul class="form_box choice" id="mem">
-					<li><label><span class="red_txt">*</span>아이디</label>
-						<input type="text" name="userid" id="userid" maxlength="12" value="testtest" placeholder="영문과 숫자를 조합한 6~12자리"/>
-						<a class="white" id="idCheck">중복 확인</a>
-					<input type="hidden" name="hiddenCheck" id="hiddenCheck" value="Y"/>
-					</li>
-						<li><label><span class="red_txt">*</span>비밀번호</label>
-					<input type="password" name="userpwd" id="userpwd" value="qwer1234!" placeholder="영문과 숫자, 특수문자를 조합한 8~15자리"/></li>
-						<li><label><span class="red_txt">*</span>비밀번호 확인</label>
-					<input type="password" name="userpwd2" id="userpwd2" value="qwer1234!" placeholder="비밀번호를 재입력해주세요"/></li>
-					<li><label><span class="red_txt">*</span>이름</label>
-						<input type="text" name="username" id="username" value="홍길동" maxlength="4" placeholder="이름을 입력해주세요"/></li>
-					<li><label><span class="red_txt">*</span>연락처</label>
-						<select name="tel1" id="tel1">
-							<c:forEach var="i1" items="${arr1}">
-								<option value="${i1}">${i1}</option>
-							</c:forEach>
-						</select><span class="multi">-</span>
-						<input type="text" name="tel2" id="tel2" value="1111" maxlength="4"/><span class="multi">-</span>
-						<input type="text" name="tel3" id="tel3" value="1111" maxlength="4"/>
-					</li>
-					<li><label><span class="red_txt">*</span>생년월일</label>
-						<select name="birth1" id="birth1">
-							<option value="">연도</option>
-							<c:forEach var="i" begin="0" end="${year-1930}">
-								<c:set var="yearOption" value="${year-i}"/>
-								<option value="${yearOption}">${yearOption}</option>
-							</c:forEach>
-						</select><span>년</span> 
-						<input type="text" name="birth2" id="birth2" value="1" maxlength="2"/><span>월</span>
-						<input type="text" name="birth3" id="birth3" value="1" maxlength="2"/><span>일</span>
-					</li>
-					<li><label><span class="red_txt">*</span>성별</label>
-						<div class="checks">
-							<input type="radio" name="gender" id="gender1" value="1" checked/>
-							<label for="gender1">여성</label>
-							<input type="radio" name="gender" id="gender2" value="2"/>
-							<label for="gender2">남성</label>
-						</div>
-					</li>
-					<li><label>&nbsp;희망 지역(최대 3곳)</label>
-						<input type="text" name="area1" id="area1" placeholder=""/>
-						<input type="text" name="area2" id="area2" placeholder=""/>
-						<input type="text" name="area3" id="area3" placeholder=""/>
-					</li>
-					<li><label><span class="red_txt">*</span>이메일</label>
-						<input type="text" name="emailid" id="emailid" value="0905cjw" placeholder="이메일"/><span>@</span> 
-						<select name="emaildomain" id="emaildomain">
-							<option value="naver.com">naver.com</option>
-							<option value="nate.com">nate.com</option>
-							<option value="hanmail.net">hamail.net</option>
-							<option value="gmail.com" selected>gmail.com</option>
-						</select>
-						<a class="green" id="emailBtn">인증번호 전송</a>
-					</li>
-					<li>
-						<label></label>
-						<input type="text" name="emailCheck" id="emailCheck" value="111111" placeholder="인증번호를 입력해주세요"/>
-						<a class="green" id="emailCheckBtn">인증번호 확인</a>
-					</li>
-				</ul>
-				<a class="q_btn green" id="memNext1">다음</a>
-			</div>
 			<div id="memDiv2">
 				<p class="m_title">가입 유형</p>
 				<p class="d_title">가입하고자 하는 유형을 선택해주세요.</p>
