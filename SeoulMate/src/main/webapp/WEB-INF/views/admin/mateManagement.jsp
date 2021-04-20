@@ -3,29 +3,27 @@
 		<section>
 			<div class="m_title managementTitle">메이트 관리</div>
 			<form method="post" action="/home/admin/houseManagement" class="managementSearchForm">
-				<div class="managementRadio">
-					<div class="checks">
-						<span class="managementSpan">상태</span>
-						<input type="radio" name="matestate" id="mateWriteState" checked/>
-						<label for="houseWriteState" >전체</label>
-						<input type="radio" name="matestate" id="mateWriteState2"/>
-						<label  for="houseWriteState2">모집중</label>
-						<input type="radio" name="matestate" id="mateWriteState3"/>
-						<label for="houseWriteState3">매칭완료</label>
-						<input type="radio" name="matestate" id="mateWriteState4"/>
-						<label for="houseWriteState4">기간만료</label>
-						<input type="radio" name="matestate" id="mateWriteState5"/>
-						<label for="houseWriteState5">비공개</label>
-					</div>
-					<div class="checks">
-						<span class="managementSpan">일반/프리미엄</span>
-						<input type="radio" name="state" id="mateMemberState" checked/>
-						<label for="houseMemberState">전체</label>
-						<input type="radio" name="state" id="mateMemberState2"/>
-						<label for="houseMemberState2">일반</label>
-						<input type="radio" name="state" id="mateMemberState3"/>
-						<label for="houseMemberState3">프리미엄</label>
-					</div>
+				<div class="checks">
+					<span class="managementSpan">상태</span>
+					<input type="radio" name="matestate" id="mateWriteState1" checked/>
+					<label for="mateWriteState1" >전체</label>
+					<input type="radio" name="matestate" id="mateWriteState2"/>
+					<label  for="mateWriteState2">모집중</label>
+					<input type="radio" name="matestate" id="mateWriteState3"/>
+					<label for="mateWriteState3">매칭완료</label>
+					<input type="radio" name="matestate" id="mateWriteState4"/>
+					<label for="mateWriteState4">기간만료</label>
+					<input type="radio" name="matestate" id="mateWriteState5"/>
+					<label for="mateWriteState5">비공개</label>
+				</div>
+				<div class="checks">
+					<span class="managementSpan">일반/프리미엄</span>
+					<input type="radio" name="state" id="mateMemberState1" checked/>
+					<label for="mateMemberState1">전체</label>
+					<input type="radio" name="state" id="mateMemberState2"/>
+					<label for="mateMemberState2">일반</label>
+					<input type="radio" name="state" id="mateMemberState3"/>
+					<label for="mateMemberState3">프리미엄</label>
 				</div>
 				<div id="mmSearch">
 					<select name="mmSearchKey" id="mmSearchKey" class="custom-select">
@@ -36,7 +34,7 @@
 					<input type="submit" value="Search" class="btn btn-custom"/>
 				</div>
 			</form>
-			<div id="mateManagementList" class="table-responsive">
+			<div class="table-responsive,ß managementList">
 				<table class="table table-hover table-sm table-bordered">
 					<thead class="thead-light">
 						<tr>

@@ -6,8 +6,8 @@
 				<div class="managementRadio">
 					<div class="checks">
 						<span class="managementSpan">상태</span>
-						<input type="radio" name="housestate" id="houseWriteState" checked/>
-						<label for="houseWriteState" >전체</label>
+						<input type="radio" name="housestate" id="houseWriteState1" checked/>
+						<label for="houseWriteState1" >전체</label>
 						<input type="radio" name="housestate" id="houseWriteState2"/>
 						<label  for="houseWriteState2">모집중</label>
 						<input type="radio" name="housestate" id="houseWriteState3"/>
@@ -19,8 +19,8 @@
 					</div>
 					<div class="checks">
 						<span class="managementSpan">일반/프리미엄</span>
-						<input type="radio" name="state" id="houseMemberState" checked/>
-						<label for="houseMemberState">전체</label>
+						<input type="radio" name="state" id="houseMemberState1" checked/>
+						<label for="houseMemberState1">전체</label>
 						<input type="radio" name="state" id="houseMemberState2"/>
 						<label for="houseMemberState2">일반</label>
 						<input type="radio" name="state" id="houseMemberState3"/>
@@ -36,7 +36,7 @@
 					<input type="submit" value="Search" class="btn btn-custom"/>
 				</div>
 			</form>
-			<div id="houseManagementList" class="table-responsive">
+			<div class="table-responsive, managementList">
 				<table class="table table-hover table-sm table-bordered">
 					<thead class="thead-light">
 						<tr>

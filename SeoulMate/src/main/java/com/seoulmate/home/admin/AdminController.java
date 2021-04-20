@@ -12,6 +12,14 @@ public class AdminController {
 	@Autowired
 	SqlSession sqlSession;
 	
+	@RequestMapping(value="/admin/memberManagement", method={RequestMethod.POST, RequestMethod.GET})
+	public ModelAndView memberManagement() {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("admin/memberManagement");
+		return mav;
+	}
+	
 	@RequestMapping(value="/admin/houseManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView houseManagement() {
 		ModelAndView mav = new ModelAndView();

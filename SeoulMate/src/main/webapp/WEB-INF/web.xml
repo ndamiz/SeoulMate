@@ -71,10 +71,6 @@
 			<include-prelude>/WEB-INF/views/inc/top.jspf</include-prelude> 
 			<include-coda>/WEB-INF/views/inc/footer.jspf</include-coda>
 		</jsp-property-group>
-<<<<<<< HEAD
-		
-=======
->>>>>>> refs/remotes/origin/choi
 		<jsp-property-group>
 			<url-pattern>/WEB-INF/views/admin/*</url-pattern>
 			<include-prelude>/WEB-INF/views/inc/admin_top.jspf</include-prelude> 
