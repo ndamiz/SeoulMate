@@ -125,9 +125,13 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/memberProEditForm")
-	public String memberProEditForm() {
+	public ModelAndView memberProEditForm() {
+		ModelAndView mav=new ModelAndView();
 		
-		return "member/memberProEditForm";
+		mav.addObject("no1", "no1");
+		mav.setViewName("member/memberProEditForm");
+		
+		return mav;
 	}
 	
 	@RequestMapping("/proInsertOk")

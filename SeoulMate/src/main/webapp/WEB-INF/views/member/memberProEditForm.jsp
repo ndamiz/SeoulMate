@@ -1,12 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="/home/css/choi.css"/>
-<style>
-	
-</style>
 <script>
 	$(function(){
-		$("#proUl>li>a").text().addClass("green");
+		$("a[id=${no1}]").addClass("green");
 		// 1
 		$("#proNext1").click(function(){			
 			$("#proDiv1").css("display","none");
@@ -69,7 +66,7 @@
 			<ul id="proUl">
 				<!-- c:forEach start -->
 				<c:forEach var="i" begin="1" end="4">
-					<li><a href="#">집 이름 ${i}</a></li>
+					<li><a id="no${i}" href="#">집 이름 ${i}</a></li>
 				</c:forEach>
 				<!-- c:forEach end -->
 				<li><a href="#">성향 추가(하우스만)</a></li>
