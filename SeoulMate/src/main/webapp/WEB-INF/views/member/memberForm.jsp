@@ -1,26 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<style>
-	html>body>.wrap{min-height:550px;}
-	.form_box li{margin:10px 0;}
-	.form_box.choice li > label{width:130px;}
-	#userpwd, #userpwd2{width:59%;}
-	select{width:90px; margin:0 10px;}
-	#tel2, #tel3, #birth2, #birth3, #area1, #area2, #area3{width:90px;}
-	#emailid, #emaildomain{width:125px;}
-	#emailCheck{width:284px;}
-	span{line-height: 47px;}
-	.multi{text-align:center; width:13.73px;}
-	#memDiv2, #memDiv3, #memDiv4, #memDiv5, #memDiv6, #memDiv7, .houseChoice, .mateChoice, #hopeChoice{display:none;}
-	.half{float:left; width:50%; line-height:47px; margin:40px 0;}
-	.half>.checks>.d_title{padding:0 10px;}
-	#memDiv3>.title_wrap>.s_title, #memDiv4>.title_wrap>.s_title, #memDiv5>.title_wrap>.s_title
-	, #memDiv6>.title_wrap>.s_title, #memDiv7>.title_wrap>.s_title{margin:40px 0;}
-	#memDiv3>.form_box.choice li > label, #memDiv5>.form_box.choice li > label
-	, #memDiv6>.form_box.choice li > label, #memDiv7>.form_box.choice li > label{width:170px;}
-</style>
+<link rel="stylesheet" href="/home/css/choi.css"/>
 <script>
 	$(function(){
+		$("#birth1").val("1995").attr("selected", true);
 		//////////// 회원가입 폼 시작 ////////////
 		// 아이디 중복검사 해제
 		var userid;
@@ -164,6 +147,15 @@
 			$("#hopeChoice").css("display", "block");
 			goTop();
 		});
+		$("#memNext7").click(function(){
+			if(confirm("회원가입을 하시겠습니까?")){
+				return true;
+			}else{
+				return false;
+			}
+			goTop();
+		});
+		
 		// 하우스를 선택했는지 메이트를 선택했는지 구분
 		$(document).ready(function () {
 			$('#memNext2').click(function () {
@@ -247,6 +239,23 @@
 		function goTop(){
 			$('html').scrollTop(0);
 		}
+		
+		// 프로필 사진
+		$("#inProfile").on('change', function(){
+			readURL(this);
+		});
+		
+		function readURL(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+
+				reader.onload = function (e) {
+					$('#profileImg').attr('src', e.target.result);
+				}
+
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
 	});
 </script>
 <div class="wrap">
@@ -293,6 +302,12 @@
 							<label for="gender1">여성</label>
 							<input type="radio" name="gender" id="gender2" value="2"/>
 							<label for="gender2">남성</label>
+						</div>
+					</li>
+					<li id="proli"><span class="red_txt">*</span><label>프로필 사진</label>
+						<div style="margin:5px 0 0 20px;">
+							<img id="profileImg" name="profilePic" src="<%=request.getContextPath()%>/img/choi/pepe_1.png" alt="upload image" style="width:150px; height:107px;"/>
+							<input type="file" accept="image/*" id="inProfile" />
 						</div>
 					</li>
 					<li><label>&nbsp;희망 지역(최대 3곳)</label>
@@ -581,7 +596,7 @@
 				</ul>
 				<div class="btn_wrap">
 					<a class="h_btn white" id="memPrev7">이전</a>
-					<button class="h_btn green" id="memNext7">다음</button>
+					<button class="h_btn green" id="memNext7">등록</button>
 				</div>
 			</div>
 		</form>

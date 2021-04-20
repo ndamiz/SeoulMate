@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<style>
-	input[type=text]{width:250px;}
-	.center{text-align:center;}
-	.center>button{width:250px;}
-</style>
+<link rel="stylesheet" href="/home/css/choi.css"/>
 <script>
 	function pwdCheck(){
 		if($("#userpwd").val()==""){
@@ -21,7 +17,7 @@
 		<br/><br/>
 		<div class="title_wrap">
 			<form method="post" action="memberEditForm" onsubmit="return pwdCheck()">
-				<input type="password" name="userpwd" id="userpwd" maxlength="12" placeholder="비밀번호를 입력해주세요"/><br/><br/><br/>
+				<input type="password" name="userpwd" id="userpwdCheck" maxlength="12" placeholder="비밀번호를 입력해주세요"/><br/><br/><br/>
 				<div class="center">
 					<button class="h_btn green" id="editBtn">회원정보 수정하기</button>
 				</div>
