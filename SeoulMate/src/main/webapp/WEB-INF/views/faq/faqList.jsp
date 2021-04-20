@@ -6,7 +6,6 @@
 		<p class="s_title">자주하는 질문</p>
 	</div>
 	<br>
-	
 	<div class="member_wrap">
 		<ul>
 			<li id="search" style="float:left; width:82%;"><input type="text" placeholder="검색어을 입력해주세요" style="width:100%; height:50px;"></li>
