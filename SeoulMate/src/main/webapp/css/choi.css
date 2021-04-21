@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /* memberForm */
-html>body>.wrap{min-height:550px;}
+html>body>.wrap{min-height:545px;}
 .form_box li{margin:10px 0;}
 .form_box.choice li > label{width:130px;}
 #userpwd, #userpwd2{width:59%;}
@@ -43,3 +43,23 @@ input[type=text]:readonly {background:#ddd;}
 #proDiv1>.form_box.choice li > label, #proDiv3>.form_box.choice li > label, #proDiv5>.form_box.choice li > label{width:170px;}
 #proDiv1>.title_wrap>.s_title, #proDiv2>.title_wrap>.s_title, #proDiv3>.title_wrap>.s_title
 , #proDiv4>.title_wrap>.s_title, #proDiv5>.title_wrap>.s_title{margin:40px 0;}
+
+/* memberManagement */
+#memManage{
+	margin-left:15%;
+	padding:2% 0 0 2%;
+}
+.as_title {
+	display:inline-block;
+	margin: 40px 0;
+	font-size: 1.5rem;
+	z-index: 0;
+	padding: 0 6px;
+	position: relative;
+	font-weight: 600;
+	color: #111215;
+}
+.ad_title{
+	font-size: 1.2rem;
+	color:#181818;
+}
