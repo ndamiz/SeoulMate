@@ -1,5 +1,10 @@
 @charset "UTF-8";
 
+@font-face {
+	font-family: "NotoSans";
+	src: url("fonts/NotoSansCJKkr-Regular.otf") format("opentype");
+}
+
 .m_title {
     font-family: BlackHanSans;
     position: relative;
@@ -89,6 +94,7 @@
   border-color: #1ca5a3 #1ca5a3 hsl(179, 71%, 38%);
   color: #fff !important;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.00);
+  font-family: "NotoSans" !important;
   -webkit-font-smoothing: antialiased;
 }
 .btn-custom:hover {
@@ -106,6 +112,7 @@
   border-width: 1px;
   color: #13a89e !important;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.00);
+  font-family: "NotoSans" !important;
   -webkit-font-smoothing: antialiased;
 }
 
