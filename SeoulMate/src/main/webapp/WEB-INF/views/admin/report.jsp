@@ -34,7 +34,7 @@
 		</colgroup>
 		<thead>
 			<tr style="border-bottom:1px solid black">
-				<th>번호111</th>
+				<th>번호</th>
 				<th>회원 ID</th>
 				<th>신고자 ID</th>
 				<th>신고 분류</th>
