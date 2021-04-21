@@ -125,23 +125,29 @@ section{ margin-left:15% ; width: 85%; float: left; }
 .managementTitle{width: 95%; margin: 40px auto 10px auto;}
 .managementSearchForm { width: 95%; margin: 40px auto 10px auto; overflow: hidden;}
 .managementSpan{width: 100px; display:inline-block; text-align: right;font-weight: bold; font-size:1.1em; margin-right: 15px;}
+.managementSpan2{width: 50px; display:inline-block; font-weight: bold; font-size:1.1em;}
 .managementRadio{ width: 570px; float: right; }
 .managementPaging li>a, .managementPaging li>a:focus {background: #13a89e; border-color: #fff; color:#fff;}
 .managementPaging li>a:hover{background: #fff; border-color: #13a89e; color:#13a89e;}
 .managementList{width: 95%; margin: 10px auto;}
-.managementDatePicker{margin-top: 40px; overflow: auto;}
-/* house Management */
-#hmSearch {width: 380px; float: left; overflow: auto; margin-top: 20px; }
-#hmSearch>select, #hmSearch input{float: left;}
-#hmSearchKey{width: 100px; float: left;}
-#hmSearchWord{width: 200px; float: left;}
 
-/* Mate Management */
-#mmSearch {width: 380px; float: left; overflow: auto; margin-top: 20px; }
-#mmSearch>select, #hmSearch input{float: left;}
-#mmSearchKey{width: 100px; float: left;}
-#mmSearchWord{width: 200px; float: left;}
+.managementSearch {width: 380px; float: left; overflow: auto; margin-top: 20px; }
+.managementSearch>select{width: 100px; float: left;}
+.managementSearch input[type=text]{width: 200px; float: left;}
+.managementSearch input[type=submit]{width: 80px; float: left;}
+/* datePicker */
+.managementDatePicker{width: 480px; overflow: auto; }
+.datePicker1, .datePicker2{width: 120px;}
 
-/* sales Management*/
-#salesManagementDatePicker1, #salesManagementDatePicker2{width: 120px;}
-#salesManagementList tbody>tr:last-of-type>td {background-color: #F1F1F1; color:#13a89e; font-weight: bold;}
+
+/* payManagement*/
+#payManagementSearch{margin-top: 5px;}
+
+/* salesManagement */
+#salesmanagementTable tbody>tr:last-of-type>td {background-color: #F1F1F1; color:#13a89e; font-weight: bold;}
+#salesManagementDiv {width: 95%; overflow: auto; margin: 0px auto;}
+#salesManagementDiv>div{width: 480px; float: left; }
+#salesManagementDiv>div:last-of-type{width: 160px; float: right; height: auto; margin-top: 20px;}
+
+#graphBtn {width: 38px; height: 38px; float:right; margin: 0 5px;}
+#excelBtn {float: right; margin: 0 5px;}

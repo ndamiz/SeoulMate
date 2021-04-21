@@ -27,12 +27,12 @@
 						<label for="houseMemberState3">프리미엄</label>
 					</div>
 				</div>
-				<div id="hmSearch">
-					<select name="hmSearchKey" id="hmSearchKey" class="custom-select">
+				<div class="managementSearch">
+					<select name="searchKey" class="custom-select">
 						<option value="userid" selected>아이디</option>
 						<option value="addr">주소</option>
 					</select>
-					<input type="text" name="hmSearchWord" id="hmSearchWord" class="form-control"/>
+					<input type="text" name="searchWord" class="form-control"/>
 					<input type="submit" value="Search" class="btn btn-custom"/>
 				</div>
 			</form>

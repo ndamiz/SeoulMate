@@ -3,29 +3,34 @@
 <script>
 $(function(){
 	datePicker();
-	
 });
 </script>
 		<section>
 			<div class="m_title managementTitle">매출 관리</div>
-			<div class="managementDatePicker">
-				<div class="checks" id="salesDateChoose">
-					<span class="managementSpan">필터</span>
-					<input type="radio" name="date" id="salesDate1" value="일별" checked/>
-					<label for="salesDate1">일별</label>
-					<input type="radio" name="date" id="salesDate2" value="월별"/>
-					<label for="salesDate2">월별</label>
-					<input type="radio" name="date" id="salesDate3" value="년별"/>
-					<label  for="salesDate3">년별</label>
+			<div id="salesManagementDiv">
+				<div class="managementDatePicker" >
+					<div class="checks dateChoose">
+						<span class="managementSpan">필터</span>
+						<input type="radio" name="date" id="salesDate1" value="일별" checked/>
+						<label for="salesDate1">일별</label>
+						<input type="radio" name="date" id="salesDate2" value="월별"/>
+						<label for="salesDate2">월별</label>
+						<input type="radio" name="date" id="salesDate3" value="년별"/>
+						<label  for="salesDate3">년별</label>
+					</div>
+					<div>
+						<span class="managementSpan">기간</span>
+						<input type="text" name="payStart" class="datePicker1" readonly="readonly" /> ~
+						<input type="text" name="payEnd" class="datePicker2" readonly="readonly" />
+					</div>
 				</div>
 				<div>
-					<span class="managementSpan">기간</span>
-					<input type="text" name="payStart" id="datePicker1" readonly="readonly" /> ~
-					<input type="text" name="payEnd" id="datePicker2" readonly="readonly" />
+					<input type="button" value="엑셀로 출력" id="excelBtn"class="btn btn-custom"/>
+					<input type="image" class="btn btn-custom" id="graphBtn" src="<%=request.getContextPath()%>/img/fi-rr-stats.svg" alt="그래프 버튼"/>
 				</div>
 			</div>
-			<div id="salesManagementList" class="table-responsive, managementList">
-				<table class="table table-hover table-sm table-bordered">
+			<div class="table-responsive, managementList">
+				<table class="table table-hover table-sm table-bordered, managementTable" id="salesmanagementTable">
 					<thead class="thead-light">
 						<tr>
 							<th>날짜</th>
