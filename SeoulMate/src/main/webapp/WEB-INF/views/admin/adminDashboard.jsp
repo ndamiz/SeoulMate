@@ -101,7 +101,7 @@
 		<div style="margin-top:50px;">
 			<table>
 				<tr class="columns">
-					<td><div id="Sarah_chart_div" style="border: 1px solid #eee"></div></td>
+					<td><div id="Sarah_chart_div"></div></td>
         			<td><div id="Anthony_chart_div" style="border: 1px solid #eee"></div></td>
 				</tr>
 			</table>
