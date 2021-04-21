@@ -52,6 +52,11 @@
 	<!--start 인클루드 -->
 	<jsp-config>
 		<jsp-property-group>
+			<url-pattern>/WEB-INF/views/sample.jsp</url-pattern>
+			<include-prelude>/WEB-INF/views/inc/top.jspf</include-prelude> 
+			<include-coda>/WEB-INF/views/inc/footer.jspf</include-coda>
+		</jsp-property-group>
+		<jsp-property-group>
 			<url-pattern>/WEB-INF/views/home.jsp</url-pattern>
 			<include-prelude>/WEB-INF/views/inc/top.jspf</include-prelude> 
 			<include-coda>/WEB-INF/views/inc/footer.jspf</include-coda>
@@ -68,6 +73,11 @@
 		</jsp-property-group>
 		<jsp-property-group>
 			<url-pattern>/WEB-INF/views/premium/*</url-pattern>
+			<include-prelude>/WEB-INF/views/inc/top.jspf</include-prelude> 
+			<include-coda>/WEB-INF/views/inc/footer.jspf</include-coda>
+		</jsp-property-group>
+		<jsp-property-group>
+			<url-pattern>/WEB-INF/views/faq/*</url-pattern>
 			<include-prelude>/WEB-INF/views/inc/top.jspf</include-prelude> 
 			<include-coda>/WEB-INF/views/inc/footer.jspf</include-coda>
 		</jsp-property-group>

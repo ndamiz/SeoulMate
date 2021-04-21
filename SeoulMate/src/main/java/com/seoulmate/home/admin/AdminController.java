@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+<<<<<<< HEAD
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -53,3 +54,18 @@ public class AdminController {
 	}
 }
 
+=======
+
+@Controller
+public class AdminController {
+	@Autowired
+	SqlSession sqlSession;
+	
+	//admin에 들어오면 나오는 대시보드
+	@RequestMapping("/admin")
+	public String adminDashboard() {
+		return "/admin/adminDashboard";
+	}
+	
+}
+>>>>>>> refs/remotes/origin/min
