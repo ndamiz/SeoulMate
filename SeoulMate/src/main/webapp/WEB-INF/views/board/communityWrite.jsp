@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!-- include libraries(jQuery, bootstrap) -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/yun.css">
-<script src="https://cdn.ckeditor.com/4.9.0/standard/ckeditor.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
 <div class="wrap">
 	<div class="content">
 		<p class="m_title">글 작성</p>
@@ -19,11 +24,13 @@
 				<li id="comWriteBtn"><button class="green" id="communityWrite">글쓰기</button></li>
 			</ul>
 			<br>
-			<textarea name="content"></textarea>
+			<textarea id="summernote"></textarea>
 		</form>
 		<script>
-	  	  CKEDITOR.replace('content');
-		  	
+	  	  $(function(){
+	  		 $("#summernote").summernote(); 
+	  	  });
+	  	  
 	  	  $("#write").click(function(){
 				var cate = $("#category").val();
 				console.log(cate)

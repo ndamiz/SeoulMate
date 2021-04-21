@@ -36,7 +36,7 @@
 				<a href="#" class="list-group-item list-group-item-action list-group-item-light">회원 관리</a>
 				<a href="/home/admin/houseManagement" class="list-group-item list-group-item-action list-group-item-light">하우스 관리</a>
 				<a href="/home/admin/mateManagement" class="list-group-item list-group-item-action list-group-item-light">메이트 관리</a>
-				<a href="#" class="list-group-item list-group-item-action list-group-item-light">신고 관리</a>
+				<a href="/home/admin/report" class="list-group-item list-group-item-action list-group-item-light">신고 관리</a>
 				<a href="/home/admin/salesManagement" class="list-group-item list-group-item-action list-group-item-light">매출 관리</a>
 				<a href="/home/admin/payManagement" class="list-group-item list-group-item-action list-group-item-light">결제 관리</a>
 				<a href="#" class="list-group-item list-group-item-action list-group-item-light">문의 관리</a>

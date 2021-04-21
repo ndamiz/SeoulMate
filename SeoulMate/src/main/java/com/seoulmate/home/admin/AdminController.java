@@ -16,4 +16,10 @@ public class AdminController {
 		return "/admin/adminDashboard";
 	}
 	
+	//신고관리
+	@RequestMapping("/admin/report")
+	public String adminReport() {
+		return "/admin/report";
+	}
+	
 }
