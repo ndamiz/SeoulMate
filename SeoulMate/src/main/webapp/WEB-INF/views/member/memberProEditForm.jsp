@@ -1,0 +1,384 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<style>
+	html>body>.wrap{min-height:550px;}
+	.form_box li{margin:10px 0;}
+	.form_box.choice li > label{width:130px;}
+	span{line-height: 47px;}
+	.multi{text-align:center; width:13.73px;}
+	#memDiv3, #memDiv4, #memDiv5, #memDiv6, #memDiv7, .houseChoice, .mateChoice, #hopeChoice{display:none;}
+	.half{float:left; width:50%; line-height:47px; margin:40px 0;}
+	.half>.checks>.d_title{padding:0 10px;}
+	#memDiv3>.title_wrap>.s_title, #memDiv4>.title_wrap>.s_title, #memDiv5>.title_wrap>.s_title
+	, #memDiv6>.title_wrap>.s_title, #memDiv7>.title_wrap>.s_title{margin:40px 0;}
+	#memDiv3>.form_box.choice li > label, #memDiv5>.form_box.choice li > label
+	, #memDiv6>.form_box.choice li > label, #memDiv7>.form_box.choice li > label{width:170px;}
+</style>
+<script>
+	$(function(){
+		// 2
+		$("#memPrev2").click(function(){
+			$("#memDiv1").css("display","block");
+			$("#memDiv2").css("display", "none");
+			goTop();
+		});
+		$("#memNext2").click(function(){
+			$("#memDiv2").css("display","none");
+			$("#memDiv3").css("display","block");
+			$("#housemateChoice").css("display", "block");
+			goTop();
+		});
+		// 3
+		$("#memPrev3").click(function(){
+			$("#memDiv2").css("display","block");
+			$("#memDiv3").css("display", "none");
+			$("#housemateChoice").css("display", "none");
+			goTop();
+		});
+		$("#memNext3").click(function(){
+			$("#memDiv3").css("display","none");
+			$("#memDiv4").css("display","block");
+			goTop();
+		});
+		// 4
+		$("#memPrev4").click(function(){
+			$("#memDiv3").css("display","block");
+			$("#memDiv4").css("display","none");
+			goTop();
+		});
+		$("#memNext4").click(function(){
+			$("#memDiv4").css("display","none");
+			$("#memDiv5").css("display","block");
+			goTop();
+		});
+		// 5
+		$("#memPrev5").click(function(){
+			$("#memDiv4").css("display","block");
+			$("#memDiv5").css("display","none");
+			$("#hopeChoice").css("display", "none");
+			goTop();
+		});
+		$("#memNext5").click(function(){
+			$("#memDiv5").css("display","none");
+			$("#memDiv6").css("display","block");
+			$("#housemateChoice").css("display", "none");
+			$("#hopeChoice").css("display", "block");
+			goTop();
+		});
+		// 6
+		$("#memPrev6").click(function(){
+			$("#memDiv5").css("display","block");
+			$("#memDiv6").css("display","none");			
+			$("#housemateChoice").css("display", "block");
+			$("#hopeChoice").css("display", "none");
+			goTop();
+		});
+		$("#memNext6").click(function(){
+			$("#memDiv6").css("display","none");
+			$("#memDiv7").css("display","block");
+			$("#housemateChoice").css("display", "none");
+			$("#hopeChoice").css("display", "block");
+			goTop();
+		});
+		// 7
+		$("#memPrev7").click(function(){
+			$("#memDiv6").css("display","block");
+			$("#memDiv7").css("display","none");			
+			$("#housemateChoice").css("display", "none");
+			$("#hopeChoice").css("display", "block");
+			goTop();
+		});
+		// 하우스를 선택했는지 메이트를 선택했는지 구분
+		$(document).ready(function () {
+			$('#memNext2').click(function () {
+				var radioVal = $('input[name="housemate"]:checked').val();
+				
+				if(radioVal=="쉐어하우스"){
+					$(".houseChoice").css("display","block");
+					$(".mateChoice").css("display","none");
+				}else if(radioVal=="하우스메이트"){
+					$(".houseChoice").css("display","none");
+					$(".mateChoice").css("display","block");
+				}
+			});
+		});
+		// 상단으로 스크롤 이동
+		function goTop(){
+			$('html').scrollTop(0);
+		}
+	});
+</script>
+<div class="wrap">
+	<div class="member_wrap">
+		<form method="post" id="memId" action="memberOk">
+			<div id="memDiv2">
+				<p class="m_title">가입 유형</p>
+				<p class="d_title">가입하고자 하는 유형을 선택해주세요.</p>
+				<div class="form_box">
+					<div class="half">
+						<div class="checks">
+							<input type="radio" name="housemate" id="housemate1" value="쉐어하우스" checked/>
+							<label for="housemate1">쉐어하우스</label>
+							<p class="d_title">우리집에 입주할 메이트를 찾아요!</p>
+						</div>
+					</div>
+					<div class="half">
+						<div class="checks">
+							<input type="radio" name="housemate" id="housemate2" value="하우스메이트"/>
+							<label for="housemate2">하우스메이트</label>
+							<p class="d_title">쉐어하우스에 입주하고 싶어요!</p>
+						</div>
+					</div>
+					<div class="btn_wrap">
+						<a class="h_btn white" id="memPrev2">이전</a>
+						<a class="h_btn green" id="memNext2">다음</a>
+					</div>
+				</div>
+			</div>
+			<div id="housemateChoice">
+				<p class="m_title houseChoice">우리 하우스의 성향 등록</p>
+				<p class="d_title houseChoice">우리 하우스의 라이프 스타일을 선택해주세요.</p>
+				<p class="m_title mateChoice">원하는 하우스의 성향 등록</p>
+				<p class="d_title mateChoice">원하는 하우스의 라이프 스타일을 선택해주세요.</p>
+			</div>
+			<div id="memDiv3">
+				<div class="title_wrap">
+					<p class="s_title">생활</p>
+				</div>
+				<ul class="form_box choice">
+					<li><label><span class="red_txt">*</span>생활 소음</label>
+						<div class="checks">
+							<input type="radio" name="h_noise" id="h_noise1" value="1" checked/>
+							<label for="h_noise1">자주</label>
+							<input type="radio" name="h_noise" id="h_noise2" value="2"/>
+							<label for="h_noise2">가끔</label>
+							<input type="radio" name="h_noise" id="h_noise3" value="3"/>
+							<label for="h_noise3">없음</label>
+						</div>
+					</li>
+					<li><label><span class="red_txt">*</span>생활 시간</label>
+						<div class="checks">
+							<input type="radio" name="h_pattern" id="h_pattern1" value="1" checked/>
+							<label for="h_pattern1">주행성</label>
+							<input type="radio" name="h_pattern" id="h_pattern3" value="3"/>
+							<label for="h_pattern3">야행성</label>
+						</div>
+					</li>
+					<li><label><span  class="red_txt">*</span>하우스 내 애완동물 여부</label>
+						<div class="checks">
+							<input type="radio" name="h_pet" id="h_pet3" value="3" checked/>
+							<label for="h_pet3">있음</label>
+							<input type="radio" name="h_pet" id="h_pet1" value="1"/>
+							<label for="h_pet1">없음</label>
+						</div>
+					</li>
+					<li><label><span  class="red_txt">*</span>애완동물 동반 입주 여부</label>
+						<div class="checks">
+							<input type="radio" name="h_petwith" id="h_petwith3" value="3" checked/>
+							<label for="h_petwith3">가능</label>
+							<input type="radio" name="h_petwith" id="h_petwith1" value="1"/>
+							<label for="h_petwith1">불가능</label>
+						</div>
+					</li>
+					<li><label><span  class="red_txt">*</span>흡연</label>
+						<div class="checks">
+							<input type="radio" name="h_smoke" id="h_smoke1" value="1" checked/>
+							<label for="h_smoke1">비흡연</label>
+							<input type="radio" name="h_smoke" id="h_smoke2"value="2"/>
+							<label for="h_smoke2">실외 흡연</label>
+							<input type="radio" name="h_smoke" id="h_smoke3"value="3"/>
+							<label for="h_smoke3">실내 흡연</label>
+						</div>
+					</li>
+				</ul>
+				<div class="btn_wrap">
+					<a class="h_btn white" id="memPrev3">이전</a>
+					<a class="h_btn green" id="memNext3">다음</a>
+				</div>
+			</div>
+			<div id="memDiv4">
+				<div class="title_wrap">
+					<p class="s_title">소통</p>
+				</div>
+				<ul class="form_box choice">
+					<li><label><span class="red_txt">*</span>분위기</label>
+						<div class="checks">
+							<input type="radio" name="h_mood" id="h_mood1" value="1" checked/>
+							<label for="h_mood1">화목함</label>
+							<input type="radio" name="h_mood" id="h_mood2" value="2"/>
+							<label for="h_mood2">보통</label>
+							<input type="radio" name="h_mood" id="h_mood3" value="3"/>
+							<label for="h_mood3">독립적</label>
+						</div>
+					</li>
+					<li><label><span class="red_txt">*</span>소통 방식</label>
+						<div class="checks">
+							<input type="radio" name="h_communication" id="h_communication3" value="3" checked/>
+							<label for="h_communication3">대화</label>
+							<input type="radio" name="h_communication" id="h_communication1" value="1"/>
+							<label for="h_communication1">메신저</label>
+							<input type="radio" name="h_communication" id="h_communication2" value="2"/>
+							<label for="h_communication2">기타</label>
+						</div>
+					</li>
+					<li><label><span class="red_txt">*</span>모임 빈도</label>
+						<div class="checks">
+							<input type="radio" name="h_party" id="h_party3" value="3" checked/>
+							<label for="h_party3">자주</label>
+							<input type="radio" name="h_party" id="h_party2" value="2"/>
+							<label for="h_party2">가끔</label>
+							<input type="radio" name="h_party" id="h_party1" value="1"/>
+							<label for="h_party1">없음</label>
+						</div>
+					</li>
+					<li><label><span class="red_txt">*</span>모임 참가 의무</label>
+						<div class="checks">
+							<input type="radio" name="h_enter" id="h_enter1" value="1" checked/>
+							<label for="h_enter1">매우 조용함</label>
+							<input type="radio" name="h_enter" id="h_enter2" value="2"/>
+							<label for="h_enter2">보통</label>
+							<input type="radio" name="h_enter" id="h_enter3" value="3"/>
+							<label for="h_enter3">조용하지 않음</label>
+						</div>
+					</li>
+				</ul>
+				<div class="btn_wrap">
+					<a class="h_btn white" id="memPrev4">이전</a>
+					<a class="h_btn green" id="memNext4">다음</a>
+				</div>
+			</div>
+			<div id="memDiv5">
+				<div class="title_wrap">
+					<p class="s_title">서비스 및 기타</p>
+				</div>
+				<ul class="form_box choice">
+					<li><label><span class="red_txt">*</span>하우스 내 지원 서비스</label>
+						<div class="checks">
+							<input type="checkbox" name="h_support" id="h_support1">
+							<label for="h_support1">공용공간 청소 지원</label>
+							<input type="checkbox" name="h_support" id="h_support2">
+							<label for="h_support2">공용 생필품 지원</label><br/>
+							<input type="checkbox" name="h_support" id="h_support3">
+							<label for="h_support3">기본 식품 지원</label>
+						</div>
+					</li>
+					<li><label></label></li>
+					<li><label><span class="red_txt">*</span>기타</label>
+						<div class="checks">
+							<input type="checkbox" name="h_etc" id="h_etc1" value="1"/>
+							<label for="h_etc1">보증금 조절 가능</label>
+							<input type="checkbox" name="h_etc" id="h_etc3" value="3"/>
+							<label for="h_etc3">즉시 입주 가능</label>
+						</div>
+					</li>
+				</ul>
+				<div class="btn_wrap">
+					<a class="h_btn white" id="memPrev5">이전</a>
+					<a class="h_btn green" id="memNext5">다음</a>
+				</div>
+			</div>
+			<div id="hopeChoice">
+				<p class="m_title houseChoice">희망 성향 등록</p>
+				<p class="d_title houseChoice">희망하는 하우스메이트의 라이프 스타일을 등록해주세요</p>
+				<p class="m_title mateChoice">나의 성향 등록</p>
+				<p class="d_title mateChoice">나의 라이프 스타일을 선택해주세요.</p>
+			</div>
+			<div id="memDiv6">
+				<div class="title_wrap">
+					<p class="s_title">생활</p>
+				</div>
+				<ul class="form_box choice">
+					<li><label><span class="red_txt">*</span>생활 시간</label>
+						<div class="checks">
+							<input type="radio" name="m_pattern" id="m_pattern1" value="1" checked/>
+							<label for="m_pattern1">주행성</label>
+							<input type="radio" name="m_pattern" id="m_pattern3" value="3"/>
+							<label for="m_pattern3">야행성</label>
+						</div>
+					</li>
+					<li><label><span  class="red_txt">*</span>성격</label>
+						<div class="checks">
+							<input type="radio" name="m_personality" id="m_personality1" value="1" checked/>
+							<label for="m_personality1">내향적</label>
+							<input type="radio" name="m_personality" id="m_personality3" value="3"/>
+							<label for="m_personality3">외향적</label>
+							<input type="radio" name="m_personality" id="m_personality2" value="2"/>
+							<label for="m_personality2">상관없음</label>
+						</div>
+					</li>
+					<li><label><span  class="red_txt">*</span>애완동물</label>
+						<div class="checks">
+							<input type="radio" name="m_pet" id="m_pet1" value="1" checked/>
+							<label for="m_pet1">가능</label>
+							<input type="radio" name="m_pet" id="m_pet3" value="3"/>
+							<label for="m_pet3">불가능</label>
+						</div>
+					</li>
+					<li><label><span  class="red_txt">*</span>흡연</label>
+						<div class="checks">
+							<input type="radio" name="m_smoke" id="m_smoke1" value="1" checked/>
+							<label for="m_smoke1">비흡연</label>
+							<input type="radio" name="m_smoke" id="m_smoke2"value="2"/>
+							<label for="m_smoke2">실외 흡연</label>
+							<input type="radio" name="m_smoke" id="m_smoke3"value="3"/>
+							<label for="m_smoke3">실내 흡연</label>
+						</div>
+					</li>
+				</ul>
+				<div class="btn_wrap">
+					<a class="h_btn white" id="memPrev6">이전</a>
+					<a class="h_btn green" id="memNext6">다음</a>
+				</div>
+			</div>
+			<div id="memDiv7">
+				<div class="title_wrap">
+					<p class="s_title">유형</p>
+				</div>
+				<ul class="form_box choice">
+					<li><label><span class="red_txt">*</span>나이 대</label>
+						<div class="checks">
+							<input type="radio" name="m_age" id="m_age1" value="1" checked/>
+							<label for="m_age1">20~30대</label>
+							<input type="radio" name="m_age" id="m_age3" value="3"/>
+							<label for="m_age3">40대</label>
+							<input type="radio" name="m_age" id="m_age2" value="2"/>
+							<label for="m_age2">상관없음</label>
+						</div>
+					</li>
+					<li><label><span  class="red_txt">*</span>성별</label>
+						<div class="checks">
+							<input type="radio" name="m_gender" id="m_gender1" value="1" checked/>
+							<label for="m_gender1">여성</label>
+							<input type="radio" name="m_gender" id="m_gender3" value="3"/>
+							<label for="m_gender3">남성</label>
+							<input type="radio" name="m_gender" id="m_gender2" value="2"/>
+							<label for="m_gender2">상관없음</label>
+						</div>
+					</li>
+					<li><label><span  class="red_txt">*</span>외국인 입주 가능 여부</label>
+						<div class="checks">
+							<input type="radio" name="m_global" id="m_global" value="3" checked/>
+							<label for="m_global3">가능</label>
+							<input type="radio" name="m_global" id="m_global" value="1"/>
+							<label for="m_global1">불가능</label>
+						</div>
+					</li>
+					<li><label><span  class="red_txt">*</span>즉시 입주 가능 여부</label>
+						<div class="checks">
+							<input type="radio" name="m_now" id="m_now1" value="1" checked/>
+							<label for="m_now1">가능</label>
+							<input type="radio" name="m_now" id="m_now3"value="3"/>
+							<label for="m_now3">불가능</label>
+						</div>
+					</li>
+				</ul>
+				<div class="btn_wrap">
+					<a class="h_btn white" id="memPrev7">이전</a>
+					<button class="h_btn green" id="memNext7">다음</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+</body>
+</html>

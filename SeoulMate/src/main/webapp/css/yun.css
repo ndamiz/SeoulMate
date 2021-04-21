@@ -1,0 +1,162 @@
+@charset "utf-8";
+/*//////////////////////////////////////////// 커뮤니티 목록 스타일 ///////////*/
+#comSearchLi a{/*검색에 돋보기 a태그 스타일 초기화*/
+	box-shadow: none;
+	border:none;
+	border-radius:inherit;
+	margin: 0;
+	padding: 0;
+	line-height: inherit;
+	height: inherit;
+}
+#comSearchLi{/*글쓰기버튼을 밀어내려고 준 스타일*/
+	float:left;
+	width: 90.5%;
+}
+#comSearch{/*검색창 길이*/
+	width: 300px;
+}
+#comSearchLi a{ /*검색창안에 돋보기 위치 조정 */
+	position: relative;
+	top:5px;
+	left:-40px;
+}
+#comSearchLi a>img{ /*돋보기 이미지 크기 조정*/
+	width: 25px;
+}
+
+/*////////////////////////////// 커뮤니티 글쓰기 스타일 ///////////*/
+
+#comWriteLi{/*카테고리, 제목, 글쓰기버튼 정렬 스타일*/
+	float:left;
+	width:15%;
+}
+#comWriteLi>select{/*카테고리, 제목, 글쓰기버튼 정렬 스타일*/
+	width: 100%;
+}
+#comWriteSubject{
+	float:left;
+	width: 75.5%;
+}
+#comWriteSubject>input{/*글작성에서 제목입력창 크기*/
+	width: 100%;
+}
+/*///////////////////////////////  찜하기 스타일 ///////////*/
+
+
+
+
+
+/*////////////////////////////////////////////  자주하는질문 스타일 ///////////*/
+
+#faq_member_wrap{ /*faq랑 지주하는질문 중앙 정렬*/
+	text-align:center;
+}
+#faq_member_wrap p:nth-child(2){/*자주하는질문 위 마진 초기화*/
+	margin-top:0;
+}
+#faqSearch{ /*검색창이랑 검색버튼 정렬*/
+	float: left;
+	width: 82%;
+}
+#faqSearch>input{/*검색창 크기*/
+	width: 100%;
+	height:50ppx;
+}
+#faqSearchBtn{/*검색버튼 스타일*/
+	width:100px;
+	margin:0;
+	border-radius:2px;
+}
+.faqATag{/*"문의하기" a태그 초기화 및 색지정 */
+	box-shadow: none;
+	border:none;
+	border-radius:inherit;
+	margin: 0;
+	padding: 0;
+	line-height: inherit;
+	height: inherit;
+	/*색, 볼드*/
+	color: #13a89e;
+	font-weight: bold;
+}
+.qnaList{/*질문영역 li 박스 스타일*/
+	border: 1px solid #13a89e;
+	height: 50px;
+	line-height:50px;
+	padding: 0 10px 0 10px;
+	margin-bottom:15px;
+	/*답변 감추기*/
+	overflow: ;	
+}
+.qnaList img{ /* + 모양 사이즈랑 위치*/
+	width:20px;
+ 	margin: 9px 20px 0 0;
+}
+#faqATag2{ /* +이 눌러지게 설정해야해서 a태그 기존 스타일 초기화*/
+	float: right;
+	box-shadow: none;
+	display: block;
+	width:5px;
+}
+/*////////////////////////////////////////////  문의하기 스타일 ///////////*/
+#contactForm>*{/* 폼 안에 모든 객체 넓이 100% */
+	width: 100%;
+}
+#contactForm select, #contactForm textarea::placeholder{
+	color: red; /* select랑 textarea 글자색 뭐로??*/
+}
+/*////////////////////////////////////////////  관리자 대시보드 스타일 ///////////*/
+#dashMainDiv{ /* 화면 왼쪽 메뉴때문에 왼쪽 마진 15% */
+	margin-left: 15%;
+	padding: 2% 0 0 2%;
+}
+#dashUl{
+	height:100px;
+}
+#dashUl ul, #dashUl li{ /*대시보드 ul,li 초기화*/
+	margin:0;
+	padding:0;
+	list-style:none;
+	float:left;
+	text-align: center;
+}
+#dashUl ul{	/* 상단 ul 3개 디자인*/
+	height: 100px;
+	padding: 25px 10px;
+	border-radius: 10px;
+	border: 1px solid #eee;
+	box-shadow: 5px 5px 10px 1px rgb(0 0 0 / 15%);
+}
+#dashUl ul p{	/* 글자랑 아이콘 사이 간견 조정 */
+	margin-bottom: 5px;
+}
+#dashUl ul img{	/* 아이콘 크기 조정 */
+	width: 20px;
+}
+#dashUl ul:nth-child(1){ /* 1 ul 폭*/
+	width: 35%;
+}
+#dashUl ul:nth-child(2){ /* 2 ul 폭*/
+	width: 10%;
+	margin-left: 2%;
+}
+#dashUl ul:nth-child(3){ /* 3 ul 폭*/
+	width: 30%;
+	margin-left: 2%;
+}
+#dashUl ul:nth-child(1)>li{ /* 1 ul>li 정렬 */
+	width: 33%;
+}
+#dashUl ul:nth-child(2)>li{ /* 2 ul>li 정렬 */
+	width: 100%;
+}
+#dashUl ul:nth-child(3)>li{ /* 3 ul>li 정렬*/
+	width: 50%;
+}
+#dashUl ul li>span{ /* 3 ul>li 정렬*/
+	display: inline-block;
+	padding-right: 12px;
+}
+/*////////////////////////////////////////////  관리자 신고 스타일 ///////////*/
+/*////////////////////////////////////////////  관리자 문의 스타일 ///////////*/

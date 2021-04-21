@@ -3,5 +3,10 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.seoulmate.home.member.MemberDAOImp">
-  
+  	<select id="idCheck" resultType="int">
+  		select count(userid) from member where userid=#{param1}
+  	</select>
+  	<select id="memberSelect" parameterType="String" resultType="com.seoulmate.home.member.MemberVO">
+  		select userid, userpwd, username, tel, to_char(birth, 'YYYY/MM/DD') birth, gender, area, email from member where userid=#{param1}
+  	</select>
   </mapper>
