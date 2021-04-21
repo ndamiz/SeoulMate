@@ -60,6 +60,11 @@ public class HouseController {
 		return "house/houseWrite10";
 	}
 	
+	@RequestMapping("/houseSearch")
+	public String houseSearch() {
+		return "house/houseSearch";
+	}
+	
 	
 	
 }
