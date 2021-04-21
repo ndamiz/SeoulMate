@@ -634,7 +634,7 @@ table td{
 	position: fixed;
 	top:0;
 	background-color: rgb(0, 0, 0, 0.5);
-	z-index: 0;
+	z-index: 3;
 } 
  
 .pup_form{
@@ -743,17 +743,19 @@ table td{
  
  /* popup list */
  
-.list_img{
-	/* width: 30%; */
+.pup_wrap .list_img{
+	width: 30%;
 }
 
-.list_img img{
-	/* width: 107px; */
-	/* height: 107px; */
-	/* border-radius: 60px; */
+.pup_wrap .list_img img{
+	width: 107px;
+	height: 107px;
+	border-radius: 60px;
+	margin: 20px;
 }
 
 .list_title{
+	width:50%;
 	line-height: 50px;
 }
 
@@ -1170,9 +1172,33 @@ footer .foot_btns{
 
 
 
+/* chat style  */
 
+.chat_wrap{
+	z-index:1;
+	width: 350px;
+	height: 550px;
+	position: fixed;
+	bottom: 5%;
+	right: 5%;
+}
 
+.chat_wrap .btn_chat{
+	width: 73px;
+	height: 73px;
+	background: url(../img/comm/ico_chat.png);
+	box-shadow: none;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	margin: 0;
+	padding: 0;
+}
 
-
+.chat_wrap .chat_window{
+	background-color: #fff;
+	border-radius: 20px;
+	height: 100%;
+}
 
 
