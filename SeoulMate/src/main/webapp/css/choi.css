@@ -1,0 +1,65 @@
+@charset "UTF-8";
+/* memberForm */
+html>body>.wrap{min-height:545px;}
+.form_box li{margin:10px 0;}
+.form_box.choice li > label{width:130px;}
+#userpwd, #userpwd2{width:59%;}
+select{width:90px; margin:0 10px;}
+#tel2, #tel3, #editBirth1, #birth2, #birth3, #area1, #area2, #area3{width:90px;}
+#emailid, #emaildomain{width:125px;}
+#emailCheck{width:284px;}
+span{line-height: 47px;}
+.multi{text-align:center; width:13.73px;}
+#memDiv2, #memDiv3, #memDiv4, #memDiv5, #memDiv6, #memDiv7, .houseChoice, .mateChoice, #hopeChoice{display:none;}
+.half{float:left; width:50%; line-height:47px; margin:40px 0;}
+.half>.checks>.d_title{padding:0 10px;}
+#memDiv3>.title_wrap>.s_title, #memDiv4>.title_wrap>.s_title, #memDiv5>.title_wrap>.s_title
+, #memDiv6>.title_wrap>.s_title, #memDiv7>.title_wrap>.s_title{margin:40px 0;}
+#memDiv3>.form_box.choice li > label, #memDiv5>.form_box.choice li > label
+, #memDiv6>.form_box.choice li > label, #memDiv7>.form_box.choice li > label{width:170px;}
+#proli{height:125px;}
+
+/* memberEdit */
+#userpwdCheck{width:250px;}
+
+/* memberEditForm */
+#editUserid, #editUserpwd, #editUserpwd2, #editUsername{width:338px;}
+#editArea1, #editArea2, #editArea3{width:130px;}
+input[type=text]:readonly {background:#ddd;}
+.editDiv>p{margin:0 0 60px 0; font-size:2rem;}
+
+
+/* memberExit */
+#memberExitForm>input[type=text]{width:250px;}
+.center{text-align:center;}
+.center>button{width:250px;}
+
+/* memberProEdit */
+#proUl{height:50px;}
+#proUl>li{float:right;}
+#proTitle{margin-bottom:60px;}
+#proDiv2, #proDiv3, #proDiv4, #proDiv5{display:none;}
+#Choice>p{display:none;}
+#proDiv1>.form_box.choice li > label, #proDiv3>.form_box.choice li > label, #proDiv5>.form_box.choice li > label{width:170px;}
+#proDiv1>.title_wrap>.s_title, #proDiv2>.title_wrap>.s_title, #proDiv3>.title_wrap>.s_title
+, #proDiv4>.title_wrap>.s_title, #proDiv5>.title_wrap>.s_title{margin:40px 0;}
+
+/* memberManagement */
+#memManage{
+	margin-left:15%;
+	padding:2% 0 0 2%;
+}
+.as_title {
+	display:inline-block;
+	margin: 40px 0;
+	font-size: 1.5rem;
+	z-index: 0;
+	padding: 0 6px;
+	position: relative;
+	font-weight: 600;
+	color: #111215;
+}
+.ad_title{
+	font-size: 1.2rem;
+	color:#181818;
+}

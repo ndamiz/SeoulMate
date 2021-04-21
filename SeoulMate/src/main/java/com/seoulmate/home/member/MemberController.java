@@ -55,7 +55,7 @@ public class MemberController {
 		System.out.println("이메일 아이디 : "+vo.getEmailid());
 		System.out.println("이메일 도메인 : "+vo.getEmaildomain());
 		
-		session.setAttribute("logId", "3536cjw");
+		session.setAttribute("logId", "yunyun");
 		
 		return mav;
 	}
@@ -104,9 +104,18 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/memberProEditForm")
-	public String memberProEditForm() {
+	public ModelAndView memberProEditForm() {
+		ModelAndView mav=new ModelAndView();
 		
-		return "member/memberProEditForm";
+		mav.addObject("no1", "no1");
+		mav.setViewName("member/memberProEditForm");
+		
+		return mav;
+	}
+	
+	@RequestMapping("/proInsertOk")
+	public String proInsertOk() {
+		return "home";
 	}
 	
 	@RequestMapping("/sample")

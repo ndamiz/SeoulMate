@@ -1,106 +1,57 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<style>
-	html>body>.wrap{min-height:550px;}
-	.form_box li{margin:10px 0;}
-	.form_box.choice li > label{width:130px;}
-	span{line-height: 47px;}
-	.multi{text-align:center; width:13.73px;}
-	#memDiv3, #memDiv4, #memDiv5, #memDiv6, #memDiv7, .houseChoice, .mateChoice, #hopeChoice{display:none;}
-	.half{float:left; width:50%; line-height:47px; margin:40px 0;}
-	.half>.checks>.d_title{padding:0 10px;}
-	#memDiv3>.title_wrap>.s_title, #memDiv4>.title_wrap>.s_title, #memDiv5>.title_wrap>.s_title
-	, #memDiv6>.title_wrap>.s_title, #memDiv7>.title_wrap>.s_title{margin:40px 0;}
-	#memDiv3>.form_box.choice li > label, #memDiv5>.form_box.choice li > label
-	, #memDiv6>.form_box.choice li > label, #memDiv7>.form_box.choice li > label{width:170px;}
-</style>
+<link rel="stylesheet" href="/home/css/choi.css"/>
 <script>
 	$(function(){
-		// 2
-		$("#memPrev2").click(function(){
-			$("#memDiv1").css("display","block");
-			$("#memDiv2").css("display", "none");
+		$("a[id=${no1}]").addClass("green");
+		// 1
+		$("#proNext1").click(function(){			
+			$("#proDiv1").css("display","none");
+			$("#proDiv2").css("display","block");
 			goTop();
 		});
-		$("#memNext2").click(function(){
-			$("#memDiv2").css("display","none");
-			$("#memDiv3").css("display","block");
-			$("#housemateChoice").css("display", "block");
+		// 2
+		$("#proPrev2").click(function(){
+			$("#proDiv1").css("display","block");
+			$("#proDiv2").css("display", "none");
+			goTop();
+		});
+		$("#proNext2").click(function(){
+			$("#proDiv2").css("display","none");
+			$("#proDiv3").css("display","block");
 			goTop();
 		});
 		// 3
-		$("#memPrev3").click(function(){
-			$("#memDiv2").css("display","block");
-			$("#memDiv3").css("display", "none");
-			$("#housemateChoice").css("display", "none");
+		$("#proPrev3").click(function(){
+			$("#proDiv2").css("display","block");
+			$("#proDiv3").css("display","none");
 			goTop();
 		});
-		$("#memNext3").click(function(){
-			$("#memDiv3").css("display","none");
-			$("#memDiv4").css("display","block");
+		$("#proNext3").click(function(){
+			$("#proDiv3").css("display","none");
+			$("#proDiv4").css("display","block");
+			$("#mateChoice>p").css("display", "none");
+			$("#Choice>p").css("display", "block");
 			goTop();
 		});
 		// 4
-		$("#memPrev4").click(function(){
-			$("#memDiv3").css("display","block");
-			$("#memDiv4").css("display","none");
+		$("#proPrev4").click(function(){
+			$("#proDiv3").css("display","block");
+			$("#proDiv4").css("display","none");
+			$("#mateChoice>p").css("display", "block");
+			$("#Choice>p").css("display", "none");
 			goTop();
 		});
-		$("#memNext4").click(function(){
-			$("#memDiv4").css("display","none");
-			$("#memDiv5").css("display","block");
+		$("#proNext4").click(function(){
+			$("#proDiv4").css("display","none");
+			$("#proDiv5").css("display","block");
 			goTop();
 		});
 		// 5
-		$("#memPrev5").click(function(){
-			$("#memDiv4").css("display","block");
-			$("#memDiv5").css("display","none");
-			$("#hopeChoice").css("display", "none");
+		$("#proPrev5").click(function(){
+			$("#proDiv4").css("display","block");
+			$("#proDiv5").css("display","none");
 			goTop();
-		});
-		$("#memNext5").click(function(){
-			$("#memDiv5").css("display","none");
-			$("#memDiv6").css("display","block");
-			$("#housemateChoice").css("display", "none");
-			$("#hopeChoice").css("display", "block");
-			goTop();
-		});
-		// 6
-		$("#memPrev6").click(function(){
-			$("#memDiv5").css("display","block");
-			$("#memDiv6").css("display","none");			
-			$("#housemateChoice").css("display", "block");
-			$("#hopeChoice").css("display", "none");
-			goTop();
-		});
-		$("#memNext6").click(function(){
-			$("#memDiv6").css("display","none");
-			$("#memDiv7").css("display","block");
-			$("#housemateChoice").css("display", "none");
-			$("#hopeChoice").css("display", "block");
-			goTop();
-		});
-		// 7
-		$("#memPrev7").click(function(){
-			$("#memDiv6").css("display","block");
-			$("#memDiv7").css("display","none");			
-			$("#housemateChoice").css("display", "none");
-			$("#hopeChoice").css("display", "block");
-			goTop();
-		});
-		// 하우스를 선택했는지 메이트를 선택했는지 구분
-		$(document).ready(function () {
-			$('#memNext2').click(function () {
-				var radioVal = $('input[name="housemate"]:checked').val();
-				
-				if(radioVal=="쉐어하우스"){
-					$(".houseChoice").css("display","block");
-					$(".mateChoice").css("display","none");
-				}else if(radioVal=="하우스메이트"){
-					$(".houseChoice").css("display","none");
-					$(".mateChoice").css("display","block");
-				}
-			});
 		});
 		// 상단으로 스크롤 이동
 		function goTop(){
@@ -110,38 +61,22 @@
 </script>
 <div class="wrap">
 	<div class="member_wrap">
-		<form method="post" id="memId" action="memberOk">
-			<div id="memDiv2">
-				<p class="m_title">가입 유형</p>
-				<p class="d_title">가입하고자 하는 유형을 선택해주세요.</p>
-				<div class="form_box">
-					<div class="half">
-						<div class="checks">
-							<input type="radio" name="housemate" id="housemate1" value="쉐어하우스" checked/>
-							<label for="housemate1">쉐어하우스</label>
-							<p class="d_title">우리집에 입주할 메이트를 찾아요!</p>
-						</div>
-					</div>
-					<div class="half">
-						<div class="checks">
-							<input type="radio" name="housemate" id="housemate2" value="하우스메이트"/>
-							<label for="housemate2">하우스메이트</label>
-							<p class="d_title">쉐어하우스에 입주하고 싶어요!</p>
-						</div>
-					</div>
-					<div class="btn_wrap">
-						<a class="h_btn white" id="memPrev2">이전</a>
-						<a class="h_btn green" id="memNext2">다음</a>
-					</div>
-				</div>
+		<form method="post" id="proId" action="proInsertOk">
+			<p class="m_title" id="proTitle">성향 수정</p>
+			<ul id="proUl">
+				<!-- c:forEach start -->
+				<c:forEach var="i" begin="1" end="4">
+					<li><a id="no${i}" href="#">집 이름 ${i}</a></li>
+				</c:forEach>
+				<!-- c:forEach end -->
+				<li><a href="#">성향 추가(하우스만)</a></li>
+			</ul>
+			<div id="mateChoice">
+				<p class="m_title">원하는 하우스의 성향 등록</p>
+				<p class="d_title">원하는 하우스의 라이프 스타일을 선택해주세요.</p>
 			</div>
-			<div id="housemateChoice">
-				<p class="m_title houseChoice">우리 하우스의 성향 등록</p>
-				<p class="d_title houseChoice">우리 하우스의 라이프 스타일을 선택해주세요.</p>
-				<p class="m_title mateChoice">원하는 하우스의 성향 등록</p>
-				<p class="d_title mateChoice">원하는 하우스의 라이프 스타일을 선택해주세요.</p>
-			</div>
-			<div id="memDiv3">
+			<div id="proDiv1">
+				
 				<div class="title_wrap">
 					<p class="s_title">생활</p>
 				</div>
@@ -192,11 +127,10 @@
 					</li>
 				</ul>
 				<div class="btn_wrap">
-					<a class="h_btn white" id="memPrev3">이전</a>
-					<a class="h_btn green" id="memNext3">다음</a>
+					<a class="q_btn green" id="proNext1">다음</a>
 				</div>
 			</div>
-			<div id="memDiv4">
+			<div id="proDiv2">
 				<div class="title_wrap">
 					<p class="s_title">소통</p>
 				</div>
@@ -243,11 +177,11 @@
 					</li>
 				</ul>
 				<div class="btn_wrap">
-					<a class="h_btn white" id="memPrev4">이전</a>
-					<a class="h_btn green" id="memNext4">다음</a>
+					<a class="h_btn white" id="proPrev2">이전</a>
+					<a class="h_btn green" id="proNext2">다음</a>
 				</div>
 			</div>
-			<div id="memDiv5">
+			<div id="proDiv3">
 				<div class="title_wrap">
 					<p class="s_title">서비스 및 기타</p>
 				</div>
@@ -273,17 +207,15 @@
 					</li>
 				</ul>
 				<div class="btn_wrap">
-					<a class="h_btn white" id="memPrev5">이전</a>
-					<a class="h_btn green" id="memNext5">다음</a>
+					<a class="h_btn white" id="proPrev3">이전</a>
+					<a class="h_btn green" id="proNext3">다음</a>
 				</div>
 			</div>
-			<div id="hopeChoice">
-				<p class="m_title houseChoice">희망 성향 등록</p>
-				<p class="d_title houseChoice">희망하는 하우스메이트의 라이프 스타일을 등록해주세요</p>
-				<p class="m_title mateChoice">나의 성향 등록</p>
-				<p class="d_title mateChoice">나의 라이프 스타일을 선택해주세요.</p>
+			<div id="Choice">
+				<p class="m_title">나의 성향 등록</p>
+				<p class="d_title">나의 라이프 스타일을 선택해주세요.</p>
 			</div>
-			<div id="memDiv6">
+			<div id="proDiv4">
 				<div class="title_wrap">
 					<p class="s_title">생활</p>
 				</div>
@@ -326,11 +258,11 @@
 					</li>
 				</ul>
 				<div class="btn_wrap">
-					<a class="h_btn white" id="memPrev6">이전</a>
-					<a class="h_btn green" id="memNext6">다음</a>
+					<a class="h_btn white" id="proPrev4">이전</a>
+					<a class="h_btn green" id="proNext4">다음</a>
 				</div>
 			</div>
-			<div id="memDiv7">
+			<div id="proDiv5">
 				<div class="title_wrap">
 					<p class="s_title">유형</p>
 				</div>
@@ -373,8 +305,8 @@
 					</li>
 				</ul>
 				<div class="btn_wrap">
-					<a class="h_btn white" id="memPrev7">이전</a>
-					<button class="h_btn green" id="memNext7">다음</button>
+					<a class="h_btn white" id="proPrev5">이전</a>
+					<button class="h_btn green" id="proNext5">추가</button>
 				</div>
 			</div>
 		</form>
