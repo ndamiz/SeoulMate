@@ -2,7 +2,16 @@
    font-family: "BlackHanSans";
    src: url("fonts/BlackHanSans-Regular.ttf") format("truetype");
 }
-/*부트스트랩 container 역할*/
+
+@font-face {
+   font-family: "Gugi";
+   src: url("fonts/Gugi-Regular.ttf") format("truetype");
+}
+
+body{
+   min-width: 800px;
+}
+
 /* 버튼 스타일 제거 */
 table a ,
 .paging a, 
@@ -735,17 +744,17 @@ table td{
  /* popup list */
  
 .list_img{
-   width: 30%;
+   /* width: 30%; */
 }
 
 .list_img img{
-   width: 107px;
-   height: 107px;
-   border-radius: 60px;
+   /* width: 107px; */
+   /* height: 107px; */
+   /* border-radius: 60px; */
 }
 
 .list_title{
-   width: 70%;
+   line-height: 50px;
 }
 
 .list_title .s_title{
@@ -819,40 +828,349 @@ footer .foot_btns{
 
 
 .main_wrap {
-   width:100%; 
-   height:100%; 
+   width:100%;
+   /* height:100%; */
    min-height:750px;
-   padding:4rem;
+   /* padding:4rem 0; */
    margin : 0 auto;
 } 
 
-.main_wrap .content::before{
-   content:"";
-   display: block;
-   background: url(../img/main/ico_search_white.png);
+
+.main_wrap div.content{
+   height: 100vh;
+}
+
+.main_wrap .content{
+   position: relative;
+   margin: 0 auto;
+}
+
+.main_wrap .content .main_title{
+      position: absolute;
+      top: 25%;
+      font-family: Gugi;
+      line-height: 50px;
+      /* padding-top: 19%; */
+      font-size: 3rem;
+      color:#000;
+      vertical-align: middle;
+}
+
+.main_wrap div.content::before{
+    content: "";
+    display: block;
+    position: absolute;
+    top: 14%;
+    right: 0;
+    width: 60%;
+    height: 63%;
+    background: url(../img/main/bg_main.png) no-repeat;
+    z-index: -111;
+    background-size: contain;
+    background-position: right;
+}
+
+.main_wrap .main_search_form{
+   /* margin-top: 4rem; */
+   position: absolute;
+   top: 43%;
+}
+
+.main_wrap .main_search_form button{
+   width: 50px;
+   height: 50px;
+   box-shadow: 3px 2px 6px 1px #13a89e85;
 }
 
 .main_wrap .main_search_form button::before{
    content:"";
    display: block;
-   width: 32px;
-   height: 32px;
-   background: url(../img/main/ico_search_white.png);
+   margin-left: -2px;
+   width: 25px;
+   height: 25px;
+   background: url(../img/main/ico_search_white.png) no-repeat;
+   background-size: cover;
+}
+
+.main_wrap .main_search_form .checks{
+   height: 50px;
+}
+
+.main_wrap .main_search_form .checks label{
+   height: 50px;
+   line-height: 50px;
+   margin-left: 0;
+   margin-right: 10px;
+}
+
+
+.main_wrap .main_search_form .checks input[type="radio"] + label:before{
+   top:15px;
+}
+
+.main_wrap .main_search_form .checks input[type="radio"]:checked + label:after{
+   top:20px;
+}
+
+.main_wrap .main_search_form .search_text{
+   border-radius: 10px;
+   width: 400px;
+   margin: 5px 5px 5px 0;
+}
+
+.main_wrap .main_search_form .search_box{
+   display: flex;
+}
+
+.recommend_list .list_head{
+   padding: 40px 0;
+}
+
+.recommend_list .list_head::after {
+   content: "";
+   display: block;
+   clear: both;
+}
+.recommend_list .list_head .m_title{
+   float: left;
+   margin: 0;
+}
+
+.recommend_list .list_head a{
+   float: right;
+   line-height: 40px;
+   color: #13a89e;
+   position: relative;
+   padding-right: 19px;
+}
+
+.recommend_list .list_head a:before{
+   content:"";
+   display: block;
+   position: absolute;
+   width: 10px;
+   height: 17px;
+   top: 12px;
+   right: 0;
+   background: url(../img/main/ico_right.png) no-repeat;
+   background-size: cover;
+}
+
+.recommend_list a,
+.recommend_list button{
+   box-shadow: none;
+   border:none;
+   border-radius:inherit;
+   margin: 0;
+   padding: 0;
+   line-height: inherit;
+   height: inherit;
+}
+
+.recommend_list img{
+   width: 100%;
+   height: 100%;
+   border-radius: 30px;
+}
+
+.recommend_list .list_content {
+   display: flex;
+   flex-flow: wrap;
+}
+
+.recommend_list .list_content > li{
+   width: 30%;
+   margin-right: 5%;
+   margin-bottom:5%;
+   /* min-width: 700px; */
+}
+
+.recommend_list .list_content > li:nth-child(3n){
+   margin-right: 0;
+}
+
+.recommend_list .btn_star{
+   width: 40px;
+   height: 40px;
+   top: 25px;
+   right: 25px;
+   background: url(../img/comm/ico_star.png) no-repeat 0 0;
+   transition: .2s;
+}
+
+.recommend_list .btn_star:hover,
+.recommend_list .btn_star.on{
+   background-position: 0 -42px;
+}
+
+
+.recommend_list .list_img{
+   position: relative;
+}
+
+.recommend_list .list_img a{
+   width: 100%;
+}
+
+.recommend_list .list_img p,
+.recommend_list .list_img button{
+   position: absolute;
+}
+
+.recommend_list .list_img p{
+   width: 32%;
+   height: 32%;
+   min-width: 80px;
+   min-height: 80px;
+   top: 25px;
+   left: 25px;
+   padding: 6% 0 0 4%;
+   border-radius: 20px;
+   background-color: #13a89ec2;
+   color: #fff;
+   font-size: 2.8rem;
+   font-weight: 600;
+}
+
+.recommend_list .list_img p span{
+   display: block;
+   line-height:20px;
+   font-size: 1.3rem;
+}
+
+.recommend_list .list_img p b{
+   font-size: 1.9rem;
+}
+
+.recommend_list .list_title::after{
+   content: "";
+   display: block;
+   clear: both;
+}
+
+.recommend_list .list_title .address{
+   float: left;
+   width: 68%;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   overflow-wrap: normal;
+   overflow: hidden;
+}
+
+.recommend_list .list_title .pay{
+   float: right;
+}
+
+.recommend_list .list_icon{
+   display: flex;
+}
+
+.recommend_list .list_icon li{
+   width: 30%;
+   height: 50px;
+   position:relative;
+   border-radius: 40px;
+   margin-right: 5%;
+}
+
+.recommend_list .list_icon li:first-child{
+   background-color: #f0edf8;
+}
+.recommend_list .list_icon li:nth-child(2){
+   background-color: #e8f2fb;
+}
+.recommend_list .list_icon li:last-child{
+   margin-right: 0;
+   background-color: #ffe5e1;
+}
+
+.recommend_list .list_icon li::before {
+   content: "";
+   display: block;
+   width: 40px;
+   height: 40px;
+   position:absolute;
+   top: 6px;
+   left: 10px;
+   background: url(../img/comm/ico_room.png) no-repeat 0px 0px;
+   background-size: cover;
+}
+
+.recommend_list .list_icon li:nth-child(2)::before {
+   background-position: 0 -40px;
+}
+
+.recommend_list .list_icon li:last-child::before {
+   background-position: 0 -81px;
+}
+
+
+.recommend_list .list_icon li p{
+   width: 40px;
+   height: 40px;
+   position:absolute;
+   top:5px;
+   right:9px;
+   line-height: 40px;
+   border-radius: 20px;
+   background-color: #eee;
+   text-align: center;
+}
+.recommend_list .list_icon li:first-child p{
+   background-color: #e9e5f6;
+   color:#4f399d;
+}
+.recommend_list .list_icon li:nth-child(2) p{
+   background-color: #d8ecfe;
+   color: #355c79;
+}
+.recommend_list .list_icon li:last-child p{
+   background-color: #ffd7d1;
+   color: #d05567;
+}
+
+.recommend_list.mate_list .list_icon li p {
+   padding: 0px 14px;
+   width: auto;
+}
+
+.recommend_list.mate_list .list_icon li::before {
+   left: 6px;
+   top: 4px;
+   background: url(../img/comm/ico_mate.png) no-repeat 0px 0px;
+}
+.recommend_list.mate_list .list_icon li:nth-child(2)::before { 
+   background-position: 0 -40px;
+}
+.recommend_list.mate_list .list_icon li:nth-child(3)::before { 
+   background-position: 0 -81px;
+}
+
+.recommend_list.mate_list .mate_id{
+   float: left;
+}
+
+.recommend_list.mate_list .address{
+   float: inherit;
 }
 
 
 
+/* main map */
 
 
 
+.main_wrap .map_content{
+   margin-bottom: 100px;
+}
 
-
-
-
-
-
-
-
+.main_wrap .map_content .list_head{
+   padding: 40px 0;
+}
+.map_content .main_map{
+   width: 100%;
+   height: 400px;
+}
 
 
 
