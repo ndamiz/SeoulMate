@@ -68,7 +68,7 @@
 			<ul id="proUl">
 				<!-- c:forEach start -->
 				<c:forEach var="i" begin="1" end="4">
-					<li><a href="#">집 이름 ${i}</a></li>
+					<li><a href="memberProEditForm">집 이름 ${i}</a></li>
 				</c:forEach>
 				<!-- c:forEach end -->
 				<li><a class="green" href="#">성향 추가(하우스만)</a></li>

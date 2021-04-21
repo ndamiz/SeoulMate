@@ -49,17 +49,4 @@ input[type=text]:readonly {background:#ddd;}
 	margin-left:15%;
 	padding:2% 0 0 2%;
 }
-.as_title {
-	display:inline-block;
-	margin: 40px 0;
-	font-size: 1.5rem;
-	z-index: 0;
-	padding: 0 6px;
-	position: relative;
-	font-weight: 600;
-	color: #111215;
-}
-.ad_title{
-	font-size: 1.2rem;
-	color:#181818;
-}
+ul, li{margin:0; padding:0; list-style-type:none !important;}
