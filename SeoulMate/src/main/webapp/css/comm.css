@@ -2,6 +2,182 @@
    font-family: "BlackHanSans";
    src: url("fonts/BlackHanSans-Regular.ttf") format("truetype");
 }
+/*부트스트랩 container 역할*/
+/* 버튼 스타일 제거 */
+table a ,
+.paging a, 
+.pup_wrap a,
+header a,
+header button,
+nav a,
+footer a{
+	box-shadow: none;
+	border:none;
+	border-radius:inherit;
+	margin: 0;
+	padding: 0;
+	line-height: inherit;
+	height: inherit;
+}
+
+/* header style */
+
+.header_wrap:hover .nav_wrap{
+	top:0;
+}
+
+.header_wrap{
+	width: 100%;
+	height: 90px;
+	background-color: #fff;
+	z-index: 1;
+}
+
+header .logo{
+	height: 50px;
+	float: left;
+}
+header .logo a{
+	width: 200px;
+	height: 50px;
+	background: url(../img/comm/서울메이트_logo.png) no-repeat;
+	background-size: 80%;
+	margin-top: 5px;
+}
+
+header{
+	width: 100%;
+	background-color: #fff;
+	z-index: 2;
+	position: relative;
+	border-bottom: 1px solid #eee;
+}
+
+.header_wrap header > div{
+	overflow: hidden;
+	width: 80%;
+	min-width: 950px;
+	margin: 0 auto;
+	padding: 20px 0;
+	z-index: 1;
+}
+
+.header_wrap .main_menu{
+	display: flex;
+	width: 75%;
+	float: right;
+}
+
+.header_wrap .main_menu li{
+	width: 25%;
+	height: 50px;
+	line-height: 50px;
+}
+
+.header_wrap .main_menu li:last-child{
+	text-align: center; 
+}
+
+.header_wrap .main_menu li:last-child:hover .menu_item::before{
+	content: none;
+}
+
+.header_wrap .main_menu li .menu_item{
+	display:inline-block;
+	position:relative;
+	line-height: 50px;
+	z-index: 1;
+	font-size: 1.1rem;
+	position: relative;
+	font-weight: 600;
+	color: #111215;
+	overflow: hidden;
+}
+
+.header_wrap .main_menu li .menu_item::before{
+	content: "";
+	display: block;
+	position: absolute;
+	bottom: 10px;
+	z-index: -2;
+	left: -150px;
+	width: 100%;
+	height: 9px;
+	background-color: #ffeb3f;
+	transition:.4s;
+}
+
+
+.header_wrap .main_menu li .menu_item.on::before{
+	left: 0;
+}
+
+.header_wrap .main_menu li:hover .menu_item::before{
+	left: 0;
+}
+
+.header_wrap .menu_btn{
+	margin-top: 10px;
+	width: 30px;
+	height: 30px;
+	background: url(../img/comm/fi-rr-menu-burger.svg) no-repeat;
+}
+
+
+/* header submenu */
+
+.header_wrap .nav_wrap{
+	width: 100%;
+	/* min-width: 1045px; */
+	box-shadow: 0px 8px 10px 0px rgb(0 0 0 / 10%);
+	position: relative;
+	top: -290px;
+	color: #6f7578;
+	font-size:1rem;
+	background-color: #fff;
+	z-index: 1;
+	transition:.3s;
+}
+
+.header_wrap nav{
+	width: 80%;
+	min-width: 950px;
+	margin: 0 auto;
+}
+
+.header_wrap nav ul{
+	display: flex;
+	width: 75%;
+	float: right;
+}
+
+.header_wrap nav ul li{
+	width: 25%;
+}
+
+.header_wrap nav{padding: 1rem 0;overflow: hidden;}
+
+.header_wrap .nav_bg{
+	width: 190px;
+	height: 189px;
+	background: url(../img/comm/nav_bg.png) no-repeat;
+	background-size: cover;
+	position: absolute;
+}
+
+.header_wrap nav ul li a{
+	display: block;
+	font-size: .9rem;
+	word-break: keep-all;
+	line-height: 30px;
+	transition:.3s;
+}
+
+.header_wrap nav ul li a:hover{
+	color: #13a89e;
+}
+
+/* comm style */
 
 @font-face {
    font-family: "Gugi";
@@ -883,6 +1059,7 @@ footer .foot_btns{
 }
 
 .main_wrap .main_search_form button::before{
+<<<<<<< HEAD
    content:"";
    display: block;
    margin-left: -2px;
@@ -1179,3 +1356,11 @@ footer .foot_btns{
 
 
 
+=======
+	content:"";
+	display: block;
+	width: 32px;
+	height: 32px;
+	background: url(../img/main/ico_search_white.png);
+}
+>>>>>>> refs/remotes/origin/yeonju
