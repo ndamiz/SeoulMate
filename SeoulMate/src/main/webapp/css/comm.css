@@ -2,7 +2,7 @@
 	font-family: "BlackHanSans";
 	src: url("fonts/BlackHanSans-Regular.ttf") format("truetype");
 }
-
+/*부트스트랩 container 역할*/
 /* 버튼 스타일 제거 */
 table a ,
 .paging a, 

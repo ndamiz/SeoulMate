@@ -14,7 +14,7 @@ public class AdminController {
 	
 	@RequestMapping(value="/admin/memberManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView memberManagement() {
-		ModelAndView mav=new ModelAndView();
+		ModelAndView mav = new ModelAndView();
 		
 		mav.setViewName("admin/memberManagement");
 		return mav;
@@ -23,7 +23,6 @@ public class AdminController {
 	@RequestMapping(value="/admin/houseManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView houseManagement() {
 		ModelAndView mav = new ModelAndView();
-		
 		
 		mav.setViewName("admin/houseManagement");
 		return mav;
@@ -53,3 +52,4 @@ public class AdminController {
 		return mav;
 	}
 }
+
