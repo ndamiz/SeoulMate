@@ -1,8 +1,16 @@
 @font-face {
-	font-family: "BlackHanSans";
-	src: url("fonts/BlackHanSans-Regular.ttf") format("truetype");
+   font-family: "BlackHanSans";
+   src: url("fonts/BlackHanSans-Regular.ttf") format("truetype");
 }
-/*부트스트랩 container 역할*/
+
+@font-face {
+   font-family: "Gugi";
+   src: url("fonts/Gugi-Regular.ttf") format("truetype");
+}
+
+body{
+   min-width: 800px;
+}
 /* 버튼 스타일 제거 */
 table a ,
 .paging a, 
@@ -11,13 +19,13 @@ header a,
 header button,
 nav a,
 footer a{
-	box-shadow: none;
-	border:none;
-	border-radius:inherit;
-	margin: 0;
-	padding: 0;
-	line-height: inherit;
-	height: inherit;
+   box-shadow: none;
+   border:none;
+   border-radius:inherit;
+   margin: 0;
+   padding: 0;
+   line-height: inherit;
+   height: inherit;
 }
 
 /* header style */
