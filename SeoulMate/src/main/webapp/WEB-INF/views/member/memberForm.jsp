@@ -311,6 +311,14 @@
 						</div>
 					</li>
 					<li><label>&nbsp;희망 지역(최대 3곳)</label>
+						<select id="select1" onchange="itemChange()">
+							<option>키보드</option>
+							<option>마우스</option>
+							<option></option>
+						</select>
+						<select id="select2">
+						</select>
+
 						<input type="text" name="area1" id="area1" placeholder=""/>
 						<input type="text" name="area2" id="area2" placeholder=""/>
 						<input type="text" name="area3" id="area3" placeholder=""/>
