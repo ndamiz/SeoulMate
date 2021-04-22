@@ -43,13 +43,13 @@
             <div class="nav_bg"></div>
             <ul class="sub_menu">
                <li>
-                  <a href="">프리미엄 안내</a>
+                  <a href="premiumInfo">프리미엄 안내</a>
                   <a href="">프리미엄 결제</a>
                </li>
                <li></li>
                <li></li>
                <li>
-                  <a href="">자유게시판</a>
+                  <a href="communityList">자유게시판</a>
                   <a href="">우리집 자랑</a>
                   <a href="">중고장터</a>
                   <a href="">쉐어 TIP</a>
