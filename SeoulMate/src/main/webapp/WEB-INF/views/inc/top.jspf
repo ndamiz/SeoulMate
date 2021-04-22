@@ -11,6 +11,7 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script type="text/javascript" src="<%=request.getContextPath()%>/js/script.js"></script>
       <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6bad1d8e9a1449ac5fb2b238e99a32ed&libraries=clusterer"></script>
+      <link rel="stylesheet" href="<%=request.getContextPath()%>/css/hyun.css">
       <script type="text/javascript"> 
          $(function() {
             var i;
