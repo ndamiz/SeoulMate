@@ -1,5 +1,58 @@
 @charset "UTF-8";
-
+@font-face {
+	font-family: "NotoSans";
+	src: url("fonts/NotoSansCJKkr-Regular.otf") format("opentype");
+}
+@font-face {
+	font-family: "BlackHanSans";
+	src: url("fonts/BlackHanSans-Regular.ttf") format("truetype");
+}
+/* font */
+body, html {font-family:'NotoSans' !important; font-size:100%; }
+body {font-family:'NotoSans' !important; color:#181818; /* line-height:20px; */ letter-spacing:-1px;}
+button,a {font-family:'NotoSans' !important;  letter-spacing:0; cursor:pointer; border:none; border-radius:10px;line-height: 40px; height: 40px; font-size: 1rem; padding:0 15px;}
+* html input {margin:-1px 0; font-family:'NotoSans' !important;}
+textarea {
+	font-size:1rem;
+	border:1px solid #d5d5d5; 
+	padding:8px;
+	font-family:'NotoSans' !important;
+	border-radius:3px;
+	resize:none;
+	overflow:auto;
+	box-sizing:border-box;
+	-webkit-appearance: none;
+	-webkit-border-radius: 0;
+} 
+input[type="date"] {
+	padding:0 .8rem; 
+	height:3em; 
+	/* width:100%; */
+	border:1px solid #eee;
+	border-radius:3px;
+	font-size:1rem;
+	font-family:'NotoSans' !important;
+	box-sizing:border-box;
+	outline-style:none; 
+	-webkit-appearance:none;
+}
+select {
+	padding: 0 2rem 0 .8rem;
+	height:3em;
+	/* width:100%; */
+	border:1px solid #eee;
+	border-radius:3px;
+	font-size:1rem;
+	font-family:'NotoSans' !important;
+	box-sizing:border-box;
+	outline-style:none;
+	color:#181818;
+	background: url(../img/comm/arr_select.gif) no-repeat right;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+/* font end*/
 .m_title {
     font-family: BlackHanSans;
     position: relative;
@@ -124,11 +177,12 @@ section{ margin-left:15% ; width: 85%; float: left; }
 /* Management */
 .managementTitle{width: 95%; margin: 40px auto 10px auto;}
 .managementSearchForm { width: 95%; margin: 40px auto 10px auto; overflow: hidden;}
-.managementSpan{width: 100px; display:inline-block; text-align: right;font-weight: bold; font-size:1.1em; margin-right: 15px;}
+.managementSpan{width: 120px; display:inline-block; text-align: right;font-weight: bold; font-size:1.1em; margin-right: 15px;}
 .managementSpan2{width: 50px; display:inline-block; font-weight: bold; font-size:1.1em;}
-.managementRadio{ width: 570px; float: right; }
-.managementPaging li>a, .managementPaging li>a:focus {background: #13a89e; border-color: #fff; color:#fff;}
-.managementPaging li>a:hover{background: #fff; border-color: #13a89e; color:#13a89e;}
+.managementRadio{ width: 600px; float: right; }
+.managementPaging li>a, .managementPaging li>a:focus {background: #13a89e; border-color: #fff; color:#fff; border-radius: 10%;}
+.managementPaging li>a:hover, .managementPaging:checked{background: #fff; border-color: #13a89e; color:#13a89e;}
+
 .managementList{width: 95%; margin: 10px auto;}
 
 .managementSearch {width: 380px; float: left; overflow: auto; margin-top: 20px; }
@@ -147,7 +201,7 @@ section{ margin-left:15% ; width: 85%; float: left; }
 #salesmanagementTable tbody>tr:last-of-type>td {background-color: #F1F1F1; color:#13a89e; font-weight: bold;}
 #salesManagementDiv {width: 95%; overflow: auto; margin: 0px auto;}
 #salesManagementDiv>div{width: 480px; float: left; }
-#salesManagementDiv>div:last-of-type{width: 160px; float: right; height: auto; margin-top: 20px;}
+#salesManagementDiv>div:last-of-type{width: 180px; float: right; height: auto; margin-top: 20px;}
 
 #graphBtn {width: 38px; height: 38px; float:right; margin: 0 5px;}
 #excelBtn {float: right; margin: 0 5px;}
