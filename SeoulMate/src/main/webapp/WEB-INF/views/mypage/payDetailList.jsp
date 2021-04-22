@@ -3,7 +3,15 @@
 <div class="wrap">
 	<div class="content">
 		<p class="m_title">결제 내역 확인</p>
-		<input type="month" />
+		<form>
+			<select id="payYearSelect">
+				<option selected>전체목록</option>
+				<option>2021년</option>
+				<option>2020년</option>
+				<option>2019년</option>
+				<option>2018년</option>
+			</select>
+		</form>
 		<table class="tb" id="payDetailTable">
 			<caption>결제내역</caption>
 			<colgroup>

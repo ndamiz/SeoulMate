@@ -16,7 +16,7 @@ public class MypageController {
 	public ModelAndView likeMarkerList() {
 		ModelAndView mav = new ModelAndView();
 		
-		
+		mav.setViewName("mypage/likeMarkerList");
 		return mav;
 	}
 	//마이페이지 결제내역
