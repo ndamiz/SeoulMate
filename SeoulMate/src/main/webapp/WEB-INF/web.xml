@@ -53,27 +53,18 @@
 	<jsp-config>
 		<jsp-property-group>
 			<url-pattern>/WEB-INF/views/home.jsp</url-pattern>
-			<include-prelude>/WEB-INF/views/inc/top.jspf</include-prelude> 
-			<include-coda>/WEB-INF/views/inc/footer.jspf</include-coda>
-		</jsp-property-group>
-		<jsp-property-group>
+			<url-pattern>/WEB-INF/views/sample.jsp</url-pattern>
 			<url-pattern>/WEB-INF/views/member/*</url-pattern>
-			<include-prelude>/WEB-INF/views/inc/top.jspf</include-prelude> 
-			<include-coda>/WEB-INF/views/inc/footer.jspf</include-coda>
-		</jsp-property-group>
-		<jsp-property-group>
 			<url-pattern>/WEB-INF/views/board/*</url-pattern>
-			<include-prelude>/WEB-INF/views/inc/top.jspf</include-prelude> 
-			<include-coda>/WEB-INF/views/inc/footer.jspf</include-coda>
-		</jsp-property-group>
-		<jsp-property-group>
 			<url-pattern>/WEB-INF/views/premium/*</url-pattern>
+			<url-pattern>/WEB-INF/views/house/*</url-pattern>
+			<url-pattern>/WEB-INF/views/faq/*</url-pattern>
 			<include-prelude>/WEB-INF/views/inc/top.jspf</include-prelude> 
 			<include-coda>/WEB-INF/views/inc/footer.jspf</include-coda>
 		</jsp-property-group>
 		<jsp-property-group>
 			<url-pattern>/WEB-INF/views/admin/*</url-pattern>
-			<include-prelude>/WEB-INF/views/inc/admin_top.jspf</include-prelude> 
+			<include-prelude>/WEB-INF/views/inc/admin_top.jspf</include-prelude>
 		</jsp-property-group>
 	</jsp-config>
 	<!-- end 인클루드 -->
