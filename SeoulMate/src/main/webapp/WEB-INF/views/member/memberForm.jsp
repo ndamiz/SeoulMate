@@ -269,7 +269,7 @@
 		var target = document.getElementById("dong");
 		if(e.value=="강남구") var d = gangnam;
 		else if(e.value=="강동구") var d = gangdong;
-		else if(e.value == "강서구") var d = gangseo;
+		else if(e.value=="강서구") var d = gangseo;
  
 		target.options.length = 0;
  

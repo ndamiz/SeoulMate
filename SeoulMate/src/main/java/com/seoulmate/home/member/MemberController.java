@@ -136,6 +136,11 @@ public class MemberController {
 		return "home";
 	}
 	
+	@RequestMapping("/memberFind")
+	public String memberFind() {
+		return "member/memberFind";
+	}
+	
 	@RequestMapping("/sample")
 	public String sample() {
 		return "member/sample";
