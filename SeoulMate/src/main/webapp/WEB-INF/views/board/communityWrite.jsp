@@ -3,13 +3,16 @@
 <!-- include libraries(jQuery, bootstrap) -->
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/yun.css">
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/reset.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/comm.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/yun.css">
 
 <div class="wrap">
 	<div class="content">
 		<p class="m_title">글 작성</p>
+		<br>
 		<form id="frm" method="post" action="/home/communityWriteOk">
 			<ul>
 				<li id="comWriteLi">
@@ -24,11 +27,13 @@
 				<li id="comWriteBtn"><button class="green" id="communityWrite">글쓰기</button></li>
 			</ul>
 			<br>
-			<textarea id="summernote"></textarea>
+			<textarea id="summernote" name="content"></textarea>
 		</form>
 		<script>
 	  	  $(function(){
-	  		 $("#summernote").summernote(); 
+	  		 $("#summernote").summernote({
+	  			 height : 500
+	  		 }); 
 	  	  });
 	  	  
 	  	  $("#write").click(function(){

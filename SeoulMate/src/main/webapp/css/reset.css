@@ -24,7 +24,7 @@ button img {display:none;}
 table {border-collapse:collapse; border-spacing:0; width:100%; empty-cells:show;}
 caption {position:absolute; top:0; left:0; visibility:hidden; overflow:hidden; font-size:0; line-height:0;}
 legend {position:absolute; top:0; left:0; width:0; height:0; overflow:hidden; visibility:hidden; font-size:0; line-height:0;}
-button,a {font-family:'NotoSans'; letter-spacing:0; cursor:pointer; border:none; border-radius:10px;line-height: 40px; height: 40px; font-size: 1rem; padding:0 15px;}
+button,a {font-family:'NotoSans' !important; letter-spacing:0; cursor:pointer; border:none; border-radius:10px;line-height: 40px; height: 40px; font-size: 1rem; padding:0 15px;}
 
 /* cross */
 * html input {margin:-1px 0; font-family:'NotoSans';} 
