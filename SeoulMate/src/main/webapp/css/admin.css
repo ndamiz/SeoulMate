@@ -177,12 +177,12 @@ section{ margin-left:15% ; width: 85%; float: left; }
 /* Management */
 .managementTitle{width: 95%; margin: 40px auto 10px auto;}
 .managementSearchForm { width: 95%; margin: 40px auto 10px auto; overflow: hidden;}
-.managementSpan{width: 100px; display:inline-block; text-align: right;font-weight: bold; font-size:1.1em; margin-right: 15px;}
+.managementSpan{width: 120px; display:inline-block; text-align: right;font-weight: bold; font-size:1.1em; margin-right: 15px;}
 .managementSpan2{width: 50px; display:inline-block; font-weight: bold; font-size:1.1em;}
-.managementRadio{ width: 570px; float: right; }
+.managementRadio{ width: 600px; float: right; }
 .managementPaging li>a, .managementPaging li>a:focus {background: #13a89e; border-color: #fff; color:#fff; border-radius: 10%;}
-.managementPaging .page-item.active .page-link{background-color: #bce8e5 !important; border:color: #fff; font-weight: bold;}
-.managementPaging li>a:hover{background: #fff; border-color: #13a89e; color:#13a89e;}
+.managementPaging li>a:hover, .managementPaging:checked{background: #fff; border-color: #13a89e; color:#13a89e;}
+
 .managementList{width: 95%; margin: 10px auto;}
 
 /* paging style */

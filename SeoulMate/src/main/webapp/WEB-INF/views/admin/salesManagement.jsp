@@ -60,7 +60,7 @@ $(function(){
 					</tbody>
 				</table>
 				<ul class="pagination justify-content-center managementPaging">
-					<li class="page-item"><a href="" class="page-link">Prev</a></li>
+					<li class="page-item"><a href="" class="page-link" >Prev</a></li>
 					<li class="page-item"><a href="" class="page-link">1</a></li>
 					<li class="page-item"><a href="" class="page-link">2</a></li>
 					<li class="page-item"><a href="" class="page-link">3</a></li>

@@ -15,7 +15,10 @@ body{
 
 /* 버튼 스타일 제거 */
 table a ,
+<<<<<<< HEAD
 .paging a,
+=======
+>>>>>>> refs/remotes/origin/hyun
 .pup_wrap a,
 header a,
 header button,
