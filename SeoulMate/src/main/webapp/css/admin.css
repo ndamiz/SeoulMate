@@ -206,8 +206,8 @@ section{ margin-left:15% ; width: 85%; float: left; }
 /* datePicker */
 .managementDatePicker{width: 480px; overflow: auto; }
 .datePicker1, .datePicker2{width: 120px;}
-
-
+.ui-datepicker select.ui-datepicker-year, .ui-datepicker select.ui-datepicker-month{height:10%;}
+.ui-datepicker td a{border-radius: 0; line-height: 30px; height: 30px;font-size: 1em;}
 /* payManagement*/
 #payManagementSearch{margin-top: 5px;}
 
@@ -215,7 +215,7 @@ section{ margin-left:15% ; width: 85%; float: left; }
 #salesmanagementTable tbody>tr:last-of-type>td {background-color: #F1F1F1; color:#13a89e; font-weight: bold;}
 #salesManagementDiv {width: 95%; overflow: auto; margin: 0px auto;}
 #salesManagementDiv>div{width: 480px; float: left; }
-#salesManagementDiv>div:last-of-type{width: 160px; float: right; height: auto; margin-top: 20px;}
+#salesManagementDiv>div:last-of-type{width: 180px; float: right; height: auto; margin-top: 20px;}
 
 #graphBtn {width: 38px; height: 38px; float:right; margin: 0 5px;}
 #excelBtn {float: right; margin: 0 5px;}
