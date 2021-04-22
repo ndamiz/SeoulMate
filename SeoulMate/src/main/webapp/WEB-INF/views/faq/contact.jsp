@@ -25,7 +25,7 @@
 			</select>
 			<br>
 			<br>
-			<textarea rows="5" placeholder="문의내용을 입력하세요."></textarea>
+			<textarea rows="5" placeholder="문의내용을 입력하세요." id="contact"></textarea>
 			<br>
 			<br>
 			<button class="q_btn green">문의 보내기</button>

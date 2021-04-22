@@ -104,7 +104,23 @@
 	width: 100%;
 }
 #contactForm select, #contactForm textarea::placeholder{
-	color: red; /* select랑 textarea 글자색 뭐로??*/
+	color: #bababa; /* select랑 textarea 글자색 뭐로??*/
+}
+#contact::placeholder{
+	font-size: 1rem;
+	color: #bababa;
+}
+#contact{
+	font-size:1rem;
+	border:1px solid #d5d5d5; 
+	padding:8px;
+	font-family:'NotoSans';
+	border-radius:3px;
+	resize:none;
+	overflow:auto;
+	box-sizing:border-box;
+	-webkit-appearance: none;
+	-webkit-border-radius: 0;
 }
 /*////////////////////////////////////////////  관리자 대시보드 스타일 ///////////*/
 .dashMainDiv{ /* 화면 왼쪽 메뉴때문에 왼쪽 마진 15% */
