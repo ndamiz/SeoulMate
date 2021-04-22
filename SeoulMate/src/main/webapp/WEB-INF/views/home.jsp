@@ -214,7 +214,7 @@
 	        clusterer.addMarkers(markers);
 	    });  --%>
 	</script>
-	
+		
 	<div class="chat_wrap">
 		<div class="chat_window">
 			<div class="chat_head">

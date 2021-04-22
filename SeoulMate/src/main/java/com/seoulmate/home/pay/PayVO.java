@@ -1,6 +1,6 @@
 package com.seoulmate.home.pay;
 
-public class PremiumVO {
+public class PayVO {
 	private int no;				//paysq
 	private String userid;		
 	private String username;
