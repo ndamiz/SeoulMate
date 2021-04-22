@@ -22,7 +22,7 @@ public class MemberVO {
 	
 	private int gender;
 	
-	private String area;
+	private String area="";
 	private String aList[];
 	private String area1;
 	private String area2;

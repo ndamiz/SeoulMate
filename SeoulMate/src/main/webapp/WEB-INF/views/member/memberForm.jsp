@@ -33,6 +33,10 @@
 		});
 		// 1
 		$("#memNext1").click(function(){
+			// 희망 지역1
+			var area1=$("#gu1").val();
+			area1+=" "+$("#dong").val();
+			document.getElementById("area1").value=area1;
 			// 유효성 검사
 			if($("#userid").val()==""){
 				alert("아이디를 입력하세요");
@@ -252,11 +256,31 @@
 				reader.onload = function (e) {
 					$('#profileImg').attr('src', e.target.result);
 				}
-
 				reader.readAsDataURL(input.files[0]);
 			}
 		}
+		
 	});
+	// 희망 지역 1
+	function areaChange(e) {
+		var gangnam = ["개포동","논현동","대치동","도곡동","삼성동","세곡동","수서동","신사동","압구정동","역삼동","일원동","청담동"];
+		var gangdong = ["강일동","고덕동","길동","둔촌동","명일동","상일동","성내동","암사동","천호동"];
+		var gangseo = ["미아동","번동","삼각산동","삼양동","송중동","송천동","수유동","우이동","인수동"];
+		var target = document.getElementById("dong");
+		if(e.value=="강남구") var d = gangnam;
+		else if(e.value=="강동구") var d = gangdong;
+		else if(e.value == "강서구") var d = gangseo;
+ 
+		target.options.length = 0;
+ 
+		for (x in d) {
+			var opt = document.createElement("option");
+			opt.value = d[x];
+			opt.innerHTML = d[x];
+			target.appendChild(opt);
+		}
+	}
+	
 </script>
 <div class="wrap">
 	<div class="member_wrap">
@@ -310,19 +334,21 @@
 							<input type="file" accept="image/*" id="inProfile" />
 						</div>
 					</li>
-					<li><label>&nbsp;희망 지역(최대 3곳)</label>
-						<select id="select1" onchange="itemChange()">
-							<option>키보드</option>
-							<option>마우스</option>
-							<option></option>
+					<li><label>&nbsp;희망 지역1</label>
+						<select id="gu1" onchange="areaChange(this)">
+							<option>구를 선택해주세요</option>
+							<option value="강남구">강남구</option>
+							<option value="강동구">강동구</option>
+							<option value="강서구">강서구</option>
 						</select>
-						<select id="select2">
+ 
+						<select id="dong">
+							<option>동을 선택해주세요</option>
 						</select>
 
 						<input type="text" name="area1" id="area1" placeholder=""/>
-						<input type="text" name="area2" id="area2" placeholder=""/>
-						<input type="text" name="area3" id="area3" placeholder=""/>
 					</li>
+					
 					<li><label><span class="red_txt">*</span>이메일</label>
 						<input type="text" name="emailid" id="emailid" value="0905cjw" placeholder="이메일"/><span>@</span> 
 						<select name="emaildomain" id="emaildomain">
