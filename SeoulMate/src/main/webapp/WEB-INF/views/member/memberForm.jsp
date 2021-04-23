@@ -35,7 +35,12 @@
 		$("#memNext1").click(function(){
 			// 희망 지역1
 			var area1=$("#gu1").val();
-			area1+=" "+$("#dong").val();
+			// alert(area1);
+			if(area1=="구를 선택해주세요"){
+				area1="";
+			}else{
+				area1+=" "+$("#dong").val();
+			}
 			document.getElementById("area1").value=area1;
 			// 유효성 검사
 			if($("#userid").val()==""){
@@ -259,7 +264,6 @@
 				reader.readAsDataURL(input.files[0]);
 			}
 		}
-		
 	});
 	// 희망 지역 1
 	function areaChange(e) {
