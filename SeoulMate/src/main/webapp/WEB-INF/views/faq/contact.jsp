@@ -16,7 +16,7 @@
 			<br>
 			<br>
 			<select id="category" name="category">
-					<option disabled selected hidden>관련 문의사항을 선택하세요.</option>
+					<option style="color:#bababa" disabled selected hidden>관련 문의사항을 선택하세요.</option>
 					<option>쉐어하우스</option>
 					<option>하우스메이트</option>
 					<option>커뮤니티</option>
