@@ -55,5 +55,10 @@ public class BoardController {
 		}
 		return mav;
 	}
+	//////////////////////////////////찜하기->멤버나 마이페이지로 이동해야함
+	@RequestMapping("/memberLike")
+	public String memberLike() {
+		return "/board/memberLike";
+	}
 	
 }
