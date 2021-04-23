@@ -173,7 +173,7 @@ public class MemberController {
 	
 	@RequestMapping("/memberFind")
 	public String memberFind() {
-		return "member/memberFind	";
+		return "member/memberFind";
 	}
 	
 	@RequestMapping("/sample")

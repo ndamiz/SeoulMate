@@ -39,9 +39,30 @@
 			if(area1=="구를 선택해주세요"){
 				area1="";
 			}else{
-				area1+=" "+$("#dong").val();
+				area1+=" "+$("#dong1").val();
 			}
 			document.getElementById("area1").value=area1;
+			
+			// 희망 지역2
+			var area2=$("#gu2").val();
+			// alert(area1);
+			if(area2=="구를 선택해주세요"){
+				area2="";
+			}else{
+				area2+=" "+$("#dong2").val();
+			}
+			document.getElementById("area2").value=area2;
+			
+			// 희망 지역3
+			var area3=$("#gu3").val();
+			// alert(area1);
+			if(area3=="구를 선택해주세요"){
+				area3="";
+			}else{
+				area3+=" "+$("#dong3").val();
+			}
+			document.getElementById("area3").value=area3;
+			
 			// 유효성 검사
 			if($("#userid").val()==""){
 				alert("아이디를 입력하세요");
@@ -267,10 +288,18 @@
 	});
 	// 희망 지역 1
 	function areaChange(e) {
+		var areaId=e.id;
 		var gangnam = ["개포동","논현동","대치동","도곡동","삼성동","세곡동","수서동","신사동","압구정동","역삼동","일원동","청담동"];
 		var gangdong = ["강일동","고덕동","길동","둔촌동","명일동","상일동","성내동","암사동","천호동"];
 		var gangseo = ["미아동","번동","삼각산동","삼양동","송중동","송천동","수유동","우이동","인수동"];
-		var target = document.getElementById("dong");
+		
+		if(areaId=="gu1"){
+			var target = document.getElementById("dong1");
+		}else if(areaId=="gu2"){
+			var target = document.getElementById("dong2");
+		}else if(areaId=="gu3"){
+			var target = document.getElementById("dong3");
+		}
 		if(e.value=="강남구") var d = gangnam;
 		else if(e.value=="강동구") var d = gangdong;
 		else if(e.value=="강서구") var d = gangseo;
@@ -284,7 +313,6 @@
 			target.appendChild(opt);
 		}
 	}
-	
 </script>
 <div class="wrap">
 	<div class="member_wrap">
@@ -346,13 +374,37 @@
 							<option value="강서구">강서구</option>
 						</select>
  
-						<select id="dong">
+						<select id="dong1">
 							<option>동을 선택해주세요</option>
 						</select>
-
 						<input type="text" name="area1" id="area1" placeholder=""/>
 					</li>
-					
+					<li><label>&nbsp;희망 지역2</label>
+						<select id="gu2" onchange="areaChange(this)">
+							<option>구를 선택해주세요</option>
+							<option value="강남구">강남구</option>
+							<option value="강동구">강동구</option>
+							<option value="강서구">강서구</option>
+						</select>
+ 
+						<select id="dong2">
+							<option>동을 선택해주세요</option>
+						</select>
+						<input type="text" name="area2" id="area2" placeholder=""/>
+					</li>					
+					<li><label>&nbsp;희망 지역3</label>
+						<select id="gu3" onchange="areaChange(this)">
+							<option>구를 선택해주세요</option>
+							<option value="강남구">강남구</option>
+							<option value="강동구">강동구</option>
+							<option value="강서구">강서구</option>
+						</select>
+ 
+						<select id="dong3">
+							<option>동을 선택해주세요</option>
+						</select>
+						<input type="text" name="area3" id="area3" placeholder=""/>
+					</li>					
 					<li><label><span class="red_txt">*</span>이메일</label>
 						<input type="text" name="emailid" id="emailid" value="0905cjw" placeholder="이메일"/><span>@</span> 
 						<select name="emaildomain" id="emaildomain">
