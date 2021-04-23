@@ -9,29 +9,29 @@
 	
 			<p class="s_title">쉐어 하우스</p>
 		
-		<ul class="list_content">
-			<c:forEach var="i" begin="0" end="2">
-				<li>
-					<div class="list_img">
-						<p><span>매칭</span>90<b>%</b></p>
-						<button class="btn_star"></button>
-						<a href="">
-							<img alt="" src="<%=request.getContextPath()%>/img/comm/sample_mate01.png">
-						</a>
-					</div>
-					<div class="list_title">
-						<span class="mate_id">USER1</span>
-						<span class="pay">￦ 100 / 25</span>
-						<span class="address">서강동 | 합정동 | 당산동</span>
-					</div>
-					<ol class="list_icon">
-						<li><p>여</p></li>
-						<li><p>27세</p></li>
-						<li><p>즉시</p></li>
-					</ol>
-				</li>
-			</c:forEach>
-		</ul>
+			<ul class="list_content">
+				<c:forEach var="i" begin="0" end="2">
+					<li>
+						<div class="list_img">
+							<p><span>매칭</span>90<b>%</b></p>
+							<button class="btn_star"></button>
+							<a href="">
+								<img alt="" src="<%=request.getContextPath()%>/img/comm/sample_mate01.png">
+							</a>
+						</div>
+						<div class="list_title">
+							<span class="mate_id">USER1</span>
+							<span class="pay">￦ 100 / 25</span>
+							<span class="address">서강동 | 합정동 | 당산동</span>
+						</div>
+						<ol class="list_icon">
+							<li><p>여</p></li>
+							<li><p>27세</p></li>
+							<li><p>즉시</p></li>
+						</ol>
+					</li>
+				</c:forEach>
+			</ul>
 		</section>
 		<section class="content recommend_list mate_list">
 			<div class="list_head">
