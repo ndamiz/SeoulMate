@@ -45,7 +45,7 @@
 			
 			// 희망 지역2
 			var area2=$("#gu2").val();
-			// alert(area1);
+			// alert(area2);
 			if(area2=="구를 선택해주세요"){
 				area2="";
 			}else{
@@ -55,7 +55,7 @@
 			
 			// 희망 지역3
 			var area3=$("#gu3").val();
-			// alert(area1);
+			// alert(area3);
 			if(area3=="구를 선택해주세요"){
 				area3="";
 			}else{
