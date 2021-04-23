@@ -46,6 +46,7 @@ public class MemberVO {
 	public void setUserid(String userid) {
 		this.userid = userid;
 	}
+	
 	public String getUserpwd() {
 		return userpwd;
 	}

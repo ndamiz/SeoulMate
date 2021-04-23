@@ -9,4 +9,8 @@
   	<select id="memberSelect" parameterType="String" resultType="com.seoulmate.home.member.MemberVO">
   		select userid, userpwd, username, tel, to_char(birth, 'YYYY/MM/DD') birth, gender, area, email from member where userid=#{param1}
   	</select>
+  	<!-- public MemberVO memberPwdSelect(String userid); -->
+  	<select id="memberPwdSelect" resultType="int">
+  		select count(userpwd) userpwd from member where userid=#{param1} and userpwd=#{param2}
+  	</select>
   </mapper>
