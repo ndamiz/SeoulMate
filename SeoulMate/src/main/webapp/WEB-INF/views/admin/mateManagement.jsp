@@ -73,8 +73,6 @@
 					<li class="page-item"><a href="" class="page-link">Next</a></li>
 				</ul>
 			</div>
-			
-			
 		</section>
 	</body>
 </html>

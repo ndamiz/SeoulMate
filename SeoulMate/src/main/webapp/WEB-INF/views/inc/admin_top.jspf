@@ -18,7 +18,7 @@
 	<body>
 		<header id="adminTop">
 			<div id="adminTopLogo">
-				<a href="#"><img src="<%=request.getContextPath()%>/img/comm/서울메이트_logo_white.png"/></a>
+				<a href="/home/admin"><img src="<%=request.getContextPath()%>/img/comm/서울메이트_logo_white.png"/></a>
 			</div>
 			<div id="adminTopMenu" >
 				<span>2021-04-18 16:53 접속 </span> 

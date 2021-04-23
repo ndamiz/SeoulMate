@@ -226,3 +226,16 @@ section{ margin-left:15% ; width: 85%; float: left; }
 .memberSearch>select[name=state]{width: 131px; float: left;}
 .memberSearch input[type=text]{width: 200px; float: left;}
 .memberSearch input[type=submit]{width: 80px; float: left;}
+
+/* reportManagement */
+.reportSearch {width:550px; float: left; overflow: auto; margin-top: 20px; }
+.reportSearch>select{width: 100px; float: left;}
+.reportSearch>select[name=state]{width: 131px; float: left;}
+.reportSearch input[type=text]{width: 200px; float: left;}
+.reportSearch input[type=submit]{width: 80px; float: left;}
+
+/* qnaManagement */
+.qnaSearch {width:550px; float: left; overflow: auto; margin-top: 20px; }
+.qnaSearch>select[name=searchKey]{width: 150px; float: left;}
+.qnaSearch input[type=text]{width: 200px; float: left;}
+.qnaSearch input[type=submit]{width: 80px; float: left;}

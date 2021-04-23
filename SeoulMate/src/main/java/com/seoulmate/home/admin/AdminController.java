@@ -19,11 +19,11 @@ public class AdminController {
 	}
 	
 	//신고관리
-	@RequestMapping("/admin/report")
+	@RequestMapping("/admin/reportManagement")
 	public String adminReport() {
-		return "/admin/report";
+		return "/admin/reportManagement";
 	}
-		
+	//관리자-회원
 	@RequestMapping(value="/admin/memberManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView memberManagement() {
 		ModelAndView mav = new ModelAndView();
@@ -31,7 +31,7 @@ public class AdminController {
 		mav.setViewName("admin/memberManagement");
 		return mav;
 	}
-	
+	//관리자 - 쉐어하우스 
 	@RequestMapping(value="/admin/houseManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView houseManagement() {
 		ModelAndView mav = new ModelAndView();
@@ -39,6 +39,7 @@ public class AdminController {
 		mav.setViewName("admin/houseManagement");
 		return mav;
 	}
+	//관리자 - 하우스메이트 
 	@RequestMapping(value="/admin/mateManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView mateManagement() {
 		ModelAndView mav = new ModelAndView();
@@ -47,6 +48,7 @@ public class AdminController {
 		mav.setViewName("admin/mateManagement");
 		return mav;
 	}
+	//관리자 - 결제 
 	@RequestMapping(value="/admin/payManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView payManagement() {
 		ModelAndView mav = new ModelAndView();
@@ -55,6 +57,7 @@ public class AdminController {
 		mav.setViewName("admin/payManagement");
 		return mav;
 	}
+	//관리자 - 매출
 	@RequestMapping(value="/admin/salesManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView salesManagement() {
 		ModelAndView mav = new ModelAndView();
@@ -62,5 +65,10 @@ public class AdminController {
 		
 		mav.setViewName("admin/salesManagement");
 		return mav;
+	}
+	//문의 관리
+	@RequestMapping("/admin/qnaManagement")
+	public String qnaManagement() {
+		return "/admin/qnaManagement";
 	}
 }
