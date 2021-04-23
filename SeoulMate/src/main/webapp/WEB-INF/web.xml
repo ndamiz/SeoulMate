@@ -59,6 +59,7 @@
 			<url-pattern>/WEB-INF/views/premium/*</url-pattern>
 			<url-pattern>/WEB-INF/views/house/*</url-pattern>
 			<url-pattern>/WEB-INF/views/faq/*</url-pattern>
+			<url-pattern>/WEB-INF/views/mypage/*</url-pattern>
 			<include-prelude>/WEB-INF/views/inc/top.jspf</include-prelude> 
 			<include-coda>/WEB-INF/views/inc/footer.jspf</include-coda>
 		</jsp-property-group>
