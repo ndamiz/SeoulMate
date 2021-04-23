@@ -38,6 +38,7 @@ public class MemberController {
 		String useridCheck=userid;
 		MemberDAOImp dao=sqlSession.getMapper(MemberDAOImp.class);
 		
+		
 		int result=dao.idCheck(useridCheck);
 		
 		ModelAndView mav=new ModelAndView();

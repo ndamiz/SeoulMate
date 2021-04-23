@@ -77,11 +77,45 @@
 						<label for="gender2">남성</label>
 					</div>
 				</li>
-				<li><label>희망 지역(최대 3곳)</label>
-					<input type="text" name="area1" id="editArea1" value="${vo.area1}"/>
-					<input type="text" name="area2" id="editArea2" value="${vo.area2}"/>
-					<input type="text" name="area3" id="editArea3" value="${vo.area3}"/>
-				</li>
+				<li><label>&nbsp;희망 지역1</label>
+						<select id="gu1" onchange="areaChange(this)">
+							<option>구를 선택해주세요</option>
+							<option value="강남구">강남구</option>
+							<option value="강동구">강동구</option>
+							<option value="강서구">강서구</option>
+						</select>
+ 
+						<select id="dong1">
+							<option>동을 선택해주세요</option>
+						</select>
+						<input type="text" name="area1" id="area1" placeholder=""/>
+					</li>
+					<li><label>&nbsp;희망 지역2</label>
+						<select id="gu2" onchange="areaChange(this)">
+							<option>구를 선택해주세요</option>
+							<option value="강남구">강남구</option>
+							<option value="강동구">강동구</option>
+							<option value="강서구">강서구</option>
+						</select>
+ 
+						<select id="dong2">
+							<option>동을 선택해주세요</option>
+						</select>
+						<input type="text" name="area2" id="area2" placeholder=""/>
+					</li>					
+					<li><label>&nbsp;희망 지역3</label>
+						<select id="gu3" onchange="areaChange(this)">
+							<option>구를 선택해주세요</option>
+							<option value="강남구">강남구</option>
+							<option value="강동구">강동구</option>
+							<option value="강서구">강서구</option>
+						</select>
+ 
+						<select id="dong3">
+							<option>동을 선택해주세요</option>
+						</select>
+						<input type="text" name="area3" id="area3" placeholder=""/>
+					</li>
 				<li><label>이메일</label>
 					<input type="text" name="emailid" id="emailid" value="${vo.emailid}" placeholder="이메일"/><span>@</span> 
 					<select name="emaildomain" id="emaildomain">
