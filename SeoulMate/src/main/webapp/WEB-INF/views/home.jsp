@@ -143,7 +143,7 @@
 			</c:forEach>
 		</ul>
 	</section>
-	
+</div>
 	<!-- 지도 -->
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6bad1d8e9a1449ac5fb2b238e99a32ed&libraries=clusterer"></script>
 	 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -214,8 +214,13 @@
 	        clusterer.addMarkers(markers);
 	    });  --%>
 	</script>
+
 		
 	<div class="chat_wrap">
+
+	
+<%-- 	<div class="chat_wrap">
+>>>>>>> refs/remotes/origin/doo
 		<div class="chat_window">
 			<div class="chat_head">
 				<p>김두별님</p>
@@ -225,13 +230,13 @@
 				<li>
 					<p>서울시 마포구 합정동</p>
 					<div>
-						<div>
-							<img alt="" src="">
+						<div class="chat_text">
+							<img alt="" src="<%=request.getContextPath()%>/img/comm/sample_mate03.png">
 							<p>doobyeol</p>
 							<p>안녕하세요!</p>
 						</div>
 						
-						<div>
+						<div class="chat_notic">
 							<p>10분전</p>
 							<p>1</p>
 						</div>
@@ -240,5 +245,5 @@
 			</ul>
 		</div>
 		<button class="btn_chat"></button>
+	</div> --%>
 	</div>
-</div>
