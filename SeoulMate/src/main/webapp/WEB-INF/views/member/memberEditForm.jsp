@@ -1,8 +1,37 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="/home/css/choi.css"/>
+<script>
+	$(function(){
+		$("#memNext1").click(function(){
+			// 변경할 비밀번호 정규식 표현
+			if($("#editUserpwd").val()!=""){
+				if(regExpCheck()!=false){
+					// 비밀번호 확인 유효성 검사
+					if($("#editUserpwd").val()!=$("#editUserpwd2").val()){
+						alert("비밀번호가 다릅니다.");
+						return false;
+					}
+				}else{
+					return false;
+				}
+			}else{
+				alert("비밀번호 변경 안함");
+			}
+			
+			
+		});
+		function regExpCheck(){
+			// 비밀번호
+			var regPwd=/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,15}$/;
+			if(!regPwd.test(document.getElementById("editUserpwd").value)){
+				alert("비밀번호는 영문과 숫자, 특수문자를 조합한 8~15자리여야 합니다.");
+				return false;
+			}
+		}
+	});
+</script>
 <div class="wrap">
-	
 	<div class="title_wrap editDiv">
 		<p class="s_title">회원정보 수정</p>
 	</div>
@@ -12,10 +41,10 @@
 				<li><label>아이디</label>
 					<input type="text" name="userid" id="editUserid" value="${vo.userid}" disabled/>
 				</li>
-					<li><label>비밀번호</label>
-				<input type="password" name="userpwd" id="editUserpwd" value="${vo.userpwd}"/></li>
-					<li><label>비밀번호 확인</label>
-				<input type="password" name="userpwd2" id="editUserpwd2" value=""/></li>
+				<li><label>변경할 비밀번호</label>
+					<input type="password" name="editUserpwd" id="editUserpwd" value=""/></li>
+				<li><label>비밀번호 확인</label>
+					<input type="password" name="editUserpwd2" id="editUserpwd2" value=""/></li>
 				<li><label>이름</label>
 					<input type="text" name="username" id="editUsername" value="${vo.username}" disabled/></li>
 				<li><label>연락처</label>
