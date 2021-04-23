@@ -1,17 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-<title>하우스메이트</title>
-<script type="text/javascript" src="<%=request.getContextPath()%>/js/script.js"></script>
 <style>
-.boxClass{width:600%; }
-.boxClass>ul{float:left; }
-.boxClass>li{line-height:40px; height:40px; }
+.boxClass{height:100%; }
+.boxClass li{line-height:40px; height:40px; }
 input[type="date"] {width:200px;}
 input[type="text"] {width:100px;}
 input[type="number"] {width:100px;}
 #searchBox{width:300px;}
 .searchClass ul{display:inline-block; padding-top:10px; padding-left:20px;}
+#searchBox{position:relative;}
+#iconPic{    position: relative;
+    right: 50px;
+    top: 10px;}
+
 </style>
 <div class="wrap">
 
@@ -25,7 +26,7 @@ input[type="number"] {width:100px;}
 				<li>
 					<ul >
 						<li><p>지역</p></li> 
-						<li><input type="text" id="searchBox" placeholder="지역명&지하철명을 입력하세요" /> <img src='<%=request.getContextPath()%>/img/ico_search_black.png'/>  </li>
+						<li><input type="text" id="searchBox" placeholder="지역명&지하철명을 입력하세요" /> <img id="iconPic" src='<%=request.getContextPath()%>/img/ico_search_black.png'/>  </li>
 					</ul>
 					<ul>
 						<li> <p>입주예정일</p> </li>
@@ -52,9 +53,11 @@ input[type="number"] {width:100px;}
 					</ul>
 			</ul>
 	</ul>		
-		
+	
+	</div>	
+	
 	 <hr/>
 
 	<button class="green" onclick="location.href='<%=request.getContextPath()%>/mateWrite1'">메이트 등록하기</button> <br/>
-</div>
+
 </div>

@@ -8,8 +8,10 @@
       <meta name="viewport" content="width=device-width, initial-scale=1"/>
       <link rel="stylesheet" href="<%=request.getContextPath()%>/css/reset.css">
       <link rel="stylesheet" href="<%=request.getContextPath()%>/css/comm.css">
+       <link rel="stylesheet" href="<%=request.getContextPath()%>/css/housemate.css">
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script type="text/javascript" src="<%=request.getContextPath()%>/js/script.js"></script>
+		<script src="//cdn.ckeditor.com/4.16.0/full/ckeditor.js"></script>
       <script type="text/javascript"> 
          $(function() {
             var i;
