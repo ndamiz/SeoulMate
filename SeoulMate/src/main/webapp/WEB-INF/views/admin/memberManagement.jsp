@@ -43,7 +43,7 @@
 						<td>${i }</td>
 						<td>${i }${i }${i }${i }</td>
 						<td>${i }${i }${i }</td>
-						<td><c:if test="${i==6||i==3}">Y</c:if><c:if test="${i==6||i==3}">Y</c:if></td>
+						<td><c:if test="${i==6||i==3}">Y</c:if></td>
 					</tr>
 				</c:forEach>
 			</tbody>
