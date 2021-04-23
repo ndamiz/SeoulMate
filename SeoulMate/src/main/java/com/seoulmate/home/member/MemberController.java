@@ -103,6 +103,41 @@ public class MemberController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/memberEditOk", method=RequestMethod.POST)
+	public ModelAndView memberEditOk(MemberVO vo, HttpSession session) {
+		ModelAndView mav=new ModelAndView();
+		
+		vo.setUserid((String)session.getAttribute("logId"));
+		
+		MemberDAOImp dao=sqlSession.getMapper(MemberDAOImp.class);
+		int pwdResult=dao.memberPwdSelect(vo.getUserid(), vo.getUserpwd());
+		
+		if(pwdResult==0) {
+			System.out.println("비밀번호를 바꾸는 경우");
+		}else {
+			System.out.println("비밀번호를 바꾸지 않는 경우");
+		}
+		/*
+		System.out.println("memberEditOk 컨트롤러");
+		System.out.println(pwdResult);
+		System.out.println("아이디 : "+vo.getUserid());
+		System.out.println("변경할 비밀번호 : "+vo.getUserpwd());
+		System.out.println("연락처 전체 : "+vo.getTel());
+		System.out.println("연락처1 : "+vo.getTel1());
+		System.out.println("연락처2 : "+vo.getTel2());
+		System.out.println("연락처3 : "+vo.getTel3());
+		System.out.println("희망지역 전체 : "+vo.getArea());
+		System.out.println("희망지역1 : "+vo.getArea1());
+		System.out.println("희망지역2 : "+vo.getArea2());
+		System.out.println("희망지역3 : "+vo.getArea3());
+		System.out.println("이메일 전체 : "+vo.getEmail());
+		System.out.println("이메일 아이디 : "+vo.getEmailid());
+		System.out.println("이메일 도메인 : "+vo.getEmaildomain());
+		*/
+		mav.setViewName("redirect:/");
+		return mav;
+	}
+	
 	@RequestMapping("/memberExit")
 	public String memberExit() {
 		
@@ -138,7 +173,7 @@ public class MemberController {
 	
 	@RequestMapping("/memberFind")
 	public String memberFind() {
-		return "member/memberFind";
+		return "member/memberFind	";
 	}
 	
 	@RequestMapping("/sample")

@@ -3,10 +3,7 @@ package com.seoulmate.home.member;
 public class MemberVO {
 	private int no;
 	private String userid;
-	
 	private String userpwd;
-	private String editUserpwd;
-	
 	private String username;
 	
 	private String tel;
@@ -56,13 +53,6 @@ public class MemberVO {
 	public void setUserpwd(String userpwd) {
 		this.userpwd = userpwd;
 	}
-	public String getEditUserpwd() {
-		return editUserpwd;
-	}
-	public void setEditUserpwd(String editUserpwd) {
-		this.editUserpwd = editUserpwd;
-	}
-	
 	public String getUsername() {
 		return username;
 	}

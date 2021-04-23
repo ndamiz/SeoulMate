@@ -18,14 +18,22 @@
 			}else{
 				alert("비밀번호 변경 안함");
 			}
-			
-			
 		});
 		function regExpCheck(){
 			// 비밀번호
 			var regPwd=/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,15}$/;
 			if(!regPwd.test(document.getElementById("editUserpwd").value)){
 				alert("비밀번호는 영문과 숫자, 특수문자를 조합한 8~15자리여야 합니다.");
+				return false;
+			}
+			// 연락처
+			var regTel=/[0-9]{4}$/;
+			if(!regTel.test(document.getElementById("tel2").value)){ // 중간 번호
+				alert("연락처는 숫자를 4자리씩 입력해야 합니다.");
+				return false;
+			}
+			if(!regTel.test(document.getElementById("tel3").value)){ // 끝 번호
+				alert("연락처는 숫자를 4자리씩 입력해야 합니다.");
 				return false;
 			}
 		}
@@ -35,16 +43,16 @@
 	<div class="title_wrap editDiv">
 		<p class="s_title">회원정보 수정</p>
 	</div>
-	<form method="post" id="memId" action="memberOk">
+	<form method="post" id="memId" action="memberEditOk">
 		<div id="memEditDiv">
 			<ul class="form_box choice" id="mem">
 				<li><label>아이디</label>
 					<input type="text" name="userid" id="editUserid" value="${vo.userid}" disabled/>
 				</li>
 				<li><label>변경할 비밀번호</label>
-					<input type="password" name="editUserpwd" id="editUserpwd" value=""/></li>
+					<input type="password" name="userpwd" id="editUserpwd" value=""/></li>
 				<li><label>비밀번호 확인</label>
-					<input type="password" name="editUserpwd2" id="editUserpwd2" value=""/></li>
+					<input type="password" id="editUserpwd2" value=""/></li>
 				<li><label>이름</label>
 					<input type="text" name="username" id="editUsername" value="${vo.username}" disabled/></li>
 				<li><label>연락처</label>
@@ -53,8 +61,8 @@
 							<option value="${i1}">${i1}</option>
 						</c:forEach>
 					</select><span class="multi">-</span>
-					<input type="text" name="tel2" id="tel2" value="${vo.tel2}"/><span class="multi">-</span>
-					<input type="text" name="tel3" id="tel3" value="${vo.tel3}"/>
+					<input type="text" name="tel2" id="tel2" value="${vo.tel2}" maxlength="4"/><span class="multi">-</span>
+					<input type="text" name="tel3" id="tel3" value="${vo.tel3}" maxlength="4"/>
 				</li>
 				<li><label>생년월일</label>
 					<input type="text" name="birth1" id="editBirth1" value="${vo.birth1}" disabled/><span>년</span> 

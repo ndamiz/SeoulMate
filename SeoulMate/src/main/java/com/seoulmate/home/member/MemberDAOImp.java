@@ -5,4 +5,6 @@ public interface MemberDAOImp {
 	public int idCheck(String userid);
 	// 회원정보 가져오기
 	public MemberVO memberSelect(String userid);
+	// 기존 비밀번호 가져오기
+	public int memberPwdSelect(String userid, String userpwd);
 }
