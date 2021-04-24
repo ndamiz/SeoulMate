@@ -5,7 +5,7 @@
 		<h2 class="main_title">
 			당신과 가장 잘 맞는<br>
 			쉐어하우스 & 메이트
-		</h2>  
+		</h2>
 		
 		<form class="main_search_form" method="get" action="">
 			<div class="checks">
@@ -214,4 +214,31 @@
 	        clusterer.addMarkers(markers);
 	    });  --%>
 	</script>
+	
+<%-- 	<div class="chat_wrap">
+		<div class="chat_window">
+			<div class="chat_head">
+				<p>김두별님</p>
+				<p>소중한 약속을 잡아보세요!</p>
+			</div>
+			<ul class="chat_body">
+				<li>
+					<p>서울시 마포구 합정동</p>
+					<div>
+						<div class="chat_text">
+							<img alt="" src="<%=request.getContextPath()%>/img/comm/sample_mate03.png">
+							<p>doobyeol</p>
+							<p>안녕하세요!</p>
+						</div>
+						
+						<div class="chat_notic">
+							<p>10분전</p>
+							<p>1</p>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<button class="btn_chat"></button>
+	</div> --%>
 </div>
