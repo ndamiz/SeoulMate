@@ -461,11 +461,11 @@
 					<li><label><span class="red_txt">*</span>생활 소음</label>
 						<div class="checks">
 							<input type="radio" name="h_noise" id="h_noise1" value="1" checked/>
-							<label for="h_noise1">자주</label>
+							<label for="h_noise1">매우 조용함</label>
 							<input type="radio" name="h_noise" id="h_noise2" value="2"/>
-							<label for="h_noise2">가끔</label>
+							<label for="h_noise2">보통</label>
 							<input type="radio" name="h_noise" id="h_noise3" value="3"/>
-							<label for="h_noise3">없음</label>
+							<label for="h_noise3">조용하지 않음</label>
 						</div>
 					</li>
 					<li><label><span class="red_txt">*</span>생활 시간</label>
@@ -546,11 +546,11 @@
 					<li><label><span class="red_txt">*</span>모임 참가 의무</label>
 						<div class="checks">
 							<input type="radio" name="h_enter" id="h_enter1" value="1" checked/>
-							<label for="h_enter1">매우 조용함</label>
+							<label for="h_enter1">없음</label>
 							<input type="radio" name="h_enter" id="h_enter2" value="2"/>
-							<label for="h_enter2">보통</label>
+							<label for="h_enter2">상관없음</label>
 							<input type="radio" name="h_enter" id="h_enter3" value="3"/>
-							<label for="h_enter3">조용하지 않음</label>
+							<label for="h_enter3">있음</label>
 						</div>
 					</li>
 				</ul>

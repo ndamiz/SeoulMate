@@ -8,6 +8,12 @@
 			return false;
 		}
 	}
+	function notPwd(){
+		if('${notPwd}'=='1'){
+			alert("비밀번호가 맞지 않습니다.");
+		}
+	}
+	notPwd();
 </script>
 <div class="wrap">
 	<div class="member_wrap">
@@ -16,7 +22,7 @@
 		</div>
 		<br/><br/>
 		<div class="title_wrap">
-			<form method="post" action="memberEditForm" onsubmit="return pwdCheck()">
+			<form method="post" action="memberEditCheck" onsubmit="return pwdCheck()">
 				<input type="password" name="userpwd" id="userpwdCheck" maxlength="12" placeholder="비밀번호를 입력해주세요"/><br/><br/><br/>
 				<div class="center">
 					<button class="h_btn green" id="editBtn">회원정보 수정하기</button>

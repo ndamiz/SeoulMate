@@ -210,7 +210,7 @@
 						<option>동을 선택해주세요</option>
 					</select>
 					<input type="text" name="area3" id="area3" value="${vo.area3}" placeholder=""/>
-				</li>
+				</li>	
 				<li><label>이메일</label>
 					<input type="text" name="emailid" id="emailid" value="${vo.emailid}" placeholder="이메일"/><span>@</span> 
 					<select name="emaildomain" id="emaildomain">

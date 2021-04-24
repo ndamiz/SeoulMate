@@ -3,9 +3,16 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.seoulmate.home.member.MemberDAOImp">
+	<select id="loginCheck" resultType="com.seoulmate.home.member.MemberVO">
+		select userid, username, state, grade from member where userid=#{param1} and userpwd=#{param2}
+	</select>
   	<select id="idCheck" resultType="int">
   		select count(userid) from member where userid=#{param1}
   	</select>
+  	<insert id="memberInsert" parameterType="com.seoulmate.home.member.MemberVO">
+  		insert into member(no, userid, userpwd, username, tel, email, birth, gender, area, profilePic) 
+  		values(memsq.nextval, #{userid}, #{userpwd}, #{username}, #{tel}, #{email}, #{birth}, #{gender}, #{area}, 'example')
+  	</insert>
   	<select id="memberSelect" parameterType="String" resultType="com.seoulmate.home.member.MemberVO">
   		select userid, userpwd, username, tel, to_char(birth, 'YYYY/MM/DD') birth, gender, area, email from member where userid=#{param1}
   	</select>
@@ -13,6 +20,12 @@
   	<select id="memberPwdSelect" resultType="int">
   		select count(userpwd) userpwd from member where userid=#{param1} and userpwd=#{param2}
   	</select>
+  	<update id="memberUpdatePwdY" parameterType="com.seoulmate.home.member.MemberVO">
+  		update member set userpwd=#{userpwd}, tel=#{tel}, area=#{area}, email=#{email} where userid=#{userid}
+  	</update>
+  	<update id="memberUpdatePwdN" parameterType="com.seoulmate.home.member.MemberVO">
+  		update member set tel=#{tel}, area=#{area}, email=#{email} where userid=#{userid}
+  	</update>
   	<select id="memberFindId" resultType="String">
   		select userid from member where username=#{username} and email=#{email}
   	</select>
