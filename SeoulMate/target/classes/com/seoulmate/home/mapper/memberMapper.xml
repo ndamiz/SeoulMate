@@ -16,4 +16,7 @@
   	<select id="memberFindId" resultType="String">
   		select userid from member where username=#{username} and email=#{email}
   	</select>
+  	<update id="memberExit">
+  		update member set state='탈퇴' where userid=#{param1} and userpwd=#{param2}
+  	</update>
   </mapper>

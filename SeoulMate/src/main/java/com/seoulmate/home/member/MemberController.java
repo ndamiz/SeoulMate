@@ -49,12 +49,27 @@ public class MemberController {
 		return mav;
 	}
 	
+	@RequestMapping("/login")
+	public String login() {
+		return "member/login";
+	}
+	
+	@RequestMapping(value="/loginOk", method=RequestMethod.POST)
+	public ModelAndView loginCheck(String userid, String userpwd) {
+		ModelAndView mav=new ModelAndView();
+		
+		System.out.println("loginOk 접속");
+		mav.setViewName("home");
+		return mav;
+	}
+	
 	@RequestMapping(value="/memberOk", method=RequestMethod.POST)
 	public ModelAndView memberOk(MemberVO vo, HttpSession session) {
 		ModelAndView mav=new ModelAndView();
 		mav.setViewName("home");
 		
 		// session.setAttribute("logId", vo.getUserid());
+		/*
 		System.out.println("아이디 : "+vo.getUserid());
 		System.out.println("비밀번호 : "+vo.getUserpwd());
 		System.out.println("이름 : "+vo.getUsername());
@@ -73,8 +88,8 @@ public class MemberController {
 		System.out.println("이메일 전체 : "+vo.getEmail());
 		System.out.println("이메일 아이디 : "+vo.getEmailid());
 		System.out.println("이메일 도메인 : "+vo.getEmaildomain());
-		
-		session.setAttribute("logId", "3536cjw");
+		*/
+		session.setAttribute("logId", "testtest");
 		
 		return mav;
 	}
@@ -145,9 +160,23 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/memberExitOk")
-	public String memberExitOk() {
+	public ModelAndView memberExitOk(String userpwd, HttpSession session) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
 		
-		return "home";
+		MemberDAOImp dao=sqlSession.getMapper(MemberDAOImp.class);
+		int result=dao.memberPwdSelect(userid, userpwd);
+		
+		if(result>0) { // 비밀번호가 일치하는 경우
+			System.out.println("일치하는 경우");
+			dao.memberExit(userid, userpwd);
+			mav.setViewName("/");
+		}else { // 비밀번호가 일치하지 않는 경우
+			System.out.println("일치하지않는 경우");
+			mav.setViewName("member/memberExit");
+		}
+		
+		return mav;
 	}
 	
 	@RequestMapping("/memberProEdit")

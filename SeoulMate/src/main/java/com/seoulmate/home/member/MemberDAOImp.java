@@ -9,4 +9,6 @@ public interface MemberDAOImp {
 	public int memberPwdSelect(String userid, String userpwd);
 	// 아이디 찾기
 	public String memberFindId(MemberVO vo);
+	// 회원 탈퇴
+	public int memberExit(String userid, String userpwd);
 }
