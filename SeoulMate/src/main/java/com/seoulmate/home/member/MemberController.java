@@ -25,8 +25,8 @@ public class MemberController {
 		String guArr[]= {"강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구"
 				,"동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"};
 		
-		mav.addObject("arr1", arr1);
 		mav.addObject("year", year);
+		mav.addObject("arr1", arr1);
 		mav.addObject("guArr", guArr);
 		mav.setViewName("member/memberForm");
 		
@@ -85,13 +85,15 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/memberEditForm", method=RequestMethod.POST)
-	public ModelAndView memberEditForm(String userpwd, HttpSession session) {
+	public ModelAndView memberEditForm(HttpSession session) {
 		ModelAndView mav=new ModelAndView();
 		
 		String arr1[] = {"010"," 02"," 031","032"," 033"," 041"," 042"," 043"," 044"," 051"," 052"," 053"," 054"," 055"," 061"," 062"," 063"," 064"};
+		String guArr[]= {"강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구"
+				,"동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"};
 		
 		mav.addObject("arr1", arr1);
-		mav.addObject("pwd", userpwd);
+		mav.addObject("guArr", guArr);
 		
 		MemberDAOImp dao=sqlSession.getMapper(MemberDAOImp.class);
 		MemberVO vo=new MemberVO();
@@ -118,23 +120,7 @@ public class MemberController {
 		}else {
 			System.out.println("비밀번호를 바꾸지 않는 경우");
 		}
-		/*
-		System.out.println("memberEditOk 컨트롤러");
-		System.out.println(pwdResult);
-		System.out.println("아이디 : "+vo.getUserid());
-		System.out.println("변경할 비밀번호 : "+vo.getUserpwd());
-		System.out.println("연락처 전체 : "+vo.getTel());
-		System.out.println("연락처1 : "+vo.getTel1());
-		System.out.println("연락처2 : "+vo.getTel2());
-		System.out.println("연락처3 : "+vo.getTel3());
-		System.out.println("희망지역 전체 : "+vo.getArea());
-		System.out.println("희망지역1 : "+vo.getArea1());
-		System.out.println("희망지역2 : "+vo.getArea2());
-		System.out.println("희망지역3 : "+vo.getArea3());
-		System.out.println("이메일 전체 : "+vo.getEmail());
-		System.out.println("이메일 아이디 : "+vo.getEmailid());
-		System.out.println("이메일 도메인 : "+vo.getEmaildomain());
-		*/
+		
 		mav.setViewName("redirect:/");
 		return mav;
 	}

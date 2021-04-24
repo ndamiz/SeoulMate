@@ -404,7 +404,7 @@
 							<option>동을 선택해주세요</option>
 						</select>
 						<input type="text" name="area3" id="area3" placeholder=""/>
-					</li>					
+					</li>
 					<li><label><span class="red_txt">*</span>이메일</label>
 						<input type="text" name="emailid" id="emailid" value="0905cjw" placeholder="이메일"/><span>@</span> 
 						<select name="emaildomain" id="emaildomain">

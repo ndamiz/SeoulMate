@@ -24,10 +24,10 @@ public class MemberVO {
 	
 	private String area="";
 	private String aList[];
+	
 	private String area1;
 	private String area2;
 	private String area3;
-	
 	
 	private String regdate;
 	private int grade;
