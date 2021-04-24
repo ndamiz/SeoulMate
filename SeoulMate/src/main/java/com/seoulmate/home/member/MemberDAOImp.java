@@ -7,4 +7,6 @@ public interface MemberDAOImp {
 	public MemberVO memberSelect(String userid);
 	// 기존 비밀번호 가져오기
 	public int memberPwdSelect(String userid, String userpwd);
+	// 아이디 찾기
+	public String memberFindId(MemberVO vo);
 }

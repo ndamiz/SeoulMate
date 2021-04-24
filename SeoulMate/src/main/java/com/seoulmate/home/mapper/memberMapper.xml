@@ -13,4 +13,7 @@
   	<select id="memberPwdSelect" resultType="int">
   		select count(userpwd) userpwd from member where userid=#{param1} and userpwd=#{param2}
   	</select>
+  	<select id="memberFindId" resultType="String">
+  		select userid from member where username=#{username} and email=#{email}
+  	</select>
   </mapper>

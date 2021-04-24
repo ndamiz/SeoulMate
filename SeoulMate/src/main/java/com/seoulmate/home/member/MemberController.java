@@ -176,6 +176,23 @@ public class MemberController {
 		return "member/memberFind";
 	}
 	
+	@RequestMapping(value="/memberFindId", method=RequestMethod.POST)
+	public ModelAndView memberFindId(MemberVO vo) {
+		ModelAndView mav=new ModelAndView();
+		MemberDAOImp dao=sqlSession.getMapper(MemberDAOImp.class);
+		
+		String result=dao.memberFindId(vo);
+		
+		if(result!=null) { // 입력한 정보에 맞는 아이디가 있는 경우
+			mav.addObject("findId", result);
+		}else { // 입력한 정보에 맞는 아이디가 없는 경우
+			mav.addObject("findNotId", "no");
+		}
+		
+		mav.setViewName("member/memberFind");
+		return mav;
+	}
+	
 	@RequestMapping("/sample")
 	public String sample() {
 		return "member/sample";
