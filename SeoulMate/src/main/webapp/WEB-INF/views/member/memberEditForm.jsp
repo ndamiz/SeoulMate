@@ -18,6 +18,35 @@
 			}else{
 				alert("비밀번호 변경 안함");
 			}
+			// 희망 지역1
+			var area1=$("#gu1").val();
+			// alert(area1);
+			if(area1=="구를 선택해주세요"){
+				area1="";
+			}else{
+				area1+=" "+$("#dong1").val();
+			}
+			document.getElementById("area1").value=area1;
+			
+			// 희망 지역2
+			var area2=$("#gu2").val();
+			// alert(area2);
+			if(area2=="구를 선택해주세요"){
+				area2="";
+			}else{
+				area2+=" "+$("#dong2").val();
+			}
+			document.getElementById("area2").value=area2;
+			
+			// 희망 지역3
+			var area3=$("#gu3").val();
+			// alert(area3);
+			if(area3=="구를 선택해주세요"){
+				area3="";
+			}else{
+				area3+=" "+$("#dong3").val();
+			}
+			document.getElementById("area3").value=area3;
 		});
 		function regExpCheck(){
 			// 비밀번호

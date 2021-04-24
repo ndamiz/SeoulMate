@@ -115,6 +115,19 @@ public class MemberController {
 		MemberDAOImp dao=sqlSession.getMapper(MemberDAOImp.class);
 		int pwdResult=dao.memberPwdSelect(vo.getUserid(), vo.getUserpwd());
 		
+		/*
+		System.out.println("아이디 : "+vo.getUserid());
+		System.out.println("비밀번호 : "+vo.getUserpwd());
+		System.out.println("연락처 전체 : "+vo.getTel());
+		System.out.println("희망지역 전체 : "+vo.getArea());
+		System.out.println("희망1 : "+vo.getArea1());
+		System.out.println("희망2 : "+vo.getArea2());
+		System.out.println("희망3 : "+vo.getArea3());
+		System.out.println("이메일 전체 : "+vo.getEmail());
+		System.out.println("이메일 아이디 : "+vo.getEmailid());
+		System.out.println("이메일 도메인 : "+vo.getEmaildomain());
+		*/
+		
 		if(pwdResult==0) {
 			System.out.println("비밀번호를 바꾸는 경우");
 		}else {
