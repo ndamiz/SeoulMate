@@ -27,6 +27,11 @@
 			<button class="q_btn white">네모길쭉 버튼</button>
 			<a class="q_btn green">네모길쭉 버튼</a> <a class="q_btn white">네모길쭉 버튼</a>
 			<hr>
+			
+			<div class="toggle_cont">
+				<input id="toggle_1" class="cmn_toggle cmn_toggle_round" type="checkbox">
+				<label for="toggle_1"></label>
+			</div>
 		</div>
 	</div>
 

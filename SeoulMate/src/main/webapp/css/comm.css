@@ -1512,7 +1512,16 @@ footer .foot_btns{
 
 
 
+/* 토글버튼 */
 
-
-
+.toggle_cont {margin:0 10px 0 0;}
+.toggle_cont .cmn_toggle {position:absolute; margin-left:-9999px; visibility:hidden;}
+.toggle_cont .cmn_toggle + label {display:block; position:relative; cursor:pointer; outline:none; user-select:none;}
+input.cmn_toggle_round + label {padding:2px;width: 53px;height: 26px;border-radius:60px;}
+input.cmn_toggle_round + label:before, input.cmn_toggle_round + label:after {content:""; display:block; position:absolute; top:1px; left:1px; bottom:1px;}
+input.cmn_toggle_round + label:before {right:1px; background-color:#c0bfc5; border-radius:60px; transition:background 0.4s;}
+input.cmn_toggle_round + label:after {margin-top:-1px;width: 24px;background-color:#fff;border-radius:100%;box-shadow:0 2px 5px rgba(0, 0, 0, 0.3);transition:margin 0.4s;}
+input.cmn_toggle_round:checked + label:before {background-color: #13a89e;}
+input.cmn_toggle_round:checked + label:after {margin-left:30px;}
+.toggle_cont label {margin:0 auto;}
 
