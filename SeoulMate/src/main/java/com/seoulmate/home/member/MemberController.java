@@ -38,17 +38,21 @@ public class MemberController {
 	
 	@RequestMapping(value="/loginOk", method = RequestMethod.POST)
 	public ModelAndView loginCheck(String userid, String userpwd, HttpSession session) {
-		System.out.println("loginOk");
 		MemberDAOImp dao = sqlSession.getMapper(MemberDAOImp.class);
 		MemberVO logVO = dao.loginCheck(userid, userpwd);
 		
 		ModelAndView mav = new ModelAndView();
 		if (logVO==null) { // 로그인 실패
-			mav.setViewName("redirect:login");
-		}else { // 로그인 성공
+			mav.addObject("logState", "fail");
+			mav.setViewName("member/login");
+		} else if(logVO.getState().equals("블랙") || logVO.getState().equals("탈퇴")) {
+			mav.addObject("logState", logVO.getState());
+			mav.setViewName("member/login");
+		}
+		else { // 로그인 성공
 			session.setAttribute("logId", logVO.getUserid());
 			session.setAttribute("logName", logVO.getUsername());
-			session.setAttribute("logGrade", logVO.getGrade() );
+			session.setAttribute("logGrade", logVO.getGrade());
 			mav.setViewName("redirect:/");
 		}
 		
@@ -60,4 +64,26 @@ public class MemberController {
 		session.invalidate();
 		return "home";
 	}
+	
+	@RequestMapping("/memberFind")
+    public String memberFind() {
+        return "member/memberFind";
+    }
+	
+	@RequestMapping(value="/memberFindId", method=RequestMethod.POST)
+    public ModelAndView memberFindId(MemberVO vo) {
+        ModelAndView mav=new ModelAndView();
+        MemberDAOImp dao=sqlSession.getMapper(MemberDAOImp.class);
+
+        String result=dao.memberFindId(vo);
+
+        if(result!=null) { // 입력한 정보에 맞는 아이디가 있는 경우
+            mav.addObject("findId", result);
+        }else { // 입력한 정보에 맞는 아이디가 없는 경우
+            mav.addObject("findNotId", "no");
+        }
+
+        mav.setViewName("member/memberFind");
+        return mav;
+    }
 }
