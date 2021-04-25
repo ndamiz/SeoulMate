@@ -39,9 +39,30 @@
 			if(area1=="구를 선택해주세요"){
 				area1="";
 			}else{
-				area1+=" "+$("#dong").val();
+				area1+=" "+$("#dong1").val();
 			}
 			document.getElementById("area1").value=area1;
+			
+			// 희망 지역2
+			var area2=$("#gu2").val();
+			// alert(area2);
+			if(area2=="구를 선택해주세요"){
+				area2="";
+			}else{
+				area2+=" "+$("#dong2").val();
+			}
+			document.getElementById("area2").value=area2;
+			
+			// 희망 지역3
+			var area3=$("#gu3").val();
+			// alert(area3);
+			if(area3=="구를 선택해주세요"){
+				area3="";
+			}else{
+				area3+=" "+$("#dong3").val();
+			}
+			document.getElementById("area3").value=area3;
+			
 			// 유효성 검사
 			if($("#userid").val()==""){
 				alert("아이디를 입력하세요");
@@ -265,12 +286,20 @@
 			}
 		}
 	});
-	// 희망 지역 1
+	// 희망 지역
 	function areaChange(e) {
+		var areaId=e.id;
 		var gangnam = ["개포동","논현동","대치동","도곡동","삼성동","세곡동","수서동","신사동","압구정동","역삼동","일원동","청담동"];
 		var gangdong = ["강일동","고덕동","길동","둔촌동","명일동","상일동","성내동","암사동","천호동"];
 		var gangseo = ["미아동","번동","삼각산동","삼양동","송중동","송천동","수유동","우이동","인수동"];
-		var target = document.getElementById("dong");
+		
+		if(areaId=="gu1"){
+			var target = document.getElementById("dong1");
+		}else if(areaId=="gu2"){
+			var target = document.getElementById("dong2");
+		}else if(areaId=="gu3"){
+			var target = document.getElementById("dong3");
+		}
 		if(e.value=="강남구") var d = gangnam;
 		else if(e.value=="강동구") var d = gangdong;
 		else if(e.value=="강서구") var d = gangseo;
@@ -284,7 +313,6 @@
 			target.appendChild(opt);
 		}
 	}
-	
 </script>
 <div class="wrap">
 	<div class="member_wrap">
@@ -346,13 +374,37 @@
 							<option value="강서구">강서구</option>
 						</select>
  
-						<select id="dong">
+						<select id="dong1">
 							<option>동을 선택해주세요</option>
 						</select>
-
 						<input type="text" name="area1" id="area1" placeholder=""/>
 					</li>
-					
+					<li><label>&nbsp;희망 지역2</label>
+						<select id="gu2" onchange="areaChange(this)">
+							<option>구를 선택해주세요</option>
+							<option value="강남구">강남구</option>
+							<option value="강동구">강동구</option>
+							<option value="강서구">강서구</option>
+						</select>
+ 
+						<select id="dong2">
+							<option>동을 선택해주세요</option>
+						</select>
+						<input type="text" name="area2" id="area2" placeholder=""/>
+					</li>					
+					<li><label>&nbsp;희망 지역3</label>
+						<select id="gu3" onchange="areaChange(this)">
+							<option>구를 선택해주세요</option>
+							<option value="강남구">강남구</option>
+							<option value="강동구">강동구</option>
+							<option value="강서구">강서구</option>
+						</select>
+ 
+						<select id="dong3">
+							<option>동을 선택해주세요</option>
+						</select>
+						<input type="text" name="area3" id="area3" placeholder=""/>
+					</li>
 					<li><label><span class="red_txt">*</span>이메일</label>
 						<input type="text" name="emailid" id="emailid" value="0905cjw" placeholder="이메일"/><span>@</span> 
 						<select name="emaildomain" id="emaildomain">
@@ -409,11 +461,11 @@
 					<li><label><span class="red_txt">*</span>생활 소음</label>
 						<div class="checks">
 							<input type="radio" name="h_noise" id="h_noise1" value="1" checked/>
-							<label for="h_noise1">자주</label>
+							<label for="h_noise1">매우 조용함</label>
 							<input type="radio" name="h_noise" id="h_noise2" value="2"/>
-							<label for="h_noise2">가끔</label>
+							<label for="h_noise2">보통</label>
 							<input type="radio" name="h_noise" id="h_noise3" value="3"/>
-							<label for="h_noise3">없음</label>
+							<label for="h_noise3">조용하지 않음</label>
 						</div>
 					</li>
 					<li><label><span class="red_txt">*</span>생활 시간</label>
@@ -494,11 +546,11 @@
 					<li><label><span class="red_txt">*</span>모임 참가 의무</label>
 						<div class="checks">
 							<input type="radio" name="h_enter" id="h_enter1" value="1" checked/>
-							<label for="h_enter1">매우 조용함</label>
+							<label for="h_enter1">없음</label>
 							<input type="radio" name="h_enter" id="h_enter2" value="2"/>
-							<label for="h_enter2">보통</label>
+							<label for="h_enter2">상관없음</label>
 							<input type="radio" name="h_enter" id="h_enter3" value="3"/>
-							<label for="h_enter3">조용하지 않음</label>
+							<label for="h_enter3">있음</label>
 						</div>
 					</li>
 				</ul>
@@ -514,20 +566,20 @@
 				<ul class="form_box choice">
 					<li><label><span class="red_txt">*</span>하우스 내 지원 서비스</label>
 						<div class="checks">
-							<input type="checkbox" name="h_support" id="h_support1">
+							<input type="checkbox" name="h_supportArr" id="h_support1">
 							<label for="h_support1">공용공간 청소 지원</label>
-							<input type="checkbox" name="h_support" id="h_support2">
+							<input type="checkbox" name="h_supportArr" id="h_support2">
 							<label for="h_support2">공용 생필품 지원</label><br/>
-							<input type="checkbox" name="h_support" id="h_support3">
+							<input type="checkbox" name="h_supportArr" id="h_support3">
 							<label for="h_support3">기본 식품 지원</label>
 						</div>
 					</li>
 					<li><label></label></li>
 					<li><label><span class="red_txt">*</span>기타</label>
 						<div class="checks">
-							<input type="checkbox" name="h_etc" id="h_etc1" value="1"/>
+							<input type="checkbox" name="h_etcArr" id="h_etc1" value="1"/>
 							<label for="h_etc1">보증금 조절 가능</label>
-							<input type="checkbox" name="h_etc" id="h_etc3" value="3"/>
+							<input type="checkbox" name="h_etcArr" id="h_etc3" value="3"/>
 							<label for="h_etc3">즉시 입주 가능</label>
 						</div>
 					</li>

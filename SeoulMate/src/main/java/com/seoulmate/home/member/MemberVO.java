@@ -23,11 +23,11 @@ public class MemberVO {
 	private int gender;
 	
 	private String area="";
-	private String aList[];
+	private String aList[]=null;
+	
 	private String area1;
 	private String area2;
 	private String area3;
-	
 	
 	private String regdate;
 	private int grade;
@@ -146,6 +146,7 @@ public class MemberVO {
 		this.gender = gender;
 	}
 	public String getArea() {
+		area="";
 		if(area1!=null) {
 			area+=area1+"/";
 		}
