@@ -52,20 +52,28 @@ public class MemberController {
 	
 	
 	@RequestMapping(value="/memberOk", method=RequestMethod.POST)
-	public ModelAndView memberOk(MemberVO vo, HttpSession session) {
+	public ModelAndView memberOk(MemberVO vo, PropensityVO proVO,HttpSession session) {
 		ModelAndView mav=new ModelAndView();
 		mav.setViewName("home");
 		
 		MemberDAOImp dao=sqlSession.getMapper(MemberDAOImp.class);
 		
+		proVO.setUserid(vo.getUserid()); // 성향 테이블에 userid 추가
+		PropensityDAOImp pDAO=sqlSession.getMapper(PropensityDAOImp.class);
+		
 		int result=dao.memberInsert(vo);
 		if(result>0) { // 회원가입 성공
-			mav.setViewName("redirect:login");
+			int pResult=pDAO.propInsert(proVO);
+			if(pResult>0) { // 성향 등록 성공
+				mav.setViewName("redirect:login");
+			}else {
+				mav.setViewName("redirect:memberForm");
+			}
+			
 		}else { // 회원가입 실패
 			mav.setViewName("redirect:memberForm");
 			// 나중에 history.back() 해줘야 함
 		}
-		// session.setAttribute("logId", vo.getUserid());
 		/*
 		System.out.println("아이디 : "+vo.getUserid());
 		System.out.println("비밀번호 : "+vo.getUserpwd());

@@ -1,11 +1,13 @@
 package com.seoulmate.home.member;
 
+import java.util.Arrays;
+
 public class PropensityVO {
 	private int pno;
 	private String userid;
 	private String pcase;
 	private String housename;
-	private int h_nouse;
+	private int h_noise;
 	private int h_pattern;
 	private int h_pet;
 	private int h_petwith;
@@ -53,11 +55,11 @@ public class PropensityVO {
 	public void setHousename(String housename) {
 		this.housename = housename;
 	}
-	public int getH_nouse() {
-		return h_nouse;
+	public int getH_noise() {
+		return h_noise;
 	}
-	public void setH_nouse(int h_nouse) {
-		this.h_nouse = h_nouse;
+	public void setH_noise(int h_noise) {
+		this.h_noise = h_noise;
 	}
 	public int getH_pattern() {
 		return h_pattern;

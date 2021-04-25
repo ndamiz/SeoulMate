@@ -566,11 +566,11 @@
 				<ul class="form_box choice">
 					<li><label><span class="red_txt">*</span>하우스 내 지원 서비스</label>
 						<div class="checks">
-							<input type="checkbox" name="h_supportArr" id="h_support1">
+							<input type="checkbox" name="h_supportArr" id="h_support1" value="1">
 							<label for="h_support1">공용공간 청소 지원</label>
-							<input type="checkbox" name="h_supportArr" id="h_support2">
+							<input type="checkbox" name="h_supportArr" id="h_support2" value="2">
 							<label for="h_support2">공용 생필품 지원</label><br/>
-							<input type="checkbox" name="h_supportArr" id="h_support3">
+							<input type="checkbox" name="h_supportArr" id="h_support3" value="3">
 							<label for="h_support3">기본 식품 지원</label>
 						</div>
 					</li>
@@ -669,9 +669,9 @@
 					</li>
 					<li><label><span  class="red_txt">*</span>외국인 입주 가능 여부</label>
 						<div class="checks">
-							<input type="radio" name="m_global" id="m_global" value="3" checked/>
+							<input type="radio" name="m_global" id="m_global3" value="3" checked/>
 							<label for="m_global3">가능</label>
-							<input type="radio" name="m_global" id="m_global" value="1"/>
+							<input type="radio" name="m_global" id="m_global1" value="1"/>
 							<label for="m_global1">불가능</label>
 						</div>
 					</li>
