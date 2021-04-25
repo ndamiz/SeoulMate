@@ -163,7 +163,7 @@
 		
   		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		mapOption = {
-			center : new kakao.maps.LatLng(37.54699, 127.09598), // 지도의 중심좌표
+			center : new kakao.maps.LatLng(37.5640455, 126.834005), // 지도의 중심좌표
 			//draggable: false,
 			level : 4
 		// 지도의 확대 레벨
@@ -191,9 +191,9 @@
 		    
 		} else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
 		    
-	        lat = 33.450701, // 위도
-	        lon = 126.570667; // 경도 
-		    locPosition = new kakao.maps.LatLng(33.450701, 126.570667);
+	        lat = 37.5640455, // 위도
+	        lon = 126.834005; // 경도 
+		    locPosition = new kakao.maps.LatLng(37.5640455, 126.834005); // 서울특별시
 	        displayMarker(locPosition);
 		}
 		
@@ -221,12 +221,13 @@
 		    // 지도 중심좌표를 접속위치로 변경합니다
 		    marker.setMap(map);
 		    map.setCenter(locPosition);      
+		    getHouseMap();
 		}    
 		
 		
 		// =============== 쉐어하우스 마커 찍기 =============== //
-		
-		<c:forEach items="${lst}" var="item">
+		function getHouseMap() {
+		<c:forEach items="${houseMapList}" var="item">
 			// 주소-좌표 변환 객체를 생성합니다
 			var geocoder = new kakao.maps.services.Geocoder();
 			
@@ -235,11 +236,11 @@
 			    // 정상적으로 검색이 완료됐으면 
 			     if (status === kakao.maps.services.Status.OK) {
 			        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-					
+			        
 					var imageSrc = '<%=request.getContextPath()%>/img/comm/map_marker.png', // 마커이미지의 주소입니다    
 					imageSize = new kakao.maps.Size(29, 41), // 마커이미지의 크기입니다
 					imageOption = {
-						offset : new kakao.maps.Point(27, 69)
+						offset : new kakao.maps.Point(15, 30)
 					}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 		
 					// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
@@ -258,56 +259,88 @@
 			    } 
 			});    
 		</c:forEach>
+		getMateMap();
+		}
 		
-		
-<%-- 		var imageSrc = '<%=request.getContextPath()%>/img/comm/map_marker.png', // 마커이미지의 주소입니다    
-		imageSize = new kakao.maps.Size(40, 56), // 마커이미지의 크기입니다
-		imageOption = {
-			offset : new kakao.maps.Point(27, 69)
-		}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+		// =============== 하우스메이트 마커 찍기 =============== //
+		function getMateMap() {
+			// 메이트 리스트 JSON
+			var data = {
+					  "positions": [
+						    {
+						      "lat": null,
+						      "lng": null
+						    }
+				    	]
+				    }
+			<c:forEach items="${mateMapList}" var="item">
+				// 주소-좌표 변환 객체를 생성합니다
+				var geocoder = new kakao.maps.services.Geocoder();
+				
+				// 주소로 좌표를 검색합니다
+				geocoder.addressSearch("${item}", function(result, status) {
+				    // 정상적으로 검색이 완료됐으면 
+				     if (status === kakao.maps.services.Status.OK) {
+				        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+				        data.positions.push({
+				        	 "lat": result[0].y,
+						      "lng": result[0].x
+				        });
+						var imageSrc = '<%=request.getContextPath()%>/img/comm/map_marker.png', // 마커이미지의 주소입니다    
+						imageSize = new kakao.maps.Size(0, 0), // 마커이미지의 크기입니다
+						imageOption = {
+							offset : new kakao.maps.Point(15, 30)
+						}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+			
+						// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+						var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize,
+						imageOption), markerPosition = coords; // 마커가 표시될 위치입니다
 
-		// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-		var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize,
-				imageOption), markerPosition = new kakao.maps.LatLng(lat,lon); // 마커가 표시될 위치입니다
-
-		// 마커를 생성합니다
-		var marker = new kakao.maps.Marker({
-			position : markerPosition,
-			image : markerImage
-		// 마커이미지 설정 
-		});
-
-		// 마커가 지도 위에 표시되도록 설정합니다
-		marker.setMap(map);
-		map.setCenter(locPosition);       --%>
+						// 마커 클러스터러를 생성합니다 
+					    var clusterer = new kakao.maps.MarkerClusterer({
+					        map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
+					        averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
+					        minLevel: 1, // 클러스터 할 최소 지도 레벨 
+					        texts: getTexts, // texts는 ['삐약', '꼬꼬', '꼬끼오', '치멘'] 이렇게 배열로도 설정할 수 있다 
+					        styles: [{ // calculator 각 사이 값 마다 적용될 스타일을 지정한다
+					                width : '150px', height : '150px',
+					                background: 'rgba(19, 168, 158, .3)',
+					                borderRadius: '150px',
+					                color: '#fff',
+					                textAlign: 'center',
+					                fontSize: '1.4rem',
+					                fontWeight: 'bold',
+					                lineHeight: '150px',
+				                	textShadow: '0px 0px 6px #0e7770'
+					            }
+					        ]
+					    });
+					 
+					    // 클러스터 내부에 삽입할 문자열 생성 함수입니다 
+					    function getTexts( count ) {
+					      // 한 클러스터 객체가 포함하는 마커의 개수에 따라 다른 텍스트 값을 표시합니다 
+				    	  return count + "명";       
+					    }
+						
+					    // 데이터를 가져오기 위해 jQuery를 사용합니다
+					    // 데이터를 가져와 마커를 생성하고 클러스터러 객체에 넘겨줍니다
+				        // 데이터에서 좌표 값을 가지고 마커를 표시합니다
+				        // 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
+						
+				        var markers = data.positions.map(function(position) {
+				            return new kakao.maps.Marker({
+				            	image: markerImage,
+				                position : new kakao.maps.LatLng(position.lat, position.lng)
+				            });
+				        });
+					    
+				        // 클러스터러에 마커들을 추가합니다
+				        clusterer.addMarkers(markers);       
+				    } 
+				});    
+			</c:forEach>
+			console.log(data);
+		}
 		
- 		<%-- var map = new kakao.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
-	        center : new kakao.maps.LatLng(36.2683, 127.6358), // 지도의 중심좌표 
-	        /* draggable: false, */
-	        level : 10 // 지도의 확대 레벨 
-	    });
-	    
-	    // 마커 클러스터러를 생성합니다 
-	    var clusterer = new kakao.maps.MarkerClusterer({
-	        map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
-	        averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
-	        minLevel: 3 // 클러스터 할 최소 지도 레벨 
-	    });
-		
-		
-	    // 데이터를 가져오기 위해 jQuery를 사용합니다
-	    // 데이터를 가져와 마커를 생성하고 클러스터러 객체에 넘겨줍니다
-	    $.get("<%=request.getContextPath()%>/js/main/sample.json", function(data) {
-	        // 데이터에서 좌표 값을 가지고 마커를 표시합니다
-	        // 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
-	        var markers = $(data.positions).map(function(i, position) {
-	            return new kakao.maps.Marker({
-	                position : new kakao.maps.LatLng(position.lat, position.lng)
-	            });
-	        });
-
-	        // 클러스터러에 마커들을 추가합니다
-	        clusterer.addMarkers(markers);
-	    });  --%>
 	</script>
 </div>

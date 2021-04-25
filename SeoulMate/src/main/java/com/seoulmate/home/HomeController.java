@@ -12,13 +12,32 @@ public class HomeController {
 	@Autowired
 	SqlSession sqlSession;
 	
+	@SuppressWarnings("null")
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home() {
 		ModelAndView mav = new ModelAndView();
 		HomeDAOImp dao = sqlSession.getMapper(HomeDAOImp.class);
-		String[] lst = dao.getHouseMap();
-		mav.addObject("lst",lst);
-
+		
+		// 로그인전 하우스 맵 정보 구하기
+		String[] houseMapList = dao.getHouseMap();
+		mav.addObject("houseMapList",houseMapList);
+		
+		// 로그인전 메이트 맵 정보 구하기
+		String[] getMateList = dao.getMateMap();
+		String[] mateListArr = null;
+		String[] mateMapList = null;
+		String arr = "";
+		
+		for (int i = 0; i < getMateList.length; i++) {
+			mateListArr = getMateList[i].split("/");
+			for (String j : mateListArr) {
+				arr += j + ",";
+			}
+		}
+		mateMapList = arr.split(",");
+		
+		mav.addObject("mateMapList",mateMapList);
+		
 		mav.setViewName("home");
 		return mav;
 	}
