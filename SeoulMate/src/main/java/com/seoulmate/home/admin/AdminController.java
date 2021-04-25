@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class AdminController {
@@ -41,8 +42,8 @@ public class AdminController {
 	}
 	
 	//문의 관리
-	@RequestMapping("/admin/qnaManagement")
-	public String qnaManagement() {
-		return "/admin/qnaManagement";
+	@RequestMapping("/admin/contactManagement")
+	public String contactManagement() {
+		return "/admin/contactManagement";
 	}
 }

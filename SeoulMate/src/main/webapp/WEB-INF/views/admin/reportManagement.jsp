@@ -61,5 +61,48 @@
 		</div>
 	</div>
 </section>
+<!--  팝업창///////////////////////////////////////////// -->
+<div class="report_wrap">
+		<div class="report_form">
+			<div class="report_head">신고 정보</div>
+			<div class="report_body">
+				<div class="report_list">
+					<ul>
+						<li><div>회원ID</div><input type="text" name="userid"></li>
+						<li><div>신고자ID</div> <input type="text" name="reportid"> </li>
+						<li><div>분류</div> <input type="text" name="category"> </li>
+						<li><div>신고일</div> <input type="text" name="reportdate"> </li>
+						<li><div>신고 사유</div> <input type="text" name="reportcategory"> </li>
+						<li><div>상세내용</div> <textarea rows="5" name="reportcontent"></textarea> </li>
+						<li><div>게시글 공개</div>
+							<div class="toggle_cont">
+							<input id="toggle_1" class="cmn_toggle cmn_toggle_round" type="checkbox" name="visibility">
+							<label for="toggle_1"></label>
+							</div><br>
+						</li>
+						<li><div>블랙리스트</div>
+							<div class="toggle_cont">
+							<input id="toggle_2" class="cmn_toggle cmn_toggle_round" type="checkbox" name="blacklist">
+							<label for="toggle_2"></label>
+							</div><br>
+						</li>
+						<li><div>처리 상태</div>
+							<div id="radioDiv">
+								<input type="radio" name="state">처리완료
+								<input type="radio" name="state">미처리
+								<input type="radio" name="state">허위신고
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="report_bottom">
+				<a href="" class="btn_cancel">닫기</a>
+				<a href="" class="btn_save">확인</a>
+				<a href="" class="btn_del">삭제</a>
+			</div>
+			<a href="" class="report_btn_close">닫기</a>
+		</div>
+	</div>
 </body>
 </html>

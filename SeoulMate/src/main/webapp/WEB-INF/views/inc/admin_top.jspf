@@ -40,6 +40,6 @@
 				<a href="/home/admin/reportManagement" class="list-group-item list-group-item-action list-group-item-light">신고 관리</a>
 				<a href="/home/admin/salesManagement" class="list-group-item list-group-item-action list-group-item-light">매출 관리</a>
 				<a href="/home/admin/payManagement" class="list-group-item list-group-item-action list-group-item-light">결제 관리</a>
-				<a href="/home/admin/qnaManagement" class="list-group-item list-group-item-action list-group-item-light">문의 관리</a>
+				<a href="/home/admin/contactManagement" class="list-group-item list-group-item-action list-group-item-light">문의 관리</a>
 			</div>
 		</nav>
