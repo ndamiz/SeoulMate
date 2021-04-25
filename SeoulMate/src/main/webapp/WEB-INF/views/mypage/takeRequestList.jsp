@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/hyun.css">
 <div class="wrap">
 	<div class="inviteRequsetContent">
-		<p class="m_title">보낸 초대</p>
+		<p class="m_title">받은 신청</p>
 		<section class="inviteRequsetList">
 			<div>
 				<img src="<%=request.getContextPath()%>/img/comm/sample_mate01.png" class="inviteRequsetPic" alt="" />
@@ -15,9 +16,10 @@
 						<li>입주가능 일자 정보</li>
 					</ul>
 				</div>
-				<div class="sendInviteBtn">
-					<a href="" class="h_btn white">초대취소</a>
-					<a href="" class="h_btn green">메세지</a>
+				<div class="takeRequestBtn">
+					<a href="" class="white">거절</a>
+					<a href="" class="green">메세지</a>
+					<a href="" class="green">승인</a>
 				</div>
 			</div>
 			<div>
@@ -31,9 +33,10 @@
 						<li>입주가능 일자 정보</li>
 					</ul>
 				</div>
-				<div class="sendInviteMateBtn">
-					<a href="" class="h_btn white">초대취소</a>
-					<a href="" class="h_btn green">메세지</a>
+				<div class="takeRequestBtn">
+					<a href="" class="white">거절</a>
+					<a href="" class="green">메세지</a>
+					<a href="" class="green">승인</a>
 				</div>
 			</div>
 			<div>
@@ -51,9 +54,10 @@
 						</li>
 					</ul>
 				</div>
-				<div class="sendInviteMateBtn">
-					<a href="" class="h_btn white">초대취소</a>
-					<a href="" class="h_btn green">메세지</a>
+				<div class="takeRequestBtn">
+					<a href="" class="white">거절</a>
+					<a href="" class="green">메세지</a>
+					<a href="" class="green">승인</a>
 				</div>
 			</div>
 			<div>
@@ -71,11 +75,15 @@
 						</li>
 					</ul>
 				</div>
-				<div class="sendInviteMateBtn">
-					<a href="" class="h_btn white">초대취소</a>
-					<a href="" class="h_btn green">메세지</a>
+				<div class="takeRequestBtn">
+					<a href="" class="white">거절</a>
+					<a href="" class="green">메세지</a>
+					<a href="" class="green">승인</a>
 				</div>
 			</div>
 		</section>
+		<a href="" class="q_btn white" id="takeRequestMore">
+			더보기 <span>▼</span>
+		</a>
 	</div>
 </div>

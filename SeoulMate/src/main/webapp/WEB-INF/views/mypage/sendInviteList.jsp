@@ -2,12 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/hyun.css">
 <div class="wrap">
-	<div class="sendInviteContent">
+	<div class="inviteRequsetContent">
 		<p class="m_title">보낸 초대</p>
-		<section class="sendInviteMate">
+		<section class="inviteRequsetList">
 			<div>
-				<img src="<%=request.getContextPath()%>/img/comm/sample_mate01.png" class="sendInviteMatePic" alt="" />
-				<div class="sendInviteMateInfo">
+				<img src="<%=request.getContextPath()%>/img/comm/sample_mate01.png" class="inviteRequsetPic" alt="" />
+				<div class="inviteRequsetInfo">
 					<ul>
 						<li class="s_title">아이디 들어가는 자리</li>
 						<li>나이 / 성별</li>
@@ -16,14 +16,14 @@
 						<li>입주가능 일자 정보</li>
 					</ul>
 				</div>
-				<div class="sendInviteMateBtn">
+				<div class="sendInviteBtn">
 					<a href="" class="h_btn white">초대취소</a>
 					<a href="" class="h_btn green">메세지</a>
 				</div>
 			</div>
 			<div>
-				<img src="<%=request.getContextPath()%>/img/comm/sample_mate02.png" class="sendInviteMatePic" alt="" />
-				<div class="sendInviteMateInfo">
+				<img src="<%=request.getContextPath()%>/img/comm/sample_mate02.png" class="inviteRequsetPic" alt="" />
+				<div class="inviteRequsetInfo">
 					<ul>
 						<li class="s_title">아이디 들어가는 자리</li>
 						<li>나이 / 성별</li>
@@ -32,14 +32,14 @@
 						<li>입주가능 일자 정보</li>
 					</ul>
 				</div>
-				<div class="sendInviteMateBtn">
+				<div class="sendInviteBtn">
 					<a href="" class="h_btn white">초대취소</a>
 					<a href="" class="h_btn green">메세지</a>
 				</div>
 			</div>
 			<div>
-				<img src="<%=request.getContextPath()%>/img/comm/sample_mate03.png" class="sendInviteMatePic" alt="" />
-				<div class="sendInviteMateInfo">
+				<img src="<%=request.getContextPath()%>/img/comm/sample_mate03.png" class="inviteRequsetPic" alt="" />
+				<div class="inviteRequsetInfo">
 					<ul>
 						<li class="s_title">하우스명</li>
 						<li>월세 얼마 이하 등의 조건 (보증금/월세)</li>
@@ -52,14 +52,14 @@
 						</li>
 					</ul>
 				</div>
-				<div class="sendInviteMateBtn">
+				<div class="sendInviteBtn">
 					<a href="" class="h_btn white">초대취소</a>
 					<a href="" class="h_btn green">메세지</a>
 				</div>
 			</div>
 			<div>
-				<img src="<%=request.getContextPath()%>/img/comm/sample_mate03.png" class="sendInviteMatePic" alt="" />
-				<div class="sendInviteMateInfo">
+				<img src="<%=request.getContextPath()%>/img/comm/sample_mate03.png" class="inviteRequsetPic" alt="" />
+				<div class="inviteRequsetInfo">
 					<ul>
 						<li class="s_title">하우스명</li>
 						<li>월세 얼마 이하 등의 조건 (보증금/월세)</li>
@@ -72,11 +72,14 @@
 						</li>
 					</ul>
 				</div>
-				<div class="sendInviteMateBtn">
+				<div class="sendInviteBtn">
 					<a href="" class="h_btn white">초대취소</a>
 					<a href="" class="h_btn green">메세지</a>
 				</div>
 			</div>
 		</section>
+		<a href="" class="q_btn white" id="sendInviteMore">
+			더보기 <span>▼</span>
+		</a>
 	</div>
 </div>
