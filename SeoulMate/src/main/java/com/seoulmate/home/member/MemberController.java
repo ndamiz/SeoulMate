@@ -1,5 +1,6 @@
 package com.seoulmate.home.member;
 
+import java.util.Arrays;
 import java.util.Calendar;
 
 import javax.servlet.http.HttpSession;
@@ -19,15 +20,33 @@ public class MemberController {
 	@RequestMapping("/memberForm")
 	public ModelAndView memForm() {
 		ModelAndView mav=new ModelAndView();
+		MemberDAOImp dao=sqlSession.getMapper(MemberDAOImp.class);
+		
 		Calendar now=Calendar.getInstance();
 		int year=now.get(Calendar.YEAR);
+		mav.addObject("year", year);
+		
 		String arr1[] = {"010"," 02"," 031","032","033","041","042","043","044","051","052","053","054","055","061","062","063","064"};
+		mav.addObject("arr1", arr1);
+		
 		String guArr[]= {"강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구"
 				,"동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"};
-		
-		mav.addObject("year", year);
-		mav.addObject("arr1", arr1);
 		mav.addObject("guArr", guArr);
+		
+		String gangnam="";
+		String gangnamArr[]=dao.dongSelect(guArr[0]);
+		for(int i=0; i<gangnamArr.length; i++) {
+			if(i==0) { // 첫 번째 동
+				gangnam+="'"+gangnamArr[i]+"', ";
+			}else if(gangnamArr.length-1==i) { // 마지막 동
+				gangnam+="'"+gangnamArr[i]+"'";
+			}else {
+				gangnam+="'"+gangnamArr[i]+"', ";
+			}
+		}
+		System.out.println("강남구 : "+gangnam);
+//		System.out.println(gangnam);
+		mav.addObject("gangnam", gangnam); // 강남구의 동을 가져오는 메소드 호출 
 		mav.setViewName("member/memberForm");
 		
 		return mav;

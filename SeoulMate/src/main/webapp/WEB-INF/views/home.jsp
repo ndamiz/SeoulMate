@@ -6,6 +6,7 @@
 			당신과 가장 잘 맞는<br>
 			쉐어하우스 & 메이트
 		</h2>
+		<a class="green" href="sample">샘플</a>
 		<a href="login">로그인</a>
 		<a href="memberForm">회원가입</a>
 		<a href="memberEdit">회원정보 수정</a>

@@ -7,6 +7,8 @@ public interface MemberDAOImp {
 	public int idCheck(String userid);
 	// 회원 가입
 	public int memberInsert(MemberVO vo);
+	// 동 가져오기
+	public String[] dongSelect(String Gu);
 	// 회원정보 가져오기
 	public MemberVO memberSelect(String userid);
 	// 기존 비밀번호 가져오기
