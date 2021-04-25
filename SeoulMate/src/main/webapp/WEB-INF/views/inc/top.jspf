@@ -16,11 +16,11 @@
 	<div class="header_wrap">
 		<header>
 			<div>
-				<h1 class="logo"><a href=""></a></h1>
+				<h1 class="logo"><a href="<%=request.getContextPath()%>/"></a></h1>
 				<ul class="main_menu">
-					<li><a href="" class="menu_item">프리미엄</a></li>
+					<li><a href="premiumInfo" class="menu_item">프리미엄</a></li>
 					<li><a href="houseIndex" class="menu_item">쉐어하우스</a></li>
-					<li><a href="" class="menu_item">하우스메이트</a></li>
+					<li><a href="mateIndex" class="menu_item">하우스메이트</a></li>
 					<li><a href="communityList" class="menu_item">커뮤니티</a></li>
 					<li><a href="" class="menu_item">마이페이지</a></li>
 					<li><a href="" class="menu_btn"></a></li>
@@ -38,7 +38,7 @@
 					<li></li>
 					<li></li>
 					<li>
-						<a href="">자유게시판</a>
+						<a href="communityList">자유게시판</a>
 						<a href="">우리집 자랑</a>
 						<a href="">중고장터</a>
 						<a href="">쉐어 TIP</a>

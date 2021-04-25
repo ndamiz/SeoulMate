@@ -61,15 +61,16 @@
 						</c:forEach>
 					</tbody>
 				</table>
-				<ul class="pagination justify-content-center managementPaging">
-					<li class="page-item"><a href="" class="page-link">Prev</a></li>
-					<li class="page-item"><a href="" class="page-link">1</a></li>
-					<li class="page-item"><a href="" class="page-link">2</a></li>
-					<li class="page-item"><a href="" class="page-link">3</a></li>
-					<li class="page-item"><a href="" class="page-link">4</a></li>
-					<li class="page-item"><a href="" class="page-link">5</a></li>
-					<li class="page-item"><a href="" class="page-link">Next</a></li>
-				</ul>
+				<div class="paging">
+					<a href="" class="first_page"></a>
+					<a href="" class="prev_page"></a>
+					<a href="">1</a>
+					<a href="">2</a>
+					<a href="">3</a>
+					<a href="">4</a>
+					<a href="" class="next_page"></a>
+					<a href="" class="last_page"></a>
+				</div>
 			</div>
 			
 			

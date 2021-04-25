@@ -1,28 +1,5 @@
 @charset "UTF-8";
 
-.s_title {
-	display:inline-block;
-	margin: 40px 0;
-	font-size: 1.5rem;
-	z-index: 0;
-	padding: 0 6px;
-	position: relative;
-	font-weight: 600;
-	color: #111215;
-}
-
-.s_title::before{
-	content: "";
-	display: block;
-	position: absolute;
-	bottom: 0;
-	z-index: -1;
-	left: 1px;
-	width: 100%;
-	height: 9px;
-	background-color: #d2d2d2;
-}
-
 /* 마이페이지 - 결제내역 페이지payDetailList  */
 #payYearSelect{width: 150px; height: 30px; margin: 40px 0px 10px 0px;}
 
@@ -30,33 +7,56 @@
 
 
 /* 마이페이지 - 보낸 초대 sendInviteList */
-.inviteRequsetContent{width: 900px; margin: 40px auto; overflow:auto; }
+.inviteRequsetContent{width: 1000px; margin: 40px auto; overflow:auto; }
 .inviteRequsetList{overflow: auto;}
-.inviteRequsetList>div{width: 440px; height: 250px; float: left; margin-bottom: 40px;}
+.inviteRequsetList>div{width: 500px; height: 250px; float: left; margin-bottom: 40px;}
 .inviteRequsetPic{display:block; float:left; border-radius: 50%; width: 150px;}
 .inviteRequsetInfo{float:none; overflow: auto; }
-.inviteRequsetInfo>ul{margin-left: 30px; line-height: 30px; height: 155px;}
+.inviteRequsetInfo>ul{margin-left: 30px; line-height: 30px; height: 165px;}
+.inviteRequsetInfo>ul>li::before{background-color: #d2d2d2;}
 .inviteRequsetInfo>ul>li:first-of-type{margin: 0;}
 
 
 .inviteRequsetInfo>ul>li:first-of-type {float: none; }
-.inviteRequsetInfo>ul>li>ul{height: 40px; line-height: 40px; margin-top: 20px;}
-.inviteRequsetInfo>ul>li>ul>li{display: inline-block; border-radius: 40px;}
-.inviteRequsetInfo>ul>li>ul>li>p{width: 40px; border-radius: 20px; margin-left: 40px; text-align: center; line-height: 40px; height: 40px;}
-.inviteRequsetInfo>ul>li>ul>li:first-of-type{background: url(../img/comm/ico_room.png) no-repeat 0px 0px; background-color: #f0edf8; }
-.inviteRequsetInfo>ul>li>ul>li:first-of-type>p{color:#4f399d;}
-.inviteRequsetInfo>ul>li>ul>li:nth-of-type(2) {background: url(../img/comm/ico_room.png); background-repeat:repeat-y; background-position-y: 80px; background-color: #e8f2fb;  }
-.inviteRequsetInfo>ul>li>ul>li:nth-of-type(2)>p{color:#355c79;}
-.inviteRequsetInfo>ul>li>ul>li:nth-of-type(3) {background: url(../img/comm/ico_room.png); background-repeat:repeat-y; background-position-y: 40px; background-color: #ffd7d1;  }
-.inviteRequsetInfo>ul>li>ul>li:nth-of-type(3)>p{color:#d05567;}
-.sendInviteBtn{float: right; margin-top: 20px; }
-.sendInviteBtn>a {width: 200px; }
+
+.inviteReauestMate, .inviteReauestHouse{height: 40px; line-height: 40px; margin-top: 20px;}
+.inviteReauestMate>li, .inviteReauestHouse>li{display: inline-block; border-radius: 40px;}
+.inviteReauestMate>li>p, .inviteReauestHouse>li>p{width: 40px; border-radius: 20px; margin-left: 40px; text-align: center; line-height: 40px; height: 40px;}
+
+.inviteReauestHouse>li:first-of-type{background: url(../img/comm/ico_room.png) no-repeat 0px 0px; background-color: #f0edf8; }
+.inviteReauestMate>li:first-of-type{background: url(../img/comm/ico_mate.png) no-repeat 0px 0px; background-color: #f0edf8; }
+.inviteReauestMate>li:first-of-type>p, .inviteReauestHouse>li:first-of-type>p{color:#4f399d; background-color: #e9e5f6;}
+.inviteReauestHouse>li:nth-of-type(2) {background: url(../img/comm/ico_room.png); background-repeat:repeat-y; background-position-y: 80px; background-color: #e8f2fb;  }
+.inviteReauestMate>li:nth-of-type(2) {background: url(../img/comm/ico_mate.png); background-repeat:repeat-y; background-position-y: 80px; background-color: #e8f2fb;  }
+.inviteReauestMate>li:nth-of-type(2)>p, .inviteReauestHouse>li:nth-of-type(2)>p{color:#355c79; background-color: #d8ecfe;}
+.inviteReauestHouse>li:nth-of-type(3) {background: url(../img/comm/ico_room.png); background-repeat:repeat-y; background-position-y: 40px; background-color: #ffe5e1;  }
+.inviteReauestMate>li:nth-of-type(3) {background: url(../img/comm/ico_mate.png); background-repeat:repeat-y; background-position-y: 40px; background-color: #ffe5e1;  }
+.inviteReauestMate>li:nth-of-type(3)>p, .inviteReauestHouse>li:nth-of-type(3)>p{color:#d05567; background-color: #ffd7d1;}
+
+.sendInviteBtn{float: right; margin: 20px 20px 0px 0px; }
+.sendInviteBtn>a {width: 200px; height: 30px; line-height: 30px; font-size: 1em;S}
 
 /* 마이페이지 - 받은 신청 takeRequestList*/
-
-.takeRequestBtn>a{float: right;  }
-.takeRequestBtn {float: right; margin-right:30px; width: 250px; height: 60px; overflow: auto;}
-#takeRequestMore, #sendInviteMore{display:block; width: 800px; margin: 10px auto; height: 30px; line-height: 30px; color:#5E5E5E;}
+.takeRequestBtn>a{float: right;   margin-right:10px; border-radius: 5px; width: 110px; height: 30px; line-height: 30px; font-size: 1em;}
+.takeRequestBtn {float: right; width: 450px; height: 60px; overflow: auto; margin-top: 10px; margin-right: 40px;}
+#takeRequestMore, #sendInviteMore{display:block; width: 800px; margin: 10px auto; height: 30px; line-height: 30px; color:#5E5E5E; text-align: center; cursor: pointer;}
 #takeRequestMore>span, #sendInviteMore>span{font-size: 0.8em;}
-/* .takeRequestBtn>a {width: 100px;} */
 
+/*마이페이지 - 찜목록  likeMarkerList */
+.likeMarkerContent{width: 900px; margin: 40px auto;}
+.likeMarkerList{width: 100%; overflow: auto;} 
+.likeMarkerList>div{overflow: auto; width: 425px; float: left; margin-right: 25px;}
+.likeMarkerList>div>ul{float: left; margin-left: 10px;}
+.likeMarkerList>div>ul>li:first-of-type {font-size: 1.5em; font-weight: bold; }
+.likeMarkerHouse>ul>li:nth-of-type(2) {margin-top: 20px; }
+.likeMarkerMate>ul>li:nth-of-type(2){ margin-top: 10px;}
+.likeMarkerMate>ul>li:last-of-type>ul{margin-top: 10px;}
+.likeMarkerImg{position: relative; float: left;}
+.likeMarkerImg>a{padding: 0; margin: 0; box-shadow: inherit; height:150px;}
+.likeMarkerImg>a>img{width: 150px; border-radius: 20px;}
+.likeMarkerImg>div{border-radius: 20px; background-color: #13a89ec2; width: 70px; height: 70px; 
+	text-align: center; font-size: 1.2em; padding-top: 5px; color: #fff; font-weight: 600;
+	position: absolute; top:5px; left: 5px; }
+.likeMarkerImg>div>span{display:inline-block; font-size: 1.5em; height: 30px; line-height: 30px;}
+.likeMarkerBtn{width: 425px; height: 45px; float: left; line-height: 45px; text-align: center;}
+.likeMarkerBtn>a{border-radius: 5px; height: 30px; line-height: 30px; font-size: 1em; }

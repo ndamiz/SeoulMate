@@ -1,5 +1,4 @@
 @charset "UTF-8";
-<<<<<<< HEAD
 @font-face {
 	font-family: "NotoSans";
 	src: url("fonts/NotoSansCJKkr-Regular.otf") format("opentype");
@@ -54,14 +53,6 @@ select {
 	appearance: none;
 }
 /* font end*/
-=======
-
-@font-face {
-	font-family: "NotoSans";
-	src: url("fonts/NotoSansCJKkr-Regular.otf") format("opentype");
-}
-
->>>>>>> refs/remotes/origin/yeonju
 .m_title {
     font-family: BlackHanSans !important;
     position: relative;
