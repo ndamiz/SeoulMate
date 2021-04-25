@@ -31,22 +31,8 @@ public class MemberController {
 		
 		String guArr[]= {"강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구"
 				,"동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"};
-		mav.addObject("guArr", guArr);
+		mav.addObject("guArr", guArr); 
 		
-		String gangnam="";
-		String gangnamArr[]=dao.dongSelect(guArr[0]);
-		for(int i=0; i<gangnamArr.length; i++) {
-			if(i==0) { // 첫 번째 동
-				gangnam+="'"+gangnamArr[i]+"', ";
-			}else if(gangnamArr.length-1==i) { // 마지막 동
-				gangnam+="'"+gangnamArr[i]+"'";
-			}else {
-				gangnam+="'"+gangnamArr[i]+"', ";
-			}
-		}
-		System.out.println("강남구 : "+gangnam);
-//		System.out.println(gangnam);
-		mav.addObject("gangnam", gangnam); // 강남구의 동을 가져오는 메소드 호출 
 		mav.setViewName("member/memberForm");
 		
 		return mav;
