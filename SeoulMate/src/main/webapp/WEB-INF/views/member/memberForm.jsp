@@ -271,7 +271,7 @@
 		}
 		
 		// 프로필 사진
-		$("#inProfile").on('change', function(){
+		$("#profilePic").on('change', function(){
 			readURL(this);
 		});
 		
@@ -316,7 +316,7 @@
 </script>
 <div class="wrap">
 	<div class="member_wrap">
-		<form method="post" id="memId" action="memberOk">
+		<form method="post" id="memId" action="memberOk" enctype="multipart/form-data">
 			<div id="memDiv1">
 				<p class="m_title">회원가입</p>
 				<p class="d_title">회원 정보 입력, 이메일 인증, 라이프 스타일을 등록 후 회원가입이 가능합니다.</p>
@@ -362,8 +362,8 @@
 					</li>
 					<li id="proli"><span class="red_txt">*</span><label>프로필 사진</label>
 						<div style="margin:5px 0 0 20px;">
-							<img id="profileImg" name="profilePic" src="<%=request.getContextPath()%>/img/choi/pepe_1.png" alt="upload image" style="width:150px; height:107px;"/>
-							<input type="file" accept="image/*" id="inProfile" />
+							<img id="profileImg" name="profileImg" src="<%=request.getContextPath()%>/img/choi/pepe_1.png" alt="upload image" style="width:150px; height:107px;"/>
+							<input type="file" accept="image/*" name="profilePic" id="profilePic" />
 						</div>
 					</li>
 					<li><label>&nbsp;희망 지역1</label>
