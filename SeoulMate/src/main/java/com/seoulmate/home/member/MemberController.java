@@ -294,5 +294,4 @@ public class MemberController {
 	public String sample() {
 		return "member/sample";
 	}
-	
 }

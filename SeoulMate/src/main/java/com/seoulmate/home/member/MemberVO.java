@@ -23,7 +23,11 @@ public class MemberVO {
 	private int gender;
 	
 	private String area="";
+<<<<<<< HEAD
 	private String aList[]=null;
+=======
+	private String aList[];
+>>>>>>> refs/remotes/origin/doo
 	
 	private String area1;
 	private String area2;
@@ -146,7 +150,10 @@ public class MemberVO {
 		this.gender = gender;
 	}
 	public String getArea() {
+<<<<<<< HEAD
 		area="";
+=======
+>>>>>>> refs/remotes/origin/doo
 		if(area1!=null) {
 			area+=area1+"/";
 		}

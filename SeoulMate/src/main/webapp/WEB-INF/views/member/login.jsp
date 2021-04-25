@@ -35,10 +35,10 @@
 	<form method="post" action="loginOk">
 		<ul class="form_box">
 			<li>
-				<input type="text" id="userid" name="userid" placeholder="아이디를 입력해주세요" value="3536cjw"> 
+				<input type="text" id="userid" name="userid" placeholder="아이디를 입력해주세요" value="test1234"> 
 			</li>
 			<li>
-				<input type="password" id="userpwd" name="userpwd" placeholder="비밀번호를 입력해주세요" value="qwer1234!"> 
+				<input type="password" id="userpwd" name="userpwd" placeholder="비밀번호를 입력해주세요" value="qwer1234"> 
 			</li>
 		</ul>
 		<button type="submit" class="q_btn green">로그인</button>

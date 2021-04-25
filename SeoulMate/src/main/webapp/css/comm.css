@@ -1,4 +1,3 @@
-
 @font-face {
 	font-family: "BlackHanSans";
 	src: url("fonts/BlackHanSans-Regular.ttf") format("truetype");
@@ -20,9 +19,10 @@ table a ,
 header a,
 header button,
 nav a,
-<<<<<<< HEAD
 .chat_wrap a,
-footer a{
+footer a,
+.chat_window button
+{
 	box-shadow: none;
 	border:none;
 	border-radius:inherit;
@@ -141,6 +141,7 @@ header{
 .header_wrap .nav_wrap{
 	width: 100%;
 	/* min-width: 1045px; */
+	min-height:222px;
 	box-shadow: 0px 8px 10px 0px rgb(0 0 0 / 10%);
 	position: relative;
 	top: -290px;
@@ -187,198 +188,31 @@ header{
 
 .header_wrap nav ul li a:hover{
 	color: #13a89e;
-=======
-footer a{
-   box-shadow: none;
-   border:none;
-   border-radius:inherit;
-   margin: 0;
-   padding: 0;
-   line-height: inherit;
-   height: inherit;
-}
-
-/* header style */
-
-.header_wrap:hover .nav_wrap{
-   top:0;
-}
-
-.header_wrap{
-   width: 100%;
-   height: 90px;
-   background-color: #fff;
-   z-index: 1;
-}
-
-header .logo{
-   height: 50px;
-   float: left;
-}
-header .logo a{
-   width: 200px;
-   height: 50px;
-   background: url(../img/comm/서울메이트_logo.png) no-repeat;
-   background-size: 80%;
-   margin-top: 5px;
-}
-
-header{
-   width: 100%;
-   background-color: #fff;
-   z-index: 2;
-   position: relative;
-   border-bottom: 1px solid #eee;
-}
-
-.header_wrap header > div{
-   overflow: hidden;
-   width: 80%;
-   min-width: 950px;
-   margin: 0 auto;
-   padding: 20px 0;
-   z-index: 1;
-}
-
-.header_wrap .main_menu{
-   display: flex;
-   width: 75%;
-   float: right;
-}
-
-.header_wrap .main_menu li{
-   width: 25%;
-   height: 50px;
-   line-height: 50px;
-}
-
-.header_wrap .main_menu li:last-child{
-   text-align: center; 
-}
-
-.header_wrap .main_menu li:last-child:hover .menu_item::before{
-   content: none;
-}
-
-.header_wrap .main_menu li .menu_item{
-   display:inline-block;
-   position:relative;
-   line-height: 50px;
-   z-index: 1;
-   font-size: 1.1rem;
-   position: relative;
-   font-weight: 600;
-   color: #111215;
-   overflow: hidden;
-}
-
-.header_wrap .main_menu li .menu_item::before{
-   content: "";
-   display: block;
-   position: absolute;
-   bottom: 10px;
-   z-index: -2;
-   left: -150px;
-   width: 100%;
-   height: 9px;
-   background-color: #ffeb3f;
-   transition:.4s;
-}
-
-
-.header_wrap .main_menu li .menu_item.on::before{
-   left: 0;
-}
-
-.header_wrap .main_menu li:hover .menu_item::before{
-   left: 0;
-}
-
-.header_wrap .menu_btn{
-   margin-top: 10px;
-   width: 30px;
-   height: 30px;
-   background: url(../img/comm/fi-rr-menu-burger.svg) no-repeat;
-}
-
-
-/* header submenu */
-
-.header_wrap .nav_wrap{
-   width: 100%;
-   /* min-width: 1045px; */
-   box-shadow: 0px 8px 10px 0px rgb(0 0 0 / 10%);
-   position: relative;
-   top: -290px;
-   color: #6f7578;
-   font-size:1rem;
-   background-color: #fff;
-   z-index: 1;
-   transition:.3s;
-}
-
-.header_wrap nav{
-   width: 80%;
-   min-width: 950px;
-   margin: 0 auto;
-}
-
-.header_wrap nav ul{
-   display: flex;
-   width: 75%;
-   float: right;
-}
-
-.header_wrap nav ul li{
-   width: 25%;
-}
-
-.header_wrap nav{padding: 1rem 0;overflow: hidden;}
-
-.header_wrap .nav_bg{
-   width: 190px;
-   height: 189px;
-   background: url(../img/comm/nav_bg.png) no-repeat;
-   background-size: cover;
-   position: absolute;
-}
-
-.header_wrap nav ul li a{
-   display: block;
-   font-size: .9rem;
-   word-break: keep-all;
-   line-height: 30px;
-   transition:.3s;
-}
-
-.header_wrap nav ul li a:hover{
-   color: #13a89e;
->>>>>>> refs/remotes/origin/yeonju
 }
 
 /* comm style */
-
 .wrap {
-   width:100%;
-   /* height:100%; */
-   min-height:750px;
-   padding:4rem;
-   margin : 0 auto;
+	width:100%;
+	margin : 0 auto;
+	min-height: calc(100% - 209px);
+	position: relative;
+	padding:4rem;
+	/* padding-bottom: 119px; */
 } 
 
 .member_wrap {
-   width:600px; 
-   margin : 0 auto;
+	width:600px; 
+	margin : 0 auto;
 }
 
 /* .form_wrap { 
-   width:1000px; 
-   margin : 0 auto;
+	width:1000px; 
+	margin : 0 auto;
 } */
 
 .content {
-   width:80%; 
-   margin : 40px auto;
+	width:80%; 
+	margin : 40px auto;
 }
 
 
@@ -397,50 +231,50 @@ header{
 }
 
 .m_title::before{
-   content: "";
-   display: block;
-   position: absolute;
-   left: 1px;
-   width: 10px;
-   height: 40px;
-   background-color: #13a89e;
+	content: "";
+	display: block;
+	position: absolute;
+	left: 1px;
+	width: 10px;
+	height: 40px;
+	background-color: #13a89e;
 }
 
 .s_title {
-   display:inline-block;
-   margin: 40px 0;
-   font-size: 1.5rem;
-   z-index: 0;
-   padding: 0 6px;
-   position: relative;
-   font-weight: 600;
-   color: #111215;
+	display:inline-block;
+	margin: 40px 0;
+	font-size: 1.5rem;
+	z-index: 0;
+	padding: 0 6px;
+	position: relative;
+	font-weight: 600;
+	color: #111215;
 }
 
 .s_title::before{
-   content: "";
-   display: block;
-   position: absolute;
-   bottom: 0;
-   z-index: -1;
-   left: 1px;
-   width: 100%;
-   height: 9px;
-   background-color: #ffeb3f;
+	content: "";
+	display: block;
+	position: absolute;
+	bottom: 0;
+	z-index: -1;
+	left: 1px;
+	width: 100%;
+	height: 9px;
+	background-color: #ffeb3f;
 }
 
 .title_wrap{
-   width: max-content;
-   margin: 0 auto;
+	width: max-content;
+	margin: 0 auto;
 }
 
 .title_wrap p{
-   margin: 0 auto;
+	margin: 0 auto;
 }
 
 .d_title{
-   font-size: 1.2rem;
-   color:#181818;
+	font-size: 1.2rem;
+	color:#181818;
 }
 
 
@@ -448,175 +282,175 @@ header{
 /* content menu style */
 
 .content_menu{
-   display: flex;
-   margin: 40px 0;
+	display: flex;
+	margin: 40px 0;
 }
 
 .content_menu a{
-   display:inline-block;
-   margin-right: 40px;
-   box-shadow: inherit;
-   border:none;
-   border-radius:inherit;
-   font-size: 1.2rem;
-   padding: 0 6px;
-   position: relative;
-   font-weight: 600;
-   color: #111215;
-   overflow: hidden;
+	display:inline-block;
+	margin-right: 40px;
+	box-shadow: inherit;
+	border:none;
+	border-radius:inherit;
+	font-size: 1.2rem;
+	padding: 0 6px;
+	position: relative;
+	font-weight: 600;
+	color: #111215;
+	overflow: hidden;
 }
 
 .content_menu a::before{
-   content: "";
-   display: block;
-   position: absolute;
-   z-index: -1;
-   bottom: 6px;
-   left: 1px;
-   width: 100%;
-   height: 9px;
-   background-color: #d2d2d2;
-   transition:.5s;
+	content: "";
+	display: block;
+	position: absolute;
+	z-index: -1;
+	bottom: 6px;
+	left: 1px;
+	width: 100%;
+	height: 9px;
+	background-color: #d2d2d2;
+	transition:.5s;
 }
 
  .content_menu a::after{
-    content: "";
-    display: block;
-    position: absolute;
-    bottom: 6px;
-    z-index: -1;
-    left: 1px;
-    width: 100%;
-    height: 9px;
-    background-color: #ffeb3f;
-    z-index: -11111;
+ 	content: "";
+ 	display: block;
+ 	position: absolute;
+ 	bottom: 6px;
+ 	z-index: -1;
+ 	left: 1px;
+ 	width: 100%;
+ 	height: 9px;
+ 	background-color: #ffeb3f;
+ 	z-index: -11111;
  }
 
 /*  .content_menu a:hover::after{
-   content: "";
-   display: block;
-   position: absolute;
-   bottom: 0;
-   z-index: -1;
-   left: 1px;
-   width: 100%;
-   height: 9px;
-   background-color: #ffeb3f;
-   transition:.5s;
+	content: "";
+	display: block;
+	position: absolute;
+	bottom: 0;
+	z-index: -1;
+	left: 1px;
+	width: 100%;
+	height: 9px;
+	background-color: #ffeb3f;
+	transition:.5s;
 }  */
 
 .content_menu a.on::before{
-   background-color: #ffeb3f;
+	background-color: #ffeb3f;
 }
 
 .content_menu a:hover::before{
-   left: 150px;
-   transition:.5s;
+	left: 150px;
+	transition:.5s;
 }
 
 
 /* button style */
 
 button, a{
-   border-radius: 20px;
-   height: 40px;
-   line-height: 40px;
-   margin: 5px;
-   box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%);
-   display: inline-block;
+	border-radius: 20px;
+	height: 40px;
+	line-height: 40px;
+	margin: 5px;
+	box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%);
+	display: inline-block;
 }
 
 .green{
-   background-color: #13a89e;
-   color:#fff;
+	background-color: #13a89e;
+	color:#fff;
 }
 
 .white{
-   background-color: #fff;
-   color: #000;
+	background-color: #fff;
+	color: #000;
 }
 
 .b_btn{
-   height: 50px;
-   font-size: 1.3rem;
-   line-height: 50px;
-   border-radius: 30px;
-   padding: 0 26px;
+	height: 50px;
+	font-size: 1.3rem;
+	line-height: 50px;
+	border-radius: 30px;
+	padding: 0 26px;
 }
 
 .q_btn{
-   width: 100%;
-   height: 50px;
-   margin: 5px 0;
-   font-size: 1.3rem;
-   line-height: 50px;
-   border-radius: 0;
-   padding: 0 26px;
-   text-align: center;
+	width: 100%;
+	height: 50px;
+	margin: 5px 0;
+	font-size: 1.3rem;
+	line-height: 50px;
+	border-radius: 0;
+	padding: 0 26px;
+	text-align: center;
 }
 
 .btn_wrap{
-   display:flex;
-   width:600px;
-   margin: 40px auto 0;
+	display:flex;
+	width:600px;
+	margin: 40px auto 0;
 }
 .h_btn{
-   width: 50%;
-   height: 50px;
-   line-height: 50px;
-   margin:0;
-   padding: 0;
-   font-size: 1.3rem;
-   border-radius: 0;
-   text-align: center;
+	width: 50%;
+	height: 50px;
+	line-height: 50px;
+	margin:0;
+	padding: 0;
+	font-size: 1.3rem;
+	border-radius: 0;
+	text-align: center;
 }
 
 
 /* form style */
 
 .red_txt{
-   color:#ca3d3d;
+	color:#ca3d3d;
 }
 
 .form_box{
-   width: 600px;
-   margin: 0 auto;
+	width: 600px;
+	margin: 0 auto;
 }
 
 .form_box li{
-   display: flex;
-   height: 50px;
+	display: flex;
+	height: 50px;
 }
 
 .form_box li label{
-   line-height: 47px;
+	line-height: 47px;
 }
 .form_box li input{
-   margin: 0 10px;
+	margin: 0 10px;
 }
 
 .form_box li input,
 .form_box li select{
-   /* width: 43%; */
+	/* width: 43%; */
 }
 
 .form_box li > label:first-child{
-   margin-right: 10px;
+	margin-right: 10px;
 }
 
 .form_box.choice li > label{
-   width: 155px;
+	width: 155px;
 }
 
 
 /* radio button */
 
 .checks label{
-   margin-left: 10px;
+	margin-left: 10px;
 }
 
 .checks {
-   position: relative;
+	position: relative;
 }
 
 .checks input[type="radio"] {
@@ -669,128 +503,128 @@ button, a{
 /* checkbox style */
 
 .checks input[type="checkbox"] { /* 실제 체크박스는 화면에서 숨김 */
-   position: absolute;
-   width: 1px;
-   height: 1px;
-   padding: 0;
-   margin: -1px;
-   overflow: hidden;
-   clip: rect(0, 0, 0, 0);
-   border: 0
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0
 }
 
 .checks input[type="checkbox"]+label {
-   display: inline-block;
-   position: relative;
-   cursor: pointer;
-   -webkit-user-select: none;
-   -moz-user-select: none;
-   -ms-user-select: none;
+	display: inline-block;
+	position: relative;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
 }
 
 .checks input[type="checkbox"]+label:before { /* 가짜 체크박스 */
-   content: ' ';
-   display: inline-block;
-   width: 21px; /* 체크박스의 너비를 지정 */
-   height: 21px; /* 체크박스의 높이를 지정 */
-   line-height: 21px; /* 세로정렬을 위해 높이값과 일치 */
-   margin: -2px 8px 0 0;
-   text-align: center;
-   vertical-align: middle;
-   background: #fff;
-   border: 1px solid #cacece;
-   border-radius: 3px;
+	content: ' ';
+	display: inline-block;
+	width: 21px; /* 체크박스의 너비를 지정 */
+	height: 21px; /* 체크박스의 높이를 지정 */
+	line-height: 21px; /* 세로정렬을 위해 높이값과 일치 */
+	margin: -2px 8px 0 0;
+	text-align: center;
+	vertical-align: middle;
+	background: #fff;
+	border: 1px solid #cacece;
+	border-radius: 3px;
 }
 
 
 .checks input[type="checkbox"]:checked+label:before { /* 체크박스를 체크했을때 */
-   content: '\2714'; /* 체크표시 유니코드 사용 */
-   color: #13a89e;
-   text-shadow: 1px 1px #fff;
-   background: #fff;
-   border-color: #adb8c0;
+	content: '\2714'; /* 체크표시 유니코드 사용 */
+	color: #13a89e;
+	text-shadow: 1px 1px #fff;
+	background: #fff;
+	border-color: #adb8c0;
 }
 
 
 /* table style */
 
 table {
-   border-top: 2px solid #13a89e;
-   table-layout: fixed;
-   line-height: 40px;
-   text-align: center;
+	border-top: 2px solid #13a89e;
+	table-layout: fixed;
+	line-height: 40px;
+	text-align: center;
 }
 
 
 table thead th {
-   color: #1e1e1e;
-   background-color: #efefef;
-   font-weight: 600;
-   border-bottom: 1px solid #c6c6c6;
+	color: #1e1e1e;
+	background-color: #efefef;
+	font-weight: 600;
+	border-bottom: 1px solid #c6c6c6;
 }
 
 table td{
-   line-height: 40px;
-   text-overflow: ellipsis;
-   white-space: nowrap;
-   overflow-wrap: normal;
-   overflow: hidden;
-   border-bottom: 1px solid #c6c6c6;
+	line-height: 40px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow-wrap: normal;
+	overflow: hidden;
+	border-bottom: 1px solid #c6c6c6;
 }
 
 .lnk_txt {
-   color: #258dec;
+	color: #258dec;
 }
 
 .lnk_txt:hover {
-   text-decoration: underline;
+	text-decoration: underline;
 }
 
 
 .t_title{
-   text-align: left;
-   padding-left: 10px;
+	text-align: left;
+	padding-left: 10px;
 }
 
 
 /* paging style */
 
 .paging{
-   margin: 40px auto;
-   width: 380px;
+	margin: 40px auto;
+	width: 380px;
 }
 .paging a {
-   display: inline-block;
-   margin-top: 0;
-   height: 40px;
-   line-height: 40px;
-   width: 40px;
-   overflow: hidden;
-   margin: 0 0 0 5px;
-   text-align: center;
+	display: inline-block;
+	margin-top: 0;
+	height: 40px;
+	line-height: 40px;
+	width: 40px;
+	overflow: hidden;
+	margin: 0 0 0 5px;
+	text-align: center;
 }
 
 .first_page{
-   background: url(../img/comm/btn_page.gif) no-repeat 0 0;
-   background-position: 0px -40px;
+	background: url(../img/comm/btn_page.gif) no-repeat 0 0;
+	background-position: 0px -40px;
 }
 
 .prev_page{
-   background: url(../img/comm/btn_page.gif) no-repeat 0 0;
-   background-position: -40px -40px;
+	background: url(../img/comm/btn_page.gif) no-repeat 0 0;
+	background-position: -40px -40px;
 }
 
 .next_page{
-   background: url(../img/comm/btn_page.gif) no-repeat 0 0;
-   background-position: -80px -40px;
+	background: url(../img/comm/btn_page.gif) no-repeat 0 0;
+	background-position: -80px -40px;
 }
 .last_page{
-   background: url(../img/comm/btn_page.gif) no-repeat 0 0;
-   background-position: -120px -40px;
+	background: url(../img/comm/btn_page.gif) no-repeat 0 0;
+	background-position: -120px -40px;
 }
 
 .paging a.on{
-   color: #13a89e;
+	color: #13a89e;
 }
 
 
@@ -798,7 +632,6 @@ table td{
 /* popup style */
 
 .pup_wrap{
-<<<<<<< HEAD
 	display:none;
 	width: 100%;
 	height:100vh;
@@ -806,178 +639,139 @@ table td{
 	top:0;
 	background-color: rgb(0, 0, 0, 0.5);
 	z-index: 3;
-=======
-   display:none;
-   width: 100%;
-   height:100vh;
-   position: fixed;
-   top:0;
-   background-color: rgb(0, 0, 0, 0.5);
-   z-index: 0;
->>>>>>> refs/remotes/origin/yeonju
 } 
  
 .pup_form{
-   width: 600px;
-   position:absolute;
-   top: 50%;
-   left: 50%;
-   margin-top:-250px;
-   margin-left:-300px;
-   border-radius: 20px;
-   background-color: #fff;
-   box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%);
-   overflow: hidden;
+	width: 600px;
+	position:absolute;
+	top: 50%;
+	left: 50%;
+	margin-top:-250px;
+	margin-left:-300px;
+	border-radius: 20px;
+	background-color: #fff;
+	box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%);
+	overflow: hidden;
 }
 
 .pup_form .pup_head {
-   position: relative;
-   height: 50px;
-   line-height: 50px;
-   font-size: 20px;
-   padding-left: 20px;
-   background-color: #13a89e;
-   color: #fff;
+	position: relative;
+	height: 50px;
+	line-height: 50px;
+	font-size: 20px;
+	padding-left: 20px;
+	background-color: #13a89e;
+	color: #fff;
 }
 
 .pup_body {
-   padding: 30px;
-   height: 400px;
-   overflow: hidden;
-   overflow-y: auto;
+	padding: 30px;
+	height: 400px;
+	overflow: hidden;
+	overflow-y: auto;
 }
 
 .pup_bottom {
-   padding: 15px 0;
-   text-align: center;
-   box-shadow: 0 -1px 22px -2px rgb(0 0 0 / 15%);
+	padding: 15px 0;
+	text-align: center;
+	box-shadow: 0 -1px 22px -2px rgb(0 0 0 / 15%);
 }
 
 .pup_bottom a {
-   display: inline-block;
-   padding: 0 15px;
-   width: 130px;
-   height: 40px;
-   margin: 0 2.5px;
-   line-height: 40px;
-   color: #fff;
-   font-size: 16px;
-   font-weight: 400;
-   text-align: center;
-   border-radius: 5px;
+	display: inline-block;
+	padding: 0 15px;
+	width: 130px;
+	height: 40px;
+	margin: 0 2.5px;
+	line-height: 40px;
+	color: #fff;
+	font-size: 16px;
+	font-weight: 400;
+	text-align: center;
+	border-radius: 5px;
 }
 
 .pup_bottom a.btn_cancel {
-   background-color: #8f969d;
+	background-color: #8f969d;
 }
 
 .pup_bottom a.btn_save {
-   background-color: #2171cc;
+	background-color: #2171cc;
 }
 
 .pup_bottom a.btn_del {
-   background-color: #ef8181;
+	background-color: #ef8181;
 }
 
 .btn_close {
-   position: absolute;
-   right: 17px;
-   top: 11px;
-   width: 25px;
-   height: 25px !important;
-   font-size: 0;
-   text-indent: -9999px;
-   opacity: 0.7;
+	position: absolute;
+	right: 17px;
+	top: 11px;
+	width: 25px;
+	height: 25px !important;
+	font-size: 0;
+	text-indent: -9999px;
+	opacity: 0.7;
 }
 
 .btn_close:hover {
-   opacity: 1;
+	opacity: 1;
 }
 
 .btn_close:before, .btn_close:after {
-   position: absolute;
-   left: 15px;
-   content: ' ';
-   height: 25px;
-   width: 2px;
-   background-color: #fff;
+	position: absolute;
+	left: 15px;
+	content: ' ';
+	height: 25px;
+	width: 2px;
+	background-color: #fff;
 }
 
 .btn_close:before {
-   transform: rotate(45deg);
+	transform: rotate(45deg);
 }
 
 .btn_close:after {
-   transform: rotate(-45deg);
+	transform: rotate(-45deg);
 }
 
 
 .pup_list{
-   display: flex;
-   border-radius: 10px;
-   padding: 10px;
-   margin-bottom: 20px;
-   box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%);
+	display: flex;
+	border-radius: 10px;
+	padding: 10px;
+	margin-bottom: 20px;
+	box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%);
 }
  
  
  /* popup list */
  
-<<<<<<< HEAD
 .pup_wrap .list_img{
 	width: 30%;
-=======
-.list_img{
-   /* width: 30%; */
->>>>>>> refs/remotes/origin/yeonju
 }
 
-<<<<<<< HEAD
 .pup_wrap .list_img img{
 	width: 107px;
 	height: 107px;
 	border-radius: 60px;
 	margin: 20px;
-=======
-.list_img img{
-   /* width: 107px; */
-   /* height: 107px; */
-   /* border-radius: 60px; */
->>>>>>> refs/remotes/origin/yeonju
 }
 
-<<<<<<< HEAD
 .pup_wrap .list_title{
 	width:50%;
 	line-height: 50px;
-=======
-.list_title{
-   line-height: 50px;
->>>>>>> refs/remotes/origin/yeonju
 }
 
-<<<<<<< HEAD
 .pup_wrap .list_title .s_title{
 	margin: 0 10px 0 0;
 	font-size: 1.3rem;
-=======
-.list_title .s_title{
-   margin: 0 10px 0 0;
-   font-size: 1.3rem;
->>>>>>> refs/remotes/origin/yeonju
 }
-<<<<<<< HEAD
 .pup_wrap .list_title .d_title{
 	margin: 0 10px 0 0;
 	font-size: 1.1rem;
-=======
-.list_title .d_title{
-   margin: 0 10px 0 0;
-   font-size: 1.1rem;
->>>>>>> refs/remotes/origin/yeonju
 }
 
-<<<<<<< HEAD
 .pup_wrap .list_btn button,
 .pup_wrap .list_btn a{
 	display:block;
@@ -985,62 +779,60 @@ table td{
 	line-height: 30px;
 	font-size: .9rem;
 	height: 30px;
-=======
-.list_btn button,
-.list_btn a{
-   display:block;
-   width: 81px;
-   line-height: 30px;
-   font-size: .9rem;
-   height: 30px;
->>>>>>> refs/remotes/origin/yeonju
 }
 
 
 
 /* footer style */
 .foot_wrap{
-   width: 100%;
-   background-color:#13a89e;
-   color: #fff;
-   position: relative;
-   bottom: 0;
+	width: 100%;
+	background-color:#13a89e;
+	color: #fff;
+	position: relative;
+	right:0;
+	height: 119px;
+	bottom: 0;
+	left:0;
 }
 
 footer{
-   overflow: hidden;
-   width: 80%;
-   margin: 0 auto;
-   padding: 2rem 0;
+	overflow: hidden;
+	width: 80%;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	margin: 0 auto;
+	padding: 2rem 0;
+	right: 0;
 }
 
 footer .logo{
-   float: left;
+	float: left;
 }
 
 footer .logo a{
-   width: 170px;
-   height: 50px;
-   background: url(../img/comm/서울메이트_logo_white.png) no-repeat;
-   background-size: 80%;
-   background-position-y: 8px;
-   /* margin-top: -1px; */
+	width: 170px;
+	height: 50px;
+	background: url(../img/comm/서울메이트_logo_white.png) no-repeat;
+	background-size: 80%;
+	background-position-y: 8px;
+	/* margin-top: -1px; */
 }
 
 footer a{
-   color: #fff;
-   line-height: 50px;
-   width: 100px;
-   font-weight: 600;
+	color: #fff;
+	line-height: 50px;
+	width: 100px;
+	font-weight: 600;
 }
 
 footer p{
-   float: left;
-   line-height: 50px;
+	float: left;
+	line-height: 50px;
 }
 
 footer .foot_btns{
-   float: right;
+	float: right;
 } 
 
 
@@ -1049,24 +841,15 @@ footer .foot_btns{
 
 
 .main_wrap {
-<<<<<<< HEAD
 	width:100%;
 	/* height:100%; */
 	min-height:750px;
 	/* padding:4rem 0; */
 	margin : 0 auto;
-=======
-   width:100%;
-   /* height:100%; */
-   min-height:750px;
-   /* padding:4rem 0; */
-   margin : 0 auto;
->>>>>>> refs/remotes/origin/yeonju
 } 
 
 
 .main_wrap div.content{
-<<<<<<< HEAD
 	height: 91vh;
 	border-bottom:1px solid #eee;
 }
@@ -1107,55 +890,9 @@ footer .foot_btns{
 	width: 50px;
 	height: 50px;
 	box-shadow: 3px 2px 6px 1px #13a89e85;
-=======
-   height: 100vh;
-}
-
-.main_wrap .content{
-   position: relative;
-   margin: 0 auto;
-}
-
-.main_wrap .content .main_title{
-      position: absolute;
-      top: 25%;
-      font-family: Gugi;
-      line-height: 50px;
-      /* padding-top: 19%; */
-      font-size: 3rem;
-      color:#000;
-      vertical-align: middle;
-}
-
-.main_wrap div.content::before{
-    content: "";
-    display: block;
-    position: absolute;
-    top: 14%;
-    right: 0;
-    width: 60%;
-    height: 63%;
-    background: url(../img/main/bg_main.png) no-repeat;
-    z-index: -111;
-    background-size: contain;
-    background-position: right;
-}
-
-.main_wrap .main_search_form{
-   /* margin-top: 4rem; */
-   position: absolute;
-   top: 43%;
-}
-
-.main_wrap .main_search_form button{
-   width: 50px;
-   height: 50px;
-   box-shadow: 3px 2px 6px 1px #13a89e85;
->>>>>>> refs/remotes/origin/yeonju
 }
 
 .main_wrap .main_search_form button::before{
-<<<<<<< HEAD
 	content:"";
 	display: block;
 	margin-left: -2px;
@@ -1614,294 +1351,177 @@ footer .foot_btns{
 	margin-top: 1px;
 	line-height: 19px;
 }
-=======
-   content:"";
-   display: block;
-   margin-left: -2px;
-   width: 25px;
-   height: 25px;
-   background: url(../img/main/ico_search_white.png) no-repeat;
-   background-size: cover;
-}
-
-.main_wrap .main_search_form .checks{
-   height: 50px;
-}
-
-.main_wrap .main_search_form .checks label{
-   height: 50px;
-   line-height: 50px;
-   margin-left: 0;
-   margin-right: 10px;
-}
 
 
-.main_wrap .main_search_form .checks input[type="radio"] + label:before{
-   top:15px;
+
+.chat_wrap .chat_window.chat_on{
+	overflow: hidden;
+	position: relative;
 }
 
-.main_wrap .main_search_form .checks input[type="radio"]:checked + label:after{
-   top:20px;
+.chat_wrap .chat_window.chat_on .chat_head{
+	height: 10%;
+	padding:14px 0 0 18px;
 }
 
-.main_wrap .main_search_form .search_text{
-   border-radius: 10px;
-   width: 400px;
-   margin: 5px 5px 5px 0;
+.chat_wrap .chat_window.chat_on .chat_head::before{
+	display: none;
 }
 
-.main_wrap .main_search_form .search_box{
-   display: flex;
+.chat_wrap .chat_window.chat_on .chat_head::after{
+	display: none;
 }
 
-.recommend_list .list_head{
-   padding: 40px 0;
+.chat_wrap .chat_window.chat_on .chat_head .back_btn{
+	width: 15px;
+	height: 23px;
+	background: url(../img/comm/ico_arrow_left.png);
+	float: left;
 }
 
-.recommend_list .list_head::after {
-   content: "";
-   display: block;
-   clear: both;
-}
-.recommend_list .list_head .m_title{
-   float: left;
-   margin: 0;
+.chat_wrap .chat_window.chat_on .chat_head p{
+	float: left;
+	line-height: 23px;
+	margin-left:10px;
 }
 
-.recommend_list .list_head a{
-   float: right;
-   line-height: 40px;
-   color: #13a89e;
-   position: relative;
-   padding-right: 19px;
+.chat_wrap .chat_window.chat_on .chat_head button{
+	width:16px;
+	height: 16px;
+	float: right;
+	margin-right: 20px;
 }
 
-.recommend_list .list_head a:before{
-   content:"";
-   display: block;
-   position: absolute;
-   width: 10px;
-   height: 17px;
-   top: 12px;
-   right: 0;
-   background: url(../img/main/ico_right.png) no-repeat;
-   background-size: cover;
+.chat_wrap .chat_window.chat_on .chat_head button.report_btn{
+	background: url(../img/comm/ico_report.png) no-repeat;
 }
 
-.recommend_list a,
-.recommend_list button{
-   box-shadow: none;
-   border:none;
-   border-radius:inherit;
-   margin: 0;
-   padding: 0;
-   line-height: inherit;
-   height: inherit;
+.chat_wrap .chat_window.chat_on .chat_head button.close_btn{
+	background: url(../img/comm/ico_chat_close.png) no-repeat;
 }
 
-.recommend_list img{
-   width: 100%;
-   height: 100%;
-   border-radius: 30px;
+.chat_wrap .chat_window.chat_on .chat_body{
+	height:91%;
+	background-color: #fff;
+	padding-bottom: 58px;
 }
 
-.recommend_list .list_content {
-   display: flex;
-   flex-flow: wrap;
+.chat_wrap .chat_window.chat_on .chat_body li{
+	box-shadow: inherit;
+	height: max-content;
+	background-color: inherit;
+}
+.chat_wrap .chat_window.chat_on .chat_body li img{
+	width: 30px;
+	height: 30px;
+	border-radius: 15px;
+	float: left;
+}
+.chat_wrap .chat_window.chat_on .chat_body li > p{
+	margin-left: 38px;
+	font-weight: 600;
 }
 
-.recommend_list .list_content > li{
-   width: 30%;
-   margin-right: 5%;
-   margin-bottom:5%;
-   /* min-width: 700px; */
+.chat_wrap .chat_window.chat_on .chat_body li .chat_text{
+	display: flex;
+	margin-top: 16px;
 }
 
-.recommend_list .list_content > li:nth-child(3n){
-   margin-right: 0;
+.chat_wrap .chat_window.chat_on .chat_body li .chat_text p:first-child {
+	width: max-content;
+	border-radius: 10px;
+	/* margin-top:10px; */
+	background-color: #eef1f2;
+	box-shadow: 3px 3px 5px 0px rgb(0 0 0 / 10%);
+	line-height: 30px;
+	font-size: .9rem;
+	padding: 5px 10px;
+}
+.chat_wrap .chat_window.chat_on .chat_body li .chat_text p:last-child {
+	padding: 5px 0 5px 10px;
+	line-height: 30px;
+	width: 133px;
+	font-size: .8rem;
+	letter-spacing: 0;
 }
 
-.recommend_list .btn_star{
-   width: 40px;
-   height: 40px;
-   top: 25px;
-   right: 25px;
-   background: url(../img/comm/ico_star.png) no-repeat 0 0;
-   transition: .2s;
+.chat_wrap .chat_window.chat_on .chat_body li.right > *{}
+
+.chat_wrap .chat_window.chat_on .chat_msg{
+	position: relative;
+	bottom: 58px;
 }
 
-.recommend_list .btn_star:hover,
-.recommend_list .btn_star.on{
-   background-position: 0 -42px;
+.chat_wrap .chat_window.chat_on .chat_msg input{
+	width: 100%;
+	height: 53px;
+	padding-right: 47px;
 }
 
-
-.recommend_list .list_img{
-   position: relative;
+.chat_wrap .chat_window.chat_on .chat_msg .btn_send{
+	width: 40px;
+	height: 40px;
+	/* padding: 20px; */
+	background: url(../img/comm/ico_send.png) no-repeat 13px 10px;
+	position: absolute;
+	top: 7px;
+	right: 7px;
 }
-
-.recommend_list .list_img a{
-   width: 100%;
-}
-
-.recommend_list .list_img p,
-.recommend_list .list_img button{
-   position: absolute;
-}
-
-.recommend_list .list_img p{
-   width: 32%;
-   height: 32%;
-   min-width: 80px;
-   min-height: 80px;
-   top: 25px;
-   left: 25px;
-   padding: 6% 0 0 4%;
-   border-radius: 20px;
-   background-color: #13a89ec2;
-   color: #fff;
-   font-size: 2.8rem;
-   font-weight: 600;
-}
-
-.recommend_list .list_img p span{
-   display: block;
-   line-height:20px;
-   font-size: 1.3rem;
-}
-
-.recommend_list .list_img p b{
-   font-size: 1.9rem;
-}
-
-.recommend_list .list_title::after{
-   content: "";
-   display: block;
-   clear: both;
-}
-
-.recommend_list .list_title .address{
-   float: left;
-   width: 68%;
-   text-overflow: ellipsis;
-   white-space: nowrap;
-   overflow-wrap: normal;
-   overflow: hidden;
-}
-
-.recommend_list .list_title .pay{
-   float: right;
-}
-
-.recommend_list .list_icon{
-   display: flex;
-}
-
-.recommend_list .list_icon li{
-   width: 30%;
-   height: 50px;
-   position:relative;
-   border-radius: 40px;
-   margin-right: 5%;
-}
-
-.recommend_list .list_icon li:first-child{
-   background-color: #f0edf8;
-}
-.recommend_list .list_icon li:nth-child(2){
-   background-color: #e8f2fb;
-}
-.recommend_list .list_icon li:last-child{
-   margin-right: 0;
-   background-color: #ffe5e1;
-}
-
-.recommend_list .list_icon li::before {
-   content: "";
-   display: block;
-   width: 40px;
-   height: 40px;
-   position:absolute;
-   top: 6px;
-   left: 10px;
-   background: url(../img/comm/ico_room.png) no-repeat 0px 0px;
-   background-size: cover;
-}
-
-.recommend_list .list_icon li:nth-child(2)::before {
-   background-position: 0 -40px;
-}
-
-.recommend_list .list_icon li:last-child::before {
-   background-position: 0 -81px;
-}
+	
 
 
-.recommend_list .list_icon li p{
-   width: 40px;
-   height: 40px;
-   position:absolute;
-   top:5px;
-   right:9px;
-   line-height: 40px;
-   border-radius: 20px;
-   background-color: #eee;
-   text-align: center;
-}
-.recommend_list .list_icon li:first-child p{
-   background-color: #e9e5f6;
-   color:#4f399d;
-}
-.recommend_list .list_icon li:nth-child(2) p{
-   background-color: #d8ecfe;
-   color: #355c79;
-}
-.recommend_list .list_icon li:last-child p{
-   background-color: #ffd7d1;
-   color: #d05567;
+/* 로그인 */
+
+.login_wrap{
+	padding:4rem;
 }
 
-.recommend_list.mate_list .list_icon li p {
-   padding: 0px 14px;
-   width: auto;
+.login_wrap form{
+	margin: 20px 0;
 }
 
-.recommend_list.mate_list .list_icon li::before {
-   left: 6px;
-   top: 4px;
-   background: url(../img/comm/ico_mate.png) no-repeat 0px 0px;
-}
-.recommend_list.mate_list .list_icon li:nth-child(2)::before { 
-   background-position: 0 -40px;
-}
-.recommend_list.mate_list .list_icon li:nth-child(3)::before { 
-   background-position: 0 -81px;
+.login_wrap form .form_box{
+	margin: 40px 0;
 }
 
-.recommend_list.mate_list .mate_id{
-   float: left;
+.login_wrap form li::before{
+	content:"";
+	display:block;
+	width: 30px;
+	height: 30px;
+	position: absolute;
+	margin-top: 9px;
 }
 
-.recommend_list.mate_list .address{
-   float: inherit;
+.login_wrap form li:first-child::before{
+	background: url(../img/member/ico_user.png);
+}
+
+.login_wrap form li:last-child::before{
+	background: url(../img/member/ico_password.png);
+}
+	
+.login_wrap form li input{
+	margin-left: 40px;
+	width: 432px;
+}
+
+.login_wrap a{
+	margin-top:20px;
 }
 
 
 
-/* main map */
+/* 토글버튼 */
 
+.toggle_cont {margin:0 10px 0 0;}
+.toggle_cont .cmn_toggle {position:absolute; margin-left:-9999px; visibility:hidden;}
+.toggle_cont .cmn_toggle + label {display:block; position:relative; cursor:pointer; outline:none; user-select:none;}
+input.cmn_toggle_round + label {padding:2px;width: 53px;height: 26px;border-radius:60px;}
+input.cmn_toggle_round + label:before, input.cmn_toggle_round + label:after {content:""; display:block; position:absolute; top:1px; left:1px; bottom:1px;}
+input.cmn_toggle_round + label:before {right:1px; background-color:#c0bfc5; border-radius:60px; transition:background 0.4s;}
+input.cmn_toggle_round + label:after {margin-top:-1px;width: 24px;background-color:#fff;border-radius:100%;box-shadow:0 2px 5px rgba(0, 0, 0, 0.3);transition:margin 0.4s;}
+input.cmn_toggle_round:checked + label:before {background-color: #13a89e;}
+input.cmn_toggle_round:checked + label:after {margin-left:30px;}
+.toggle_cont label {margin:0 auto;}
 
-
-.main_wrap .map_content{
-   margin-bottom: 100px;
-}
-
-.main_wrap .map_content .list_head{
-   padding: 40px 0;
-}
-.map_content .main_map{
-   width: 100%;
-   height: 400px;
-}
-
->>>>>>> refs/remotes/origin/yeonju

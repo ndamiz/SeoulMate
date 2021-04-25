@@ -44,13 +44,17 @@
 						<a href="">쉐어 TIP</a>
 					</li>
 					<li>
-						<a href="login">로그인</a>
-						<a href="logout">로그아웃</a>
-						<a href="">회원정보 수정</a>
-						<a href="">나의성향 수정</a>
-						<a href="">하우스&메이트 관리</a>
-						<a href="">결제내역</a>
-						<a href="">회원탈퇴</a>
+						<c:if test="${logId==null}">
+							<a href="login">로그인</a>
+						</c:if>
+						<c:if test="${logId!=null}">
+							<a href="logout">로그아웃</a>
+							<a href="">회원정보 수정</a>
+							<a href="">나의성향 수정</a>
+							<a href="">하우스&메이트 관리</a>
+							<a href="">결제내역</a>
+							<a href="">회원탈퇴</a>
+						</c:if>
 					</li>
 					<li></li>
 				</ul>
