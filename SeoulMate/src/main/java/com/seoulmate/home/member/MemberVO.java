@@ -23,11 +23,11 @@ public class MemberVO {
 	private int gender;
 	
 	private String area="";
-	private String aList[];
+	private String aList[]=null;
+	
 	private String area1;
 	private String area2;
 	private String area3;
-	
 	
 	private String regdate;
 	private int grade;
@@ -46,6 +46,7 @@ public class MemberVO {
 	public void setUserid(String userid) {
 		this.userid = userid;
 	}
+	
 	public String getUserpwd() {
 		return userpwd;
 	}

@@ -11,6 +11,13 @@
 			if($("#idEmailCheck").val()==""){
 				alert("이메일을 입력하세요");
 				return false;
+<<<<<<< HEAD
+			}else{
+				if(regExp()!=false){
+					return true;
+				}else{
+					return false;
+				}
 			}
 		}else{
 			if($("#useridCheck").val()==""){
@@ -23,6 +30,45 @@
 			}	
 		}
 	}
+	function findResultId(){
+		if("${findId}"!=""){ // 찾은 아이디가 있을 경우
+			alert("아이디는 ${findId}입니다.");
+		}
+		if("${findNotId}"=="no"){ // 찾은 아이디가 없는 경우
+			alert("아이디를 찾을 수 없습니다.");
+		}
+	}
+	findResultId();
+	function regExp(){
+		var regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+		if(!regEmail.test(document.getElementById("idEmailCheck").value)){
+			alert("이메일 형식은 아이디@도메인 입니다.");
+			return false;
+		}
+	}
+=======
+			}
+		}else{
+			if($("#useridCheck").val()==""){
+				alert("아이디를 입력하세요");
+				return false;
+			}
+			if($("#pwdEmailCheck").val()==""){
+				alert("이메일을 입력하세요");
+				return false;
+			}	
+		}
+	}
+	function findResultId(){
+		if("${findId}"!=""){ // 찾은 아이디가 있을 경우
+			alert("아이디는 ${findId}입니다.");
+		}
+		if("${findNotId}"=="no"){ // 찾은 아이디가 없는 경우
+			alert("아이디를 찾을 수 없습니다.");
+		}
+	}
+	findResultId();
+>>>>>>> refs/remotes/origin/doo
 </script>
 <style>
 	.title_wrap>.s_title.margin-bottom50.margin-top50{margin:50px 0;}

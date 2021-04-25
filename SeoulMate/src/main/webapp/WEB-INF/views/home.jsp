@@ -23,9 +23,10 @@
 	</div>
 	
 	<!-- 프리미엄 추천 쉐어하우스 -->
+	<c:if test="${logId!=null}">
 	<section class="content recommend_list">
 		<div class="list_head">
-			<p class="m_title">김두별님과 잘 어울리는 집이예요!</p>
+			<p class="m_title">${logName}님과 잘 어울리는 집이예요!</p>
 			<a href="">더보기</a>
 		</div>
 		<ul class="list_content">
@@ -51,6 +52,7 @@
 			</c:forEach>
 		</ul>
 	</section>
+	</c:if>
 	
 	<!-- 신규 쉐어하우스 -->
 	<section class="content recommend_list">
@@ -82,10 +84,11 @@
 		</ul>
 	</section>
 	
+	<c:if test="${logId!=null}">
 	<!-- 프리미엄 추천 하우스메이트 -->
 	<section class="content recommend_list mate_list">
 		<div class="list_head">
-			<p class="m_title">김두별님과 잘 어울리는 메이트예요!</p>
+			<p class="m_title">${logName}님과 잘 어울리는 메이트예요!</p>
 			<a href="">더보기</a>
 		</div>
 		<ul class="list_content">
@@ -112,6 +115,7 @@
 			</c:forEach>
 		</ul>
 	</section>
+	</c:if>
 	
 	<!-- 신규 하우스메이트 -->
 	<section class="content recommend_list mate_list">
@@ -143,9 +147,9 @@
 			</c:forEach>
 		</ul>
 	</section>
-</div>
+	
 	<!-- 지도 -->
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6bad1d8e9a1449ac5fb2b238e99a32ed&libraries=clusterer"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6bad1d8e9a1449ac5fb2b238e99a32ed&libraries=clusterer,services"></script>
 	 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<section class="content map_content">
 		<div class="list_head">
@@ -154,17 +158,109 @@
 		<div class="main_map" id="map"></div>
 	</section>
 	<script>
+	
+		// =============== 지도생성  =============== //
+		
   		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		mapOption = {
 			center : new kakao.maps.LatLng(37.54699, 127.09598), // 지도의 중심좌표
-			draggable: false,
+			//draggable: false,
 			level : 4
 		// 지도의 확대 레벨
 		};
 
 		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+		
+		// =============== 현재좌표 구하기 =============== //
+		
+		var lat, lon, locPosition;
+		// HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
+		if (navigator.geolocation) {
+		    
+		    // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+		    navigator.geolocation.getCurrentPosition(function(position) {
+	        
+	        lat = position.coords.latitude, // 위도
+	        lon = position.coords.longitude; // 경도
+	        
+	       	locPosition = new kakao.maps.LatLng(lat, lon); 
+	        // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+	        
+	       	displayMarker(locPosition);
+	      });
+		    
+		} else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+		    
+	        lat = 33.450701, // 위도
+	        lon = 126.570667; // 경도 
+		    locPosition = new kakao.maps.LatLng(33.450701, 126.570667);
+	        displayMarker(locPosition);
+		}
+		
+		// =============== 현재좌표 마커, 지도중심 찍기 =============== //
+		
+		// 지도에 마커와 인포윈도우를 표시하는 함수입니다
+		function displayMarker(locPosition) {
+			var imageSrc = '<%=request.getContextPath()%>/img/comm/map_marker.png', // 마커이미지의 주소입니다    
+			imageSize = new kakao.maps.Size(29, 41), // 마커이미지의 크기입니다
+			imageOption = {
+				offset : new kakao.maps.Point(27, 69)
+			}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
-		var imageSrc = '<%=request.getContextPath()%>/img/comm/map_marker.png', // 마커이미지의 주소입니다    
+			// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize,
+			imageOption), markerPosition = locPosition; // 마커가 표시될 위치입니다
+			
+		    // 마커를 생성합니다
+		    var marker = new kakao.maps.Marker({  
+		        map: map, 
+		        image: markerImage,
+		        position: markerPosition
+		    }); 
+
+		    // 지도 중심좌표를 접속위치로 변경합니다
+		    marker.setMap(map);
+		    map.setCenter(locPosition);      
+		}    
+		
+		
+		// =============== 쉐어하우스 마커 찍기 =============== //
+		
+		<c:forEach items="${lst}" var="item">
+			// 주소-좌표 변환 객체를 생성합니다
+			var geocoder = new kakao.maps.services.Geocoder();
+			
+			// 주소로 좌표를 검색합니다
+			geocoder.addressSearch("${item}", function(result, status) {
+			    // 정상적으로 검색이 완료됐으면 
+			     if (status === kakao.maps.services.Status.OK) {
+			        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+					
+					var imageSrc = '<%=request.getContextPath()%>/img/comm/map_marker.png', // 마커이미지의 주소입니다    
+					imageSize = new kakao.maps.Size(29, 41), // 마커이미지의 크기입니다
+					imageOption = {
+						offset : new kakao.maps.Point(27, 69)
+					}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+		
+					// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+					var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize,
+					imageOption), markerPosition = coords; // 마커가 표시될 위치입니다
+			        
+			        // 결과값으로 받은 위치를 마커로 표시합니다
+			        var marker = new kakao.maps.Marker({
+			            map: map,
+				        image: markerImage,
+			            position: coords
+			        });
+	
+			        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+			        // map.setCenter(coords);
+			    } 
+			});    
+		</c:forEach>
+		
+		
+<%-- 		var imageSrc = '<%=request.getContextPath()%>/img/comm/map_marker.png', // 마커이미지의 주소입니다    
 		imageSize = new kakao.maps.Size(40, 56), // 마커이미지의 크기입니다
 		imageOption = {
 			offset : new kakao.maps.Point(27, 69)
@@ -172,8 +268,7 @@
 
 		// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
 		var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize,
-				imageOption), markerPosition = new kakao.maps.LatLng(37.54699,
-				127.09598); // 마커가 표시될 위치입니다
+				imageOption), markerPosition = new kakao.maps.LatLng(lat,lon); // 마커가 표시될 위치입니다
 
 		// 마커를 생성합니다
 		var marker = new kakao.maps.Marker({
@@ -184,6 +279,7 @@
 
 		// 마커가 지도 위에 표시되도록 설정합니다
 		marker.setMap(map);
+		map.setCenter(locPosition);       --%>
 		
  		<%-- var map = new kakao.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
 	        center : new kakao.maps.LatLng(36.2683, 127.6358), // 지도의 중심좌표 
@@ -214,36 +310,4 @@
 	        clusterer.addMarkers(markers);
 	    });  --%>
 	</script>
-
-		
-	<div class="chat_wrap">
-
-	
-<%-- 	<div class="chat_wrap">
->>>>>>> refs/remotes/origin/doo
-		<div class="chat_window">
-			<div class="chat_head">
-				<p>김두별님</p>
-				<p>소중한 약속을 잡아보세요!</p>
-			</div>
-			<ul class="chat_body">
-				<li>
-					<p>서울시 마포구 합정동</p>
-					<div>
-						<div class="chat_text">
-							<img alt="" src="<%=request.getContextPath()%>/img/comm/sample_mate03.png">
-							<p>doobyeol</p>
-							<p>안녕하세요!</p>
-						</div>
-						
-						<div class="chat_notic">
-							<p>10분전</p>
-							<p>1</p>
-						</div>
-					</div>
-				</li>
-			</ul>
-		</div>
-		<button class="btn_chat"></button>
-	</div> --%>
-	</div>
+</div>

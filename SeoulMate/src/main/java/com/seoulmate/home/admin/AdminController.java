@@ -17,7 +17,6 @@ public class AdminController {
 	public String adminDashboard() {
 		return "/admin/adminDashboard";
 	}
-	
 	//신고관리
 	@RequestMapping("/admin/reportManagement")
 	public String adminReport() {
