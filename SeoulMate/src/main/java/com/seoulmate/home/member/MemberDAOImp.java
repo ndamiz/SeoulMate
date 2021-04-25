@@ -1,6 +1,5 @@
 package com.seoulmate.home.member;
 
-<<<<<<< HEAD
 public interface MemberDAOImp {
 	// 로그인
 	public MemberVO loginCheck(String userid, String username);
@@ -20,12 +19,4 @@ public interface MemberDAOImp {
 	public String memberFindId(MemberVO vo);
 	// 회원 탈퇴
 	public int memberExit(String userid, String userpwd);
-=======
-
-public interface MemberDAOImp {
-	public MemberVO loginCheck(String userid, String username);
-	
-	// 아이디 찾기
-    public String memberFindId(MemberVO vo);
->>>>>>> refs/remotes/origin/doo
 }
