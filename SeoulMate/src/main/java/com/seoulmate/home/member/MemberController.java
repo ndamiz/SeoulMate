@@ -48,11 +48,6 @@ public class MemberController {
 		
 		return mav;
 	}
-	
-<<<<<<< HEAD
-	
-	
-=======
 	@RequestMapping("/memberForm")
 	public ModelAndView memberForm(String userid) {
 		ModelAndView mav = new ModelAndView();
@@ -60,7 +55,6 @@ public class MemberController {
 		
 		return mav;
 	}
->>>>>>> refs/remotes/origin/yeonju
 	@RequestMapping(value="/memberOk", method=RequestMethod.POST)
 	public ModelAndView memberOk(MemberVO vo, HttpSession session) {
 		ModelAndView mav=new ModelAndView();

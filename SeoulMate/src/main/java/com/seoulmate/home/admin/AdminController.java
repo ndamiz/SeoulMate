@@ -17,16 +17,12 @@ public class AdminController {
 	public String adminDashboard() {
 		return "/admin/adminDashboard";
 	}
-	
-<<<<<<< HEAD
 	//신고관리
 	@RequestMapping("/admin/reportManagement")
 	public String adminReport() {
 		return "/admin/reportManagement";
 	}
 	//관리자-회원
-=======
->>>>>>> refs/remotes/origin/yeonju
 	@RequestMapping(value="/admin/memberManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView memberManagement() {
 		ModelAndView mav = new ModelAndView();
@@ -69,14 +65,9 @@ public class AdminController {
 		mav.setViewName("admin/salesManagement");
 		return mav;
 	}
-<<<<<<< HEAD
 	//문의 관리
 	@RequestMapping("/admin/qnaManagement")
 	public String qnaManagement() {
 		return "/admin/qnaManagement";
 	}
 }
-=======
-	
-}
->>>>>>> refs/remotes/origin/yeonju
