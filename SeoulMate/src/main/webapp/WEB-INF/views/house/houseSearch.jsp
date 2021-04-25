@@ -1,68 +1,191 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <style>
-img{width:250px; height:250px; }
-ul, li{float:left;}
-#topFrm{height:300px;}
-#middleFrm{ background-color:lightpink; width:100%; height:400px;}
-#middleFrm>div{float:left;}
-#houseExplain{width:65%; height:100%; background-color:lightblue;}
-#peopleExplain{width:35%;  background-color:gray;  }
-#map_div{background-color:skyblue;}
+.boxClass{height:200px;}
+input[type="date"] {width:200px;}
+input[type="text"] {width:100px;}
+input[type="number"] {width:100px;}
+#searchBox{width:300px;}
+.searchClass ul{display:inline-block; padding-top:10px;}
+#searchBox{position:relative;}
+#iconPic{    position: absolute;
+    right: 2px;
+    top: 8px;}
+ #iconPic1{position:relative; right:70px; top:18px;}
+button{position: relative;}
+
+button::before{
+content:"";
+display: block;
+position: absolute;
+width: 14px;
+height: 23px;
+top: 8px;
+right: 0;
+background: url(../img/main/ico_search_black.png) no-repeat;
+background-size: cover;
+}
 </style>
+
 <div class="wrap">
-
-<!-- 	<div id="imgSlide"> -->
-<!-- 		<ul id="slider"> -->
-<%--             <li><img src="<%=request.getContextPath()%>/img/ico_search_black.png" id="img1" title="Seoul Music Festival"/></li> --%>
-<%--             <li><img src="<%=request.getContextPath()%>/img/ico_search_black.png" id="img2" title="SIBAC 2109"/></li> --%>
-           
-<!--          </ul> -->
-<!--  	</div>  -->
- 
- 	<div id="topFrm">
- 	등록날짜 2021-04-20 등록
- 	<button class="green">수정</button> <button class="green">삭제</button> <button class="green">찜</button> <button class="green">공유하기</button> <button class="green">신고하기</button>
- 	<br/>
- 	<img src="<%=request.getContextPath()%>/img/ico_search_black.png" id="img1" title="전체외관" >
- 	<img src="<%=request.getContextPath()%>/img/ico_filter.png" id="img2" title="거실">
- 	<img src="<%=request.getContextPath()%>/img/ico_search_black.png" id="img3" title="방1">
- 	
- 	</div>
- 	
-	<hr/>
 	
-	<div id="middleFrm">
-		<div id="houseExplain">
-		<p class="s_title">서울특별시 마포구 백범로</p> <br/>
-		보증금 얼마 | 월세 얼마 | 0명 구해요 | 즉시 입주 가능 <br/>
-		방 몇개 | 현재 거주중인 인원 | 욕실 몇개 <br/>
-		House 키워드 <br/>
-		집 키워드 보여주기 ~ ~ <br/>
-		Room 키워드 <br/>
-		방 키워드 보여주기 ~ ~ <br/>
-		우리집 소개 <br/>
-		소개글 불러오기 ~ ~ 
+	<div class="boxClass"> <!-- 상단부분 div -->
+
+	<ul class="searchClass">
+		<li> <img src='<%=request.getContextPath()%>/img/ico_filter.png'/> 조건검색 </li>
+		<li>
+			
+			<ul>	
+				<li>
+					<ul >
+						<li><p>지역</p></li> 
+						<li><input type="text" id="searchBox" placeholder="지역명&지하철명을 입력하세요" /> 
+						<a id="iconPic1"><img id="iconPic" src='<%=request.getContextPath()%>/img/ico_search_black.png'/> </a> </li>
+					</ul>
+					<ul>
+						<li> 입주예정일 </li>
+						<li> <input class="classDate" type="date"/> </li>
+					</ul>
+					<ul>
+						<li> 월세범위 </li>
+						<li> <input type="number" min="0" placeholder="0"/> - <input type="number" min="0" placeholder="0"/> 만원 </li>
+					</ul>
+				
+					<ul>
+						<li> 보증금범위 </li>
+						<li> <input type="number" name="" id="" min="10" placeholder="0"/> - <input type="number" min="0" placeholder="0"/> 만원 </li>
+					</ul>
+					<ul>
+						<li> <button type="submit" class="green"></button> </li>
+						
+					</ul>
+			</ul>
+	</ul>		
 		
-		</div> <!-- 방소개 div 종료 -->
-		
-		<div  id="peopleExplain">
-		<ul>
-			<li><img style="width:150px; height:150px;" src="<%=request.getContextPath()%>/img/ico_filter.png" id="profilePic1"/> </li>
-			<li>응답률 : ㅁㅁ% <br/>
-				최근접속 : 1일 전  <br/>
-				<button class="green">약속잡기</button></li>
+	</div>
+	
+	<button class="green" onclick="location.href='<%=request.getContextPath()%>/houseWrite1'">방 등록하기</button> <br/>
+	<hr/>
+	</div>
+
+<!-- 프리미엄 추천 쉐어하우스 -->
+	<section class="content recommend_list">
+		<div class="list_head">
+			<p class="m_title">ㅇㅇㅇ님과 잘 어울리는 집이예요!</p>
+			<a href="">더보기</a>
+		</div>
+		<ul class="list_content">
+			<c:forEach var="i" begin="0" end="2">
+				<li>
+					<div class="list_img">
+						<p><span>매칭</span>90<b>%</b></p>
+						<button class="btn_star"></button>
+						<a href="">
+							<img alt="" src="<%=request.getContextPath()%>/img/comm/sample_house01.png">
+						</a>
+					</div>
+					<div class="list_title">
+						<span class="address">서울시 마포구 서강동</span>
+						<span class="pay">￦ 100 / 25</span>
+					</div>
+					<ol class="list_icon">
+						<li><p>1</p></li>
+						<li><p>2</p></li>
+						<li><p>3</p></li>
+					</ol>
+				</li>
+			</c:forEach>
 		</ul>
-		</div> <!-- 프로필 div 종료 -->
-	<hr/>
-		<div>
-		매칭률 넣어서 보여주기
-		</div> <!-- 매칭률 넣을 div 종료 -->
-	</div> <!-- middleFrm div 종료 -->
+	</section>
 	
-	<div id="map_div">
-	지도 부분
+	<!-- 신규 쉐어하우스 -->
+	<section class="content recommend_list">
+		<div class="list_head">
+			<p class="m_title">NEW 쉐어하우스</p>
+			<a href="">더보기</a>
+		</div>
+		<ul class="list_content">
+			<c:forEach var="i" begin="0" end="2">
+				<li>
+					<div class="list_img">
+						<p><span>매칭</span>90<b>%</b></p>
+						<button class="btn_star"></button>
+						<a href="">
+							<img alt="" src="<%=request.getContextPath()%>/img/comm/sample_house02.png">
+						</a>
+					</div>
+					<div class="list_title">
+						<span class="address">서울시 마포구 서강동</span>
+						<span class="pay">￦ 100 / 25</span>
+					</div>
+					<ol class="list_icon">
+						<li><p>1</p></li>
+						<li><p>2</p></li>
+						<li><p>3</p></li>
+					</ol>
+				</li>
+			</c:forEach>
+		</ul>
+	</section>
 	
-	</div> <!-- 지도 넣을 div종료 -->
-
-</div>
+	<!-- 프리미엄 추천 하우스메이트 -->
+	<section class="content recommend_list mate_list">
+		<div class="list_head">
+			<p class="m_title">ㅇㅇㅇ님과 잘 어울리는 메이트예요!</p>
+			<a href="">더보기</a>
+		</div>
+		<ul class="list_content">
+			<c:forEach var="i" begin="0" end="2">
+				<li>
+					<div class="list_img">
+						<p><span>매칭</span>90<b>%</b></p>
+						<button class="btn_star"></button>
+						<a href="">
+							<img alt="" src="<%=request.getContextPath()%>/img/comm/sample_mate01.png">
+						</a>
+					</div>
+					<div class="list_title">
+						<span class="mate_id">USER1</span>
+						<span class="pay">￦ 100 / 25</span>
+						<span class="address">서강동 | 합정동 | 당산동</span>
+					</div>
+					<ol class="list_icon">
+						<li><p>여</p></li>
+						<li><p>27세</p></li>
+						<li><p>즉시</p></li>
+					</ol>
+				</li>
+			</c:forEach>
+		</ul>
+	</section>
+	
+	<!-- 신규 하우스메이트 -->
+	<section class="content recommend_list mate_list">
+		<div class="list_head">
+			<p class="m_title">NEW 하우스메이트</p>
+			<a href="">더보기</a>
+		</div>
+		<ul class="list_content">
+			<c:forEach var="i" begin="0" end="2">
+				<li>
+					<div class="list_img">
+						<p><span>매칭</span>90<b>%</b></p>
+						<button class="btn_star"></button>
+						<a href="">
+							<img alt="" src="<%=request.getContextPath()%>/img/comm/sample_mate02.png">
+						</a>
+					</div>
+					<div class="list_title">
+						<span class="mate_id">USER1</span>
+						<span class="pay">￦ 100 / 25</span>
+						<span class="address">서강동 | 합정동 | 당산동</span>
+					</div>
+					<ol class="list_icon">
+						<li><p>여</p></li>
+						<li><p>27세</p></li>
+						<li><p>즉시</p></li>
+					</ol>
+				</li>
+			</c:forEach>
+		</ul>
+	</section>
