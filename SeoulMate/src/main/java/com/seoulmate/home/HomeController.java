@@ -1,5 +1,7 @@
 package com.seoulmate.home;
 
+import javax.inject.Inject;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,23 +9,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.seoulmate.home.service.HomeService;
+
 @Controller
 public class HomeController {
-	@Autowired
-	SqlSession sqlSession;
+	
+	@Inject
+	HomeService service;
 	
 	@SuppressWarnings("null")
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home() {
 		ModelAndView mav = new ModelAndView();
-		HomeDAOImp dao = sqlSession.getMapper(HomeDAOImp.class);
 		
 		// 로그인전 하우스 맵 정보 구하기
-		String[] houseMapList = dao.getHouseMap();
+		String[] houseMapList = service.getHouseMap();
 		mav.addObject("houseMapList",houseMapList);
 		
 		// 로그인전 메이트 맵 정보 구하기
-		String[] getMateList = dao.getMateMap();
+		String[] getMateList = service.getMateMap();
 		String[] mateListArr = null;
 		String[] mateMapList = null;
 		String arr = "";
