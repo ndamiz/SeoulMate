@@ -1,32 +1,75 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <style>
-.boxClass{height:200px; }
-.boxClass ul{line-height:40px; height:40px; }
+.boxClass {
+	width: 1200px;
+	margin : 0 auto;
+	height: 228px;
+}
 input[type="date"] {width:200px;}
 input[type="text"] {width:100px;}
 input[type="number"] {width:100px;}
-#searchBox{width:300px;}
+#searchBox{width:300px; position:relative;}
 .searchClass ul{display:inline-block; padding-top:10px; padding-left:20px;}
-#searchBox{position:relative;}
-#iconPic{    position: relative;
-    right: 50px;
-    top: 10px;}
+
+#iconPic {
+	position: absolute;
+	right: 2px;
+	top: 8px;
+}
+
+#iconPic1 {
+	position: relative;
+	right: 54px;
+	top: 14px;
+	box-shadow: none;
+	border: none;
+	border-radius: inherit;
+	margin: 0;
+	padding: 0;
+	line-height: inherit;
+	height: inherit;
+	width: 40px;
+	height: 40px;
+}
+
+#iconPic1::before {
+	content: "";
+	display: block;
+	position: absolute;
+	width: 22px;
+	height: 23px;
+	top:6px;
+	right: 9px;
+	background: url(<%=request.getContextPath()%>/img/comm/ico_search_black.png) no-repeat;
+	background-size: cover;
+}
+.checks_mate{
+ 	height: 50px;
+    display: inline-block;
+    line-height: 50px;
+    position: relative;
+    
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;}
 button{position: relative;}
 
-button::before{
-content:"";
-display: block;
-position: absolute;
-width: 14px;
-height: 23px;
-top: 8px;
-right: 0;
-background: url(../img/main/ico_search_black.png) no-repeat;
-background-size: cover;
+.mateSearch_wrap button.search::before{
+ content:"";
+   display: block;
+   margin-left: -2px;
+   width: 25px;
+   height: 25px;
+   background: url(<%=request.getContextPath()%>/img/main/ico_search_white.png) no-repeat;
+   background-size: cover;
+}
+.mateSearch_wrap button.mate{
+	margin-top: 30px;
+	margin-left:35px;
 }
 </style>
-<div class="wrap">
+<div class="wrap mateSearch_wrap">
 
 	<div class="boxClass"> <!-- 상단부분 div -->
 
@@ -39,7 +82,7 @@ background-size: cover;
 						<ul>
 							<li><p>지역</p></li> 
 							<li><input type="text" id="searchBox" placeholder="지역명&지하철명을 입력하세요" /> 
-							<a id="iconPic1"><img id="iconPic" src='<%=request.getContextPath()%>/img/ico_search_black.png'/> </a> </li>
+							<a id="iconPic1"> </a> </li>
 						</ul>
 						<ul>
 							<li> 입주예정일 </li>
@@ -51,7 +94,7 @@ background-size: cover;
 						</ul>
 						<ul>
 							<li> <label> 성별</label> </li>
-							<li> <div class="checks">
+							<li class="checks_mate"> <div class="checks">
 								<input type="radio" id="radio1" name="character1"> 
 								 <label for="radio1">전체</label> 
 								 <input type="radio" id="radio2" name="character1"> 
@@ -61,15 +104,15 @@ background-size: cover;
 								 </div> </li>
 						</ul>
 						<ul>
-							<li> <button type="submit" class="green"></button> </li>
+							<li> <button type="submit" class="green search"></button> </li>
 							
 						</ul>
 				</ul>
 		</ul>		
-			
+		
+		<button class="green mate" onclick="location.href='<%=request.getContextPath()%>/mateWrite1'">메이트 등록하기</button> <br/>
 		</div>
 		
-		<button class="green" onclick="location.href='<%=request.getContextPath()%>/mateWrite1'">메이트 등록하기</button> <br/>
 		<hr/>
 
 	<!-- 프리미엄 추천 하우스메이트 -->
