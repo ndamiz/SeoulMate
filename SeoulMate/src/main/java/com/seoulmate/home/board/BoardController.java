@@ -33,6 +33,14 @@ public class BoardController {
 	public String communityWrite() {
 		return "/board/communityWrite";
 	}
+	//글보기
+	@RequestMapping("/boardView")
+	public ModelAndView boardView(int no) {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("/board/boardView");
+		return mav;
+	}
 	
 	//글쓰기 폼에서 글쓰기 클릭 -> 글 등록
 	@RequestMapping(value="/communityWriteOk", method=RequestMethod.POST)
