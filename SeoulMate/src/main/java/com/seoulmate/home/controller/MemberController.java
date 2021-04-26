@@ -36,7 +36,6 @@ public class MemberController {
 		ModelAndView mav=new ModelAndView();
 		mav.setViewName("home");
 		
-		
 		proVO.setUserid(vo.getUserid()); // 성향 테이블에 userid 추가
 		
 		int result=service.memberInsert(vo);

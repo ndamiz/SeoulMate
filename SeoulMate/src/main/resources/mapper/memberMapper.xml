@@ -14,7 +14,7 @@
   		values(memsq.nextval, #{userid}, #{userpwd}, #{username}, #{tel}, #{email}, #{birth}, #{gender}, #{area}, 'example')
   	</insert>
   	<select id="memberSelect" parameterType="String" resultType="com.seoulmate.home.vo.MemberVO">
-  		select userid, userpwd, username, tel, to_char(birth, 'YYYY/MM/DD') birth, gender, area, email from member where userid=#{param1}
+  		select userid, userpwd, username, tel, to_char(birth, 'YYYY/MM/DD') birth, gender, area, email, grade from member where userid=#{param1}
   	</select>
   	<!-- public MemberVO memberPwdSelect(String userid); -->
   	<select id="memberPwdSelect" resultType="int">
