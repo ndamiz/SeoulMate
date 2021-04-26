@@ -6,4 +6,7 @@
   	<select id="getHouseMap" resultType="String">
   		select addr from housewrite
 	</select>
+  	<select id="getMateMap" resultType="String">
+  		select area from matewrite
+	</select>
   </mapper>
