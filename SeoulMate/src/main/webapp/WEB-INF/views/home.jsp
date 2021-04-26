@@ -6,7 +6,6 @@
 			당신과 가장 잘 맞는<br>
 			쉐어하우스 & 메이트
 		</h2>
-		
 		<form class="main_search_form" method="get" action="">
 			<div class="checks">
 				<input type="radio" id="select_house" name="main_search" checked> 
@@ -19,9 +18,7 @@
 				<input class="search_text" type="text" placeholder="지역명or지하철역을 입력하세요.">
 				<button type="submit" class="green"></button>
 			</div>
-		</form>
-	</div>
-	
+		</form>	
 	<!-- 프리미엄 추천 쉐어하우스 -->
 	<c:if test="${logId!=null}">
 	<section class="content recommend_list">

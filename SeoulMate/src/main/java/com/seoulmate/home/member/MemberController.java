@@ -19,15 +19,19 @@ public class MemberController {
 	@RequestMapping("/memberForm")
 	public ModelAndView memForm() {
 		ModelAndView mav=new ModelAndView();
+		MemberDAOImp dao=sqlSession.getMapper(MemberDAOImp.class);
+		
 		Calendar now=Calendar.getInstance();
 		int year=now.get(Calendar.YEAR);
+		mav.addObject("year", year);
+		
 		String arr1[] = {"010"," 02"," 031","032","033","041","042","043","044","051","052","053","054","055","061","062","063","064"};
+		mav.addObject("arr1", arr1);
+		
 		String guArr[]= {"강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구"
 				,"동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"};
+		mav.addObject("guArr", guArr); 
 		
-		mav.addObject("year", year);
-		mav.addObject("arr1", arr1);
-		mav.addObject("guArr", guArr);
 		mav.setViewName("member/memberForm");
 		
 		return mav;
@@ -56,20 +60,28 @@ public class MemberController {
 		return mav;
 	}
 	@RequestMapping(value="/memberOk", method=RequestMethod.POST)
-	public ModelAndView memberOk(MemberVO vo, HttpSession session) {
+	public ModelAndView memberOk(MemberVO vo, PropensityVO proVO,HttpSession session) {
 		ModelAndView mav=new ModelAndView();
 		mav.setViewName("home");
 		
 		MemberDAOImp dao=sqlSession.getMapper(MemberDAOImp.class);
 		
+		proVO.setUserid(vo.getUserid()); // 성향 테이블에 userid 추가
+		PropensityDAOImp pDAO=sqlSession.getMapper(PropensityDAOImp.class);
+		
 		int result=dao.memberInsert(vo);
 		if(result>0) { // 회원가입 성공
-			mav.setViewName("redirect:login");
+			int pResult=pDAO.propInsert(proVO);
+			if(pResult>0) { // 성향 등록 성공
+				mav.setViewName("redirect:login");
+			}else {
+				mav.setViewName("redirect:memberForm");
+			}
+			
 		}else { // 회원가입 실패
 			mav.setViewName("redirect:memberForm");
 			// 나중에 history.back() 해줘야 함
 		}
-		// session.setAttribute("logId", vo.getUserid());
 		/*
 		System.out.println("아이디 : "+vo.getUserid());
 		System.out.println("비밀번호 : "+vo.getUserpwd());

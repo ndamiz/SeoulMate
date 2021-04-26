@@ -294,7 +294,7 @@
 		}
 		
 		// 프로필 사진
-		$("#inProfile").on('change', function(){
+		$("#profilePic").on('change', function(){
 			readURL(this);
 		});
 		
@@ -312,9 +312,13 @@
 	// 희망 지역
 	function areaChange(e) {
 		var areaId=e.id;
-		var gangnam = ["개포동","논현동","대치동","도곡동","삼성동","세곡동","수서동","신사동","압구정동","역삼동","일원동","청담동"];
-		var gangdong = ["강일동","고덕동","길동","둔촌동","명일동","상일동","성내동","암사동","천호동"];
-		var gangseo = ["미아동","번동","삼각산동","삼양동","송중동","송천동","수유동","우이동","인수동"];
+		var gangnam = ["개포동", "논현동", "대치동", "도곡동", "삼성동", "세곡동", "수서동", "신사동", "압구정동", "역삼동", "율현동", "일원동", "자곡동", "청담동"];
+		var gangdong = ["강일동", "고덕동", "길동", "둔촌동", "명일동", "상일동", "성내동", "암사동", "천호동"];
+		var gangbuk = ["미아동", "번동", "수유동", "우이동"];
+		var gangseo = ["등촌동", "염창동", "방화동", "공항동", "개화동", "과해동", "화곡동", "마곡동", "가양동", "내발산동", "오곡동", "오쇠동", "외발산동"];
+		var gwanak = ["남현동", " 봉천동", " 신림동"];
+		var gwangjin = ["광장동", "구의동", "군자동", "능동", "자양동", "중곡동", "화양동"];
+		
 		
 		if(areaId=="gu1"){
 			var target = document.getElementById("dong1");
@@ -608,7 +612,7 @@
 <div class="wrap">
 <<<<<<< HEAD
 	<div class="member_wrap">
-		<form method="post" id="memId" action="memberOk">
+		<form method="post" id="memId" action="memberOk" enctype="multipart/form-data">
 			<div id="memDiv1">
 				<p class="m_title">회원가입</p>
 				<p class="d_title">회원 정보 입력, 이메일 인증, 라이프 스타일을 등록 후 회원가입이 가능합니다.</p>
@@ -654,8 +658,8 @@
 					</li>
 					<li id="proli"><span class="red_txt">*</span><label>프로필 사진</label>
 						<div style="margin:5px 0 0 20px;">
-							<img id="profileImg" name="profilePic" src="<%=request.getContextPath()%>/img/choi/pepe_1.png" alt="upload image" style="width:150px; height:107px;"/>
-							<input type="file" accept="image/*" id="inProfile" />
+							<img id="profileImg" name="profileImg" src="<%=request.getContextPath()%>/img/choi/pepe_1.png" alt="upload image" style="width:150px; height:107px;"/>
+							<input type="file" accept="image/*" name="profilePic" id="profilePic" />
 						</div>
 					</li>
 					<li><label>&nbsp;희망 지역1</label>
@@ -858,11 +862,11 @@
 				<ul class="form_box choice">
 					<li><label><span class="red_txt">*</span>하우스 내 지원 서비스</label>
 						<div class="checks">
-							<input type="checkbox" name="h_supportArr" id="h_support1">
+							<input type="checkbox" name="h_supportArr" id="h_support1" value="1">
 							<label for="h_support1">공용공간 청소 지원</label>
-							<input type="checkbox" name="h_supportArr" id="h_support2">
+							<input type="checkbox" name="h_supportArr" id="h_support2" value="2">
 							<label for="h_support2">공용 생필품 지원</label><br/>
-							<input type="checkbox" name="h_supportArr" id="h_support3">
+							<input type="checkbox" name="h_supportArr" id="h_support3" value="3">
 							<label for="h_support3">기본 식품 지원</label>
 						</div>
 					</li>
@@ -961,9 +965,9 @@
 					</li>
 					<li><label><span  class="red_txt">*</span>외국인 입주 가능 여부</label>
 						<div class="checks">
-							<input type="radio" name="m_global" id="m_global" value="3" checked/>
+							<input type="radio" name="m_global" id="m_global3" value="3" checked/>
 							<label for="m_global3">가능</label>
-							<input type="radio" name="m_global" id="m_global" value="1"/>
+							<input type="radio" name="m_global" id="m_global1" value="1"/>
 							<label for="m_global1">불가능</label>
 						</div>
 					</li>

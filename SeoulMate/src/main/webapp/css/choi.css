@@ -43,6 +43,8 @@ input[type=text]:readonly {background:#ddd;}
 #proDiv1>.form_box.choice li > label, #proDiv3>.form_box.choice li > label, #proDiv5>.form_box.choice li > label{width:170px;}
 #proDiv1>.title_wrap>.s_title, #proDiv2>.title_wrap>.s_title, #proDiv3>.title_wrap>.s_title
 , #proDiv4>.title_wrap>.s_title, #proDiv5>.title_wrap>.s_title{margin:40px 0;}
+.member_wrap>.title_wrap>.s_margin{margin:0 0 40px 0;}
+.member_wrap>.title_wrap.p_center{text-align:center;}
 
 /* memberManagement */
 #memManage{

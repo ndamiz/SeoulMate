@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.seoulmate.home.member.PropensityDAOImp">
+	<insert id="propInsert" parameterType="com.seoulmate.home.member.PropensityVO">
+		insert into propensity(pno, userid, pcase, h_noise, h_pattern, h_pet, h_petwith,
+		 h_smoke, h_mood, h_communication, h_party, h_enter, h_support, h_etc, 
+		 m_pattern, m_personality, m_pet, m_smoke, m_age, m_gender, m_global, m_now, pdate)
+		 values(psq.nextval, #{userid}, 'm',  #{h_noise}, #{h_pattern}, 
+		 #{h_pet}, #{h_petwith}, #{h_smoke}, #{h_mood}, #{h_communication}, #{h_party}, #{h_enter}, 
+		 #{h_support}, #{h_etc}, #{m_pattern}, #{m_personality}, #{m_pet}, #{m_smoke}, 
+		 #{m_age}, #{m_gender}, #{m_global}, #{m_now}, sysdate)
+	</insert>
+  </mapper>
