@@ -1,64 +1,182 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <style>
-img{width:250px; height:250px; }
-ul, li{float:left;}
-#topFrm{height:300px;}
-#middleFrm{ background-color:lightpink; width:100%; height:400px;}
-#middleFrm>div{float:left;}
-#houseExplain{width:65%; height:100%; background-color:lightblue;}
-#peopleExplain{width:35%;  background-color:gray;  }
-#map_div{background-color:skyblue;}
-</style>
-<div class="wrap">
+.boxClass {
+	width: 1200px;
+	margin : 0 auto;
+	height: 228px;
+}
+input[type="date"] {width:200px;}
+input[type="text"] {width:100px;}
+input[type="number"] {width:100px;}
+#searchBox{width:300px; position:relative;}
+.searchClass ul{display:inline-block; padding-top:10px; padding-left:20px;}
 
-<!-- 	<div id="imgSlide"> -->
-<!-- 		<ul id="slider"> -->
-<%--             <li><img src="<%=request.getContextPath()%>/img/ico_search_black.png" id="img1" title="Seoul Music Festival"/></li> --%>
-<%--             <li><img src="<%=request.getContextPath()%>/img/ico_search_black.png" id="img2" title="SIBAC 2109"/></li> --%>
-           
-<!--          </ul> -->
-<!--  	</div>  -->
- 
- 	<div id="topFrm">
- 	등록날짜 2021-04-20 등록
- 	<button class="green">수정</button> <button class="green">삭제</button> <button class="green">찜</button> <button class="green">공유하기</button> <button class="green">신고하기</button>
- 	<br/>
- 	<img src="<%=request.getContextPath()%>/img/ico_search_black.png" id="img1" title="전체외관" >
- 	<img src="<%=request.getContextPath()%>/img/ico_filter.png" id="img2" title="거실">
- 	<img src="<%=request.getContextPath()%>/img/ico_search_black.png" id="img3" title="방1">
- 	
- 	</div>
- 	
-	<hr/>
-	
-	<div id="middleFrm">
-		<div id="houseExplain">
-		<p class="s_title">이름 | 성별 | 나이</p> <br/>
-		원하는지역1 | 원하는지역2 | 원하는지역3 | 원하는지역4 | 원하는지역5 <br/>
-		월세 얼마 | 즉시입주가능 <br/>
-		원하는 House 키워드 <br/>
-		원하는 집 키워드 보여주기 ~ ~ <br/>
-		나의 성향 키워드 <br/>
-		나의 성향 키워드 보여주기 ~ ~ <br/>
-		내 소개 <br/>
-		소개글 불러오기 ~ ~ 
+#iconPic {
+	position: absolute;
+	right: 2px;
+	top: 8px;
+}
+
+#iconPic1 {
+	position: relative;
+	right: 54px;
+	top: 14px;
+	box-shadow: none;
+	border: none;
+	border-radius: inherit;
+	margin: 0;
+	padding: 0;
+	line-height: inherit;
+	height: inherit;
+	width: 40px;
+	height: 40px;
+}
+
+#iconPic1::before {
+	content: "";
+	display: block;
+	position: absolute;
+	width: 22px;
+	height: 23px;
+	top:6px;
+	right: 9px;
+	background: url(<%=request.getContextPath()%>/img/comm/ico_search_black.png) no-repeat;
+	background-size: cover;
+}
+.checks_mate{
+ 	height: 50px;
+    display: inline-block;
+    line-height: 50px;
+    position: relative;
+    
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;}
+button{position: relative;}
+
+.mateSearch_wrap button.search::before{
+ content:"";
+   display: block;
+   margin-left: -2px;
+   width: 25px;
+   height: 25px;
+   background: url(<%=request.getContextPath()%>/img/main/ico_search_white.png) no-repeat;
+   background-size: cover;
+}
+.mateSearch_wrap button.mate{
+	margin-top: 30px;
+	margin-left:35px;
+}
+</style>
+<div class="wrap mateSearch_wrap">
+
+	<div class="boxClass"> <!-- 상단부분 div -->
+
+	<ul class="searchClass">
+			<li> <img src='<%=request.getContextPath()%>/img/ico_filter.png'/> 조건검색 </li>
+			<li>
+				
+				<ul>	
+					<li>
+						<ul>
+							<li><p>지역</p></li> 
+							<li><input type="text" id="searchBox" placeholder="지역명&지하철명을 입력하세요" /> 
+							<a id="iconPic1"> </a> </li>
+						</ul>
+						<ul>
+							<li> 입주예정일 </li>
+							<li> <input class="classDate" type="date"/> </li>
+						</ul>
+						<ul>
+							<li> 월세범위 </li>
+							<li> <input type="number" min="0" placeholder="0"/> - <input type="number" min="0" placeholder="0"/> 만원 </li>
+						</ul>
+						<ul>
+							<li> <label> 성별</label> </li>
+							<li class="checks_mate"> <div class="checks">
+								<input type="radio" id="radio1" name="character1"> 
+								 <label for="radio1">전체</label> 
+								 <input type="radio" id="radio2" name="character1"> 
+								 <label for="radio2">여성</label> 
+								 <input type="radio" id="radio3" name="character1"> 
+								 <label for="radio3">남성</label> 
+								 </div> </li>
+						</ul>
+						<ul>
+							<li> <button type="submit" class="green search"></button> </li>
+							
+						</ul>
+				</ul>
+		</ul>		
 		
-		</div> <!-- 방소개 div 종료 -->
+		<button class="green mate" onclick="location.href='<%=request.getContextPath()%>/mateWrite1'">메이트 등록하기</button> <br/>
+		</div>
 		
-		<div  id="peopleExplain">
-		<ul>
-			<li><img style="width:150px; height:150px;" src="<%=request.getContextPath()%>/img/ico_filter.png" id="profilePic1"/> </li>
-			<li>응답률 : ㅁㅁ% <br/>
-				최근접속 : 1일 전  <br/>
-				<button class="green">초대하기</button></li>
+		<hr/>
+
+	<!-- 프리미엄 추천 하우스메이트 -->
+	<section class="content recommend_list mate_list">
+		<div class="list_head">
+			<p class="m_title">user님과 잘 어울리는 메이트예요!</p>
+			<a href="">더보기</a>
+		</div>
+		<ul class="list_content">
+			<c:forEach var="i" begin="0" end="2">
+				<li>
+					<div class="list_img">
+						<p><span>매칭</span>90<b>%</b></p>
+						<button class="btn_star"></button>
+						<a href="">
+							<img alt="" src="<%=request.getContextPath()%>/img/comm/sample_mate01.png">
+						</a>
+					</div>
+					<div class="list_title">
+						<span class="mate_id">USER1</span>
+						<span class="pay">￦ 100 / 25</span>
+						<span class="address">서강동 | 합정동 | 당산동</span>
+					</div>
+					<ol class="list_icon">
+						<li><p>여</p></li>
+						<li><p>27세</p></li>
+						<li><p>즉시</p></li>
+					</ol>
+				</li>
+			</c:forEach>
 		</ul>
-		</div> <!-- 프로필 div 종료 -->
-	<hr/>
-		<div>
-		메이트도 매칭률?
-		</div> <!-- 매칭률 넣을 div 종료 -->
-	</div> <!-- middleFrm div 종료 -->
+	</section>
 	
+	<!-- 신규 하우스메이트 -->
+	<section class="content recommend_list mate_list">
+		<div class="list_head">
+			<p class="m_title">NEW 하우스메이트</p>
+			<a href="">더보기</a>
+		</div>
+		<ul class="list_content">
+			<c:forEach var="i" begin="0" end="2">
+				<li>
+					<div class="list_img">
+						<p><span>매칭</span>90<b>%</b></p>
+						<button class="btn_star"></button>
+						<a href="">
+							<img alt="" src="<%=request.getContextPath()%>/img/comm/sample_mate02.png">
+						</a>
+					</div>
+					<div class="list_title">
+						<span class="mate_id">USER1</span>
+						<span class="pay">￦ 100 / 25</span>
+						<span class="address">서강동 | 합정동 | 당산동</span>
+					</div>
+					<ol class="list_icon">
+						<li><p>여</p></li>
+						<li><p>27세</p></li>
+						<li><p>즉시</p></li>
+					</ol>
+				</li>
+			</c:forEach>
+		</ul>
+	</section>
+
+
 
 </div>

@@ -50,6 +50,9 @@ $(function(){
 		$("#houseWrite1").css("display", "none");
 		$("#houseWrite1").css("display", "block"); //등록form1에서 이전 어디로?
 	});
+	$("#hIndex1").click(function(){
+		location.href="<%=request.getContextPath()%>/houseIndex";
+	});
 	
 	$("#hNext2").click(function(){
 		$("#houseWrite2").css("display", "none");
@@ -58,6 +61,9 @@ $(function(){
 	$("#hPrev2").click(function(){
 		$("#houseWrite2").css("display", "none");
 		$("#houseWrite1").css("display", "block"); 
+	});
+	$("#hIndex2").click(function(){
+		location.href="<%=request.getContextPath()%>/houseIndex";
 	});
 	
 	$("#hNext3").click(function(){
@@ -68,6 +74,9 @@ $(function(){
 		$("#houseWrite3").css("display", "none");
 		$("#houseWrite2").css("display", "block"); 
 	});
+	$("#hIndex3").click(function(){
+		location.href="<%=request.getContextPath()%>/houseIndex";
+	});
 	
 	$("#hNext4").click(function(){
 		$("#houseWrite4").css("display", "none");
@@ -76,6 +85,9 @@ $(function(){
 	$("#hPrev4").click(function(){
 		$("#houseWrite4").css("display", "none");
 		$("#houseWrite3").css("display", "block"); 
+	});
+	$("#hIndex4").click(function(){
+		location.href="<%=request.getContextPath()%>/houseIndex";
 	});
 	
 	$("#hNext5").click(function(){
@@ -86,6 +98,9 @@ $(function(){
 		$("#houseWrite5").css("display", "none");
 		$("#houseWrite4").css("display", "block"); 
 	});
+	$("#hIndex5").click(function(){
+		location.href="<%=request.getContextPath()%>/houseIndex";
+	});
 	
 	$("#hNext6").click(function(){
 		$("#houseWrite6").css("display", "none");
@@ -94,6 +109,9 @@ $(function(){
 	$("#hPrev6").click(function(){
 		$("#houseWrite6").css("display", "none");
 		$("#houseWrite5").css("display", "block"); 
+	});
+	$("#hIndex6").click(function(){
+		location.href="<%=request.getContextPath()%>/houseIndex";
 	});
 	
 	$("#hNext7").click(function(){
@@ -104,6 +122,9 @@ $(function(){
 		$("#houseWrite7").css("display", "none");
 		$("#houseWrite6").css("display", "block"); 
 	});
+	$("#hIndex7").click(function(){
+		location.href="<%=request.getContextPath()%>/houseIndex";
+	});
 	
 	$("#hNext8").click(function(){
 		$("#houseWrite8").css("display", "none");
@@ -113,15 +134,21 @@ $(function(){
 		$("#houseWrite8").css("display", "none");
 		$("#houseWrite7").css("display", "block"); 
 	});
+	$("#hIndex8").click(function(){
+		location.href="<%=request.getContextPath()%>/houseIndex";
+	});
 	
-// 	$("#hNext9").click(function(){
-// 		$("#houseWrite9").css("display", "none");
-// 		$("#houseWrite1").css("display", "block"); //마지막 등록form에서는 어디로 이동?
-// 	});
-// 	$("#hPrev9").click(function(){
-// 		$("#houseWrite9").css("display", "none");
-// 		$("#houseWrite8").css("display", "block"); 
-// 	});
+	$("#hNext9").click(function(){
+		$("#houseWrite9").css("display", "none");
+		$("#houseWrite1").css("display", "block"); //마지막 등록form에서는 어디로 이동?
+	});
+	$("#hPrev9").click(function(){
+		$("#houseWrite9").css("display", "none");
+		$("#houseWrite8").css("display", "block"); 
+	});
+	$("#hIndex9").click(function(){
+		location.href="<%=request.getContextPath()%>/houseIndex";
+	});
 
 	
 });
@@ -188,7 +215,7 @@ input[type="date"] {width:200px;}
 			<button id="roomPlus" class="green" >방 추가등록 </button> <br/> 
 				<div class="btnclass">
 					<a id="hPrev1" class="green" >이전</a>
-					<a href="#" id="hNext1" class="green" >다음</a>
+					<a id="hNext1" class="green" >다음</a>
 					<a id="hIndex1" class="green" >취소</a>
 				</div> <!-- 버튼div 종료 -->
 
@@ -461,7 +488,7 @@ input[type="date"] {width:200px;}
 		</div>
 		
 			<ul class="form_box">
-				<li>월세(관리비) <input type="text"/> 
+				<li><label>월세(관리비)</label> <input type="text"/> 
 					<div class="checks">
 						<input type="radio" id="radio28" name="character1"> 
 						<label for="radio28">포함</label>
@@ -469,22 +496,22 @@ input[type="date"] {width:200px;}
 						<label for="radio29">불포함</label>
 					</div>		
 						
-				<li>보증금(조율) <input type="text"/> 
+				<li><label>보증금(조율) </label><input type="text"/> 
 					<div class="checks">
 						<input type="radio" id="radio30" name="character1"> 
 						<label for="radio30">포함</label>
 						<input type="radio" id="radio31" name="character1"> 
 						<label for="radio31">미포함</label>
 					</div>	</li>
-				<li>입주 가능일 <input type="date"/> </li>
-				<li>최소 거주 기간
+				<li><label>입주 가능일</label> <input type="date"/> </li>
+				<li><label>최소 거주 기간</label>
 					<select>
 						<option>1~3 개월</option>
 						<option>4~6 개월</option>
 						<option>7~12 개월</option>
 						<option>1년 이상</option>
 					</select> </li>
-				<li>최대 거주 기간
+				<li><label>최대 거주 기간</label>
 					<select>
 						<option>1~3 개월</option>
 						<option>4~6 개월</option>
@@ -511,9 +538,9 @@ input[type="date"] {width:200px;}
 				<li> <input type="file" accept="image/*" id="input-image" onchange="readURL(this);"/> <br/> </li>
 			</ul>
 				<div class="btnclass">
-					<button class="green" id="hPrev7">이전</button>
-					<button class="green" id="hNext7">다음</button> 
-					<button class="green" id="hIndex7" >취소</button>
+					<a class="green" id="hPrev7">이전</a>
+					<a class="green" id="hNext7">다음</a> 
+					<a class="green" id="hIndex7" >취소</a>
 				</div> <!-- 버튼div 종료 -->
 		</div> <!-- 등록form7 종료 -->
 		
