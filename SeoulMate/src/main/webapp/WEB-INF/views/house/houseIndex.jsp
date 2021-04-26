@@ -1,14 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <style>
-img{width:250px; height:250px; }
+
 /* ul, li{float:left;} */
-#topFrm{height:300px; width:100%; position: relative; }
-#topFrm>img{height: 200px; width: 200px;}
+#topDiv{height:300px; width:100%; position: relative; }
+#topDiv>img{height: 200px; width: 200px;}
 /* #img4, #img5, #img6{display: none;} */
-#dateFrm{float: left; height: 50px; }
-#btnFrm{float: right; height: 50px; overflow: auto;}
-#imgFrm{ width:100%; height:250px; overflow: hidden; }
+#dateDiv{float: left; height: 50px; }
+#btnDiv{float: right; height: 50px; overflow: auto;}
+#imgDiv{ width:100%; height:250px; overflow: hidden; }
+#imgDiv img{width:250px; height: 250px; }
 #imgList{width:1600px; position: relative; }
 #middle_Div{ background-color:lightpink; width:100%; height:400px; }
 #middle_Div>div{float:left;}
@@ -20,39 +21,68 @@ img{width:250px; height:250px; }
 #matching{position: relative;}
 #map_Div{background-color:skyblue;}
 
+
 </style>
 <script>
     $(function(){
         $('#btnImg1').click(function(){
             $('#img1').animate({"width":"-=200px"}, 2000, function(){ 
                 $(this).css('display', 'none');
-//                 $('#img4').css('display', 'block');
+
             })   
        
           
 		});
         
-        $('#hEdit').click(function(){
+        $('#hEdit').click(function(){ //수정하기 버튼
         	location.href="houseWrite1"; //방등록하기 form 으로 이동
         	
         });
-    
-
-            
+        
+      
     });
 </script>
 <div class="wrap">
  
- 	<div id="topFrm">
-	 	<div id="dateFrm">
+ 	<div id="topDiv">
+	 	<div id="dateDiv">
 	 	등록날짜 2021-04-20 등록
 	 	</div>
 	 	
-	 	<div id="btnFrm">
- 		<button id="hEdit" onclick="houseWrite()" class="green">수정</button> <button class="green">삭제</button> <button class="green">찜</button> <button class="green">공유하기</button> <button class="green">신고하기</button>
+	 	<div id="btnDiv">
+ 		<button id="hEdit" class="green">수정</button> <button class="green">삭제</button> <button class="green">찜</button> 
+ 		<button class="green">공유하기</button> <button class="green" data-target="#md" data-toggle="modal">신고하기</button>
  		</div>
+ 	
+
+ 	
+
+<!--  		<div class="modal fade" id="md"> 전체 div fade 적용시 모달창이 점점 진해지며 나타남 -->
+<!--         <div class="modal-dialog">  -->
+<!--             <div class="modal-content"> -->
+<!--                 Header -->
+<!--                 <div class="modal-header"> -->
+<!--                     <h4 class="modal-title">모달 제목</h4> -->
+<!--                     <button class="close" data-dismiss="modal">&times;</button> X 닫기창 표기됨 -->
+<!--                 </div> -->
+                
+<!--                 Content -->
+<!--                 <div class="modal-body"> -->
+<!--                     <h3>모달 내용</h3> -->
+<!--                     <img src="../img/img1.jpg" width="100%" height="300px"/> -->
+<!--                 </div> -->
+                
+<!--                 Footer -->
+<!--                 <div class="modal-footer"> -->
+<!--                     <button data-dismiss="modal" class="btn btn-danger">Close</button> -->
+<!--                 </div> -->
+
+<!--             </div> -->
+<!--         </div> -->
+<!--     </div> -->
+    
  	<br/>
- 		<div id="imgFrm">
+ 		<div id="imgDiv">
  			<div id="imgList">
 			 	<img src="<%=request.getContextPath()%>/img/ico_search_black.png" id="btnImg1" style="width: 50px; height: 50px;" title="버튼이미지">
 			 	<img src="<%=request.getContextPath()%>/img/ico_search_black.png" id="img1" title="전체외관" >
@@ -65,7 +95,9 @@ img{width:250px; height:250px; }
 			 </div>	
  	</div>
  	
- 	</div> <!-- topFrm 종료 -->
+ 	
+ 	
+ 	</div> <!-- topDiv 종료 -->
  	
  	
 	<hr/>

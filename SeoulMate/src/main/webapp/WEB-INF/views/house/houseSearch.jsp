@@ -66,12 +66,12 @@ background-size: cover;
 	
 	<button class="green" onclick="location.href='<%=request.getContextPath()%>/houseWrite1'">방 등록하기</button> <br/>
 	<hr/>
-	</div>
+
 
 <!-- 프리미엄 추천 쉐어하우스 -->
 	<section class="content recommend_list">
 		<div class="list_head">
-			<p class="m_title">ㅇㅇㅇ님과 잘 어울리는 집이예요!</p>
+			<p class="m_title">user님과 잘 어울리는 집이예요!</p>
 			<a href="">더보기</a>
 		</div>
 		<ul class="list_content">
@@ -127,65 +127,6 @@ background-size: cover;
 			</c:forEach>
 		</ul>
 	</section>
-	
-	<!-- 프리미엄 추천 하우스메이트 -->
-	<section class="content recommend_list mate_list">
-		<div class="list_head">
-			<p class="m_title">ㅇㅇㅇ님과 잘 어울리는 메이트예요!</p>
-			<a href="">더보기</a>
-		</div>
-		<ul class="list_content">
-			<c:forEach var="i" begin="0" end="2">
-				<li>
-					<div class="list_img">
-						<p><span>매칭</span>90<b>%</b></p>
-						<button class="btn_star"></button>
-						<a href="">
-							<img alt="" src="<%=request.getContextPath()%>/img/comm/sample_mate01.png">
-						</a>
-					</div>
-					<div class="list_title">
-						<span class="mate_id">USER1</span>
-						<span class="pay">￦ 100 / 25</span>
-						<span class="address">서강동 | 합정동 | 당산동</span>
-					</div>
-					<ol class="list_icon">
-						<li><p>여</p></li>
-						<li><p>27세</p></li>
-						<li><p>즉시</p></li>
-					</ol>
-				</li>
-			</c:forEach>
-		</ul>
-	</section>
-	
-	<!-- 신규 하우스메이트 -->
-	<section class="content recommend_list mate_list">
-		<div class="list_head">
-			<p class="m_title">NEW 하우스메이트</p>
-			<a href="">더보기</a>
-		</div>
-		<ul class="list_content">
-			<c:forEach var="i" begin="0" end="2">
-				<li>
-					<div class="list_img">
-						<p><span>매칭</span>90<b>%</b></p>
-						<button class="btn_star"></button>
-						<a href="">
-							<img alt="" src="<%=request.getContextPath()%>/img/comm/sample_mate02.png">
-						</a>
-					</div>
-					<div class="list_title">
-						<span class="mate_id">USER1</span>
-						<span class="pay">￦ 100 / 25</span>
-						<span class="address">서강동 | 합정동 | 당산동</span>
-					</div>
-					<ol class="list_icon">
-						<li><p>여</p></li>
-						<li><p>27세</p></li>
-						<li><p>즉시</p></li>
-					</ol>
-				</li>
-			</c:forEach>
-		</ul>
-	</section>
+
+
+</div>

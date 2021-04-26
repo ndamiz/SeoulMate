@@ -12,6 +12,79 @@ $(function(){
 		}return true;
 	});
 	
+	$("#mNext1").click(function(){
+		$("#mateWrite1").css("display", "none");
+		$("#mateWrite2").css("display", "block");
+	});
+	$("#mPrev1").click(function(){
+		$("#mateWrite1").css("display", "none");
+		$("#mateWrite1").css("display", "block"); //등록form1에서 이전 어디로?
+	});
+	$("#mIndex1").click(function(){
+		location.href="<%=request.getContextPath()%>/mateIndex";
+	});
+	
+	$("#mNext2").click(function(){
+		$("#mateWrite2").css("display", "none");
+		$("#mateWrite3").css("display", "block");
+	});
+	$("#mPrev2").click(function(){
+		$("#mateWrite2").css("display", "none");
+		$("#mateWrite1").css("display", "block"); 
+	});
+	$("#mIndex2").click(function(){
+		location.href="<%=request.getContextPath()%>/mateIndex";
+	});
+	
+	$("#mNext3").click(function(){
+		$("#mateWrite3").css("display", "none");
+		$("#mateWrite4").css("display", "block");
+	});
+	$("#mPrev3").click(function(){
+		$("#mateWrite3").css("display", "none");
+		$("#mateWrite2").css("display", "block"); 
+	});
+	$("#mIndex3").click(function(){
+		location.href="<%=request.getContextPath()%>/mateIndex";
+	});
+	
+	$("#mNext4").click(function(){
+		$("#mateWrite4").css("display", "none");
+		$("#mateWrite5").css("display", "block");
+	});
+	$("#mPrev4").click(function(){
+		$("#mateWrite4").css("display", "none");
+		$("#mateWrite3").css("display", "block"); 
+	});
+	$("#mIndex4").click(function(){
+		location.href="<%=request.getContextPath()%>/mateIndex";
+	});
+	
+	$("#mNext5").click(function(){
+		$("#mateWrite5").css("display", "none");
+		$("#mateWrite6").css("display", "block");
+	});
+	$("#mPrev5").click(function(){
+		$("#mateWrite5").css("display", "none");
+		$("#mateWrite4").css("display", "block"); 
+	});
+	$("#mIndex5").click(function(){
+		location.href="<%=request.getContextPath()%>/mateIndex";
+	});
+	
+	$("#mNext6").click(function(){
+		$("#mateWrite6").css("display", "none");
+		$("#mateWrite1").css("display", "block"); //마지막 등록form에서 다음 페이지?
+	});
+	$("#mPrev6").click(function(){
+		$("#mateWrite6").css("display", "none");
+		$("#mateWrite5").css("display", "block"); 
+	});
+	$("#mIndex6").click(function(){
+		location.href="<%=request.getContextPath()%>/mateIndex";
+	});
+	
+	
 });
 </script>
 <style>
@@ -19,12 +92,16 @@ input[type="date"] {width:200px;}
 input[type="text"] {width:200px;}
 .house_wrap{width:800px; margin:0 auto; }
 .house_wrap ul li{word-break:keep-all;}
+.btnclass{padding-left:50px;}
+#mateWrite2, #mateWrite3, #mateWrite4, #mateWrite5, #mateWrite6 {display:none; }
+#mPic{height:125px;}
 </style>
 <div class="wrap">
 	<div class="house_wrap">
 	
 	<div class="title_wrap">
 	<p class="m_title">메이트 등록하기 </p> 
+	<p>&nbsp;</p>
 	</div>
 	
 	<form method="post" action="">
@@ -32,16 +109,17 @@ input[type="text"] {width:200px;}
 	<div id="mateWrite1">
 	
 	<div class="title_wrap">
-	<p class="s_title">집 기본 정보 등록 </p> <br/>
+	<p class="s_title">집 기본 정보 등록 </p>
+	<p>&nbsp;</p>
 	</div>
 		
 		<ul class="form_box">
-		<li>게재 기간 <input type="date" width="100px"/> </li>
-		<li>찾는지역 <input type="text"/> <input type="text"/> <input type="text"/> </li>
-		<li>월세 예산 <input type="text" placeholder="만원"/> - <input type="text" placeholder="만원"/> <button class="green" >제한없음</button> </li>
-		<li>입주가능일 <input type="date" > </li>
+		<li> <label>게재 기간 </label><input type="date" width="100px"/> </li>
+		<li> <label>찾는지역 </label><input type="text"/> <input type="text"/> <input type="text"/> </li>
+		<li> <label>월세예산 </label><input type="text" placeholder="만원"/> - <input type="text" placeholder="만원"/> <button class="green" >제한없음</button> </li>
+		<li> <label>입주가능일 </label><input type="date" > </li>
 		<li>
-			최소 거주 기간
+			<label>최소 거주 기간</label>
 				<select>
 					<option>1~3 개월</option>
 					<option>4~6 개월</option>
@@ -49,7 +127,7 @@ input[type="text"] {width:200px;}
 					<option>1년 이상</option> 
 				</select> </li>
 		<li>		
-			최대 거주 기간
+			<label>최대 거주 기간</label>
 				<select>
 					<option>1~3 개월</option>
 					<option>4~6 개월</option>
@@ -57,12 +135,17 @@ input[type="text"] {width:200px;}
 					<option>1년 이상</option>
 				</select> </li>
 		</ul>
-		
+			<div class="btnclass">
+				<a id="mPrev1" class="green" >이전</a>
+				<a id="mNext1" class="green" >다음</a>
+				<a id="mIndex1" class="green" >취소</a>
+			</div> <!-- 버튼div 종료 -->
 	</div>	<!-- 등록form1 종료 -->
 	
 	<div id="mateWrite2">
 		<div class="title_wrap">
 		<p class="s_title">선호하는 하우스성향 선택 </p>
+		<p>&nbsp;</p>
 		</div>	
 		
 		<ul class="form_box choice">
@@ -146,13 +229,19 @@ input[type="text"] {width:200px;}
 				</div>
 			</li>	
 		</ul>
+			<div class="btnclass">
+				<a id="mPrev2" class="green" >이전</a>
+				<a id="mNext2" class="green" >다음</a>
+				<a id="mIndex2" class="green" >취소</a>
+			</div> <!-- 버튼div 종료 -->
 	
 	</div> <!-- 등록form2 종료 -->
 		
 	<div id="mateWrite3">
 	
 	<div class="title_wrap">
-	<p class="s_title">원하는 하우스 성향 등록(소통정보) </p> <br/>
+	<p class="s_title">원하는 하우스 성향 등록(소통정보) </p> 
+	<p>&nbsp;</p>
 	</div>
 		
 		<ul class="form_box choice">
@@ -219,13 +308,19 @@ input[type="text"] {width:200px;}
 				</div>
 			</li>
 		</ul>		
+			<div class="btnclass">
+				<a id="mPrev3" class="green" >이전</a>
+				<a id="mNext3" class="green" >다음</a>
+				<a id="mIndex3" class="green" >취소</a>
+			</div> <!-- 버튼div 종료 -->
 
 	</div> <!-- 등록form3 종료 -->
 
 	<div id="mateWrite4">
 	
 	<div class="title_wrap">
-	<p class="s_title">원하는 하우스 성향 등록(하우스지원 정보) </p> <br/>
+	<p class="s_title">원하는 하우스 성향 등록(하우스지원 정보) </p> 
+	<p>&nbsp;</p>
 	</div>
 
 		<ul class="form_box choice">
@@ -245,41 +340,54 @@ input[type="text"] {width:200px;}
 					<input type="checkbox" id="check3" name="character3"> 
 					<label for="check4">미지원</label> 
 				</div>
-			</li>
-		</ul> 
+			</li> 
+		</ul> <br/> <br/>
+			<div class="btnclass">
+				<a id="mPrev4" class="green" >이전</a>
+				<a id="mNext4" class="green" >다음</a>
+				<a id="mIndex4" class="green" >취소</a>
+			</div> <!-- 버튼div 종료 -->
 	
 	</div> <!-- 등록form4 종료 -->		
 	
 	<div id="mateWrite5">
 	
 	<div class="title_wrap">
-	<p class="s_title">사진 등록 </p> <br/>
+	<p class="s_title">사진 등록 </p> 
+	<p>&nbsp;</p>
 	</div>
 	
-		<ul>
-			<li>사진 올리기 <input type="file" accept="image/*" id="input-image" /> </li>
-			<li> <img id="inImg" src="#" alt="upload image" /> </li>
-			<li> <img src="#" name="profilePic2" style="width:150px; height:150px;"/> 
+		<ul class="form_box">
+				<li id="mPic"><img id="matePic1" name="matePic1" src="#" alt="upload image" style="width:150px; height:107px;"/></li>
+				<li> <input type="file" accept="image/*" id="input-image" onchange="readURL(this);"/> <br/> </li>
+				<li> <img src="#" name="profilePic2" style="width:150px; height:150px;"/> 
 				<img src="#" name="profilePic3" style="width:150px; height:150px;"/>
 				<img src="#" name="" style="width:150px; height:150px;"/>
 		</ul>
+		<p>&nbsp;</p> <p>&nbsp;</p> <p>&nbsp;</p> <br/> <br/>
+			<div class="btnclass">
+				<a id="mPrev5" class="green" >이전</a>
+				<a id="mNext5" class="green" >다음</a>
+				<a id="mIndex5" class="green" >취소</a>
+			</div> <!-- 버튼div 종료 -->
 		
 	</div> <!-- 등록form5 종료 -->
 	
 	<div id="mateWrite6"> 
 	
 	<div class="title_wrap">
-	<p class="s_title">내 소개 등록 </p> <br/>
+	<p class="s_title">내 소개 등록 </p>
+	<p>&nbsp;</p>
 	</div>
 		<textarea name="mateProfile"></textarea><br/>
+			<div class="btnclass">
+				<a id="mPrev6" class="green" >이전</a>
+				<a id="mNext6" class="green" >다음</a>
+				<a id="mIndex6" class="green" >취소</a>
+			</div> <!-- 버튼div 종료 -->
+			
 	</div> <!-- 등록form6 종료 -->
 		
-		
-		<div class="btnclass">
-			<button class="green" onclick="location.href='<%=request.getContextPath()%>/mateWrite1'">이전</button>
-			<button class="green" onclick="location.href='<%=request.getContextPath()%>/mateWrite2'" >다음</button> 
-			<button class="green" onclick="location.href='<%=request.getContextPath()%>/mateIndex'" >취소</button>
-		</div>
 	
 	</form>
 	</div> <!-- content 종료 -->
