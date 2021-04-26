@@ -29,13 +29,6 @@ public class MemberController {
 		
 		return mav;
 	}
-	@RequestMapping("/memberForm")
-	public ModelAndView memberForm(String userid) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("member/memberForm");
-		
-		return mav;
-	}
 	@RequestMapping(value="/memberOk", method=RequestMethod.POST)
 	public ModelAndView memberOk(MemberVO vo, PropensityVO proVO,HttpSession session) {
 		ModelAndView mav=new ModelAndView();

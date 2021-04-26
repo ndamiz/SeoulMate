@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/hyun.css">
 <div class="wrap">
 	<div class="content">
 		<p class="m_title">결제 내역 확인</p>

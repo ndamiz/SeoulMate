@@ -31,6 +31,7 @@ public class MypageController {
 	public ModelAndView sendInviteList() {
 		ModelAndView mav = new ModelAndView();
 		
+		mav.setViewName("mypage/sendInviteList");
 		return mav;
 	}
 	//마이페이지 받은신청
@@ -38,6 +39,7 @@ public class MypageController {
 	public ModelAndView takeRequestList() {
 		ModelAndView mav = new ModelAndView();
 		
+		mav.setViewName("mypage/takeRequestList");
 		return mav;
 	}
 }
