@@ -46,7 +46,7 @@
 				<tbody>
 					<c:forEach var="vo" items="${list}">
 						<tr>
-							<td>${vo.no}+123</td>
+							<td>${vo.no}</td>
 							<td>${vo.category}</td>
 							<td class="t_title"><a href="">${vo.subject}</a></td>
 							<td>${vo.userid}</td>

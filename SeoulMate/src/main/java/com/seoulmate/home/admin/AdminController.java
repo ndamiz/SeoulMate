@@ -66,8 +66,8 @@ public class AdminController {
 		return mav;
 	}
 	//문의 관리
-	@RequestMapping("/admin/qnaManagement")
-	public String qnaManagement() {
-		return "/admin/qnaManagement";
+	@RequestMapping("/admin/contactManagement")
+	public String contactManagement() {
+		return "/admin/contactManagement";
 	}
 }
