@@ -30,6 +30,7 @@ public class AdminController {
 	public ModelAndView memberManagement() {
 		ModelAndView mav = new ModelAndView();
 		
+		mav.addObject("list", service.memberSelect());
 		mav.setViewName("admin/memberManagement");
 		return mav;
 	}

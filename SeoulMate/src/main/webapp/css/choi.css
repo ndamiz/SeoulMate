@@ -18,6 +18,9 @@ span{line-height: 47px;}
 #memDiv3>.form_box.choice li > label, #memDiv5>.form_box.choice li > label
 , #memDiv6>.form_box.choice li > label, #memDiv7>.form_box.choice li > label{width:170px;}
 #proli{height:125px;}
+.profile_div{margin:5px 0 0 20px;}
+.profile_img{width:150px; height:107px;}
+.form_box>li>input[type=date]{width:213.73px;}
 
 /* memberEdit */
 #userpwdCheck{width:250px;}

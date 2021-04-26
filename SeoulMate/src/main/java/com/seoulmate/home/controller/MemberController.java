@@ -59,7 +59,10 @@ public class MemberController {
 		
 		
 		proVO.setUserid(vo.getUserid()); // 성향 테이블에 userid 추가
-		
+		// 파일 업로드 하기 전까지는 프로필 파일명만 set
+		vo.setProfilePic("example");
+		///////////////////////////////////////
+		/*
 		int result=service.memberInsert(vo);
 		if(result>0) { // 회원가입 성공
 			int pResult=service.propInsert(proVO);
@@ -73,7 +76,8 @@ public class MemberController {
 			mav.setViewName("redirect:memberForm");
 			// 나중에 history.back() 해줘야 함
 		}
-		/*
+		*/
+		
 		System.out.println("아이디 : "+vo.getUserid());
 		System.out.println("비밀번호 : "+vo.getUserpwd());
 		System.out.println("이름 : "+vo.getUsername());
@@ -82,9 +86,6 @@ public class MemberController {
 		System.out.println("연락처2 : "+vo.getTel2());
 		System.out.println("연락처3 : "+vo.getTel3());
 		System.out.println("생년월일 : "+vo.getBirth());
-		System.out.println("년 : "+vo.getBirth1());
-		System.out.println("월 : "+vo.getBirth2());
-		System.out.println("일 : "+vo.getBirth3());
 		System.out.println("희망지역 전체 : "+vo.getArea());
 		System.out.println("희망1 : "+vo.getArea1());
 		System.out.println("희망2 : "+vo.getArea2());
@@ -92,7 +93,6 @@ public class MemberController {
 		System.out.println("이메일 전체 : "+vo.getEmail());
 		System.out.println("이메일 아이디 : "+vo.getEmailid());
 		System.out.println("이메일 도메인 : "+vo.getEmaildomain());
-		*/
 		
 		return mav;
 	}
@@ -289,6 +289,6 @@ public class MemberController {
 	
 	@RequestMapping("/sample")
 	public String sample() {
-		return "member/sample";
+		return "sample";
 	}
 }
