@@ -8,7 +8,7 @@
 			return false;
 		}
 		if(confirm("탈퇴하시겠습니까?")){
-			alert("그동안 서울 메이트를 이용해주셔서 감사합니다.");
+			return true;
 		}else{
 			return false;
 		}

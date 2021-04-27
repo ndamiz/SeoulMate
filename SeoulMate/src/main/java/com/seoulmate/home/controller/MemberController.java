@@ -177,7 +177,7 @@ public class MemberController {
 		
 		vo.setUserid((String)session.getAttribute("logId"));
 		
-		int pwdResult=service.memberPwdSelect(vo.getUserid(), vo.getUserpwd());
+		// int pwdResult=service.memberPwdSelect(vo.getUserid(), vo.getUserpwd());
 		
 		System.out.println("아이디 : "+vo.getUserid());
 		System.out.println("비밀번호 : "+vo.getUserpwd());
@@ -190,22 +190,20 @@ public class MemberController {
 		System.out.println("이메일 아이디 : "+vo.getEmailid());
 		System.out.println("이메일 도메인 : "+vo.getEmaildomain());
 		
-		if(pwdResult==1) {
-			
-		}else if(pwdResult==0) {
-			System.out.println("비밀번호를 바꾸는 경우");
-			if(service.memberUpdatePwdY(vo)>0) { // 비밀번호 포함 변경 성공
-				System.out.println("비밀번호 포함 변경 성공");
-			}else { // 비밀번호 포함 변경 실패
-				System.out.println("비밀번호 포함 변경 실패");
+		
+		if(!vo.getUserpwd().equals("")) { // 비밀번호를 바꾸려는 경우
+			System.out.println("비밀번호 O 회원수정 O");
+			if(service.memberUpdatePwdY(vo)>0) {
+				System.out.println("비밀번호 포함 회원수정 변경 성공");
+			}else {
+				System.out.println("비밀번호 포함 회원수정 변경 실패");
 			}
-		}else if(vo.getUserpwd()==""){
-			System.out.println("비밀번호를 바꾸지 않는 경우");
-			System.out.println("second:"+vo.getArea());
-			if(service.memberUpdatePwdN(vo)>0) { // 비밀번호 미포함 변경 성공
-				System.out.println("비밀번호 미포함 변경 성공");
-			}else { // 비밀번호 미포함 변경 실패
-				System.out.println("비밀번호 미포함 변경 실패");
+		}else {
+			System.out.println("비밀번호 X 회원수정 O");
+			if(service.memberUpdatePwdN(vo)>0) {
+				System.out.println("비밀번호 미포함 회원수정 변경 성공");
+			}else {
+				System.out.println("비밀번호 미포함 회원수정 변경 실패");
 			}
 		}
 		
@@ -231,6 +229,7 @@ public class MemberController {
 			service.memberExit(userid, userpwd);
 			mav.addObject("pwdCheck", "일치");
 			mav.setViewName("home");
+			session.invalidate();
 		}else { // 비밀번호가 일치하지 않는 경우
 			System.out.println("일치하지않는 경우");
 			mav.addObject("pwdCheck", "불일치");
