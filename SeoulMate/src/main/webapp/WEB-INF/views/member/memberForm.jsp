@@ -587,9 +587,9 @@
 					<li><label></label></li>
 					<li><label><span class="red_txt">*</span>기타</label>
 						<div class="checks">
-							<input type="checkbox" name="h_etcArr" id="h_etc1" value="1"/>
+							<input type="checkbox" name="h_etc" id="h_etc1" value="1"/>
 							<label for="h_etc1">보증금 조절 가능</label>
-							<input type="checkbox" name="h_etcArr" id="h_etc3" value="3"/>
+							<input type="checkbox" name="h_etc" id="h_etc3" value="3"/>
 							<label for="h_etc3">즉시 입주 가능</label>
 						</div>
 					</li>

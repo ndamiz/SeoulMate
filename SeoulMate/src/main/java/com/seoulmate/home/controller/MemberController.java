@@ -248,18 +248,79 @@ public class MemberController {
 		ModelAndView mav=new ModelAndView();
 		String userid=(String)session.getAttribute("logId");
 		
-		
+		mav.addObject("pcase", service.propPcase(userid)); // 하우스인지 메이트인지
 		
 		mav.setViewName("member/memberProEdit");
 		return mav;
 	}
 	
-	@RequestMapping("/memberProEditForm")
-	public ModelAndView memberProEditForm() {
+	@RequestMapping("/proEditHouseForm")
+	public ModelAndView proEditHouseForm() {
 		ModelAndView mav=new ModelAndView();
 		
 		mav.addObject("no1", "no1");
-		mav.setViewName("member/memberProEditForm");
+		mav.setViewName("member/proEditHouseForm");
+		
+		return mav;
+	}
+	
+	@RequestMapping("/proEditMateForm")
+	public ModelAndView proEditMateForm(HttpSession session) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
+		PropensityVO pVO=service.propMateSelect(userid);
+		
+		System.out.println("성향 번호 : "+pVO.getPno());
+		System.out.println("아이디 : "+pVO.getUserid());
+		System.out.println("분류 : "+pVO.getPcase());
+		System.out.println("집 이름 : "+pVO.getHousename());
+		System.out.println("집 생활소음 : "+pVO.getH_noise());
+		System.out.println("집 생활 시간 : "+pVO.getH_pattern());
+		System.out.println("집 애완 동물 : "+pVO.getH_pet());
+		System.out.println("집 애완 동물 동반 입실 : "+pVO.getH_petwith());
+		System.out.println("집 흡연 : "+pVO.getH_smoke());
+		System.out.println("집 분위기 : "+pVO.getH_mood());
+		System.out.println("집 소통 방식 : "+pVO.getH_communication());
+		System.out.println("집 모임 빈도 : "+pVO.getH_party());
+		System.out.println("집 모임 참가 의무 : "+pVO.getH_enter());
+		System.out.println("집 지원 : "+pVO.getH_supportStr());
+		System.out.println("집 기타 : "+pVO.getH_etcStr());
+		System.out.println("메이트 생활 시간 : "+pVO.getM_pattern());
+		System.out.println("메이트 성격 : "+pVO.getM_personality());
+		System.out.println("메이트 애완 동물 : "+pVO.getM_pet());
+		System.out.println("메이트 흡연 여부 : "+pVO.getM_smoke());
+		System.out.println("메이트 나이 : "+pVO.getM_age());
+		System.out.println("메이트 성별 : "+pVO.getM_gender());
+		System.out.println("메이트 외국인 입주 가능 여부 : "+pVO.getM_global());
+		System.out.println("메이트 즉시 입주 가능 여부 : "+pVO.getM_now());
+		System.out.println("성향 등록일 : "+pVO.getPdate());
+		
+		
+		mav.addObject("pVO", pVO);
+		mav.setViewName("member/proEditMateForm");
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="/proEditMateOk", method=RequestMethod.POST)
+	public ModelAndView proEditMateOk(PropensityVO pVO, HttpSession session) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
+		pVO.setUserid(userid);
+		
+		int result=service.propMateUpdate(pVO);
+		
+		if(result>0) { // 성향 수정 성공
+			System.out.println("성향 수정에 성공한 경우");
+			mav.addObject("complete", "complete");
+			mav.addObject("pcase", service.propPcase(userid)); // 하우스인지 메이트인지
+			mav.setViewName("member/memberProEdit");
+		}else { // 성향 수정 실패
+			System.out.println("성향 수정에 실패한 경우");
+			mav.addObject("fail", "fail");
+			mav.setViewName("member/proEditMateForm");
+			// 나중에는 history.back()을 해줘야 할듯
+		}
 		
 		return mav;
 	}

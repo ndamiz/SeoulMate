@@ -69,7 +69,6 @@
 					<li><a id="no${i}" href="#">집 이름 ${i}</a></li>
 				</c:forEach>
 				<!-- c:forEach end -->
-				<li><a href="memberProEdit">성향 추가(하우스만)</a></li>
 			</ul>
 			<div id="mateChoice">
 				<p class="m_title">원하는 하우스의 성향 등록</p>

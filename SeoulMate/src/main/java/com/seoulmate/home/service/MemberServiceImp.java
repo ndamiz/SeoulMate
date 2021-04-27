@@ -60,4 +60,12 @@ public class MemberServiceImp implements MemberService {
 	public String propPcase(String userid) {
 		return pDAO.propPcase(userid);
 	}
+	@Override
+	public PropensityVO propMateSelect(String userid) {
+		return pDAO.propMateSelect(userid);
+	}
+	@Override
+	public int propMateUpdate(PropensityVO pVO) {
+		return pDAO.propMateUpdate(pVO);
+	}
 }
