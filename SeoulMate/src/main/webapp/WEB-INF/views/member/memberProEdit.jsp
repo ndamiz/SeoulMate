@@ -20,10 +20,10 @@
 			<a class="green s_margin" href="#">메이트 성향 수정</a><br/>
 			<p class="s_title s_margin">하우스 성향 수정</p><br/>
 			<a class="green s_margin" href="#">하우스 성향 수정</a><br/>
-<%-- 			<c:if test="${vo.pcase!='m'}"> --%>
+			<c:if test="${vo.pcase!='m'}">
 				<p class="s_title s_margin">메이트 성향 추가</p><br/>
 				<a class="green s_margin" href="#">메이트 성향 추가</a><br/>
-<%-- 			</c:if> --%>
+			</c:if>
 		</div>
 		
 		<ul id="proUl">

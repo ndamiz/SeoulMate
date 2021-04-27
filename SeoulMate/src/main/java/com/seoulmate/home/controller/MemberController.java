@@ -41,8 +41,7 @@ public class MemberController {
 	@RequestMapping("/idCheck")
 	public ModelAndView idCheck(String userid) {
 		String useridCheck=userid;
-		
-		
+		System.out.println(userid);
 		int result=service.idCheck(useridCheck);
 		
 		ModelAndView mav=new ModelAndView();
@@ -245,9 +244,14 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/memberProEdit")
-	public String memberProEdit() {
+	public ModelAndView memberProEdit(HttpSession session) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
 		
-		return "member/memberProEdit";
+		
+		
+		mav.setViewName("member/memberProEdit");
+		return mav;
 	}
 	
 	@RequestMapping("/memberProEditForm")

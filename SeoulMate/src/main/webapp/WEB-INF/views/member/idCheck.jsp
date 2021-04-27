@@ -19,8 +19,19 @@
 				alert("아이디를 입력 후 중복 검사 버튼을 눌러주세요");
 				return false;
 			}
+			if(regExpCheck()==false){
+				return false;
+			}
 		});
 	});
+	function regExpCheck(){
+		// 아이디
+		var regId=/^[a-zA-Z]{1}[a-zA-Z0-9]{5,11}$/;
+		if(!regId.test(document.getElementById("userid").value)){
+			alert("아이디는 영문과 숫자를 조합한 6~12자리여야 합니다.");
+			return false;
+		}
+	}
 </script>
 
 <div class="wrap">

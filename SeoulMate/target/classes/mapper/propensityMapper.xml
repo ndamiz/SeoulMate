@@ -12,4 +12,5 @@
 		 #{h_supportStr}, #{h_etcStr}, #{m_pattern}, #{m_personality}, #{m_pet}, #{m_smoke}, 
 		 #{m_age}, #{m_gender}, #{m_global}, #{m_now}, sysdate)
 	</insert>
+	
   </mapper>

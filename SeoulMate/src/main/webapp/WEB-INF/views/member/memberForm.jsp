@@ -25,6 +25,9 @@
 		var popupY=(window.screen.height/2)-(popupHeight/2);
 		
 		$("#idCheck").click(function(){
+			if(regExpCheck()==false){
+				return false;
+			}
 			if($("#userid").val()!=""){
 				window.open("idCheck?userid="+$("#userid").val(), "idchk", 'height='+popupHeight+', width='+popupWidth+', left='+ popupX + ', top='+ popupY);
 			}else{

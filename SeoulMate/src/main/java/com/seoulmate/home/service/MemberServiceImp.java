@@ -51,8 +51,13 @@ public class MemberServiceImp implements MemberService {
 	public int memberExit(String userid, String userpwd) {
 		return dao.memberExit(userid, userpwd);
 	}
+	// 성향 관련
 	@Override
 	public int propInsert(PropensityVO vo) {
 		return pDAO.propInsert(vo);
+	}
+	@Override
+	public String propPcase(String userid) {
+		return pDAO.propPcase(userid);
 	}
 }
