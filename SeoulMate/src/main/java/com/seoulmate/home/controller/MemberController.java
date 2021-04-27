@@ -1,5 +1,7 @@
 package com.seoulmate.home.controller;
 
+import java.util.Calendar;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -16,6 +18,25 @@ public class MemberController {
 	@Inject
 	MemberService service;
 	
+	@RequestMapping("/memberForm")
+	public ModelAndView memForm() {
+		ModelAndView mav=new ModelAndView();
+		
+		Calendar now=Calendar.getInstance();
+		int year=now.get(Calendar.YEAR);
+		mav.addObject("year", year);
+		
+		String arr1[] = {"010"," 02"," 031","032","033","041","042","043","044","051","052","053","054","055","061","062","063","064"};
+		mav.addObject("arr1", arr1);
+		
+		String guArr[]= {"강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구"
+				,"동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"};
+		mav.addObject("guArr", guArr); 
+		
+		mav.setViewName("member/memberForm");
+		
+		return mav;
+	}
 	
 	@RequestMapping("/idCheck")
 	public ModelAndView idCheck(String userid) {
@@ -36,9 +57,11 @@ public class MemberController {
 		ModelAndView mav=new ModelAndView();
 		mav.setViewName("home");
 		
-		
 		proVO.setUserid(vo.getUserid()); // 성향 테이블에 userid 추가
-		
+		// 파일 업로드 하기 전까지는 프로필 파일명만 set
+		vo.setProfilePic("example");
+		///////////////////////////////////////
+		/*
 		int result=service.memberInsert(vo);
 		if(result>0) { // 회원가입 성공
 			int pResult=service.propInsert(proVO);
@@ -52,7 +75,8 @@ public class MemberController {
 			mav.setViewName("redirect:memberForm");
 			// 나중에 history.back() 해줘야 함
 		}
-		/*
+		*/
+		
 		System.out.println("아이디 : "+vo.getUserid());
 		System.out.println("비밀번호 : "+vo.getUserpwd());
 		System.out.println("이름 : "+vo.getUsername());
@@ -61,9 +85,6 @@ public class MemberController {
 		System.out.println("연락처2 : "+vo.getTel2());
 		System.out.println("연락처3 : "+vo.getTel3());
 		System.out.println("생년월일 : "+vo.getBirth());
-		System.out.println("년 : "+vo.getBirth1());
-		System.out.println("월 : "+vo.getBirth2());
-		System.out.println("일 : "+vo.getBirth3());
 		System.out.println("희망지역 전체 : "+vo.getArea());
 		System.out.println("희망1 : "+vo.getArea1());
 		System.out.println("희망2 : "+vo.getArea2());
@@ -71,7 +92,6 @@ public class MemberController {
 		System.out.println("이메일 전체 : "+vo.getEmail());
 		System.out.println("이메일 아이디 : "+vo.getEmailid());
 		System.out.println("이메일 도메인 : "+vo.getEmaildomain());
-		*/
 		
 		return mav;
 	}
@@ -208,10 +228,12 @@ public class MemberController {
 		if(result>0) { // 비밀번호가 일치하는 경우
 			System.out.println("일치하는 경우");
 			service.memberExit(userid, userpwd);
+			mav.addObject("pwdCheck", "일치");
 			mav.setViewName("home");
 		}else { // 비밀번호가 일치하지 않는 경우
 			System.out.println("일치하지않는 경우");
-			mav.setViewName("member/memberExit");
+			mav.addObject("pwdCheck", "불일치");
+			mav.setViewName("member/memberEdit");
 		}
 		
 		return mav;
@@ -266,6 +288,6 @@ public class MemberController {
 	
 	@RequestMapping("/sample")
 	public String sample() {
-		return "member/sample";
+		return "sample";
 	}
 }

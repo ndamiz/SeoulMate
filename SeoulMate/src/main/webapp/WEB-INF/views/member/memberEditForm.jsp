@@ -160,9 +160,7 @@
 					<input type="text" name="tel3" id="tel3" value="${vo.tel3}" maxlength="4"/>
 				</li>
 				<li><label>생년월일</label>
-					<input type="text" name="birth1" id="editBirth1" value="${vo.birth1}" disabled/><span>년</span> 
-					<input type="text" name="birth2" id="birth2" value="${vo.birth2}" disabled/><span>월</span>
-					<input type="text" name="birth3" id="birth3" value="${vo.birth3}" disabled/><span>일</span>
+					<input type="date" name="birth" id="birth" value="${vo.birth}" disabled/>
 				</li>
 				<li><label>성별</label>
 					<div class="checks">

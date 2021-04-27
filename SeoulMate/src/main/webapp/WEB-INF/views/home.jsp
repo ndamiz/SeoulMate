@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script>
+	function exitCheck(){
+		if(${pwdCheck=='일치'}){
+			alert("그동안 서울 메이트를 이용해주셔서 감사합니다.");
+		}
+	}
+	exitCheck();
+</script>
 <div class="main_wrap">
 	<div class="content">
 		<h2 class="main_title">

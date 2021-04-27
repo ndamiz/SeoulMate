@@ -16,9 +16,6 @@ public class MemberVO {
 	private String emaildomain;
 	
 	private String birth;
-	private String birth1;
-	private String birth2;
-	private String birth3;
 	
 	private int gender;
 	
@@ -30,9 +27,9 @@ public class MemberVO {
 	private String area3;
 	
 	private String regdate;
-	private int grade;
+	private int grade; //1:일반, 2:프리미엄 
 	private String profilePic;
-	private String state;
+	private String state; // 일반, 블랙, 탈퇴 
 	
 	public int getNo() {
 		return no;
@@ -111,33 +108,10 @@ public class MemberVO {
 		this.emaildomain = emaildomain;
 	}
 	public String getBirth() {
-		birth=birth1+"/"+birth2+"/"+birth3;
 		return birth;
 	}
 	public void setBirth(String birth) {
 		this.birth = birth;
-		String b[]=birth.split("/");
-		birth1=b[0];
-		birth2=b[1];
-		birth3=b[2];
-	}
-	public String getBirth1() {
-		return birth1;
-	}
-	public void setBirth1(String birth1) {
-		this.birth1 = birth1;
-	}
-	public String getBirth2() {
-		return birth2;
-	}
-	public void setBirth2(String birth2) {
-		this.birth2 = birth2;
-	}
-	public String getBirth3() {
-		return birth3;
-	}
-	public void setBirth3(String birth3) {
-		this.birth3 = birth3;
 	}
 	public int getGender() {
 		return gender;
