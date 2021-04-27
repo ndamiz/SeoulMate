@@ -162,7 +162,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
    <section class="content map_content">
       <div class="list_head">
-         <p class="m_title">나의 지역 둘러보기</p>
+         <p class="m_title">나의지역 둘러보기</p>
       </div>
       <div class="main_map" id="map"></div>
    </section>
@@ -172,12 +172,15 @@
       mapOption = {
          center : new kakao.maps.LatLng(37.5640455, 126.834005), // 지도의 중심좌표
          //draggable: false,
-         level : 4
+         //level : 4
+         level : 6
       // 지도의 확대 레벨
       };
       var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-      madeMap();
       
+	  <c:if test="${logId==null}">
+      madeMap();
+  	  </c:if>
       // =============== 현재좌표 구하기 =============== //
       function madeMap() {
          
@@ -271,8 +274,8 @@
          // 메이트 리스트 JSON
          var data = {"positions": []}
          
-         var xObject = {}; // 각 주소에 대한 x 좌표를 담을 객체
-         var yObject = {}; // 각 주소에 대한 x 좌표를 담을 객체
+         //var xObject = {}; // 각 주소에 대한 x 좌표를 담을 객체
+         //var yObject = {}; // 각 주소에 대한 x 좌표를 담을 객체
          var total = mateArrList.length;
          var counter = 0;
          var geocoder = new kakao.maps.services.Geocoder();
@@ -331,5 +334,24 @@
          
          console.log(data);
       }
+   <c:if test="${logId!=null}">
+   	var area = "${logArea}";
+   	console.log("area : " + area);
+   	if(area!=null){
+        var geocoder = new kakao.maps.services.Geocoder();
+        geocoder.addressSearch(area, function(result, status) {
+           if (status === kakao.maps.services.Status.OK) {
+           	setHopeArea(result[0].x, result[0].y)
+           }
+        });
+   	}
+   </c:if>
+   
+	function setHopeArea(x, y) {
+        var locPosition = new kakao.maps.LatLng(y, x);
+        map.setCenter(locPosition);
+        getMateAddr();
+	}
    </script>
+   
 </div>
