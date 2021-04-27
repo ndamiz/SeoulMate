@@ -227,6 +227,11 @@ section{ margin-left:15% ; width: 85%; float: left; }
 .memberSearch>select[name=state]{width: 131px; float: left;}
 .memberSearch input[type=text]{width: 200px; float: left;}
 .memberSearch input[type=submit]{width: 80px; float: left;}
+.profile_div{margin:5px 0 0 20px;}
+.profile_img{width:120px; height:85px;}
+.profile_input{width:220px;}
+.profile_left{margin-left:100px; padding-top:10px;}
+.remove_icon{margin-left:5px; width:15px; height:15px;}
 
 /* reportManagement */
 .reportSearch {width:550px; float: left; overflow: auto; margin-top: 20px; }
@@ -235,8 +240,8 @@ section{ margin-left:15% ; width: 85%; float: left; }
 .reportSearch input[type=text]{width: 200px; float: left;}
 .reportSearch input[type=submit]{width: 80px; float: left;}
 
-/* reportInfo ////팝업 스타일 */
-.report_wrap{
+/* 팝업 스타일 */
+.pup_wrap{
 	display:none;
 	width: 100%;
 	height:100vh;
@@ -245,7 +250,7 @@ section{ margin-left:15% ; width: 85%; float: left; }
 	background-color: rgb(0, 0, 0, 0.5);
 	z-index: 0;
 } 
-.report_form{
+.pup_form{
 	width: 600px;
 	position:absolute;
 	top: 50%;
@@ -257,7 +262,7 @@ section{ margin-left:15% ; width: 85%; float: left; }
 	box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%);
 	overflow: hidden;
 }
-.report_form .report_head {
+.pup_form .pup_head {
 	position: relative;
 	height: 50px;
 	line-height: 50px;
@@ -266,18 +271,21 @@ section{ margin-left:15% ; width: 85%; float: left; }
 	background-color: #13a89e;
 	color: #fff;
 }
-.report_body {
+.pup_body {
 	padding: 30px;
 	height: 400px;
 	overflow: hidden;
 	overflow-y: auto;
 }
-.report_bottom {
+.pup_long{ /* li의 높이가 3줄을 차지 */
+	height:125px;
+}
+.pup_bottom {
 	padding: 15px 0;
 	text-align: center;
 	box-shadow: 0 -1px 22px -2px rgb(0 0 0 / 15%);
 }
-.report_bottom a {
+.pup_bottom a {
 	display: inline-block;
 	padding: 0 15px;
 	width: 130px;
@@ -290,16 +298,16 @@ section{ margin-left:15% ; width: 85%; float: left; }
 	text-align: center;
 	border-radius: 5px;
 }
-.report_bottom a.btn_cancel {
+.pup_bottom a.btn_cancel {
 	background-color: #8f969d;
 }
-.report_bottom a.btn_save {
+.pup_bottom a.btn_save {
 	background-color: #2171cc;
 }
-.report_bottom a.btn_del {
+.pup_bottom a.btn_del {
 	background-color: #ef8181;
 }
-.report_btn_close {
+.pup_btn_close {
 	position: absolute;
 	right: 17px;
 	top: 11px;
@@ -309,11 +317,11 @@ section{ margin-left:15% ; width: 85%; float: left; }
 	text-indent: -9999px;
 	opacity: 0.7;
 }
-.report_btn_close:hover {
+.pup_btn_close:hover {
 	opacity: 1;
 }
 
-.report_btn_close:before, .btn_close:after {
+.pup_btn_close:before, .pup_btn_close:after {
 	position: absolute;
 	left: 15px;
 	content: ' ';
@@ -321,32 +329,32 @@ section{ margin-left:15% ; width: 85%; float: left; }
 	width: 2px;
 	background-color: #fff;
 }
-.report_btn_close:before {
+.pup_btn_close:before {
 	transform: rotate(45deg);
 }
-.report_btn_close:after {
+.pup_btn_close:after {
 	transform: rotate(-45deg);
 }
-.report_list{
+.pup_list{
 	display: flex;
 	border-radius: 10px;
 	padding: 10px;
 	margin-bottom: 20px;
 	box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%);
 }
-.report_list ul, .report_list li{
+.pup_list ul, .pup_list li{
 	list-style:none;
 }
-.report_list li{
+.pup_list li{
 	margin-bottom: 10px;
 }
-.report_list li input[type=text]{
+.pup_list li input[type=text]{
 	width: 300px;	
 }
-.report_list li textarea{
+.pup_list li textarea{
 	width: 300px;	
 }
- .report_list li>div{
+ .pup_list li>div{
  	float: left;
  	text-align:left;
  	width: 100px;

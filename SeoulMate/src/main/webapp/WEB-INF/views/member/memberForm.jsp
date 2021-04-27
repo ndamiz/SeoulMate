@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <link rel="stylesheet" href="/home/css/choi.css"/>
+<c:set var="today" value="<%=new java.util.Date()%>"/>
+<c:set var="now"><fmt:formatDate value="${today}" pattern="yyyy-MM-dd"/></c:set>
 <script>
 	$(function(){
-		$("#birth1").val("1995").attr("selected", true);
 		//////////// 회원가입 폼 시작 ////////////
 		// 아이디 중복검사 해제
 		var userid;
@@ -19,8 +21,7 @@
 		////////////아이디 중복 확인 ////////////
 		var popupWidth=600;
 		var popupHeight=230;
-		var popupX=(window.screen.width/2)-(popupWidth/2);
-		// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
+		var popupX=(window.screen.width/2)-(popupWidth/2); // 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
 		var popupY=(window.screen.height/2)-(popupHeight/2);
 		
 		$("#idCheck").click(function(){
@@ -91,8 +92,8 @@
 				alert("전화번호를 입력하세요");
 				return false;
 			}
-			if($("#birth1").val()==""){
-				alert("연도를 선택하세요");
+			if($("#birth").val()==null || $("#birth").val()==""){
+				alert("생년월일을 선택하세요");
 				return false;
 			}
 			
@@ -229,28 +230,28 @@
 				alert("연락처는 숫자를 4자리씩 입력해야 합니다.");
 				return false;
 			}
-			// 월
-			var regBirth2=/(0[1-9]|1[012])$/;
-			var Birth2=document.getElementById("birth2").value;
-			if(document.getElementById("birth2").value.length==1){
-				Birth2="0"+Birth2;
-				document.getElementById("birth2").value=Birth2;
-			} 
-			if(!regBirth2.test(Birth2)){ // 월
-				alert("월을 정확하게 입력해주세요.");
-				return false;
-			}
-			// 일
-			var regBirth3=/(0[1-9]|[12][0-9]|3[0-1])$/;
-			var Birth3=document.getElementById("birth3").value;
-			if(document.getElementById("birth3").value.length==1){
-				Birth3="0"+Birth3;
-				document.getElementById("birth3").value=Birth3;
-			} 
-			if(!regBirth3.test(Birth3)){ // 월
-				alert("일을 정확하게 입력해주세요.");
-				return false;
-			}
+// 			// 월
+// 			var regBirth2=/(0[1-9]|1[012])$/;
+// 			var Birth2=document.getElementById("birth2").value;
+// 			if(document.getElementById("birth2").value.length==1){
+// 				Birth2="0"+Birth2;
+// 				document.getElementById("birth2").value=Birth2;
+// 			} 
+// 			if(!regBirth2.test(Birth2)){ // 월
+// 				alert("월을 정확하게 입력해주세요.");
+// 				return false;
+// 			}
+// 			// 일
+// 			var regBirth3=/(0[1-9]|[12][0-9]|3[0-1])$/;
+// 			var Birth3=document.getElementById("birth3").value;
+// 			if(document.getElementById("birth3").value.length==1){
+// 				Birth3="0"+Birth3;
+// 				document.getElementById("birth3").value=Birth3;
+// 			} 
+// 			if(!regBirth3.test(Birth3)){ // 월
+// 				alert("일을 정확하게 입력해주세요.");
+// 				return false;
+// 			}
 			// 이메일 아이디
 			var regEmailId=/^\w{3,14}$/;
 			if(!regEmailId.test(document.getElementById("emailid").value)){
@@ -348,15 +349,7 @@
 						<input type="text" name="tel3" id="tel3" value="1111" maxlength="4"/>
 					</li>
 					<li><label><span class="red_txt">*</span>생년월일</label>
-						<select name="birth1" id="birth1">
-							<option value="">연도</option>
-							<c:forEach var="i" begin="0" end="${year-1930}">
-								<c:set var="yearOption" value="${year-i}"/>
-								<option value="${yearOption}">${yearOption}</option>
-							</c:forEach>
-						</select><span>년</span> 
-						<input type="text" name="birth2" id="birth2" value="1" maxlength="2"/><span>월</span>
-						<input type="text" name="birth3" id="birth3" value="1" maxlength="2"/><span>일</span>
+						<input type="date" name="birth" id="birth" min="1960-01-01" max="${now}"/>
 					</li>
 					<li><label><span class="red_txt">*</span>성별</label>
 						<div class="checks">
@@ -367,9 +360,9 @@
 						</div>
 					</li>
 					<li id="proli"><span class="red_txt">*</span><label>프로필 사진</label>
-						<div style="margin:5px 0 0 20px;">
-							<img id="profileImg" name="profileImg" src="<%=request.getContextPath()%>/img/choi/pepe_1.png" alt="upload image" style="width:150px; height:107px;"/>
-							<input type="file" accept="image/*" name="profilePic" id="profilePic" />
+						<div class="profile_div">
+							<img class="profile_img" id="profileImg" name="profileImg" src="/home/img/choi/pepe_1.png" alt="upload image"/>
+							<input type="file" accept="image/*" name="profilePic1" id="profilePic" />
 						</div>
 					</li>
 					<li><label>&nbsp;희망 지역1</label>
