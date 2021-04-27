@@ -121,13 +121,13 @@ public class MemberVO {
 	}
 	public String getArea() {
 		area="";
-		if(area1!=null) {
+		if(area1!=null && !area1.equals("")) {
 			area+=area1+"/";
 		}
-		if(area2!=null) {
+		if(area2!=null && !area2.equals("")) {
 			area+=area2+"/";
 		}
-		if(area3!=null) {
+		if(area3!=null && !area3.equals("")) {
 			area+=area3;
 		}
 		return area;

@@ -62,7 +62,7 @@ public class MemberController {
 		// 파일 업로드 하기 전까지는 프로필 파일명만 set
 		vo.setProfilePic("example");
 		///////////////////////////////////////
-		/*
+		
 		int result=service.memberInsert(vo);
 		if(result>0) { // 회원가입 성공
 			int pResult=service.propInsert(proVO);
@@ -76,8 +76,8 @@ public class MemberController {
 			mav.setViewName("redirect:memberForm");
 			// 나중에 history.back() 해줘야 함
 		}
-		*/
 		
+		/*
 		System.out.println("아이디 : "+vo.getUserid());
 		System.out.println("비밀번호 : "+vo.getUserpwd());
 		System.out.println("이름 : "+vo.getUsername());
@@ -93,6 +93,11 @@ public class MemberController {
 		System.out.println("이메일 전체 : "+vo.getEmail());
 		System.out.println("이메일 아이디 : "+vo.getEmailid());
 		System.out.println("이메일 도메인 : "+vo.getEmaildomain());
+		
+		System.out.println("하우스 내 지원 서비스 : "+proVO.getH_support());
+		System.out.println("지원 배열 : "+proVO.getH_supportStr());
+		System.out.println("기타 배열 : "+proVO.getH_etcStr());
+		*/
 		
 		return mav;
 	}
@@ -178,7 +183,7 @@ public class MemberController {
 		vo.setUserid((String)session.getAttribute("logId"));
 		
 		// int pwdResult=service.memberPwdSelect(vo.getUserid(), vo.getUserpwd());
-		
+		/*
 		System.out.println("아이디 : "+vo.getUserid());
 		System.out.println("비밀번호 : "+vo.getUserpwd());
 		System.out.println("연락처 전체 : "+vo.getTel());
@@ -189,7 +194,7 @@ public class MemberController {
 		System.out.println("이메일 전체 : "+vo.getEmail());
 		System.out.println("이메일 아이디 : "+vo.getEmailid());
 		System.out.println("이메일 도메인 : "+vo.getEmaildomain());
-		
+		*/
 		
 		if(!vo.getUserpwd().equals("")) { // 비밀번호를 바꾸려는 경우
 			System.out.println("비밀번호 O 회원수정 O");

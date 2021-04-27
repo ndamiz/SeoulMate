@@ -14,10 +14,10 @@ public class PropensityVO {
 	private int h_communication;
 	private int h_party;
 	private int h_enter;
-	private String h_support;
-	private String h_supportArr[];
-	private String h_etc;
-	private String h_etcArr[];
+	private String h_support[];
+	private String h_supportStr="";
+	private String h_etc[];
+	private String h_etcStr="";
 	
 	private int m_pattern;	
 	private int m_personality;
@@ -108,41 +108,44 @@ public class PropensityVO {
 		this.h_enter = h_enter;
 	}
 	// 하우스 내 지원 서비스 ///////////////
-	public String getH_support() {
-		h_support="";
-		for(String i:h_supportArr) {
-			h_support+=i+"/";
-		}
+	public String[] getH_support() {
 		return h_support;
 	}
-	public void setH_support(String h_support) {
+	public void setH_support(String[] h_support) {
 		this.h_support = h_support;
-		h_supportArr=h_support.split("/");
+		
+		// 배열의 값을 문자열로
+		for(String i:h_support) {
+			h_supportStr+=i+"/";
+		}
 	}
-	public String[] getH_supportArr() {
-		return h_supportArr;
+	public String getH_supportStr() {
+		return h_supportStr;
 	}
-	public void setH_supportArr(String[] h_supportArr) {
-		this.h_supportArr = h_supportArr;
+	public void setH_supportStr(String h_supportStr) {
+		this.h_supportStr = h_supportStr;
+		
+		h_support=h_supportStr.split("/");
 	}
 	////////////////////////////////////
 	// 기타 /////////////////////////////
-	public String getH_etc() {
-		h_etc="";
-		for(String i:h_etcArr) {
-			h_etc+=i+"/";
-		}
+	public String[] getH_etc() {
 		return h_etc;
 	}
-	public void setH_etc(String h_etc) {
+	public void setH_etc(String[] h_etc) {
 		this.h_etc = h_etc;
-		h_etcArr=h_etc.split("/");
+		
+		for(String i:h_etc) {
+			h_etcStr+=i+"/";
+		}
 	}
-	public String[] getH_etcArr() {
-		return h_etcArr;
+	public String getH_etcStr() {
+		return h_etcStr;
 	}
-	public void setH_etcArr(String[] h_etcArr) {
-		this.h_etcArr = h_etcArr;
+	public void setH_etcStr(String h_etcStr) {
+		this.h_etcStr = h_etcStr;
+		
+		h_etc=h_etcStr.split("/");
 	}
 	////////////////////////////////////
 	public int getM_pattern() {

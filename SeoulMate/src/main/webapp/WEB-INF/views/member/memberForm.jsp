@@ -96,7 +96,16 @@
 				alert("생년월일을 선택하세요");
 				return false;
 			}
-			
+			if($("#area1").val()==null || $("#area1").val()==""){
+				alert("희망 지역1을 선택하세요");
+				return false;
+			}
+			if($("#area3").val()!=null && $("#area3").val()!=""){
+				if($("#area2").val()==null || $("#area2").val()==""){
+					alert("희망 지역2를 선택하세요");
+					return false;
+				}
+			}
 			//////////////////////////////////////
 			// 정규식 표현에 통과했을 때
 			if(regExpCheck()!=false){
@@ -372,7 +381,6 @@
 							<option value="강동구">강동구</option>
 							<option value="강서구">강서구</option>
 						</select>
- 
 						<select id="dong1">
 							<option>동을 선택해주세요</option>
 						</select>
@@ -565,11 +573,11 @@
 				<ul class="form_box choice">
 					<li><label><span class="red_txt">*</span>하우스 내 지원 서비스</label>
 						<div class="checks">
-							<input type="checkbox" name="h_supportArr" id="h_support1" value="1">
+							<input type="checkbox" name="h_support" id="h_support1" value="1">
 							<label for="h_support1">공용공간 청소 지원</label>
-							<input type="checkbox" name="h_supportArr" id="h_support2" value="2">
+							<input type="checkbox" name="h_support" id="h_support2" value="2">
 							<label for="h_support2">공용 생필품 지원</label><br/>
-							<input type="checkbox" name="h_supportArr" id="h_support3" value="3">
+							<input type="checkbox" name="h_support" id="h_support3" value="3">
 							<label for="h_support3">기본 식품 지원</label>
 						</div>
 					</li>

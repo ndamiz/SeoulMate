@@ -68,14 +68,13 @@
 				</tbody>
 			</table>
 			<div class="paging">
-				<a class="first_page" href=""></a>
 				<a class="prev_page" href=""></a>
 				<a class="on" href="">1</a>
 				<a class="" href="">2</a>
 				<a class="" href="">3</a>
 				<a class="" href="">4</a>
+				<a class="" href="">5</a>
 				<a class="next_page" href=""></a>
-				<a class="last_page" href=""></a>
 			</div>
 		</div>
 	</section>

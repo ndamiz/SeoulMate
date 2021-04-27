@@ -9,7 +9,7 @@
 		 m_pattern, m_personality, m_pet, m_smoke, m_age, m_gender, m_global, m_now, pdate)
 		 values(psq.nextval, #{userid}, 'm',  #{h_noise}, #{h_pattern}, 
 		 #{h_pet}, #{h_petwith}, #{h_smoke}, #{h_mood}, #{h_communication}, #{h_party}, #{h_enter}, 
-		 #{h_support}, #{h_etc}, #{m_pattern}, #{m_personality}, #{m_pet}, #{m_smoke}, 
+		 #{h_supportStr}, #{h_etcStr}, #{m_pattern}, #{m_personality}, #{m_pet}, #{m_smoke}, 
 		 #{m_age}, #{m_gender}, #{m_global}, #{m_now}, sysdate)
 	</insert>
   </mapper>
