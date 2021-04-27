@@ -13,7 +13,7 @@
 		<h2 class="main_title">
 			당신과 가장 잘 맞는<br>
 			쉐어하우스 & 메이트
-		</h2>
+		</h2>  
 		
 		<form class="main_search_form" method="get" action="">
 			<div class="checks">
