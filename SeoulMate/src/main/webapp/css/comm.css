@@ -850,7 +850,7 @@ footer .foot_btns{
 
 
 .main_wrap div.content{
-	height: 91vh;
+	height: calc(100vh - 90px);
 	border-bottom:1px solid #eee;
 }
 
@@ -862,7 +862,7 @@ footer .foot_btns{
 .main_wrap .content .main_title{
    	font-family: Gugi;
    	line-height: 50px;
-   	padding-top: 19%;
+   	padding-top: 25vh;
    	font-size: 3rem;
    	color:#000;
    	vertical-align: middle;
@@ -994,9 +994,9 @@ footer .foot_btns{
 
 .recommend_list .list_content > li{
 	width: 30%;
+	/* min-width : 325px; */
 	margin-right: 5%;
 	margin-bottom:5%;
-	/* min-width: 700px; */
 }
 
 .recommend_list .list_content > li:nth-child(3n){
@@ -1145,7 +1145,7 @@ footer .foot_btns{
 
 .recommend_list.mate_list .list_icon li p {
 	padding: 0px 14px;
-	width: auto;
+	width: max-content;
 }
 
 .recommend_list.mate_list .list_icon li::before {
