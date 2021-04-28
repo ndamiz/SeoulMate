@@ -4,13 +4,13 @@
 	#premiumInfoImg {border: 2px solid #4DA69E; border-radius: 30px; margin-bottom: 50px;}
 	#premiumInfoImg ul {overflow: auto;}
 	#premiumInfoImg img {width: 33%; border-radius: 30px;}
-	#premiumPayBtn {float: right; margin: 20px 0px;}
 	#premiunPoint {color:#4DA69E; font-weight: 900;}
 	#premiumInfoTable th{height: 50px; line-height: 50px; }
 	#premiumInfoTable{border-bottom:2px solid #4DA69E; }
+	#premiumContent>button, #premiumContent>a{float: right; margin: 20px 0px;}
 </style>
 <div class="wrap">
-	<div class="content">
+	<div class="content" id="premiumContent">
 		<p class="m_title">프리미엄 멤버십 및 요금 안내</p>
 		<hr />
 		<div>
@@ -82,6 +82,14 @@
 				</tr>
 			</tbody>
 		</table>
-		<button class="b_btn green" id="premiumPayBtn" onclick="location.href='premiumPay'">프리미엄 멤버십 가입하기</button>
+		<c:if test="${memberVO.grade=='1' && logId!=null && memberVO.userid==logId }">
+			<a href="" class="b_btn green" id="premiumPayBtn">프리미엄 멤버십 가입하기</a>
+		</c:if>
+		<c:if test="${membetVO.grade=='2' && logId!=null && memberVO.userid==logId }">
+			<button class="b_btn white" disabled>프리미엄 멤버쉽 이용중</button>
+		</c:if>
+		<c:if test="${logId==null && memberVO.userid==null }">
+			<a href="login" class="b_btn white" >로그인 후 멤버십 가입 가능</a>
+		</c:if>
 	</div>
 </div>

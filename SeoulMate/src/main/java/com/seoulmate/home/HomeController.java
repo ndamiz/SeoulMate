@@ -1,5 +1,7 @@
 package com.seoulmate.home;
 
+import java.util.Arrays;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -35,13 +37,13 @@ public class HomeController {
 		for (int i = 0; i < getMateList.length; i++) {
 			mateListArr = getMateList[i].split("/");
 			for (String j : mateListArr) {
-				arr += j + ",";
+				arr += "'" + j + "',";
 			}
 		}
 		mateMapList = arr.split(",");
+		arr = Arrays.toString(mateMapList);
 		
-		mav.addObject("mateMapList",mateMapList);
-		
+		mav.addObject("mateMapList",arr);
 		mav.setViewName("home");
 		return mav;
 	}
