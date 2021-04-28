@@ -1042,18 +1042,18 @@ footer .foot_btns{
 	border-radius: 20px;
 	background-color: #13a89ec2;
 	color: #fff;
-	font-size: 2.8rem;
+	font-size: 3vw;
 	font-weight: 600;
 }
 
 .recommend_list .list_img p span{
 	display: block;
 	line-height:20px;
-	font-size: 1.3rem;
+	font-size: 1.5vw;
 }
 
 .recommend_list .list_img p b{
-	font-size: 1.9rem;
+	font-size: 2vw;
 }
 
 .recommend_list .list_title::after{
@@ -1449,7 +1449,7 @@ footer .foot_btns{
 
 .chat_wrap .chat_window.chat_on .chat_msg{
 	position: relative;
-	bottom: 58px;
+	bottom: 56px;
 }
 
 .chat_wrap .chat_window.chat_on .chat_msg input{

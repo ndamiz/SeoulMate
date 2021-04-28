@@ -260,6 +260,7 @@
 	                 var marker = new kakao.maps.Marker({
 	                     map: map,
 	                    image: markerImage,
+	                    zIndex : 11,
 	                     position: coords
 	                 });
 	             } 
@@ -303,6 +304,7 @@
               map: map, 
               averageCenter: true, 
               minLevel: 1,
+              minClusterSize : 1,
               texts: getTexts, 
               styles: [{ 
                       width : '150px', height : '150px',
@@ -313,11 +315,11 @@
                       fontSize: '1.4rem',
                       fontWeight: 'bold',
                       lineHeight: '150px',
-                      textShadow: '0px 0px 6px #0e7770'
+                      textShadow: '0px 0px 6px #0e7770',
+                      zIndex : -11
                   }
               ]
           });
-
           var markers = data.positions.map(function(position) {
               return new kakao.maps.Marker({
                   position : new kakao.maps.LatLng(position.lat, position.lng)

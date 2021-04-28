@@ -7,6 +7,6 @@
   		select addr from housewrite
 	</select>
   	<select id="getMateMap" resultType="String">
-  		select area from matewrite
+  		select area from matewrite where matestate='모집중'
 	</select>
   </mapper>
