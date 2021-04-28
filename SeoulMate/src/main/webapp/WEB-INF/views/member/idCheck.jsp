@@ -4,7 +4,7 @@
 	.wrap{margin:0; padding:25px; min-height:0; overflow:hidden;}
 	.wrap>.s_title{margin:10px 0 20px 0; font-size:1.2em;}
 	.form_box.choice li>label{width:80px;}
-	.header_wrap, .foot_wrap{display:none;}
+	.header_wrap, .foot_wrap, .chat_wrap{display:none;}
 </style>
 <script>
 	$(function(){
