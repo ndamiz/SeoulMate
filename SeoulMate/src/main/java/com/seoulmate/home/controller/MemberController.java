@@ -41,7 +41,7 @@ public class MemberController {
 	@RequestMapping("/idCheck")
 	public ModelAndView idCheck(String userid) {
 		String useridCheck=userid;
-		System.out.println(userid);
+		// System.out.println(userid);
 		int result=service.idCheck(useridCheck);
 		
 		ModelAndView mav=new ModelAndView();
@@ -249,7 +249,8 @@ public class MemberController {
 		ModelAndView mav=new ModelAndView();
 		String userid=(String)session.getAttribute("logId");
 		
-		mav.addObject("pcase", service.propPcase(userid)); // 하우스인지 메이트인지
+		mav.addObject("pcaseM", service.propPcaseM(userid)); // 메이트인 경우
+		mav.addObject("pcaseH", service.propPcaseH(userid)); // 하우스인 경우
 		
 		mav.setViewName("member/memberProEdit");
 		return mav;
@@ -314,7 +315,8 @@ public class MemberController {
 		if(result>0) { // 성향 수정 성공
 			System.out.println("성향 수정에 성공한 경우");
 			mav.addObject("complete", "complete");
-			mav.addObject("pcase", service.propPcase(userid)); // 하우스인지 메이트인지
+			mav.addObject("pcaseM", service.propPcaseM(userid)); // 메이트인 경우
+			mav.addObject("pcaseH", service.propPcaseM(userid)); // 하우스인 경우
 			mav.setViewName("member/memberProEdit");
 		}else { // 성향 수정 실패
 			System.out.println("성향 수정에 실패한 경우");

@@ -439,14 +439,14 @@
 				<div class="form_box">
 					<div class="half">
 						<div class="checks">
-							<input type="radio" name="housemate" id="housemate1" value="쉐어하우스" checked/>
+							<input type="radio" name="pcase" id="housemate1" value="h" checked/>
 							<label for="housemate1">쉐어하우스</label>
 							<p class="d_title">우리집에 입주할 메이트를 찾아요!</p>
 						</div>
 					</div>
 					<div class="half">
 						<div class="checks">
-							<input type="radio" name="housemate" id="housemate2" value="하우스메이트"/>
+							<input type="radio" name="pcase" id="housemate2" value="m"/>
 							<label for="housemate2">하우스메이트</label>
 							<p class="d_title">쉐어하우스에 입주하고 싶어요!</p>
 						</div>
@@ -460,8 +460,8 @@
 			<div id="housemateChoice">
 				<p class="m_title houseChoice">우리 하우스의 성향 등록</p>
 				<p class="d_title houseChoice">우리 하우스의 라이프 스타일을 선택해주세요.</p>
-				<p class="m_title mateChoice">원하는 하우스의 성향 등록</p>
-				<p class="d_title mateChoice">원하는 하우스의 라이프 스타일을 선택해주세요.</p>
+				<p class="m_title mateChoice">희망하는 하우스의 성향 등록</p>
+				<p class="d_title mateChoice">희망하는 하우스의 라이프 스타일을 선택해주세요.</p>
 			</div>
 			<div id="memDiv3">
 				<div class="title_wrap">
@@ -600,7 +600,7 @@
 				</div>
 			</div>
 			<div id="hopeChoice">
-				<p class="m_title houseChoice">희망 성향 등록</p>
+				<p class="m_title houseChoice">희망하는 하우스메이트의 성향 등록</p>
 				<p class="d_title houseChoice">희망하는 하우스메이트의 라이프 스타일을 등록해주세요</p>
 				<p class="m_title mateChoice">나의 성향 등록</p>
 				<p class="d_title mateChoice">나의 라이프 스타일을 선택해주세요.</p>

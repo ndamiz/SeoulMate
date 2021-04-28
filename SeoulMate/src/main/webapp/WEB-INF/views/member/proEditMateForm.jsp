@@ -68,8 +68,8 @@
 	<div class="member_wrap">
 		<form method="post" id="proId" action="proEditMateOk">
 			<div id="mateChoice">
-				<p class="m_title">원하는 하우스의 성향 수정</p>
-				<p class="d_title">원하는 하우스의 라이프 스타일을 선택해주세요.</p>
+				<p class="m_title">희망하는 하우스의 성향 수정</p>
+				<p class="d_title">희망하는 하우스의 라이프 스타일을 선택해주세요.</p>
 			</div>
 			<div id="proDiv1">
 				

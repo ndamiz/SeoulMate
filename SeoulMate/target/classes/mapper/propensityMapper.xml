@@ -7,13 +7,16 @@
 		insert into propensity(pno, userid, pcase, h_noise, h_pattern, h_pet, h_petwith,
 		 h_smoke, h_mood, h_communication, h_party, h_enter, h_support, h_etc, 
 		 m_pattern, m_personality, m_pet, m_smoke, m_age, m_gender, m_global, m_now, pdate)
-		 values(psq.nextval, #{userid}, 'm',  #{h_noise}, #{h_pattern}, 
+		 values(psq.nextval, #{userid}, #{pcase},  #{h_noise}, #{h_pattern}, 
 		 #{h_pet}, #{h_petwith}, #{h_smoke}, #{h_mood}, #{h_communication}, #{h_party}, #{h_enter}, 
 		 #{h_supportStr}, #{h_etcStr}, #{m_pattern}, #{m_personality}, #{m_pet}, #{m_smoke}, 
 		 #{m_age}, #{m_gender}, #{m_global}, #{m_now}, sysdate)
 	</insert>
-	<select id="propPcase" resultType="String">
-		select pcase from propensity where userid=#{param1}
+	<select id="propPcaseM" resultType="int">
+		select count(pcase) from propensity where userid=#{param1} and pcase='m'
+	</select>
+	<select id="propPcaseH" resultType="int">
+		select count(pcase) from propensity where userid=#{param1} and pcase='h'
 	</select>
 	<select id="propMateSelect" parameterType="String" resultType="com.seoulmate.home.vo.PropensityVO">
 		select pno, userid, pcase, housename, h_noise, h_pattern, h_pet, h_petwith,

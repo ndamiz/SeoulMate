@@ -62,7 +62,6 @@
 <div class="wrap">
 	<div class="member_wrap">
 		<form method="post" id="proId" action="proInsertOk">
-			<p class="m_title" id="proTitle">내 하우스의 성향 수정</p>
 			<ul id="proUl">
 				<!-- c:forEach start -->
 				<c:forEach var="i" begin="1" end="4">
@@ -71,11 +70,10 @@
 				<!-- c:forEach end -->
 			</ul>
 			<div id="mateChoice">
-				<p class="m_title">원하는 하우스의 성향 등록</p>
-				<p class="d_title">원하는 하우스의 라이프 스타일을 선택해주세요.</p>
+				<p class="m_title" id="proTitle">우리 하우스의 성향 수정</p>
+				<p class="d_title">우리 하우스의 라이프 스타일을 선택해주세요.</p>
 			</div>
 			<div id="proDiv1">
-				
 				<div class="title_wrap">
 					<p class="s_title">생활</p>
 				</div>
@@ -211,8 +209,8 @@
 				</div>
 			</div>
 			<div id="Choice">
-				<p class="m_title">나의 성향 등록</p>
-				<p class="d_title">나의 라이프 스타일을 선택해주세요.</p>
+				<p class="m_title">희망하는 메이트의 성향 수정</p>
+				<p class="d_title">희망하는 하우스메이트의 라이프 스타일을 선택해주세요.</p>
 			</div>
 			<div id="proDiv4">
 				<div class="title_wrap">
