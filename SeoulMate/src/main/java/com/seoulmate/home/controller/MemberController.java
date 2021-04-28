@@ -250,6 +250,7 @@ public class MemberController {
 		String userid=(String)session.getAttribute("logId");
 		
 		int pcaseH=service.propPcaseH(userid);
+		
 		mav.addObject("pcaseM", service.propPcaseM(userid)); // 메이트인 경우
 		mav.addObject("pcaseH", pcaseH); // 하우스인 경우
 		if(pcaseH>0) {
@@ -359,9 +360,29 @@ public class MemberController {
 		return mav;
 	}
 	
+	@RequestMapping("/proInsertForm")
+	public ModelAndView proInsert(HttpSession session) {
+		ModelAndView mav=new ModelAndView();
+		
+		mav.setViewName("member/proInsertForm");
+		return mav;
+	}
+	
 	@RequestMapping("/proInsertOk")
-	public String proInsertOk() {
-		return "home";
+	public ModelAndView proInsertOk(PropensityVO pVO, HttpSession session) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
+		pVO.setUserid(userid);
+		pVO.setPcase("m");
+		int result=service.propInsert(pVO);
+		if(result>0) { // 성향 등록 성공
+			mav.setViewName("redirect:memberProEdit");
+		}else {
+			mav.setViewName("redirect:proInsertForm");
+			// history.back(); 해야할듯
+		}
+		
+		return mav;
 	}
 	@RequestMapping("/logout")
 	public String logout(HttpSession session) {
