@@ -56,7 +56,7 @@
 							<a href="memberProEdit">나의성향 수정</a>
 							<a href="">하우스&메이트 관리</a>
 							<a href="payDetailList">결제내역</a>
-							<a href="">회원탈퇴</a>
+							<a href="memberExit">회원탈퇴</a>
 						</c:if>
 					</li>
 					<li></li>

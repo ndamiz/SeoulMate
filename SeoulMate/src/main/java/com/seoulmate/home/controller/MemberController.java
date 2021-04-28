@@ -41,8 +41,7 @@ public class MemberController {
 	@RequestMapping("/idCheck")
 	public ModelAndView idCheck(String userid) {
 		String useridCheck=userid;
-		
-		
+		System.out.println(userid);
 		int result=service.idCheck(useridCheck);
 		
 		ModelAndView mav=new ModelAndView();
@@ -61,7 +60,7 @@ public class MemberController {
 		// 파일 업로드 하기 전까지는 프로필 파일명만 set
 		vo.setProfilePic("example");
 		///////////////////////////////////////
-		/*
+		
 		int result=service.memberInsert(vo);
 		if(result>0) { // 회원가입 성공
 			int pResult=service.propInsert(proVO);
@@ -75,8 +74,8 @@ public class MemberController {
 			mav.setViewName("redirect:memberForm");
 			// 나중에 history.back() 해줘야 함
 		}
-		*/
 		
+		/*
 		System.out.println("아이디 : "+vo.getUserid());
 		System.out.println("비밀번호 : "+vo.getUserpwd());
 		System.out.println("이름 : "+vo.getUsername());
@@ -92,6 +91,11 @@ public class MemberController {
 		System.out.println("이메일 전체 : "+vo.getEmail());
 		System.out.println("이메일 아이디 : "+vo.getEmailid());
 		System.out.println("이메일 도메인 : "+vo.getEmaildomain());
+		
+		System.out.println("하우스 내 지원 서비스 : "+proVO.getH_support());
+		System.out.println("지원 배열 : "+proVO.getH_supportStr());
+		System.out.println("기타 배열 : "+proVO.getH_etcStr());
+		*/
 		
 		return mav;
 	}
@@ -176,8 +180,8 @@ public class MemberController {
 		
 		vo.setUserid((String)session.getAttribute("logId"));
 		
-		int pwdResult=service.memberPwdSelect(vo.getUserid(), vo.getUserpwd());
-		
+		// int pwdResult=service.memberPwdSelect(vo.getUserid(), vo.getUserpwd());
+		/*
 		System.out.println("아이디 : "+vo.getUserid());
 		System.out.println("비밀번호 : "+vo.getUserpwd());
 		System.out.println("연락처 전체 : "+vo.getTel());
@@ -188,23 +192,21 @@ public class MemberController {
 		System.out.println("이메일 전체 : "+vo.getEmail());
 		System.out.println("이메일 아이디 : "+vo.getEmailid());
 		System.out.println("이메일 도메인 : "+vo.getEmaildomain());
+		*/
 		
-		if(pwdResult==1) {
-			
-		}else if(pwdResult==0) {
-			System.out.println("비밀번호를 바꾸는 경우");
-			if(service.memberUpdatePwdY(vo)>0) { // 비밀번호 포함 변경 성공
-				System.out.println("비밀번호 포함 변경 성공");
-			}else { // 비밀번호 포함 변경 실패
-				System.out.println("비밀번호 포함 변경 실패");
+		if(!vo.getUserpwd().equals("")) { // 비밀번호를 바꾸려는 경우
+			System.out.println("비밀번호 O 회원수정 O");
+			if(service.memberUpdatePwdY(vo)>0) {
+				System.out.println("비밀번호 포함 회원수정 변경 성공");
+			}else {
+				System.out.println("비밀번호 포함 회원수정 변경 실패");
 			}
-		}else if(vo.getUserpwd()==""){
-			System.out.println("비밀번호를 바꾸지 않는 경우");
-			System.out.println("second:"+vo.getArea());
-			if(service.memberUpdatePwdN(vo)>0) { // 비밀번호 미포함 변경 성공
-				System.out.println("비밀번호 미포함 변경 성공");
-			}else { // 비밀번호 미포함 변경 실패
-				System.out.println("비밀번호 미포함 변경 실패");
+		}else {
+			System.out.println("비밀번호 X 회원수정 O");
+			if(service.memberUpdatePwdN(vo)>0) {
+				System.out.println("비밀번호 미포함 회원수정 변경 성공");
+			}else {
+				System.out.println("비밀번호 미포함 회원수정 변경 실패");
 			}
 		}
 		
@@ -230,6 +232,7 @@ public class MemberController {
 			service.memberExit(userid, userpwd);
 			mav.addObject("pwdCheck", "일치");
 			mav.setViewName("home");
+			session.invalidate();
 		}else { // 비밀번호가 일치하지 않는 경우
 			System.out.println("일치하지않는 경우");
 			mav.addObject("pwdCheck", "불일치");
@@ -240,17 +243,83 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/memberProEdit")
-	public String memberProEdit() {
+	public ModelAndView memberProEdit(HttpSession session) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
 		
-		return "member/memberProEdit";
+		mav.addObject("pcase", service.propPcase(userid)); // 하우스인지 메이트인지
+		
+		mav.setViewName("member/memberProEdit");
+		return mav;
 	}
 	
-	@RequestMapping("/memberProEditForm")
-	public ModelAndView memberProEditForm() {
+	@RequestMapping("/proEditHouseForm")
+	public ModelAndView proEditHouseForm() {
 		ModelAndView mav=new ModelAndView();
 		
 		mav.addObject("no1", "no1");
-		mav.setViewName("member/memberProEditForm");
+		mav.setViewName("member/proEditHouseForm");
+		
+		return mav;
+	}
+	
+	@RequestMapping("/proEditMateForm")
+	public ModelAndView proEditMateForm(HttpSession session) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
+		PropensityVO pVO=service.propMateSelect(userid);
+		
+		System.out.println("성향 번호 : "+pVO.getPno());
+		System.out.println("아이디 : "+pVO.getUserid());
+		System.out.println("분류 : "+pVO.getPcase());
+		System.out.println("집 이름 : "+pVO.getHousename());
+		System.out.println("집 생활소음 : "+pVO.getH_noise());
+		System.out.println("집 생활 시간 : "+pVO.getH_pattern());
+		System.out.println("집 애완 동물 : "+pVO.getH_pet());
+		System.out.println("집 애완 동물 동반 입실 : "+pVO.getH_petwith());
+		System.out.println("집 흡연 : "+pVO.getH_smoke());
+		System.out.println("집 분위기 : "+pVO.getH_mood());
+		System.out.println("집 소통 방식 : "+pVO.getH_communication());
+		System.out.println("집 모임 빈도 : "+pVO.getH_party());
+		System.out.println("집 모임 참가 의무 : "+pVO.getH_enter());
+		System.out.println("집 지원 : "+pVO.getH_supportStr());
+		System.out.println("집 기타 : "+pVO.getH_etcStr());
+		System.out.println("메이트 생활 시간 : "+pVO.getM_pattern());
+		System.out.println("메이트 성격 : "+pVO.getM_personality());
+		System.out.println("메이트 애완 동물 : "+pVO.getM_pet());
+		System.out.println("메이트 흡연 여부 : "+pVO.getM_smoke());
+		System.out.println("메이트 나이 : "+pVO.getM_age());
+		System.out.println("메이트 성별 : "+pVO.getM_gender());
+		System.out.println("메이트 외국인 입주 가능 여부 : "+pVO.getM_global());
+		System.out.println("메이트 즉시 입주 가능 여부 : "+pVO.getM_now());
+		System.out.println("성향 등록일 : "+pVO.getPdate());
+		
+		
+		mav.addObject("pVO", pVO);
+		mav.setViewName("member/proEditMateForm");
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="/proEditMateOk", method=RequestMethod.POST)
+	public ModelAndView proEditMateOk(PropensityVO pVO, HttpSession session) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
+		pVO.setUserid(userid);
+		
+		int result=service.propMateUpdate(pVO);
+		
+		if(result>0) { // 성향 수정 성공
+			System.out.println("성향 수정에 성공한 경우");
+			mav.addObject("complete", "complete");
+			mav.addObject("pcase", service.propPcase(userid)); // 하우스인지 메이트인지
+			mav.setViewName("member/memberProEdit");
+		}else { // 성향 수정 실패
+			System.out.println("성향 수정에 실패한 경우");
+			mav.addObject("fail", "fail");
+			mav.setViewName("member/proEditMateForm");
+			// 나중에는 history.back()을 해줘야 할듯
+		}
 		
 		return mav;
 	}
