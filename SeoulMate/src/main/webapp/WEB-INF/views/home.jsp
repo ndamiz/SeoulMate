@@ -182,6 +182,7 @@
       madeMap();
   	  </c:if>
       // =============== 현재좌표 구하기 =============== //
+      // =============== default 서울시 =============== //
       function madeMap() {
          
          var lat, lon, locPosition;
@@ -266,7 +267,9 @@
 	             } 
 	         });    
 	      </c:forEach>
-     	  getMateAddr();
+	      <c:if test="${logId==null}">
+     	  	getMateAddr();
+     	  </c:if>
       }
       
   	  // =============== 하우스메이트 희망지역 리스트 구하기 =============== //
@@ -333,27 +336,34 @@
           function getTexts( count ) {
             return count + "명";       
           }
-         
-         console.log(data);
+          <c:if test="${logId!=null}">
+         	getHouseMap();
+       	  </c:if>
       }
    <c:if test="${logId!=null}">
    	var area = "${logArea}";
    	console.log("area : " + area);
    	if(area!=null){
+   		getNowMap(area);
+   	}else{
+   		
+   	}
+   </c:if>
+    function getNowMap(area) {
         var geocoder = new kakao.maps.services.Geocoder();
         geocoder.addressSearch(area, function(result, status) {
            if (status === kakao.maps.services.Status.OK) {
            	setHopeArea(result[0].x, result[0].y)
            }
         });
-   	}
-   </c:if>
+	}
    
 	function setHopeArea(x, y) {
         var locPosition = new kakao.maps.LatLng(y, x);
         map.setCenter(locPosition);
         getMateAddr();
 	}
+	
    </script>
    
 </div>
