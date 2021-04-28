@@ -27,9 +27,9 @@ public class MemberVO {
 	private String area3;
 	
 	private String regdate;
-	private int grade;
+	private int grade; //1:일반, 2:프리미엄 
 	private String profilePic;
-	private String state;
+	private String state; // 일반, 블랙, 탈퇴 
 	
 	public int getNo() {
 		return no;

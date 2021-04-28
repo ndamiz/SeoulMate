@@ -56,7 +56,6 @@ public class MemberController {
 		ModelAndView mav=new ModelAndView();
 		mav.setViewName("home");
 		
-		
 		proVO.setUserid(vo.getUserid()); // 성향 테이블에 userid 추가
 		// 파일 업로드 하기 전까지는 프로필 파일명만 set
 		vo.setProfilePic("example");
@@ -123,6 +122,8 @@ public class MemberController {
 			session.setAttribute("logId", logVO.getUserid());
 			session.setAttribute("logName", logVO.getUsername());
 			session.setAttribute("logGrade", logVO.getGrade());
+			session.setAttribute("logArea", logVO.getArea1());
+			
 			mav.setViewName("redirect:/");
 		}
 
