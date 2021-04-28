@@ -9,52 +9,6 @@
 	#premiumInfoTable{border-bottom:2px solid #4DA69E; }
 	#premiumContent>button, #premiumContent>a{float: right; margin: 20px 0px;}
 </style>
-<script>
-$(function(){
-	$('#premiumPayBtn').on('click', function(){
-		var popWidth = 600;
-		var popHeight = 600;
-		var popLeft = Math.ceil((window.screen.width - popWidth)/2);
-		var popTop = Math.ceil((window.screen.height - popHeight)/2);
-		window.open("premiumPay","프리미엄 멤버십 결제 페이지", "width="+popWidth+", height="+popHeight+", left="+popLeft+", top="+popTop);
-	});
-// 	$('#premiumPayBtn').on('click', function(){
-// 		var username = '${memberVO.username}';
-// 		var tel = '${memberVO.tel}';
-// 		var email = '${memberVO.email}';
-		
-// 		console.log(username);
-// 		console.log(tel);
-// 		console.log(email);
-		
-// 		IMP.init("imp58467820"); // 가맹점 식별코드 
-// 		IMP.request_pay({
-// 			pg : 'html5_inicis',
-// 			pay_method: 'card',
-// 			merchant_uid : 'merchant_' + new Date().getTime(),
-// 			name : '주문명:프리미엄멤버십 결제 테스트', //주문명
-// 			amount : 1500, //결제할 금액
-// 			buyer_name : username,
-// 			buyer_tel : tel,
-// 			buyer_email : email,
-// 		},function(rsp){
-// 			console.log(rsp);
-// 			if(rsp.success){
-// 				var msg = '결제가 완료되었습니다.';
-// 				msg += '고유ID : '+rsp.imp_uid;
-// 				msg += '상점거래ID : '+rsp.merchant_uid;
-// 				msg += '결제금액 : '+rsp.paid_amount;
-// 				msg += '카드 승인번호 : '+rsp.apply_num;
-// 			}else{
-// 				var msg = '결제에 실패하였습니다.';
-// 				msg += '에러내용 : '+rsp.error_msg;
-// 			}
-// 			alert(msg);
-// 		});
-// 	});
-});
-
-</script>
 <div class="wrap">
 	<div class="content" id="premiumContent">
 		<p class="m_title">프리미엄 멤버십 및 요금 안내</p>
@@ -129,7 +83,7 @@ $(function(){
 			</tbody>
 		</table>
 		<c:if test="${memberVO.grade=='1' && logId!=null && memberVO.userid==logId }">
-			<button class="b_btn green" id="premiumPayBtn">프리미엄 멤버십 가입하기</button>
+			<a href="" class="b_btn green" id="premiumPayBtn">프리미엄 멤버십 가입하기</a>
 		</c:if>
 		<c:if test="${membetVO.grade=='2' && logId!=null && memberVO.userid==logId }">
 			<button class="b_btn white" disabled>프리미엄 멤버쉽 이용중</button>
