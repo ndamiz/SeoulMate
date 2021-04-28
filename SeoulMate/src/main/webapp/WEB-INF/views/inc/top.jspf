@@ -24,7 +24,7 @@
 					<li><a href="houseIndex" class="menu_item">쉐어하우스</a></li>
 					<li><a href="mateIndex" class="menu_item">하우스메이트</a></li>
 					<li><a href="communityList" class="menu_item">커뮤니티</a></li>
-					<li><a href="" class="menu_item">마이페이지</a></li>
+					<li><a href="myHouseAndMateList" class="menu_item">마이페이지</a></li>
 					<li><a href="" class="menu_btn"></a></li>
 				</ul>
 			</div>
@@ -54,9 +54,9 @@
 						</c:if>
 						<c:if test="${logId!=null}">
 							<a href="logout">로그아웃</a>
-							<a href="memberEdit">회원정보 수정</a>
-							<a href="memberProEdit">나의성향 수정</a>
-							<a href="">하우스&메이트 관리</a>
+							<a href="memberEdit">회원정보 관리</a>
+							<a href="memberProEdit">나의성향 관리</a>
+							<a href="myHouseAndMateList">하우스&메이트 관리</a>
 							<a href="payDetailList">결제내역</a>
 							<a href="memberExit">회원탈퇴</a>
 						</c:if>
