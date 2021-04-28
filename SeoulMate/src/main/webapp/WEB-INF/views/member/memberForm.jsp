@@ -19,8 +19,8 @@
 			}
 		});
 		////////////아이디 중복 확인 ////////////
-		var popupWidth=600;
-		var popupHeight=230;
+		var popupWidth=630;
+		var popupHeight=200;
 		var popupX=(window.screen.width/2)-(popupWidth/2); // 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
 		var popupY=(window.screen.height/2)-(popupHeight/2);
 		

@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <style>
+	body{overflow:hidden;}
 	.wrap{margin:0; padding:25px; min-height:0; overflow:hidden;}
 	.wrap>.s_title{margin:10px 0 20px 0; font-size:1.2em;}
 	.form_box.choice li>label{width:80px;}
 	.header_wrap, .foot_wrap, .chat_wrap{display:none;}
+	#l_margin{margin-left:120px;}
 </style>
 <script>
 	$(function(){
@@ -42,11 +44,14 @@
 		</div>
 	</c:if>
 	<c:if test="${checkResult>0}"> <!-- 가입된 아이디가 있는 경우 -->
-		<label><span>${userid}</span>은 사용 불가능한 아이디입니다.</label>
+		<div class="member_wrap">
+			<label><span>${userid}</span>은 사용 불가능한 아이디입니다.</label>
+		</div>
 	</c:if>
-	<hr/>
-
-	<p class="s_title">아이디를 입력 후 중복 검사 버튼을 누르세요</p>
+	<c:if test="${checkResult>0}">
+		<br/>
+	</c:if>
+	<p class="s_title" id="l_margin">아이디를 입력 후 중복 검사 버튼을 누르세요</p>
 	<div class="member_wrap">
 		<form method="post" id="idFrame" action="idCheck">
 			<ul class="form_box choice">
