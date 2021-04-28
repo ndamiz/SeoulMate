@@ -1,5 +1,8 @@
 package com.seoulmate.home.service;
 
+import java.util.List;
+
+import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.MemberVO;
 import com.seoulmate.home.vo.PropensityVO;
 
@@ -33,4 +36,9 @@ public interface MemberService {
 	public PropensityVO propMateSelect(String userid);
 	// 메이트 성향 수정
 	public int propMateUpdate(PropensityVO pVO);
+	
+	// 특정 대상의 하우스 목록 가져오기
+	List<HouseWriteVO> houseList(String userid);
+	// 하우스글의 성향 번호 가져오기
+	int pnoCheck(String userid, int pno);
 }

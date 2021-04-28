@@ -249,19 +249,30 @@ public class MemberController {
 		ModelAndView mav=new ModelAndView();
 		String userid=(String)session.getAttribute("logId");
 		
+		int pcaseH=service.propPcaseH(userid);
 		mav.addObject("pcaseM", service.propPcaseM(userid)); // 메이트인 경우
-		mav.addObject("pcaseH", service.propPcaseH(userid)); // 하우스인 경우
+		mav.addObject("pcaseH", pcaseH); // 하우스인 경우
+		if(pcaseH>0) {
+			mav.addObject("list", service.houseList(userid));
+		}
+		
 		
 		mav.setViewName("member/memberProEdit");
 		return mav;
 	}
 	
 	@RequestMapping("/proEditHouseForm")
-	public ModelAndView proEditHouseForm() {
+	public ModelAndView proEditHouseForm(HttpSession session, int pno) {
 		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
 		
-		mav.addObject("no1", "no1");
-		mav.setViewName("member/proEditHouseForm");
+		int result=service.pnoCheck(userid, pno);
+		System.out.println("내가 쓴 글에 있는 글 번호가 맞나요? "+result);
+		if(result>0) { // 내 집이 맞는 경우
+			mav.setViewName("member/proEditHouseForm");
+		}else { // 내 집이 아닌 경우
+			mav.setViewName("redirect:memberProEdit");
+		}
 		
 		return mav;
 	}

@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="/home/css/choi.css"/>
 <script>
 	$(function(){
-		$("a[id=${no1}]").addClass("green");
+		// $("a[id=${no1}]").addClass("green");
 		// 1
 		$("#proNext1").click(function(){			
 			$("#proDiv1").css("display","none");
@@ -62,13 +62,6 @@
 <div class="wrap">
 	<div class="member_wrap">
 		<form method="post" id="proId" action="proInsertOk">
-			<ul id="proUl">
-				<!-- c:forEach start -->
-				<c:forEach var="i" begin="1" end="4">
-					<li><a id="no${i}" href="#">집 이름 ${i}</a></li>
-				</c:forEach>
-				<!-- c:forEach end -->
-			</ul>
 			<div id="mateChoice">
 				<p class="m_title" id="proTitle">우리 하우스의 성향 수정</p>
 				<p class="d_title">우리 하우스의 라이프 스타일을 선택해주세요.</p>
