@@ -120,13 +120,14 @@ public class MemberVO {
 		this.gender = gender;
 	}
 	public String getArea() {
-		if(area1!=null) {
+		area="";
+		if(area1!=null && !area1.equals("")) {
 			area+=area1+"/";
 		}
-		if(area2!=null) {
+		if(area2!=null && !area2.equals("")) {
 			area+=area2+"/";
 		}
-		if(area3!=null) {
+		if(area3!=null && !area3.equals("")) {
 			area+=area3;
 		}
 		return area;

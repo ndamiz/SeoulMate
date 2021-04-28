@@ -1,6 +1,5 @@
 @charset "UTF-8";
 /* memberForm */
-html>body>.wrap{min-height:545px;}
 .form_box li{margin:10px 0;}
 .form_box.choice li > label{width:130px;}
 #userpwd, #userpwd2{width:59%;}
