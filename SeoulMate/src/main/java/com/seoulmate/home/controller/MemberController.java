@@ -169,6 +169,7 @@ public class MemberController {
 		
 		MemberVO vo=new MemberVO();
 		vo=service.memberSelect(userid);
+		System.out.println("memberEditForm의 생년월일 : "+vo.getBirth());
 		
 		mav.addObject("vo", service.memberSelect(userid));
 		mav.setViewName("member/memberEditForm");
