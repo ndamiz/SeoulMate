@@ -15,6 +15,7 @@ public class AdminController {
 	@Inject
 	AdminService service;
 	
+	
 	//admin에 들어오면 나오는 대시보드
 	@RequestMapping("/admin")
 	public String adminDashboard() {
@@ -23,6 +24,10 @@ public class AdminController {
 	//신고관리
 	@RequestMapping("/admin/reportManagement")
 	public String adminReport() {
+		//DB에서 데이터 조회
+		
+		//페이징
+		
 		return "/admin/reportManagement";
 	}
 	//관리자-회원

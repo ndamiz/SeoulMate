@@ -14,13 +14,18 @@ public class BoardServiceImp implements BoardService {
 	BoardDAO dao;
 	
 	@Override
-	public List<BoardVO> comAllRecord() {
-		return dao.comAllRecord();
+	public List<BoardVO> comAllRecord(String category) {
+		return dao.comAllRecord(category);
 	}
 
 	@Override
 	public int boardInsert(BoardVO vo) {
 		return dao.boardInsert(vo);
+	}
+
+	@Override
+	public List<BoardVO> comAllRecord2() {
+		return dao.comAllRecord2();
 	}
 	
 }

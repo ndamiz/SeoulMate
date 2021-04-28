@@ -52,6 +52,7 @@
 				</div>
 			</div>
 		</section>
+<!-- 팝업창*********************************************** -->
 		<div class="contact_wrap">
 			<div class="contact_form report_form ">
 				<div class="report_head">문의 관리</div>

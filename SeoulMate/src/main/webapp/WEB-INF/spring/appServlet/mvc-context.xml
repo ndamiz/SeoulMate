@@ -10,6 +10,7 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<mvc:interceptors>
 		<mvc:interceptor>
+			<mvc:mapping path="/communityWrite"/>
 			<mvc:mapping path="/boardWrite"/>
 			<mvc:mapping path="/boardWriteOk"/>
 			<mvc:mapping path="/boardEdit"/>
@@ -18,6 +19,8 @@
 			<mvc:mapping path="/replyWriteOk"/>
 			<mvc:mapping path="/replyDel"/>
 			<mvc:mapping path="/replyEditOk"/>
+			
+			
 			<bean class="com.seoulmate.home.interceptor.LoginInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>

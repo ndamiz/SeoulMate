@@ -12,6 +12,7 @@
 #comSearchLi{/*글쓰기버튼을 밀어내려고 준 스타일*/
 	float:left;
 	width: 90.5%;
+	margin-bottom:30px;
 }
 #comSearch{/*검색창 길이*/
 	width: 300px;
