@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/reset.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/comm.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/yun.css">
-
 <div class="wrap">
 	<div class="content">
 		<p class="m_title">글 작성</p>
@@ -30,25 +29,16 @@
 			<textarea id="summernote" name="content"></textarea>
 		</form>
 		<script>
-	  	  $(function(){
+			// 4월28일 추가 + summernote에디터 사용할때 제이쿼리 버전 출동로 인해서 추가된 부분////
+			jQuery.curCSS = function(element, prop, val) {
+			    return jQuery(element).css(prop, val);
+			};
+			/////
+	  	  $(document).ready(function(){
 	  		 $("#summernote").summernote({
 	  			 height : 500
-	  		 }); 
+	  		 });
 	  	  });
-	  	  
-	  	  $("#write").click(function(){
-				var cate = $("#category").val();
-				console.log(cate)
-				
-				if($("#subject").val()==""){
-					alert("제목을 입력하세요.")
-					return false;
-				}
-				if(CKEDITOR.instances.content.getData()==""){
-					alert("글 내용을 입력해주세요.")
-					return false;
-				}
-			});
 	    </script>
 	</div>
 </div>

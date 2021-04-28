@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.seoulmate.home.service.BoardService;
+import com.seoulmate.home.vo.BoardPageVO;
 import com.seoulmate.home.vo.BoardVO;
 
 @Controller
@@ -20,24 +21,18 @@ public class BoardController {
 	
 	//커뮤니티 페이지로 이동하기
 	@RequestMapping("/communityList")
-	public ModelAndView communityList(String category) {
+	public ModelAndView communityList(String category, String searchKey, String searchWord, BoardPageVO vo) {
 		
 		//커뮤니티 게시판에서 카테고리 필터를 누를때 필요한 부분///////
-		System.out.println("클릭시+===>"+category);
+		System.out.println("===>"+category);
+		System.out.println("searchKey.*******>"+searchKey);
+		System.out.println("VOsearchKey.*******>"+vo.getSearchKey());
+		System.out.println("searchWord////////////>"+searchWord);
+		System.out.println("VOsearchWord////////////>"+vo.getSearchWord());
 		
 		ModelAndView mav = new ModelAndView();
-		if(category!=null && !category.equals("전체")) {
-			mav.addObject("list", service.comAllRecord(category));
-		}else if(category==null){
-			mav.addObject("list", service.comAllRecord2());
-		}else if(category.equals("전체")) {
-			mav.addObject("list", service.comAllRecord2());
-		}
-		
-		
-//		List<BoardVO> list =  service.comAllRecord(category);
-//		System.out.println(list.get(0).getCategory());
-//		System.out.println(list.get(0).getNo());
+		mav.addObject("list", service.comAllRecord(category));
+		mav.addObject("category", category);
 		mav.setViewName("/board/communityList");
 		return mav;
 	}

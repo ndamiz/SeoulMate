@@ -5,15 +5,14 @@
  <mapper namespace="com.seoulmate.home.dao.BoardDAO">
  	<select id="comAllRecord" parameterType="String" resultType="com.seoulmate.home.vo.BoardVO">
   		select no, category, subject, userid, hit, to_char(writedate, 'MM-DD HH:MI') writedate from community
-  		where category=#{param1} order by no desc
+  		<if test="param1!=null">
+  			where category=#{param1} 
+  		</if>
+  		order by no desc
   	</select>
   	<insert id="boardInsert" parameterType="com.seoulmate.home.vo.BoardVO">
   		insert into community(no, userid, category, subject, content, ip, state)
   		values(comsq.nextval, #{userid}, #{category}, #{subject}, #{content}, #{ip}, '공개')
   	</insert>
   	
-  	
-  	<select id="comAllRecord2" resultType="com.seoulmate.home.vo.BoardVO">
-  		select no, category, subject, userid, hit, to_char(writedate, 'MM-DD HH:MI') writedate from community order by no desc
-  	</select>
 </mapper>

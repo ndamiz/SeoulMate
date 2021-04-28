@@ -9,20 +9,32 @@
 	line-height: inherit;
 	height: inherit;
 }
-#comSearchLi{/*글쓰기버튼을 밀어내려고 준 스타일*/
+/*검색키, 검색어창, 글쓰기 버튼 정렬*/
+.searchUl li{ 
+	float: left;
+}
+/*검색키 넓이 설정*/
+#searchKey{
+	width: 100px;
 	float:left;
-	width: 90.5%;
+}
+/*글쓰기버튼을 밀어내려고 준 스타일*/
+#comSearchLi{
+	width: 90%;
 	margin-bottom:30px;
 }
-#comSearch{/*검색창 길이*/
+/*검색창 길이*/
+#comSearch{
 	width: 300px;
 }
-#comSearchLi a{ /*검색창안에 돋보기 위치 조정 */
+/*검색창안에 돋보기 위치 조정 */
+#comSearchLi a{ 
 	position: relative;
 	top:5px;
 	left:-40px;
 }
-#comSearchLi a>img{ /*돋보기 이미지 크기 조정*/
+/*돋보기 이미지 크기 조정*/
+#comSearchLi a>img{ 
 	width: 25px;
 }
 

@@ -3,41 +3,91 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/yun.css">
 <script>
 	$(function(){
-		var params = "";
 		//카테고리 클릭시 class on 바꾸기
-		$(".content_menu li a").click(function(){
+		var category = '${category}';
+		console.log(category);
+		//카테고리가 null이면 전체에 불들어오기
+		if(category==''){
+			$(".content_menu a").first().addClass('on');
+		}else{
 			$(".content_menu li a").removeClass("on");
-			$(this).addClass("on");
-			params = "category="+$(this).text();
-		//카테고리 필터기능
-			var url = "/home/communityList";
+			if(category=='우리집 자랑'){
+				$(".content_menu>li>a").eq(1).addClass('on');
+			}else if(category=='중고장터'){
+				$(".content_menu>li>a").eq(2).addClass('on');
+			}else if(category=='쉐어TIP'){
+				$(".content_menu>li>a").eq(3).addClass('on');
+			}else if(category=='자유게시판'){
+				$(".content_menu>li>a").eq(4).addClass('on');
+			}
+		}
+		
+		
+		//검색어 유효성 검사
+		$(".searchBtn").click(function(){
+			if($("#comSearch").val()==''){
+				alert("검색어를 입력해주세요.")
+				return false;
+			}else{
+				$("#searchFrm").submit(function(){
+					alert($("select[name=searchKey]").val())
+					alert($("input[name=searchWord]").val())
+					
+				});
+			}
 			
-			$.ajax({
-				url : url,
-				data : params,
-				success : function(result){
-					console.log(result);
-				}, error : function(){
-					alert("???")
-				}
-			});
 		});
 	});
+	
+	//submit
+	function searchSubmit(){
+		
+	}
 </script>
 <div class="wrap">
 	<div class="content">
 		<p class="m_title">커뮤니티</p>
 		<ul class="content_menu">
-			<li><a class="on">전체</a></li>
-			<li><a class="">우리집 자랑</a></li>
-			<li><a class="">중고장터</a></li>
-			<li><a class="">쉐어TIP</a></li>
-			<li><a class="">자유게시판</a></li>
+			<li><a href="communityList" class="">전체</a></li>
+			<li><a href="communityList?category=우리집 자랑" class="">우리집 자랑</a></li>
+			<li><a href="communityList?category=중고장터" class="">중고장터</a></li>
+			<li><a href="communityList?category=쉐어TIP" class="">쉐어TIP</a></li>
+			<li><a href="communityList?category=자유게시판" class="">자유게시판</a></li>
 		</ul>
-		<ul>
-			<li id="comSearchLi"><input id="comSearch" type="text" placeholder="검색어을 입력해주세요"><a href=""><img alt="검색하기" src="<%=request.getContextPath()%>/img/yun/ico_search_black.png"></a></li>
-			<li><a href="communityWrite" class="green" id="communityWrite">글쓰기</a></li>
-		</ul>
+			<ul class="searchUl">
+					<li id="comSearchLi">
+						<form id="searchFrm" method="post" action="communityList">
+							<input type="hidden" name="category" value="${category}">
+							<select id="searchKey" name="searchKey">
+								<option value="subject">제목</option>
+								<option value="content">글내용</option>
+								<option value="userid">사용자</option>
+							</select>
+							<input name="searchWord" id="comSearch" type="text" placeholder="검색어을 입력해주세요">
+							<a class="searchBtn" href="javascript:searchSubmit()">
+								<img alt="검색하기" src="<%=request.getContextPath()%>/img/yun/ico_search_black.png">
+							</a>
+						</form>	
+					</li>
+					
+					<!-- <li id="searchKeySelect">
+						<form id="searchFrm" method="post" action="communityList">
+							<input type="hidden" name="category" value="${category}">
+							<select id="searchKey" name="searchKey">
+								<option value="subject">제목</option>
+								<option value="content">글내용</option>
+								<option value="userid">사용자</option>
+						</select>
+						</form>	
+					</li>	
+					<li id="comSearchLi">
+						<input name="searchWord" id="comSearch" type="text" placeholder="검색어을 입력해주세요">
+						<a class="searchBtn" href="">
+							<img alt="검색하기" src="</img/yun/ico_search_black.png">
+						</a>
+					</li> -->
+				<li><a href="communityWrite" class="green" id="communityWrite">글쓰기</a></li>
+			</ul>
 		<table class="tb">
 			<caption>테이블명</caption>
 			<colgroup>

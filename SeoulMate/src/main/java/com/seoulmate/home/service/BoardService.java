@@ -10,6 +10,4 @@ public interface BoardService {
 	//글 등록
 	public int boardInsert(BoardVO vo);
 	
-	
-	public List<BoardVO> comAllRecord2();
 }

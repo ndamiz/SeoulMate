@@ -22,10 +22,4 @@ public class BoardServiceImp implements BoardService {
 	public int boardInsert(BoardVO vo) {
 		return dao.boardInsert(vo);
 	}
-
-	@Override
-	public List<BoardVO> comAllRecord2() {
-		return dao.comAllRecord2();
-	}
-	
 }
