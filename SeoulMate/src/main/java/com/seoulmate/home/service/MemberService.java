@@ -41,4 +41,8 @@ public interface MemberService {
 	List<HouseWriteVO> houseList(String userid);
 	// 하우스글의 성향 번호 가져오기
 	int pnoCheck(String userid, int pno);
+	// 하우스 성향 가져오기
+	public PropensityVO propHouseSelect(String userid, int pno);
+	// 하우스 성향 수정
+	public int propHouseUpdate(PropensityVO pVO);
 }

@@ -78,8 +78,14 @@ public class MemberServiceImp implements MemberService {
 	public int propPcaseH(String userid) {
 		return pDAO.propPcaseH(userid);
 	}
-	
-	// 하우스 글 관련
+	@Override
+	public PropensityVO propHouseSelect(String userid, int pno) {
+		return pDAO.propHouseSelect(userid, pno);
+	}
+	@Override
+	public int propHouseUpdate(PropensityVO pVO) {
+		return pDAO.propHouseUpdate(pVO);
+	}
 	@Override
 	public List<HouseWriteVO> houseList(String userid) {
 		return hwDAO.houseList(userid);
@@ -88,4 +94,5 @@ public class MemberServiceImp implements MemberService {
 	public int pnoCheck(String userid, int pno) {
 		return hwDAO.pnoCheck(userid, pno);
 	}
+	
 }

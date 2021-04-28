@@ -169,7 +169,6 @@ public class MemberController {
 		
 		MemberVO vo=new MemberVO();
 		vo=service.memberSelect(userid);
-		System.out.println("memberEditForm의 생년월일 : "+vo.getBirth());
 		
 		mav.addObject("vo", service.memberSelect(userid));
 		mav.setViewName("member/memberEditForm");
@@ -266,11 +265,11 @@ public class MemberController {
 	public ModelAndView proEditHouseForm(HttpSession session, int pno) {
 		ModelAndView mav=new ModelAndView();
 		String userid=(String)session.getAttribute("logId");
-		
 		int result=service.pnoCheck(userid, pno);
-		System.out.println("내가 쓴 글에 있는 글 번호가 맞나요? "+result);
+		
 		if(result>0) { // 내 집이 맞는 경우
 			mav.setViewName("member/proEditHouseForm");
+			mav.addObject("pVO", service.propHouseSelect(userid, pno));
 		}else { // 내 집이 아닌 경우
 			mav.setViewName("redirect:memberProEdit");
 		}
@@ -284,6 +283,7 @@ public class MemberController {
 		String userid=(String)session.getAttribute("logId");
 		PropensityVO pVO=service.propMateSelect(userid);
 		
+		/*
 		System.out.println("성향 번호 : "+pVO.getPno());
 		System.out.println("아이디 : "+pVO.getUserid());
 		System.out.println("분류 : "+pVO.getPcase());
@@ -308,7 +308,7 @@ public class MemberController {
 		System.out.println("메이트 외국인 입주 가능 여부 : "+pVO.getM_global());
 		System.out.println("메이트 즉시 입주 가능 여부 : "+pVO.getM_now());
 		System.out.println("성향 등록일 : "+pVO.getPdate());
-		
+		*/
 		
 		mav.addObject("pVO", pVO);
 		mav.setViewName("member/proEditMateForm");
@@ -326,14 +326,33 @@ public class MemberController {
 		
 		if(result>0) { // 성향 수정 성공
 			System.out.println("성향 수정에 성공한 경우");
-			mav.addObject("complete", "complete");
-			mav.addObject("pcaseM", service.propPcaseM(userid)); // 메이트인 경우
-			mav.addObject("pcaseH", service.propPcaseM(userid)); // 하우스인 경우
-			mav.setViewName("member/memberProEdit");
+			mav.setViewName("redirect:memberProEdit");
 		}else { // 성향 수정 실패
 			System.out.println("성향 수정에 실패한 경우");
 			mav.addObject("fail", "fail");
 			mav.setViewName("member/proEditMateForm");
+			// 나중에는 history.back()을 해줘야 할듯
+		}
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="/proEditHouseOk", method=RequestMethod.POST)
+	public ModelAndView proEditHouseOk(PropensityVO pVO, HttpSession session) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
+		pVO.setUserid(userid);
+		
+		int result=service.propHouseUpdate(pVO);
+		
+		if(result>0) { // 성향 수정 성공
+			System.out.println("성향 수정에 성공한 경우");
+			// mav.addObject("pcaseH", service.propPcaseH(userid)); // 하우스인 경우 >????
+			mav.setViewName("redirect:memberProEdit");
+		}else { // 성향 수정 실패
+			System.out.println("성향 수정에 실패한 경우");
+			mav.addObject("fail", "fail");
+			mav.setViewName("member/proEditHouseForm");
 			// 나중에는 history.back()을 해줘야 할듯
 		}
 		

@@ -13,4 +13,8 @@ public interface PropensityDAO {
 	public PropensityVO propMateSelect(String userid);
 	// 메이트 성향 수정
 	public int propMateUpdate(PropensityVO pVO);
+	// 하우스 성향 가져오기
+	public PropensityVO propHouseSelect(String userid, int pno);
+	// 하우스 성향 수정
+	public int propHouseUpdate(PropensityVO pVO);
 }
