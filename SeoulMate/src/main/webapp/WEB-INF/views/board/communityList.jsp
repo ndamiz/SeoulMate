@@ -48,7 +48,7 @@
 						<tr>
 							<td>${vo.no}</td>
 							<td>${vo.category}</td>
-							<td class="t_title"><a href="">${vo.subject}</a></td>
+							<td class="t_title"><a href="boardView?no=${vo.no}">${vo.subject}</a></td>
 							<td>${vo.userid}</td>
 							<td>${vo.hit}</td>
 							<td>${vo.writedate}</td>
