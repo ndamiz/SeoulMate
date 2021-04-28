@@ -174,7 +174,7 @@
          //draggable: false,
          //level : 4
          level : 6
-      // 지도의 확대 레벨
+      // 지도의 확대 레벨 
       };
       var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
       
