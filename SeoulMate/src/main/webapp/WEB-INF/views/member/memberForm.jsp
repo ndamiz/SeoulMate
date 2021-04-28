@@ -100,7 +100,7 @@
 				return false;
 			}
 			if($("#area1").val()==null || $("#area1").val()==""){
-				alert("희망 지역1을 선택하세요");
+				alert("희망 지역1을 선택하세요\r\n(하우스인 경우 등록할 하우스의 지역을 선택해주세요.)");
 				return false;
 			}
 			if($("#area3").val()!=null && $("#area3").val()!=""){

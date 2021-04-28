@@ -62,7 +62,7 @@
 <div class="wrap">
 	<div class="member_wrap">
 		<form method="post" id="proId" action="proInsertOk">
-			<p class="m_title" id="proTitle">성향 수정</p>
+			<p class="m_title" id="proTitle">내 하우스의 성향 수정</p>
 			<ul id="proUl">
 				<!-- c:forEach start -->
 				<c:forEach var="i" begin="1" end="4">
