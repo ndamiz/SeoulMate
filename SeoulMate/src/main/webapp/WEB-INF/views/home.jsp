@@ -8,6 +8,7 @@
       }
    }
    exitCheck();
+   console.log(${logGrade});
 </script>
 <div class="main_wrap">
    <div class="content">
@@ -32,7 +33,7 @@
    </div>
    
    <!-- 프리미엄 추천 쉐어하우스 -->
-   <c:if test="${logId!=null}">
+   <c:if test="${logGrade==2}">
    <section class="content recommend_list">
       <div class="list_head">
          <p class="m_title">${logName}님과 잘 어울리는 집이예요!</p>
@@ -93,7 +94,7 @@
       </ul>
    </section>
    
-   <c:if test="${logId!=null}">
+   <c:if test="${logGrade==2}">
    <!-- 프리미엄 추천 하우스메이트 -->
    <section class="content recommend_list mate_list">
       <div class="list_head">

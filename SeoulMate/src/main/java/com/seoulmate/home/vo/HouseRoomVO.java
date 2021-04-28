@@ -2,8 +2,10 @@ package com.seoulmate.home.vo;
 
 public class HouseRoomVO {
 	private int no;
+	private int pno;
 	private String userid;
 	private String addr;
+	private String housename;
 	private String housePic1;
 	private String housePic2;
 	private String housePic3;
@@ -16,9 +18,8 @@ public class HouseRoomVO {
 	private String publicFacility;
 	private String writedate;
 	private String enddate;
-	private String state;
-	private int pno;
-	
+	private String housestate;
+	private String houseProfile;
 	public int getNo() {
 		return no;
 	}
@@ -109,11 +110,12 @@ public class HouseRoomVO {
 	public void setEnddate(String enddate) {
 		this.enddate = enddate;
 	}
-	public String getState() {
-		return state;
+
+	public String getHousestate() {
+		return housestate;
 	}
-	public void setState(String state) {
-		this.state = state;
+	public void setHousestate(String housestate) {
+		this.housestate = housestate;
 	}
 	public int getPno() {
 		return pno;
@@ -121,4 +123,17 @@ public class HouseRoomVO {
 	public void setPno(int pno) {
 		this.pno = pno;
 	}
+	public String getHousename() {
+		return housename;
+	}
+	public void setHousename(String housename) {
+		this.housename = housename;
+	}
+	public String getHouseProfile() {
+		return houseProfile;
+	}
+	public void setHouseProfile(String houseProfile) {
+		this.houseProfile = houseProfile;
+	}
+	
 }
