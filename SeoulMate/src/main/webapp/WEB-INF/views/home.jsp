@@ -181,58 +181,16 @@
 	  <c:if test="${logId==null}">
       madeMap();
   	  </c:if>
-      // =============== 현재좌표 구하기 =============== //
       // =============== default 서울시 =============== //
       function madeMap() {
          
          var lat, lon, locPosition;
-         // HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
-         if (navigator.geolocation) {
-	             // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-	             navigator.geolocation.getCurrentPosition(function(position) {
-	              
-	             lat = position.coords.latitude, // 위도
-	             lon = position.coords.longitude; // 경도
-	              
-	             locPosition = new kakao.maps.LatLng(lat, lon); 
-	             // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-              
-                displayMarker(locPosition);
-            });
-             
-         } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-              lat = 37.5640455, // 위도
-              lon = 126.834005; // 경도 
-              locPosition = new kakao.maps.LatLng(37.5640455, 126.834005); // 서울특별시
-              displayMarker(locPosition);
-         }
-         
-         // =============== 현재좌표 마커, 지도중심 찍기 =============== //
-         
-         // 지도에 마커와 인포윈도우를 표시하는 함수입니다
-         function displayMarker(locPosition) {
-            var imageSrc = '<%=request.getContextPath()%>/img/comm/map_marker.png', // 마커이미지의 주소입니다    
-            imageSize = new kakao.maps.Size(29, 41), // 마커이미지의 크기입니다
-            imageOption = {
-               offset : new kakao.maps.Point(27, 69)
-            }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-   
-            // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize,
-            imageOption), markerPosition = locPosition; // 마커가 표시될 위치입니다
-            
-             // 마커를 생성합니다
-             var marker = new kakao.maps.Marker({  
-                 map: map, 
-                 image: markerImage,
-                 position: markerPosition
-             }); 
-   
-             // 지도 중심좌표를 접속위치로 변경합니다
-             marker.setMap(map);
-             map.setCenter(locPosition);      
-         }    
-          getHouseMap();
+         lat = 37.5662994, // 위도
+         lon = 126.9757564; // 경도 
+         locPosition = new kakao.maps.LatLng(37.5662994, 126.9757564); // 서울특별시
+         map.setCenter(locPosition);   
+         map.setLevel(9);
+         getHouseMap();
       }
       
       // =============== 쉐어하우스 마커 찍기 =============== //
@@ -272,6 +230,31 @@
      	  </c:if>
       }
       
+      
+      
+      <c:if test="${logId!=null}">
+     	var area = "${logArea}";
+     	console.log("area : " + area);
+     	if(area!=null){
+     		getNowMap(area);
+     	}else{
+     		madeMap();
+     	}
+     </c:if>
+      function getNowMap(area) {
+          var geocoder = new kakao.maps.services.Geocoder();
+          geocoder.addressSearch(area, function(result, status) {
+             if (status === kakao.maps.services.Status.OK) {
+             	setHopeArea(result[0].x, result[0].y)
+             }
+          });
+  	}
+     
+  	function setHopeArea(x, y) {
+          var locPosition = new kakao.maps.LatLng(y, x);
+          map.setCenter(locPosition);
+          getMateAddr();
+  	}
   	  // =============== 하우스메이트 희망지역 리스트 구하기 =============== //
       function getMateAddr() {
          var mateArrList = ${mateMapList};
@@ -340,29 +323,6 @@
          	getHouseMap();
        	  </c:if>
       }
-   <c:if test="${logId!=null}">
-   	var area = "${logArea}";
-   	console.log("area : " + area);
-   	if(area!=null){
-   		getNowMap(area);
-   	}else{
-   		
-   	}
-   </c:if>
-    function getNowMap(area) {
-        var geocoder = new kakao.maps.services.Geocoder();
-        geocoder.addressSearch(area, function(result, status) {
-           if (status === kakao.maps.services.Status.OK) {
-           	setHopeArea(result[0].x, result[0].y)
-           }
-        });
-	}
-   
-	function setHopeArea(x, y) {
-        var locPosition = new kakao.maps.LatLng(y, x);
-        map.setCenter(locPosition);
-        getMateAddr();
-	}
 	
    </script>
    
