@@ -35,7 +35,9 @@
 				<ul class="sub_menu">
 					<li>
 						<a href="premiumInfo">프리미엄 안내</a>
-						<a href="" id="premiumPayPopup">프리미엄 결제</a>
+						<c:if test="${memberVO.grade=='1' && logId!=null && memberVO.userid==logId && logGrade=='1'}"><a href="" id="premiumPayPopup">프리미엄 결제</a></c:if>
+						<c:if test="${logId==null && memberVO.userid==null }"><a href="login">프리미엄 결제</a></c:if>
+						<c:if test="${logGrade==2}"><a href="">프리미엄 사용중</a></c:if>
 					</li>
 					<li></li>
 					<li></li>

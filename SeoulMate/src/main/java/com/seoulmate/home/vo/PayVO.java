@@ -6,7 +6,7 @@ public class PayVO {
 	private String username;
 	private String imp_uid;		// 고유 결제 아이디
 	private String merchant_uid; // 주문번호 
-	private String amount;	//결제완료된 금액
+	private int amount;	//결제완료된 금액
 	private String payStart;	//결제일 
 	private String payEnd;		//결제 종료일 (결제일로부터 한달) 
 	private String payMethod; 	//결제수단 
@@ -44,10 +44,10 @@ public class PayVO {
 	public void setMerchant_uid(String merchant_uid) {
 		this.merchant_uid = merchant_uid;
 	}
-	public String getAmount() {
+	public int getAmount() {
 		return amount;
 	}
-	public void setAmount(String amount) {
+	public void setAmount(int amount) {
 		this.amount = amount;
 	}
 	public String getPayStart() {

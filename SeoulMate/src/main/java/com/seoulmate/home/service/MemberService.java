@@ -31,4 +31,7 @@ public interface MemberService {
 	public PropensityVO propMateSelect(String userid);
 	// 메이트 성향 수정
 	public int propMateUpdate(PropensityVO pVO);
+	
+	//회원 프리미엄 결제 후 grade 2(프리미엄)으로 변경
+	public int gradePremiumUpdate(String userid);
 }

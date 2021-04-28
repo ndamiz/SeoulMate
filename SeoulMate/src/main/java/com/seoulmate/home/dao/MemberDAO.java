@@ -21,4 +21,7 @@ public interface MemberDAO {
 	public String memberFindId(MemberVO vo);
 	// 회원 탈퇴
 	public int memberExit(String userid, String userpwd);
+	
+	//회원 프리미엄 결제 후 grade 2(프리미엄)으로 변경
+	public int gradePremiumUpdate(String userid);
 }
