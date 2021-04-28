@@ -3,5 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
 <mapper namespace="com.seoulmate.home.pay.dao.PremiumDAO">
-  
+	<select id="payEndCalculate" resultType="String">
+		select add_month(sysdate, 2) as payEnd from dual;
+	</select>
 </mapper>

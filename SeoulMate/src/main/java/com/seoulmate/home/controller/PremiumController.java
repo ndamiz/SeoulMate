@@ -3,13 +3,17 @@ package com.seoulmate.home.controller;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.reflection.SystemMetaObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.seoulmate.home.service.MemberService;
 import com.seoulmate.home.service.PremiumService;
 import com.seoulmate.home.vo.MemberVO;
+import com.seoulmate.home.vo.PayVO;
 @Controller
 public class PremiumController {
 	@Inject
@@ -48,5 +52,19 @@ public class PremiumController {
 		}
 		mav.setViewName("premium/premiumPay");
 		return mav;
+	}
+	@RequestMapping(value="/premiumPayOk", method=RequestMethod.POST)
+	public String premiumPayOk(PayVO payVO) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println("결제 아이디 : "+payVO.getUserid()+", 결제한 사람이름 : "+payVO.getUsername());
+		System.out.println("고유결제 아이디 : "+payVO.getImp_uid());
+		System.out.println("주문번호 : "+payVO.getMerchant_uid());
+		System.out.println("결제금액 : "+payVO.getAmount());
+		System.out.println("결제수단 : "+payVO.getPayMethod());
+		System.out.println("체크한 개월 수"+payVO.getPayMonth());
+		
+		payVO.setPayEnd(premiumService.payEndCalculate());
+		System.out.println("지금으로부터 2개월 뒤 "+payVO.getPayEnd());
+		return "home";
 	}
 }
