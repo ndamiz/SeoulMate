@@ -1,5 +1,6 @@
 package com.seoulmate.home.board;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
@@ -9,21 +10,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.seoulmate.home.service.BoardService;
+import com.seoulmate.home.vo.BoardVO;
+
 @Controller
 public class BoardController {
-	@Autowired
-	SqlSession sqlSession;
-	
+	@Inject
+	BoardService service;
 	//커뮤니티 페이지로 이동하기
 	@RequestMapping("/communityList")
 	public ModelAndView communityList() {
-		BoardDAOImp dao = sqlSession.getMapper(BoardDAOImp.class);
 		
 		//커뮤니티 게시판에서 카테고리 필터를 누를때 필요한 부분///////
 		
 		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("list", dao.comAllRecord());
+		mav.addObject("list", service.comAllRecord());
 		mav.setViewName("/board/communityList");
 		return mav;
 	}
@@ -52,8 +54,7 @@ public class BoardController {
 		vo.setIp(req.getRemoteAddr());
 		
 		//dao에서 글등록 메소드 호출
-		BoardDAOImp dao = sqlSession.getMapper(BoardDAOImp.class);
-		int result = dao.boardInsert(vo);
+		int result = service.boardInsert(vo);
 		
 		ModelAndView mav = new ModelAndView();
 		if(result>0) {//글 등록 성공
