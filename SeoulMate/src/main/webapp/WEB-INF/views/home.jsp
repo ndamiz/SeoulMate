@@ -77,7 +77,7 @@
                   <p><span>매칭</span>90<b>%</b></p>
                   <button class="btn_star"></button>
                   <a href="">
-                     <img alt="" src="<%=request.getContextPath()%>/img/comm/sample_house02.png">
+                     <img alt="" src="<%=request.getContextPath()%>/img/comm/${newHouseVO.housepic1}">
                   </a>
                </div>
                <div class="list_title">
