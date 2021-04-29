@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.seoulmate.home.dao.HomeDAO;
+import com.seoulmate.home.vo.HouseRoomVO;
 @Service
 public class HomeServiceImp implements HomeService {
 	@Inject
@@ -18,6 +19,11 @@ public class HomeServiceImp implements HomeService {
 	@Override
 	public String[] getMateMap() {
 		return dao.getMateMap();
+	}
+
+	@Override
+	public HouseRoomVO getPreHouse() {
+		return dao.getPreHouse();
 	}
 
 }

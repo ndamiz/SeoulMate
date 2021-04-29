@@ -7,6 +7,11 @@
   		select addr from housewrite
 	</select>
   	<select id="getMateMap" resultType="String">
-  		select area from matewrite
+  		select area from matewrite where matestate='모집중'
 	</select>
+ 	<select id="getPreHouse" resultType="com.seoulmate.home.vo.HouseRoomVO">
+  		<![CDATA[select * from housewrite where rownum <=3 order by writedate desc]]>
+	</select>
+	
+	
   </mapper>
