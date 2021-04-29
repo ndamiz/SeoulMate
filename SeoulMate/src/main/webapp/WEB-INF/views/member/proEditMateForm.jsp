@@ -46,12 +46,11 @@
 			$("#proDiv5").css("display","block");
 			goTop();
 		});
-// 		// 5
-// 		$("#proPrev5").click(function(){
-// 			$("#proDiv4").css("display","block");
-// 			$("#proDiv5").css("display","none");
-// 			goTop();
-// 		});
+		$("#proPrev5").click(function(){
+			$("#proDiv4").css("display","block");
+			$("#proDiv5").css("display","none");
+			goTop();
+		});
 		// 상단으로 스크롤 이동
 		function goTop(){
 			$('html').scrollTop(0);
@@ -68,8 +67,8 @@
 	<div class="member_wrap">
 		<form method="post" id="proId" action="proEditMateOk">
 			<div id="mateChoice">
-				<p class="m_title">원하는 하우스의 성향 수정</p>
-				<p class="d_title">원하는 하우스의 라이프 스타일을 선택해주세요.</p>
+				<p class="m_title">희망하는 하우스의 성향 수정</p>
+				<p class="d_title">희망하는 하우스의 라이프 스타일을 선택해주세요.</p>
 			</div>
 			<div id="proDiv1">
 				
@@ -302,7 +301,7 @@
 				</ul>
 				<div class="btn_wrap">
 					<a class="h_btn white" id="proPrev5">이전</a>
-					<button class="h_btn green" id="proNext5">수정 완료</button>
+					<button class="h_btn green" id="proNext5">수정</button>
 				</div>
 			</div>
 		</form>

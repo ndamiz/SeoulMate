@@ -10,7 +10,7 @@ import com.seoulmate.home.vo.HouseRoomVO;
 public class HouseServiceImp implements HouseService {
 	@Inject
 	HouseRoomDAO dao;
-
+	
 	@Override
 	public int houseInsert(HouseRoomVO vo) {
 		return 0;

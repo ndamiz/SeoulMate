@@ -1,5 +1,8 @@
 package com.seoulmate.home.service;
 
+import java.util.List;
+
+import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.MemberVO;
 import com.seoulmate.home.vo.PropensityVO;
 
@@ -25,8 +28,10 @@ public interface MemberService {
 	
 	// 성향 추가
 	public int propInsert(PropensityVO vo);
-	// 하우스인지 메이트인지 선택
-	public String propPcase(String userid);
+	// 메이트 성향이 있는지 가져옴
+	public int propPcaseM(String userid);
+	// 하우스 성향이 있는지 가져옴
+	public int propPcaseH(String userid);
 	// 메이트 성향 가져오기
 	public PropensityVO propMateSelect(String userid);
 	// 메이트 성향 수정
@@ -34,4 +39,13 @@ public interface MemberService {
 	
 	//회원 프리미엄 결제 후 grade 2(프리미엄)으로 변경
 	public int gradePremiumUpdate(String userid);
+	
+	// 특정 대상의 하우스 목록 가져오기
+	List<HouseWriteVO> houseList(String userid);
+	// 하우스글의 성향 번호 가져오기
+	int pnoCheck(String userid, int pno);
+	// 하우스 성향 가져오기
+	public PropensityVO propHouseSelect(String userid, int pno);
+	// 하우스 성향 수정
+	public int propHouseUpdate(PropensityVO pVO);
 }

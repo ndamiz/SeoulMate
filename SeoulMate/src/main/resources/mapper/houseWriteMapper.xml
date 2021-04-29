@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.seoulmate.home.dao.HouseWriteDAO">
+	<select id="houseList" resultType="com.seoulmate.home.vo.HouseWriteVO">
+		select * from housewrite where userid=#{param1}
+	</select>
+	<select id="pnoCheck" resultType="int">
+		select count(pno) from housewrite where userid=#{param1} and pno=#{param2}
+	</select>
+  </mapper>
