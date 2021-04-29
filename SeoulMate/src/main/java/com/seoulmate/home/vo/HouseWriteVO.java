@@ -21,6 +21,13 @@ public class HouseWriteVO {
 	private String housestate;
 	private String houseprofile;
 	
+	
+	// index 최신 쉐어하우스 목록에서 
+	// 각 쉐어하우스의 제일 저렴한 보증금,월세 구할때
+	private int deposit;
+	private int rent;
+	
+	
 	public int getNo() {
 		return no;
 	}
@@ -135,4 +142,17 @@ public class HouseWriteVO {
 	public void setHouseprofile(String houseprofile) {
 		this.houseprofile = houseprofile;
 	}
+	public int getDeposit() {
+		return deposit;
+	}
+	public void setDeposit(int deposit) {
+		this.deposit = deposit;
+	}
+	public int getRent() {
+		return rent;
+	}
+	public void setRent(int rent) {
+		this.rent = rent;
+	}
+	
 }

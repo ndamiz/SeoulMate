@@ -71,7 +71,7 @@
          <a href="#">더보기</a>
       </div>
       <ul class="list_content">
-         <c:forEach var="i" begin="0" end="2">
+         <c:forEach items="${newHouseList}" var="newHouseVO">
             <li>
                <div class="list_img">
                   <p><span>매칭</span>90<b>%</b></p>
@@ -81,13 +81,13 @@
                   </a>
                </div>
                <div class="list_title">
-                  <span class="address">서울시 마포구 서강동</span>
-                  <span class="pay">￦ 100 / 25</span>
+                  <span class="address">${newHouseVO.addr}</span>
+                  <span class="pay">￦ ${newHouseVO.deposit} / ${newHouseVO.rent}</span>
                </div>
                <ol class="list_icon">
-                  <li><p>1</p></li>
-                  <li><p>2</p></li>
-                  <li><p>3</p></li>
+                  <li><p>${newHouseVO.room}</p></li>
+                  <li><p>${newHouseVO.bathroom}</p></li>
+                  <li><p>${newHouseVO.nowpeople}</p></li>
                </ol>
             </li>
          </c:forEach>
