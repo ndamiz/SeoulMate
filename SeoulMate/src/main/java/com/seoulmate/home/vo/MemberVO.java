@@ -29,6 +29,7 @@ public class MemberVO {
 	private String regdate;
 	private int grade; //1:일반, 2:프리미엄 
 	private String profilePic;
+	private int reportCnt;
 	private String state; // 일반, 블랙, 탈퇴 
 	
 	public int getNo() {
@@ -182,6 +183,12 @@ public class MemberVO {
 	}
 	public void setProfilePic(String profilePic) {
 		this.profilePic = profilePic;
+	}
+	public int getReportCnt() {
+		return reportCnt;
+	}
+	public void setReportCnt(int reportCnt) {
+		this.reportCnt = reportCnt;
 	}
 	public String getState() {
 		return state;
