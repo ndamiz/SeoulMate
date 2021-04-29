@@ -68,7 +68,7 @@
    <section class="content recommend_list">
       <div class="list_head">
          <p class="m_title">NEW 쉐어하우스</p>
-         <a href="">더보기</a>
+         <a href="#">더보기</a>
       </div>
       <ul class="list_content">
          <c:forEach var="i" begin="0" end="2">
