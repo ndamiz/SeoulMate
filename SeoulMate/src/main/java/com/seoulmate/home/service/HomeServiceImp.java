@@ -26,4 +26,11 @@ public class HomeServiceImp implements HomeService {
 		return dao.getPreHouse();
 	}
 
+	@Override
+	public HouseRoomVO getNewHouse() {
+		// TODO Auto-generated method stub
+		return dao.getNewHouse();
+	}
+	
+	
 }

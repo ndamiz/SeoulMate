@@ -7,4 +7,5 @@ public interface HomeDAO {
 	public String[] getHouseMap();
 	public String[] getMateMap();
 	public HouseRoomVO getPreHouse();
+	public HouseRoomVO getNewHouse();
 }

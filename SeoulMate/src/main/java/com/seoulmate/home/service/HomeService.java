@@ -6,4 +6,5 @@ public interface HomeService {
 	public String[] getHouseMap();
 	public String[] getMateMap();
 	public HouseRoomVO getPreHouse();
+	public HouseRoomVO getNewHouse();
 }
