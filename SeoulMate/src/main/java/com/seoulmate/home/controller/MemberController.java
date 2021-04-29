@@ -3,6 +3,7 @@ package com.seoulmate.home.controller;
 import java.util.Calendar;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.seoulmate.home.service.MemberService;
@@ -46,6 +48,15 @@ public class MemberController {
 		return mav;
 	}
 	
+	@RequestMapping("/idChk")
+	@ResponseBody
+	public int idChk(HttpServletRequest req) {
+		String userid=req.getParameter("userid");
+		int result=service.idCheck(userid);
+		
+		return result;
+	}
+	/*
 	@RequestMapping("/idCheck")
 	public ModelAndView idCheck(String userid) {
 		String useridCheck=userid;
@@ -59,6 +70,8 @@ public class MemberController {
 		
 		return mav;
 	}
+	*/
+	
 	@RequestMapping(value="/memberOk", method=RequestMethod.POST)
 	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
 	public ModelAndView memberOk(MemberVO vo, PropensityVO proVO,HttpSession session) {

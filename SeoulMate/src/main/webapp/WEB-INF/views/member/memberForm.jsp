@@ -34,11 +34,35 @@
 			if(regExpCheck()==false){
 				return false;
 			}
+			$(document.body).css("overflow","hidden");
 			if($("#userid").val()!=""){
-				window.open("idCheck?userid="+$("#userid").val(), "idchk", 'height='+popupHeight+', width='+popupWidth+', left='+ popupX + ', top='+ popupY);
+				$("#idPopup").css("display", "block");
+				var idCheck=$("#userid").val();
+				$("#useridChk").val(idCheck);
+				ajax();
 			}else{
 				alert("아이디를 입력 후 중복 검사를 눌러주세요");
 			}
+		});
+		$("#popIdChk").click(function(){
+			// 팝업 아이디
+			if(regPopCheck()==false){
+				return false;
+			}else{
+				ajax();	
+			}
+		});
+		// 팝업 아이디 사용하기 버튼 이벤트 
+		$("#setId").click(function(){
+			var useId=$("#useId").text();
+			$("#userid").val(useId);
+			$("#idPopup").css("display", "none");
+			$(document.body).css("overflow","visible");
+		});
+		$("#idPopupClose").click(function(){
+			$("#idPopup").css("display", "none");
+			$(document.body).css("overflow","visible");
+			$("#idResult").empty();
 		});
 		// 1
 		$("#memNext1").click(function(){
@@ -204,6 +228,30 @@
 			goTop();
 		});
 		
+		// ajax
+		function ajax(){
+			var url="idChk";
+			var params="userid="+$("#useridChk").val();
+			$.ajax({
+				url:url,
+				data:params,
+				success:function(result){
+					var tag="<span class=\"red_txt\" id=\"useId\">"+$("#useridChk").val()+"</span>";
+					if(result>0){
+						tag+="은 사용 불가능한 아이디입니다.";
+						$("#setId").css("display","none");
+					}else{
+						tag+="은 사용가능한 아이디입니다.";
+						$("#setId").css("display","block");
+					}
+					$("#idResult").empty();
+					$("#idResult").append(tag);
+				},error:function(){
+					console.log("ajax 실패");
+				}
+			});
+		}
+		
 		// 하우스를 선택했는지 메이트를 선택했는지 구분
 		$(document).ready(function () {
 			$('#memNext2').click(function () {
@@ -283,6 +331,14 @@
 				return false;
 			}
 		}
+		// 팝업 아이디 정규식 표현
+		function regPopCheck(){
+			var regIdPop=/^[a-zA-Z]{1}[a-zA-Z0-9]{5,11}$/;
+			if(!regIdPop.test(document.getElementById("useridChk").value)){
+				alert("아이디는 영문과 숫자를 조합한 6~12자리여야 합니다.");
+				return false;
+			}
+		}
 		// 상단으로 스크롤 이동
 		function goTop(){
 			$('html').scrollTop(0);
@@ -333,9 +389,9 @@
 						"양평동4가", "양평동5가", "양평동6가", "양화동", "여의도동", "영등포동", "영등포동1가", "영등포동2가", "영등포동3가", "영등포동4가", 
 						"영등포동5가", "영등포동6가", "영등포동7가", "영등포동8가"];
 		var yongsan = ["갈월동", "남영동", "도원동", "동빙고동", "동자동", "문배동", "보광동", "산천동", "서계동", 
-			"서빙고동", "신계동", "신창동", "용문동", "용산동1가", "용산동2가", "용산동3가", "용산동4가", "용산동5가", 
-			"용산동6가", "원효로1가", "원효로2가", "원효로3가", "원효로4가", "이촌동", "이태원동", "주성동", "청암동", "청파동1가", "청파동2가", 
-			"청파동3가", "한강로1가", "한강로2가", "한강로3가", "한남동", "효창동", "후암동"];
+				"서빙고동", "신계동", "신창동", "용문동", "용산동1가", "용산동2가", "용산동3가", "용산동4가", "용산동5가", 
+				"용산동6가", "원효로1가", "원효로2가", "원효로3가", "원효로4가", "이촌동", "이태원동", "주성동", "청암동", "청파동1가", "청파동2가", 
+				"청파동3가", "한강로1가", "한강로2가", "한강로3가", "한남동", "효창동", "후암동"];
 		var eunpyeong = ["갈현동", "구산동", "녹번동", "대조동", "불광동", "수색동", "신사동", "역촌동", "응암동", "증산동", "진관동"];
 		var jongno = ["가회동", "견지동", "경운동", "계동", "공평동", "관수동", "관철동", "관훈동", "교남동", "교북동", "구기동", "궁정동", "권농동", "낙원동", "내수동", 
 			"내자동", "누상동", "누하동", "당주동", "도렴동", "돈의동", "동숭동", "명륜1가", "명륜2가", "명륜3가", "명륜4가", "묘동", "무악동", "봉익동", "부암동", 
@@ -443,39 +499,39 @@
 					</li>
 					<li><label>&nbsp;희망 지역1</label>
 						<select id="gu1" onchange="areaChange(this)">
-							<option>구를 선택해주세요</option>
+							<option hidden>구를 선택해주세요</option>
 							<c:forEach var="gu" items="${guArr}">
 								<option value="${gu}">${gu}</option>
 							</c:forEach>
 						</select>
 						<select id="dong1">
-							<option>동을 선택해주세요</option>
+							<option hidden>동을 선택해주세요</option>
 						</select>
 						<input type="text" name="area1" id="area1" placeholder=""/>
 					</li>
 					<li><label>&nbsp;희망 지역2</label>
 						<select id="gu2" onchange="areaChange(this)">
-							<option>구를 선택해주세요</option>
+							<option hidden>구를 선택해주세요</option>
 							<c:forEach var="gu" items="${guArr}">
 								<option value="${gu}">${gu}</option>
 							</c:forEach>
 						</select>
  
 						<select id="dong2">
-							<option>동을 선택해주세요</option>
+							<option hidden>동을 선택해주세요</option>
 						</select>
 						<input type="text" name="area2" id="area2" placeholder=""/>
 					</li>					
 					<li><label>&nbsp;희망 지역3</label>
 						<select id="gu3" onchange="areaChange(this)">
-							<option>구를 선택해주세요</option>
+							<option hidden>구를 선택해주세요</option>
 							<c:forEach var="gu" items="${guArr}">
 								<option value="${gu}">${gu}</option>
 							</c:forEach>
 						</select>
  
 						<select id="dong3">
-							<option>동을 선택해주세요</option>
+							<option hidden>동을 선택해주세요</option>
 						</select>
 						<input type="text" name="area3" id="area3" placeholder=""/>
 					</li>
@@ -764,6 +820,27 @@
 				</div>
 			</div>
 		</form>
+	</div>
+</div>
+<div class="pup_wrap" id="idPopup">
+	<div class="pup_form">
+		<div class="pup_head">아이디 중복 확인</div>
+		<div class="pup_body">
+			<div class="member_wrap">
+				<p class="s_title" id="distinct">아이디를 입력 후 중복 확인 버튼을 누르세요</p>
+				<ul class="form_box choice">
+					<li><label>아이디</label>
+						<input type="text" id="useridChk" maxlength="12" placeholder="영문과 숫자를 조합한 6~12자리"/>
+						<button class="white" id="popIdChk">중복 확인</button>
+					</li>
+				</ul>
+			</div>
+			<div class="center">
+				<div id="idResult"></div>
+				<a class="green" id="setId">아이디 사용하기</a>
+			</div>
+		</div>
+		<a class="btn_close" id="idPopupClose">닫기</a>
 	</div>
 </div>
 </body>
