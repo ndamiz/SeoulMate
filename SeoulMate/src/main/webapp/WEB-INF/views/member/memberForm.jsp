@@ -6,6 +6,12 @@
 <c:set var="now"><fmt:formatDate value="${today}" pattern="yyyy-MM-dd"/></c:set>
 <script>
 	$(function(){
+		// input 태그에서 엔터키를 입력해 submit 막기
+		$('input[type="text"], input[type="password"], input[type=date]').keydown(function(){
+			if(event.keyCode === 13){
+				event.preventDefault();
+			};
+		});
 		//////////// 회원가입 폼 시작 ////////////
 		// 아이디 중복검사 해제
 		var userid;
