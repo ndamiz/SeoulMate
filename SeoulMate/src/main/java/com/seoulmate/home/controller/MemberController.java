@@ -41,7 +41,7 @@ public class MemberController {
 	@RequestMapping("/idCheck")
 	public ModelAndView idCheck(String userid) {
 		String useridCheck=userid;
-		System.out.println(userid);
+		// System.out.println(userid);
 		int result=service.idCheck(useridCheck);
 		
 		ModelAndView mav=new ModelAndView();
@@ -249,18 +249,31 @@ public class MemberController {
 		ModelAndView mav=new ModelAndView();
 		String userid=(String)session.getAttribute("logId");
 		
-		mav.addObject("pcase", service.propPcase(userid)); // 하우스인지 메이트인지
+		int pcaseH=service.propPcaseH(userid);
+		
+		mav.addObject("pcaseM", service.propPcaseM(userid)); // 메이트인 경우
+		mav.addObject("pcaseH", pcaseH); // 하우스인 경우
+		if(pcaseH>0) {
+			mav.addObject("list", service.houseList(userid));
+		}
+		
 		
 		mav.setViewName("member/memberProEdit");
 		return mav;
 	}
 	
 	@RequestMapping("/proEditHouseForm")
-	public ModelAndView proEditHouseForm() {
+	public ModelAndView proEditHouseForm(HttpSession session, int pno) {
 		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
+		int result=service.pnoCheck(userid, pno);
 		
-		mav.addObject("no1", "no1");
-		mav.setViewName("member/proEditHouseForm");
+		if(result>0) { // 내 집이 맞는 경우
+			mav.setViewName("member/proEditHouseForm");
+			mav.addObject("pVO", service.propHouseSelect(userid, pno));
+		}else { // 내 집이 아닌 경우
+			mav.setViewName("redirect:memberProEdit");
+		}
 		
 		return mav;
 	}
@@ -271,6 +284,7 @@ public class MemberController {
 		String userid=(String)session.getAttribute("logId");
 		PropensityVO pVO=service.propMateSelect(userid);
 		
+		/*
 		System.out.println("성향 번호 : "+pVO.getPno());
 		System.out.println("아이디 : "+pVO.getUserid());
 		System.out.println("분류 : "+pVO.getPcase());
@@ -295,7 +309,7 @@ public class MemberController {
 		System.out.println("메이트 외국인 입주 가능 여부 : "+pVO.getM_global());
 		System.out.println("메이트 즉시 입주 가능 여부 : "+pVO.getM_now());
 		System.out.println("성향 등록일 : "+pVO.getPdate());
-		
+		*/
 		
 		mav.addObject("pVO", pVO);
 		mav.setViewName("member/proEditMateForm");
@@ -313,9 +327,7 @@ public class MemberController {
 		
 		if(result>0) { // 성향 수정 성공
 			System.out.println("성향 수정에 성공한 경우");
-			mav.addObject("complete", "complete");
-			mav.addObject("pcase", service.propPcase(userid)); // 하우스인지 메이트인지
-			mav.setViewName("member/memberProEdit");
+			mav.setViewName("redirect:memberProEdit");
 		}else { // 성향 수정 실패
 			System.out.println("성향 수정에 실패한 경우");
 			mav.addObject("fail", "fail");
@@ -326,9 +338,51 @@ public class MemberController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/proEditHouseOk", method=RequestMethod.POST)
+	public ModelAndView proEditHouseOk(PropensityVO pVO, HttpSession session) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
+		pVO.setUserid(userid);
+		
+		int result=service.propHouseUpdate(pVO);
+		
+		if(result>0) { // 성향 수정 성공
+			System.out.println("성향 수정에 성공한 경우");
+			// mav.addObject("pcaseH", service.propPcaseH(userid)); // 하우스인 경우 >????
+			mav.setViewName("redirect:memberProEdit");
+		}else { // 성향 수정 실패
+			System.out.println("성향 수정에 실패한 경우");
+			mav.addObject("fail", "fail");
+			mav.setViewName("member/proEditHouseForm");
+			// 나중에는 history.back()을 해줘야 할듯
+		}
+		
+		return mav;
+	}
+	
+	@RequestMapping("/proInsertForm")
+	public ModelAndView proInsert(HttpSession session) {
+		ModelAndView mav=new ModelAndView();
+		
+		mav.setViewName("member/proInsertForm");
+		return mav;
+	}
+	
 	@RequestMapping("/proInsertOk")
-	public String proInsertOk() {
-		return "home";
+	public ModelAndView proInsertOk(PropensityVO pVO, HttpSession session) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
+		pVO.setUserid(userid);
+		pVO.setPcase("m");
+		int result=service.propInsert(pVO);
+		if(result>0) { // 성향 등록 성공
+			mav.setViewName("redirect:memberProEdit");
+		}else {
+			mav.setViewName("redirect:proInsertForm");
+			// history.back(); 해야할듯
+		}
+		
+		return mav;
 	}
 	@RequestMapping("/logout")
 	public String logout(HttpSession session) {

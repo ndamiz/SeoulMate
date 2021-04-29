@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.seoulmate.home.dao.PayDAO;
 import com.seoulmate.home.dao.PremiumDAO;
+import com.seoulmate.home.vo.PayVO;
 @Service
 public class PremiumServiceImp implements PremiumService {
 	@Inject
@@ -14,8 +15,11 @@ public class PremiumServiceImp implements PremiumService {
 	PremiumDAO pDAO;
 
 	@Override
-	public String payEndCalculate() {
-		// TODO Auto-generated method stub
-		return pDAO.payEndCalculate();
+	public String payEndCalculate(int payMonth) {
+		return pDAO.payEndCalculate(payMonth);
+	}
+	@Override
+	public int payCompleteInsert(PayVO payVO) {
+		return pDAO.payCompleteInsert(payVO);
 	}
 }

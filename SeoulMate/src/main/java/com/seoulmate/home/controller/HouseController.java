@@ -17,58 +17,18 @@ public class HouseController {
 	return "house/houseIndex";
 	}
 	
+	@RequestMapping("/houseSearch")
+	public String houseSearch() {
+		return "house/houseSearch";
+	}
+	
 	@RequestMapping("/houseWrite1")
 	public String houseWirte1() {
 		return "house/houseWrite1";
 	}
 	
-	@RequestMapping("/houseWrite2")
-	public String houseWirte2() {
-		return "house/houseWrite2";
-	}
-	
-	@RequestMapping("/houseWrite3")
-	public String houseWirte3() {
-		return "house/houseWrite3";
-	}
-	
-	@RequestMapping("/houseWrite4")
-	public String houseWirte4() {
-		return "house/houseWrite4";
-	}
-	
-	@RequestMapping("/houseWrite5")
-	public String houseWirte5() {
-		return "house/houseWrite5";
-	}
-	
-	@RequestMapping("/houseWrite6")
-	public String houseWirte6() {
-		return "house/houseWrite6";
-	}
-	
-	@RequestMapping("/houseWrite7")
-	public String houseWirte7() {
-		return "house/houseWrite7";
-	}
-	
-	@RequestMapping("/houseWrite8")
-	public String houseWirte8() {
-		return "house/houseWrite8";
-	}
-	
-	@RequestMapping("/houseWrite9")
-	public String houseWirte9() {
-		return "house/houseWrite9";
-	}
-	
-	@RequestMapping("/houseWrite10")
-	public String houseWirte10() {
-		return "house/houseWrite10";
-	}
-	
-	@RequestMapping("/houseSearch")
-	public String houseSearch() {
-		return "house/houseSearch";
+	@RequestMapping("/houseEdit")
+	public String houseEdit() {
+		return "house/houseEdit";
 	}
 }
