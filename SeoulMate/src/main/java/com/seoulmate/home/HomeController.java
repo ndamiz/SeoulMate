@@ -66,6 +66,8 @@ public class HomeController {
 			HouseRoomVO hrVO = service.getDesposit(hwVO.getNo());
 			hwVO.setDeposit(hrVO.getDeposit());
 			hwVO.setRent(hrVO.getRent());
+			int idx = hwVO.getAddr().indexOf("동 ");
+			hwVO.setAddr(hwVO.getAddr().substring(0, idx+1));
 		}
 		
 		mav.addObject("newHouseList", lst);
