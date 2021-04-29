@@ -56,6 +56,8 @@ public class AdminController {
 	public ModelAndView payManagement() {
 		ModelAndView mav = new ModelAndView();
 		
+		// 1.결제 목록 DB에서 가져오기
+		
 		
 		mav.setViewName("admin/payManagement");
 		return mav;

@@ -48,59 +48,67 @@
 			console.log(tel);
 			console.log(email);
 			
-			IMP.init("imp58467820"); // 가맹점 식별코드 
-			IMP.request_pay({
-				pg : 'html5_inicis',
-				pay_method: 'card',
-				merchant_uid : 'merchant_' + new Date().getTime(),
-				name : '프리미엄멤버십 '+payMonthCheck+"개월", //주문명
-				amount : 150, //payMoney*1000, //결제할 금액
-				buyer_name : username,
-				buyer_tel : tel,
-				buyer_email : email,
-			},function(rsp){
-				console.log(rsp);
-				if(rsp.success){
-					var msg = '프리미엄멤버십 '+payMonthCheck+"개월\n"
-					msg += payMoney+",000원 결제가 완료되었습니다.";
-					alert(msg);
+			if(username!=null){
+				IMP.init("imp58467820"); // 가맹점 식별코드 
+				IMP.request_pay({
+					pg : 'html5_inicis',
+					pay_method: 'card',
+					merchant_uid : 'merchant_' + new Date().getTime(),
+					name : '프리미엄멤버십 '+payMonthCheck+"개월", //주문명
+					amount : 150, //payMoney*1000, //결제할 금액
+					buyer_name : username,
+					buyer_tel : tel,
+					buyer_email : email,
+				},function(rsp){
+					console.log(rsp);
 					
-					$.ajax({
-						url : "premiumPayOk",
-						type : "POST",
-						dataType : "json",
-						data : {
-							"userid" : '${memberVO.userid}',
-							"username" : '${memberVO.username}',
-							"imp_uid" : rsp.imp_uid,
-							"merchant_uid": rsp.merchant_uid,
-							"amount" : rsp.paid_amount,
-							"payMethod" : rsp.pay_method,
-							"payMonth" : payMonthCheck
-						},success : function(){
-							console.log("success");
-						},error : function(){
-							console.log("error");
-						}
-					});
-// 					msg += '고유ID : '+rsp.imp_uid;
-// 					msg += '상점거래ID : '+rsp.merchant_uid;
-// 					msg += '결제금액 : '+rsp.paid_amount;
-// 					msg += '카드 승인번호 : '+rsp.apply_num;  //신용카드에 한해서만 제공 
-//					msg += '결제수단 : '+rsp.pay_method;
-				}else{
-					var msg = '결제에 실패하였습니다\n';
-					msg += '에러내용 : '+rsp.error_msg;
-					alert(msg);
-				}
-				
-			});
+					if(rsp.success){
+						var msg = '프리미엄멤버십 '+payMonthCheck+"개월\n"
+						msg += payMoney+",000원 결제가 완료되었습니다.";
+						alert(msg);
+						
+						$.ajax({
+							url : "premiumPayOk",
+							type : "POST",
+							dataType : "json",
+							data : {
+								"userid" : '${memberVO.userid}',
+								"username" : '${memberVO.username}',
+								"imp_uid" : rsp.imp_uid,
+								"merchant_uid": rsp.merchant_uid,
+								"amount" : payMoney*1000,  // rsp.paid_amount,
+								"payMethod" : rsp.pay_method,
+								"payMonth" : payMonthCheck
+							},success :function(result){
+								console.log(result);
+								if(result=='200'){
+									//결제 및 DB저장 성공
+									alert(result+"결제 완료 후 DB저장 성공");
+									window.open('','_self').close(); 
+								}else if(result=='300'){
+									alert(result+"결제 완료 후 DB저장 실패함");
+									window.open('','_self').close(); 
+								}
+							},error : function(){
+								alert("에러가 발생하였습니다. 고객센터에 문의해 주세요.");
+								window.open('','_self').close(); 
+							}
+						});
+					}else{
+						var msg = '결제에 실패하였습니다\n';
+						msg += '에러내용 : '+rsp.error_msg;
+						alert(msg);
+					}
+				});
+			}else{
+				location.href="login";
+			}
 		});
 	})
 	
 </script>
 <div id="payPopup">
-	<p class="m_title">프리미엄 멤버십 결제</p>
+	<p class="m_title">${memberVO.userid }님 프리미엄 멤버십 결제</p>
 	<ul class="form_box choice">
 		<li>
 			<label class="d_title" id="payMonthLabel">멤버십 기간</label>

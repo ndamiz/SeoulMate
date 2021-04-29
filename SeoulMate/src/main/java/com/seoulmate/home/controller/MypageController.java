@@ -12,6 +12,16 @@ public class MypageController {
 	@Inject
 	MypageService service;
 	
+	//마이페이지 하우스&메이트 관리 
+	@RequestMapping("/myHouseAndMateList")
+	public ModelAndView myHouseAndMateList() {
+		ModelAndView mav = new ModelAndView();
+		
+		
+		mav.setViewName("mypage/myHouseAndMateList");
+		return mav;
+	}
+	
 	//마이페이지 찜목록
 	@RequestMapping("/likeMarkerList")
 	public ModelAndView likeMarkerList() {
@@ -20,14 +30,14 @@ public class MypageController {
 		mav.setViewName("mypage/likeMarkerList");
 		return mav;
 	}
-	//마이페이지 결제내역
+	//마이페이지 결제내역 확인 페이지
 	@RequestMapping("/payDetailList")
 	public ModelAndView payDetailList() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("mypage/payDetailList");
 		return mav;
 	}
-	//마이페이지 보낸초대
+	//마이페이지 보낸초대 목록 
 	@RequestMapping("/sendInviteList")
 	public ModelAndView sendInviteList() {
 		ModelAndView mav = new ModelAndView();
@@ -35,7 +45,7 @@ public class MypageController {
 		mav.setViewName("mypage/sendInviteList");
 		return mav;
 	}
-	//마이페이지 받은신청
+	//마이페이지 받은신청 목록
 	@RequestMapping("/takeRequestList")
 	public ModelAndView takeRequestList() {
 		ModelAndView mav = new ModelAndView();

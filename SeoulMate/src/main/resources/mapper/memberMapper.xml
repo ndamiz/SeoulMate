@@ -32,5 +32,8 @@
   	<update id="memberExit">
   		update member set state='탈퇴' where userid=#{param1} and userpwd=#{param2}
   	</update>
+  	<update id="gradePremiumUpdate">
+  		update member set grade=2 where userid=#{param1}
+  	</update>
   </mapper>
 

@@ -68,4 +68,8 @@ public class MemberServiceImp implements MemberService {
 	public int propMateUpdate(PropensityVO pVO) {
 		return pDAO.propMateUpdate(pVO);
 	}
+	@Override
+	public int gradePremiumUpdate(String userid) {
+		return dao.gradePremiumUpdate(userid);
+	}
 }
