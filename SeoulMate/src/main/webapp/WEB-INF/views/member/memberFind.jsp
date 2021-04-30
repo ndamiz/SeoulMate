@@ -46,10 +46,6 @@
 		}
 	}
 </script>
-<style>
-	.title_wrap>.s_title.margin-bottom50.margin-top50{margin:50px 0;}
-	.wrap>.member_wrap>hr{margin:50px 0 0 0;}
-</style>
 <div class="wrap">
 	<div class="member_wrap">
 		<div class="title_wrap">
@@ -57,9 +53,11 @@
 		</div>
 		<div class="title_wrap">
 			<form method="post" id="memberFindId" action="memberFindId" onsubmit="return memberCheck(this)">
-				<input type="text" name="username" id="usernameCheck" maxlength="4" placeholder="이름을 입력해주세요"/><br/><br/><br/>
-				<input type="text" name="email" id="idEmailCheck" placeholder="이메일을 입력해주세요"/><br/><br/><br/>
-				<div class="center">
+				<label>이름</label>
+				<input type="text" name="username" id="usernameCheck" maxlength="4" placeholder="이름을 입력해주세요"/>
+				<label>이메일</label>
+				<input type="text" name="email" id="idEmailCheck" placeholder="이메일을 입력해주세요"/>
+				<div class="center" id="idFindBtn">
 					<button class="h_btn green" id="FindIdBtn">아이디 찾기</button>
 				</div>
 			</form>
@@ -70,8 +68,10 @@
 		</div>
 		<div class="title_wrap">
 			<form method="post" id="memberFindPwd" action="memberFindPwd" onsubmit="return memberCheck(this)">
-				<input type="text" name="userid" id="useridCheck" maxlength="4" placeholder="아이디를 입력해주세요"/><br/><br/><br/>
-				<input type="text" name="email" id="pwdEmailCheck" placeholder="이메일을 입력해주세요"/><br/><br/><br/>
+				<label>아이디</label>
+				<input type="text" name="userid" id="useridCheck" maxlength="4" placeholder="아이디를 입력해주세요"/><br/>
+				<label>이메일</label>
+				<input type="text" name="email" id="pwdEmailCheck" placeholder="이메일을 입력해주세요"/>
 				<div class="center">
 					<button class="h_btn green" id="FindPwdBtn">비밀번호 찾기</button>
 				</div>

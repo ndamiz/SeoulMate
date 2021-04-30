@@ -57,7 +57,9 @@
 			var useId=$("#useId").text();
 			$("#userid").val(useId);
 			$("#idPopup").css("display", "none");
+			$("#hiddenCheck").val("Y");
 			$(document.body).css("overflow","visible");
+			
 		});
 		$("#idPopupClose").click(function(){
 			$("#idPopup").css("display", "none");
@@ -255,12 +257,12 @@
 		// 하우스를 선택했는지 메이트를 선택했는지 구분
 		$(document).ready(function () {
 			$('#memNext2').click(function () {
-				var radioVal = $('input[name="housemate"]:checked').val();
+				var radioVal = $('input[name="pcase"]:checked').val();
 				
-				if(radioVal=="쉐어하우스"){
+				if(radioVal=="h"){
 					$(".houseChoice").css("display","block");
 					$(".mateChoice").css("display","none");
-				}else if(radioVal=="하우스메이트"){
+				}else if(radioVal=="m"){
 					$(".houseChoice").css("display","none");
 					$(".mateChoice").css("display","block");
 				}
@@ -450,9 +452,6 @@
 		}
 	}
 </script>
-<style>
-#proli{height:125px;}
-</style>
 <div class="wrap">
 	<div class="member_wrap">
 		<form method="post" id="memId" action="memberOk" enctype="multipart/form-data">
@@ -497,7 +496,7 @@
 							<input type="file" accept="image/*" name="profilePic1" id="profilePic" />
 						</div>
 					</li>
-					<li><label>&nbsp;희망 지역1</label>
+					<li id="a1"><label>&nbsp;희망 지역1</label>
 						<select id="gu1" onchange="areaChange(this)">
 							<option hidden>구를 선택해주세요</option>
 							<c:forEach var="gu" items="${guArr}">
@@ -507,9 +506,9 @@
 						<select id="dong1">
 							<option hidden>동을 선택해주세요</option>
 						</select>
-						<input type="text" name="area1" id="area1" placeholder=""/>
+						<input type="hidden" name="area1" id="area1" placeholder=""/>
 					</li>
-					<li><label>&nbsp;희망 지역2</label>
+					<li id="a2"><label>&nbsp;희망 지역2</label>
 						<select id="gu2" onchange="areaChange(this)">
 							<option hidden>구를 선택해주세요</option>
 							<c:forEach var="gu" items="${guArr}">
@@ -520,9 +519,9 @@
 						<select id="dong2">
 							<option hidden>동을 선택해주세요</option>
 						</select>
-						<input type="text" name="area2" id="area2" placeholder=""/>
+						<input type="hidden" name="area2" id="area2" placeholder=""/>
 					</li>					
-					<li><label>&nbsp;희망 지역3</label>
+					<li id="a3"><label>&nbsp;희망 지역3</label>
 						<select id="gu3" onchange="areaChange(this)">
 							<option hidden>구를 선택해주세요</option>
 							<c:forEach var="gu" items="${guArr}">
@@ -533,7 +532,7 @@
 						<select id="dong3">
 							<option hidden>동을 선택해주세요</option>
 						</select>
-						<input type="text" name="area3" id="area3" placeholder=""/>
+						<input type="hidden" name="area3" id="area3" placeholder=""/>
 					</li>
 					<li><label><span class="red_txt">*</span>이메일</label>
 						<input type="text" name="emailid" id="emailid" value="0905cjw" placeholder="이메일"/><span>@</span> 
@@ -695,7 +694,7 @@
 				</div>
 				<ul class="form_box choice">
 					<li><label><span class="red_txt">*</span>하우스 내 지원 서비스</label>
-						<div class="checks">
+						<div class="checks checkbox">
 							<input type="checkbox" name="h_support" id="h_support1" value="1">
 							<label for="h_support1">공용공간 청소 지원</label>
 							<input type="checkbox" name="h_support" id="h_support2" value="2">
@@ -706,7 +705,7 @@
 					</li>
 					<li><label></label></li>
 					<li><label><span class="red_txt">*</span>기타</label>
-						<div class="checks">
+						<div class="checks checkbox">
 							<input type="checkbox" name="h_etc" id="h_etc1" value="1"/>
 							<label for="h_etc1">보증금 조절 가능</label>
 							<input type="checkbox" name="h_etc" id="h_etc3" value="3"/>

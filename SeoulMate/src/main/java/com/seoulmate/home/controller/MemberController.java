@@ -289,12 +289,13 @@ public class MemberController {
 		String userid=(String)session.getAttribute("logId");
 		
 		int pcaseH=service.propPcaseH(userid);
-		
+		System.out.println("pcaseH : "+pcaseH);
 		mav.addObject("pcaseM", service.propPcaseM(userid)); // 메이트인 경우
 		mav.addObject("pcaseH", pcaseH); // 하우스인 경우
 		if(pcaseH>0) {
 			mav.addObject("list", service.houseList(userid));
 		}
+		
 		
 		
 		mav.setViewName("member/memberProEdit");

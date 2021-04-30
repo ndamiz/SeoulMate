@@ -5,10 +5,10 @@
 	$(function(){
 		$("#memNext1").click(function(){
 			// 변경할 비밀번호 정규식 표현
-			if($("#editUserpwd").val()!=""){
+			if($("#userpwd").val()!=""){
 				if(regExpCheck()!=false){
 					// 비밀번호 확인 유효성 검사
-					if($("#editUserpwd").val()!=$("#editUserpwd2").val()){
+					if($("#userpwd").val()!=$("#userpwd2").val()){
 						alert("비밀번호가 다릅니다.");
 						return false;
 					}
@@ -201,17 +201,17 @@
 		<p class="s_title">회원정보 수정</p>
 	</div>
 	<form method="post" id="memId" action="memberEditOk">
-		<div id="memEditDiv">
+		<div id="memDiv1">
 			<ul class="form_box choice" id="mem">
 				<li><label>아이디</label>
-					<input type="text" name="userid" id="editUserid" value="${vo.userid}" disabled/>
+					<input type="text" name="userid" id="Edituserid" value="${vo.userid}" disabled/>
 				</li>
 				<li><label>변경할 비밀번호</label>
-					<input type="password" name="userpwd" id="editUserpwd" value=""/></li>
+					<input type="password" name="userpwd" id="userpwd" value=""/></li>
 				<li><label>비밀번호 확인</label>
-					<input type="password" id="editUserpwd2" value=""/></li>
+					<input type="password" id="userpwd2" value=""/></li>
 				<li><label>이름</label>
-					<input type="text" name="username" id="editUsername" value="${vo.username}" disabled/></li>
+					<input type="text" name="username" id="username" value="${vo.username}" disabled/></li>
 				<li><label>연락처</label>
 					<select name="tel1" id="tel1">
 						<c:forEach var="i1" items="${arr1}">
@@ -232,7 +232,7 @@
 						<label for="gender2">남성</label>
 					</div>
 				</li>
-				<li><label>&nbsp;희망 지역1</label>
+				<li id="a1"><label>&nbsp;희망 지역1</label>
 					<select id="gu1" onchange="areaChange(this)">
 						<option>구를 선택해주세요</option>
 						<c:forEach var="gu" items="${guArr}">
@@ -243,9 +243,9 @@
 					<select id="dong1">
 						<option>동을 선택해주세요</option>
 					</select>
-					<input type="text" name="area1" id="area1" value="${vo.area1}" placeholder=""/>
+					<input type="hidden" name="area1" id="area1" value="${vo.area1}" placeholder=""/>
 				</li>
-				<li><label>&nbsp;희망 지역2</label>
+				<li id="a2"><label>&nbsp;희망 지역2</label>
 					<select id="gu2" onchange="areaChange(this)">
 						<option>구를 선택해주세요</option>
 						<c:forEach var="gu" items="${guArr}">
@@ -256,9 +256,9 @@
 					<select id="dong2">
 						<option>동을 선택해주세요</option>
 					</select>
-					<input type="text" name="area2" id="area2" value="${vo.area2}" placeholder=""/>
+					<input type="hidden" name="area2" id="area2" value="${vo.area2}" placeholder=""/>
 				</li>					
-				<li><label>&nbsp;희망 지역3</label>
+				<li id="a3"><label>&nbsp;희망 지역3</label>
 					<select id="gu3" onchange="areaChange(this)">
 						<option>구를 선택해주세요</option>
 						<c:forEach var="gu" items="${guArr}">
@@ -269,7 +269,7 @@
 					<select id="dong3">
 						<option>동을 선택해주세요</option>
 					</select>
-					<input type="text" name="area3" id="area3" value="${vo.area3}" placeholder=""/>
+					<input type="hidden" name="area3" id="area3" value="${vo.area3}" placeholder=""/>
 				</li>	
 				<li><label>이메일</label>
 					<input type="text" name="emailid" id="emailid" value="${vo.emailid}" placeholder="이메일"/><span>@</span> 

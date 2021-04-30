@@ -35,8 +35,9 @@
 		</div>
 		<br/><br/>
 		<div class="title_wrap">
-			<form method="post" action="memberEditCheck" onsubmit="return pwdCheck(this)">
-				<input type="password" name="userpwd" id="userpwdCheck" maxlength="12" placeholder="비밀번호를 입력해주세요"/><br/><br/><br/>
+			<form id="memberEditForm" method="post" action="memberEditCheck" onsubmit="return pwdCheck(this)">
+				<label>비밀번호</label>
+				<input type="password" name="userpwd" id="userpwdCheck" maxlength="12" placeholder="비밀번호를 입력해주세요"/>
 				<div class="center">
 					<button class="h_btn green" id="editBtn">회원정보 수정하기</button>
 				</div>
@@ -47,8 +48,9 @@
 		</div>
 		<br/><br/>
 		<div class="title_wrap">
-			<form method="post" action="memberExitOk" id="memberExitForm" onsubmit="return pwdCheck(this)">
-				<input type="password" name="userpwd" id="userpwdCheck" maxlength="12" placeholder="비밀번호를 입력해주세요"/><br/><br/><br/>
+			<form id="memberExitForm"method="post" action="memberExitOk" id="memberExitForm" onsubmit="return pwdCheck(this)">
+				<label>비밀번호</label>
+				<input type="password" name="userpwd" id="userpwdCheck" maxlength="12" placeholder="비밀번호를 입력해주세요"/>
 				<div class="center">
 					<button class="h_btn green" id="editBtn">회원 탈퇴하기</button>
 				</div>
