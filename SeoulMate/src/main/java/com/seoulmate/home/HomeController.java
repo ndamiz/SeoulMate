@@ -1,5 +1,6 @@
 package com.seoulmate.home;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -81,12 +82,12 @@ public class HomeController {
         int y  = cal.get(Calendar.YEAR);
         int m = cal.get(Calendar.MONTH) + 1;
         int d   = cal.get(Calendar.DAY_OF_MONTH);
-
+        SimpleDateFormat format = new SimpleDateFormat ( "yyyyMMdd");
 		for (MateWriteVO mwVO : nmList) {
 			// 각 하우스 메이트의 성별, 나이 구하기
 			MemberVO mVO = service.getDetail(mwVO.getUserid());
 			mwVO.setGender(mVO.getGender());
-			
+			 
 			// 생년월일을 받아서 만 나이로 처리
 			String b = mVO.getBirth();
 			int i = b.indexOf(" 00");
@@ -103,8 +104,26 @@ public class HomeController {
 	        String BirthAge = age+"";
 			mwVO.setBirth(BirthAge);
 			
-			int idx = mwVO.getArea().indexOf("구 ");
-			mwVO.setArea(mwVO.getArea().substring(0, idx+1));
+			// 입주 디데이 0일때 즉시 문자열 처리
+			String e = mwVO.getEnterdate();
+			System.out.println(e);
+			int ee = e.indexOf(" ");
+			e = e.substring(0, ee+1);
+			e = e.replace(" ", "");
+			int enterNum = Integer.parseInt(e.replace("-", ""));
+			System.out.println(enterNum);
+			
+			// 희망지역 1~3 서울시 자르기
+			int j = mwVO.getArea1().indexOf("구 ");
+			mwVO.setArea(mwVO.getArea1().substring(j+1));
+			if (mwVO.getArea2() != null) {
+				j = mwVO.getArea2().indexOf("구 ");
+				mwVO.setArea(mwVO.getArea2().substring(j+1));
+			}
+			if (mwVO.getArea3() != null) {
+				j = mwVO.getArea3().indexOf("구 ");
+				mwVO.setArea(mwVO.getArea3().substring(j+1));
+			}
 		}
 		mav.addObject("newMateList", nmList);
 		
