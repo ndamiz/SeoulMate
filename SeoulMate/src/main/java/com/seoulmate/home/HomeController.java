@@ -82,7 +82,8 @@ public class HomeController {
         int y  = cal.get(Calendar.YEAR);
         int m = cal.get(Calendar.MONTH) + 1;
         int d   = cal.get(Calendar.DAY_OF_MONTH);
-        SimpleDateFormat format = new SimpleDateFormat ( "yyyyMMdd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        int today = Integer.parseInt(format.format(cal.getTime()));
 		for (MateWriteVO mwVO : nmList) {
 			// 각 하우스 메이트의 성별, 나이 구하기
 			MemberVO mVO = service.getDetail(mwVO.getUserid());
@@ -111,7 +112,15 @@ public class HomeController {
 			e = e.substring(0, ee+1);
 			e = e.replace(" ", "");
 			int enterNum = Integer.parseInt(e.replace("-", ""));
-			System.out.println(enterNum);
+			System.out.println((enterNum - today) + "일");
+			String enterDay = "";
+			if (enterNum - today > 0 && enterNum - today <=7) {
+				enterDay = "즉시";
+			}else {
+				enterDay = (enterNum - today) + "일";
+			}
+			
+			mwVO.setEnterdate(enterDay);
 			
 			// 희망지역 1~3 서울시 자르기
 			int j = mwVO.getArea1().indexOf("구 ");

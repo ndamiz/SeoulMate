@@ -170,8 +170,7 @@
                   </li>
                   <li>
                   	<p>
-                  		<%-- ${newMateVO.enterdate} --%>
-                  		즉시
+                  		${newMateVO.enterdate}
                   	</p>
                   </li>
                </ol>
