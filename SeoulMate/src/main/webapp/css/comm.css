@@ -967,7 +967,8 @@ footer .foot_btns{
 }
 
 .recommend_list .list_title{
-	line-height: 50px;
+	line-height: 30px;
+	margin-top: 5px;
 }
 
 .recommend_list a,
@@ -1077,6 +1078,7 @@ footer .foot_btns{
 
 .recommend_list .list_icon{
 	display: flex;
+	margin-top: 10px;
 }
 
 .recommend_list .list_icon li{
@@ -1165,7 +1167,14 @@ footer .foot_btns{
 }
 
 .recommend_list.mate_list .address{
-	float: inherit;
+	/* float: inherit; */
+	margin: 0 0 10px 0;
+	line-height: 30px;
+	margin-bottom: 10px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow-wrap: normal;
+	overflow: hidden;
 }
 
 
@@ -1357,6 +1366,11 @@ footer .foot_btns{
 .chat_wrap .chat_window.chat_on{
 	overflow: hidden;
 	position: relative;
+	display: none;
+}
+
+.chat_wrap .chat_window.chat_on.on{
+	display: block;
 }
 
 .chat_wrap .chat_window.chat_on .chat_head{

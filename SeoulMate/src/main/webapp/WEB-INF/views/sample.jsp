@@ -31,6 +31,9 @@
 			<div class="toggle_cont">
 				<input id="toggle_1" class="cmn_toggle cmn_toggle_round" type="checkbox">
 				<label for="toggle_1"></label>
+				
+				<input id="toggle_2" class="cmn_toggle cmn_toggle_round" type="checkbox" checked="checked">
+				<label for="toggle_2"></label>
 			</div>
 		</div>
 	</div>

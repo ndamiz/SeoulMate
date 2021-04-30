@@ -2,29 +2,29 @@ package com.seoulmate.home.vo;
 
 public class HouseRoomVO {
 	private int no;
-	private int pno;
+	private int hno;
 	private String userid;
-	private String addr;
-	private String housename;
-	private String housePic1;
-	private String housePic2;
-	private String housePic3;
-	private String housePic4;
-	private String housePic5;
-	private int room;
-	private int bathroom;
-	private int nowPeople;
-	private int searchPeople;
-	private String publicFacility;
-	private String writedate;
-	private String enddate;
-	private String housestate;
-	private String houseProfile;
+	private String roomName;
+	private int deposit;
+	private int rent;
+	private String enterdate;
+	private String minStay;
+	private String maxStay;
+	private int roomPeople;
+	private int furniture;
+	private String incFurniture;
+	
 	public int getNo() {
 		return no;
 	}
 	public void setNo(int no) {
 		this.no = no;
+	}
+	public int getHno() {
+		return hno;
+	}
+	public void setHno(int hno) {
+		this.hno = hno;
 	}
 	public String getUserid() {
 		return userid;
@@ -32,108 +32,60 @@ public class HouseRoomVO {
 	public void setUserid(String userid) {
 		this.userid = userid;
 	}
-	public String getAddr() {
-		return addr;
+	public String getRoomName() {
+		return roomName;
 	}
-	public void setAddr(String addr) {
-		this.addr = addr;
+	public void setRoomName(String roomName) {
+		this.roomName = roomName;
 	}
-	public String getHousePic1() {
-		return housePic1;
+	public int getDeposit() {
+		return deposit;
 	}
-	public void setHousePic1(String housePic1) {
-		this.housePic1 = housePic1;
+	public void setDeposit(int deposit) {
+		this.deposit = deposit;
 	}
-	public String getHousePic2() {
-		return housePic2;
+	public int getRent() {
+		return rent;
 	}
-	public void setHousePic2(String housePic2) {
-		this.housePic2 = housePic2;
+	public void setRent(int rent) {
+		this.rent = rent;
 	}
-	public String getHousePic3() {
-		return housePic3;
+	public String getEnterdate() {
+		return enterdate;
 	}
-	public void setHousePic3(String housePic3) {
-		this.housePic3 = housePic3;
+	public void setEnterdate(String enterdate) {
+		this.enterdate = enterdate;
 	}
-	public String getHousePic4() {
-		return housePic4;
+	public String getMinStay() {
+		return minStay;
 	}
-	public void setHousePic4(String housePic4) {
-		this.housePic4 = housePic4;
+	public void setMinStay(String minStay) {
+		this.minStay = minStay;
 	}
-	public String getHousePic5() {
-		return housePic5;
+	public String getMaxStay() {
+		return maxStay;
 	}
-	public void setHousePic5(String housePic5) {
-		this.housePic5 = housePic5;
+	public void setMaxStay(String maxStay) {
+		this.maxStay = maxStay;
 	}
-	public int getRoom() {
-		return room;
+	public int getRoomPeople() {
+		return roomPeople;
 	}
-	public void setRoom(int room) {
-		this.room = room;
+	public void setRoomPeople(int roomPeople) {
+		this.roomPeople = roomPeople;
 	}
-	public int getBathroom() {
-		return bathroom;
+	public int getFurniture() {
+		return furniture;
 	}
-	public void setBathroom(int bathroom) {
-		this.bathroom = bathroom;
+	public void setFurniture(int furniture) {
+		this.furniture = furniture;
 	}
-	public int getNowPeople() {
-		return nowPeople;
+	public String getIncFurniture() {
+		return incFurniture;
 	}
-	public void setNowPeople(int nowPeople) {
-		this.nowPeople = nowPeople;
+	public void setIncFurniture(String incFurniture) {
+		this.incFurniture = incFurniture;
 	}
-	public int getSearchPeople() {
-		return searchPeople;
-	}
-	public void setSearchPeople(int searchPeople) {
-		this.searchPeople = searchPeople;
-	}
-	public String getPublicFacility() {
-		return publicFacility;
-	}
-	public void setPublicFacility(String publicFacility) {
-		this.publicFacility = publicFacility;
-	}
-	public String getWritedate() {
-		return writedate;
-	}
-	public void setWritedate(String writedate) {
-		this.writedate = writedate;
-	}
-	public String getEnddate() {
-		return enddate;
-	}
-	public void setEnddate(String enddate) {
-		this.enddate = enddate;
-	}
-
-	public String getHousestate() {
-		return housestate;
-	}
-	public void setHousestate(String housestate) {
-		this.housestate = housestate;
-	}
-	public int getPno() {
-		return pno;
-	}
-	public void setPno(int pno) {
-		this.pno = pno;
-	}
-	public String getHousename() {
-		return housename;
-	}
-	public void setHousename(String housename) {
-		this.housename = housename;
-	}
-	public String getHouseProfile() {
-		return houseProfile;
-	}
-	public void setHouseProfile(String houseProfile) {
-		this.houseProfile = houseProfile;
-	}
+	
 	
 }
