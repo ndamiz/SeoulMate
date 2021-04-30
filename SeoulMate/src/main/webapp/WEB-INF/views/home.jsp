@@ -114,8 +114,8 @@
                <div class="list_title">
                   <span class="mate_id">USER1</span>
                   <span class="pay">￦ 100 / 25</span>
-                  <span class="address">서강동 | 합정동 | 당산동</span>
                </div>
+               <span class="address">서강동 | 합정동 | 당산동</span>
                <ol class="list_icon">
                   <li><p>여</p></li>
                   <li><p>27세</p></li>
@@ -163,7 +163,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
    <section class="content map_content">
       <div class="list_head">
-         <p class="m_title">나의지역 둘러보기</p>
+      	 <c:if test="${logId==null && logArea==null}">
+      	 	<p class="m_title">서울메이트 둘러보기</p>
+      	 </c:if>
+      	 
+      	 <c:if test="${logId!=null && logArea!=null}">
+      	 	<p class="m_title">나의 지역 둘러보기</p>
+      	 </c:if>
       </div>
       <div class="main_map" id="map"></div>
    </section>
