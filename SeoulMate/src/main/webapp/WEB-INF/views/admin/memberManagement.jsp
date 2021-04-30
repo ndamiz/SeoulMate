@@ -153,7 +153,7 @@
 					<li><div>생년월일</div><input type="text" name="birth" value="" readonly/></li>
 					<li><div>연락처</div><input type="text" name="tel" value="" readonly/></li>
 					<li><div>email</div><input type="text" name="email" value="" readonly/></li>
-					<li><div>신고 누적 수</div><input type="text" name="reportCnt" value="" readonly/></li>
+					<li><div>신고 누적 수</div><input type="text" name="reportCnt" value=""/></li>
 					<li><div>블랙리스트</div>
 						<div class="toggle_cont">
 							<input id="toggle_2" class="cmn_toggle cmn_toggle_round" type="checkbox" name="state">
@@ -165,7 +165,7 @@
 		</div>
 		<div class="pup_bottom">
 			<a class="btn_cancel">닫기</a>
-			<a class="btn_save">수정</a>
+			<a class="btn_save" >수정</a>
 		</div>
 		<a class="pup_btn_close">닫기</a>
 	</div>
