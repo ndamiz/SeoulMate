@@ -7,13 +7,11 @@
 		var category = '${category}';
 		console.log(category);
 		//카테고리가 null이면 '전체'에 불들어오기
-// 		if(category==''){
-// 			$(".content_menu a").first().addClass('on');
-// 		}else{
+		if(category==''){
+			$(".content_menu a").first().addClass('on');
+		}else{
 			$(".content_menu li a").removeClass("on");
-			if(category=='all'){
-				$(".content_menu>li>a").eq(0).addClass('on');
-			}else if(category=='우리집 자랑'){
+			if(category=='우리집 자랑'){
 				$(".content_menu>li>a").eq(1).addClass('on');
 			}else if(category=='중고장터'){
 				$(".content_menu>li>a").eq(2).addClass('on');
@@ -22,7 +20,7 @@
 			}else if(category=='자유게시판'){
 				$(".content_menu>li>a").eq(4).addClass('on');
 			}
-// 		}
+		}
 		//검색어 유효성 검사
 		$(".searchBtn").click(function(){
 			if($("#comSearch").val()==''){
