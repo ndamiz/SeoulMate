@@ -21,7 +21,7 @@
 .myPage_HouseAndMate_Img>div>span{display:inline-block; font-size: 1.5em; height: 30px; line-height: 30px;}
 
 /* 하우스&메이트 관리 => 리스트별 디자인 */
-.myPage_HouseAndMate_Info{float:left; width: 270px; margin-left: 20px; height: 150px;}
+.myPage_HouseAndMate_Info{float:left; width: 300px; margin-left: 20px; height: 150px;}
 .myPage_HouseAndMate_Info>li{height: 15%;}
 .myPage_HouseAndMate_Info>li:first-of-type{height: 30%; font-size: 1.5em; font-weight: bold; margin-top: 10px;}
 .myPage_HouseAndMate_Info>li:nth-of-type(2){ }
@@ -52,8 +52,9 @@
 	background-color: #ffd7d1;}
 
 /* 하우스&메이트 관리 => 버튼 들어갈 박스 */
-.myPage_HouseAndMate_Btn{height: 100px; width: 45%; float: left; margin: 25px 0px; overflow: visible;}
 .myPage_HouseAndMate_Btn>a{height: 30px; line-height: 30px; font-size: 0.9em; margin-top: 10px;}
+.myPage_HouseAndMate_Btn{height: 100px;  margin: 25px 0px; overflow: visible;}
+
 
 
 
