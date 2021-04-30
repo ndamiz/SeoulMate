@@ -1,7 +1,5 @@
 package com.seoulmate.home.controller;
 
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.seoulmate.home.service.BoardService;
-import com.seoulmate.home.vo.BoardPageVO;
 import com.seoulmate.home.vo.BoardVO;
+import com.seoulmate.home.vo.PageVO;
 
 @Controller
 public class BoardController {
@@ -21,18 +19,29 @@ public class BoardController {
 	
 	//커뮤니티 페이지로 이동하기
 	@RequestMapping("/communityList")
-	public ModelAndView communityList(String category, String searchKey, String searchWord, BoardPageVO vo) {
+	public ModelAndView communityList(String category, BoardVO vo, PageVO pVo, HttpServletRequest req) {
 		
-		//커뮤니티 게시판에서 카테고리 필터를 누를때 필요한 부분///////
-		System.out.println("===>"+category);
-		System.out.println("searchKey.*******>"+searchKey);
-		System.out.println("VOsearchKey.*******>"+vo.getSearchKey());
-		System.out.println("searchWord////////////>"+searchWord);
-		System.out.println("VOsearchWord////////////>"+vo.getSearchWord());
+		//리퀘스트돼서 오는 페이지번호가 있으면 세팅 없으면 기본값 1로 세팅
+		String pageNumStr = req.getParameter("pageNum");
+		if(pageNumStr != null) {
+			pVo.setPageNum(Integer.parseInt(pageNumStr));
+		}
+		//넘어오는 카테고리가 있으면 세팅/ 이거 안해도 바로 세팅되는거같긴한데 일단 세팅!
+		pVo.setCategory(category);
+		//검색어랑 카테고리필터에 따른 총 레코드 수 구하기
+		pVo.setTotalRecord(service.totalRecord(pVo));
+		
+		//확인용
+		System.out.println("================================category=>"+pVo.getCategory());
+		System.out.println(pVo.getSearchKey()+"<----key+word------>"+pVo.getSearchWord());
+		System.out.println(pVo.getTotalRecord()+"//////////////totalRecord");
+		System.out.println(pVo.getTotalPage()+"**********************************totalPage");
+		///////
 		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("list", service.comAllRecord(category));
-		mav.addObject("category", category);
+		mav.addObject("list", service.comAllRecord(pVo));
+		mav.addObject("category", category); //뷰에서 카테고리에 불들어오게 하기위해서 필요하다
+		mav.addObject("pageVO", pVo); //뷰에서 페이징 세팅에 필요
 		mav.setViewName("/board/communityList");
 		return mav;
 	}
@@ -69,4 +78,12 @@ public class BoardController {
 		return "/board/memberLike";
 	}
 	
+	//글 내용보기
+	@RequestMapping("/boardView")
+	public ModelAndView boardView(int no) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("vo", service.boardSelect(no));
+		mav.setViewName("/board/boardView");
+		return mav;
+	}
 }

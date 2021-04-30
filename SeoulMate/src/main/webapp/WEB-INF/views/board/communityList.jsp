@@ -6,7 +6,7 @@
 		//카테고리 클릭시 class on 바꾸기
 		var category = '${category}';
 		console.log(category);
-		//카테고리가 null이면 전체에 불들어오기
+		//카테고리가 null이면 '전체'에 불들어오기
 		if(category==''){
 			$(".content_menu a").first().addClass('on');
 		}else{
@@ -32,17 +32,11 @@
 				$("#searchFrm").submit(function(){
 					alert($("select[name=searchKey]").val())
 					alert($("input[name=searchWord]").val())
-					
 				});
 			}
-			
 		});
 	});
 	
-	//submit
-	function searchSubmit(){
-		
-	}
 </script>
 <div class="wrap">
 	<div class="content">
@@ -57,16 +51,14 @@
 			<ul class="searchUl">
 					<li id="comSearchLi">
 						<form id="searchFrm" method="post" action="communityList">
-							<input type="hidden" name="category" value="${category}">
+							<input type="hidden" id="category" name="category" value="${category}">
 							<select id="searchKey" name="searchKey">
 								<option value="subject">제목</option>
 								<option value="content">글내용</option>
 								<option value="userid">사용자</option>
 							</select>
 							<input name="searchWord" id="comSearch" type="text" placeholder="검색어을 입력해주세요">
-							<a class="searchBtn" href="javascript:searchSubmit()">
-								<img alt="검색하기" src="<%=request.getContextPath()%>/img/yun/ico_search_black.png">
-							</a>
+							<button class="searchBtn">검색</button>
 						</form>	
 					</li>
 					
@@ -122,14 +114,22 @@
 			</tbody>
 		</table>
 		<div class="paging">
-			<a class="first_page" href=""></a>
-			<a class="prev_page" href=""></a>
-			<a class="on" href="">1</a>
-			<a class="" href="">2</a>
-			<a class="" href="">3</a>
-			<a class="" href="">4</a>
-			<a class="next_page" href=""></a>
-			<a class="last_page" href=""></a>
+			<a class="first_page" href="communityList?pageNum=1<c:if test="${pageVO.category != null && pageVO.category != '' }">&category=${pageVO.category}</c:if><c:if test="${pageVO.searchWord != null && pageVO.searchWord != ''}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>""></a>
+			<a class="prev_page" href="communityList?pageNum=${pageVO.pageNum-1}<c:if test="${pageVO.category != null && pageVO.category != '' }">&category=${pageVO.category}</c:if><c:if test="${pageVO.searchWord != null && pageVO.searchWord != ''}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>""></a>
+			
+			<c:forEach var="p" begin="${pageVO.startPageNum}" end="${pageVO.startPageNum+pageVO.onePageNum-1}">
+				<c:if test="${p<=pageVO.totalPage}">
+					<c:if test="${p==pageVO.pageNum}">
+						<a class="on" href="communityList?pageNum=${p}<c:if test="${pageVO.category != null && pageVO.category != '' }">&category=${pageVO.category}</c:if><c:if test="${pageVO.searchWord != null && pageVO.searchWord != ''}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>">${p}</a>
+					</c:if>
+					<c:if test="${p!=pageVO.pageNum}">
+						<a href="communityList?pageNum=${p}<c:if test="${pageVO.category != null && pageVO.category != '' }">&category=${pageVO.category}</c:if><c:if test="${pageVO.searchWord != null && pageVO.searchWord != ''}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>">${p}</a>
+					</c:if>
+				</c:if>
+			</c:forEach>
+				
+			<a class="next_page" href="communityList?pageNum=${pageVO.pageNum+1}<c:if test="${pageVO.category != null && pageVO.category != '' }">&category=${pageVO.category}</c:if><c:if test="${pageVO.searchWord != null && pageVO.searchWord != ''}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>""></a>
+			<a class="last_page" href="communityList?pageNum=${pageVO.totalPage}<c:if test="${pageVO.category != null && pageVO.category != '' }">&category=${pageVO.category}</c:if><c:if test="${pageVO.searchWord != null && pageVO.searchWord != ''}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>""></a>
 		</div>
 	</div>
 </div>

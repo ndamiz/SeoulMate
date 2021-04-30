@@ -1,9 +1,8 @@
 package com.seoulmate.home.vo;
 
-public class AdminPageVO {
+public class PageVO {
 	private int pageNum = 1; //현재페이지
 	private int onePageNum = 5; //한페이지당 나오는 페이지 번호 수
-	private int onePageRecord = 10;// 한페이지당 레코드 수
 	
 	private int totalRecord;	//총 레코드 수 
 	private int totalPage;		//마지막 페이지(총 페이지 수)
@@ -11,8 +10,11 @@ public class AdminPageVO {
 	
 	private int lastPageRecord = 5; //마지막 페이지의 남은 레코드 수
 
-	//각 페이지에 맞는 검색키 검색어 vo
-	//	신고관리
+	//커뮤니티용	
+	private String category;
+	private int commOnePageRecord = 15;// 한페이지당 레코드 수
+	private String searchKey;
+	private String searchWord;
 	
 	
 
@@ -36,12 +38,12 @@ public class AdminPageVO {
 		this.onePageNum = onePageNum;
 	}
 
-	public int getOnePageRecord() {
-		return onePageRecord;
+	public int getCommOnePageRecord() {
+		return commOnePageRecord;
 	}
 
-	public void setOnePageRecord(int onePageRecord) {
-		this.onePageRecord = onePageRecord;
+	public void setCommOnePageRecord(int onePageRecord) {
+		this.commOnePageRecord = onePageRecord;
 	}
 
 	public int getTotalRecord() {
@@ -52,13 +54,13 @@ public class AdminPageVO {
 		this.totalRecord = totalRecord;
 		
 		//총 레코드수를 이용하여 총페이지수를 계산
-		totalPage = (int)Math.ceil(totalRecord/(double)onePageRecord);
+		totalPage = (int)Math.ceil(totalRecord/(double)commOnePageRecord);
 
 		//마지막페이지 레코드 수
-		if(totalRecord%onePageRecord==0) {
-			lastPageRecord = onePageRecord;
+		if(totalRecord%commOnePageRecord==0) {
+			lastPageRecord = commOnePageRecord;
 		}else {
-			lastPageRecord = totalRecord%onePageRecord; //마지막페이지의 남은 레코드 수
+			lastPageRecord = totalRecord%commOnePageRecord; //마지막페이지의 남은 레코드 수
 		}
 	}
 
@@ -85,4 +87,29 @@ public class AdminPageVO {
 	public void setLastPageRecord(int lastPageRecord) {
 		this.lastPageRecord = lastPageRecord;
 	}
+
+	public String getSearchKey() {
+		return searchKey;
+	}
+
+	public void setSearchKey(String searchKey) {
+		this.searchKey = searchKey;
+	}
+
+	public String getSearchWord() {
+		return searchWord;
+	}
+
+	public void setSearchWord(String searchWord) {
+		this.searchWord = searchWord;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	
 }
