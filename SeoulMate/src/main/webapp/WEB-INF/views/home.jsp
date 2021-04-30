@@ -134,24 +134,46 @@
          <a href="">더보기</a>
       </div>
       <ul class="list_content">
-         <c:forEach var="i" begin="0" end="2">
+         <c:forEach items="${newMateList}" var="newMateVO">
             <li>
                <div class="list_img">
                   <p><span>매칭</span>90<b>%</b></p>
                   <button class="btn_star"></button>
                   <a href="">
-                     <img alt="" src="<%=request.getContextPath()%>/img/comm/sample_mate02.png">
+                     <img alt="" src="<%=request.getContextPath()%>/img/comm/${newMateVO.matePic1}">
                   </a>
                </div>
                <div class="list_title">
-                  <span class="mate_id">USER1</span>
-                  <span class="pay">￦ 100 / 25</span>
-                  <span class="address">서강동 | 합정동 | 당산동</span>
+                  <span class="mate_id">${newMateVO.userid}</span>
+                  <span class="pay">￦ ${newMateVO.deposit} / ${newMateVO.rent}</span>
                </div>
+               <span class="address">
+               	${newMateVO.area1} 
+               	<c:if test="${newMateVO.area2 != null}">
+                	| ${newMateVO.area2} 
+               	</c:if>
+               	<c:if test="${newMateVO.area3 != null}">
+                	| ${newMateVO.area3}
+               	</c:if>
+               </span>
                <ol class="list_icon">
-                  <li><p>여</p></li>
-                  <li><p>27세</p></li>
-                  <li><p>즉시</p></li>
+                  <li>
+                  	<p>
+                  		<c:if test="${newMateVO.gender==1}">여</c:if>
+                  		<c:if test="${newMateVO.gender==2}">남</c:if>
+                  	</p>
+                  </li>
+                  <li>
+                  	<p>
+                  		${newMateVO.birth}세
+                  	</p>
+                  </li>
+                  <li>
+                  	<p>
+                  		<%-- ${newMateVO.enterdate} --%>
+                  		즉시
+                  	</p>
+                  </li>
                </ol>
             </li>
          </c:forEach>
