@@ -4,6 +4,7 @@
 	$(function(){
 		$("#tableMain>tr").click(function(){
 			$("#memberInfo").css("display", "block");
+			$('.pup_body').scrollTop(0);
 			var selectId=$(this).children().eq(1).text(); // 선택한 행의 userid
 			console.log(selectId);
 			
@@ -13,18 +14,11 @@
 				url:url,
 				data:params,
 				success:function(info){
-					var userid="<input type='text' name='userid' value='"+info.userid+"'>";
-					var userpwd="<input type='text' name='userpwd' value='"+info.userpwd+"'>";
-					var username="<input type='text' name='username' value='"+info.username+"'>";
-					var birth="<input type='text' name='birth' value='"+info.birth+"'>";
-					var tel="<input type='text' name='tel' value='"+info.tel+"'>";
-					var email="<input type='text' name='email' value='"+info.email+"'>";
-					var reportCnt="<input type='text' name='reportCnt' value='"+info.reportCnt+"'>";
 					
-					var info=[userid, userpwd, username, birth, tel, email, reportCnt];
+					var info=[info.userid, info.userpwd, info.username, info.birth, info.tel, info.email, info.reportCnt];
 					
 					for(var i=1; i<=7; i++){
-						$("ul>li").eq(i).append(info[i-1]);	
+						$("ul>li").eq(i).children('input').attr('value', info[i-1]);	
 					}
 				}, error:function(){
 					console.log("회원 관리에서 회원 정보 가져오기 실패");
@@ -35,7 +29,7 @@
 		$(".pup_btn_close, .btn_cancel").click(function(){
 			$("#memberInfo").css("display", "none");
 			for(var i=1; i<=7; i++){
-				$("ul>li").eq(i).children().eq(1).remove();
+				$("ul>li").eq(i).children().eq(1).attr("value","");
 			}
 		});
 		
@@ -127,13 +121,13 @@
 						<img class="remove_icon" src="/home/img/choi/fi-rr-trash.svg"/><br/>
 						<input class="profile_input profile_left" type="file" accept="image/*" name="profilePic1" id="profilePic" />
 					</li>
-					<li><div>아이디</div></li>
-					<li><div>비밀번호</div></li>
-					<li><div>이름</div></li>
-					<li><div>생년월일</div></li>
-					<li><div>연락처</div></li>
-					<li><div>email</div></li>
-					<li><div>신고 누적 수</div></li>
+					<li><div>아이디</div><input type="text" name="userid" value=""/></li>
+					<li><div>비밀번호</div><input type="text" name="userpwd" value=""/></li>
+					<li><div>이름</div><input type="text" name="username" value=""/></li>
+					<li><div>생년월일</div><input type="text" name="birth" value=""/></li>
+					<li><div>연락처</div><input type="text" name="tel" value=""/></li>
+					<li><div>email</div><input type="text" name="email" value=""/></li>
+					<li><div>신고 누적 수</div><input type="text" name="reportCnt" value=""/></li>
 					<li><div>블랙리스트</div>
 						<div class="toggle_cont">
 							<input id="toggle_2" class="cmn_toggle cmn_toggle_round" type="checkbox" name="blacklist">

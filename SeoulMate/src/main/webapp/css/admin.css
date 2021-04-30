@@ -365,6 +365,9 @@ section{ margin-left:15% ; width: 85%; float: left; }
  #radioDiv input{
  	width: 30px;
  }
+ .pup_bottom>.btn_cancel:hover, .pup_bottom>.btn_save:hover, .pup_bottom>.btn_del:hover{
+ 	background-color: #D2D2D2; color:#13a89e; text-decoration: none; font-weight: bold;
+ }
  /* 토글버튼==========*/
 .toggle_cont {margin:0 10px 0 0;}
 .toggle_cont .cmn_toggle {position:absolute; margin-left:-9999px; visibility:hidden;}
