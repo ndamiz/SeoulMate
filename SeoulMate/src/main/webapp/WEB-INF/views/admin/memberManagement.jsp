@@ -45,9 +45,9 @@
 				data:params,
 				success:function(result){
 					if(result>0){
-						console.log("수정 성공");
+						alert("수정 완료");
 					}else{
-						console.log("수정 실패")
+						alert("수정에 실패하였습니다.");
 					}
 				},error:function(){
 					console.log("ajax 실패");
