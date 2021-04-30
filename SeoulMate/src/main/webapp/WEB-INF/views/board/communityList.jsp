@@ -7,11 +7,13 @@
 		var category = '${category}';
 		console.log(category);
 		//카테고리가 null이면 '전체'에 불들어오기
-		if(category==''){
-			$(".content_menu a").first().addClass('on');
-		}else{
+// 		if(category==''){
+// 			$(".content_menu a").first().addClass('on');
+// 		}else{
 			$(".content_menu li a").removeClass("on");
-			if(category=='우리집 자랑'){
+			if(category=='all'){
+				$(".content_menu>li>a").eq(0).addClass('on');
+			}else if(category=='우리집 자랑'){
 				$(".content_menu>li>a").eq(1).addClass('on');
 			}else if(category=='중고장터'){
 				$(".content_menu>li>a").eq(2).addClass('on');
@@ -20,9 +22,7 @@
 			}else if(category=='자유게시판'){
 				$(".content_menu>li>a").eq(4).addClass('on');
 			}
-		}
-		
-		
+// 		}
 		//검색어 유효성 검사
 		$(".searchBtn").click(function(){
 			if($("#comSearch").val()==''){
@@ -83,18 +83,20 @@
 		<table class="tb">
 			<caption>테이블명</caption>
 			<colgroup>
-				<col width="80" />
-				<col width="120" />
+				<col width="80"/>
+				<col width="120"/>
 				<col />
-				<col width="100" />
-				<col width="80" />
-				<col width="120" />
+				<col width="30"/>
+				<col width="100"/>
+				<col width="80"/>
+				<col width="120"/>
 			</colgroup>
 			<thead>
 				<tr>
 					<th>번호</th>
 					<th>카테고리</th>
 					<th>제목</th>
+					<th></th>
 					<th>작성자</th>
 					<th>조회수</th>
 					<th>작성일</th>
@@ -105,7 +107,8 @@
 					<tr>
 						<td>${vo.no}</td>
 						<td>${vo.category}</td>
-						<td class="t_title"><a href="boardView?no=${vo.no}">${vo.subject}</a></td>
+						<td class="t_title"><a href="communityView?no=${vo.no}">${vo.subject}</a></td>
+						<td>[1]</td>
 						<td>${vo.userid}</td>
 						<td>${vo.hit}</td>
 						<td>${vo.writedate}</td>

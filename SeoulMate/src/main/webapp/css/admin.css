@@ -429,6 +429,6 @@ input.cmn_toggle_round:checked + label:after {margin-left:30px;}
 #divGap{
 	width:300px;
 }
-.report_bottom a.btn_reply {
+.pup_bottom a.btn_reply {
 	background-color: #13a89e;
 }

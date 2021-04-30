@@ -79,11 +79,11 @@ public class BoardController {
 	}
 	
 	//글 내용보기
-	@RequestMapping("/boardView")
+	@RequestMapping("/communityView")
 	public ModelAndView boardView(int no) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("vo", service.boardSelect(no));
-		mav.setViewName("/board/boardView");
+		mav.setViewName("/board/communityView");
 		return mav;
 	}
 }

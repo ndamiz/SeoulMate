@@ -54,9 +54,9 @@
 		</section>
 <!-- 팝업창*********************************************** -->
 		<div class="contact_wrap">
-			<div class="contact_form report_form ">
-				<div class="report_head">문의 관리</div>
-				<div class="report_body">
+			<div class="contact_form pup_form ">
+				<div class="pup_head">문의 관리</div>
+				<div class="pup_body">
 					<div class="contact_list">
 						<ul>
 							<li><div>아이디</div><input type="text" name="userid"></li>
@@ -85,12 +85,12 @@
 						답변 날짜 : 2021-04-30
 					</div>
 				</div>
-				<div class="report_bottom">
+				<div class="pup_bottom">
 					<a href="" class="btn_cancel">닫기</a>
 					<a href="" class="btn_save">확인</a>
 					<a href="" class="btn_reply">답변하기</a>
 				</div>
-				<a href="" class="report_btn_close">닫기</a>
+				<a href="" class="pup_btn_close">닫기</a>
 			</div>
 		</div>
 	</body>

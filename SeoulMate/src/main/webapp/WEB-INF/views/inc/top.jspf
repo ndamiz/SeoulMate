@@ -40,10 +40,10 @@
 					<li></li>
 					<li></li>
 					<li>
-						<a href="communityList">자유게시판</a>
-						<a href="">우리집 자랑</a>
-						<a href="">중고장터</a>
-						<a href="">쉐어 TIP</a>
+						<a href="communityList?category=우리집 자랑">우리집 자랑</a>
+						<a href="communityList?category=중고장터">중고장터</a>
+						<a href="communityList?category=쉐어TIP">쉐어 TIP</a>
+						<a href="communityList?category=자유게시판">자유게시판</a>
 					</li>
 					<li>
 						<c:if test="${logId==null}">

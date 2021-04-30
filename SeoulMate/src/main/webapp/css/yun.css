@@ -38,11 +38,35 @@
 	width: 25px;
 }
 /*/////////////////////////////글 내용 보기 스타일*/
-.boardView_img img{
+.communityView_img{
+	height: 60px;
+}	
+.communityView_img img{
 	width: 60px;
 	height: 60px;
 	border-radius: 60px;
-	margin: 20px;
+	margin-right: 20px;
+}
+.communityComent_img img{
+	width: 60px;
+	height: 60px;
+	border-radius: 60px;
+}
+.floatLeft{
+}
+.communityView_user{
+	height: 60px;
+	width:150px;
+	padding-top: 5px;
+	float:left;
+	margin-bottom: 30px;
+}
+.communityView_content{
+	 width: 100%;
+	 border: 1px solid #eee;
+	 overflow:auto; 
+	 padding:20px;
+	 margin-bottom: 10px;
 }
 
 /*////////////////////////////// 커뮤니티 글쓰기 스타일 ///////////*/

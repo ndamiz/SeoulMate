@@ -8,22 +8,24 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/reset.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/comm.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/yun.css">
+
 <div class="wrap">
 	<div class="content">
-		<p class="m_title">글 작성</p>
+		<p class="m_title">커뮤니티 글쓰기</p>
 		<br>
-		<form id="frm" method="post" action="/home/communityWriteOk">
+		<form id="writeForm" method="post" action="/home/communityWriteOk">
 			<ul>
 				<li id="comWriteLi">
 					<select id="category" name="category">
+						<option disabled selected hidden>카테고리 선택</option>
 						<option>우리집 자랑</option>
 						<option>중고장터</option>
 						<option>쉐어TIP</option>
 						<option>자유게시판</option>
 					</select>
 				</li>		
-				<li id="comWriteSubject"><input id="comWriteSubject" name="subject" type="text" placeholder="제목을 입력하세요."></li>
-				<li id="comWriteBtn"><button class="green" id="communityWrite">글쓰기</button></li>
+				<li id="comWriteSubject"><input id="subject" name="subject" type="text" placeholder="제목을 입력하세요."></li>
+				<li id="comWriteBtn"><button class="green" id="communityWrite">완료</button></li>
 			</ul>
 			<br>
 			<textarea id="summernote" name="content"></textarea>
@@ -34,11 +36,26 @@
 			    return jQuery(element).css(prop, val);
 			};
 			/////
-	  	  $(document).ready(function(){
-	  		 $("#summernote").summernote({
-	  			 height : 500
-	  		 });
-	  	  });
+		  	$(document).ready(function(){
+		  		$("#summernote").summernote({
+		  			placeholder : '내용을 입력해주세요.',
+		  			height : 500
+		  		});
+		  	});
+			$("#writeForm").submit(function(){
+				if($("#category option:selected").val()=='카테고리 선택'){
+					alert("카테고리를 선택해주세요.");
+					return false;
+				}
+				if($("#subject").val()== ''){
+					alert("제목을 입력해주세요.");
+					return false;
+				}
+				if ($('#summernote').summernote('isEmpty')) {
+					alert('내용을 입력해주세요.');
+					return false;
+				}
+			});
 	    </script>
 	</div>
 </div>

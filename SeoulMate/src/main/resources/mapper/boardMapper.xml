@@ -17,6 +17,9 @@
   			<when test='category == null and searchWord != null'>
 				where ${searchKey} like '%${searchWord}%'
   			</when>
+  			<when test='category == "" and searchWord != null'>
+				where ${searchKey} like '%${searchWord}%'			
+  			</when>
   		</choose>
 	  	order by no desc )
 	  	<![CDATA[where rownum<=]]>(${pageNum}*${commOnePageRecord}) order by no)
@@ -40,6 +43,9 @@
   			</when>
   			<when test='category == null and searchWord != null'>
 				where ${searchKey} like '%${searchWord}%'
+  			</when>
+  			<when test='category == "" and searchWord != null'>
+				where ${searchKey} like '%${searchWord}%'			
   			</when>
   		</choose>
   	</select>
