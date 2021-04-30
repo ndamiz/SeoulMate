@@ -59,7 +59,7 @@
 
 
 /*  하우스&메이트 관리 => 팝업 */
-.myPage_HouseAndMate_Popup_FullScreen{ width: 100%; height: 100%; background-color: #ddd; opacity: 0.5;
+.myPage_HouseAndMate_Popup_FullScreen{width: 100%; height: 100%; background-color: #ddd; opacity: 0.5;
 	position: fixed; top:0; left: 0; z-index: 10;}
 .myPage_HouseAndMate_Popup {width: 610px; height: 500px; border-radius: 20px; position: fixed; left: 20%; 
 	top: 15%; box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%); background-color: #fff;

@@ -12,6 +12,15 @@ public class PayVO {
 	private String payMethod; 	//결제수단 
 	private String refund; 		// 환불날짜 (null) 
 	
+	private int payMonth; //결제 체크한 개월수 
+	
+	private String selectYearMonthDate; // 년, 월, 일 선택 
+	private String selectStartDate;  //보여줄 기간 선택    2021.02 ~ 2021.03 까지 만 출력.. 이런거처럼 
+	private String selectEndDate;	//보여줄 기간 선택 
+
+	private String searchKey; 	//검색키
+	private String searchWord;  //검색어
+	
 	// 페이징 
 	private int nowPageNum = 1; //현재 페이지 
 	private int onePageNum = 4; //페이징 개수
@@ -21,10 +30,27 @@ public class PayVO {
 	private int startPageNum = 1; //시작 페이지
 	private int lastPageRecode = 10; //마지막페이지의 남은 레코드 수
 	
-	private String searchKey; 	//검색키
-	private String searchWord;  //검색어
+	//해당 유저의 grade 
+	private int grade;
 	
-	
+	public String getSelectStartDate() {
+		return selectStartDate;
+	}
+	public void setSelectStartDate(String selectStartDate) {
+		this.selectStartDate = selectStartDate;
+	}
+	public String getSelectEndDate() {
+		return selectEndDate;
+	}
+	public void setSelectEndDate(String selectEndDate) {
+		this.selectEndDate = selectEndDate;
+	}
+	public String getSelectYearMonthDate() {
+		return selectYearMonthDate;
+	}
+	public void setSelectYearMonthDate(String selectYearMonthDate) {
+		this.selectYearMonthDate = selectYearMonthDate;
+	}
 	public int getNowPageNum() {
 		return nowPageNum;
 	}
@@ -89,8 +115,12 @@ public class PayVO {
 	public void setSearchWord(String searchWord) {
 		this.searchWord = searchWord;
 	}
-	private int payMonth; //결제 체크한 개월수 
-	
+	public int getGrade() {
+		return grade;
+	}
+	public void setGrade(int grade) {
+		this.grade = grade;
+	}
 	public int getNo() {
 		return no;
 	}

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.seoulmate.home.service.AdminService;
+import com.seoulmate.home.vo.PayVO;
 
 
 @Controller
@@ -53,11 +54,27 @@ public class AdminController {
 	}
 	//관리자 - 결제 
 	@RequestMapping(value="/admin/payManagement", method={RequestMethod.POST, RequestMethod.GET})
-	public ModelAndView payManagement() {
+	public ModelAndView payManagement(PayVO payVO) {
 		ModelAndView mav = new ModelAndView();
 		
-		// 1.결제 목록 DB에서 가져오기
+		// 1.페이지번호 
+		System.out.println(payVO.getNowPageNum());
+		// 2. 검색어 검색키 
+		System.out.println(payVO.getSearchKey());
+		System.out.println(payVO.getSearchWord());
+		// 3. 년별, 월별, 일별
+		System.out.println(payVO.getSelectYearMonthDate());
+		System.out.println(payVO.getSelectStartDate());
+		System.out.println(payVO.getSelectEndDate());
 		
+		// 1.총 레코드 구하기  
+		payVO.setTotalRecode(service.totalRecode(payVO));
+		System.out.println("service.totalRecode(payVO)= " + payVO.getTotalRecode());
+			//자동계산 (토탈페이지, 라스트페이지 레코드) 
+		System.out.println("토탈페이지 = " +payVO.getTotalPage());
+		System.out.println("라스트페이지레코드" +payVO.getLastPageRecode());
+		
+		// 2. 한페이지 레코드 구하기 
 		
 		mav.setViewName("admin/payManagement");
 		return mav;
