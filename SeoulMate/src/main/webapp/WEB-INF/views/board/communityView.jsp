@@ -13,7 +13,7 @@
 			<li>${vo.category}</li>
 			<li><p class="s_title">${vo.subject}</p></li>
 			<li>
-				<div class="communityView_img" style="float:left;">
+				<div class="communityView_img">
 					<img src="<%=request.getContextPath()%>/img/comm/sample.png"/>
 				</div>
 				<div class="communityView_user">
@@ -31,19 +31,19 @@
 		</ul>
 		<!-- 댓글 -->
 		<ul>
-			<li><p class="d_title">댓글</p></li>
+			<li style="margin-bottom:10px;"><p class="d_title">댓글</p></li>
 			<li>
-				<div class="communityComent_img" style="float:left;">
+				<div class="communityView_img">
 					<img src="<%=request.getContextPath()%>/img/comm/sample.png"/>
 				</div>
-				<div style="width:200px;">
-					${vo.userid}
+				<div class="communityView_user">
+					${vo.userid}<br>
 					${vo.writedate}
 				</div>
 			</li>	
-			<li>
-				댓글 내용~			
-			</li>		
+			<li class="communityView_content">
+				댓글 내용
+			</li>	
 		</ul>
 	</div>
 </div>
