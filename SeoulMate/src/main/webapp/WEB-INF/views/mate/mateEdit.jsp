@@ -6,8 +6,13 @@
 $(function(){
 	CKEDITOR.replace("mateProfile"); //설명글 name 설정 필요
 	
-});	
-
+	$("#write").on('submit', function(){
+		if(CKEDITOR.instances.content.getData()==""){
+			alert("내용을 입력해주세요");
+			return false;
+		}return true;
+	});
+});
 
 $(function(){
 	
@@ -93,14 +98,13 @@ input[type="text"] {width:200px;}
 .house_wrap ul li{word-break:keep-all;}
 .btnclass{padding-left:50px;}
 #mateWrite2, #mateWrite3, #mateWrite4, #mateWrite5, #mateWrite6 {display:none; }
-#rentCheck{width: 100%; height: 50px; line-height: 50px;}
 #mPic{height:125px;}
 </style>
 <div class="wrap">
 	<div class="house_wrap">
 	
 	<div class="title_wrap">
-	<p class="m_title">메이트 등록하기 </p> 
+	<p class="m_title">메이트 수정하기 </p> 
 	<p>&nbsp;</p>
 	</div>
 	
@@ -114,12 +118,9 @@ input[type="text"] {width:200px;}
 	</div>
 		
 		<ul class="form_box">
-		<li> <label>게재 기간 </label><input type="date" width="100px"  /> </li>
+		<li> <label>게재 기간 </label><input type="date" width="100px"/> </li>
 		<li> <label>찾는지역 </label><input type="text" name="area"/> <input type="text" name="area"/> <input type="text" name="area"/> </li>
-		<li> <label>월세예산 </label><input type="text" name="rent" placeholder="만원"/> - <input type="text" name="rent" placeholder="만원"/> 
-				<div class="checks" >
-					<input type="checkbox" name="rent"> 
-					<label for="check0" id="rentCheck">제한없음</label> </div> </li>
+		<li> <label>월세예산 </label><input type="text" name="rent" placeholder="만원"/> - <input type="text" name="rent" placeholder="만원"/> <button class="green" >제한없음</button> </li>
 		<li> <label>입주가능일 </label><input type="date" > </li>
 		<li>
 			<label>최소 거주 기간</label>
@@ -356,29 +357,16 @@ input[type="text"] {width:200px;}
 	<div id="mateWrite5">
 	
 	<div class="title_wrap">
-	<p class="s_title">사진 등록 </p> <!-- 업로드사진1개, 선택하지 않을 경우 기본이미지 중 선택 -->
+	<p class="s_title">사진 등록 </p> 
 	<p>&nbsp;</p>
 	</div>
 	
 		<ul class="form_box">
 				<li id="mPic"><img id="matePic1" name="matePic1" src="#" alt="upload image" style="width:150px; height:107px;"/></li>
 				<li> <input type="file" accept="image/*" id="input-image" onchange="readURL(this);"/> <br/> </li>
-				<li> <img src="<%=request.getContextPath()%>/img/house/mate01.jfif" name="profilePic2" style="width:150px; height:150px;"/><br/>
-					<div class="checks">
-						<input type="radio" id="radio31" name="matePic2"> 
-						<label for="radio31">기본이미지1</label>
-					</div> 
-				<img src="<%=request.getContextPath()%>/img/house/mate02.jfif" name="profilePic3" style="width:150px; height:150px;"/>
-					<div class="checks">
-						<input type="radio" id="radio32" name="matePic3"> 
-						<label for="radio32">기본이미지2</label>
-					</div> 
-				<img src="<%=request.getContextPath()%>/img/house/mate03.jfif" name="" style="width:150px; height:150px;"/>
-					<div class="checks">
-						<input type="radio" id="radio33" name="matePic4"> 
-						<label for="radio33">기본이미지3</label>
-					</div> 
-			</li>
+				<li> <img src="#" name="profilePic2" style="width:150px; height:150px;"/> 
+				<img src="#" name="profilePic3" style="width:150px; height:150px;"/>
+				<img src="#" name="" style="width:150px; height:150px;"/>
 		</ul>
 		<p>&nbsp;</p> <p>&nbsp;</p> <p>&nbsp;</p> <br/> <br/>
 			<div class="btnclass">

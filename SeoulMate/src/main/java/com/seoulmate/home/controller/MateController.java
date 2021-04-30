@@ -17,9 +17,9 @@ public class MateController {
 	return "mate/mateIndex";
 	}
 
-	@RequestMapping("/mateSearch")
+	@RequestMapping("/mateView")
 	public String houseSearch() {
-		return "mate/mateSearch";
+		return "mate/mateView";
 	}
 	
 	@RequestMapping("/mateWrite1")
