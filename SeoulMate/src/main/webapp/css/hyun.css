@@ -20,7 +20,7 @@
 .myPage_HouseAndMate_Img>div>span{display:inline-block; font-size: 1.5em; height: 30px; line-height: 30px;}
 
 /* 하우스&메이트 관리 => 리스트별 디자인 */
-.myPage_HouseAndMate_Info{float:left; width: 270px; margin-left: 20px; height: 150px;}
+.myPage_HouseAndMate_Info{float:left; width: 300px; margin-left: 20px; height: 150px;}
 .myPage_HouseAndMate_Info>li{height: 15%;}
 .myPage_HouseAndMate_Info>li:first-of-type{height: 30%; font-size: 1.5em; font-weight: bold; margin-top: 10px;}
 .myPage_HouseAndMate_Info>li:nth-of-type(2){ }
@@ -29,7 +29,7 @@
 /* 하우스&메이트 관리 => 간단 정보 */
 .myPage_HouseAndMate_Mate, .myPage_HouseAndMate_House{height: 40px; line-height: 40px;}
 .myPage_HouseAndMate_Mate>li, .myPage_HouseAndMate_House>li{display: inline-block; border-radius: 40px; }
-.myPage_HouseAndMate_Mate>li>p, .myPage_HouseAndMate_House>li>p{width: 40px; border-radius: 20px; margin-left: 40px; text-align: center; line-height: 40px; height: 40px;}
+.myPage_HouseAndMate_Mate>li>p, .myPage_HouseAndMate_House>li>p{width: max-content; padding: 0 14px; min-width:40px; border-radius: 20px; margin-left: 40px; text-align: center; line-height: 40px; height: 40px;}
 .myPage_HouseAndMate_House>li:first-of-type{background: url(../img/comm/ico_room.png) no-repeat 0px 0px; background-color: #f0edf8; }
 .myPage_HouseAndMate_Mate>li:first-of-type{background: url(../img/comm/ico_mate.png) no-repeat 0px 0px; background-color: #f0edf8; }
 .myPage_HouseAndMate_Mate>li:first-of-type>p, .myPage_HouseAndMate_House>li:first-of-type>p{color:#4f399d; background-color: #e9e5f6;}
@@ -41,8 +41,9 @@
 .myPage_HouseAndMate_Mate>li:nth-of-type(3)>p, .myPage_HouseAndMate_House>li:nth-of-type(3)>p{color:#d05567; background-color: #ffd7d1;}
 
 /* 하우스&메이트 관리 => 버튼 들어갈 박스 */
-.myPage_HouseAndMate_Btn{height: 100px; width: 45%; float: left; margin: 25px 0px; overflow: visible;}
 .myPage_HouseAndMate_Btn>a{height: 30px; line-height: 30px; font-size: 0.9em; margin-top: 10px;}
+.myPage_HouseAndMate_Btn{height: 100px;  margin: 25px 0px; overflow: visible;}
+
 
 
 

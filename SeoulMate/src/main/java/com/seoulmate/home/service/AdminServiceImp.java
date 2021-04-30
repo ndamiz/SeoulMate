@@ -22,4 +22,9 @@ public class AdminServiceImp implements AdminService {
 	public List<PayVO> payAllListSelect() {
 		return dao.payAllListSelect();
 	}
+
+	@Override
+	public int totalRecode(PayVO vo) {
+		return 0;
+	}
 }
