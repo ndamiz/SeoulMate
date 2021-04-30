@@ -47,7 +47,7 @@ public class AdminController {
 	@ResponseBody
 	public MemberVO memberInfo(String userid) {
 		MemberVO vo=service.memberInfo(userid);
-		
+		System.out.println(userid);
 		return vo;
 	}
 	
