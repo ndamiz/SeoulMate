@@ -1,31 +1,37 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script>
+	// 테이블의 행 클릭 시 팝업 이벤트
 	$(function(){
 		$("#tableMain>tr").click(function(){
 			$("#memberInfo").css("display", "block");
 			$('.pup_body').scrollTop(0);
 			var selectId=$(this).children().eq(1).text(); // 선택한 행의 userid
-			console.log(selectId);
 			
 			var url="/home/admin/memberInfo";
 			var params="userid="+selectId;
 			$.ajax({
 				url:url,
 				data:params,
-				success:function(info){
-					
-					var info=[info.userid, info.userpwd, info.username, info.birth, info.tel, info.email, info.reportCnt];
+				success:function(data){
+					var info=[data.userid, data.userpwd, data.username, data.birth, data.tel, data.email, data.reportCnt, data.state];
 					
 					for(var i=1; i<=7; i++){
 						$("ul>li").eq(i).children('input').attr('value', info[i-1]);	
 					}
+					
+					if(data.state=='블랙'){
+						$("ul>li").eq(8).children('.toggle_cont').children('input[name=state]').prop('checked', true);
+					}else{
+						$("ul>li").eq(8).children('.toggle_cont').children('input[name=state]').prop('checked', false);
+					}
+					
 				}, error:function(){
 					console.log("회원 관리에서 회원 정보 가져오기 실패");
 				}
 			});
 		});
-		
+		// 팝업창 닫기 이벤트
 		$(".pup_btn_close, .btn_cancel").click(function(){
 			$("#memberInfo").css("display", "none");
 			for(var i=1; i<=7; i++){
@@ -130,7 +136,7 @@
 					<li><div>신고 누적 수</div><input type="text" name="reportCnt" value=""/></li>
 					<li><div>블랙리스트</div>
 						<div class="toggle_cont">
-							<input id="toggle_2" class="cmn_toggle cmn_toggle_round" type="checkbox" name="blacklist">
+							<input id="toggle_2" class="cmn_toggle cmn_toggle_round" type="checkbox" name="state">
 							<label for="toggle_2"></label>
 						</div><br>
 					</li>
