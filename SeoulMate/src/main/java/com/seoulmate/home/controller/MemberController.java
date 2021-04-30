@@ -3,11 +3,18 @@ package com.seoulmate.home.controller;
 import java.util.Calendar;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.seoulmate.home.service.MemberService;
@@ -17,6 +24,9 @@ import com.seoulmate.home.vo.PropensityVO;
 public class MemberController {
 	@Inject
 	MemberService service;
+	
+	@Autowired
+	private DataSourceTransactionManager transactionManager;
 	
 	@RequestMapping("/memberForm")
 	public ModelAndView memForm() {
@@ -38,6 +48,15 @@ public class MemberController {
 		return mav;
 	}
 	
+	@RequestMapping("/idChk")
+	@ResponseBody
+	public int idChk(HttpServletRequest req) {
+		String userid=req.getParameter("userid");
+		int result=service.idCheck(userid);
+		
+		return result;
+	}
+	/*
 	@RequestMapping("/idCheck")
 	public ModelAndView idCheck(String userid) {
 		String useridCheck=userid;
@@ -51,7 +70,10 @@ public class MemberController {
 		
 		return mav;
 	}
+	*/
+	
 	@RequestMapping(value="/memberOk", method=RequestMethod.POST)
+	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
 	public ModelAndView memberOk(MemberVO vo, PropensityVO proVO,HttpSession session) {
 		ModelAndView mav=new ModelAndView();
 		mav.setViewName("home");
@@ -60,20 +82,37 @@ public class MemberController {
 		// 파일 업로드 하기 전까지는 프로필 파일명만 set
 		vo.setProfilePic("example");
 		///////////////////////////////////////
+		// 트랜잭션
+		DefaultTransactionDefinition def=new DefaultTransactionDefinition();
+		def.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED); // 트랜잭션 호출
+		TransactionStatus status=transactionManager.getTransaction(def);
 		
-		int result=service.memberInsert(vo);
-		if(result>0) { // 회원가입 성공
-			int pResult=service.propInsert(proVO);
-			if(pResult>0) { // 성향 등록 성공
-				mav.setViewName("redirect:login");
-			}else {
+		try {
+			int result=service.memberInsert(vo);
+			if(result>0) { // 회원가입 성공
+				System.out.println("회원가입 성공");
+				int pResult=service.propInsert(proVO);
+				if(pResult>0) { // 성향 등록 성공
+					System.out.println("성향 등록 성공");
+					// 정상 구현되면 commit 실행
+					transactionManager.commit(status);
+					mav.setViewName("redirect:login");
+				}else {
+					System.out.println("성향 등록 실패");
+					mav.setViewName("redirect:memberForm");
+				}
+			}else { // 회원가입 실패
+				System.out.println("회원가입 실패");
 				mav.setViewName("redirect:memberForm");
+				// 나중에 history.back() 해줘야 함
 			}
 			
-		}else { // 회원가입 실패
+		}catch(Exception e){
+			System.out.println("회원가입 실패(트랜잭션)");
 			mav.setViewName("redirect:memberForm");
-			// 나중에 history.back() 해줘야 함
 		}
+		
+		
 		
 		/*
 		System.out.println("아이디 : "+vo.getUserid());
@@ -331,7 +370,8 @@ public class MemberController {
 		}else { // 성향 수정 실패
 			System.out.println("성향 수정에 실패한 경우");
 			mav.addObject("fail", "fail");
-			mav.setViewName("member/proEditMateForm");
+			mav.setViewName("member/historyBack");
+			// mav.setViewName("member/proEditMateForm");
 			// 나중에는 history.back()을 해줘야 할듯
 		}
 		
@@ -353,7 +393,8 @@ public class MemberController {
 		}else { // 성향 수정 실패
 			System.out.println("성향 수정에 실패한 경우");
 			mav.addObject("fail", "fail");
-			mav.setViewName("member/proEditHouseForm");
+			mav.setViewName("member/historyBack");
+			// mav.setViewName("member/proEditHouseForm");
 			// 나중에는 history.back()을 해줘야 할듯
 		}
 		
@@ -378,7 +419,8 @@ public class MemberController {
 		if(result>0) { // 성향 등록 성공
 			mav.setViewName("redirect:memberProEdit");
 		}else {
-			mav.setViewName("redirect:proInsertForm");
+			mav.setViewName("member/historyBack");
+			// mav.setViewName("redirect:proInsertForm");
 			// history.back(); 해야할듯
 		}
 		

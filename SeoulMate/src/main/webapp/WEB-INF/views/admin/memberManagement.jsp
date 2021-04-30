@@ -1,7 +1,46 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script>
+	// 테이블의 행 클릭 시 팝업 이벤트
 	$(function(){
+		$("#tableMain>tr").click(function(){
+			$("#memberInfo").css("display", "block");
+			$(document.body).css("overflow","hidden");
+			$('.pup_body').scrollTop(0);
+			var selectId=$(this).children().eq(1).text(); // 선택한 행의 userid
+			
+			var url="/home/admin/memberInfo";
+			var params="userid="+selectId;
+			$.ajax({
+				url:url,
+				data:params,
+				success:function(data){
+					var info=[data.userid, data.userpwd, data.username, data.birth, data.tel, data.email, data.reportCnt, data.state];
+					
+					for(var i=1; i<=7; i++){
+						$("ul>li").eq(i).children('input').attr('value', info[i-1]);	
+					}
+					
+					if(data.state=='블랙'){
+						$("ul>li").eq(8).children('.toggle_cont').children('input[name=state]').prop('checked', true);
+					}else{
+						$("ul>li").eq(8).children('.toggle_cont').children('input[name=state]').prop('checked', false);
+					}
+					
+				}, error:function(){
+					console.log("회원 관리에서 회원 정보 가져오기 실패");
+				}
+			});
+		});
+		// 팝업창 닫기 이벤트
+		$(".pup_btn_close, .btn_cancel").click(function(){
+			$("#memberInfo").css("display", "none");
+			$(document.body).css("overflow","visible");
+			for(var i=1; i<=7; i++){
+				$("ul>li").eq(i).children().eq(1).attr("value","");
+			}
+		});
+		
 		// 프로필 사진
 		$("#profilePic").on('change', function(){
 			readURL(this);
@@ -22,24 +61,41 @@
 	<section>
 		<div class="m_title managementTitle">회원 관리</div>
 		<form method="post" action="/home/admin/memberManagement" class="managementSearchForm">
-			<div class="memberSearch">
-				<select name="grade" class="custom-select">
-					<option value="">전체</option>
-					<option value="1">일반</option>
-					<option value="2">프리미엄</option>
-				</select>
-				<select name="state" class="custom-select input">
-					<option value="">전체</option>
-					<option value="1">화이트리스트</option>
-					<option value="2">블랙리스트</option>
-					<option value="3">탈퇴</option>
+			<div class="memberRadio">
+				<div class="checks">
+					<span class="managementSpan">등급</span>
+					<input type="radio" name="grade" id="memberGrade1" checked/>
+					<label for="memberGrade1">전체</label>
+					<input type="radio" name="grade" id="memberGrade2"/>
+					<label for="memberGrade2">일반</label>
+					<input type="radio" name="grade" id="memberGrade3"/>
+					<label for="memberGrade3">프리미엄</label>
+				</div>
+				<div class="checks">
+					<span class="managementSpan">상태</span>
+					<input type="radio" name="state" id="memberState1" checked/>
+					<label for="memberState1">전체</label>
+					<input type="radio" name="state" id="memberState2"/>
+					<label for="memberState2">일반</label>
+					<input type="radio" name="state" id="memberState3"/>
+					<label for="memberState3">블랙리스트</label>
+					<input type="radio" name="state" id="memberState4"/>
+					<label for="memberState4">탈퇴</label>
+				</div>
+			</div>
+			<div class="managementSearch">
+				<select name="searchKey" class="custom-select">
+					<option value="userid">아이디</option>
+					<option value="username">이름</option>
+					<option value="tel">연락처</option>
+					<option value="email">이메일</option>
 				</select>
 				<input type="text" name="searchWord" class="form-control"/>
 				<input type="submit" value="Search" class="btn btn-custom"/>
 			</div>
 		</form>
 		<div class="table-responsive, managementList">
-			<table class="table table-hover table-sm table-bordered">
+			<table class="table table-hover table-sm table-bordered" id="memberTable">
 				<thead class="thead-light">
 					<tr>
 						<th>No.</th>
@@ -52,7 +108,7 @@
 						<th>블랙리스트</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="tableMain">
 					<c:forEach var="vo" items="${list}">
 						<tr>
 							<td>${vo.no}</td>
@@ -60,7 +116,7 @@
 							<td>${vo.username}</td>
 							<td>${vo.tel}</td>
 							<td>${vo.email}</td>
-							<td>${vo.grade}</td>
+							<td><c:if test="${vo.grade==1}">일반</c:if><c:if test="${vo.grade==2}">프리미엄</c:if></td>
 							<td>${vo.reportCnt}</td>
 							<td><c:if test="${vo.state=='일반'}">일반</c:if><c:if test="${vo.state=='블랙'}">블랙리스트</c:if><c:if test="${vo.state=='탈퇴'}">탈퇴</c:if></td>
 						</tr>
@@ -68,18 +124,19 @@
 				</tbody>
 			</table>
 			<div class="paging">
+			<a class="first_page" href=""></a>
 				<a class="prev_page" href=""></a>
 				<a class="on" href="">1</a>
 				<a class="" href="">2</a>
 				<a class="" href="">3</a>
 				<a class="" href="">4</a>
-				<a class="" href="">5</a>
 				<a class="next_page" href=""></a>
+				<a class="last_page" href=""></a>
 			</div>
 		</div>
 	</section>
 	<!--  팝업창///////////////////////////////////////////// -->
-<div class="pup_wrap">
+<div class="pup_wrap" id="memberInfo">
 	<div class="pup_form">
 		<div class="pup_head">회원 정보</div>
 		<div class="pup_body">
@@ -90,16 +147,16 @@
 						<img class="remove_icon" src="/home/img/choi/fi-rr-trash.svg"/><br/>
 						<input class="profile_input profile_left" type="file" accept="image/*" name="profilePic1" id="profilePic" />
 					</li>
-					<li><div>아이디</div><input type="text" name="userid" value=""></li>
-					<li><div>비밀번호</div><input type="text" name="userpwd" value=""></li>
-					<li><div>이름</div><input type="text" name="username" value=""></li>
-					<li><div>생년월일</div><input type="text" name="birth" value=""></li>
-					<li><div>연락처</div><input type="text" name="tel" value=""></li>
-					<li><div>email</div><input type="text" name="email" value=""></li>
-					<li><div>신고 누적 수</div><input type="text" name="reportCnt" value=""></li>
+					<li><div>아이디</div><input type="text" name="userid" value="" readonly/></li>
+					<li><div>비밀번호</div><input type="text" name="userpwd" value="" readonly/></li>
+					<li><div>이름</div><input type="text" name="username" value="" readonly/></li>
+					<li><div>생년월일</div><input type="text" name="birth" value="" readonly/></li>
+					<li><div>연락처</div><input type="text" name="tel" value="" readonly/></li>
+					<li><div>email</div><input type="text" name="email" value="" readonly/></li>
+					<li><div>신고 누적 수</div><input type="text" name="reportCnt" value="" readonly/></li>
 					<li><div>블랙리스트</div>
 						<div class="toggle_cont">
-							<input id="toggle_2" class="cmn_toggle cmn_toggle_round" type="checkbox" name="blacklist">
+							<input id="toggle_2" class="cmn_toggle cmn_toggle_round" type="checkbox" name="state">
 							<label for="toggle_2"></label>
 						</div><br>
 					</li>
@@ -107,11 +164,10 @@
 			</div>
 		</div>
 		<div class="pup_bottom">
-			<a href="" class="btn_cancel">닫기</a>
-			<a href="" class="btn_save">확인</a>
-			<a href="" class="btn_del">삭제</a>
+			<a class="btn_cancel">닫기</a>
+			<a class="btn_save">수정</a>
 		</div>
-		<a href="" class="pup_btn_close">닫기</a>
+		<a class="pup_btn_close">닫기</a>
 	</div>
 </div>
 </body>

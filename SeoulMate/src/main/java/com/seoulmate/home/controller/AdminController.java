@@ -5,9 +5,11 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.seoulmate.home.service.AdminService;
+import com.seoulmate.home.vo.MemberVO;
 
 
 @Controller
@@ -25,6 +27,7 @@ public class AdminController {
 	public String adminReport() {
 		return "/admin/reportManagement";
 	}
+	///////////////////////////////////////////////////////
 	//관리자-회원
 	@RequestMapping(value="/admin/memberManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView memberManagement() {
@@ -34,6 +37,16 @@ public class AdminController {
 		mav.setViewName("admin/memberManagement");
 		return mav;
 	}
+	
+	@RequestMapping("/admin/memberInfo")
+	@ResponseBody
+	public MemberVO memberInfo(String userid) {
+		MemberVO vo=service.memberInfo(userid);
+		
+		return vo;
+	} 
+	///////////////////////////////////////////////////////
+	
 	//관리자 - 쉐어하우스 
 	@RequestMapping(value="/admin/houseManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView houseManagement() {

@@ -222,16 +222,12 @@ section{ margin-left:15% ; width: 85%; float: left; }
 #excelBtn {float: right; margin: 0 5px;}
 
 /* MemberManagement */
-.memberSearch {width:550px; float: left; overflow: auto; margin-top: 20px; }
-.memberSearch>select{width: 100px; float: left;}
-.memberSearch>select[name=state]{width: 131px; float: left;}
-.memberSearch input[type=text]{width: 200px; float: left;}
-.memberSearch input[type=submit]{width: 80px; float: left;}
 .profile_div{margin:5px 0 0 20px;}
 .profile_img{width:120px; height:85px;}
 .profile_input{width:220px;}
 .profile_left{margin-left:100px; padding-top:10px;}
 .remove_icon{margin-left:5px; width:15px; height:15px;}
+.memberRadio{width:497px; float:right; }
 
 /* reportManagement */
 .reportSearch {width:550px; float: left; overflow: auto; margin-top: 20px; }
@@ -364,6 +360,9 @@ section{ margin-left:15% ; width: 85%; float: left; }
  }
  #radioDiv input{
  	width: 30px;
+ }
+ .pup_bottom>.btn_cancel:hover, .pup_bottom>.btn_save:hover, .pup_bottom>.btn_del:hover{
+ 	background-color: #D2D2D2; color:#13a89e; text-decoration: none; font-weight: bold;
  }
  /* 토글버튼==========*/
 .toggle_cont {margin:0 10px 0 0;}
