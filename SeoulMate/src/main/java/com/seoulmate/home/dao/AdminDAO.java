@@ -9,4 +9,6 @@ public interface AdminDAO {
 	public List<String> memberSelect();
 	// 회원 정보 출력
 	public MemberVO memberInfo(String userid);
+	// 회원 정보 수정
+	public int memberInfoSave(MemberVO vo);
 }

@@ -9,4 +9,16 @@
   	<select id="memberInfo" resultType="com.seoulmate.home.vo.MemberVO">
   		select profilepic, userid, userpwd, username, to_char(birth, 'YYYY-MM-DD') birth, tel, email, reportcnt, state from member where userid=#{param1}
   	</select>
+  	<update id="memberInfoSave" parameterType="com.seoulmate.home.vo.MemberVO">
+  		update member set reportcnt=#{reportCnt}, 
+  		<choose>
+  			<when test='state=="undefined"'>
+  				state='일반'
+  			</when>
+  			<when test='state=="on"'>
+  				state='블랙'
+  			</when>
+  		</choose>
+  		where userid=#{userid} and username=#{username}
+  	</update>  	
 </mapper>

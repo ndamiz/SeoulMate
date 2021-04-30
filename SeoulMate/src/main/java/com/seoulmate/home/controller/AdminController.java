@@ -44,7 +44,15 @@ public class AdminController {
 		MemberVO vo=service.memberInfo(userid);
 		
 		return vo;
-	} 
+	}
+	
+	@RequestMapping("/admin/memInfoSave")
+	@ResponseBody
+	public int memInfoSave(MemberVO vo) {
+		int result=service.memberInfoSave(vo);
+
+		return result;
+	}
 	///////////////////////////////////////////////////////
 	
 	//관리자 - 쉐어하우스 

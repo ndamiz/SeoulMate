@@ -22,4 +22,9 @@ public class AdminServiceImp implements AdminService {
 	public MemberVO memberInfo(String userid) {
 		return dao.memberInfo(userid);
 	}
+
+	@Override
+	public int memberInfoSave(MemberVO vo) {
+		return dao.memberInfoSave(vo);
+	}
 }
