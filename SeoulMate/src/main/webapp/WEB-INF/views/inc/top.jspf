@@ -9,8 +9,8 @@
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/css/reset.css">
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/css/comm.css">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-		<script type="text/javascript" src="<%=request.getContextPath()%>/js/main/comm.js"></script>
 		<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="<%=request.getContextPath()%>/js/main/comm.js"></script>
 		<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath()%>/js/script.js"></script>
 	</head>
@@ -42,10 +42,10 @@
 					<li></li>
 					<li></li>
 					<li>
-						<a href="communityList">자유게시판</a>
-						<a href="">우리집 자랑</a>
-						<a href="">중고장터</a>
-						<a href="">쉐어 TIP</a>
+						<a href="communityList?category=우리집 자랑">우리집 자랑</a>
+						<a href="communityList?category=중고장터">중고장터</a>
+						<a href="communityList?category=쉐어TIP">쉐어 TIP</a>
+						<a href="communityList?category=자유게시판">자유게시판</a>
 					</li>
 					<li>
 						<c:if test="${logId==null}">

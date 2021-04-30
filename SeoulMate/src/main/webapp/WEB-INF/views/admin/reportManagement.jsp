@@ -62,11 +62,11 @@
 	</div>
 </section>
 <!--  팝업창///////////////////////////////////////////// -->
-<div class="report_wrap">
-		<div class="report_form">
-			<div class="report_head">신고 정보</div>
-			<div class="report_body">
-				<div class="report_list">
+<div class="pup_wrap">
+		<div class="pup_form">
+			<div class="pup_head">신고 정보</div>
+			<div class="pup_body">
+				<div class="pup_list">
 					<ul>
 						<li><div>회원ID</div><input type="text" name="userid"></li>
 						<li><div>신고자ID</div> <input type="text" name="reportid"> </li>
@@ -96,12 +96,12 @@
 					</ul>
 				</div>
 			</div>
-			<div class="report_bottom">
+			<div class="pup_bottom">
 				<a href="" class="btn_cancel">닫기</a>
 				<a href="" class="btn_save">확인</a>
 				<a href="" class="btn_del">삭제</a>
 			</div>
-			<a href="" class="report_btn_close">닫기</a>
+			<a href="" class="pup_btn_close">닫기</a>
 		</div>
 	</div>
 </body>
