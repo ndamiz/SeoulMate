@@ -1,416 +1,172 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <style>
-
-/* ul, li{float:left;} */
-#topDiv{height:300px; width:100%; position: relative; margin-bottom: 30px;}
-#topDiv>img{height: 200px; width: 200px;}
-/* #img4, #img5, #img6{display: none;} */
-#dateDiv{float: left; height: 50px; }
-#btnDiv{float: right; height: 50px; overflow: auto;}
-
-#middle_Div{  width:100%; height:400px; }
-#middle_Div>div{float:left;}
-#houseExplain{width:65%; height:100%;  }
-#peopleExplain{width:35%; margin:0 auto; text-align: center;  }
-/* #peopleExplain>ul{ text-align:center; align-items: center;} */
-#peopleExplain li{ /*display:inline-block;*/ text-align:center; align-items: center; height: 100%;}
-#profilePic1{width:150px; height:150px; margin-top: 5px;}
-#matching{position: relative;}
-#map_Div{background-color:skyblue;}
-
-
-/* 슬라이드 */
-.slide_wraper{
-   height:250px;
-   width:750px;
-   margin:0 auto;
-   overflow:hidden;
-   
-}
-.slides{
-   position:relative;
-   top:0;
-   left:0;
-   width:100%;
-   height:100%;
-   transition: left 0.5s ease-out;
-   margin:0 auto;
-   text-align: center;
-}
-.slides>ul>li:not(:last-child){
-   float:left;
-   
-}
-.slides>ul>li>img{
-   width:250px;
-   height:250px;
-   display:block;
+.boxClass {
+	width: 1110px;
+	margin : 0 auto;
+	height: 228px;
 }
 
-.controlls{
-   width:100%;
-   height:40px;
-   position:absolute;
-	z-index: 1;
-	top:50%
+input[type="date"] {width: 200px;}
+input[type="text"] {width: 100px;}
+input[type="number"] {width: 100px;}
 
-}
-.controlls span{
-   font-size:25px;
-   width:40px;
-   height:40px;
-   line-height:40px;
-   position:absolute;
-   left:0;
-   top:0;
-}
-.controlls span.prev{
-   display:block;
-   left:15%;
-}
-.controlls span.next{
-   left:83%;
+#searchBox {width: 300px; position: relative;}
+.searchClass ul {display: inline-block;	padding-top: 10px;}
+
+#iconPic {
+	position: absolute;
+	right: 2px;
+	top: 8px;
 }
 
-#my_modal {
-    display: none;
-    width: 500px;
-    height:650px;
-    padding: 10px 30px;
-    background-color: #fefefe;
-    border: 1px solid #888;
-    border-radius: 3px;
-}
-#my_modal p{margin: 15px 0;}
-#my_modal ul{line-height: 30px;
-	height: 30px;
-	text-align: center;
-	float: left;
-	width: 100%;
+#iconPic1 {
+	position: relative;
+	right: 54px;
+	top: 14px;
+	box-shadow: none;
+	border: none;
+	border-radius: inherit;
 	margin: 0;
 	padding: 0;
+	line-height: inherit;
+	height: inherit;
+	width: 40px;
+	height: 40px;
 }
 
- .modal_close_btn{
- position: absolute;
- right: 180px;
- bottom: 50px;
- margin: 0 auto;
- }
-.report{
-    position: absolute;
-     right: 250px;
-     bottom: 50px;
-     margin: 0 auto;
+#iconPic1::before {
+	content: "";
+	display: block;
+	position: absolute;
+	width: 22px;
+	height: 23px;
+	top:6px;
+	right: 9px;
+	background: url(<%=request.getContextPath()%>/img/comm/ico_search_black.png) no-repeat;
+	background-size: cover;
 }
 
-#my_modal img{width:250px; height: 250px; text-align: center; }
-     
-#reportS{width: 135px; height: 35px;}
+button {position: relative;}
 
-.modal_wrap{
-        display: none;
-        width: 550px;
-        height: 300px;
-        position: absolute;
-        top:20%;
-        left: 30%;
-        margin: 0 auto;
-        background: white;
-        z-index: 2;
-        border:1px solid black; 
-
-    }
-.modal_wrap p{text-align: center; left: 180px;}
-.share_modal{width:100%; }
-.share_modal li{
-	line-height: 30px;
-	height: 30px;
-	float:left;
-	width:25%; 
-	margin: 0;
-	padding: 0;
+.houseSearch_wrap button.search::before {
+   content:"";
+   display: block;
+   margin-left: -2px;
+   width: 25px;
+   height: 25px;
+   background: url(<%=request.getContextPath()%>/img/main/ico_search_white.png) no-repeat;
+   background-size: cover;
 }
- .share_close_btn{
- position: absolute;
- left: 230px;
- bottom: 50px;
- margin: 0 auto;
- }
+
+.houseSearch_wrap button.room{margin-top: 30px;}
 
 </style>
-<script>
-    $(function(){
 
-        
-        $('#hEdit').click(function(){ //수정하기 버튼
-        	location.href="houseWrite1"; //방등록하기 form 으로 이동
-        	
-        });
-        
-      
-        var slides = document.querySelector('.slides'),
-        slide = document.querySelectorAll('.slides li'),
-        currentIdx =0,   //현재인덱스
-        slideCount = slide.length, //슬라이드의 갯수
-        prevBtn = document.querySelector('.prev'),
-        nextBtn = document.querySelector('.next');
-        slideWidth = 250,
-        slideMargin = 0,
-     
-     slides.style.width = (slideWidth + slideMargin)*slideCount - slideMargin +'px';//슬라이드의 넓이
-     
-     function moveSlide(num){
-        slides.style.left = -num * 250 +'px';
-        currentIdx = num;
-     }
-     
-     //버튼이벤트
-     nextBtn.addEventListener('click',function(){
-        console.log(currentIdx);
-        if(currentIdx < slideCount - 3){
-           moveSlide(currentIdx + 1);
-           if(currentIdx>0){
-              prevBtn.style.display = 'block';
-           }
-           if(currentIdx==slideCount-3){
-              nextBtn.style.display = 'none';
-           }
-        }
-     });
-     prevBtn.addEventListener('click',function(){
-        if(currentIdx >0){
-           moveSlide(currentIdx - 1);
-           if(currentIdx==0){
-              prevBtn.style.display = 'none';
-           }
-           if(currentIdx==slideCount-5){
-              nextBtn.style.display = 'block';
-           }
-        }
-     });
-     
-    //모달 팝업창
-     function modal(id) {
-    	    var zIndex = 9999;
-    	    var modal = document.getElementById(id);
+<div class="wrap houseSearch_wrap">
+	
+	<div class="boxClass"> <!-- 상단부분 div -->
 
-    	    // 모달 div 뒤에 배경 처리
-    	    var bg = document.createElement('div');
-    	    bg.setStyle({
-    	        position: 'fixed',
-    	        zIndex: zIndex,
-    	        left: '0px',
-    	        top: '0px',
-    	        width: '100%',
-    	        height: '100%',
-    	        overflow: 'auto',
-    	        // 레이어 색갈은 여기서 바꾸면 됨
-    	        backgroundColor: 'rgba(0,0,0,0.4)'
-    	    });
-    	    document.body.append(bg);
-
-    	    // 닫기 버튼 처리, 배경과 모달 div 지우기
-    	    modal.querySelector('.modal_close_btn').addEventListener('click', function() {
-    	        bg.remove();
-    	        modal.style.display = 'none';
-    	    });
-
-    	    modal.setStyle({
-    	        position: 'fixed',
-    	        display: 'block',
-    	        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
-
-    	        // 배경 보다 한칸 위에 보이기
-    	        zIndex: zIndex + 1,
-
-    	        // div center 정렬
-    	        top: '50%',
-    	        left: '50%',
-    	        transform: 'translate(-50%, -50%)',
-    	        msTransform: 'translate(-50%, -50%)',
-    	        webkitTransform: 'translate(-50%, -50%)'
-    	    });
-    	}
-
-    	// Element 에 style 한번에 오브젝트로 설정하는 함수 추가
-    	Element.prototype.setStyle = function(styles) {
-    	    for (var k in styles) this.style[k] = styles[k];
-    	    return this;
-    	};
-
-    	document.getElementById('reportBtn').addEventListener('click', function() {
-    	    // 모달창 띄우기
-    	    modal('my_modal');
-    	});
-
-   });
-
-    	window.onload = function() { //공유하기 모달(팝업)창
- 
-    function onClick() {
-        document.querySelector('.modal_wrap').style.display ='block';
-        document.querySelector('.black_bg').style.display ='block';
-    }   
-    function offClick() {
-        document.querySelector('.modal_wrap').style.display ='none';
-        document.querySelector('.black_bg').style.display ='none';
-    }
- 
-    document.getElementById('shareBtn').addEventListener('click', onClick);
-    document.querySelector('.share_close_btn').addEventListener('click', offClick);
- 
-};
-
-
-    $(window).ready(function(){ 	  //공유하기 창
-        $(".snsList li a").click(function(){
-			shareAct(this);
-  		});
-  });
-    
-    function shareAct(a){
-  
-        var snsCode = $(a).attr('id');
-        var cUrl = document.location.href; console.log(cUrl);
-  
-        switch(snsCode){
-  
-            case"vIconTw":
-                //트위터
-                cUrl = 'https://twitter.com/intent/tweet?text=페이지제목:&url='+cUrl;
-            break;
-  
-            case"vIconTg":
-                //텔레그램
-                cUrl = 'https://telegram.me/share/url?url='+cUrl;
-            break;
-                  
-            case"vIconFb":
-                //페이스북
-                cUrl = 'http://www.facebook.com/sharer/sharer.php?u='+cUrl;
-            break;
-  
-            case"vIconKs":
-                //카카오스토리
-                cUrl = 'https://story.kakao.com/share?url='+cUrl;
-            break;
-  			}
-  		window.open(cUrl,'','width=700,height=500,top=300,left=450,scrollbars=yes');
-		}
-
-
-</script>
-<div class="wrap">
- 
- 	<div id="topDiv">
-	 	<div id="dateDiv">
-	 	등록날짜 2021-04-20 등록
-	 	</div>
-	 	
-	 	<div id="btnDiv">
- 		<button id="hEdit" class="green">수정</button> <button class="green">삭제</button> <button class="green">찜</button> 
- 		<button class="green" id="shareBtn"  >공유하기</button> <button class="green" id="reportBtn">신고하기</button>
- 		
- 		</div>
- 		
- 		<!--  		<div class="black_bg"></div> -->
- 		<div class="modal_wrap">
-			<div class="share_modal">
-			<p class="s_title">SNS 공유하기</p>
-	 		<ul id="snsList" class="snsList">
-	  
-			  	<li><a href="#" id="vIconTw" onclick="return false;">트위터</a></li>
-			  	<li><a href="#" id="vIconTg" onclick="return false;">텔레그램<i class="vIconTg"></i></a></li>
-			  	<li><a href="#" id="vIconFb" onclick="return false;">페이스북<i class="vIconFb"></i></a></li>
-			 	<li><a href="#" id="vIconKs" onclick="return false;">카카오스토리<i class="vIconKs"></i></a></li>
-	  
-			</ul>
-			<br/>
-				<a class="share_close_btn" >닫기</a>
-	 		</div> <!-- share modal -->
- 		</div> <!-- modal_wrap modal 종료 -->
-		
- 		
- 		
- 	<br/>
-
- 		<div class="controlls">
-         	<span class="prev">◀</span>
-         	<span class="next">▶</span>
-        </div>
-    
-      	<div class="slide_wraper">
-         	<div class="slides">
-            	<ul>
-	               <li><img src="<%=request.getContextPath()%>/img/house/house01.jfif" title="방1"></li>
-	               <li><img src="<%=request.getContextPath()%>/img/house/house02.jpg"></li>
-	               <li><img src="<%=request.getContextPath()%>/img/house/house03.jfif"></li>
-	               <li><img src="<%=request.getContextPath()%>/img/house/house04.jfif"></li>
-	               <li><img src="<%=request.getContextPath()%>/img/house/house02.jpg"></li>
-           		</ul>
-         	</div> <!-- "slides" -->
-      </div> <!--slide_wraper -->
-
-    <div id="my_modal">
-    	<ul>
-    		<li><p class="s_title">신고하기</p></li>
-    		<li><img src="<%=request.getContextPath()%>/img/house/house01.jfif" id="reportPic" /></li>
-    		<li>house addr</li>
-    		<li>월세 | 1명 구해요 | 즉시 입주 가능 </li>
-    		<li> <label>신고 사유 </label><select id="reportS">
-						<option value="">허위매물</option>
-						<option>기간만료</option>
-						<option>광고</option>
-						<option>4</option>
-					</select> </li>
-<!-- 					<p>&nbsp;</p> -->
-			<li><label>상세 사유</label>
-					 <textarea cols="50"></textarea></li>
+	<ul class="searchClass">
+		<li> <img src='<%=request.getContextPath()%>/img/ico_filter.png'/> 조건검색 </li>
+		<li>
 			
-    	</ul>
-    	<a class="report">신고하기</a>
-    	<a class="modal_close_btn">닫기</a>
-	</div> <!-- 모달 종료 -->
+			<ul>	
+				<li>
+					<ul >
+						<li><p>지역</p></li> 
+						<li><input type="text" id="searchBox" placeholder="지역명&지하철명을 입력하세요" /> 
+						<a id="iconPic1"></a> </li>
+					</ul>
+					<ul>
+						<li> 입주예정일 </li>
+						<li> <input class="classDate" type="date"/> </li>
+					</ul>
+					<ul>
+						<li> 월세범위 </li>
+						<li> <input type="number" min="0" placeholder="0"/> - <input type="number" min="0" placeholder="0"/> 만원 </li>
+					</ul>
+				
+					<ul>
+						<li> 보증금범위 </li>
+						<li> <input type="number" name="" id="" min="10" placeholder="0"/> - <input type="number" min="0" placeholder="0"/> 만원 </li>
+					</ul>
+					<ul>
+						<li>
+							<button type="submit" class="green search"></button>
+						</li>
+						
+					</ul>
+			</ul>
+	</ul>		
+		
+	<button class="green room" onclick="location.href='<%=request.getContextPath()%>/houseWrite1'">방 등록하기</button> <br/>
+	</div>
+	
+	<hr/>
 
- 	</div> <!-- topDiv 종료 -->
- 	
-	<hr/>
-	
-	<div id="middle_Div">
-	
-		<div id="houseExplain">
-		<p class="s_title">서울특별시 마포구 백범로</p> <br/> 
-		보증금 얼마 | 월세 얼마 | 0명 구해요 | 즉시 입주 가능 <br/>
-		<p>방 몇개 | 현재 거주중인 인원 | 욕실 몇개 </p> <br/>
-		House 키워드 <br/>
-		<p>집 키워드 보여주기 ~ ~ </p> <br/>
-		Room 키워드 <br/>
-		<p>방 키워드 보여주기 ~ ~ </p> <br/>
-		우리집 소개 <br/>
-		소개글 불러오기 ~ ~ 
-		
-		</div> <!-- houseExplain div 종료 -->
-		
-		<div  id="peopleExplain">
-		
-		<ul>
-			<li ><img src="<%=request.getContextPath()%>/img/house/mate01.jfif" id="profilePic1"/> </li>
-			<li>응답률 : ㅁㅁ% <br/>
-			최근접속 : 1일 전  <br/>
-			<button class="green">약속잡기</button></li>
+
+<!-- 프리미엄 추천 쉐어하우스 -->
+	<section class="content recommend_list">
+		<div class="list_head">
+			<p class="m_title">user님과 잘 어울리는 집이예요!</p>
+			<a href="">더보기</a>
+		</div>
+		<ul class="list_content">
+			<c:forEach var="i" begin="0" end="2">
+				
+				<li>
+					<div class="list_img">
+						<p><span>매칭</span>90<b>%</b></p>
+						<button class="btn_star"></button>
+						<a href="<%=request.getContextPath()%>/houseView">
+							<img alt="" src="<%=request.getContextPath()%>/img/comm/sample_house01.png">
+						</a>
+					</div>
+					<div class="list_title">
+						<span class="address">서울시 마포구 서강동</span>
+						<span class="pay">￦ 100 / 25</span>
+					</div>
+					<ol class="list_icon">
+						<li><p>1</p></li>
+						<li><p>2</p></li>
+						<li><p>3</p></li>
+					</ol>
+				</li>
+				
+			</c:forEach>
 		</ul>
-		</div> <!-- peopleExplain div 종료 -->
-	<hr/>
-		<div id="matching" >
-		매칭률 넣어서 보여주기
-		</div> <!-- macthing 넣을 div 종료 -->
-	</div> <!-- middleFrm div 종료 -->
+	</section>
 	
-	<div id="map_Div">
-	지도 부분
-	
-	</div> <!-- map_Div div종료 -->
+	<!-- 신규 쉐어하우스 -->
+	<section class="content recommend_list">
+		<div class="list_head">
+			<p class="m_title">NEW 쉐어하우스</p>
+			<a href="">더보기</a>
+		</div>
+		<ul class="list_content">
+			<c:forEach var="i" begin="0" end="2">
+				<li>
+					<div class="list_img">
+						<p><span>매칭</span>90<b>%</b></p>
+						<button class="btn_star"></button>
+						<a href="">
+							<img alt="" src="<%=request.getContextPath()%>/img/comm/sample_house02.png">
+						</a>
+					</div>
+					<div class="list_title">
+						<span class="address">서울시 마포구 서강동</span>
+						<span class="pay">￦ 100 / 25</span>
+					</div>
+					<ol class="list_icon">
+						<li><p>1</p></li>
+						<li><p>2</p></li>
+						<li><p>3</p></li>
+					</ol>
+				</li>
+			</c:forEach>
+		</ul>
+	</section>
+
 
 </div>
