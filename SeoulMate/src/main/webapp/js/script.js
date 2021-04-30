@@ -9,4 +9,8 @@ $(function(){
 		var popTop = Math.ceil((window.screen.height - popHeight)/2);
 		window.open("premiumPay","프리미엄 멤버십 결제 페이지", "width="+popWidth+", height="+popHeight+", left="+popLeft+", top="+popTop);
 	});
+	
+	//myPage - popup
+	
+	
 });

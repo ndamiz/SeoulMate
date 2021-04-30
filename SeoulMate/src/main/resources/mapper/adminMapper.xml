@@ -9,4 +9,10 @@
   	<select id="memberInfo" resultType="com.seoulmate.home.vo.MemberVO">
   		select profilepic, userid, userpwd, username, to_char(birth, 'YYYY-MM-DD') birth, tel, email, reportcnt, state from member where userid=#{param1}
   	</select>
+  	<select id="totalRecode" parameterType="com.seoulmate.home.vo.PayVO" resultType="int">
+  		select count(no) from pay <if test="searchWord != null">where ${searchKey} like '%${searchWord}%' </if>
+  	</select>
+  	<select id="payOnePageListSelect" parameterType="com.seoulmate.home.vo.PayVO">
+  	
+  	</select>
 </mapper>

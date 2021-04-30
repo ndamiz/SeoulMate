@@ -14,10 +14,10 @@ public interface AdminService {
 	
 	
 	
-//pay management ===============================================
+//pay management /////////////////////////////////////////
 	// 결제관리 페이지 총 레코드 수 확인 
-		public int totalRecode(PayVO payVO);
-	// 결제관리 페이지 리스트 가져오기 
-	public List<PayVO> payAllListSelect();	
+	public int totalRecode(PayVO payVO);
+
+	public List<PayVO> payOnePageListSelect(PayVO payVO);
 
 }

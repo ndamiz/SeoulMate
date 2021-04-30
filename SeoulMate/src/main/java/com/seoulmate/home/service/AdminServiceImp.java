@@ -14,7 +14,7 @@ import com.seoulmate.home.vo.PayVO;
 public class AdminServiceImp implements AdminService {
 	@Inject
 	AdminDAO dao;
-
+	
 	@Override
 	public List<String> memberSelect() {
 		return dao.memberSelect();
@@ -22,17 +22,15 @@ public class AdminServiceImp implements AdminService {
 	@Override
 	public MemberVO memberInfo(String userid) {
 		return dao.memberInfo(userid);
-
 	}
+
 	
-	@Override
-	public List<PayVO> payAllListSelect() {
-		return dao.payAllListSelect();
-	}
-
+// pay management ///////////////////////////////////
 	@Override
 	public int totalRecode(PayVO payVO) {
-		// TODO Auto-generated method stub
 		return dao.totalRecode(payVO);
+	}
+	public List<PayVO> payOnePageListSelect(PayVO payVO) {
+		return dao.payOnePageListSelect(payVO);
 	}
 }

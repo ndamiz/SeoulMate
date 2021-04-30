@@ -9,7 +9,7 @@ function datePicker(){
 	$('.datePicker1, .datePicker2').datepicker('destroy');
 	$('.datePicker1, .datePicker2').val("");
 	
-	var dateChoose = $('.dateChoose>input:radio[name="date"]:checked').val();
+	var dateChoose = $('.dateChoose>input[type=radio]:checked').val();
 	console.log(dateChoose);
 	
 	$.datepicker.setDefaults({
