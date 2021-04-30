@@ -45,7 +45,10 @@
 				data:params,
 				success:function(result){
 					if(result>0){
-						alert("수정 완료");
+						alert("수정 되었습니다.");
+						window.onbeforeunload = function (e) {
+							return 0;
+					    };
 					}else{
 						alert("수정에 실패하였습니다.");
 					}
