@@ -34,11 +34,29 @@
 		});
 		// 팝업창 닫기 이벤트
 		$(".pup_btn_close, .btn_cancel").click(function(){
-			$("#memberInfo").css("display", "none");
-			$(document.body).css("overflow","visible");
-			for(var i=1; i<=7; i++){
-				$("ul>li").eq(i).children().eq(1).attr("value","");
-			}
+			pupClose();
+		});
+		// 수정 버튼
+		$("#InfoSaveBtn").click(function(){
+			var url="memInfoSave";
+			var params="userid="+$("#infoId").val()+"&username="+$("#infoName").val()+"&reportCnt="+$("#infoReportCnt").val()+"&state="+$("#infoState:checked").val();
+			$.ajax({
+				url:url,
+				data:params,
+				success:function(result){
+					if(result>0){
+						alert("수정 되었습니다.");
+						window.onbeforeunload = function (e) {
+							return 0;
+					    };
+					}else{
+						alert("수정에 실패하였습니다.");
+					}
+				},error:function(){
+					console.log("ajax 실패");
+				}
+			});
+			pupClose();
 		});
 		
 		// 프로필 사진
@@ -57,6 +75,14 @@
 			}
 		}
 	});
+	function pupClose(){
+		$("#memberInfo").css("display", "none");
+		$(document.body).css("overflow","visible");
+		for(var i=1; i<=7; i++){
+			$("ul>li").eq(i).children().eq(1).attr("value","");
+		}
+		$("ul>li").eq(8).children('.toggle_cont').children('input[name=state]').prop('checked', false);
+	}
 </script>
 	<section>
 		<div class="m_title managementTitle">회원 관리</div>
@@ -147,17 +173,17 @@
 						<img class="remove_icon" src="/home/img/choi/fi-rr-trash.svg"/><br/>
 						<input class="profile_input profile_left" type="file" accept="image/*" name="profilePic1" id="profilePic" />
 					</li>
-					<li><div>아이디</div><input type="text" name="userid" value="" readonly/></li>
-					<li><div>비밀번호</div><input type="text" name="userpwd" value="" readonly/></li>
-					<li><div>이름</div><input type="text" name="username" value="" readonly/></li>
-					<li><div>생년월일</div><input type="text" name="birth" value="" readonly/></li>
-					<li><div>연락처</div><input type="text" name="tel" value="" readonly/></li>
-					<li><div>email</div><input type="text" name="email" value="" readonly/></li>
-					<li><div>신고 누적 수</div><input type="text" name="reportCnt" value=""/></li>
+					<li><div>아이디</div><input type="text" name="userid" id="infoId" value="" readonly/></li>
+					<li><div>비밀번호</div><input type="text" name="userpwd" id="infoPwd" value="" readonly/></li>
+					<li><div>이름</div><input type="text" name="username" id="infoName" value="" readonly/></li>
+					<li><div>생년월일</div><input type="text" name="birth" id="infoBirth" value="" readonly/></li>
+					<li><div>연락처</div><input type="text" name="tel" id="infoTel" value="" readonly/></li>
+					<li><div>email</div><input type="text" name="email" id="infoEmail" value="" readonly/></li>
+					<li><div>신고 누적 수</div><input type="text" name="reportCnt" id="infoReportCnt" value=""/></li>
 					<li><div>블랙리스트</div>
 						<div class="toggle_cont">
-							<input id="toggle_2" class="cmn_toggle cmn_toggle_round" type="checkbox" name="state">
-							<label for="toggle_2"></label>
+							<input id="infoState" class="cmn_toggle cmn_toggle_round" type="checkbox" name="state">
+							<label for="infoState"></label>
 						</div><br>
 					</li>
 				</ul>
@@ -165,7 +191,7 @@
 		</div>
 		<div class="pup_bottom">
 			<a class="btn_cancel">닫기</a>
-			<a class="btn_save" >수정</a>
+			<a class="btn_save" id="InfoSaveBtn">수정</a>
 		</div>
 		<a class="pup_btn_close">닫기</a>
 	</div>

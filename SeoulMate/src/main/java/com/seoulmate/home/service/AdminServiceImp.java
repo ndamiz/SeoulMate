@@ -23,6 +23,10 @@ public class AdminServiceImp implements AdminService {
 	public MemberVO memberInfo(String userid) {
 		return dao.memberInfo(userid);
 	}
+	@Override
+	public int memberInfoSave(MemberVO vo) {
+		return dao.memberInfoSave(vo);
+	}
 
 	
 // pay management ///////////////////////////////////
@@ -30,6 +34,7 @@ public class AdminServiceImp implements AdminService {
 	public int totalRecode(PayVO payVO) {
 		return dao.totalRecode(payVO);
 	}
+	@Override
 	public List<PayVO> payOnePageListSelect(PayVO payVO) {
 		return dao.payOnePageListSelect(payVO);
 	}

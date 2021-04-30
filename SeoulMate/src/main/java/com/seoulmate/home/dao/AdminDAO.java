@@ -12,6 +12,9 @@ public interface AdminDAO {
 
 	// 회원 정보 출력
 	public MemberVO memberInfo(String userid);
+	// 회원 정보 수정
+	public int memberInfoSave(MemberVO vo);
+
 
 //pay management /////////////////////////////////////////
 	// 결제관리 페이지 총 레코드 수 확인 
