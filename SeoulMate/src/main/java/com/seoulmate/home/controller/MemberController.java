@@ -73,7 +73,7 @@ public class MemberController {
 		System.out.println("memberOk에서 path --> "+path);
 		String paramName=filename.getName(); // jsp의 name값
 		String orgName=filename.getOriginalFilename(); // 기존 파일 명
-		
+		String realName="";
 		try {
 			if(orgName != null && !orgName.equals("")) {
 				File f=new File(path, orgName);
@@ -86,6 +86,7 @@ public class MemberController {
 					f=new File(path, name+"_"+ i++ +"."+extName);
 				}
 				filename.transferTo(f); // 업로드
+				realName=f.getName();
 				vo.setProfilePic(f.getName());
 			}
 		}catch(Exception e) {
@@ -114,8 +115,8 @@ public class MemberController {
 					mav.setViewName("redirect:memberForm");
 				}
 			}else { // 회원가입 실패
-				if(orgName!=null) { // 레코드 추가 실패 시 프로필 사진 삭제
-					File f=new File(path, orgName);
+				if(realName!=null) { // 레코드 추가 실패 시 프로필 사진 삭제
+					File f=new File(path, realName);
 					f.delete();
 				}
 				System.out.println("회원가입 실패");
