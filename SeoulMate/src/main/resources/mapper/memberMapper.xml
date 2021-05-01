@@ -14,11 +14,14 @@
   		values(memsq.nextval, #{userid}, #{userpwd}, #{username}, #{tel}, #{email}, #{birth}, #{gender}, #{area}, #{profilePic})
   	</insert>
   	<select id="memberSelect" parameterType="String" resultType="com.seoulmate.home.vo.MemberVO">
-  		select userid, userpwd, username, tel, to_char(birth, 'YYYY-MM-DD') birth, gender, area, email, grade from member where userid=#{param1}
+  		select userid, userpwd, username, tel, to_char(birth, 'YYYY-MM-DD') birth, gender, profilePic, area, email, grade from member where userid=#{param1}
   	</select>
   	<!-- public MemberVO memberPwdSelect(String userid); -->
   	<select id="memberPwdSelect" resultType="int">
   		select count(userpwd) userpwd from member where userid=#{param1} and userpwd=#{param2}
+  	</select>
+  	<select id="memberProfile">
+  		select profilePic from member where userid=#{param1}
   	</select>
   	<update id="memberUpdatePwdY" parameterType="com.seoulmate.home.vo.MemberVO">
   		update member set userpwd=#{userpwd}, tel=#{tel}, area=#{area}, email=#{email} where userid=#{userid}

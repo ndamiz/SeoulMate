@@ -66,7 +66,32 @@
 				return false;
 			}
 		}
+		
+		// 프로필 사진
+		$("#profilePic").on('change', function(){
+			readURL(this);
+		});
+		
+		function readURL(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+
+				reader.onload = function (e) {
+					$('#profileImg').attr('src', e.target.result);
+				}
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+		
+		$("#profileDel").click(function(){
+			$(this).parent().css('display', 'none');
+			$(this).parent().next().attr('name', "delFile");
+			$("#profileOrg").css('display', 'none');
+			$("#profileInput").css('display', 'block');
+			$(this).parent().next().children('input').attr('type', 'file');
+		});
 	});
+	
 	// 희망 지역 1,2,3에 구,동 넣기
 	function areaInput(){
 		var a1=$("#area1").val().indexOf(" "); // 희망 지역1의 띄어쓰기 위치 구하기
@@ -99,12 +124,6 @@
 	$(window).ready(function(){
 		areaInput();
 	});
-	/*
-	// body가 실행되고 나중에 실행되게 하기
-	window.onload = function() {
-		areaInput();
-	};
-	*/
 	
 	// 희망 지역
 	function areaChange(e) {
@@ -200,7 +219,7 @@
 	<div class="title_wrap editDiv">
 		<p class="s_title">회원정보 수정</p>
 	</div>
-	<form method="post" id="memId" action="memberEditOk">
+	<form method="post" id="memId" action="memberEditOk" enctype="multipart/form-data">
 		<div id="memDiv1">
 			<ul class="form_box choice" id="mem">
 				<li><label>아이디</label>
@@ -230,6 +249,19 @@
 						<label for="gender1">여성</label>
 						<input type="radio" name="gender" id="gender2" value="2" <c:if test="${vo.gender==2}">checked</c:if> disabled/>
 						<label for="gender2">남성</label>
+					</div>
+				</li>
+				<li id="proli"><span class="red_txt">*</span><label>프로필 사진</label>
+					<div class="profile_div">
+						<img class="profile_img" id="profileOrg" src="/home/profilePic/${vo.profilePic}"/>
+						<div>
+							<img class="remove_icon" id="profileDel" src="/home/img/choi/trash-can.png"/>
+							<input type="hidden" name="" value="${vo.profilePic}"/><br/>
+						</div>
+						<div style="display:none;" id="profileInput">
+							<img class="profile_img" id="profileImg" name="profileImg" src="/home/img/choi/pepe_1.png" alt="upload image"/><br/>
+							<input type="hidden" accept="image/*" name="filename" id="profilePic" />
+						</div>
 					</div>
 				</li>
 				<li id="a1"><label>&nbsp;희망 지역1</label>

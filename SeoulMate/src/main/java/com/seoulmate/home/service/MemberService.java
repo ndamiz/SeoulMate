@@ -15,6 +15,8 @@ public interface MemberService {
 	public int memberInsert(MemberVO vo);
 	// 회원정보 가져오기
 	public MemberVO memberSelect(String userid);
+	// 회원 프로필 사진 가져오기
+	public String memberProfile(String userid);
 	// 기존 비밀번호 가져오기
 	public int memberPwdSelect(String userid, String userpwd);
 	// 회원정보 수정(비밀번호 포함)

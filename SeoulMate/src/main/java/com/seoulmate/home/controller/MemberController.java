@@ -74,18 +74,25 @@ public class MemberController {
 		String paramName=filename.getName(); // jsp의 name값
 		String orgName=filename.getOriginalFilename(); // 기존 파일 명
 		
-		System.out.println("파일 명 : "+paramName+", 기존 파일 명 : "+orgName);
-		
 		try {
 			if(orgName != null && !orgName.equals("")) {
-				filename.transferTo(new File(path, orgName)); // 업로드
+				File f=new File(path, orgName);
+				int i=1;
+				while(f.exists()) {
+					int point=orgName.lastIndexOf(".");
+					String name=orgName.substring(0, point);
+					String extName=orgName.substring(point+1);
+					
+					f=new File(path, name+"_"+ i++ +"."+extName);
+				}
+				filename.transferTo(f); // 업로드
+				vo.setProfilePic(f.getName());
 			}
 		}catch(Exception e) {
 			System.out.println("프로필 사진 업로드 에러 발생");
 			e.printStackTrace();
 		}
 		
-		vo.setProfilePic(orgName);
 		///////////////////////////////////////
 		// 트랜잭션
 		DefaultTransactionDefinition def=new DefaultTransactionDefinition();
@@ -212,8 +219,7 @@ public class MemberController {
 		mav.addObject("guArr", guArr);
 		
 		
-		MemberVO vo=new MemberVO();
-		vo=service.memberSelect(userid);
+		MemberVO vo=service.memberSelect(userid);
 		
 		mav.addObject("vo", service.memberSelect(userid));
 		mav.setViewName("member/memberEditForm");
@@ -222,10 +228,17 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/memberEditOk", method=RequestMethod.POST)
-	public ModelAndView memberEditOk(MemberVO vo, HttpSession session) {
+	public ModelAndView memberEditOk(MemberVO vo, HttpSession session, @RequestParam("filename") MultipartFile filename, HttpServletRequest req) {
 		ModelAndView mav=new ModelAndView();
 		
 		vo.setUserid((String)session.getAttribute("logId"));
+		
+		String path=session.getServletContext().getRealPath("/profilePic");
+		String memFilename=service.memberProfile(vo.getUserid());
+		String delFilename=req.getParameter("delFile");
+		
+		String paramName=filename.getName(); // jsp의 name값
+		String orgName=filename.getOriginalFilename(); // 기존 파일 명
 		
 		// int pwdResult=service.memberPwdSelect(vo.getUserid(), vo.getUserpwd());
 		/*

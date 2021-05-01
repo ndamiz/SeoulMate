@@ -168,7 +168,7 @@
 				<ul>
 					<li class="pup_long"><div>프로필 사진</div>
 						<img class="profile_img" id="profileImg" name="profileImg" src="/home/img/choi/pepe_1.png" alt="upload image"/>
-						<img class="remove_icon" src="/home/img/choi/fi-rr-trash.svg"/><br/>
+						<img class="remove_icon" id="profileDel" src="/home/img/choi/trash-can.png"/><br/>
 						<input class="profile_input profile_left" type="file" accept="image/*" name="profilePic1" id="profilePic" />
 					</li>
 					<li><div>아이디</div><input type="text" name="userid" id="infoId" value="" readonly/></li>

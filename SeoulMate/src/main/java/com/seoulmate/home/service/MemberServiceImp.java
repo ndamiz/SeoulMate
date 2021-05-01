@@ -42,6 +42,10 @@ public class MemberServiceImp implements MemberService {
 		return dao.memberPwdSelect(userid, userpwd);
 	}
 	@Override
+	public String memberProfile(String userid) {
+		return dao.memberProfile(userid);
+	}
+	@Override
 	public int memberUpdatePwdY(MemberVO vo) {
 		return dao.memberUpdatePwdY(vo);
 	}
@@ -98,6 +102,7 @@ public class MemberServiceImp implements MemberService {
 	public int pnoCheck(String userid, int pno) {
 		return hwDAO.pnoCheck(userid, pno);
 	}
+	
 	
 	
 }
