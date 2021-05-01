@@ -56,7 +56,9 @@
 								<option value="userid">사용자</option>
 							</select>
 							<input name="searchWord" id="comSearch" type="text" placeholder="검색어을 입력해주세요">
-							<button class="searchBtn">검색</button>
+							<button class="searchBtn" href="">
+								<img alt="검색하기" src="<%=request.getContextPath()%>/img/yun/ico_search_black.png">
+							</button>
 						</form>	
 					</li>
 					
@@ -75,6 +77,7 @@
 						<a class="searchBtn" href="">
 							<img alt="검색하기" src="</img/yun/ico_search_black.png">
 						</a>
+						검색버튼 == <button class="searchBtn">검색</button>
 					</li> -->
 				<li><a href="communityWrite" class="green" id="communityWrite">글쓰기</a></li>
 			</ul>
@@ -84,7 +87,6 @@
 				<col width="80"/>
 				<col width="120"/>
 				<col />
-				<col width="30"/>
 				<col width="100"/>
 				<col width="80"/>
 				<col width="120"/>
@@ -94,7 +96,6 @@
 					<th>번호</th>
 					<th>카테고리</th>
 					<th>제목</th>
-					<th></th>
 					<th>작성자</th>
 					<th>조회수</th>
 					<th>작성일</th>
@@ -105,8 +106,7 @@
 					<tr>
 						<td>${vo.no}</td>
 						<td>${vo.category}</td>
-						<td class="t_title"><a href="communityView?no=${vo.no}">${vo.subject}</a></td>
-						<td>[1]</td>
+						<td class="t_title"><a class="commSubject" href="communityView?no=${vo.no}">${vo.subject}</a><span class="commentNum">[1]</span></td>
 						<td>${vo.userid}</td>
 						<td>${vo.hit}</td>
 						<td>${vo.writedate}</td>

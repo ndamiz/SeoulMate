@@ -1,5 +1,5 @@
 @charset "utf-8";
-/*//////////////////////////////////////////// 커뮤니티 목록 스타일 ///////////*/
+/*//////////////////////////////// 커뮤니티 목록 스타일 ///////////*/
 #comSearchLi a{/*검색에 돋보기 a태그 스타일 초기화*/
 	box-shadow: none;
 	border:none;
@@ -17,6 +17,7 @@
 #searchKey{
 	width: 100px;
 	float:left;
+	vertical-align: middle;
 }
 /*글쓰기버튼을 밀어내려고 준 스타일*/
 #comSearchLi{
@@ -26,16 +27,27 @@
 /*검색창 길이*/
 #comSearch{
 	width: 300px;
+	vertical-align: top;
 }
 /*검색창안에 돋보기 위치 조정 */
-#comSearchLi a{ 
+.searchBtn{
+	width: 40px;
 	position: relative;
 	top:5px;
 	left:-40px;
+	box-shadow: none;
+	border:none;
+	border-radius:inherit;
+	margin: 0;
+	padding: 0;
+	line-height: inherit;
+	height: 40px;
+	background-color: inherit;
 }
 /*돋보기 이미지 크기 조정*/
-#comSearchLi a>img{ 
+.searchBtn>img{
 	width: 25px;
+	display: block;
 }
 /*/////////////////////////////글 내용 보기 스타일*/
 .communityView_img{
@@ -59,6 +71,27 @@
 	 width: 100%;
 	 border: 1px solid #eee;
 	 overflow:auto; 
+	 padding:20px;
+	 margin-bottom: 10px;
+	 min-height: 500px;
+}
+.commTable{
+	table-layout: fixed;
+}
+.commSubject{
+	max-width : 350px;
+	white-space: nowrap;
+	overflow-wrap: normal;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: table-cell;
+}
+.commentNum{
+	display: table-cell;
+}
+.communityView_comment_content{
+	 width: 100%;
+	 border-bottom: 1px solid #eee;
 	 padding:20px;
 	 margin-bottom: 10px;
 }

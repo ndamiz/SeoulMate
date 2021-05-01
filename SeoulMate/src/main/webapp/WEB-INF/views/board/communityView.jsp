@@ -41,8 +41,8 @@
 					${vo.writedate}
 				</div>
 			</li>	
-			<li class="communityView_content">
-				댓글 내용
+			<li class="communityView_comment_content">
+				댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용댓글 내용
 			</li>	
 		</ul>
 	</div>
