@@ -23,7 +23,6 @@
 			// 프로필 사진 유효성 검사
 			var reg=document.getElementById("profilePic").getAttribute('type');
 			if(reg=='file'){
-				alert("지우기 누름");
 				var fileCheck = document.getElementById("profilePic").value;
 				if(!fileCheck){
 					alert("프로필 사진을 첨부해 주세요");

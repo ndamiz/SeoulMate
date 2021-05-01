@@ -1,11 +1,18 @@
 package com.seoulmate.home.controller;
 
+import java.io.File;
+import java.net.URLDecoder;
+
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.seoulmate.home.service.AdminService;
@@ -51,12 +58,86 @@ public class AdminController {
 		return vo;
 	}
 	
-	@RequestMapping("/admin/memInfoSave")
-	@ResponseBody
-	public int memInfoSave(MemberVO vo) {
-		int result=service.memberInfoSave(vo);
+	@RequestMapping(value="/admin/memInfoSave", method=RequestMethod.POST)
+	public ModelAndView memInfoSave(MemberVO vo, HttpSession session, HttpServletRequest req) {
+		ModelAndView mav=new ModelAndView();
+		String path=session.getServletContext().getRealPath("/profilePic");
+		String selFilename=service.memberProfile(vo.getUserid());
+		String delFilename=req.getParameter("delFile"); // 프로필을 변경할 때 기존 파일명이 delFile로 들어온다.
+		
+		MultipartHttpServletRequest mr=(MultipartHttpServletRequest)req;
+		MultipartFile newName=mr.getFile("filename");
+		String newUpload="";
+		
+		if(newUpload!=null && newName!=null) {
+			String orgname=newName.getOriginalFilename(); // 수정할 파일명
+			
+			if(orgname!=null && !orgname.equals("")) {
+				File ff=new File(path, orgname);
+				int i=1;
+				while(ff.exists()) {
+					int pnt=orgname.lastIndexOf(".");
+					String firstName=orgname.substring(0, pnt);
+					String extName=orgname.substring(pnt+1);
+					
+					ff=new File(path, firstName+"_"+ i++ +"."+extName);
+				}
+				try {
+					newName.transferTo(ff);
+				}catch(Exception e) {
+					System.out.println("새로운 파일 추가 수정 에러 발생");
+					e.printStackTrace();
+				}
+				newUpload=ff.getName();
+				vo.setProfilePic(newUpload);
+			}else {
+				vo.setProfilePic(selFilename);
+			}
+			int result=service.memberInfoSave(vo);
+			
+			if(result>0) { // 회원정보 수정에 성공한 경우
+				mav.setViewName("redirect:memberManagement");
+				if(orgname!="" && orgname!=null) {
+					try {
+						File dFileObj=new File(path, delFilename);
+						dFileObj.delete();
+					}catch(Exception e) {
+						System.out.println("글 수정 중 삭제할 파일 삭제 에러 발생");
+						e.printStackTrace();
+					}
+				}else {
+					try {
+						File dFileObj=new File(path, newUpload);
+						dFileObj.delete();
+					}catch(Exception e) {
+						System.out.println("글 수정 중 삭제할 파일 삭제 에러 발생");
+						e.printStackTrace();
+					}
+				}
+			}else { // 회원정보 수정에 실패한 경우
+				if(orgname=="") {
+					try {
+						File dFileObj=new File(path, delFilename);
+						dFileObj.delete();
+					}catch(Exception e) {
+						System.out.println("글 수정 중 삭제할 파일 삭제 에러 발생");
+						e.printStackTrace();
+					}
+				}else {
+					try {
+						File dFileObj=new File(path, newUpload);
+						dFileObj.delete();
+					}catch(Exception e) {
+						System.out.println("글 수정 중 삭제할 파일 삭제 에러 발생");
+						e.printStackTrace();
+					}
+				}
+				mav.setViewName("redirect:memberManagement");
+			}
+		}
 
-		return result;
+		mav.setViewName("redirect:memberManagement");
+		return mav;
 	}
 	///////////////////////////////////////////////////////
 	

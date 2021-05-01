@@ -17,6 +17,8 @@
 				success:function(data){
 					var info=[data.userid, data.userpwd, data.username, data.birth, data.tel, data.email, data.reportCnt, data.state];
 					
+					$("#profileImg").attr('src', "/home/profilePic/"+data.profilePic);
+					$("#delFile").attr('value', data.profilePic);
 					for(var i=1; i<=7; i++){
 						$("ul>li").eq(i).children('input').attr('value', info[i-1]);	
 					}
@@ -36,29 +38,40 @@
 		$(".pup_btn_close, .btn_cancel").click(function(){
 			pupClose();
 		});
-		// 수정 버튼
+		
 		$("#InfoSaveBtn").click(function(){
-			var url="memInfoSave";
-			var params="userid="+$("#infoId").val()+"&username="+$("#infoName").val()+"&reportCnt="+$("#infoReportCnt").val()+"&state="+$("#infoState:checked").val();
-			$.ajax({
-				url:url,
-				data:params,
-				success:function(result){
-					if(result>0){
-						alert("수정 되었습니다.");
-						location.href="/home/admin/memberManagement"; // ajax로 리스트를 뿌리지 않기 때문에 매핑 주소로 다시 들어가서 리스트를 뿌려줌 새로고침 해줌
-					}else{
-						alert("수정에 실패하였습니다.");
-					}
-				},error:function(){
-					console.log("ajax 실패");
-				}
-			});
-			pupClose();
-		});
+			if($("#infoReportCnt").val()==""){
+				alert("신고 누적 수는 공백일 수 없습니다.");
+				$("#infoReportCnt").focus();
+				return false;
+			}
+		})
+		// 수정 버튼
+// 		$("#InfoSaveBtn").click(function(){
+// 			var url="memInfoSave";
+// // 			var params="userid="+$("#infoId").val()+"&username="+$("#infoName").val()+"&reportCnt="+$("#infoReportCnt").val()+"&state="+$("#infoState:checked").val();
+// 			var params = $('#memInfoForm').serialize().replace(/%/g, '%25');
+// 			console.log(params);
+// // 			$.ajax({
+// // 				url:url,
+// // 				data:params,
+// // 				success:function(result){
+// // 					if(result>0){
+// // 						alert("수정 되었습니다.");
+// // 						location.href="/home/admin/memberManagement"; // ajax로 리스트를 뿌리지 않기 때문에 매핑 주소로 다시 들어가서 리스트를 뿌려줌 새로고침 해줌
+// // 					}else{
+// // 						alert("수정에 실패하였습니다.");
+// // 					}
+// // 				},error:function(){
+// // 					console.log("ajax 실패");
+// // 				}
+// // 			});
+// // 			pupClose();
+// 		});
 		
 		// 프로필 사진
 		$("#profilePic").on('change', function(){
+			$("#delFile").attr('name', 'delFile');
 			readURL(this);
 		});
 		
@@ -160,39 +173,42 @@
 		</div>
 	</section>
 	<!--  팝업창///////////////////////////////////////////// -->
-<div class="pup_wrap" id="memberInfo">
-	<div class="pup_form">
-		<div class="pup_head">회원 정보</div>
-		<div class="pup_body">
-			<div class="pup_list">
-				<ul>
-					<li class="pup_long"><div>프로필 사진</div>
-						<img class="profile_img" id="profileImg" name="profileImg" src="/home/img/choi/pepe_1.png" alt="upload image"/>
-						<img class="remove_icon" id="profileDel" src="/home/img/choi/trash-can.png"/><br/>
-						<input class="profile_input profile_left" type="file" accept="image/*" name="profilePic1" id="profilePic" />
-					</li>
-					<li><div>아이디</div><input type="text" name="userid" id="infoId" value="" readonly/></li>
-					<li><div>비밀번호</div><input type="text" name="userpwd" id="infoPwd" value="" readonly/></li>
-					<li><div>이름</div><input type="text" name="username" id="infoName" value="" readonly/></li>
-					<li><div>생년월일</div><input type="text" name="birth" id="infoBirth" value="" readonly/></li>
-					<li><div>연락처</div><input type="text" name="tel" id="infoTel" value="" readonly/></li>
-					<li><div>email</div><input type="text" name="email" id="infoEmail" value="" readonly/></li>
-					<li><div>신고 누적 수</div><input type="text" name="reportCnt" id="infoReportCnt" value=""/></li>
-					<li><div>블랙리스트</div>
-						<div class="toggle_cont">
-							<input id="infoState" class="cmn_toggle cmn_toggle_round" type="checkbox" name="state">
-							<label for="infoState"></label>
-						</div><br>
-					</li>
-				</ul>
-			</div>
+	<div class="pup_wrap" id="memberInfo">
+		<div class="pup_form">
+			<div class="pup_head">회원 정보</div>
+			<form method="post" id="memInfoForm" action="memInfoSave" enctype="multipart/form-data">
+				<div class="pup_body">
+					<div class="pup_list">
+							<ul>
+								<li class="pup_long"><div>프로필 사진</div>
+									<img class="profile_img" id="profileImg" name="profileImg" src="" alt="upload image"/>
+									<input id="delFile" type="hidden" name="" value=""/>
+									<input class="profile_input profile_left" type="file" accept="image/*" name="filename" id="profilePic" />
+								</li>
+								<li><div>아이디</div><input type="text" name="userid" id="infoId" value="" readonly/></li>
+								<li><div>비밀번호</div><input type="text" name="userpwd" id="infoPwd" value="" readonly/></li>
+								<li><div>이름</div><input type="text" name="username" id="infoName" value="" readonly/></li>
+								<li><div>생년월일</div><input type="text" name="birth" id="infoBirth" value="" readonly/></li>
+								<li><div>연락처</div><input type="text" name="tel" id="infoTel" value="" readonly/></li>
+								<li><div>email</div><input type="text" name="email" id="infoEmail" value="" readonly/></li>
+								<li><div>신고 누적 수</div><input type="text" name="reportCnt" id="infoReportCnt" value=""/></li>
+								<li><div>블랙리스트</div>
+									<div class="toggle_cont">
+										<input id="infoState" class="cmn_toggle cmn_toggle_round" type="checkbox" name="state">
+										<label for="infoState"></label>
+									</div><br>
+								</li>
+							</ul>
+						
+					</div>
+				</div>
+				<div class="pup_bottom">
+					<a class="btn_cancel">닫기</a>
+					<button class="btn_save" id="InfoSaveBtn">수정</button>
+				</div>
+			</form>
+			<a class="pup_btn_close">닫기</a>
 		</div>
-		<div class="pup_bottom">
-			<a class="btn_cancel">닫기</a>
-			<a class="btn_save" id="InfoSaveBtn">수정</a>
-		</div>
-		<a class="pup_btn_close">닫기</a>
 	</div>
-</div>
 </body>
 </html>

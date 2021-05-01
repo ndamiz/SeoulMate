@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.seoulmate.home.dao.AdminDAO;
+import com.seoulmate.home.dao.MemberDAO;
 import com.seoulmate.home.vo.MemberVO;
 import com.seoulmate.home.vo.PayVO;
 
@@ -14,6 +15,8 @@ import com.seoulmate.home.vo.PayVO;
 public class AdminServiceImp implements AdminService {
 	@Inject
 	AdminDAO dao;
+	@Inject
+	MemberDAO mDAO;
 	
 	@Override
 	public List<String> memberSelect() {
@@ -27,7 +30,10 @@ public class AdminServiceImp implements AdminService {
 	public int memberInfoSave(MemberVO vo) {
 		return dao.memberInfoSave(vo);
 	}
-
+	@Override
+	public String memberProfile(String userid) {
+		return mDAO.memberProfile(userid);
+	}
 	
 // pay management ///////////////////////////////////
 	@Override
@@ -38,4 +44,6 @@ public class AdminServiceImp implements AdminService {
 	public List<PayVO> payOnePageListSelect(PayVO payVO) {
 		return dao.payOnePageListSelect(payVO);
 	}
+	
+	
 }
