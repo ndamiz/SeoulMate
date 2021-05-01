@@ -1,5 +1,6 @@
 package com.seoulmate.home.controller;
 
+import java.io.File;
 import java.util.Calendar;
 
 import javax.inject.Inject;
@@ -14,7 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.seoulmate.home.service.MemberService;
@@ -56,31 +59,33 @@ public class MemberController {
 		
 		return result;
 	}
-	/*
-	@RequestMapping("/idCheck")
-	public ModelAndView idCheck(String userid) {
-		String useridCheck=userid;
-		// System.out.println(userid);
-		int result=service.idCheck(useridCheck);
-		
-		ModelAndView mav=new ModelAndView();
-		mav.addObject("userid", useridCheck);
-		mav.addObject("checkResult", result);
-		mav.setViewName("member/idCheck");
-		
-		return mav;
-	}
-	*/
 	
 	@RequestMapping(value="/memberOk", method=RequestMethod.POST)
 	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
-	public ModelAndView memberOk(MemberVO vo, PropensityVO proVO,HttpSession session) {
+	public ModelAndView memberOk(MemberVO vo, PropensityVO proVO,HttpSession session, @RequestParam("filename") MultipartFile filename, HttpServletRequest req) {
 		ModelAndView mav=new ModelAndView();
 		mav.setViewName("home");
 		
 		proVO.setUserid(vo.getUserid()); // 성향 테이블에 userid 추가
-		// 파일 업로드 하기 전까지는 프로필 파일명만 set
-		vo.setProfilePic("example");
+		
+		// 프로필 사진 업로드 /////////////////////
+		String path=req.getSession().getServletContext().getRealPath("/profilePic");
+		System.out.println("memberOk에서 path --> "+path);
+		String paramName=filename.getName(); // jsp의 name값
+		String orgName=filename.getOriginalFilename(); // 기존 파일 명
+		
+		System.out.println("파일 명 : "+paramName+", 기존 파일 명 : "+orgName);
+		
+		try {
+			if(orgName != null && !orgName.equals("")) {
+				filename.transferTo(new File(path, orgName)); // 업로드
+			}
+		}catch(Exception e) {
+			System.out.println("프로필 사진 업로드 에러 발생");
+			e.printStackTrace();
+		}
+		
+		vo.setProfilePic(orgName);
 		///////////////////////////////////////
 		// 트랜잭션
 		DefaultTransactionDefinition def=new DefaultTransactionDefinition();
@@ -102,17 +107,18 @@ public class MemberController {
 					mav.setViewName("redirect:memberForm");
 				}
 			}else { // 회원가입 실패
+				if(orgName!=null) { // 레코드 추가 실패 시 프로필 사진 삭제
+					File f=new File(path, orgName);
+					f.delete();
+				}
 				System.out.println("회원가입 실패");
 				mav.setViewName("redirect:memberForm");
 				// 나중에 history.back() 해줘야 함
 			}
-			
 		}catch(Exception e){
 			System.out.println("회원가입 실패(트랜잭션)");
 			mav.setViewName("redirect:memberForm");
 		}
-		
-		
 		
 		/*
 		System.out.println("아이디 : "+vo.getUserid());

@@ -11,7 +11,7 @@
   	</select>
   	<insert id="memberInsert" parameterType="com.seoulmate.home.vo.MemberVO">
   		insert into member(no, userid, userpwd, username, tel, email, birth, gender, area, profilePic) 
-  		values(memsq.nextval, #{userid}, #{userpwd}, #{username}, #{tel}, #{email}, #{birth}, #{gender}, #{area}, 'example')
+  		values(memsq.nextval, #{userid}, #{userpwd}, #{username}, #{tel}, #{email}, #{birth}, #{gender}, #{area}, #{profilePic})
   	</insert>
   	<select id="memberSelect" parameterType="String" resultType="com.seoulmate.home.vo.MemberVO">
   		select userid, userpwd, username, tel, to_char(birth, 'YYYY-MM-DD') birth, gender, area, email, grade from member where userid=#{param1}

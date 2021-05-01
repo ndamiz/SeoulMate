@@ -298,28 +298,6 @@
 				alert("연락처는 숫자를 4자리씩 입력해야 합니다.");
 				return false;
 			}
-// 			// 월
-// 			var regBirth2=/(0[1-9]|1[012])$/;
-// 			var Birth2=document.getElementById("birth2").value;
-// 			if(document.getElementById("birth2").value.length==1){
-// 				Birth2="0"+Birth2;
-// 				document.getElementById("birth2").value=Birth2;
-// 			} 
-// 			if(!regBirth2.test(Birth2)){ // 월
-// 				alert("월을 정확하게 입력해주세요.");
-// 				return false;
-// 			}
-// 			// 일
-// 			var regBirth3=/(0[1-9]|[12][0-9]|3[0-1])$/;
-// 			var Birth3=document.getElementById("birth3").value;
-// 			if(document.getElementById("birth3").value.length==1){
-// 				Birth3="0"+Birth3;
-// 				document.getElementById("birth3").value=Birth3;
-// 			} 
-// 			if(!regBirth3.test(Birth3)){ // 월
-// 				alert("일을 정확하게 입력해주세요.");
-// 				return false;
-// 			}
 			// 이메일 아이디
 			var regEmailId=/^\w{3,14}$/;
 			if(!regEmailId.test(document.getElementById("emailid").value)){
@@ -493,7 +471,7 @@
 					<li id="proli"><span class="red_txt">*</span><label>프로필 사진</label>
 						<div class="profile_div">
 							<img class="profile_img" id="profileImg" name="profileImg" src="/home/img/choi/pepe_1.png" alt="upload image"/>
-							<input type="file" accept="image/*" name="profilePic1" id="profilePic" />
+							<input type="file" accept="image/*" name="filename" id="profilePic" />
 						</div>
 					</li>
 					<li id="a1"><label>&nbsp;희망 지역1</label>
