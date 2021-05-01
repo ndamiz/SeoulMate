@@ -46,9 +46,7 @@
 				success:function(result){
 					if(result>0){
 						alert("수정 되었습니다.");
-						window.onbeforeunload = function (e) {
-							return 0;
-					    };
+						location.href="/home/admin/memberManagement"; // ajax로 리스트를 뿌리지 않기 때문에 매핑 주소로 다시 들어가서 리스트를 뿌려줌 새로고침 해줌
 					}else{
 						alert("수정에 실패하였습니다.");
 					}
