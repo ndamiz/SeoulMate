@@ -28,7 +28,10 @@ public class MemberVO {
 	
 	private String regdate;
 	private int grade; //1:일반, 2:프리미엄 
+	
 	private String profilePic;
+	private String filename;
+	
 	private int reportCnt;
 	private String state; // 일반, 블랙, 탈퇴 
 	

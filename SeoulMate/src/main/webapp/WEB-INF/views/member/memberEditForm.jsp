@@ -15,9 +15,22 @@
 				}else{
 					return false;
 				}
-			}else{
-				alert("비밀번호 변경 안함");
 			}
+			// 전화번호 앞자리
+			var tel1=$("#telFirst").val();
+			document.getElementById("tel1").value=tel1;
+			
+			// 프로필 사진 유효성 검사
+			var reg=document.getElementById("profilePic").getAttribute('type');
+			if(reg=='file'){
+				alert("지우기 누름");
+				var fileCheck = document.getElementById("profilePic").value;
+				if(!fileCheck){
+					alert("프로필 사진을 첨부해 주세요");
+					return false;
+				}
+			}
+
 			// 희망 지역1
 			var area1=$("#gu1").val();
 			// alert(area1);
@@ -40,6 +53,7 @@
 			
 			// 희망 지역3
 			var area3=$("#gu3").val();
+			
 			// alert(area3);
 			if(area3=="구를 선택해주세요"){
 				area3="";
@@ -51,7 +65,7 @@
 		function regExpCheck(){
 			// 비밀번호
 			var regPwd=/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,15}$/;
-			if(!regPwd.test(document.getElementById("editUserpwd").value)){
+			if(!regPwd.test(document.getElementById("userpwd").value)){
 				alert("비밀번호는 영문과 숫자, 특수문자를 조합한 8~15자리여야 합니다.");
 				return false;
 			}
@@ -92,6 +106,12 @@
 		});
 	});
 	
+	// 전화번호 앞자리 넣기
+	function tel1Input(){
+		var tel1=$("#tel1").val();
+		$("#telFirst>option[value='"+tel1+"']").attr('selected', true);
+	}
+	
 	// 희망 지역 1,2,3에 구,동 넣기
 	function areaInput(){
 		var a1=$("#area1").val().indexOf(" "); // 희망 지역1의 띄어쓰기 위치 구하기
@@ -105,7 +125,6 @@
 			var dong1=$("#area1").val().substring(a1+1);
 			$("#gu1>option[value='"+gu1+"']").attr('selected', true);
 			$("#dong1").append("<option value='"+dong1+"' selected>"+dong1+"</option>");
-			// $("#dong1>option[value='"+dong1+"']").attr('selected', true);
 		}
 		if(a2!=-1){ // 희망 지역 2가 있을 때
 			var gu2=$("#area2").val().substring(0,a2);
@@ -122,6 +141,7 @@
 	}
 	
 	$(window).ready(function(){
+		tel1Input();
 		areaInput();
 	});
 	
@@ -232,11 +252,13 @@
 				<li><label>이름</label>
 					<input type="text" name="username" id="username" value="${vo.username}" disabled/></li>
 				<li><label>연락처</label>
-					<select name="tel1" id="tel1">
+					<select id="telFirst">
 						<c:forEach var="i1" items="${arr1}">
 							<option value="${i1}">${i1}</option>
 						</c:forEach>
-					</select><span class="multi">-</span>
+					</select>
+					<input type="hidden" name="tel1" id="tel1" value="${vo.tel1}"/>
+					<span class="multi">-</span>
 					<input type="text" name="tel2" id="tel2" value="${vo.tel2}" maxlength="4"/><span class="multi">-</span>
 					<input type="text" name="tel3" id="tel3" value="${vo.tel3}" maxlength="4"/>
 				</li>
@@ -266,40 +288,40 @@
 				</li>
 				<li id="a1"><label>&nbsp;희망 지역1</label>
 					<select id="gu1" onchange="areaChange(this)">
-						<option>구를 선택해주세요</option>
+						<option hidden>구를 선택해주세요</option>
 						<c:forEach var="gu" items="${guArr}">
 							<option value="${gu}">${gu}</option>
 						</c:forEach>
 					</select>
 
 					<select id="dong1">
-						<option>동을 선택해주세요</option>
+						<option hidden>동을 선택해주세요</option>
 					</select>
 					<input type="hidden" name="area1" id="area1" value="${vo.area1}" placeholder=""/>
 				</li>
 				<li id="a2"><label>&nbsp;희망 지역2</label>
 					<select id="gu2" onchange="areaChange(this)">
-						<option>구를 선택해주세요</option>
+						<option hidden>구를 선택해주세요</option>
 						<c:forEach var="gu" items="${guArr}">
 							<option value="${gu}">${gu}</option>
 						</c:forEach>
 					</select>
 
 					<select id="dong2">
-						<option>동을 선택해주세요</option>
+						<option hidden>동을 선택해주세요</option>
 					</select>
 					<input type="hidden" name="area2" id="area2" value="${vo.area2}" placeholder=""/>
 				</li>					
 				<li id="a3"><label>&nbsp;희망 지역3</label>
 					<select id="gu3" onchange="areaChange(this)">
-						<option>구를 선택해주세요</option>
+						<option hidden>구를 선택해주세요</option>
 						<c:forEach var="gu" items="${guArr}">
 							<option value="${gu}">${gu}</option>
 						</c:forEach>
 					</select>
 
 					<select id="dong3">
-						<option>동을 선택해주세요</option>
+						<option hidden>동을 선택해주세요</option>
 					</select>
 					<input type="hidden" name="area3" id="area3" value="${vo.area3}" placeholder=""/>
 				</li>	

@@ -20,14 +20,14 @@
   	<select id="memberPwdSelect" resultType="int">
   		select count(userpwd) userpwd from member where userid=#{param1} and userpwd=#{param2}
   	</select>
-  	<select id="memberProfile">
+  	<select id="memberProfile" resultType="String">
   		select profilePic from member where userid=#{param1}
   	</select>
   	<update id="memberUpdatePwdY" parameterType="com.seoulmate.home.vo.MemberVO">
-  		update member set userpwd=#{userpwd}, tel=#{tel}, area=#{area}, email=#{email} where userid=#{userid}
+  		update member set userpwd=#{userpwd}, tel=#{tel}, area=#{area}, email=#{email}, profilePic=#{profilePic} where userid=#{userid}
   	</update>
   	<update id="memberUpdatePwdN" parameterType="com.seoulmate.home.vo.MemberVO">
-  		update member set tel=#{tel}, area=#{area}, email=#{email} where userid=#{userid}
+  		update member set tel=#{tel}, area=#{area}, email=#{email}, profilePic=#{profilePic} where userid=#{userid}
   	</update>
   	<select id="memberFindId" resultType="String">
   		select userid from member where username=#{username} and email=#{email}
