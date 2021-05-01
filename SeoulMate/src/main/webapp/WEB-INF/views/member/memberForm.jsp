@@ -470,7 +470,7 @@
 					</li>
 					<li id="proli"><span class="red_txt">*</span><label>프로필 사진</label>
 						<div class="profile_div">
-							<img class="profile_img" id="profileImg" name="profileImg" src="/home/img/choi/pepe_1.png" alt="upload image"/><br/>
+							<img class="profile_img" id="profileImg" name="profileImg" src="/home/img/choi/basic.png" alt="upload image"/><br/>
 							<input type="file" accept="image/*" name="filename" id="profilePic" />
 						</div>
 					</li>

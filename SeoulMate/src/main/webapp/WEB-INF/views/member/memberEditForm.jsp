@@ -85,7 +85,7 @@
 		
 		$("#profileDel").click(function(){
 			$(this).parent().css('display', 'none');
-			$(this).parent().next().attr('name', "delFile");
+			$(this).next().attr('name', "delFile");
 			$("#profileOrg").css('display', 'none');
 			$("#profileInput").css('display', 'block');
 			$(this).parent().next().children('input').attr('type', 'file');
@@ -259,7 +259,7 @@
 							<input type="hidden" name="" value="${vo.profilePic}"/><br/>
 						</div>
 						<div style="display:none;" id="profileInput">
-							<img class="profile_img" id="profileImg" name="profileImg" src="/home/img/choi/pepe_1.png" alt="upload image"/><br/>
+							<img class="profile_img" id="profileImg" name="profileImg" src="/home/img/choi/basic.png" alt="upload image"/><br/>
 							<input type="hidden" accept="image/*" name="filename" id="profilePic" />
 						</div>
 					</div>
