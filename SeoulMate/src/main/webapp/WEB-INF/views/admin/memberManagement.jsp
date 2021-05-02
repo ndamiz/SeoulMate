@@ -28,48 +28,70 @@
 					}else{
 						$("ul>li").eq(8).children('.toggle_cont').children('input[name=state]').prop('checked', false);
 					}
-					
 				}, error:function(){
 					console.log("회원 관리에서 회원 정보 가져오기 실패");
 				}
 			});
 		});
+		// 이름 고치려했던거 알려줌
+		$("#infoName").change(function(){ // 마우스로 잘라내기를 했을 경우를 대비
+			var afterName=document.getElementById("infoName").value;
+			$(document.getElementById("infoName")).css('backgroundColor','#F0F0F0');
+		});
+		
+		// 연락처 고치려했던거 알려줌
+		$("#infoTel").change(function(){ // 마우스로 잘라내기를 했을 경우를 대비
+			var afterName=document.getElementById("infoTel").value;
+			$(document.getElementById("infoTel")).css('backgroundColor','#F0F0F0');
+		});
+		
+		// 이메일 고치려했던거 알려줌
+		$("#infoEmail").change(function(){ // 마우스로 잘라내기를 했을 경우를 대비
+			var afterName=document.getElementById("infoEmail").value;
+			$(document.getElementById("infoEmail")).css('backgroundColor','#F0F0F0');
+		});
+		
+		// 신고 누적 수 고치려했던거 알려줌
+		$("#infoReportCnt").change(function(){ // 마우스로 잘라내기를 했을 경우를 대비
+			var afterName=document.getElementById("infoReportCnt").value;
+			$(document.getElementById("infoReportCnt")).css('backgroundColor','#F0F0F0');
+		});
+		
 		// 팝업창 닫기 이벤트
 		$(".pup_btn_close, .btn_cancel").click(function(){
 			pupClose();
 		});
 		
 		$("#InfoSaveBtn").click(function(){
-			if($("#infoReportCnt").val()==""){
-				alert("신고 누적 수는 공백일 수 없습니다.");
-				$("#infoReportCnt").focus();
-				
-				return false;
-			}
-			// 신고 누적 수 정규식 표현
-			var regCnt=/^[0-9]$/;
-			if(!regCnt.test(document.getElementById("infoReportCnt").value)){
-				alert("신고 누적 수는 숫자만 입력할 수 있습니다.");
-				return false;
-			}
-			
-			// 연락처
-			var regTel=/(010|02|031|032|033|041|042|043|051|052|053|061|062|063)[-][0-9]{3,4}[-][0-9]{4}/;
-			if(!regTel.test(document.getElementById("infoTel").value)){
-				alert("전화번호 형식에 맞게 입력해주세요");
-			}
-			
-			// 이름
+			// 이름 정규식 표현
 			var regName=/^[가-힣]{2,4}$/;
 			if(!regName.test(document.getElementById("infoName").value)){
+				$("#infoName").focus();
 				alert("이름은 한글 2~4자리여야 합니다.");
 				return false;
 			}
 			
-			// 이메일
+			// 연락처 정규식 표현
+			var regTel=/(010|02|031|032|033|041|042|043|051|052|053|061|062|063)[-][0-9]{3,4}[-][0-9]{4}/;
+			if(!regTel.test(document.getElementById("infoTel").value)){
+				$("#infoTel").focus();
+				alert("전화번호 형식에 맞게 입력해주세요");
+				return false;
+			}
+			
+			// 이메일 정규식 표현
 			var regEmail=/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 			if(!regEmail.test(document.getElementById("infoEmail").value)){
+				$("#infoEmail").focus();
 				alert("이메일을 잘못 입력하셨습니다.");
+				return false;
+			}
+			
+			// 신고 누적 수 정규식 표현
+			var regCnt=/^[0-9]$/;
+			if(!regCnt.test(document.getElementById("infoReportCnt").value)){
+				alert("신고 누적 수는 숫자만 입력할 수 있습니다.");
+				$("#infoReportCnt").focus();
 				return false;
 			}
 		});
@@ -194,7 +216,7 @@
 								<li><div>비밀번호</div><input type="text" name="userpwd" id="infoPwd" value="" readonly/></li>
 								<li><div>이름</div><input type="text" name="username" id="infoName" value=""/></li>
 								<li><div>생년월일</div><input type="text" name="birth" id="infoBirth" value="" readonly/></li>
-								<li><div>연락처</div><input type="text" name="tel" id="infoTel" value=""/></li>
+								<li><div>연락처</div><input type="text" name="tel" id="infoTel" value="" maxlength="13"/></li>
 								<li><div>email</div><input type="text" name="email" id="infoEmail" value=""/></li>
 								<li><div>신고 누적 수</div><input type="text" name="reportCnt" id="infoReportCnt" value=""/></li>
 								<li><div>블랙리스트</div>
