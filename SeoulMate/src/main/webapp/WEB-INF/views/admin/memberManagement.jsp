@@ -43,31 +43,16 @@
 			if($("#infoReportCnt").val()==""){
 				alert("신고 누적 수는 공백일 수 없습니다.");
 				$("#infoReportCnt").focus();
+				
 				return false;
 			}
-		})
-		// 수정 버튼
-// 		$("#InfoSaveBtn").click(function(){
-// 			var url="memInfoSave";
-// // 			var params="userid="+$("#infoId").val()+"&username="+$("#infoName").val()+"&reportCnt="+$("#infoReportCnt").val()+"&state="+$("#infoState:checked").val();
-// 			var params = $('#memInfoForm').serialize().replace(/%/g, '%25');
-// 			console.log(params);
-// // 			$.ajax({
-// // 				url:url,
-// // 				data:params,
-// // 				success:function(result){
-// // 					if(result>0){
-// // 						alert("수정 되었습니다.");
-// // 						location.href="/home/admin/memberManagement"; // ajax로 리스트를 뿌리지 않기 때문에 매핑 주소로 다시 들어가서 리스트를 뿌려줌 새로고침 해줌
-// // 					}else{
-// // 						alert("수정에 실패하였습니다.");
-// // 					}
-// // 				},error:function(){
-// // 					console.log("ajax 실패");
-// // 				}
-// // 			});
-// // 			pupClose();
-// 		});
+			// 신고 누적 수 정규식 표현
+			var regCnt=/^[0-9]$/;
+			if(!regCnt.test(document.getElementById("infoReportCnt").value)){
+				alert("신고 누적 수는 숫자만 입력할 수 있습니다.");
+				return false;
+			}
+		});
 		
 		// 프로필 사진
 		$("#profilePic").on('change', function(){
