@@ -52,6 +52,26 @@
 				alert("신고 누적 수는 숫자만 입력할 수 있습니다.");
 				return false;
 			}
+			
+			// 연락처
+			var regTel=/(010|02|031|032|033|041|042|043|051|052|053|061|062|063)[-][0-9]{3,4}[-][0-9]{4}/;
+			if(!regTel.test(document.getElementById("infoTel").value)){
+				alert("전화번호 형식에 맞게 입력해주세요");
+			}
+			
+			// 이름
+			var regName=/^[가-힣]{2,4}$/;
+			if(!regName.test(document.getElementById("infoName").value)){
+				alert("이름은 한글 2~4자리여야 합니다.");
+				return false;
+			}
+			
+			// 이메일
+			var regEmail=/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+			if(!regEmail.test(document.getElementById("infoEmail").value)){
+				alert("이메일을 잘못 입력하셨습니다.");
+				return false;
+			}
 		});
 		
 		// 프로필 사진
