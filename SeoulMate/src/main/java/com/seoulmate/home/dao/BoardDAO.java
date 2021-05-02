@@ -14,5 +14,7 @@ public interface BoardDAO {
 	public int totalRecord(PageVO vo);
 	//글 내용보기
 	public BoardVO boardSelect(int no);
+	//댓글 수 확인용
+	public int replyCount(int no);
 	
 }

@@ -49,35 +49,7 @@
 	width: 25px;
 	display: block;
 }
-/*/////////////////////////////글 내용 보기 스타일*/
-.communityView_img{
-	height: 60px;
-	float: left;
-}	
-.communityView_img img{
-	width: 60px;
-	height: 60px;
-	border-radius: 60px;
-	margin-right: 20px;
-}
-.communityView_user{
-	height: 60px;
-	width:150px;
-	padding-top: 5px;
-	float:left;
-	margin-bottom: 20px;
-}
-.communityView_content{
-	 width: 100%;
-	 border: 1px solid #eee;
-	 overflow:auto; 
-	 padding:20px;
-	 margin-bottom: 10px;
-	 min-height: 500px;
-}
-.commTable{
-	table-layout: fixed;
-}
+/*글목록 제목에 넓이주고 textoverflow 설정*/
 .commSubject{
 	max-width : 350px;
 	white-space: nowrap;
@@ -86,14 +58,63 @@
 	text-overflow: ellipsis;
 	display: table-cell;
 }
+/* 댓글수가 제목이랑 한줄에 나오게 세팅 */
 .commentNum{
 	display: table-cell;
 }
-.communityView_comment_content{
+/*/////////////////////////////글 내용 보기 스타일*/
+
+/* 사용자 프로필이미지 크기 설정 */
+.communityView_user_porfile img{
+	width: 60px;
+	height: 60px;
+	border-radius: 60px;
+	margin-right: 20px;
+	float: left;
+}
+/* 아이디, 등록일, 조회스, 댓글수 세팅 */
+.communityView_user_detail{
+	height: 60px;
+	width:150px;
+	padding-top: 5px;
+	float:left;
+	margin-bottom: 20px;
+}
+/* 본문 레이아웃 세팅 */
+.communityView_content{
 	 width: 100%;
-	 border-bottom: 1px solid #eee;
+	 border: 1px solid #eee;
+	 overflow:auto; 
 	 padding:20px;
 	 margin-bottom: 10px;
+	 min-height: 700px;
+}
+.communityView_comment_user_detail{
+	float: left;
+}
+.communityView_comment_btn{
+	text-align: right;
+}
+.communityView_comment_content{
+	 border: 1px solid #eee;
+	 border-radius: 20px;
+	 padding:20px;
+	 margin: 5px 0 30px 73px;
+}
+/*신고하기버튼 초기화*/
+.reportBtn{ 
+	box-shadow: none;
+	border:none;
+	border-radius:inherit;
+	margin: 0;
+	padding: 0;
+	line-height: inherit;
+	height: inherit;
+}
+/*신고하기 이미지 크기, 스타일 설정*/
+.reportBtn>img{
+	width: 20px;
+	padding-top: 20px;
 }
 /*////////////////////////////// 커뮤니티 글쓰기 스타일 ///////////*/
 

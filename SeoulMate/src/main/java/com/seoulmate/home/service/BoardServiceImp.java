@@ -33,4 +33,9 @@ public class BoardServiceImp implements BoardService {
 	public BoardVO boardSelect(int no) {
 		return dao.boardSelect(no);
 	}
+
+	@Override
+	public int replyCount(int no) {
+		return dao.replyCount(no);
+	}
 }

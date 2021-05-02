@@ -34,7 +34,6 @@
 			}
 		});
 	});
-	
 </script>
 <div class="wrap">
 	<div class="content">
@@ -106,7 +105,10 @@
 					<tr>
 						<td>${vo.no}</td>
 						<td>${vo.category}</td>
-						<td class="t_title"><a class="commSubject" href="communityView?no=${vo.no}">${vo.subject}</a><span class="commentNum">[1]</span></td>
+						<td class="t_title">
+							<a class="commSubject" href="communityView?category=${vo.category}&no=${vo.no}">${vo.subject}</a>
+							<span class="commentNum">[1]</span>
+						</td>
 						<td>${vo.userid}</td>
 						<td>${vo.hit}</td>
 						<td>${vo.writedate}</td>

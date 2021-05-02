@@ -14,4 +14,6 @@ public interface BoardService {
 	public int totalRecord(PageVO vo);
 	//글 내용보기
 	public BoardVO boardSelect(int no);
+	//댓글 수 확인
+	public int replyCount(int no);
 }

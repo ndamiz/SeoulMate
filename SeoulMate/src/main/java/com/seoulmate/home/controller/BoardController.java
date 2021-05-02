@@ -27,7 +27,11 @@ public class BoardController {
 			pVo.setPageNum(Integer.parseInt(pageNumStr));
 		}
 		//넘어오는 카테고리가 있으면 세팅/ 이거 안해도 바로 세팅되는거같긴한데 일단 세팅!
-		pVo.setCategory(category);
+		if(category == null) {
+			pVo.setCategory("");
+		}else {
+			pVo.setCategory(category);
+		}
 		//검색어랑 카테고리필터에 따른 총 레코드 수 구하기
 		pVo.setTotalRecord(service.totalRecord(pVo));
 		
@@ -56,8 +60,8 @@ public class BoardController {
 	@RequestMapping(value="/communityWriteOk", method=RequestMethod.POST)
 	public ModelAndView communityWriteOk(BoardVO vo, HttpServletRequest req) {
 		//사용자 아이디
-		//vo.setUserid((String)req.getSession().getAttribute("logId"));
-		vo.setUserid("yunyun");
+		vo.setUserid((String)req.getSession().getAttribute("logId"));
+		//vo.setUserid("yunyun");
 		//등록자 아이피 주소
 		vo.setIp(req.getRemoteAddr());
 		
@@ -83,6 +87,7 @@ public class BoardController {
 	public ModelAndView boardView(int no) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("vo", service.boardSelect(no));
+		mav.addObject("replyCnt", service.replyCount(no));
 		mav.setViewName("/board/communityView");
 		return mav;
 	}
