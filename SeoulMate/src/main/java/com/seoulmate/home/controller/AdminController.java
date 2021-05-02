@@ -117,7 +117,7 @@ public class AdminController {
 			}else { // 회원정보 수정에 실패한 경우
 				if(orgname=="") {
 					try {
-						File dFileObj=new File(path, delFilename);
+						File dFileObj=new File(path, newUpload);
 						dFileObj.delete();
 					}catch(Exception e) {
 						System.out.println("글 수정 중 삭제할 파일 삭제 에러 발생");
@@ -125,7 +125,7 @@ public class AdminController {
 					}
 				}else {
 					try {
-						File dFileObj=new File(path, newUpload);
+						File dFileObj=new File(path, delFilename);
 						dFileObj.delete();
 					}catch(Exception e) {
 						System.out.println("글 수정 중 삭제할 파일 삭제 에러 발생");
