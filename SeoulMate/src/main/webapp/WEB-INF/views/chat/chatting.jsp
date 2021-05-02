@@ -9,10 +9,16 @@
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/css/reset.css">
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/css/comm.css">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="http://localhost:82/socket.io/socket.io.js"></script>
 		<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath()%>/js/main/comm.js"></script>
 		<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath()%>/js/script.js"></script>
+        <script>
+            $(document).ready(function(){
+                var socket = io("http://localhost:82", { transport : ['websocket'] });
+            });
+        </script>
 	</head>
 <body>
 	<div class="chat_wrap">
