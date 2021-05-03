@@ -29,7 +29,7 @@
 					return false;
 				}
 			}
-
+			
 			// 희망 지역1
 			var area1=$("#gu1").val();
 			// alert(area1);
@@ -61,6 +61,61 @@
 			}
 			document.getElementById("area3").value=area3;
 		});
+		
+		// 이메일
+		$("#emailBtn").click(function(){
+			if(regEmail()==false){
+				return false;
+			}else{
+				var emailid=document.getElementById("emailid").value;
+				var emaildomain=document.getElementById("emaildomain").value;
+				var email=emailid+"@"+emaildomain;
+				
+				var url="emailCheck";
+				var params="email="+email;
+				
+				$.ajax({
+					url:url,
+					data:params,
+					success:function(result){
+						alert("인증 번호가 전송되었습니다.");
+						console.log("이메일 송신 성공");
+					}, error:function(){
+						console.log("이메일 송신 실패");
+					}
+				});
+			}
+		});
+		
+		// 이메일 인증번호 확인
+		$("#emailCheckBtn").click(function(){
+			var emailNum=document.getElementById("emailCheck").value;
+			
+			if(emailNum==null || emailNum==""){
+				alert("인증 번호를 입력해주세요.");
+				return false;
+			}else{
+				var url="emailCheckResult";
+				var params="emailCheckNum="+emailNum;
+				$.ajax({
+					url:url,
+					data:params,
+					success:function(result){
+						if(result=="pass"){
+							$("#emailResult").val("Y");
+							alert("인증에 성공하였습니다.");
+							$("#emailCheck").attr("disabled", true);
+						}else{
+							alert("인증 번호가 맞지 않습니다.");
+							$("#emailResult").val("N");
+						}
+					}, error:function(){
+						
+					}
+				});
+			}
+		});
+		
 		function regExpCheck(){
 			// 비밀번호
 			var regPwd=/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,15}$/;
@@ -76,6 +131,20 @@
 			}
 			if(!regTel.test(document.getElementById("tel3").value)){ // 끝 번호
 				alert("연락처는 숫자를 4자리씩 입력해야 합니다.");
+				return false;
+			}
+			// 이메일 아이디
+			var regEmailId=/^\w{3,14}$/;
+			if(!regEmailId.test(document.getElementById("emailid").value)){
+				alert("이메일을 잘못 입력하셨습니다.");
+				return false;
+			}
+		}
+		
+		function regEmail(){
+			var regEmailId=/^\w{3,14}$/;
+			if(!regEmailId.test(document.getElementById("emailid").value)){
+				alert("이메일을 잘못 입력하셨습니다.");
 				return false;
 			}
 		}
@@ -338,6 +407,7 @@
 					<label></label>
 					<input type="text" name="emailCheck" id="emailCheck" value="" placeholder="인증번호를 입력해주세요"/>
 					<a class="green" id="emailCheckBtn">인증번호 확인</a>
+					<input type="hidden" name="emailResult" id="emailResult" value="N"/>
 				</li>
 				<li>
 					<button class="q_btn green" id="memNext1">회원정보 수정</button>
