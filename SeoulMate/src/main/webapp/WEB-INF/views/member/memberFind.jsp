@@ -12,7 +12,7 @@
 				alert("이메일을 입력하세요");
 				return false;
 			}else{
-				if(regExp()!=false){
+				if(regExpId()!=false){
 					return true;
 				}else{
 					return false;
@@ -26,7 +26,13 @@
 			if($("#pwdEmailCheck").val()==""){
 				alert("이메일을 입력하세요");
 				return false;
-			}	
+			}else{
+				if(regExpPwd()!=false){
+					return true;
+				}else{
+					return false;
+				}
+			}
 		}
 	}
 	function findResultId(){
@@ -40,13 +46,49 @@
 		}
 	}
 	findResultId();
-	function regExp(){
+	function regExpId(){
 		var regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 		if(!regEmail.test(document.getElementById("idEmailCheck").value)){
 			alert("이메일 형식은 아이디@도메인 입니다.");
 			return false;
 		}
 	}
+	function regExpPwd(){
+		var regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+		if(!regEmail.test(document.getElementById("pwdEmailCheck").value)){
+			alert("이메일 형식은 아이디@도메인 입니다.");
+			return false;
+		}
+	}
+	$(function(){
+		$("#pwdEmailCheckBtn").click(function(){
+			if(regExpPwd()==false){
+				return false;
+			}else{
+				var userid=document.getElementById("useridCheck").value;
+				var email=document.getElementById("pwdEmailCheck").value;
+				
+				var url="pwdFind";
+				var params="userid="+userid+"&email="+email;
+				
+				$.ajax({
+					url:url,
+					data:params,
+					success:function(result){
+						if(result=="pass"){
+							alert("이메일이 전송되었습니다.");
+						}else{
+							alert("아이디나 이메일을 잘못 입력하셨습니다.");
+							return false;
+						}
+						console.log("이메일 송신 성공");
+					}, error:function(){
+						console.log("이메일 송신 실패");
+					}
+				});
+			}
+		});
+	});
 </script>
 <div class="wrap">
 	<div class="member_wrap">
@@ -71,9 +113,10 @@
 		<div class="title_wrap">
 			<form method="post" id="memberFindPwd" action="memberFindPwd" onsubmit="return memberCheck(this)">
 				<label>아이디</label>
-				<input type="text" name="userid" id="useridCheck" maxlength="4" placeholder="아이디를 입력해주세요"/><br/>
+				<input type="text" name="userid" id="useridCheck" placeholder="아이디를 입력해주세요"/><br/>
 				<label>이메일</label>
 				<input type="text" name="email" id="pwdEmailCheck" placeholder="이메일을 입력해주세요"/>
+				<a class="green" id="pwdEmailCheckBtn">전송</a>
 				<div class="center">
 					<button class="h_btn green" id="FindPwdBtn">비밀번호 찾기</button>
 				</div>

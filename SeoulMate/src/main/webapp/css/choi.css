@@ -42,11 +42,11 @@ span{line-height: 47px;}
 #userpwdCheck{width:250px;}
 #memberEditForm, #memberFindId, #memberFindPwd, #memberExitForm{width:400px; margin:0 auto;}
 #memberEditForm>label, #memberFindId>label, #memberFindPwd>label , #memberExitForm>label{width: 19%;display: inline-block;}
-#memberEditForm>input, #memberFindId>input, #memberFindPwd>input ,#memberExitForm>input{width: 75%;margin-left:5%;}
+#memberEditForm>input, #memberFindId>input, #memberExitForm>input, #useridCheck{width: 75%;margin-left:5%;}
 
 /* memberFind */
 #idEmailCheck{margin-top:40px;}
-#pwdEmailCheck{margin-top:40px;}
+#pwdEmailCheck, #pwdEmailCode{margin-top:40px; margin-left:5%; width:229px;}
 #idFindBtn{height:50px;}
 #FindIdBtn{margin-bottom:40px;}
 .title_wrap>.s_title.margin-bottom50.margin-top50{margin:50px 0;}

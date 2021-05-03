@@ -21,6 +21,8 @@ public interface MemberDAO {
 	public int memberUpdatePwdN(MemberVO vo);
 	// 아이디 찾기
 	public String memberFindId(MemberVO vo);
+	// 아이디, 이메일 입력해 비밀번호 가져오기
+	public String pwdFind(String userid, String email);
 	// 회원 탈퇴
 	public int memberExit(String userid, String userpwd);
 	
