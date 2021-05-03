@@ -30,7 +30,6 @@ public class HomeController {
 	MemberService memberService;
 	
 	
-	@CrossOrigin(origins = "http://localhost:82")
 	@RequestMapping("/chat")
 	public ModelAndView chat() {
 		ModelAndView mav = new ModelAndView();
