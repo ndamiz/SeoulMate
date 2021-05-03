@@ -1,17 +1,16 @@
 
-
+var dateChoose ='';
 $(function(){
-	 $('.dateChoose>input[type=radio]').click(function(){
-	 	datePicker();
+	 $('#selectYearMonthDate').change(function(){
+		 $("#selectYearMonthDate option:selected").each(function() {
+			datePicker();
+	     });
 	 });
 });
 function datePicker(){
 	$('.datePicker1, .datePicker2').datepicker('destroy');
 	$('.datePicker1, .datePicker2').val("");
-	
-	var dateChoose = $('.dateChoose>input[type=radio]:checked').val();
-	console.log(dateChoose);
-	
+	var dateChoose = $("#selectYearMonthDate option:selected").val();
 	$.datepicker.setDefaults({
 		showOn : 'both',
 		buttonImage : '../img/fi-rr-calendar.svg',

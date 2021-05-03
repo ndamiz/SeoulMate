@@ -27,7 +27,7 @@
 	});
 </script>
 	<div class="wrap">
-		<section class="content" id="myPage_HouseAndMate_Content">
+		<section class="content" > <!-- id="myPage_HouseAndMate_Content" -->
 			<p class="m_title">하우스&메이트 관리</p>
 			<ul class="content_menu" id="myPage_HouseAndMate_menu">
 				<li><a class="">쉐어하우스</a></li>
@@ -115,7 +115,7 @@
 							</ul>
 						</li>
 					</ul>
-					<div class="myPage_HouseAndMate_Btn">
+					<div class="myPage_HouseAndMate_LikeMarker_Btn">
 						<a href="" class="b_btn white">찜 삭제</a>
 						<a href="" class="b_btn white">약속잡기</a>
 					</div>
@@ -138,7 +138,7 @@
 							</ul>
 						</li>
 					</ul>
-					<div class="myPage_HouseAndMate_Btn">
+					<div class="myPage_HouseAndMate_LikeMarker_Btn">
 						<a href="" class="b_btn white">찜 삭제</a>
 						<a href="" class="b_btn white">약속잡기</a>
 					</div>
@@ -160,7 +160,7 @@
 							</ul>
 						</li>
 					</ul>
-					<div class="myPage_HouseAndMate_Btn">
+					<div class="myPage_HouseAndMate_LikeMarker_Btn">
 						<a href="" class="b_btn white">찜 삭제</a>
 						<a href="" class="b_btn white">초대하기</a>
 					</div>
@@ -182,7 +182,7 @@
 							</ul>
 						</li>
 					</ul>
-					<div class="myPage_HouseAndMate_Btn">
+					<div class="myPage_HouseAndMate_LikeMarker_Btn">
 						<a href="" class="b_btn white">찜 삭제</a>
 						<a href="" class="b_btn white">초대하기</a>
 					</div>
@@ -194,7 +194,7 @@
 		<div class="myPage_HouseAndMate_Popup popup_hidden" id="popup_TakeApply">
 			<div class="myPage_HouseAndMate_Popup_Title">받은신청<span class="popup_Close">✕</span></div>
 			<div class="myPage_HouseAndMate_Popup_Content">
-				<div class="myPage_HouseAndMate_Popup_Mate_OneBlock">
+				<div class="myPage_HouseAndMate_Popup_OneBlock">
 					<div class="myPage_HouseAndMate_Popup_Img">
 						<a href=""><img alt="" src="<%=request.getContextPath()%>/img/comm/sample_mate02.png"/></a>
 					</div>
@@ -209,7 +209,7 @@
 						<a href="" class="b_btn green">거절</a>
 					</div>
 				</div>
-				<div class="myPage_HouseAndMate_Popup_Mate_OneBlock">
+				<div class="myPage_HouseAndMate_Popup_OneBlock">
 					<div class="myPage_HouseAndMate_Popup_Img">
 						<a href=""><img alt="" src="<%=request.getContextPath()%>/img/comm/sample_mate03.png"/></a>
 					</div>
@@ -234,7 +234,7 @@
 		<div class="myPage_HouseAndMate_Popup popup_hidden" id="popup_SendInvite">
 			<div class="myPage_HouseAndMate_Popup_Title">보낸초대<span class="popup_Close">✕</span></div>
 			<div class="myPage_HouseAndMate_Popup_Content">
-				<div class="myPage_HouseAndMate_Popup_Mate_OneBlock">
+				<div class="myPage_HouseAndMate_Popup_OneBlock">
 					<div class="myPage_HouseAndMate_Popup_Img">
 						<a href=""><img alt="" src="<%=request.getContextPath()%>/img/comm/sample_mate02.png"/></a>
 					</div>
@@ -258,7 +258,7 @@
 		<div class="myPage_HouseAndMate_Popup popup_hidden" id="popup_TakeInvite">
 			<div class="myPage_HouseAndMate_Popup_Title">받은초대<span class="popup_Close">✕</span></div>
 			<div class="myPage_HouseAndMate_Popup_Content">
-				<div class="myPage_HouseAndMate_Popup_Mate_OneBlock">
+				<div class="myPage_HouseAndMate_Popup_OneBlock">
 					<div class="myPage_HouseAndMate_Popup_Img">
 						<a href=""><img alt="" src="<%=request.getContextPath()%>/img/comm/sample_house01.png"/></a>
 					</div>
@@ -273,7 +273,7 @@
 						<a href="" class="b_btn green">거절</a>
 					</div>
 				</div>
-				<div class="myPage_HouseAndMate_Popup_Mate_OneBlock">
+				<div class="myPage_HouseAndMate_Popup_OneBlock">
 					<div class="myPage_HouseAndMate_Popup_Img">
 						<a href=""><img alt="" src="<%=request.getContextPath()%>/img/comm/sample_house02.png"/></a>
 					</div>
@@ -299,7 +299,7 @@
 		<div class="myPage_HouseAndMate_Popup popup_hidden" id="popup_SendApply">
 			<div class="myPage_HouseAndMate_Popup_Title">보낸신청<span class="popup_Close">✕</span></div>
 			<div class="myPage_HouseAndMate_Popup_Content">
-				<div class="myPage_HouseAndMate_Popup_Mate_OneBlock">
+				<div class="myPage_HouseAndMate_Popup_OneBlock">
 					<div class="myPage_HouseAndMate_Popup_Img">
 						<a href=""><img alt="" src="<%=request.getContextPath()%>/img/comm/sample_house02.png"/></a>
 					</div>

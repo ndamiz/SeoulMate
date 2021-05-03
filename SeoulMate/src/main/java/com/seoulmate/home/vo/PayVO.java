@@ -7,6 +7,8 @@ public class PayVO {
 	private String imp_uid;		// 고유 결제 아이디
 	private String merchant_uid; // 주문번호 
 	private int amount;	//결제완료된 금액
+	private int amountCard;
+	private int amountCash;
 	private String payStart;	//결제일 
 	private String payEnd;		//결제 종료일 (결제일로부터 한달) 
 	private String payMethod; 	//결제수단 
@@ -18,20 +20,10 @@ public class PayVO {
 	private String selectStartDate;  //보여줄 기간 선택    2021.02 ~ 2021.03 까지 만 출력.. 이런거처럼 
 	private String selectEndDate;	//보여줄 기간 선택 
 
-	private String searchKey; 	//검색키
-	private String searchWord;  //검색어
-	
-	// 페이징 
-	private int nowPageNum = 1; //현재 페이지 
-	private int onePageNum = 4; //페이징 개수
-	private int onePageRecode = 10; //한페이지당 레코드 수
-	private int totalRecode; // 총 레코드 수
-	private int totalPage; // 마지막페이지, 총 페이지 수 
-	private int startPageNum = 1; //시작 페이지
-	private int lastPageRecode = 10; //마지막페이지의 남은 레코드 수
+	private String orderCondition; //정렬 조건 (날짜, 아이디, 이름, 결제일, 결제종료일, 결제방법)
 	
 	//해당 유저의 grade 
-	private int grade;
+	private int grade;  //1 : 일반, // 2: 프리미엄 
 	
 	public String getSelectStartDate() {
 		return selectStartDate;
@@ -51,69 +43,11 @@ public class PayVO {
 	public void setSelectYearMonthDate(String selectYearMonthDate) {
 		this.selectYearMonthDate = selectYearMonthDate;
 	}
-	public int getNowPageNum() {
-		return nowPageNum;
+	public String getOrderCondition() {
+		return orderCondition;
 	}
-	public void setNowPageNum(int nowPageNum) {
-		this.nowPageNum = nowPageNum;
-		//시작페이지 번호 계산
-		startPageNum = ((nowPageNum-1) / onePageNum * onePageNum)+1;
-	}
-	public int getOnePageNum() {
-		return onePageNum;
-	}
-	public void setOnePageNum(int onePageNum) {
-		this.onePageNum = onePageNum;
-	}
-	public int getOnePageRecode() {
-		return onePageRecode;
-	}
-	public void setOnePageRecode(int onePageRecode) {
-		this.onePageRecode = onePageRecode;
-	}
-	public int getTotalRecode() {
-		return totalRecode;
-	}
-	public void setTotalRecode(int totalRecode) {
-		this.totalRecode = totalRecode;
-		//총 페이지수 계산
-		totalPage = (int)Math.ceil(totalRecode/(double)onePageRecode);
-		//마지막 페이지에 레코드 수 
-		if(totalRecode%onePageRecode == 0) {
-			lastPageRecode = onePageRecode;
-		}else {
-			lastPageRecode = totalRecode%onePageRecode; 
-		}
-	}
-	public int getTotalPage() {
-		return totalPage;
-	}
-	public void setTotalPage(int totalPage) {
-		this.totalPage = totalPage;
-	}
-	public int getStartPageNum() {
-		return startPageNum;
-	}
-	public void setStartPageNum(int startPageNum) {
-		this.startPageNum = startPageNum;
-	}
-	public int getLastPageRecode() {
-		return lastPageRecode;
-	}
-	public void setLastPageRecode(int lastPageRecode) {
-		this.lastPageRecode = lastPageRecode;
-	}
-	public String getSearchKey() {
-		return searchKey;
-	}
-	public void setSearchKey(String searchKey) {
-		this.searchKey = searchKey;
-	}
-	public String getSearchWord() {
-		return searchWord;
-	}
-	public void setSearchWord(String searchWord) {
-		this.searchWord = searchWord;
+	public void setOrderCondition(String orderCondition) {
+		this.orderCondition = orderCondition;
 	}
 	public int getGrade() {
 		return grade;
@@ -153,6 +87,18 @@ public class PayVO {
 	}
 	public int getAmount() {
 		return amount;
+	}
+	public int getAmountCard() {
+		return amountCard;
+	}
+	public void setAmountCard(int amountCard) {
+		this.amountCard = amountCard;
+	}
+	public int getAmountCash() {
+		return amountCash;
+	}
+	public void setAmountCash(int amountCash) {
+		this.amountCash = amountCash;
 	}
 	public void setAmount(int amount) {
 		this.amount = amount;

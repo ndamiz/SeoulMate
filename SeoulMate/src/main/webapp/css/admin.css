@@ -124,67 +124,70 @@ select {
   left: 4px;
   width: 13px;
   height: 13px;
-  background: #13a89e;
+  background: #2D4368;
   border-radius: 100%;
 }
 /* button */
 .btn-custom {
-  background-color: hsl(179, 71%, 38%) !important;
+  background-color: hsl(218, 57%, 42%) !important;
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#1ca5a3", endColorstr="#1ca5a3");
-  background-image: -khtml-gradient(linear, left top, left bottom, from(#1ca5a3), to(#1ca5a3));
-  background-image: -moz-linear-gradient(top, #1ca5a3, #1ca5a3);
-  background-image: -ms-linear-gradient(top, #1ca5a3, #1ca5a3);
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #1ca5a3), color-stop(100%, #1ca5a3));
-  background-image: -webkit-linear-gradient(top, #1ca5a3, #1ca5a3);
-  background-image: -o-linear-gradient(top, #1ca5a3, #1ca5a3);
-  background-image: linear-gradient(#1ca5a3, #1ca5a3);
-  border-color: #1ca5a3 #1ca5a3 hsl(179, 71%, 38%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#2D4368", endColorstr="#2D4368");
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#2D4368), to(#2D4368));
+  background-image: -moz-linear-gradient(top, #2D4368, #2D4368);
+  background-image: -ms-linear-gradient(top, #2D4368, #2D4368);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2D4368), color-stop(100%, #2D4368));
+  background-image: -webkit-linear-gradient(top, #2D4368, #2D4368);
+  background-image: -o-linear-gradient(top, #2D4368, #2D4368);
+  background-image: linear-gradient(#2D4368, #2D4368);
+  border-color: #2D4368 #2D4368 hsl(218, 57%, 42%);
+  border-radius: 0px !important;
   color: #fff !important;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.00);
   font-family: "NotoSans" !important;
   -webkit-font-smoothing: antialiased;
 }
 .btn-custom:hover {
-  background-color: hsl(0, 0%, 100%) !important;
+  background-color: hsl(218, 63%, 53%) !important;
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#ffffff");
-  background-image: -khtml-gradient(linear, left top, left bottom, from(#ffffff), to(#ffffff));
-  background-image: -moz-linear-gradient(top, #ffffff, #ffffff);
-  background-image: -ms-linear-gradient(top, #ffffff, #ffffff);
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #ffffff));
-  background-image: -webkit-linear-gradient(top, #ffffff, #ffffff);
-  background-image: -o-linear-gradient(top, #ffffff, #ffffff);
-  background-image: linear-gradient(#ffffff, #ffffff);
-  border-color: #13a89e #13a89e #13a89e;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#325288", endColorstr="#325288");
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#325288), to(#325288));
+  background-image: -moz-linear-gradient(top, #325288, #325288);
+  background-image: -ms-linear-gradient(top, #325288, #325288);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #325288), color-stop(100%, #325288));
+  background-image: -webkit-linear-gradient(top, #325288, #325288);
+  background-image: -o-linear-gradient(top, #325288, #325288);
+  background-image: linear-gradient(#325288, #325288);
+  border-color: #325288 #325288 #325288;
+  border-radius: 0px !important;
   border-width: 1px;
-  color: #13a89e !important;
+  color: #fff !important;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.00);
   font-family: "NotoSans" !important;
   -webkit-font-smoothing: antialiased;
 }
-
+.custom-select, .form-control, input, .btn{border-radius: 0px !important;}
+input{border-width: 1px !important; border-color: #ced4da !important; border-style: solid !important;}
+.objectHidden{display: none;}
 /* top  */
-#adminTop{height: 80px; background-color:#13a89e; border-width: 1px}
+#adminTop{height: 80px; background-color:#2D4368; border-width: 1px}
 #adminTopLogo{float: left; height: 80px; line-height: 80px; }
 #adminTopLogo img{width: 200px; margin-left: 20px;}
 #adminTopMenu{float: right; height: 80px; line-height: 80px; margin-right: 20px;}
 #adminTopMenu>span{margin-right: 10px; color:#fff;}
-#subMenu{ width: 15%; height: 100%; position: absolute; background-color: #F1F1F1;}
-#subMenu a{width: 100%; color : #000; display: inline-block; height: 50px; line-height: 50px; padding-left: 10px; float: left; font-size: 1.1em;}
-#subMenu a:hover {background-color: #D2D2D2; color:#13a89e; text-decoration: none; font-weight: bold;}
+#subMenu{ width: 15%; height: 100%; position: absolute; background-color: #d0d9e8;}
+#subMenu>div{width: 100px; height: 50px;}
+#subMenu a{width: 100%; color : #394c69; display: inline-block; height: 50px; line-height: 50px; padding-left: 20px; float: left; font-size: 1.1em;}
+#subMenu a:hover {background-color: #325288; color:#fff; text-decoration: none; font-weight: bold; border-radius: 0px;}
 
-section{ margin-left:15% ; width: 85%; float: left; }
-
+.admin_Section{ margin-left:15% ; width: 85%; float: left; }
+.admin_Content{width: 90%; margin: 10px auto;}
 /* Management */
-.managementTitle{width: 95%; margin: 40px auto 10px auto;}
-.managementSearchForm { width: 95%; margin: 40px auto 10px auto; overflow: hidden;}
-.managementSpan{width: 120px; display:inline-block; text-align: right;font-weight: bold; font-size:1.1em; margin-right: 15px;}
-.managementSpan2{width: 50px; display:inline-block; font-weight: bold; font-size:1.1em;}
-.managementRadio{ width: 600px; float: right; }
-.managementPaging li>a, .managementPaging li>a:focus {background: #13a89e; border-color: #fff; color:#fff; border-radius: 10%;}
-.managementPaging li>a:hover, .managementPaging:checked{background: #fff; border-color: #13a89e; color:#13a89e;}
-
+.managementTitle{width: 95%; margin: 70px auto 10px auto;}
+.managementTitle:before{background-color:#2D4368;}
+.managementSearchForm { width: 95%; margin: 40px auto 10px auto; overflow: hidden; }
+.managementSpan{font-weight: bold; font-size:1.1em; margin-right: 5px;display: block;
+    height: 36px;
+    float: left;line-height: 36px;}
 .managementList{width: 95%; margin: 10px auto;}
 
 /* paging style */
@@ -196,30 +199,38 @@ section{ margin-left:15% ; width: 85%; float: left; }
 .prev_page{background: url(../img/comm/btn_page.gif) no-repeat 0 0;background-position: -40px -40px;}
 .next_page{background: url(../img/comm/btn_page.gif) no-repeat 0 0;background-position: -80px -40px;}
 .last_page{background: url(../img/comm/btn_page.gif) no-repeat 0 0;background-position: -120px -40px;}
-.paging a.on{color: #13a89e;}
+.paging a.on{color: #325288; border: 1px solid #d0d9e8;}
 
 /*  */
-
-.managementSearch {width: 380px; float: left; overflow: auto; margin-top: 20px; }
+#selectYearMonthDate{width: 80px;}
+#salesDatePicker{width: 100%;}
+.managementSearch { float: left; margin-top: 20px; }
 .managementSearch>select{width: 100px; float: left;}
-.managementSearch input[type=text]{width: 200px; float: left;}
-.managementSearch input[type=submit]{width: 80px; float: left;}
+.managementSearch>input[type=text]{width: 150px; float: left;}
+.managementSearch>input[type=submit]{width: 80px; float: left;}
 /* datePicker */
-.managementDatePicker{width: 480px; overflow: auto; }
-.datePicker1, .datePicker2{width: 120px;}
+.managementDatePicker{float: left;}
+.managementDatePicker>div{float: left;}
+#salesGrapeBtn{float: right;}
+.datePicker1, .datePicker2{width: 120px; height: 37.99px;}
 .ui-datepicker select.ui-datepicker-year, .ui-datepicker select.ui-datepicker-month{height:10%;}
 .ui-datepicker td a{border-radius: 0; line-height: 30px; height: 30px;font-size: 1em;}
 /* payManagement*/
-#payManagementSearch{margin-top: 5px;}
-
+#payManagementSearch{width: 100%; overflow: auto;}
+.orderCondition>th>span {font-size: 0.5em; margin-left:10px;}
+#payManageMentDatePicker{margin-left: 20px;}
+.nowPageNum{background-color: #ddd;}  /*색 수정예정 */
 /* salesManagement */
-#salesmanagementTable tbody>tr:last-of-type>td {background-color: #F1F1F1; color:#13a89e; font-weight: bold;}
-#salesManagementDiv {width: 95%; overflow: auto; margin: 0px auto;}
-#salesManagementDiv>div{width: 480px; float: left; }
-#salesManagementDiv>div:last-of-type{width: 180px; float: right; height: auto; margin-top: 20px;}
-
+#salesmanagementTable tbody>tr:first-of-type>td {background-color: #d0d9e8; color:#2D4368; font-weight: bold;}
+#salesManagementDiv {width: 95%; overflow: auto; margin: 40px auto 0px auto;}
 #graphBtn {width: 38px; height: 38px; float:right; margin: 0 5px;}
 #excelBtn {float: right; margin: 0 5px;}
+/* house ManageMent */
+.houseManagenent_span{display: block; margin-left: 10px;}
+.management_houseSearch{overflow: auto; width: 100%;}
+.management_houseSelect{ float: left; margin-top: 20px; margin-right: 20px;}
+.management_houseSelect>span{margin-left: 10px;}
+.management_houseStateSelect>select{width: 100px; float: left;}
 
 /* MemberManagement */
 .profile_div{margin:5px 0 0 20px;}

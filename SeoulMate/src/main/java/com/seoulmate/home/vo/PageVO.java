@@ -16,9 +16,6 @@ public class PageVO {
 	private String searchKey;
 	private String searchWord;
 	
-	
-
-
 	public int getPageNum() {
 		return pageNum;
 	}
@@ -111,5 +108,5 @@ public class PageVO {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-	
+
 }
