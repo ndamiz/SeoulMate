@@ -1,7 +1,6 @@
 package com.seoulmate.home.controller;
 
 import java.io.File;
-import java.net.http.HttpRequest;
 import java.util.Calendar;
 import java.util.UUID;
 
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,13 +84,28 @@ public class MemberController {
 			messageHelper.setSubject(subject);
 			messageHelper.setText("text/html; charset=UTF-8", content);
 			mailSender.send(message);
+			
 			session.setAttribute("code", code);
 		}catch(Exception e) {
 			System.out.println("이메일 인증번호 전송 에러 발생...");
 			e.printStackTrace();
 		}
 		
-		return "result";
+		return code;
+	}
+	
+	@RequestMapping("/emailCheckResult")
+	@ResponseBody
+	public String emailCheckResult(HttpSession session, HttpServletRequest req) {
+		String emailCheckNum=req.getParameter("emailCheckNum");
+		String code=(String)session.getAttribute("code");
+		
+		String result="nonpass";
+		if(emailCheckNum.equals(code)) {
+			result="pass";
+		}
+		
+		return result;
 	}
 	
 	@RequestMapping("/idChk")

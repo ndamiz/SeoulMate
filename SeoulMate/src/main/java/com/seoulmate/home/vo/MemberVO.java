@@ -187,6 +187,12 @@ public class MemberVO {
 	public void setProfilePic(String profilePic) {
 		this.profilePic = profilePic;
 	}
+	public String getFilename() {
+		return filename;
+	}
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
 	public int getReportCnt() {
 		return reportCnt;
 	}

@@ -84,10 +84,9 @@
 					data:params,
 					success:function(result){
 						alert("인증 번호가 전송되었습니다.");
-						console.log("이메일 인증 성공");
-						
+						console.log("이메일 송신 성공");
 					}, error:function(){
-						console.log("이메일 인증 실패");
+						console.log("이메일 송신 실패");
 					}
 				});
 			}
@@ -98,18 +97,43 @@
 		$("#emailCheckBtn").click(function(){
 			var emailNum=document.getElementById("emailCheck").value;
 			
-			if($("#emailCheck").val()==null || $("#emailCheck").val()==""){
+			if(emailNum==null || emailNum==""){
 				alert("인증 번호를 입력해주세요.");
+				return false;
+			}else{
+				var url="emailCheckResult";
+				var params="emailCheckNum="+emailNum;
+				$.ajax({
+					url:url,
+					data:params,
+					success:function(result){
+						if(result=="pass"){
+							$("#emailResult").val("Y");
+							alert("인증에 성공하였습니다.");
+							$("#emailCheck").attr("disabled", true);
+						}else{
+							alert("인증 번호가 맞지 않습니다.");
+							$("#emailResult").val("N");
+						}
+					}, error:function(){
+						
+					}
+				});
 			}
 			
-			if("${code}"==emailNum){
-				$("#emailResult").val("Y");
-				alert("인증에 성공하였습니다.");
-				$("#emailCheck").attr("disabled", true);
-			}else{
-				alert("인증 번호가 맞지 않습니다.");
-				$("#emailResult").val("N");
-			}
+			
+// 			if($("#emailCheck").val()==null || $("#emailCheck").val()==""){
+// 				alert("인증 번호를 입력해주세요.");
+// 			}
+			
+// 			if("${code}"==emailNum){
+// 				$("#emailResult").val("Y");
+// 				alert("인증에 성공하였습니다.");
+// 				$("#emailCheck").attr("disabled", true);
+// 			}else{
+// 				alert("인증 번호가 맞지 않습니다.");
+// 				$("#emailResult").val("N");
+// 			}
 		});
 		
 		
