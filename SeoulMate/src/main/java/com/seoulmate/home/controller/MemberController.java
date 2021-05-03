@@ -76,7 +76,7 @@ public class MemberController {
 				+ "<div style='margin:10px auto;'><h3>회원 가입을 위한 서울메이트 이메일 인증 번호</h3></div>"
 				+ "<span>인증 번호 : "+code
 				+ "</span></div><div style=\"padding: 15px 0; text-align: center; box-shadow: 0 -1px 22px -2px rgb(0 0 0 / 15%);\">"
-				+ "<span style=\"color: #13a89e; font-size:13px;\">Copyright © 2021 공일이오 Co., Ltd. All rights reserved.</span>"
+				+ "<span style=\"color: #13a89e; font-weight:bold; font-size:12px;\">Copyright © 2021 공일이오 Co., Ltd. All rights reserved.</span>"
 				+ "</div></div>";
 		try {
 			MimeMessage message=mailSender.createMimeMessage();

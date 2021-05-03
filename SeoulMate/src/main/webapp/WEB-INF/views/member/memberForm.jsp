@@ -98,11 +98,16 @@
 		$("#emailCheckBtn").click(function(){
 			var emailNum=document.getElementById("emailCheck").value;
 			
+			if($("#emailCheck").val()==null || $("#emailCheck").val()==""){
+				alert("인증 번호를 입력해주세요.");
+			}
+			
 			if("${code}"==emailNum){
 				$("#emailResult").val("Y");
 				alert("인증에 성공하였습니다.");
 				$("#emailCheck").attr("disabled", true);
 			}else{
+				alert("인증 번호가 맞지 않습니다.");
 				$("#emailResult").val("N");
 			}
 		});
