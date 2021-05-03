@@ -1,7 +1,6 @@
 package com.seoulmate.home.controller;
 
 import java.io.File;
-import java.net.URLDecoder;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -135,7 +134,7 @@ public class AdminController {
 				mav.setViewName("redirect:memberManagement");
 			}
 		}
-
+		
 		mav.setViewName("redirect:memberManagement");
 		return mav;
 	}

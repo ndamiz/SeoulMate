@@ -1,14 +1,20 @@
 package com.seoulmate.home.controller;
 
 import java.io.File;
+import java.net.http.HttpRequest;
 import java.util.Calendar;
+import java.util.UUID;
 
 import javax.inject.Inject;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +34,8 @@ import com.seoulmate.home.vo.PropensityVO;
 public class MemberController {
 	@Inject
 	MemberService service;
+	@Inject
+	JavaMailSenderImpl mailSender;
 	
 	@Autowired
 	private DataSourceTransactionManager transactionManager;
@@ -50,6 +58,41 @@ public class MemberController {
 		mav.setViewName("member/memberForm");
 		
 		return mav;
+	}
+	
+	@RequestMapping("/emailCheck")
+	@ResponseBody
+	public String emailCheck(HttpSession session, HttpServletRequest req) {
+		String email=req.getParameter("email"); // 인증 번호를 받을 이메일
+		UUID random=UUID.randomUUID();
+		String uuid=random.toString();
+		String code=uuid.substring(0,6);
+		String subject="서울메이트 회원가입 인증번호 메일입니다.";
+		String content="<div style='width: 600px; height: 225px; border-radius: 20px; "
+				+ "background-color: #fff; box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%); overflow: hidden;'>"
+				+ "<div style='height: 50px; line-height: 50px; background-color: #13a89e; color: #fff; text-align: center;'>"
+				+ "<img style='width: 121; height: 30px; margin:10px 0;' src='https://0905cjw.github.io/seoulmate_email.png'/></div>"
+				+ "<div style='padding: 30px;'>"
+				+ "<div style='margin:10px auto;'><h3>회원 가입을 위한 서울메이트 이메일 인증 번호</h3></div>"
+				+ "<span>인증 번호 : "+code
+				+ "</span></div><div style=\"padding: 15px 0; text-align: center; box-shadow: 0 -1px 22px -2px rgb(0 0 0 / 15%);\">"
+				+ "<span style=\"color: #13a89e; font-size:13px;\">Copyright © 2021 공일이오 Co., Ltd. All rights reserved.</span>"
+				+ "</div></div>";
+		try {
+			MimeMessage message=mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper=new MimeMessageHelper(message, true, "UTF-8");
+			messageHelper.setFrom("seoulmatemanager@gmail.com");
+			messageHelper.setTo(email);
+			messageHelper.setSubject(subject);
+			messageHelper.setText("text/html; charset=UTF-8", content);
+			mailSender.send(message);
+			session.setAttribute("code", code);
+		}catch(Exception e) {
+			System.out.println("이메일 인증번호 전송 에러 발생...");
+			e.printStackTrace();
+		}
+		
+		return "result";
 	}
 	
 	@RequestMapping("/idChk")

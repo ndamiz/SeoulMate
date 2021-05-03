@@ -66,6 +66,49 @@
 			$(document.body).css("overflow","visible");
 			$("#idResult").empty();
 		});
+		
+		// 이메일
+		$("#emailBtn").click(function(){
+			if(regEmail()==false){
+				return false;
+			}else{
+				var emailid=document.getElementById("emailid").value;
+				var emaildomain=document.getElementById("emaildomain").value;
+				var email=emailid+"@"+emaildomain;
+				
+				var url="emailCheck";
+				var params="email="+email;
+				
+				$.ajax({
+					url:url,
+					data:params,
+					success:function(result){
+						alert("인증 번호가 전송되었습니다.");
+						console.log("이메일 인증 성공");
+						
+					}, error:function(){
+						console.log("이메일 인증 실패");
+					}
+				});
+			}
+			
+		});
+		
+		// 이메일 인증번호 확인
+		$("#emailCheckBtn").click(function(){
+			var emailNum=document.getElementById("emailCheck").value;
+			
+			if("${code}"==emailNum){
+				$("#emailResult").val("Y");
+				alert("인증에 성공하였습니다.");
+				$("#emailCheck").attr("disabled", true);
+			}else{
+				$("#emailResult").val("N");
+			}
+		});
+		
+		
+		
 		// 1
 		$("#memNext1").click(function(){
 			// 희망 지역1
@@ -81,7 +124,7 @@
 			// 희망 지역2
 			var area2=$("#gu2").val();
 			// alert(area2);
-			if(area2=="구를 선택해주세요"){
+			if(area2=="구를 선택해주세요."){
 				area2="";
 			}else{
 				area2+=" "+$("#dong2").val();
@@ -91,7 +134,7 @@
 			// 희망 지역3
 			var area3=$("#gu3").val();
 			// alert(area3);
-			if(area3=="구를 선택해주세요"){
+			if(area3=="구를 선택해주세요."){
 				area3="";
 			}else{
 				area3+=" "+$("#dong3").val();
@@ -100,19 +143,19 @@
 			
 			// 유효성 검사
 			if($("#userid").val()==""){
-				alert("아이디를 입력하세요");
+				alert("아이디를 입력하세요.");
 				return false;
 			}
 			if($("#hiddenCheck").val()!="Y"){
-				alert("아이디 중복 검사를 하세요");
+				alert("아이디 중복 검사를 하세요.");
 				return false;
 			}
 			if($("#userpwd").val()==""){
-				alert("비밀번호를 입력하세요");
+				alert("비밀번호를 입력하세요.");
 				return false;
 			}
 			if($("#userpwd2").val()==""){
-				alert("비밀번호 확인을 입력하세요");
+				alert("비밀번호 확인을 입력하세요.");
 				return false;
 			}
 			if($("#userpwd").val()!=$("#userpwd2").val()){
@@ -120,26 +163,34 @@
 				return false;
 			}
 			if($("#username").val()==""){
-				alert("이름을 입력하세요");
+				alert("이름을 입력하세요.");
 				return false;
 			}
 			if($("#tel2").val()==""||$("#tel3").val()==""){
-				alert("전화번호를 입력하세요");
+				alert("전화번호를 입력하세요.");
 				return false;
 			}
 			if($("#birth").val()==null || $("#birth").val()==""){
-				alert("생년월일을 선택하세요");
+				alert("생년월일을 선택하세요.");
+				return false;
+			}
+			if($("#profilePic").val()==null || $("#profilePic").val()==""){
+				alert("프로필 사진을 업로드해주세요.");
 				return false;
 			}
 			if($("#area1").val()==null || $("#area1").val()==""){
-				alert("희망 지역1을 선택하세요\r\n(하우스인 경우 등록할 하우스의 지역을 선택해주세요.)");
+				alert("희망 지역1을 선택하세요.\r\n(하우스인 경우 등록할 하우스의 지역을 선택해주세요.)");
 				return false;
 			}
 			if($("#area3").val()!=null && $("#area3").val()!=""){
 				if($("#area2").val()==null || $("#area2").val()==""){
-					alert("희망 지역2를 선택하세요");
+					alert("희망 지역2를 선택하세요.");
 					return false;
 				}
+			}
+			if($("#emailResult").val()!="Y"){
+				alert("이메일 인증을 하세요.");
+				return false;
 			}
 			//////////////////////////////////////
 			// 정규식 표현에 통과했을 때
@@ -304,12 +355,6 @@
 				alert("이메일을 잘못 입력하셨습니다.");
 				return false;
 			}
-			// 인증 번호
-			var regEmailCheck=/[0-9]{6}$/;
-			if(!regEmailCheck.test(document.getElementById("emailCheck").value)){
-				alert("인증번호는 숫자 6자리를 입력해야 합니다.");
-				return false;
-			}
 		}
 		// 팝업 아이디 정규식 표현
 		function regPopCheck(){
@@ -319,6 +364,15 @@
 				return false;
 			}
 		}
+		
+		function regEmail(){
+			var regEmailId=/^\w{3,14}$/;
+			if(!regEmailId.test(document.getElementById("emailid").value)){
+				alert("이메일을 잘못 입력하셨습니다.");
+				return false;
+			}
+		}
+		
 		// 상단으로 스크롤 이동
 		function goTop(){
 			$('html').scrollTop(0);
@@ -524,8 +578,9 @@
 					</li>
 					<li>
 						<label></label>
-						<input type="text" name="emailCheck" id="emailCheck" value="111111" placeholder="인증번호를 입력해주세요"/>
+						<input type="text" name="emailCheck" id="emailCheck" value="" placeholder="인증번호를 입력해주세요"/>
 						<a class="green" id="emailCheckBtn">인증번호 확인</a>
+						<input type="hidden" name="emailResult" id="emailResult" value="N"/>
 					</li>
 				</ul>
 				<a class="q_btn green" id="memNext1">다음</a>
