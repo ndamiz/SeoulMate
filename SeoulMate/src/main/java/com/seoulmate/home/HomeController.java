@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,13 +29,10 @@ public class HomeController {
 	MemberService memberService;
 	
 	
-	@RequestMapping("/chat")
-	public ModelAndView chat() {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("chat/chatting");
-		return mav;
-	}
-	
+	/*
+	 * @RequestMapping("/chat") public ModelAndView chat() { ModelAndView mav = new
+	 * ModelAndView(); mav.setViewName("chat/chatting"); return mav; }
+	 */	
 	@SuppressWarnings("null")
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home(HttpSession session) {
