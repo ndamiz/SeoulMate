@@ -6,7 +6,7 @@
  	<select id="comAllRecord" parameterType="com.seoulmate.home.vo.PageVO" resultType="com.seoulmate.home.vo.BoardVO">
  		select * from
  		( select * from 
- 		( select no, category, subject, userid, hit, to_char(writedate, 'MM-DD HH:MI') writedate from community
+ 		( select no, category, subject, userid, hit, to_char(writedate, 'MM-DD HH:MI') writedate, replycnt from community
   		<choose>
   			<when test='searchWord != null and !category.equals("")'>
   				where category=#{category} and ${searchKey} like '%${searchWord}%'
@@ -55,4 +55,13 @@
   	<select id="replyCount" resultType="int">
   		select count(num) cnt from communityReply where no=#{param1}
   	</select>
+  	<update id="hitUpdate">
+  		update community set hit=hit+1 where no=#{param1}
+  	</update>
+  	<delete id="communityDelete">
+  		delete from community where no=#{param1} and userid=#{param2}
+  	</delete>
+  	<update id="replyUpdate">
+  		update community set replycnt=replycnt+1 where no=#{param1}
+  	</update>
 </mapper>

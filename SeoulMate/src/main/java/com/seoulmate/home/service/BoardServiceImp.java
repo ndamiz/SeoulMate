@@ -38,4 +38,19 @@ public class BoardServiceImp implements BoardService {
 	public int replyCount(int no) {
 		return dao.replyCount(no);
 	}
+
+	@Override
+	public int hitUpdate(int no) {
+		return dao.hitUpdate(no);
+	}
+
+	@Override
+	public int communityDelete(int no, String userid) {
+		return dao.communityDelete(no, userid);
+	}
+
+	@Override
+	public int replyUpdate(int no) {
+		return dao.replyUpdate(no);
+	}
 }

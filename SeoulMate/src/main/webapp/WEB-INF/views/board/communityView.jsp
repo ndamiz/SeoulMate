@@ -2,6 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/yun.css">
 <script>
+	//글삭제
+	function communityDel(){
+		if(confirm('해당 글을 삭제하나요?')){
+			location.href="communityDel?no=${vo.no}";
+		}
+	}
 	//1. 댓글 목록 불러오기
 	function replyList(){
 		var url = "/home/replyList";
@@ -24,13 +30,18 @@
 					tag += '<div class="communityView_comment_btn">';
 					
 					if(obj.userid == '${logId}'){
-						tag += '<a href="">수정</a>'
-						tag += '<a href="">삭제</a>'
+						tag += '<form method="post">' //숮
+						tag += '<button class="white">수정</button>'
+						tag += '<button class="white" href="">삭제</button>'
 					}
 					tag += '<a href="">답글</a>'
 					tag += '<a href="">신고</a></div></li>'
 					tag += '<li class="communityView_comment_content">'
 					tag += obj.content+'</li>';
+					//댓글 수정폼
+					if(obj.userid=="${logId}"){
+						tag += "<li class='communityView_comment_content' style='display:none; background-color:#eee;'><textarea style='width: 100%; border:none; background-color:#eee;'>"+obj.content+"</textarea></li>";
+					}
 				});
 				tag += '</li>';
 				$("#replyList").html(tag);
@@ -62,6 +73,9 @@
 				alert("댓글내용을 입력해야 등록이 가능합니다.");
 			}
 		});//2.end
+		
+		//3.댓글 수정하기
+		$(document).on('submit','#')
 	});
 </script>
 <div class="wrap">
@@ -71,19 +85,19 @@
 			<li><a class="on">${vo.category}</a></li>
 		</ul>
 		<a href="#" class="reportBtn" style="float:left;">
-			<img title="신고" alt="신고" src="<%=request.getContextPath()%>/img/yun/fi-rr-exclamation.svg">
+			<img title="신고" alt="신고" src="<%=request.getContextPath()%>/img/comm/ico_report.png">
 		</a>
 		<div style="text-align:right; border-bottom: 1px solid #13a89e; padding-bottom:10px; margin-bottom:10px;">
 			<a class="white aTagReset" href="#">이전글</a>
 			<a class="white aTagReset" href="#">다음글</a>
-			<a class="white aTagReset" href="#">전체목록</a>
+			<a class="white aTagReset" href="communityList">전체목록</a>
 		</div>
 		<ul>
 			<li>
 				<span class="s_title">${vo.subject}</span>
 				<c:if test="${vo.userid==logId}">
 					<a href="">수정</a>
-					<a href="">삭제</a>
+					<a href="javascript:communityDel()">삭제</a>
 				</c:if>
 			</li>
 			<li>

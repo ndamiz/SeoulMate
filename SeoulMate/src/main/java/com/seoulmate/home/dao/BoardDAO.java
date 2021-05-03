@@ -16,5 +16,11 @@ public interface BoardDAO {
 	public BoardVO boardSelect(int no);
 	//댓글 수 확인용
 	public int replyCount(int no);
+	//조회수올리기
+	public int hitUpdate(int no);
+	//글 삭제하기
+	public int communityDelete(int no, String userid);
+	//댓글 수 올리기
+	public int replyUpdate(int no);
 	
 }

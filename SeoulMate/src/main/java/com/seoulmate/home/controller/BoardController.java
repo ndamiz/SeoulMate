@@ -2,6 +2,7 @@ package com.seoulmate.home.controller;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -85,10 +86,25 @@ public class BoardController {
 	//글 내용보기
 	@RequestMapping("/communityView")
 	public ModelAndView boardView(int no) {
+		//조회수 올리기
+		service.hitUpdate(no);
+		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("vo", service.boardSelect(no));
 		mav.addObject("replyCnt", service.replyCount(no));
 		mav.setViewName("/board/communityView");
+		return mav;
+	}
+	//글 삭제하기
+	@RequestMapping("/communityDel")
+	public ModelAndView communitDel(int no, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		if(service.communityDelete(no,(String)session.getAttribute("logId"))>0) {
+			mav.setViewName("redirect:communityList");
+		}else {
+			mav.addObject("no", no);
+			mav.setViewName("redirect:communityView");
+		}
 		return mav;
 	}
 }
