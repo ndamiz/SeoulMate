@@ -3,6 +3,8 @@ package com.seoulmate.home.vo;
 public class PagingVO {
 	private String searchKey; 	//검색키
 	private String searchWord;  //검색어
+	private String grade; // 회원관리 등급
+	private String state; // 회원관리 상태
 	
 	// 페이징 
 	private int pageNum = 1; //현재 페이지 
@@ -25,6 +27,20 @@ public class PagingVO {
 	public void setSearchWord(String searchWord) {
 		this.searchWord = searchWord;
 	}
+	
+	public String getGrade() {
+		return grade;
+	}
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	
 	public int getPageNum() {
 		return pageNum;
 	}

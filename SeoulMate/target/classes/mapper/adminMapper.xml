@@ -3,9 +3,23 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.seoulmate.home.dao.AdminDAO">
- 	<select id="memberSelect" resultType="com.seoulmate.home.vo.MemberVO">
-  		select no, userid, username, tel, email, grade, reportcnt, state from member order by no desc
-
+ 	<select id="memberSelect" parameterType="com.seoulmate.home.vo.PagingVO" resultType="com.seoulmate.home.vo.MemberVO">
+		select * from  	
+  		(select * from 
+  		(select * from 
+  		(select no, userid, username, tel, email, grade, reportcnt, state from member 
+  		<if test="searchKey !=null and searchWord != null">where ${searchKey} like '%${searchWord}%'</if>)
+  		<if test="grade != null and grade != 0"> where grade=${grade} </if>)
+  		<if test='state != null and state !=""'> where state=#{state}</if>) 
+  		order by no desc
+  	</select>
+  	<select id="membertotalRecord" parameterType="com.seoulmate.home.vo.PagingVO" resultType="int">
+  		select count(no) no from 
+  		(select * from 
+  		(select * from member 
+  		<if test="searchWord !=null">where ${searchKey} like '%${searchWord}%'</if>)
+  		<if test='state !="" and state != null'>where state=#{state}</if>)
+  		<if test="grade == 1 or grade == 2">where grade=${grade}</if>
   	</select>
   	<select id="memberInfo" resultType="com.seoulmate.home.vo.MemberVO">
   		select profilepic, userid, userpwd, username, to_char(birth, 'YYYY-MM-DD') birth, tel, email, reportcnt, state from member where userid=#{param1}

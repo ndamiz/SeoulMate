@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.seoulmate.home.service.AdminService;
 import com.seoulmate.home.vo.MemberVO;
+import com.seoulmate.home.vo.PagingVO;
 import com.seoulmate.home.vo.PayVO;
 
 @Controller
@@ -41,10 +42,12 @@ public class AdminController {
 	///////////////////////////////////////////////////////
 	//관리자-회원
 	@RequestMapping(value="/admin/memberManagement", method={RequestMethod.POST, RequestMethod.GET})
-	public ModelAndView memberManagement() {
+	public ModelAndView memberManagement(PagingVO pVO, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
 		
-		mav.addObject("list", service.memberSelect());
+		pVO.setTotalRecode(service.membertotalRecord(pVO));
+		
+		mav.addObject("list", service.memberSelect(pVO));
 		mav.setViewName("admin/memberManagement");
 		return mav;
 	}
