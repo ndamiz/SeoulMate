@@ -96,5 +96,3 @@ function datePicker(){
 	$('img.ui-datepicker-trigger').css({'cursor':'pointer', 'margin':'0px 10px 3px 5px', 'width' :'25px', 'height':'25px'});
 }
 
-
-

@@ -1,5 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script>
+$(function(){
+	$('.admin_HouseManagement_DetailInfo').on('click', function(){
+		var no = $(this).children().eq(0).text();
+		var userid = $(this).children().eq(1).text();
+		var housename = $(this).children().eq(2).text();
+		
+		var popWidth =850;
+		var popHeight = 650;
+		var popLeft = Math.ceil((window.screen.width - popWidth)/2);
+		var popTop = Math.ceil((window.screen.height - popHeight)/2);
+		window.open("/home/admin/houseDetailInfo?no="+no+"&housename="+housename, "width="+popWidth+", height="+popHeight+", left="+popLeft+", top="+popTop);
+	})
+});
+</script>
 		<section class="admin_Section">
 			<div class="admin_Content">
 				<div class="m_title managementTitle">하우스 관리</div>
@@ -56,7 +71,7 @@
 						</thead>
 						<tbody>
 							<c:forEach var="houseVO" items="${houseWriteList }">
-							<tr>
+							<tr class="admin_HouseManagement_DetailInfo" >
 								<td>${houseVO.no }</td>
 								<td>${houseVO.userid }</td>
 								<td>${houseVO.housename }</td>

@@ -24,6 +24,8 @@ public interface AdminService {
 	public int houseTotalRecode(Map<String, Object> map);
 	// 하우스관리 페이지 리스트 가져오기 
 	public List<HouseWriteVO> houseOnePageListSelect(Map<String, Object> map);
+	// 하우스관리 - 개인정보 확인 
+	public Map<String, Object> houseDetailInfoSelect(HouseWriteVO hwVO);
 	
 // mate Management ///////////////////////////////////////
 	public int mateTotalRecode(Map<String, Object> map);

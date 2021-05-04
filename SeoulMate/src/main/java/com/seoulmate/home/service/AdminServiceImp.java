@@ -39,6 +39,11 @@ public class AdminServiceImp implements AdminService {
 	public List<HouseWriteVO> houseOnePageListSelect(Map<String, Object> map) {
 		return dao.houseOnePageListSelect(map);
 	}
+	@Override
+	public Map<String, Object> houseDetailInfoSelect(HouseWriteVO hwVO) {
+		// TODO Auto-generated method stub
+		return dao.houseDetailInfoSelect(hwVO);
+	}
 	
 // mate management /////////////////////////////////////
 	@Override
@@ -68,13 +73,5 @@ public class AdminServiceImp implements AdminService {
 	@Override
 	public PayVO salesTotalAmountSelect(PayVO payVO) {
 		return dao.salesTotalAmountSelect(payVO);
-	}
-	
-	
-
-
-	
-
-
-	
+	}	
 }

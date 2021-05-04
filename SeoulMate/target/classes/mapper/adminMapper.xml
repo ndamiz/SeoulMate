@@ -43,6 +43,9 @@
 		where <![CDATA[rownum<=]]><if test="pagingVO.pageNum==pagingVO.totalPage">${pagingVO.lastPageRecode}</if> 
   					<if test="pagingVO.pageNum!=pagingVO.totalPage">${pagingVO.onePageRecode}</if> ORDER BY no DESC
   	</select>
+  	<select id="houseDetailInfoSelect" parameterType="com.seoulmate.home.vo.HouseWriteVO" resultMap="hashMap">
+  	
+  	</select>
   	<select id="mateTotalRecode" parameterType="java.util.HashMap" resultType="int">
   		SELECT count(no) FROM (SELECT * FROM (SELECT * FROM
 			(SELECT mate.no, mate.userid, mate.area, mate.matestate, m.grade FROM mateWrite mate JOIN MEMBER m ON mate.userid=m.userid) 

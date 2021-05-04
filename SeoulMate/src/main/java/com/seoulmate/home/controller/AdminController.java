@@ -89,6 +89,20 @@ public class AdminController {
 		mav.setViewName("admin/houseManagement");
 		return mav;
 	}
+	
+	@RequestMapping("/admin/houseDetailInfo")
+	public ModelAndView houseDetailInfo(HouseWriteVO hwVO) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println("no = "+ hwVO.getNo());
+		System.out.println("housename = "+ hwVO.getHousename());
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+//		map = service.houseDetailInfoSelect(hwVO);
+		
+		
+		mav.setViewName("admin/houseDetailInfo");
+		return mav;
+	}
 	//관리자 - 하우스메이트 
 	@RequestMapping(value="/admin/mateManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView mateManagement(MateWriteVO mwVO, PagingVO pagingVO) {
