@@ -553,7 +553,7 @@
 						<select id="dong1">
 							<option>동을 선택해주세요</option>
 						</select>
-						<input type="text" name="area1" id="area1" placeholder=""/>
+						<input type="hidden" name="area1" id="area1" placeholder=""/>
 					</li>
 					<li id="a2"><label>&nbsp;희망 지역2</label>
 						<select id="gu2" onchange="areaChange(this)">
@@ -566,7 +566,7 @@
 						<select id="dong2">
 							<option>동을 선택해주세요</option>
 						</select>
-						<input type="text" name="area2" id="area2" placeholder=""/>
+						<input type="hidden" name="area2" id="area2" placeholder=""/>
 					</li>					
 					<li id="a3"><label>&nbsp;희망 지역3</label>
 						<select id="gu3" onchange="areaChange(this)">
@@ -579,7 +579,7 @@
 						<select id="dong3">
 							<option>동을 선택해주세요</option>
 						</select>
-						<input type="text" name="area3" id="area3" placeholder=""/>
+						<input type="hidden" name="area3" id="area3" placeholder=""/>
 					</li>
 					<li><label><span class="red_txt">*</span>이메일</label>
 						<input type="text" name="emailid" id="emailid" value="0905cjw" placeholder="이메일"/><span>@</span> 
