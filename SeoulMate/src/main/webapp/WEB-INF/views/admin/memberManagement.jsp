@@ -121,6 +121,21 @@
 		}
 		$("ul>li").eq(8).children('.toggle_cont').children('input[name=state]').prop('checked', false);
 	}
+	function pageClick(page, searchKey, searchWord){
+		var f=document.go;
+		f.pageNum.value=page; // post 방식을 넘길 값
+		f.searchKey.value=searchKey; // post 방식을 넘길 값
+		f.searchWord.value=searchWord; // post 방식을 넘길 값
+		f.action="/home/admin/memberManagement"; // 이동할 페이지
+		f.method="post"; // post 방식
+		f.submit();
+	}
+	function boardDel(pageNum, searchKey, searchWord){
+		alert(pageNum+", "+searchKey+", "+searchWord);
+		if(confirm("삭제하시겠습니까?")){
+			return false;
+		}
+	}
 </script>
 	<section>
 		<div class="m_title managementTitle">회원 관리</div>
@@ -183,23 +198,6 @@
 					</c:forEach>
 				</tbody>
 			</table>
-			<script>
-				function pageClick(page, searchKey, searchWord){
-					var f=document.go;
-					f.pageNum.value=page; // post 방식을 넘길 값
-					f.searchKey.value=searchKey; // post 방식을 넘길 값
-					f.searchWord.value=searchWord; // post 방식을 넘길 값
-					f.action="/home/admin/memberManagement"; // 이동할 페이지
-					f.method="post"; // post 방식
-					f.submit();
-				}
-				function boardDel(pageNum, searchKey, searchWord){
-					alert(pageNum+", "+searchKey+", "+searchWord);
-					if(confirm("삭제하시겠습니까?")){
-						return false;
-					}
-				}
-			</script>
 			<div class="paging">
 				<form name="go"> <!-- 자바스크립트로 submit 시키려면 form을 추가하고 name을 지정해야 한다. -->
 					<input type="hidden" name="pageNum"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
