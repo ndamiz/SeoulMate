@@ -184,29 +184,31 @@
 				</tbody>
 			</table>
 			<div class="paging">
-				<c:if test="${pVO.pageNum>1 }">
+				<c:if test="${pVO.pageNum>1}">
 					<a href="javascript:pageClick('first_page')" class="first_page"></a>
 					<a href="javascript:pageClick('prev_page')" class="prev_page"></a>
 				</c:if>
-				<c:if test="${pVO.pageNum==1 }">
+				<c:if test="${pVO.pageNum==1}">
 					<a href="#" class="first_page"></a>
 					<a href="#"  class="prev_page"></a>
 				</c:if>
-				<c:forEach var="pageNum" begin="${pVO.startPageNum }" end="${pVO.startPageNum + pVO.onePageNum-1 }">
+				<c:forEach var="pageNum" begin="${pVO.startPageNum}" end="${pVO.startPageNum + pVO.onePageNum-1}">
 					<c:if test="${pageNum<=pVO.totalPage }">
 						<c:if test="${pageNum==pVO.pageNum }">
-							<a href="javascript:pageClick('${pageNum }')" class="nowPageNum">${pageNum }</a>
+<%-- 							<a href="javascript:pageClick('${pageNum}')" class="nowPageNum">${pageNum}</a> --%>
+							<a href="memberManagement?pageNum=${pageNum}<c:if test="${pVO.searchWord!=null && pVO.searchWord!='' }">&searchKey=${pVO.searchKey}&searchWord=${pVO.searchWord}</c:if>">${pageNum}</a>
 						</c:if>
 						<c:if test="${pageNum!=pVO.pageNum }">
-							<a href="javascript:pageClick('${pageNum }')">${pageNum }</a>
+<%-- 							<a href="javascript:pageClick('${pageNum}')">${pageNum }</a> --%>
+							<a href="memberManagement?pageNum=${pageNum}<c:if test="${pVO.searchWord!=null && pVO.searchWord!='' }">&searchKey=${pVO.searchKey}&searchWord=${pVO.searchWord}</c:if>">${pageNum}</a>
 						</c:if>
 					</c:if>
 				</c:forEach>
-				<c:if test="${pVO.pageNum < pVO.totalPage }">
+				<c:if test="${pVO.pageNum < pVO.totalPage}">
 					<a href="javascript:pageClick('next_page')" class="next_page"></a>
 					<a href="javascript:pageClick('last_page')" class="last_page"></a>
 				</c:if>
-				<c:if test="${pVO.pageNum == pVO.totalPage }">
+				<c:if test="${pVO.pageNum == pVO.totalPage}">
 					<a href="#" class="next_page"></a>
 					<a href="#" class="last_page"></a>
 				</c:if>

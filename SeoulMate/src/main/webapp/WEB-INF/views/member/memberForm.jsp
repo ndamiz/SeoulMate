@@ -139,7 +139,7 @@
 			// 희망 지역2
 			var area2=$("#gu2").val();
 			// alert(area2);
-			if(area2=="구를 선택해주세요."){
+			if(area2=="구를 선택해주세요"){
 				area2="";
 			}else{
 				area2+=" "+$("#dong2").val();
@@ -149,7 +149,7 @@
 			// 희망 지역3
 			var area3=$("#gu3").val();
 			// alert(area3);
-			if(area3=="구를 선택해주세요."){
+			if(area3=="구를 선택해주세요"){
 				area3="";
 			}else{
 				area3+=" "+$("#dong3").val();
@@ -545,41 +545,41 @@
 					</li>
 					<li id="a1"><label>&nbsp;희망 지역1</label>
 						<select id="gu1" onchange="areaChange(this)">
-							<option hidden>구를 선택해주세요</option>
+							<option>구를 선택해주세요</option>
 							<c:forEach var="gu" items="${guArr}">
 								<option value="${gu}">${gu}</option>
 							</c:forEach>
 						</select>
 						<select id="dong1">
-							<option hidden>동을 선택해주세요</option>
+							<option>동을 선택해주세요</option>
 						</select>
-						<input type="hidden" name="area1" id="area1" placeholder=""/>
+						<input type="text" name="area1" id="area1" placeholder=""/>
 					</li>
 					<li id="a2"><label>&nbsp;희망 지역2</label>
 						<select id="gu2" onchange="areaChange(this)">
-							<option hidden>구를 선택해주세요</option>
+							<option>구를 선택해주세요</option>
 							<c:forEach var="gu" items="${guArr}">
 								<option value="${gu}">${gu}</option>
 							</c:forEach>
 						</select>
  
 						<select id="dong2">
-							<option hidden>동을 선택해주세요</option>
+							<option>동을 선택해주세요</option>
 						</select>
-						<input type="hidden" name="area2" id="area2" placeholder=""/>
+						<input type="text" name="area2" id="area2" placeholder=""/>
 					</li>					
 					<li id="a3"><label>&nbsp;희망 지역3</label>
 						<select id="gu3" onchange="areaChange(this)">
-							<option hidden>구를 선택해주세요</option>
+							<option>구를 선택해주세요</option>
 							<c:forEach var="gu" items="${guArr}">
 								<option value="${gu}">${gu}</option>
 							</c:forEach>
 						</select>
  
 						<select id="dong3">
-							<option hidden>동을 선택해주세요</option>
+							<option>동을 선택해주세요</option>
 						</select>
-						<input type="hidden" name="area3" id="area3" placeholder=""/>
+						<input type="text" name="area3" id="area3" placeholder=""/>
 					</li>
 					<li><label><span class="red_txt">*</span>이메일</label>
 						<input type="text" name="emailid" id="emailid" value="0905cjw" placeholder="이메일"/><span>@</span> 
