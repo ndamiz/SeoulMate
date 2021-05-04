@@ -48,6 +48,13 @@ public class AdminController {
 		pVO.setTotalRecode(service.membertotalRecord(pVO));
 
 		mav.addObject("list", service.memberSelect(pVO));
+		
+		System.out.println("전체 페이지 : "+pVO.getTotalPage());
+		System.out.println("전체 레코드 수 : "+pVO.getTotalRecode());
+		System.out.println("시작 페이지 : "+pVO.getStartPageNum());
+		System.out.println("현재 페이지 : "+pVO.getPageNum());
+		System.out.println("페이징 개수 : "+pVO.getOnePageNum());
+		System.out.println("마지막 페이지 레코드 수 : "+pVO.getLastPageRecode());
 		mav.setViewName("admin/memberManagement");
 		return mav;
 	}
