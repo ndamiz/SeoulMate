@@ -184,14 +184,32 @@
 				</tbody>
 			</table>
 			<div class="paging">
-			<a class="first_page" href=""></a>
-				<a class="prev_page" href=""></a>
-				<a class="on" href="">1</a>
-				<a class="" href="">2</a>
-				<a class="" href="">3</a>
-				<a class="" href="">4</a>
-				<a class="next_page" href=""></a>
-				<a class="last_page" href=""></a>
+				<c:if test="${pVO.pageNum>1 }">
+					<a href="javascript:pageClick('first_page')" class="first_page"></a>
+					<a href="javascript:pageClick('prev_page')" class="prev_page"></a>
+				</c:if>
+				<c:if test="${pVO.pageNum==1 }">
+					<a href="#" class="first_page"></a>
+					<a href="#"  class="prev_page"></a>
+				</c:if>
+				<c:forEach var="pageNum" begin="${pVO.startPageNum }" end="${pVO.startPageNum + pVO.onePageNum-1 }">
+					<c:if test="${pageNum<=pVO.totalPage }">
+						<c:if test="${pageNum==pVO.pageNum }">
+							<a href="javascript:pageClick('${pageNum }')" class="nowPageNum">${pageNum }</a>
+						</c:if>
+						<c:if test="${pageNum!=pVO.pageNum }">
+							<a href="javascript:pageClick('${pageNum }')">${pageNum }</a>
+						</c:if>
+					</c:if>
+				</c:forEach>
+				<c:if test="${pVO.pageNum < pVO.totalPage }">
+					<a href="javascript:pageClick('next_page')" class="next_page"></a>
+					<a href="javascript:pageClick('last_page')" class="last_page"></a>
+				</c:if>
+				<c:if test="${pVO.pageNum == pVO.totalPage }">
+					<a href="#" class="next_page"></a>
+					<a href="#" class="last_page"></a>
+				</c:if>
 			</div>
 		</div>
 	</section>

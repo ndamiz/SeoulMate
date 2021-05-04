@@ -48,6 +48,7 @@ public class AdminController {
 		pVO.setTotalRecode(service.membertotalRecord(pVO));
 
 		mav.addObject("list", service.memberSelect(pVO));
+		mav.addObject("pVO", pVO);
 		
 		System.out.println("전체 페이지 : "+pVO.getTotalPage());
 		System.out.println("전체 레코드 수 : "+pVO.getTotalRecode());
