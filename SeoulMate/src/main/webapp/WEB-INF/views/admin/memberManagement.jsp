@@ -125,38 +125,34 @@
 	<section>
 		<div class="m_title managementTitle">회원 관리</div>
 		<form method="post" action="/home/admin/memberManagement" class="managementSearchForm">
-			<div class="memberRadio">
-				<div class="checks">
-					<span class="managementSpan">등급</span>
-					<input type="radio" name="grade" id="memberGrade1" checked/>
-					<label for="memberGrade1">전체</label>
-					<input type="radio" name="grade" id="memberGrade2"/>
-					<label for="memberGrade2">일반</label>
-					<input type="radio" name="grade" id="memberGrade3"/>
-					<label for="memberGrade3">프리미엄</label>
+			<div class="management_memberSearch">
+				<div class="management_memberSelect">
+					<span class="managementSpan" id="gradeSpan">등급</span>
+					<select name="grade" id="member_grade" class="custom-select">
+						<option value="0" selected>전체</option>						
+						<option value="1">일반</option>						
+						<option value="2">프리미엄</option>						
+					</select>
+					<span class="managementSpan" id="stateSpan">상태</span>
+					<select name="state" id="member_state" class="custom-select">
+						<option value="" selected>전체</option>						
+						<option value="일반">일반</option>						
+						<option value="블랙">블랙리스트</option>						
+						<option value="탈퇴">탈퇴</option>						
+					</select>
 				</div>
-				<div class="checks">
-					<span class="managementSpan">상태</span>
-					<input type="radio" name="state" id="memberState1" checked/>
-					<label for="memberState1">전체</label>
-					<input type="radio" name="state" id="memberState2"/>
-					<label for="memberState2">일반</label>
-					<input type="radio" name="state" id="memberState3"/>
-					<label for="memberState3">블랙리스트</label>
-					<input type="radio" name="state" id="memberState4"/>
-					<label for="memberState4">탈퇴</label>
+				<div class="managementSearch">
+					<select name="searchKey" class="custom-select">
+						<option value="userid">아이디</option>
+						<option value="username">이름</option>
+						<option value="tel">연락처</option>
+						<option value="email">이메일</option>
+					</select>
+					<input type="text" name="searchWord" class="form-control"/>
+					<input type="submit" value="Search" class="btn btn-custom"/>
 				</div>
 			</div>
-			<div class="managementSearch">
-				<select name="searchKey" class="custom-select">
-					<option value="userid">아이디</option>
-					<option value="username">이름</option>
-					<option value="tel">연락처</option>
-					<option value="email">이메일</option>
-				</select>
-				<input type="text" name="searchWord" class="form-control"/>
-				<input type="submit" value="Search" class="btn btn-custom"/>
-			</div>
+			
 		</form>
 		<div class="table-responsive, managementList">
 			<table class="table table-hover table-sm table-bordered" id="memberTable">

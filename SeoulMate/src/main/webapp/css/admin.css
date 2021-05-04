@@ -220,12 +220,6 @@ section{ margin-left:15% ; width: 85%; float: left; }
 
 #graphBtn {width: 38px; height: 38px; float:right; margin: 0 5px;}
 #excelBtn {float: right; margin: 0 5px;}
-/* house ManageMent */
-.houseManagenent_span{display: block; margin-left: 10px;}
-.management_houseSearch{overflow: auto; width: 100%;}
-.management_houseSelect{ float: left; margin-top: 20px; margin-right: 20px;}
-.management_houseSelect>span{margin-left: 10px;}
-.management_houseStateSelect>select{width: 100px; float: left;}
 
 /* MemberManagement */
 .profile_div{margin:5px 0 0 20px;}
@@ -234,6 +228,13 @@ section{ margin-left:15% ; width: 85%; float: left; }
 .profile_left{margin-left:100px; padding-top:10px;}
 .remove_icon{margin-left:5px; width:15px; height:15px;}
 .memberRadio{width:497px; float:right; }
+.management_memberSearch>div:nth-child(1){float:left;}
+.management_memberSearch>div:nth-child(2){float:right;}
+.management_memberSearch>.managementSearch{margin:0;}
+.management_memberSelect>.managementSpan{text-align:left; width:40px;}
+#member_grade{width:100px;}
+#member_state{width:120px;}
+#stateSpan{margin-left:18px;}
 
 /* reportManagement */
 .reportSearch {width:550px; float: left; overflow: auto; margin-top: 20px; }
