@@ -8,7 +8,7 @@
   		(select * from 
   		(select * from 
   		(select no, userid, username, tel, email, grade, reportcnt, state from member 
-  		<if test="searchKey !=null and searchWord != null">where ${searchKey} like '%${searchWord}%'</if>)
+  		<if test='searchKey !=null and searchWord != null and searchKey != "" and searchWord !=""'>where ${searchKey} like '%${searchWord}%'</if>)
   		<if test="grade != null and grade != 0"> where grade=${grade} </if>)
   		<if test='state != null and state !=""'> where state=#{state}</if>)  
   		order by no desc)
@@ -23,7 +23,7 @@
   		select count(no) no from 
   		(select * from 
   		(select * from member 
-  		<if test="searchWord !=null">where ${searchKey} like '%${searchWord}%'</if>)
+  		<if test='searchWord !=null and searchWord != ""'>where ${searchKey} like '%${searchWord}%'</if>)
   		<if test='state !="" and state != null'>where state=#{state}</if>)
   		<if test="grade == 1 or grade == 2">where grade=${grade}</if>
   	</select>

@@ -183,35 +183,57 @@
 					</c:forEach>
 				</tbody>
 			</table>
+			<script>
+				function pageClick(page, searchKey, searchWord){
+					var f=document.go;
+					f.pageNum.value=page; // post 방식을 넘길 값
+					f.searchKey.value=searchKey; // post 방식을 넘길 값
+					f.searchWord.value=searchWord; // post 방식을 넘길 값
+					f.action="/home/admin/memberManagement"; // 이동할 페이지
+					f.method="post"; // post 방식
+					f.submit();
+				}
+				function boardDel(pageNum, searchKey, searchWord){
+					alert(pageNum+", "+searchKey+", "+searchWord);
+					if(confirm("삭제하시겠습니까?")){
+						return false;
+					}
+				}
+			</script>
 			<div class="paging">
-				<c:if test="${pVO.pageNum>1}">
-					<a href="javascript:pageClick('first_page')" class="first_page"></a>
-					<a href="javascript:pageClick('prev_page')" class="prev_page"></a>
-				</c:if>
-				<c:if test="${pVO.pageNum==1}">
-					<a href="#" class="first_page"></a>
-					<a href="#"  class="prev_page"></a>
-				</c:if>
-				<c:forEach var="pageNum" begin="${pVO.startPageNum}" end="${pVO.startPageNum + pVO.onePageNum-1}">
-					<c:if test="${pageNum<=pVO.totalPage }">
-						<c:if test="${pageNum==pVO.pageNum }">
-<%-- 							<a href="javascript:pageClick('${pageNum}')" class="nowPageNum">${pageNum}</a> --%>
-							<a href="memberManagement?pageNum=${pageNum}<c:if test="${pVO.searchWord!=null && pVO.searchWord!='' }">&searchKey=${pVO.searchKey}&searchWord=${pVO.searchWord}</c:if>">${pageNum}</a>
-						</c:if>
-						<c:if test="${pageNum!=pVO.pageNum }">
-<%-- 							<a href="javascript:pageClick('${pageNum}')">${pageNum }</a> --%>
-							<a href="memberManagement?pageNum=${pageNum}<c:if test="${pVO.searchWord!=null && pVO.searchWord!='' }">&searchKey=${pVO.searchKey}&searchWord=${pVO.searchWord}</c:if>">${pageNum}</a>
-						</c:if>
+				<form name="go"> <!-- 자바스크립트로 submit 시키려면 form을 추가하고 name을 지정해야 한다. -->
+					<input type="hidden" name="pageNum"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
+					<input type="hidden" name="searchKey"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
+					<input type="hidden" name="searchWord"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
+					<c:if test="${pVO.pageNum>1}">
+						<a href="javascript:pageClick(1, '${pVO.searchKey}', '${pVO.searchWord}')" class="first_page"></a>
+						<a href="javascript:pageClick(${pVO.pageNum-1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="prev_page"></a>
 					</c:if>
-				</c:forEach>
-				<c:if test="${pVO.pageNum < pVO.totalPage}">
-					<a href="javascript:pageClick('next_page')" class="next_page"></a>
-					<a href="javascript:pageClick('last_page')" class="last_page"></a>
-				</c:if>
-				<c:if test="${pVO.pageNum == pVO.totalPage}">
-					<a href="#" class="next_page"></a>
-					<a href="#" class="last_page"></a>
-				</c:if>
+					<c:if test="${pVO.pageNum==1}">
+						<a href="#" class="first_page"></a>
+						<a href="#" class="prev_page"></a>
+					</c:if>
+					<c:forEach var="pageNum" begin="${pVO.startPageNum}" end="${pVO.startPageNum + pVO.onePageNum-1}">
+						<c:if test="${pageNum<=pVO.totalPage }">
+							<c:if test="${pageNum==pVO.pageNum }">
+								<a href="javascript:pageClick(${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')" class="nowPageNum">${pageNum}</a>
+<%-- 								<a href="memberManagement?pageNum=${pageNum}<c:if test="${pVO.searchWord!=null && pVO.searchWord!='' }">&searchKey=${pVO.searchKey}&searchWord=${pVO.searchWord}</c:if>">${pageNum}</a> --%>
+							</c:if>
+							<c:if test="${pageNum!=pVO.pageNum }">
+								<a href="javascript:pageClick(${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')">${pageNum}</a>
+<%-- 								<a href="memberManagement?pageNum=${pageNum}<c:if test="${pVO.searchWord!=null && pVO.searchWord!='' }">&searchKey=${pVO.searchKey}&searchWord=${pVO.searchWord}</c:if>">${pageNum}</a> --%>
+							</c:if>
+						</c:if>
+					</c:forEach>
+					<c:if test="${pVO.pageNum < pVO.totalPage}">
+						<a href="javascript:pageClick(${pVO.pageNum+1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="next_page"></a>
+						<a href="javascript:pageClick(${pVO.totalPage}, '${pVO.searchKey}', '${pVO.searchWord}')" class="last_page"></a>
+					</c:if>
+					<c:if test="${pVO.pageNum == pVO.totalPage}">
+						<a href="#" class="next_page"></a>
+						<a href="#" class="last_page"></a>
+					</c:if>
+				</form>
 			</div>
 		</div>
 	</section>
