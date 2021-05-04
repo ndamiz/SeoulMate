@@ -3,15 +3,18 @@ package com.seoulmate.home.dao;
 import java.util.List;
 
 import com.seoulmate.home.vo.MemberVO;
+import com.seoulmate.home.vo.PagingVO;
 import com.seoulmate.home.vo.PayVO;
 
 public interface AdminDAO {
 	// 회원 목록 출력
-	public List<String> memberSelect();
+	public List<String> memberSelect(PagingVO pVO);
 	// 회원 정보 출력
 	public MemberVO memberInfo(String userid);
 	// 회원 정보 수정
 	public int memberInfoSave(MemberVO vo);
+	// 회원 총 레코드
+	public int membertotalRecord(PagingVO pVO);
 
 
 //pay management /////////////////////////////////////////
