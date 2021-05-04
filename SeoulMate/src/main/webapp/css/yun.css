@@ -87,7 +87,7 @@
 	 overflow:auto; 
 	 padding:20px;
 	 margin-bottom: 10px;
-	 min-height: 700px;
+	 min-height: 500px;
 }
 .communityView_comment_user_detail{
 	float: left;
@@ -100,6 +100,12 @@
 	 border-radius: 20px;
 	 padding:20px;
 	 margin: 5px 0 30px 73px;
+}
+.communityView_comment_content_edit{
+	border: 1px solid #eee;
+	border-radius: 20px;
+	padding:20px;
+	margin: 5px 0 30px 73px;
 }
 /*신고하기버튼 초기화*/
 .reportBtn{ 

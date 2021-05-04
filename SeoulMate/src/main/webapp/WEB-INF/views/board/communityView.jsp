@@ -18,32 +18,38 @@
 			data : params,
 			success : function(result){
 				var $result = $(result);
-				var tag = "<li>";
+				var tag = "";
 				
 				$result.each(function(idx, obj){
-					tag += "<div class='communityView_user_porfile'>";
-					tag += '<img src="<%=request.getContextPath()%>/img/comm/sample.png"/>';
-					tag += '</div>'
-					tag += '<div class="communityView_comment_user_detail">';
-					tag += obj.userid+'<br>';
-					tag += obj.writedate + '</div>';
-					tag += '<div class="communityView_comment_btn">';
-					
-					if(obj.userid == '${logId}'){
-						tag += '<form method="post">' //숮
-						tag += '<button class="white">수정</button>'
-						tag += '<button class="white" href="">삭제</button>'
-					}
-					tag += '<a href="">답글</a>'
-					tag += '<a href="">신고</a></div></li>'
-					tag += '<li class="communityView_comment_content">'
-					tag += obj.content+'</li>';
-					//댓글 수정폼
-					if(obj.userid=="${logId}"){
-						tag += "<li class='communityView_comment_content' style='display:none; background-color:#eee;'><textarea style='width: 100%; border:none; background-color:#eee;'>"+obj.content+"</textarea></li>";
-					}
+						tag += "<li><div class='communityView_user_porfile'>";
+							tag += '<img src="<%=request.getContextPath()%>/img/comm/sample.png"/>';
+						tag += '</div>'
+						tag += '<div class="communityView_comment_user_detail">';
+							tag += obj.userid+'<br>';
+							tag += obj.writedate + '</div>';
+						tag += '<div class="communityView_comment_btn">';
+						
+						if(obj.userid == '${logId}'){
+							tag += '<button class="white" style="display:none">수정취소</button>'
+							tag += '<button class="white">수정</button>'
+							tag += '<button class="white" href="">삭제</button>'
+						}
+						tag += '<a href="">답글</a>'
+						tag += '<a href="">신고</a></div>'
+						
+						tag += '<li class="communityView_comment_content">'
+							tag += obj.content
+						tag += '</li>';
+						//댓글 수정폼
+						if(obj.userid=="${logId}"){
+							tag += '<form id="replyEditForm"><div style="display:none">'
+							tag += '<input type="hidden" name="num" value="'+obj.num+'">';
+							tag += '<input type="hidden" name="userid" value="'+obj.userid+'">';
+							tag += "<li class='communityView_comment_content_edit' style='background-color:#eee;'><textarea name='content' style='width: 100%; height:100px; border-radius: 20px; background-color:#fff;'>"+obj.content+"</textarea>"
+							tag += "<button class='green'>완료</button></li></div>";
+							tag += '</form></li>'
+						}
 				});
-				tag += '</li>';
 				$("#replyList").html(tag);
 			},error : function(){
 				console.log("댓글 목록 실패...");
@@ -75,7 +81,33 @@
 		});//2.end
 		
 		//3.댓글 수정하기
-		$(document).on('submit','#')
+		$(document).on('click','.communityView_comment_btn>button:nth-child(2)', function(){
+			$(this).parent().parent().next().next().children().css("display","block");
+			$(this).parent().parent().next().css("display","none");
+			$(this).prev().css("display","inline");
+			$(this).css("display","none");
+		});
+		$(document).on('click','.communityView_comment_btn>button:nth-child(1)', function(){
+			$(this).parent().parent().next().next().children().css("display","none");
+			$(this).parent().parent().next().css("display","block");
+			$(this).next().css("display","inline");
+			$(this).css("display","none");
+		});
+		$(document).on('submit', '#replyEditForm', function(){
+			var url = "/home/replyEdit";
+			var params = $(this).serialize();
+			
+			$.ajax({
+				url : url,
+				data : params,
+				type : "post",
+				success : function(){
+					replyList();
+				}, error : function(){
+					console.log("댓글 수정 실패...");
+				}
+			});
+		})
 	});
 </script>
 <div class="wrap">
@@ -121,7 +153,7 @@
 		<!-- 댓글 -->
 		<p class="d_title" style="margin:15px 0; padding-bottom:10px; border-bottom:1px solid #eee">댓글 ${replyCnt}</p>
 		<ul id="replyList">
-			
+			<!-- 댓글이 들어올 부분 -->
 		</ul>
 		<p class="d_title"style="margin:15px 0;padding-bottom:10px; border-bottom:1px solid #eee">댓글 쓰기</p>
 		<form method="post" id="commentForm">

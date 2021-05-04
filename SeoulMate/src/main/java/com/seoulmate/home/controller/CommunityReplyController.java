@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.seoulmate.home.dao.BoardDAO;
@@ -42,5 +43,19 @@ public class CommunityReplyController {
 		 bService.replyUpdate(bVo.getNo());
 		int replyCnt = service.replyInsert(vo);
 		return result = replyCnt+"개 댓글 등록 성공";
+	}
+	//댓글 수정하기
+	@RequestMapping(value = "/replyEdit", method=RequestMethod.POST)
+	@ResponseBody
+	public String replyEdit(CommunityReplyVO rVo) {
+		//service.replyUpdate
+		/*
+		 * 	0504
+		 * 	댓글 수정에서 쿼리문 만들기 전
+		 * 
+		 * */
+		
+		
+		return "";
 	}
 }

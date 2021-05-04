@@ -20,7 +20,7 @@ public class BoardController {
 	
 	//커뮤니티 페이지로 이동하기
 	@RequestMapping("/communityList")
-	public ModelAndView communityList(String category, BoardVO vo, PageVO pVo, HttpServletRequest req) {
+	public ModelAndView communityList(String category, PageVO pVo, HttpServletRequest req) {
 		
 		//리퀘스트돼서 오는 페이지번호가 있으면 세팅 없으면 기본값 1로 세팅
 		String pageNumStr = req.getParameter("pageNum");

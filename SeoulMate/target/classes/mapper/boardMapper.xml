@@ -15,9 +15,6 @@
 				where category=#{category}	
   			</when>
   			<when test='category.equals("") and searchWord != null'>
-				where ${searchKey} like '%${searchWord}%'
-  			</when>
-  			<when test='category.equals("") and searchWord != null'>
 				where ${searchKey} like '%${searchWord}%'			
   			</when>
   		</choose>
@@ -40,9 +37,6 @@
   			</when>
   			<when test='searchWord == null and !category.equals("")'>
 				where category=#{category}	
-  			</when>
-  			<when test='category.equals("") and searchWord != null'>
-				where ${searchKey} like '%${searchWord}%'
   			</when>
   			<when test='category.equals("") and searchWord != null'>
 				where ${searchKey} like '%${searchWord}%'			
