@@ -46,7 +46,7 @@ public class AdminController {
 		ModelAndView mav = new ModelAndView();
 		
 		pVO.setTotalRecode(service.membertotalRecord(pVO));
-		
+		System.out.println(pVO.getTotalRecode());
 		mav.addObject("list", service.memberSelect(pVO));
 		mav.setViewName("admin/memberManagement");
 		return mav;
