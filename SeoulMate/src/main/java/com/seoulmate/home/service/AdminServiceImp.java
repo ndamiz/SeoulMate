@@ -50,5 +50,4 @@ public class AdminServiceImp implements AdminService {
 		return dao.payOnePageListSelect(payVO);
 	}
 	
-	
 }

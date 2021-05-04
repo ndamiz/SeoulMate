@@ -12,6 +12,7 @@
   		<if test="grade != null and grade != 0"> where grade=${grade} </if>)
   		<if test='state != null and state !=""'> where state=#{state}</if>) 
   		order by no desc
+<<<<<<< HEAD
   	</select>
   	<select id="membertotalRecord" parameterType="com.seoulmate.home.vo.PagingVO" resultType="int">
   		select count(no) no from 
@@ -20,9 +21,19 @@
   		<if test="searchWord !=null">where ${searchKey} like '%${searchWord}%'</if>)
   		<if test='state !="" and state != null'>where state=#{state}</if>)
   		<if test="grade == 1 or grade == 2">where grade=${grade}</if>
+=======
+>>>>>>> branch 'cjw' of https://github.com/ndamiz/SeoulMate.git
   	</select>
   	<select id="memberInfo" resultType="com.seoulmate.home.vo.MemberVO">
   		select profilepic, userid, userpwd, username, to_char(birth, 'YYYY-MM-DD') birth, tel, email, reportcnt, state from member where userid=#{param1}
+  	</select>
+  	<select id="membertotalRecord" parameterType="com.seoulmate.home.vo.PagingVO" resultType="int">
+  		select count(no) no from 
+  		(select * from 
+  		(select * from member 
+  		<if test="searchWord !=null">where ${searchKey} like '%${searchWord}%'</if>)
+  		<if test='state !="" and state != null'>where state=#{state}</if>)
+  		<if test="grade == 1 or grade == 2">where grade=${grade}</if>
   	</select>
   	<update id="memberInfoSave" parameterType="com.seoulmate.home.vo.MemberVO">
   		update member set profilePic=#{profilePic}, reportcnt=#{reportCnt}, username=#{username}, tel=#{tel}, email=#{email}, 

@@ -18,6 +18,7 @@ public interface AdminService {
 	// 회원 총 레코드
 	public int membertotalRecord(PagingVO pVO);
 	
+	
 //pay management /////////////////////////////////////////
 	// 결제관리 페이지 총 레코드 수 확인 
 	public int totalRecode(PayVO payVO);

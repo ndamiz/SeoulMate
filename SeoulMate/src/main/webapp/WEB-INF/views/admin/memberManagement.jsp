@@ -124,7 +124,7 @@
 </script>
 	<section>
 		<div class="m_title managementTitle">회원 관리</div>
-		<form method="post" action="/home/admin/memberManagement" class="managementSearchForm">
+		<form method="get" action="/home/admin/memberManagement" class="managementSearchForm">
 			<div class="management_memberSearch">
 				<div class="management_memberSelect">
 					<span class="managementSpan" id="gradeSpan">등급</span>
