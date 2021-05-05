@@ -120,6 +120,11 @@
 			$("ul>li").eq(i).children().eq(1).attr("value","");
 		}
 		$("ul>li").eq(8).children('.toggle_cont').children('input[name=state]').prop('checked', false);
+		// 팝업창을 닫으면서 수정하려했던 input들의 배경색을 다시 원래대로 되돌림
+		$(document.getElementById("infoName")).css('backgroundColor', '');
+		$(document.getElementById("infoTel")).css('backgroundColor', '');
+		$(document.getElementById("infoEmail")).css('backgroundColor', '');
+		$(document.getElementById("infoReportCnt")).css('backgroundColor', '');
 	}
 	function pageClick(page, searchKey, searchWord){
 		var f=document.go;
@@ -250,12 +255,12 @@
 								</li>
 								<li><div>아이디</div><input type="text" name="userid" id="infoId" value="" readonly/></li>
 								<li><div>비밀번호</div><input type="text" name="userpwd" id="infoPwd" value="" readonly/></li>
-								<li><div>이름</div><input type="text" name="username" id="infoName" value=""/></li>
+								<li><div>*이름</div><input type="text" name="username" id="infoName" value=""/></li>
 								<li><div>생년월일</div><input type="text" name="birth" id="infoBirth" value="" readonly/></li>
-								<li><div>연락처</div><input type="text" name="tel" id="infoTel" value="" maxlength="13"/></li>
-								<li><div>email</div><input type="text" name="email" id="infoEmail" value=""/></li>
-								<li><div>신고 누적 수</div><input type="text" name="reportCnt" id="infoReportCnt" value=""/></li>
-								<li><div>블랙리스트</div>
+								<li><div>*연락처</div><input type="text" name="tel" id="infoTel" value="" maxlength="13"/></li>
+								<li><div>*email</div><input type="text" name="email" id="infoEmail" value=""/></li>
+								<li><div>*신고 누적 수</div><input type="text" name="reportCnt" id="infoReportCnt" value=""/></li>
+								<li><div>*블랙리스트</div>
 									<div class="toggle_cont">
 										<input id="infoState" class="cmn_toggle cmn_toggle_round" type="checkbox" name="state">
 										<label for="infoState"></label>
