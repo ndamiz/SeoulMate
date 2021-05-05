@@ -213,13 +213,13 @@
 						<a href="javascript:pageClick(${pVO.pageNum-1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="prev_page"></a>
 					</c:if>
 					<c:if test="${pVO.pageNum==1}">
-						<a href="#" class="first_page"></a>
-						<a href="#" class="prev_page"></a>
+						<a class="first_page"></a>
+						<a class="prev_page"></a>
 					</c:if>
 					<c:forEach var="pageNum" begin="${pVO.startPageNum}" end="${pVO.startPageNum + pVO.onePageNum-1}">
 						<c:if test="${pageNum<=pVO.totalPage }">
 							<c:if test="${pageNum==pVO.pageNum }">
-								<a href="javascript:pageClick(${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')" class="nowPageNum">${pageNum}</a>
+								<a href="javascript:pageClick(${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')" class="nowPageNum on">${pageNum}</a>
 <%-- 								<a href="memberManagement?pageNum=${pageNum}<c:if test="${pVO.searchWord!=null && pVO.searchWord!='' }">&searchKey=${pVO.searchKey}&searchWord=${pVO.searchWord}</c:if>">${pageNum}</a> --%>
 							</c:if>
 							<c:if test="${pageNum!=pVO.pageNum }">
@@ -233,8 +233,8 @@
 						<a href="javascript:pageClick(${pVO.totalPage}, '${pVO.searchKey}', '${pVO.searchWord}')" class="last_page"></a>
 					</c:if>
 					<c:if test="${pVO.pageNum == pVO.totalPage}">
-						<a href="#" class="next_page"></a>
-						<a href="#" class="last_page"></a>
+						<a class="next_page"></a>
+						<a class="last_page"></a>
 					</c:if>
 				</form>
 			</div>
