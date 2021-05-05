@@ -537,13 +537,13 @@
 							<label for="gender2">남성</label>
 						</div>
 					</li>
-					<li id="proli"><span class="red_txt">*</span><label>프로필 사진</label>
+					<li id="proli"><label><span class="red_txt">*</span>프로필 사진</label>
 						<div class="profile_div">
 							<img class="profile_img" id="profileImg" name="profileImg" src="/home/img/choi/basic.png" alt="upload image"/><br/>
 							<input type="file" accept="image/*" name="filename" id="profilePic" />
 						</div>
 					</li>
-					<li id="a1"><label>&nbsp;희망 지역1</label>
+					<li id="a1"><label><span class="red_txt">*</span>희망 지역1</label>
 						<select id="gu1" onchange="areaChange(this)">
 							<option>구를 선택해주세요</option>
 							<c:forEach var="gu" items="${guArr}">

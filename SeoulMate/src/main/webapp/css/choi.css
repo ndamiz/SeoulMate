@@ -43,6 +43,10 @@ span{line-height: 47px;}
 #memberEditForm, #memberFindId, #memberFindPwd, #memberExitForm{width:400px; margin:0 auto;}
 #memberEditForm>label, #memberFindId>label, #memberFindPwd>label , #memberExitForm>label{width: 19%;display: inline-block;}
 #memberEditForm>input, #memberFindId>input, #memberExitForm>input, #useridCheck{width: 75%;margin-left:5%;}
+#area1Edit, #area2Edit, #area3Edit{width:284.2px;}
+#area1Btn, #area2Btn, #area3Btn{width:122.8px; text-align:center;}
+#area1Div, #area2Div, #area3Div{display:none;}
+#gu1Edit, #dong1Edit, #gu2Edit, #dong2Edit, #gu3Edit, #dong3Edit{width:200px; float:left;}
 
 /* memberFind */
 #idEmailCheck{margin-top:40px;}

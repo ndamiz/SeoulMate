@@ -30,38 +30,39 @@
 				}
 			}
 			
-			// 희망 지역1
-			var area1=$("#gu1").val();
-			// alert(area1);
-			if(area1=="구를 선택해주세요"){
-				area1="";
-			}else{
-				area1+=" "+$("#dong1").val();
-			}
-			document.getElementById("area1").value=area1;
+// 			// 희망 지역1
+// 			var area1=$("#gu1Edit").val();
+// 			// alert(area1);
+// 			if(area1=="구를 선택해주세요"){
+// 				area1="";
+// 			}else{
+// 				area1+=" "+$("#dong1Edit").val();
+// 			}
+// 			document.getElementById("area1Edit").value=area1;
 			
-			// 희망 지역2
-			var area2=$("#gu2").val();
-			// alert(area2);
-			if(area2=="구를 선택해주세요"){
-				area2="";
-			}else{
-				area2+=" "+$("#dong2").val();
-			}
-			document.getElementById("area2").value=area2;
+// 			// 희망 지역2
+// 			var area2=$("#gu2Edit").val();
+// 			// alert(area2);
+// 			if(area2=="구를 선택해주세요"){
+// 				area2="";
+// 			}else{
+// 				area2+=" "+$("#dong2Edit").val();
+// 			}
+// 			document.getElementById("area2Edit").value=area2;
 			
-			// 희망 지역3
-			var area3=$("#gu3").val();
+// 			// 희망 지역3
+// 			var area3=$("#gu3Edit").val();
 			
-			// alert(area3);
-			if(area3=="구를 선택해주세요"){
-				area3="";
-			}else{
-				area3+=" "+$("#dong3").val();
-			}
-			document.getElementById("area3").value=area3;
+// 			// alert(area3);
+// 			if(area3=="구를 선택해주세요"){
+// 				area3="";
+// 			}else{
+// 				area3+=" "+$("#dong3Edit").val();
+// 			}
+// 			document.getElementById("area3Edit").value=area3;
 			
-			emailExp();
+			emailExp(); // 이메일 인증 통과를 위한 함수
+			areaEdit(); // 희망 지역 수정을 위한 함수
 		});
 		
 		function emailExp(){
@@ -78,6 +79,26 @@
 			}
 		}
 		
+		// 희망 지역 수정
+		
+		$("#area1Btn").click(function(){
+			$("#area1Edit").css("display", "none");
+			$(this).css("display", "none");
+			$("#area1Div").css("display", "block");
+		});
+		
+		$("#area2Btn").click(function(){
+			$("#area2Edit").css("display", "none");
+			$(this).css("display", "none");
+			$("#area2Div").css("display", "block");
+		});
+		
+		$("#area3Btn").click(function(){
+			$("#area3Edit").css("display", "none");
+			$(this).css("display", "none");
+			$("#area3Div").css("display", "block");
+		});
+				
 		// 이메일
 		$("#emailBtn").click(function(){
 			if(regEmail()==false){
@@ -197,37 +218,57 @@
 		$("#telFirst>option[value='"+tel1+"']").attr('selected', true);
 	}
 	
-	// 희망 지역 1,2,3에 구,동 넣기
-	function areaInput(){
-		var a1=$("#area1").val().indexOf(" "); // 희망 지역1의 띄어쓰기 위치 구하기
-		var a2=$("#area2").val().indexOf(" "); // 희망 지역2의 띄어쓰기 위치 구하기
-		var a3=$("#area3").val().indexOf(" "); // 희망 지역3의 띄어쓰기 위치 구하기
+	function areaEdit(){
+		var gu1=$("#gu1Edit").val();
+		var dong1=$("#dong1Edit").val();
+		var gu2=$("#gu2Edit").val();
+		var dong2=$("#dong2Edit").val();
+		var gu3=$("#gu3Edit").val();
+		var dong3=$("#dong3Edit").val();
 		
-		// alert(typeof a1); // 변수의 데이터 타입을 확인
+		if(dong1!="동을 선택해주세요"){
+			document.getElementById("area1Edit").value=gu1+" "+dong1;
+		}
+		if(dong2!="동을 선택해주세요"){
+			document.getElementById("area2Edit").value=gu2+" "+dong2;
+		}
+		if(dong3!="동을 선택해주세요"){
+			document.getElementById("area3Edit").value=gu3+" "+dong3;
+		}
 		
-		if(a1!=-1){ // 희망 지역 1이 있을 때
-			var gu1=$("#area1").val().substring(0,a1);
-			var dong1=$("#area1").val().substring(a1+1);
-			$("#gu1>option[value='"+gu1+"']").attr('selected', true);
-			$("#dong1").append("<option value='"+dong1+"' selected>"+dong1+"</option>");
-		}
-		if(a2!=-1){ // 희망 지역 2가 있을 때
-			var gu2=$("#area2").val().substring(0,a2);
-			var dong2=$("#area2").val().substring(a2+1);
-			$("#gu2>option[value='"+gu2+"']").attr('selected', true);
-			$("#dong2").append("<option value='"+dong2+"' selected>"+dong2+"</option>");
-		}
-		if(a3!=-1){ // 희망 지역 3이 있을 때
-			var gu3=$("#area3").val().substring(0,a3);
-			var dong3=$("#area3").val().substring(a3+1);
-			$("#gu3>option[value='"+gu3+"']").attr('selected', true);
-			$("#dong3").append("<option value='"+dong3+"' selected>"+dong3+"</option>");
-		}
 	}
+	
+// 	// 희망 지역 1,2,3에 구,동 넣기
+// 	function areaInput(){
+// 		var a1=$("#area1").val().indexOf(" "); // 희망 지역1의 띄어쓰기 위치 구하기
+// 		var a2=$("#area2").val().indexOf(" "); // 희망 지역2의 띄어쓰기 위치 구하기
+// 		var a3=$("#area3").val().indexOf(" "); // 희망 지역3의 띄어쓰기 위치 구하기
+		
+// 		// alert(typeof a1); // 변수의 데이터 타입을 확인
+		
+// 		if(a1!=-1){ // 희망 지역 1이 있을 때
+// 			var gu1=$("#area1").val().substring(0,a1);
+// 			var dong1=$("#area1").val().substring(a1+1);
+// 			$("#gu1>option[value='"+gu1+"']").attr('selected', true);
+// 			$("#dong1").append("<option value='"+dong1+"' selected>"+dong1+"</option>");
+// 		}
+// 		if(a2!=-1){ // 희망 지역 2가 있을 때
+// 			var gu2=$("#area2").val().substring(0,a2);
+// 			var dong2=$("#area2").val().substring(a2+1);
+// 			$("#gu2>option[value='"+gu2+"']").attr('selected', true);
+// 			$("#dong2").append("<option value='"+dong2+"' selected>"+dong2+"</option>");
+// 		}
+// 		if(a3!=-1){ // 희망 지역 3이 있을 때
+// 			var gu3=$("#area3").val().substring(0,a3);
+// 			var dong3=$("#area3").val().substring(a3+1);
+// 			$("#gu3>option[value='"+gu3+"']").attr('selected', true);
+// 			$("#dong3").append("<option value='"+dong3+"' selected>"+dong3+"</option>");
+// 		}
+// 	}
 	
 	$(window).ready(function(){
 		tel1Input();
-		areaInput();
+// 		areaInput();
 	});
 	
 	// 희망 지역
@@ -277,12 +318,12 @@
 			"회현동2가", "회현동3가", "흥인동"];
 		var jungnang= ["망우동", "면목동", "묵동", "상봉동", "신내동", "중화동"];
 		
-		if(areaId=="gu1"){
-			var target = document.getElementById("dong1");
-		}else if(areaId=="gu2"){
-			var target = document.getElementById("dong2");
-		}else if(areaId=="gu3"){
-			var target = document.getElementById("dong3");
+		if(areaId=="gu1Edit"){
+			var target = document.getElementById("dong1Edit");
+		}else if(areaId=="gu2Edit"){
+			var target = document.getElementById("dong2Edit");
+		}else if(areaId=="gu3Edit"){
+			var target = document.getElementById("dong3Edit");
 		}
 		if(e.value=="강남구") var d = gangnam;
 		else if(e.value=="강동구") var d = gangdong;
@@ -358,7 +399,7 @@
 						<label for="gender2">남성</label>
 					</div>
 				</li>
-				<li id="proli"><span class="red_txt">*</span><label>프로필 사진</label>
+				<li id="proli"><label>프로필 사진</label>
 					<div class="profile_div">
 						<img class="profile_img" id="profileOrg" src="/home/profilePic/${vo.profilePic}"/>
 						<div>
@@ -372,43 +413,49 @@
 					</div>
 				</li>
 				<li id="a1"><label>&nbsp;희망 지역1</label>
-					<select id="gu1" onchange="areaChange(this)">
-						<option hidden>구를 선택해주세요</option>
-						<c:forEach var="gu" items="${guArr}">
-							<option value="${gu}">${gu}</option>
-						</c:forEach>
-					</select>
-
-					<select id="dong1">
-						<option hidden>동을 선택해주세요</option>
-					</select>
-					<input type="hidden" name="area1" id="area1" value="${vo.area1}" placeholder=""/>
+					<div id="area1Div">
+						<select id="gu1Edit" onchange="areaChange(this)">
+							<option hidden>구를 선택해주세요</option>
+							<c:forEach var="gu" items="${guArr}">
+								<option value="${gu}">${gu}</option>
+							</c:forEach>
+						</select>
+						<select id="dong1Edit">
+							<option hidden>동을 선택해주세요</option>
+						</select>
+					</div>
+					<input type="text" name="area1" id="area1Edit" value="${vo.area1}" readonly/>
+					<a class="white" id="area1Btn">지역1 수정</a>
 				</li>
 				<li id="a2"><label>&nbsp;희망 지역2</label>
-					<select id="gu2" onchange="areaChange(this)">
-						<option hidden>구를 선택해주세요</option>
-						<c:forEach var="gu" items="${guArr}">
-							<option value="${gu}">${gu}</option>
-						</c:forEach>
-					</select>
-
-					<select id="dong2">
-						<option hidden>동을 선택해주세요</option>
-					</select>
-					<input type="hidden" name="area2" id="area2" value="${vo.area2}" placeholder=""/>
+					<div id="area2Div">
+						<select id="gu2Edit" onchange="areaChange(this)">
+							<option hidden>구를 선택해주세요</option>
+							<c:forEach var="gu" items="${guArr}">
+								<option value="${gu}">${gu}</option>
+							</c:forEach>
+						</select>
+						<select id="dong2Edit">
+							<option hidden>동을 선택해주세요</option>
+						</select>
+					</div>
+					<input type="text" name="area2" id="area2Edit" value="${vo.area2}" readonly/>
+					<a class="white" id="area2Btn">지역2 수정</a>
 				</li>					
 				<li id="a3"><label>&nbsp;희망 지역3</label>
-					<select id="gu3" onchange="areaChange(this)">
+				<div id="area3Div">
+					<select id="gu3Edit" onchange="areaChange(this)">
 						<option hidden>구를 선택해주세요</option>
 						<c:forEach var="gu" items="${guArr}">
 							<option value="${gu}">${gu}</option>
 						</c:forEach>
 					</select>
-
-					<select id="dong3">
+					<select id="dong3Edit">
 						<option hidden>동을 선택해주세요</option>
 					</select>
-					<input type="hidden" name="area3" id="area3" value="${vo.area3}" placeholder=""/>
+				</div>
+					<input type="text" name="area3" id="area3Edit" value="${vo.area3}" readonly/>
+					<a class="white" id="area3Btn">지역3 수정</a>
 				</li>	
 				<li><label>이메일</label>
 					<input type="text" name="emailid" id="emailid" value="${vo.emailid}" placeholder="이메일"/><span>@</span> 
