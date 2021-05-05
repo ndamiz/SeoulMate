@@ -108,7 +108,7 @@
 						<td class="t_title">
 							<a class="commSubject" href="communityView?category=${vo.category}&no=${vo.no}">${vo.subject} </a>
 							<c:if test="${vo.replyCnt>0}">
-								<span class="commentNum" style="color: #13a89e"> [ ${vo.replyCnt} ]</span>
+								<span class="commentNum" style="color: #13a89e">&nbsp;[ ${vo.replyCnt} ]</span>
 							</c:if>	
 						</td>
 						<td>${vo.userid}</td>

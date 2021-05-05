@@ -21,6 +21,6 @@ public interface BoardDAO {
 	//글 삭제하기
 	public int communityDelete(int no, String userid);
 	//댓글 수 올리기
-	public int replyUpdate(int no);
+	public int replyUpdate(int no, String minusOrPlus);
 	
 }

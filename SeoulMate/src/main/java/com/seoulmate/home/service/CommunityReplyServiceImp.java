@@ -24,4 +24,14 @@ public class CommunityReplyServiceImp implements CommunityReplyService {
 	public int replyInsert(CommunityReplyVO vo) {
 		return dao.replyInsert(vo);
 	}
+
+	@Override
+	public int replyUpdate(CommunityReplyVO vo) {
+		return dao.replyUpdate(vo);
+	}
+
+	@Override
+	public int replyDel(int num, String userid) {
+		return dao.replyDel(num, userid);
+	}
 }

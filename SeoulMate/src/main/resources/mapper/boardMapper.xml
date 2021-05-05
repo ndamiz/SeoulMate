@@ -56,6 +56,13 @@
   		delete from community where no=#{param1} and userid=#{param2}
   	</delete>
   	<update id="replyUpdate">
-  		update community set replycnt=replycnt+1 where no=#{param1}
+  		update community set replycnt=
+  		<if test="param2 == 'plus'">
+  			replycnt+1
+  		</if>
+  		<if test="param2 == 'minus'">
+  			replycnt-1
+  		</if>  
+  		 where no=#{param1}
   	</update>
 </mapper>

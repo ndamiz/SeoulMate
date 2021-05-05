@@ -20,6 +20,6 @@ public interface BoardService {
 	public int hitUpdate(int no);
 	//글 삭제하기
 	public int communityDelete(int no, String userid);
-	//댓글 수 올리기
-	public int replyUpdate(int no);
+	//댓글 수 올리기/내리기
+	public int replyUpdate(int no, String minusOrPlus);
 }

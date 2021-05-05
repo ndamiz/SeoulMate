@@ -50,7 +50,7 @@ public class BoardServiceImp implements BoardService {
 	}
 
 	@Override
-	public int replyUpdate(int no) {
-		return dao.replyUpdate(no);
+	public int replyUpdate(int no, String minusOrPlus) {
+		return dao.replyUpdate(no, minusOrPlus);
 	}
 }

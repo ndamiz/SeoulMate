@@ -10,4 +10,10 @@
  		insert into communityreply(num, no, userid, content, ip) 
  		values(comreplysq.nextval, #{no}, #{userid}, #{content}, #{ip})
  	</insert>
+ 	<update id="replyUpdate">
+ 		update communityreply set content=#{content}, writedate=sysdate where no=${no} and num=${num}
+ 	</update>
+ 	<delete id="replyDel">
+ 		delete from communityreply where num=${param1} and userid=#{param2}
+ 	</delete>
  </mapper>
