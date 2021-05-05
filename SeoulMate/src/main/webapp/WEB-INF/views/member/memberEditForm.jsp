@@ -60,13 +60,30 @@
 				area3+=" "+$("#dong3").val();
 			}
 			document.getElementById("area3").value=area3;
+			
+			emailExp();
 		});
+		
+		function emailExp(){
+			var sendCheck=$("#emailSendCheck").val();
+			var emailResult=$("#emailResult").val();
+			
+			if(sendCheck=='N' && emailResult=='N'){
+				return true;
+			}else if(sendCheck=='Y' && emailResult=='Y'){
+				return true;
+			}else{
+				alert("이메일을 변경하려면 이메일 인증에 통과해야 합니다.\r\n이메일 인증 번호를 다시 보내주세요.");
+				return false;
+			}
+		}
 		
 		// 이메일
 		$("#emailBtn").click(function(){
 			if(regEmail()==false){
 				return false;
 			}else{
+				$("#emailSendCheck").val("Y");
 				var emailid=document.getElementById("emailid").value;
 				var emaildomain=document.getElementById("emaildomain").value;
 				var email=emailid+"@"+emaildomain;
@@ -402,6 +419,7 @@
 						<option value="gmail.com" <c:if test="${vo.emaildomain=='gmail.com'}">selected</c:if>>gmail.com</option>
 					</select>
 					<a class="green" id="emailBtn">인증번호 전송</a>
+					<input type="hidden" id="emailSendCheck" value="N"/>
 				</li>
 				<li>
 					<label></label>
