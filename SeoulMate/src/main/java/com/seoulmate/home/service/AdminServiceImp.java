@@ -1,6 +1,7 @@
 package com.seoulmate.home.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -76,7 +77,7 @@ public class AdminServiceImp implements AdminService {
 	}
 	
 // sales management ///////////////////////////////////
-	@Overrideå
+	@Override
 	public List<PayVO> salesOnePageListSelect(Map<String, Object> map) {
 		return dao.salesOnePageListSelect(map);
 	}

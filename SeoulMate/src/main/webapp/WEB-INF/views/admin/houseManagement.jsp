@@ -10,7 +10,7 @@ $(function(){
 		var data = {"no" :no, "userid":userid, "housename":housename};
 		$.ajax({
 			url : "home/admin/houseDetailInfo",
-			type : get,
+			method : "get",
 			data : data,
 			success : function(result){
 				
@@ -36,7 +36,7 @@ function managementPopupClose(){
 				<form method="post" action="/home/admin/houseManagement" class="managementSearchForm">
 					<div class="management_houseSearch">
 						<div class="management_houseSelect management_houseStateSelect">
-							<span class="managementSpan">글 개제 상태</span>
+							<span class="managementSpan3">글 개제 상태</span>
 							<select name="housestate" id="housestate" class="custom-select">
 								<option value="" selected>전체</option>
 								<option value="모집중">모집중</option>
@@ -44,7 +44,7 @@ function managementPopupClose(){
 								<option value="기간 만료">기간 만료</option>
 								<option value="비공개">비공개</option>
 							</select>
-							<span class="managementSpan">멤버십 상태</span>
+							<span class="managementSpan3">멤버십 상태</span>
 							<select name="grade" id="grade" class="custom-select">
 								<option value="0" selected>전체</option>
 								<option value="1">일반</option>

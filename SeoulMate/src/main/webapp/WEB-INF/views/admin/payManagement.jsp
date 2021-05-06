@@ -135,7 +135,7 @@
 						<div class="managementSearch" id="payManagementSearch">
 							<div class="managementDatePicker" id="payManageMentDatePicker">
 								<div class="dateChoose">
-									<span class="managementSpan">기간 선택</span>
+									<span class="managementSpan3">기간 선택</span>
 									<select name="selectYearMonthDate" id="selectYearMonthDate" class="custom-select">
 										<option value="일별" selected>일별</option>
 										<option value="월별">월별</option>

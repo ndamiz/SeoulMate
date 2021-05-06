@@ -6,7 +6,7 @@
 				<form method="post" action="/home/admin/mateManagement" class="managementSearchForm">
 					<div class="management_houseSearch">
 						<div class="management_houseSelect management_houseStateSelect">
-							<span class="managementSpan">글 개제 상태</span>
+							<span class="managementSpan3">글 개제 상태</span>
 								<select name="matestate" id="matestate" class="custom-select">
 								<option value="" selected>전체</option>
 								<option value="모집중">모집중</option>
@@ -14,7 +14,7 @@
 								<option value="기간만료">기간만료</option>
 								<option value="비공개">비공개</option>
 							</select>
-							<span class="managementSpan">멤버십 상태</span>
+							<span class="managementSpan3">멤버십 상태</span>
 							<select name="grade" id="grade" class="custom-select">
 								<option value="0" selected>전체</option>
 								<option value="1">일반</option>
