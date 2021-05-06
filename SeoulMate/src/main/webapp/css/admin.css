@@ -228,6 +228,13 @@ section{ margin-left:15% ; width: 85%; float: left; }
 .profile_left{margin-left:100px; padding-top:10px;}
 .remove_icon{margin-left:5px; width:15px; height:15px;}
 .memberRadio{width:497px; float:right; }
+.management_memberSearch>div:nth-child(1){float:left;}
+.management_memberSearch>div:nth-child(2){float:right;}
+.management_memberSearch>.managementSearch{margin:0;}
+.management_memberSelect>.managementSpan{text-align:left; width:40px;}
+#member_grade{width:100px;}
+#member_state{width:120px;}
+#stateSpan{margin-left:18px;}
 
 /* reportManagement */
 .reportSearch {width:550px; float: left; overflow: auto; margin-top: 20px; }

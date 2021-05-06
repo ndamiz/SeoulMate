@@ -1,20 +1,28 @@
 package com.seoulmate.home.controller;
 
+import java.io.File;
 import java.util.Calendar;
+import java.util.UUID;
 
 import javax.inject.Inject;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.seoulmate.home.service.MemberService;
@@ -24,6 +32,8 @@ import com.seoulmate.home.vo.PropensityVO;
 public class MemberController {
 	@Inject
 	MemberService service;
+	@Inject
+	JavaMailSenderImpl mailSender;
 	
 	@Autowired
 	private DataSourceTransactionManager transactionManager;
@@ -36,7 +46,7 @@ public class MemberController {
 		int year=now.get(Calendar.YEAR);
 		mav.addObject("year", year);
 		
-		String arr1[] = {"010"," 02"," 031","032","033","041","042","043","044","051","052","053","054","055","061","062","063","064"};
+		String arr1[] = {"010","02","031","032","033","041","042","043","044","051","052","053","054","055","061","062","063","064"};
 		mav.addObject("arr1", arr1);
 		
 		String guArr[]= {"강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구"
@@ -48,6 +58,99 @@ public class MemberController {
 		return mav;
 	}
 	
+	@RequestMapping("/emailCheck")
+	@ResponseBody
+	public String emailCheck(HttpSession session, HttpServletRequest req) {
+		String email=req.getParameter("email"); // 인증 번호를 받을 이메일
+		UUID random=UUID.randomUUID();
+		String uuid=random.toString();
+		String code=uuid.substring(0,6);
+		String subject="서울메이트 이메일 인증 번호 메일입니다.";
+		String content="<div style='width: 600px; height: 225px; border-radius: 20px; "
+				+ "background-color: #fff; box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%); overflow: hidden;'>"
+				+ "<div style='height: 50px; line-height: 50px; background-color: #13a89e; color: #fff; text-align: center;'>"
+				+ "<img style='width: 121; height: 30px; margin:10px 0;' src='https://0905cjw.github.io/seoulmate_email.png'/></div>"
+				+ "<div style='padding: 30px;'>"
+				+ "<div style='margin:10px auto;'><h3>회원 가입을 위한 서울메이트 이메일 인증 번호</h3></div>"
+				+ "<span>인증 번호 : "+code
+				+ "</span></div><div style=\"padding: 15px 0; text-align: center; box-shadow: 0 -1px 22px -2px rgb(0 0 0 / 15%);\">"
+				+ "<span style=\"color: #13a89e; font-weight:bold; font-size:12px;\">Copyright © 2021 공일이오 Co., Ltd. All rights reserved.</span>"
+				+ "</div></div>";
+		try {
+			MimeMessage message=mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper=new MimeMessageHelper(message, true, "UTF-8");
+			messageHelper.setFrom("seoulmatemanager@gmail.com");
+			messageHelper.setTo(email);
+			messageHelper.setSubject(subject);
+			messageHelper.setText("text/html; charset=UTF-8", content);
+			mailSender.send(message);
+			
+			session.setAttribute("code", code);
+		}catch(Exception e) {
+			System.out.println("이메일 인증번호 전송 에러 발생...");
+			e.printStackTrace();
+		}
+		
+		return code;
+	}
+	
+	@RequestMapping("/pwdFind")
+	@ResponseBody
+	public String pwdFind(HttpSession session, HttpServletRequest req) {
+		String userid=req.getParameter("userid");
+		String email=req.getParameter("email"); // 인증 번호를 받을 이메일
+		String userpwd=service.pwdFind(userid, email);
+		
+		System.out.println(userpwd);
+		
+		String subject="서울메이트 회원정보 찾기 메일입니다.";
+		String content="<div style='width: 600px; height: 225px; border-radius: 20px; "
+				+ "background-color: #fff; box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%); overflow: hidden;'>"
+				+ "<div style='height: 50px; line-height: 50px; background-color: #13a89e; color: #fff; text-align: center;'>"
+				+ "<img style='width: 121; height: 30px; margin:10px 0;' src='https://0905cjw.github.io/seoulmate_email.png'/></div>"
+				+ "<div style='padding: 30px;'>"
+				+ "<div style='margin:10px auto;'><h3>회원정보 찾기를 위한 서울메이트 이메일</h3></div>"
+				+ "<span>비밀번호 : "+userpwd
+				+ "</span></div><div style=\"padding: 15px 0; text-align: center; box-shadow: 0 -1px 22px -2px rgb(0 0 0 / 15%);\">"
+				+ "<span style=\"color: #13a89e; font-weight:bold; font-size:12px;\">Copyright © 2021 공일이오 Co., Ltd. All rights reserved.</span>"
+				+ "</div></div>";
+		
+		String result="no";
+		if(userpwd!=null && !userpwd.equals("")) {
+			try {
+				MimeMessage message=mailSender.createMimeMessage();
+				MimeMessageHelper messageHelper=new MimeMessageHelper(message, true, "UTF-8");
+				messageHelper.setFrom("seoulmatemanager@gmail.com");
+				messageHelper.setTo(email);
+				messageHelper.setSubject(subject);
+				messageHelper.setText("text/html; charset=UTF-8", content);
+				mailSender.send(message);
+				
+			}catch(Exception e) {
+				System.out.println("이메일 인증번호 전송 에러 발생...");
+				e.printStackTrace();
+			}
+			
+			result="pass";
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping("/emailCheckResult")
+	@ResponseBody
+	public String emailCheckResult(HttpSession session, HttpServletRequest req) {
+		String emailCheckNum=req.getParameter("emailCheckNum");
+		String code=(String)session.getAttribute("code");
+		
+		String result="nonpass";
+		if(emailCheckNum.equals(code)) {
+			result="pass";
+		}
+		
+		return result;
+	}
+	
 	@RequestMapping("/idChk")
 	@ResponseBody
 	public int idChk(HttpServletRequest req) {
@@ -56,31 +159,40 @@ public class MemberController {
 		
 		return result;
 	}
-	/*
-	@RequestMapping("/idCheck")
-	public ModelAndView idCheck(String userid) {
-		String useridCheck=userid;
-		// System.out.println(userid);
-		int result=service.idCheck(useridCheck);
-		
-		ModelAndView mav=new ModelAndView();
-		mav.addObject("userid", useridCheck);
-		mav.addObject("checkResult", result);
-		mav.setViewName("member/idCheck");
-		
-		return mav;
-	}
-	*/
 	
 	@RequestMapping(value="/memberOk", method=RequestMethod.POST)
 	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
-	public ModelAndView memberOk(MemberVO vo, PropensityVO proVO,HttpSession session) {
+	public ModelAndView memberOk(MemberVO vo, PropensityVO proVO,HttpSession session, @RequestParam("filename") MultipartFile filename, HttpServletRequest req) {
 		ModelAndView mav=new ModelAndView();
 		mav.setViewName("home");
 		
 		proVO.setUserid(vo.getUserid()); // 성향 테이블에 userid 추가
-		// 파일 업로드 하기 전까지는 프로필 파일명만 set
-		vo.setProfilePic("example");
+		
+		// 프로필 사진 업로드 /////////////////////
+		String path=req.getSession().getServletContext().getRealPath("/profilePic");
+		String orgName=filename.getOriginalFilename(); // 기존 파일 명
+		String realName="";
+		
+		try {
+			if(orgName != null && !orgName.equals("")) {
+				File f=new File(path, orgName);
+				int i=1;
+				while(f.exists()) {
+					int point=orgName.lastIndexOf(".");
+					String name=orgName.substring(0, point);
+					String extName=orgName.substring(point+1);
+					
+					f=new File(path, name+"_"+ i++ +"."+extName);
+				}
+				filename.transferTo(f); // 업로드
+				realName=f.getName();
+				vo.setProfilePic(f.getName());
+			}
+		}catch(Exception e) {
+			System.out.println("프로필 사진 업로드 에러 발생");
+			e.printStackTrace();
+		}
+		
 		///////////////////////////////////////
 		// 트랜잭션
 		DefaultTransactionDefinition def=new DefaultTransactionDefinition();
@@ -102,17 +214,18 @@ public class MemberController {
 					mav.setViewName("redirect:memberForm");
 				}
 			}else { // 회원가입 실패
+				if(realName!=null) { // 레코드 추가 실패 시 프로필 사진 삭제
+					File f=new File(path, realName);
+					f.delete();
+				}
 				System.out.println("회원가입 실패");
 				mav.setViewName("redirect:memberForm");
 				// 나중에 history.back() 해줘야 함
 			}
-			
 		}catch(Exception e){
 			System.out.println("회원가입 실패(트랜잭션)");
 			mav.setViewName("redirect:memberForm");
 		}
-		
-		
 		
 		/*
 		System.out.println("아이디 : "+vo.getUserid());
@@ -197,7 +310,7 @@ public class MemberController {
 	public ModelAndView memberEditForm(HttpSession session) {
 		ModelAndView mav=new ModelAndView();
 		
-		String arr1[] = {"010"," 02"," 031","032"," 033"," 041"," 042"," 043"," 044"," 051"," 052"," 053"," 054"," 055"," 061"," 062"," 063"," 064"};
+		String arr1[] = {"010","02","031","032","033","041","042","043","044","051","052","053","054","055","061","062","063","064"};
 		String guArr[]= {"강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구"
 				,"동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"};
 		
@@ -206,8 +319,7 @@ public class MemberController {
 		mav.addObject("guArr", guArr);
 		
 		
-		MemberVO vo=new MemberVO();
-		vo=service.memberSelect(userid);
+		MemberVO vo=service.memberSelect(userid);
 		
 		mav.addObject("vo", service.memberSelect(userid));
 		mav.setViewName("member/memberEditForm");
@@ -216,10 +328,111 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/memberEditOk", method=RequestMethod.POST)
-	public ModelAndView memberEditOk(MemberVO vo, HttpSession session) {
+	public ModelAndView memberEditOk(MemberVO vo, HttpSession session, HttpServletRequest req) {
 		ModelAndView mav=new ModelAndView();
 		
 		vo.setUserid((String)session.getAttribute("logId"));
+		
+		String path=session.getServletContext().getRealPath("/profilePic");
+		String selFilename=service.memberProfile(vo.getUserid());
+		String delFilename=req.getParameter("delFile");
+		
+		MultipartHttpServletRequest mr=(MultipartHttpServletRequest)req;
+		if(mr.getFile("filename")!=null) {
+			MultipartFile newName=mr.getFile("filename");
+
+			String newUpload="";
+			
+			if(newUpload!=null && newName!=null) {
+				String orgname=newName.getOriginalFilename();
+				
+				if(orgname!=null && !orgname.equals("")) {
+					File ff=new File(path, orgname);
+					int i=1;
+					while(ff.exists()) {
+						int pnt=orgname.lastIndexOf(".");
+						String firstName=orgname.substring(0, pnt);
+						String extName=orgname.substring(pnt+1);
+						
+						ff=new File(path, firstName+"_"+ i++ +"."+extName);
+					}
+					try {
+						newName.transferTo(ff);
+					}catch(Exception e) {
+						System.out.println("새로운 파일 추가 수정 에러 발생");
+						e.printStackTrace();
+					}
+					newUpload=ff.getName();
+					System.out.println("리네임된 새로운 파일명 : "+newUpload);
+				}
+			}
+			vo.setProfilePic(newUpload);
+						
+			if(!vo.getUserpwd().equals("")) { // 비밀번호를 바꾸려는 경우
+				if(service.memberUpdatePwdY(vo)>0) {
+					System.out.println("비밀번호 포함 회원수정 변경 성공");
+					if(delFilename!=null) {
+						try {
+							File dFileObj=new File(path, delFilename);
+							dFileObj.delete();
+						}catch(Exception e) {
+							System.out.println("글 수정 중 삭제할 파일 삭제 에러 발생");
+							e.printStackTrace();
+						}
+					}
+				}else {
+					System.out.println("비밀번호 포함 회원수정 변경 실패");
+					if(newUpload!=null && !newUpload.equals("")){ // 올리려는 새 이미지가 있을 때
+						try {
+							File dFileObj=new File(path, newUpload);
+							dFileObj.delete();
+						}catch(Exception e) {
+							System.out.println("새로 업로드된 파일 지우기 에러 발생");
+							e.printStackTrace();
+						}
+					}
+				}
+			}else {
+				if(service.memberUpdatePwdN(vo)>0) {
+					System.out.println("비밀번호 미포함 회원수정 변경 성공");
+					if(delFilename!=null) {
+						try {
+							File dFileObj=new File(path, delFilename);
+							dFileObj.delete();
+						}catch(Exception e) {
+							System.out.println("글 수정 중 삭제할 파일 삭제 에러 발생");
+							e.printStackTrace();
+						}
+					}
+				}else {
+					System.out.println("비밀번호 미포함 회원수정 변경 실패");
+					if(newUpload!=null && !newUpload.equals("")){ // 올리려는 새 이미지가 있을 때
+						try {
+							File dFileObj=new File(path, newUpload);
+							dFileObj.delete();
+						}catch(Exception e) {
+							System.out.println("새로 업로드된 파일 지우기 에러 발생");
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		}else {
+			vo.setProfilePic(selFilename);
+			if(!vo.getUserpwd().equals("")) { // 비밀번호를 바꾸려는 경우
+				if(service.memberUpdatePwdY(vo)>0) {
+					System.out.println("비밀번호 포함 회원수정 변경 성공");
+				}else {
+					System.out.println("비밀번호 포함 회원수정 변경 실패");
+				}
+			}else {
+				if(service.memberUpdatePwdN(vo)>0) {
+					System.out.println("비밀번호 미포함 회원수정 변경 성공");
+				}else {
+					System.out.println("비밀번호 미포함 회원수정 변경 실패");
+				}
+			}
+		}
 		
 		// int pwdResult=service.memberPwdSelect(vo.getUserid(), vo.getUserpwd());
 		/*
@@ -234,7 +447,7 @@ public class MemberController {
 		System.out.println("이메일 아이디 : "+vo.getEmailid());
 		System.out.println("이메일 도메인 : "+vo.getEmaildomain());
 		*/
-		
+		/*
 		if(!vo.getUserpwd().equals("")) { // 비밀번호를 바꾸려는 경우
 			System.out.println("비밀번호 O 회원수정 O");
 			if(service.memberUpdatePwdY(vo)>0) {
@@ -250,7 +463,7 @@ public class MemberController {
 				System.out.println("비밀번호 미포함 회원수정 변경 실패");
 			}
 		}
-		
+		*/
 		mav.setViewName("redirect:memberEditForm");
 		return mav;
 	}
@@ -289,12 +502,13 @@ public class MemberController {
 		String userid=(String)session.getAttribute("logId");
 		
 		int pcaseH=service.propPcaseH(userid);
-		
+		System.out.println("pcaseH : "+pcaseH);
 		mav.addObject("pcaseM", service.propPcaseM(userid)); // 메이트인 경우
 		mav.addObject("pcaseH", pcaseH); // 하우스인 경우
 		if(pcaseH>0) {
 			mav.addObject("list", service.houseList(userid));
 		}
+		
 		
 		
 		mav.setViewName("member/memberProEdit");
