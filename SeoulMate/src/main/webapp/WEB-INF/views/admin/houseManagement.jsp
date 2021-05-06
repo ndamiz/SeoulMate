@@ -6,13 +6,20 @@ $(function(){
 		var no = $(this).children().eq(0).text();
 		var userid = $(this).children().eq(1).text();
 		var housename = $(this).children().eq(2).text();
+		
 		// 데이터 받은것 json형식으로 보내서 받아오기. 
-		var data = {"no" :no, "userid":userid, "housename":housename};
+		var url = "/home/admin/houseDetailInfo";
+		var data = {"no" : no, "userid": userid};
+		console.log("no"+no+ ", userid"+userid);
+		
 		$.ajax({
-			url : "home/admin/houseDetailInfo",
-			method : "get",
+			url : url,
 			data : data,
+			type : 'post', 
+			dataType : 'json',
 			success : function(result){
+				//hwVO, hrVOList 받아옴
+				console.log(result);
 				
 			}, error :function(){
 				console.log(" houseDetailInfo 데이터가져오기 에러 ");
@@ -139,11 +146,11 @@ function managementPopupClose(){
 						<li>
 							<ul class="admin_Management_popup_table_inner0">
 								<li>게재 기간</li>
-								<li>2021-05-01 ~ 2021-05-14</li>
+								<li><span id="hw_writedate">2021-05-01</span> ~ <span id="hw_enddate">2021-05-14</span></li>
 								<li>상태</li>
 								<li>
-									<select name="housestate" class="custom-select" style="height: 28px; padding: 2px 10px; vertical-align: top; margin-top: 1px;">
-										<option value="모집중" selected>모집중</option>
+									<select name="hw_housestate" class="custom-select" style="height: 28px; padding: 2px 10px; vertical-align: top; margin-top: 1px;">
+										<option value="모집중">모집중</option>
 										<option value="매칭 완료">매칭 완료</option>
 										<option value="기간 만료">기간 만료</option>
 										<option value="비공개">비공개</option>
@@ -152,96 +159,98 @@ function managementPopupClose(){
 							</ul>
 							<ul class="admin_Management_popup_table_inner1">
 								<li>주소</li>
-								<li style="width: 84%;">서울시 마포구 아현동 134-32번지 포동빌라 2층</li>
+								<li style="width: 84%;" id="hw_addr">서울시 마포구 아현동 134-32번지 포동빌라 2층</li>
 							</ul>
 							<ul class="admin_Management_popup_table_inner0">
 								<li>등급</li>
-								<li>프리미엄</li>
+								<li id="hw_grade">프리미엄</li>
 								<li>신고수</li>
-								<li>0건</li>
+								<li><span id="hw_reportNum"></span> 건</li>
 							</ul>
 							<ul class="admin_Management_popup_table_inner1">
 								<li>룸 기본 정보</li>
-								<li style="width: 21%;">총 방 개수 : 3</li>
-								<li style="width: 21%;">총 욕실 수 : 2</li>
-								<li style="width: 21%;">현재 인원 : 2</li>
-								<li style="width: 21%;">찾는 인원 : 1</li>
+								<li style="width: 21%;">총 방 개수 : <span id="hw_room"></span></li>
+								<li style="width: 21%;">총 욕실 수 : <span id="hw_bathroom"></span></li>
+								<li style="width: 21%;">현재 인원 : <span id="hw_bathroom"></span></li>
+								<li style="width: 21%;">찾는 인원 : <span id="hw_searchpeople"></span></li>
 							</ul>
 							<ul class="admin_Management_popup_table_inner0">
 								<li>공용시설</li>
-								<li>거실, 주방, 에어컨, 세탁기, ... </li>
+								<li id="hw_publicfacility">거실, 주방, 에어컨, 세탁기, ... </li>
 							</ul>
 							<ul class="admin_Management_popup_table_inner2">
 								<li>생활</li>
-								<li>생활소음 : 조용하지않음</li>
-								<li>생활시간 : 주행성</li>
-								<li>흡연 : 실외흡연</li>
-								<li style="width: 42%;">하우스 내 애완동물 여부 : 있음</li>
-								<li style="width: 42%;">애완동물 동반입실(거주) 여부 : 가능</li>
+								<li>생활소음 : <span id="propen_h_noise">조용하지않음</span></li>
+								<li>생활시간 : <span id="propen_h_pattern">주행성</span></li>
+								<li>흡연 : <span id="propen_h_smoke"></span></li>
+								<li style="width: 42%;">하우스 내 애완동물 여부 : <span id="propen_h_pet">있음</span></li>
+								<li style="width: 42%;">애완동물 동반입실(거주) 여부 : <span id="propen_h_petwith">가능</span></li>
 							</ul>
 						</li>
 						<li>
 							<ul class="admin_Management_popup_table_inner2">
 								<li>소통</li>
-								<li>분위기 : 화목함</li>
-								<li>소통방식 : 대화</li>
-								<li>모임 빈도 : 가끔</li>
-								<li>모임 참가 의무 : 없음</li>
+								<li>분위기 : <span id="propen_h_mood">화목함</span></li>
+								<li>소통방식 : <span id="propen_h_communication"></span></li>
+								<li>모임 빈도 : <span id="propen_h_party"></span></li>
+								<li>모임 참가 의무 : <span id="propen_h_enter"></span></li>
 							</ul>
 						</li>
 						<li>
 							<ul class="admin_Management_popup_table_inner1">
 								<li>지원 서비스</li>
-								<li>공용공간 청소 지원 : O</li>
-								<li>공용 생필품 지원 : O</li>
-								<li>기본 식품 지원 : O</li>
+								<li>공용공간 청소 지원 : <span id="propen_h_support1"></span></li>
+								<li>공용 생필품 지원 : <span id="propen_h_support2"></span></li>
+								<li>기본 식품 지원 : <span id="propen_h_support3"></span></li>
 							</ul>
 						</li>
 						<li>
 							<ul class="admin_Management_popup_table_inner1">
 								<li>기타</li>
-								<li>보증금 조절 가능 여부 : O</li>
-								<li>즉시입주 가능 여부 : O</li>
+								<li>보증금 조절 가능 여부 : <span id="propen_h_etc1"></span></li>
+								<li>즉시입주 가능 여부 : <span id="propen_h_etc3"></span></li>
 							</ul>
 						</li>
 						<li class="admin_Management_popup_table_title" style="padding-left: 20px;">룸 상세 정보</li>
 						<li>
 							<ul class="admin_Management_popup_table_inner0">
 								<li>방이름</li>
-								<li>포동1호 룸</li>
+								<li id="hr_roomName"></li>
 								<li>입주가능일</li>
-								<li>2021-5-1 </li>
+								<li id="hr_incFurniture">2021-5-1</li>
 							</ul>
 							<ul class="admin_Management_popup_table_inner0">
 								<li>보증금 / 월세</li>
-								<li>3,000,000 원 / 250,000원</li>
+								<li><span id="hr_deposit"></span>원 / <span id="hr_rent"></span>원</li>
 								<li>총 방인원</li>
-								<li>2인</li>
+								<li><span id="hr_roomPeople"></span>인</li>
 							</ul>
 							<ul class="admin_Management_popup_table_inner0">
 								<li>최소거주기간</li>
-								<li>4-6 개월</li>
+								<li id="hr_minStay">4-6 개월</li>
 								<li>최대거주기간</li>
-								<li>1년 이상</li>
+								<li id="hr_maxStay">1년 이상</li>
 							</ul>
 							<ul class="admin_Management_popup_table_inner2">
 								<li>가구</li>
-								<li style="width: 84%; border-bottom: 1px solid #dee2e6;">있음</li>
-								<li style="width: 84%;">포함된 가구 목록 뽑아내얋...</li>
+								<li style="width: 84%; border-bottom: 1px solid #dee2e6;" id="hr_furniture">있음</li>
+								<li style="width: 84%;" id="hr_incFurniture">포함된 가구 목록 뽑아내얋...</li>
 							</ul>
 						</li>
 						<li class="admin_Management_popup_table_title" style="padding-left: 20px;">희망하는 메이트의 성향</li>
 						<li>
 							<ul class="admin_Management_popup_table_inner3">
-								<li>생활시간 : 주행성</li>
-								<li>나이 : 20~30대</li>
-								<li>성별 : 여성</li>
-								<li>외국인 여부 : 가능</li>
-								<li>즉시입주 : 가능</li>
+								<li>생활시간 : <span id="propen_m_pattern"></span></li>
+								<li>성격 : <span id="propen_m_personality"></span></li>
+								<li>애완동물 : <span id="propen_m_pet"></span></li>
+								<li>나이대 : <span id="propen_m_age"></span></li>
+								<li>성별 : <span id="proprn_m_gende"></span></li>
+								<li>외국인 여부 : <span id="propen_m_global"></span> </li>
+								<li>즉시입주 : <span id="propen_m_now"></span></li>
 							</ul>
 						</li>
 						<li class="admin_Management_popup_table_title" style="padding-left: 20px;">룸 사진</li>
-						<li class="admin_Management_popup_table_img">
+						<li class="admin_Management_popup_table_img" id="hw_housepic">
 							사진들어가는 자리 ~
 						</li>
 					</ul>

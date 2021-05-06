@@ -9,11 +9,13 @@ import org.springframework.stereotype.Service;
 
 import com.seoulmate.home.dao.AdminDAO;
 import com.seoulmate.home.dao.MemberDAO;
+import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.MateWriteVO;
 import com.seoulmate.home.vo.MemberVO;
 import com.seoulmate.home.vo.PagingVO;
 import com.seoulmate.home.vo.PayVO;
+import com.seoulmate.home.vo.PropensityVO;
 
 @Service
 public class AdminServiceImp implements AdminService {
@@ -52,8 +54,16 @@ public class AdminServiceImp implements AdminService {
 		return dao.houseOnePageListSelect(map);
 	}
 	@Override
-	public List<Map<String, Object>> houseDetailInfoSelect(HouseWriteVO hwVO) {
+	public HouseWriteVO houseDetailInfoSelect(HouseWriteVO hwVO) {
 		return dao.houseDetailInfoSelect(hwVO);
+	}
+	@Override
+	public PropensityVO propensitySelect(HouseWriteVO hwVO) {
+		return dao.propensitySelect(hwVO);
+	}
+	@Override
+	public List<HouseRoomVO> houseRoomInfoSelect(HouseWriteVO hwVO) {
+		return dao.houseRoomInfoSelect(hwVO);
 	}
 	
 // mate management /////////////////////////////////////
