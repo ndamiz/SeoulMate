@@ -63,6 +63,7 @@
 		});
 		
 		$("#InfoSaveBtn").click(function(){
+<<<<<<< HEAD
 			// 이름 정규식 표현
 			var regName=/^[가-힣]{2,4}$/;
 			if(!regName.test(document.getElementById("infoName").value)){
@@ -96,6 +97,25 @@
 			}
 			
 			$("#memInfoForm").submit();
+=======
+			var url="memInfoSave";
+			var params="userid="+$("#infoId").val()+"&username="+$("#infoName").val()+"&reportCnt="+$("#infoReportCnt").val()+"&state="+$("#infoState:checked").val();
+			$.ajax({
+				url:url,
+				data:params,
+				success:function(result){
+					if(result>0){
+						alert("수정 되었습니다.");
+						location.href="/home/admin/memberManagement";
+					}else{
+						alert("수정에 실패하였습니다.");
+					}
+				},error:function(){
+					console.log("ajax 실패");
+				}
+			});
+			pupClose();
+>>>>>>> refs/remotes/origin/hyun
 		});
 		
 		// 프로필 사진
@@ -144,6 +164,7 @@
 		}
 	}
 </script>
+<<<<<<< HEAD
 	<section>
 		<div class="m_title managementTitle">회원 관리</div>
 		<form method="post" action="/home/admin/memberManagement" class="managementSearchForm">
@@ -162,6 +183,33 @@
 						<option value="블랙">블랙리스트</option>						
 						<option value="탈퇴">탈퇴</option>						
 					</select>
+=======
+	<section class="admin_Section">
+		<div class="admin_Content">
+			<div class="m_title managementTitle">회원 관리</div>
+			<form method="post" action="/home/admin/memberManagement" class="managementSearchForm">
+				<div class="memberRadio">
+					<div class="checks">
+						<span class="managementSpan">등급</span>
+						<input type="radio" name="grade" id="memberGrade1" checked/>
+						<label for="memberGrade1">전체</label>
+						<input type="radio" name="grade" id="memberGrade2"/>
+						<label for="memberGrade2">일반</label>
+						<input type="radio" name="grade" id="memberGrade3"/>
+						<label for="memberGrade3">프리미엄</label>
+					</div>
+					<div class="checks">
+						<span class="managementSpan">상태</span>
+						<input type="radio" name="state" id="memberState1" checked/>
+						<label for="memberState1">전체</label>
+						<input type="radio" name="state" id="memberState2"/>
+						<label for="memberState2">일반</label>
+						<input type="radio" name="state" id="memberState3"/>
+						<label for="memberState3">블랙리스트</label>
+						<input type="radio" name="state" id="memberState4"/>
+						<label for="memberState4">탈퇴</label>
+					</div>
+>>>>>>> refs/remotes/origin/hyun
 				</div>
 				<div class="managementSearch">
 					<select name="searchKey" class="custom-select">
@@ -173,6 +221,7 @@
 					<input type="text" name="searchWord" class="form-control"/>
 					<input type="submit" value="Search" class="btn btn-custom"/>
 				</div>
+<<<<<<< HEAD
 			</div>
 			
 		</form>
@@ -192,16 +241,23 @@
 				</thead>
 				<tbody id="tableMain">
 					<c:forEach var="vo" items="${list}">
+=======
+			</form>
+			<div class="table-responsive, managementList">
+				<table class="table table-hover table-sm table-bordered" id="memberTable">
+					<thead class="thead-light">
+>>>>>>> refs/remotes/origin/hyun
 						<tr>
-							<td>${vo.no}</td>
-							<td>${vo.userid}</td>
-							<td>${vo.username}</td>
-							<td>${vo.tel}</td>
-							<td>${vo.email}</td>
-							<td><c:if test="${vo.grade==1}">일반</c:if><c:if test="${vo.grade==2}">프리미엄</c:if></td>
-							<td>${vo.reportCnt}</td>
-							<td><c:if test="${vo.state=='일반'}">일반</c:if><c:if test="${vo.state=='블랙'}">블랙리스트</c:if><c:if test="${vo.state=='탈퇴'}">탈퇴</c:if></td>
+							<th>No.</th>
+							<th>아이디</th>
+							<th>이름</th>
+							<th>연락처</th>
+							<th>이메일</th>
+							<th>등급</th>
+							<th>신고 누적 수</th>
+							<th>블랙리스트</th>
 						</tr>
+<<<<<<< HEAD
 					</c:forEach>
 				</tbody>
 			</table>
@@ -239,6 +295,34 @@
 						<a class="last_page"></a>
 					</c:if>
 				</form>
+=======
+					</thead>
+					<tbody id="tableMain">
+						<c:forEach var="vo" items="${list}">
+							<tr>
+								<td>${vo.no}</td>
+								<td>${vo.userid}</td>
+								<td>${vo.username}</td>
+								<td>${vo.tel}</td>
+								<td>${vo.email}</td>
+								<td><c:if test="${vo.grade==1}">일반</c:if><c:if test="${vo.grade==2}">프리미엄</c:if></td>
+								<td>${vo.reportCnt}</td>
+								<td><c:if test="${vo.state=='일반'}">일반</c:if><c:if test="${vo.state=='블랙'}">블랙리스트</c:if><c:if test="${vo.state=='탈퇴'}">탈퇴</c:if></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+				<div class="paging">
+				<a class="first_page" href=""></a>
+					<a class="prev_page" href=""></a>
+					<a class="on" href="">1</a>
+					<a class="" href="">2</a>
+					<a class="" href="">3</a>
+					<a class="" href="">4</a>
+					<a class="next_page" href=""></a>
+					<a class="last_page" href=""></a>
+				</div>
+>>>>>>> refs/remotes/origin/hyun
 			</div>
 		</div>
 	</section>

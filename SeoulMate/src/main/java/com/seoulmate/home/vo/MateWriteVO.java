@@ -22,12 +22,17 @@ public class MateWriteVO {
 	private String maxStay;
 	private String writedate;
 	private String enddate;
-	private String state;
+	private String matestate;
 	private String mateProfile;
 	
 	// index에서 필요한 성별, 생년월일 정보
 	private int gender;
 	private String birth;
+	
+	//admin page에서 사용하기 위함.  
+	private int grade;  // 1:일반, 2:프리미엄 
+	private int reportNum; //신고수
+	private String username;
 	
 	public int getNo() {
 		return no;
@@ -153,11 +158,11 @@ public class MateWriteVO {
 	public void setEnddate(String enddate) {
 		this.enddate = enddate;
 	}
-	public String getState() {
-		return state;
+	public String getMatestate() {
+		return matestate;
 	}
-	public void setState(String state) {
-		this.state = state;
+	public void setMatestate(String matestate) {
+		this.matestate = matestate;
 	}
 	public String getMateProfile() {
 		return mateProfile;
@@ -176,5 +181,29 @@ public class MateWriteVO {
 	}
 	public void setBirth(String birth) {
 		this.birth = birth;
+	}
+	public String[] getaList() {
+		return aList;
+	}
+	public void setaList(String[] aList) {
+		this.aList = aList;
+	}
+	public int getGrade() {
+		return grade;
+	}
+	public void setGrade(int grade) {
+		this.grade = grade;
+	}
+	public int getReportNum() {
+		return reportNum;
+	}
+	public void setReportNum(int reportNum) {
+		this.reportNum = reportNum;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

@@ -18,7 +18,7 @@ public class HouseWriteVO {
 	private String publicfacility; 
 	private String writedate;
 	private String enddate;
-	private String housestate;
+	private String housestate; // 모집중, 매칭 완료, 기간 만료, 비공개
 	private String houseprofile;
 	
 	
@@ -27,6 +27,9 @@ public class HouseWriteVO {
 	private int deposit;
 	private int rent;
 	
+	//admin page에서 사용하기 위함.  
+	private int grade;  // 1:일반, 2:프리미엄 
+	private int reportNum; //신고수
 	
 	public int getNo() {
 		return no;
@@ -153,6 +156,18 @@ public class HouseWriteVO {
 	}
 	public void setRent(int rent) {
 		this.rent = rent;
+	}
+	public int getGrade() {
+		return grade;
+	}
+	public void setGrade(int grade) {
+		this.grade = grade;
+	}
+	public int getReportNum() {
+		return reportNum;
+	}
+	public void setReportNum(int reportNum) {
+		this.reportNum = reportNum;
 	}
 	
 }
