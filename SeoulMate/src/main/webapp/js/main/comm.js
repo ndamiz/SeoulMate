@@ -9,11 +9,12 @@ $(document).ready(function(){
 		});
 		
 		$('.btn_chat').click(function() {
-			if($('.chat_window:first-child').hasClass('on')==true){
-				$('.chat_window:first-child').removeClass('on');
+			if($('.chat_window').hasClass('on')==true){
+				$('.chat_window').removeClass('on');
 			}else{
-				$('.chat_window:first-child').addClass('on');
+				$('.chat_window').addClass('on');
 			}
 		});
+		
 	});
 });
