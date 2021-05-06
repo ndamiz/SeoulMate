@@ -89,9 +89,29 @@
 						console.log("이메일 송신 실패");
 					}
 				});
+				$("#emailResult").val("N");
+				$("#emailCheck").attr("disabled", false);
+				$("#emailCheck").attr("placeholder", "인증 번호를 입력해주세요");
 			}
 			
 		});
+		// 이메일 아이디를 변경하면 인증 확인이 풀림
+		$("#emailid").change(function(){
+			$("#emailResult").val("N");
+			$("#emailCheck").attr("disabled", true);
+			$("#emailCheck").attr("placeholder", "");
+			$("#emailCheck").val("");
+		});
+		
+		// 이메일 도메인을 변경하면 인증 확인이 풀림
+		$("#emaildomain").change(function(){
+			$("#emailResult").val("N");
+			$("#emailCheck").attr("disabled", true);
+			$("#emailCheck").attr("placeholder", "");
+			$("#emailCheck").val("");
+		});
+		
+		
 		
 		// 이메일 인증번호 확인
 		$("#emailCheckBtn").click(function(){
@@ -121,9 +141,7 @@
 				});
 			}
 		});
-		
-		
-		
+				
 		// 1
 		$("#memNext1").click(function(){
 			// 희망 지역1
@@ -593,7 +611,7 @@
 					</li>
 					<li>
 						<label></label>
-						<input type="text" name="emailCheck" id="emailCheck" value="" placeholder="인증번호를 입력해주세요" autocomplete="off"/>
+						<input type="text" name="emailCheck" id="emailCheck" value="" placeholder="" disabled autocomplete="off"/>
 						<a class="green" id="emailCheckBtn">인증번호 확인</a>
 						<input type="hidden" name="emailResult" id="emailResult" value="N"/>
 					</li>

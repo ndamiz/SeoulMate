@@ -94,6 +94,8 @@
 				alert("신고 누적 수는 숫자만 입력할 수 있습니다.");
 				return false;
 			}
+			
+			$("#memInfoForm").submit();
 		});
 		
 		// 프로필 사진
@@ -255,10 +257,10 @@
 								</li>
 								<li><div>아이디</div><input type="text" name="userid" id="infoId" value="" readonly/></li>
 								<li><div>비밀번호</div><input type="text" name="userpwd" id="infoPwd" value="" readonly/></li>
-								<li><div>*이름</div><input type="text" name="username" id="infoName" value=""/></li>
+								<li><div>*이름</div><input type="text" name="username" id="infoName" value="" autocomplete="off"/></li>
 								<li><div>생년월일</div><input type="text" name="birth" id="infoBirth" value="" readonly/></li>
 								<li><div>*연락처</div><input type="text" name="tel" id="infoTel" value="" maxlength="13"/></li>
-								<li><div>*email</div><input type="text" name="email" id="infoEmail" value=""/></li>
+								<li><div>*email</div><input type="text" name="email" id="infoEmail" value="" autocomplete="off"/></li>
 								<li><div>*신고 누적 수</div><input type="text" name="reportCnt" id="infoReportCnt" value=""/></li>
 								<li><div>*블랙리스트</div>
 									<div class="toggle_cont">
@@ -272,7 +274,7 @@
 				</div>
 				<div class="pup_bottom">
 					<a class="btn_cancel">닫기</a>
-					<button class="btn_save" id="InfoSaveBtn">수정</button>
+					<a class="btn_save" id="InfoSaveBtn">수정</a>
 				</div>
 			</form>
 			<a class="pup_btn_close">닫기</a>
