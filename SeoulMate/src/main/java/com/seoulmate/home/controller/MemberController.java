@@ -39,8 +39,10 @@ public class MemberController {
 	private DataSourceTransactionManager transactionManager;
 	
 	@RequestMapping("/memberForm")
-	public ModelAndView memForm() {
+	public ModelAndView memForm(HttpSession session) {
 		ModelAndView mav=new ModelAndView();
+		
+		session.removeAttribute("code"); // 새로 고침 했을 때 인증번호를 지워버림
 		
 		Calendar now=Calendar.getInstance();
 		int year=now.get(Calendar.YEAR);
