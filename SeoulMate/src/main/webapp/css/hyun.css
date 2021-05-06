@@ -4,24 +4,24 @@
 #payYearSelect{width: 150px; height: 30px; margin: 40px 0px 10px 0px;}
 
 /* 하우스&메이트 관리 => 찜목록 => 리스트 div */
-.myHouseMateList{width: 100%; overflow: auto;} 
+.myHouseMateList{width: 100%; overflow: auto;  min-width: 780px;} 
 
 /* (공통) 하우스&메이트 관리 한 블록*/
 #myPage_HouseAndMate_Content{min-width: 870px; }
-.myPage_HouseAndMate_oneBlock{height: 160px; width: 95%; float: left; min-width: 850px; max-width: 930px; 
+.myPage_HouseAndMate_oneBlock{height: 260px; width: 97%;
 	border-radius: 20px; box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%); margin: 20px 10px;}
 
 /* (공통) 하우스&메이트 관리 => 이미지 */
 .myPage_HouseAndMate_Img{position: relative; float: left;}
 .myPage_HouseAndMate_Img>a{padding: 0; margin: 0; box-shadow: inherit; height:150px;}
-.myPage_HouseAndMate_Img>a>img{width: 150px; border-radius: 20px; margin: 5px 5px;}
+.myPage_HouseAndMate_Img>a>img{width: 250px; height: 250px; border-radius: 20px; margin: 5px 5px;}
 .myPage_HouseAndMate_Img>div{border-radius: 20px; background-color: #13a89ec2; width: 70px; height: 70px; 
 	text-align: center; font-size: 1.2em; padding-top: 5px; color: #fff; font-weight: 600;
 	position: absolute; top:10px; left: 10px; }
 .myPage_HouseAndMate_Img>div>span{display:inline-block; font-size: 1.5em; height: 30px; line-height: 30px;}
 
 /* 하우스&메이트 관리 => 리스트별 디자인 */
-.myPage_HouseAndMate_Info{float:left; width: 300px; margin-left: 20px; height: 150px;}
+.myPage_HouseAndMate_Info{float:left; width: 300px; margin: 25px 0px 0px 30px; height: 250px;}
 .myPage_HouseAndMate_Info>li{height: 15%;}
 .myPage_HouseAndMate_Info>li:first-of-type{height: 30%; font-size: 1.5em; font-weight: bold; margin-top: 10px;}
 .myPage_HouseAndMate_Info>li:nth-of-type(2){ }
@@ -52,39 +52,50 @@
 	background-color: #ffd7d1;}
 
 /* 하우스&메이트 관리 => 버튼 들어갈 박스 */
-.myPage_HouseAndMate_Btn>a{height: 30px; line-height: 30px; font-size: 0.9em; margin-top: 10px;}
-.myPage_HouseAndMate_Btn{height: 100px;  margin: 25px 0px; overflow: visible;}
-
+.myPage_HouseAndMate_Btn>a , .myPage_HouseAndMate_LikeMarker_Btn>a{height: 40px; line-height: 40px; font-size: 1.2em; margin-top: 10px;}
+.myPage_HouseAndMate_Btn{position: relative; top:90px; right:0px; 
+	min-width: 740px; min-height: 100px;}
+.myPage_HouseAndMate_LikeMarker_Btn{height: 85px;  position: relative; top:90px; right:0px; 
+	min-width: 740px; min-height: 85px;}
+@media screen and (max-width:1680px){
+	.myPage_HouseAndMate_Btn{top:70px;}
+}
+@media screen and (max-width:1331px){
+	.myPage_HouseAndMate_Btn{top:50px;}
+}
+@media screen and (max-width:1203px){
+	.myPage_HouseAndMate_Btn{top:20px;}
+}
 
 
 
 /*  하우스&메이트 관리 => 팝업 */
 .myPage_HouseAndMate_Popup_FullScreen{width: 100%; height: 100%; background-color: #ddd; opacity: 0.5;
 	position: fixed; top:0; left: 0; z-index: 10;}
-.myPage_HouseAndMate_Popup {width: 610px; height: 500px; border-radius: 20px; position: fixed; left: 20%; 
+.myPage_HouseAndMate_Popup {width: 610px; height: 600px; border-radius: 20px; position: fixed; left: 30%; 
 	top: 15%; box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%); background-color: #fff;
 	z-index: 11; }
 .popup_Stop_Scroll{overflow: hidden; height: 100%; }
 .popup_hidden{display: none;}
 .myPage_HouseAndMate_Popup_Title{padding-left: 20px; width: 100%; height: 50px; line-height: 50px; 
 	background-color: #13a89e; color: #fff; border-radius: 20px 20px 0px 0px; font-size: 1.2em;}
-.myPage_HouseAndMate_Popup_Title>span{float: right; padding-right: 20px;}
-.myPage_HouseAndMate_Popup_Mate_OneBlock{width: 90%; height: 120px; border-radius: 20px; 
-	box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%); margin: 10px auto;}
-.myPage_HouseAndMate_Popup_Content{width: 100%; height: 400px; background-color: #fff; overflow-y:scroll; }
+.myPage_HouseAndMate_Popup_Title>span{float: right; padding-right: 20px;  cursor: pointer;}
+.myPage_HouseAndMate_Popup_OneBlock{width: 90%; height: 140px; border-radius: 20px; 
+	box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%); margin: 30px auto;}
+.myPage_HouseAndMate_Popup_Content{width: 100%; height: 500px; background-color: #fff; overflow-y:scroll; }
 .myPage_HouseAndMate_Popup_Content::webkit-scrollbar{display:none;}
 
 .myPage_HouseAndMate_Popup_Img{position: relative; float: left;}
 .myPage_HouseAndMate_Popup_Img>a{padding: 0; margin: 0; box-shadow: 0px 0px 0px 0px rgb(0 0 0 / 0%);}
-.myPage_HouseAndMate_Popup_Img>a>img{width: 110px; border-radius: 50px; margin: 5px 5px;}
-.myPage_HouseAndMate_Popup_Info{width: 300px; float: left;}
+.myPage_HouseAndMate_Popup_Img>a>img{width: 110px; height: 110px; border-radius: 50px; margin: 15px 10px;}
+.myPage_HouseAndMate_Popup_Info{width: 280px; float: left;}
 .myPage_HouseAndMate_Popup_Info>li{margin-left:10px; height: 30px; line-height: 30px;}
-.myPage_HouseAndMate_Popup_Info>li:first-of-type{margin: 10px 0px 10px 10px;}
+.myPage_HouseAndMate_Popup_Info>li:first-of-type{margin: 20px 0px 10px 10px;}
 .myPage_HouseAndMate_Popup_Info>li>span{margin:0px 10px 0px 0px;}
 .myPage_HouseAndMate_Popup_Info>li>span::before{background-color: #ffeb3f;}
-.myPage_HouseAndMate_Popup_Btn{float: left; width: 110px; height: 120px;}
+.myPage_HouseAndMate_Popup_Btn{float: left; width: 110px; height: 120px; margin-top: 10px;}
 .myPage_HouseAndMate_Popup_Btn>a, .myPage_HouseAndMate_Popup_footer>a{height: 30px; width: 100px; line-height: 30px; 
-	font-size: 0.9em; text-align: center;}
+	font-size: 0.9em; text-align: center; background-color: #fff; color:#000;}
 .myPage_HouseAndMate_Popup_footer{text-align: center; height: 50px; box-shadow: 0px -5px 11px 0px rgb(0 0 0 / 10%); 
 	border-radius: 0px 0px 20px 20px; background-color: #fff; }
 .myPage_HouseAndMate_Popup_footer>p{ width: 100px; height: 30px; line-height: 30px; font-size:1em; background-color: #ddd; border-radius: 5px;

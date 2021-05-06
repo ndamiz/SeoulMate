@@ -6,18 +6,15 @@
  	<select id="comAllRecord" parameterType="com.seoulmate.home.vo.PageVO" resultType="com.seoulmate.home.vo.BoardVO">
  		select * from
  		( select * from 
- 		( select no, category, subject, userid, hit, to_char(writedate, 'MM-DD HH:MI') writedate from community
+ 		( select no, category, subject, userid, hit, to_char(writedate, 'MM-DD HH:MI') writedate, replycnt from community
   		<choose>
-  			<when test="searchWord != null and category != null">
+  			<when test='searchWord != null and !category.equals("")'>
   				where category=#{category} and ${searchKey} like '%${searchWord}%'
   			</when>
-  			<when test="searchWord == null and category != null">
+  			<when test='searchWord == null and !category.equals("")'>
 				where category=#{category}	
   			</when>
-  			<when test='category == null and searchWord != null'>
-				where ${searchKey} like '%${searchWord}%'
-  			</when>
-  			<when test='category == "" and searchWord != null'>
+  			<when test='category.equals("") and searchWord != null'>
 				where ${searchKey} like '%${searchWord}%'			
   			</when>
   		</choose>
@@ -35,16 +32,13 @@
   	<select id="totalRecord" parameterType="com.seoulmate.home.vo.PageVO" resultType="int">
   		select count(no) totalRecord from community
   		<choose>
-  			<when test="searchWord != null and category != null">
+  			<when test='searchWord != null and !category.equals("")'>
   				where category=#{category} and ${searchKey} like '%${searchWord}%'
   			</when>
-  			<when test="searchWord == null and category != null">
+  			<when test='searchWord == null and !category.equals("")'>
 				where category=#{category}	
   			</when>
-  			<when test='category == null and searchWord != null'>
-				where ${searchKey} like '%${searchWord}%'
-  			</when>
-  			<when test='category == "" and searchWord != null'>
+  			<when test='category.equals("") and searchWord != null'>
 				where ${searchKey} like '%${searchWord}%'			
   			</when>
   		</choose>
@@ -52,4 +46,23 @@
   	<select id="boardSelect" resultType="com.seoulmate.home.vo.BoardVO">
   		select no, userid, subject, content, category, hit, writedate from community where no=${param1}
   	</select>
+  	<select id="replyCount" resultType="int">
+  		select count(num) cnt from communityReply where no=#{param1}
+  	</select>
+  	<update id="hitUpdate">
+  		update community set hit=hit+1 where no=#{param1}
+  	</update>
+  	<delete id="communityDelete">
+  		delete from community where no=#{param1} and userid=#{param2}
+  	</delete>
+  	<update id="replyUpdate">
+  		update community set replycnt=
+  		<if test="param2 == 'plus'">
+  			replycnt+1
+  		</if>
+  		<if test="param2 == 'minus'">
+  			replycnt-1
+  		</if>  
+  		 where no=#{param1}
+  	</update>
 </mapper>

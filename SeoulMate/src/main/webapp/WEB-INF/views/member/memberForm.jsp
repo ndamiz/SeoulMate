@@ -57,13 +57,91 @@
 			var useId=$("#useId").text();
 			$("#userid").val(useId);
 			$("#idPopup").css("display", "none");
+			$("#hiddenCheck").val("Y");
 			$(document.body).css("overflow","visible");
+			
 		});
 		$("#idPopupClose").click(function(){
 			$("#idPopup").css("display", "none");
 			$(document.body).css("overflow","visible");
 			$("#idResult").empty();
 		});
+		
+		// 이메일
+		$("#emailBtn").click(function(){
+			if(regEmail()==false){
+				return false;
+			}else{
+				var emailid=document.getElementById("emailid").value;
+				var emaildomain=document.getElementById("emaildomain").value;
+				var email=emailid+"@"+emaildomain;
+				
+				var url="emailCheck";
+				var params="email="+email;
+				
+				$.ajax({
+					url:url,
+					data:params,
+					success:function(result){
+						alert("인증 번호가 전송되었습니다.");
+						console.log("이메일 송신 성공");
+					}, error:function(){
+						console.log("이메일 송신 실패");
+					}
+				});
+				$("#emailResult").val("N");
+				$("#emailCheck").attr("disabled", false);
+				$("#emailCheck").attr("placeholder", "인증 번호를 입력해주세요");
+			}
+			
+		});
+		// 이메일 아이디를 변경하면 인증 확인이 풀림
+		$("#emailid").change(function(){
+			$("#emailResult").val("N");
+			$("#emailCheck").attr("disabled", true);
+			$("#emailCheck").attr("placeholder", "");
+			$("#emailCheck").val("");
+		});
+		
+		// 이메일 도메인을 변경하면 인증 확인이 풀림
+		$("#emaildomain").change(function(){
+			$("#emailResult").val("N");
+			$("#emailCheck").attr("disabled", true);
+			$("#emailCheck").attr("placeholder", "");
+			$("#emailCheck").val("");
+		});
+		
+		
+		
+		// 이메일 인증번호 확인
+		$("#emailCheckBtn").click(function(){
+			var emailNum=document.getElementById("emailCheck").value;
+			
+			if(emailNum==null || emailNum==""){
+				alert("인증 번호를 입력해주세요.");
+				return false;
+			}else{
+				var url="emailCheckResult";
+				var params="emailCheckNum="+emailNum;
+				$.ajax({
+					url:url,
+					data:params,
+					success:function(result){
+						if(result=="pass"){
+							$("#emailResult").val("Y");
+							alert("인증에 성공하였습니다.");
+							$("#emailCheck").attr("disabled", true);
+						}else{
+							alert("인증 번호가 맞지 않습니다.");
+							$("#emailResult").val("N");
+						}
+					}, error:function(){
+						
+					}
+				});
+			}
+		});
+				
 		// 1
 		$("#memNext1").click(function(){
 			// 희망 지역1
@@ -98,19 +176,19 @@
 			
 			// 유효성 검사
 			if($("#userid").val()==""){
-				alert("아이디를 입력하세요");
+				alert("아이디를 입력하세요.");
 				return false;
 			}
 			if($("#hiddenCheck").val()!="Y"){
-				alert("아이디 중복 검사를 하세요");
+				alert("아이디 중복 검사를 하세요.");
 				return false;
 			}
 			if($("#userpwd").val()==""){
-				alert("비밀번호를 입력하세요");
+				alert("비밀번호를 입력하세요.");
 				return false;
 			}
 			if($("#userpwd2").val()==""){
-				alert("비밀번호 확인을 입력하세요");
+				alert("비밀번호 확인을 입력하세요.");
 				return false;
 			}
 			if($("#userpwd").val()!=$("#userpwd2").val()){
@@ -118,26 +196,34 @@
 				return false;
 			}
 			if($("#username").val()==""){
-				alert("이름을 입력하세요");
+				alert("이름을 입력하세요.");
 				return false;
 			}
 			if($("#tel2").val()==""||$("#tel3").val()==""){
-				alert("전화번호를 입력하세요");
+				alert("전화번호를 입력하세요.");
 				return false;
 			}
 			if($("#birth").val()==null || $("#birth").val()==""){
-				alert("생년월일을 선택하세요");
+				alert("생년월일을 선택하세요.");
+				return false;
+			}
+			if($("#profilePic").val()==null || $("#profilePic").val()==""){
+				alert("프로필 사진을 업로드해주세요.");
 				return false;
 			}
 			if($("#area1").val()==null || $("#area1").val()==""){
-				alert("희망 지역1을 선택하세요\r\n(하우스인 경우 등록할 하우스의 지역을 선택해주세요.)");
+				alert("희망 지역1을 선택하세요.\r\n(하우스인 경우 등록할 하우스의 지역을 선택해주세요.)");
 				return false;
 			}
 			if($("#area3").val()!=null && $("#area3").val()!=""){
 				if($("#area2").val()==null || $("#area2").val()==""){
-					alert("희망 지역2를 선택하세요");
+					alert("희망 지역2를 선택하세요.");
 					return false;
 				}
+			}
+			if($("#emailResult").val()!="Y"){
+				alert("이메일 인증을 하세요.");
+				return false;
 			}
 			//////////////////////////////////////
 			// 정규식 표현에 통과했을 때
@@ -255,12 +341,12 @@
 		// 하우스를 선택했는지 메이트를 선택했는지 구분
 		$(document).ready(function () {
 			$('#memNext2').click(function () {
-				var radioVal = $('input[name="housemate"]:checked').val();
+				var radioVal = $('input[name="pcase"]:checked').val();
 				
-				if(radioVal=="쉐어하우스"){
+				if(radioVal=="h"){
 					$(".houseChoice").css("display","block");
 					$(".mateChoice").css("display","none");
-				}else if(radioVal=="하우스메이트"){
+				}else if(radioVal=="m"){
 					$(".houseChoice").css("display","none");
 					$(".mateChoice").css("display","block");
 				}
@@ -296,38 +382,10 @@
 				alert("연락처는 숫자를 4자리씩 입력해야 합니다.");
 				return false;
 			}
-// 			// 월
-// 			var regBirth2=/(0[1-9]|1[012])$/;
-// 			var Birth2=document.getElementById("birth2").value;
-// 			if(document.getElementById("birth2").value.length==1){
-// 				Birth2="0"+Birth2;
-// 				document.getElementById("birth2").value=Birth2;
-// 			} 
-// 			if(!regBirth2.test(Birth2)){ // 월
-// 				alert("월을 정확하게 입력해주세요.");
-// 				return false;
-// 			}
-// 			// 일
-// 			var regBirth3=/(0[1-9]|[12][0-9]|3[0-1])$/;
-// 			var Birth3=document.getElementById("birth3").value;
-// 			if(document.getElementById("birth3").value.length==1){
-// 				Birth3="0"+Birth3;
-// 				document.getElementById("birth3").value=Birth3;
-// 			} 
-// 			if(!regBirth3.test(Birth3)){ // 월
-// 				alert("일을 정확하게 입력해주세요.");
-// 				return false;
-// 			}
 			// 이메일 아이디
 			var regEmailId=/^\w{3,14}$/;
 			if(!regEmailId.test(document.getElementById("emailid").value)){
 				alert("이메일을 잘못 입력하셨습니다.");
-				return false;
-			}
-			// 인증 번호
-			var regEmailCheck=/[0-9]{6}$/;
-			if(!regEmailCheck.test(document.getElementById("emailCheck").value)){
-				alert("인증번호는 숫자 6자리를 입력해야 합니다.");
 				return false;
 			}
 		}
@@ -339,6 +397,15 @@
 				return false;
 			}
 		}
+		
+		function regEmail(){
+			var regEmailId=/^\w{3,14}$/;
+			if(!regEmailId.test(document.getElementById("emailid").value)){
+				alert("이메일을 잘못 입력하셨습니다.");
+				return false;
+			}
+		}
+		
 		// 상단으로 스크롤 이동
 		function goTop(){
 			$('html').scrollTop(0);
@@ -450,9 +517,6 @@
 		}
 	}
 </script>
-<style>
-#proli{height:125px;}
-</style>
 <div class="wrap">
 	<div class="member_wrap">
 		<form method="post" id="memId" action="memberOk" enctype="multipart/form-data">
@@ -461,7 +525,7 @@
 				<p class="d_title">회원 정보 입력, 이메일 인증, 라이프 스타일을 등록 후 회원가입이 가능합니다.</p>
 				<ul class="form_box choice" id="mem">
 					<li><label><span class="red_txt">*</span>아이디</label>
-						<input type="text" name="userid" id="userid" maxlength="12" value="testtest" placeholder="영문과 숫자를 조합한 6~12자리"/>
+						<input type="text" name="userid" id="userid" maxlength="12" value="testtest" placeholder="영문과 숫자를 조합한 6~12자리" autocomplete="off"/>
 						<a class="white" id="idCheck">중복 확인</a>
 					<input type="hidden" name="hiddenCheck" id="hiddenCheck" value="Y"/>
 					</li>
@@ -470,7 +534,7 @@
 						<li><label><span class="red_txt">*</span>비밀번호 확인</label>
 					<input type="password" name="userpwd2" id="userpwd2" value="qwer1234!" placeholder="비밀번호를 재입력해주세요"/></li>
 					<li><label><span class="red_txt">*</span>이름</label>
-						<input type="text" name="username" id="username" value="홍길동" maxlength="4" placeholder="이름을 입력해주세요"/></li>
+						<input type="text" name="username" id="username" value="홍길동" maxlength="4" placeholder="이름을 입력해주세요" autocomplete="off"/></li>
 					<li><label><span class="red_txt">*</span>연락처</label>
 						<select name="tel1" id="tel1">
 							<c:forEach var="i1" items="${arr1}">
@@ -491,49 +555,49 @@
 							<label for="gender2">남성</label>
 						</div>
 					</li>
-					<li id="proli"><span class="red_txt">*</span><label>프로필 사진</label>
+					<li id="proli"><label><span class="red_txt">*</span>프로필 사진</label>
 						<div class="profile_div">
-							<img class="profile_img" id="profileImg" name="profileImg" src="/home/img/choi/pepe_1.png" alt="upload image"/>
-							<input type="file" accept="image/*" name="profilePic1" id="profilePic" />
+							<img class="profile_img" id="profileImg" name="profileImg" src="/home/img/choi/basic.png" alt="upload image"/><br/>
+							<input type="file" accept="image/*" name="filename" id="profilePic" />
 						</div>
 					</li>
-					<li><label>&nbsp;희망 지역1</label>
+					<li id="a1"><label><span class="red_txt">*</span>희망 지역1</label>
 						<select id="gu1" onchange="areaChange(this)">
-							<option hidden>구를 선택해주세요</option>
+							<option>구를 선택해주세요</option>
 							<c:forEach var="gu" items="${guArr}">
 								<option value="${gu}">${gu}</option>
 							</c:forEach>
 						</select>
 						<select id="dong1">
-							<option hidden>동을 선택해주세요</option>
+							<option>동을 선택해주세요</option>
 						</select>
-						<input type="text" name="area1" id="area1" placeholder=""/>
+						<input type="hidden" name="area1" id="area1" placeholder=""/>
 					</li>
-					<li><label>&nbsp;희망 지역2</label>
+					<li id="a2"><label>&nbsp;희망 지역2</label>
 						<select id="gu2" onchange="areaChange(this)">
-							<option hidden>구를 선택해주세요</option>
+							<option>구를 선택해주세요</option>
 							<c:forEach var="gu" items="${guArr}">
 								<option value="${gu}">${gu}</option>
 							</c:forEach>
 						</select>
  
 						<select id="dong2">
-							<option hidden>동을 선택해주세요</option>
+							<option>동을 선택해주세요</option>
 						</select>
-						<input type="text" name="area2" id="area2" placeholder=""/>
+						<input type="hidden" name="area2" id="area2" placeholder=""/>
 					</li>					
-					<li><label>&nbsp;희망 지역3</label>
+					<li id="a3"><label>&nbsp;희망 지역3</label>
 						<select id="gu3" onchange="areaChange(this)">
-							<option hidden>구를 선택해주세요</option>
+							<option>구를 선택해주세요</option>
 							<c:forEach var="gu" items="${guArr}">
 								<option value="${gu}">${gu}</option>
 							</c:forEach>
 						</select>
  
 						<select id="dong3">
-							<option hidden>동을 선택해주세요</option>
+							<option>동을 선택해주세요</option>
 						</select>
-						<input type="text" name="area3" id="area3" placeholder=""/>
+						<input type="hidden" name="area3" id="area3" placeholder=""/>
 					</li>
 					<li><label><span class="red_txt">*</span>이메일</label>
 						<input type="text" name="emailid" id="emailid" value="0905cjw" placeholder="이메일"/><span>@</span> 
@@ -547,8 +611,9 @@
 					</li>
 					<li>
 						<label></label>
-						<input type="text" name="emailCheck" id="emailCheck" value="111111" placeholder="인증번호를 입력해주세요"/>
+						<input type="text" name="emailCheck" id="emailCheck" value="" placeholder="" disabled autocomplete="off"/>
 						<a class="green" id="emailCheckBtn">인증번호 확인</a>
+						<input type="hidden" name="emailResult" id="emailResult" value="N"/>
 					</li>
 				</ul>
 				<a class="q_btn green" id="memNext1">다음</a>
@@ -695,7 +760,7 @@
 				</div>
 				<ul class="form_box choice">
 					<li><label><span class="red_txt">*</span>하우스 내 지원 서비스</label>
-						<div class="checks">
+						<div class="checks checkbox">
 							<input type="checkbox" name="h_support" id="h_support1" value="1">
 							<label for="h_support1">공용공간 청소 지원</label>
 							<input type="checkbox" name="h_support" id="h_support2" value="2">
@@ -706,7 +771,7 @@
 					</li>
 					<li><label></label></li>
 					<li><label><span class="red_txt">*</span>기타</label>
-						<div class="checks">
+						<div class="checks checkbox">
 							<input type="checkbox" name="h_etc" id="h_etc1" value="1"/>
 							<label for="h_etc1">보증금 조절 가능</label>
 							<input type="checkbox" name="h_etc" id="h_etc3" value="3"/>

@@ -9,7 +9,7 @@
 				<p class="s_title s_margin">메이트 성향 수정</p><br/>
 				<a class="green s_margin" href="proEditMateForm">메이트 성향 수정</a>
 			</c:if>
-			<c:if test="${pcaseH!=0 && pcahseH!=null}"> <!-- 수정해야 할 수도 있음 -->
+			<c:if test="${pcaseH>0}"> <!-- 수정해야 할 수도 있음 -->
 				<p class="s_title s_margin">하우스 성향 수정</p><br/>
 				<ul class="s_margin" id="proUl">
 					<c:forEach var="vo" items="${list}">

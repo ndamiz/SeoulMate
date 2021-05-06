@@ -1199,6 +1199,7 @@ footer .foot_btns{
 
 /* chat style  */
 
+
 .chat_wrap{
 	z-index:2;
 	/* width: 350px; */
@@ -1291,7 +1292,6 @@ footer .foot_btns{
 }
 
 .chat_wrap .chat_body li{
-	padding: 4%;
 	height: 100px;
 	background-color: #fff;
 	border-radius: 10px;
@@ -1302,6 +1302,7 @@ footer .foot_btns{
 .chat_wrap .chat_body li > a{
 	width: 100%;
 	height: 100%;
+	padding: 4%;
 }
 
 .chat_wrap .chat_body li > a > p{
@@ -1340,7 +1341,7 @@ footer .foot_btns{
 }
 
 .chat_wrap .chat_body li div .chat_notic{
-    width: 20%;
+    width: 31%;
 }
 .chat_wrap .chat_body li div .chat_notic p:first-of-type{
 	font-size: .85rem;
@@ -1422,6 +1423,7 @@ footer .foot_btns{
 
 .chat_wrap .chat_window.chat_on .chat_body li{
 	box-shadow: inherit;
+	padding: 4%;
 	height: max-content;
 	background-color: inherit;
 }
