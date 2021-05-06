@@ -8,6 +8,9 @@
 <!--   		values (housesq.nextval, #{pno}, #{userid}, #{area}, #{matePic1}, #{matePic2}, #{matePic3}, #{deposit}, #{rent}, #{enterdate}, -->
 <!--   				#{minSaty}, #{maxSaty}, #{mateProfile} ) -->
 <!--   	</insert> -->
-  
+<!--   insert into matewrite values(housematesq.nextval,  -->
+<!--   (select pno from propensity where userid='test1234'),  -->
+<!--   'test1234', '강동구 강일동', 'sample01.png', 'sample02.png', 'sample03.png', 200, 20,  -->
+<!--   sysdate+7, '1-3개월', '4-6개월', sysdate, sysdate+7, '모집중', 'sample04.png' ); -->
   
   </mapper>
