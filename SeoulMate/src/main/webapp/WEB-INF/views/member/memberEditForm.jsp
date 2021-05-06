@@ -61,17 +61,16 @@
 // 			}
 // 			document.getElementById("area3Edit").value=area3;
 			
-			emailExp(); // 이메일 인증 통과를 위한 함수
+			if(emailExp()==false){ // 이메일 인증 통과를 위한 함수
+				return false;
+			}
 			areaEdit(); // 희망 지역 수정을 위한 함수
 		});
 		
 		function emailExp(){
-			var sendCheck=$("#emailSendCheck").val();
 			var emailResult=$("#emailResult").val();
 			
-			if(sendCheck=='N' && emailResult=='N'){
-				return true;
-			}else if(sendCheck=='Y' && emailResult=='Y'){
+			if(emailResult=='Y'){
 				return true;
 			}else{
 				alert("이메일을 변경하려면 이메일 인증에 통과해야 합니다.\r\n이메일 인증 번호를 다시 보내주세요.");
@@ -104,7 +103,8 @@
 			if(regEmail()==false){
 				return false;
 			}else{
-				$("#emailSendCheck").val("Y");
+				$("#emailCheck").attr("disabled", false); // 인증 번호 전송을 누르면 인증란이 열림
+				$("#emailResult").val("N"); // 인증 번호 전송을 누르면 인증 확인이 풀림
 				var emailid=document.getElementById("emailid").value;
 				var emaildomain=document.getElementById("emaildomain").value;
 				var email=emailid+"@"+emaildomain;
@@ -122,7 +122,26 @@
 						console.log("이메일 송신 실패");
 					}
 				});
+				$("#emailResult").val("N");
+				$("#emailCheck").attr("disabled", false);
+				$("#emailCheck").attr("placeholder", "인증 번호를 입력해주세요");
 			}
+		});
+		
+		// 이메일 아이디를 변경하면 인증 확인이 풀림
+		$("#emailid").change(function(){
+			$("#emailResult").val("N");
+			$("#emailCheck").attr("disabled", true);
+			$("#emailCheck").attr("placeholder", "");
+			$("#emailCheck").val("");
+		});
+		
+		// 이메일 도메인을 변경하면 인증 확인이 풀림
+		$("#emaildomain").change(function(){
+			$("#emailResult").val("N");
+			$("#emailCheck").attr("disabled", true);
+			$("#emailCheck").attr("placeholder", "");
+			$("#emailCheck").val("");
 		});
 		
 		// 이메일 인증번호 확인
@@ -238,37 +257,8 @@
 		
 	}
 	
-// 	// 희망 지역 1,2,3에 구,동 넣기
-// 	function areaInput(){
-// 		var a1=$("#area1").val().indexOf(" "); // 희망 지역1의 띄어쓰기 위치 구하기
-// 		var a2=$("#area2").val().indexOf(" "); // 희망 지역2의 띄어쓰기 위치 구하기
-// 		var a3=$("#area3").val().indexOf(" "); // 희망 지역3의 띄어쓰기 위치 구하기
-		
-// 		// alert(typeof a1); // 변수의 데이터 타입을 확인
-		
-// 		if(a1!=-1){ // 희망 지역 1이 있을 때
-// 			var gu1=$("#area1").val().substring(0,a1);
-// 			var dong1=$("#area1").val().substring(a1+1);
-// 			$("#gu1>option[value='"+gu1+"']").attr('selected', true);
-// 			$("#dong1").append("<option value='"+dong1+"' selected>"+dong1+"</option>");
-// 		}
-// 		if(a2!=-1){ // 희망 지역 2가 있을 때
-// 			var gu2=$("#area2").val().substring(0,a2);
-// 			var dong2=$("#area2").val().substring(a2+1);
-// 			$("#gu2>option[value='"+gu2+"']").attr('selected', true);
-// 			$("#dong2").append("<option value='"+dong2+"' selected>"+dong2+"</option>");
-// 		}
-// 		if(a3!=-1){ // 희망 지역 3이 있을 때
-// 			var gu3=$("#area3").val().substring(0,a3);
-// 			var dong3=$("#area3").val().substring(a3+1);
-// 			$("#gu3>option[value='"+gu3+"']").attr('selected', true);
-// 			$("#dong3").append("<option value='"+dong3+"' selected>"+dong3+"</option>");
-// 		}
-// 	}
-	
 	$(window).ready(function(){
 		tel1Input();
-// 		areaInput();
 	});
 	
 	// 희망 지역
@@ -466,13 +456,12 @@
 						<option value="gmail.com" <c:if test="${vo.emaildomain=='gmail.com'}">selected</c:if>>gmail.com</option>
 					</select>
 					<a class="green" id="emailBtn">인증번호 전송</a>
-					<input type="hidden" id="emailSendCheck" value="N"/>
 				</li>
 				<li>
 					<label></label>
-					<input type="text" name="emailCheck" id="emailCheck" value="" placeholder="인증번호를 입력해주세요"/>
+					<input type="text" name="emailCheck" id="emailCheck" value="" disabled placeholder=""/>
 					<a class="green" id="emailCheckBtn">인증번호 확인</a>
-					<input type="hidden" name="emailResult" id="emailResult" value="N"/>
+					<input type="hidden" name="emailResult" id="emailResult" value="Y"/>
 				</li>
 				<li>
 					<button class="q_btn green" id="memNext1">회원정보 수정</button>
