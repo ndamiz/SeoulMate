@@ -32,6 +32,26 @@ public class AdminController {
 	@Inject
 	AdminService service;
 	
+	// 관리자-로그인
+	@RequestMapping("/admin/login")
+	public String adminLogin() {
+		return "/admin/adminLogin";
+	}
+	
+	@RequestMapping(value="/admin/loginOk", method = RequestMethod.POST)
+	public ModelAndView adminLoginOk(String userid, String userpwd) {
+		ModelAndView mav=new ModelAndView();
+		if(userid.equals("seoulmate") && userpwd.equals("qwer1234!")) {
+			System.out.println("어드민 로그인 성공");
+			mav.addObject("adminStatus", "Y");
+			mav.setViewName("/admin/adminDashboard");
+		}else {
+			System.out.println("어드민 로그인 실패");
+			mav.setViewName("redirect:/admin/login");
+		}
+		
+		return mav;
+	}
 	
 	//admin에 들어오면 나오는 대시보드
 	@RequestMapping("/admin")

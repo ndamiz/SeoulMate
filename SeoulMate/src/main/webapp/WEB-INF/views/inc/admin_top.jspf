@@ -22,8 +22,13 @@
 			</div>
 			<div id="adminTopMenu" >
 				<span>2021-04-18 16:53 접속 </span> 
-				<button type="button" class="btn btn-light">정보수정</button>
-				<button type="button" class="btn btn-light">로그인</button>
+				<c:if test="${adminStatus!='Y'}">
+					<a href="/home/admin/login" class="btn btn-light">로그인</a>
+				</c:if>				
+				<c:if test="${adminStatus=='Y'}">
+					<a class="btn btn-light">정보수정</a>
+					<a class="btn btn-light">로그아웃</a>
+				</c:if>
 			</div>
 		</header>
 		<nav id="subMenu">
