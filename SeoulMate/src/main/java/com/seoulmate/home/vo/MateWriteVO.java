@@ -25,6 +25,7 @@ public class MateWriteVO {
 	private String state;
 	private String mateProfile;
 	
+	// index에서 필요한 성별, 생년월일 정보
 	private int gender;
 	private String birth;
 	
