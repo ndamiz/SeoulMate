@@ -89,15 +89,24 @@ $(function(){
 <style>
 input[type="date"] {width:200px;}
 input[type="text"] {width:200px;}
-.house_wrap{width:800px; margin:0 auto; }
-.house_wrap ul li{word-break:keep-all;}
-.btnclass{padding-left:50px;}
+.content ul li{word-break:keep-all;}
+.content label{width:150px; }
+/* #mate_date, #mate_area, #mate_rent{width:110px;} */
+.form_box{width:800px; margin:0 auto; padding-left:50px;}
+.form_box li input{margin:0px; width:230px;}
+.checks{width:800px;}
+.checks>label{width:100px;}
+.title_wrap div{min-height: 300px;}
+#mateWrite1 input, #mateWrite1 select{width:170px;}
+#mateWrite4 label{width:230px;}
+/* #mate_party checks{width:600px;} */
+/* #mateWrite1 li{padding-left:150px;} */
+.btnclass{padding-left:50px; padding-top:50px;}
 #mateWrite2, #mateWrite3, #mateWrite4, #mateWrite5, #mateWrite6 {display:none; }
-#rentCheck{width: 100%; height: 50px; line-height: 50px;}
 #mPic{height:125px;}
 </style>
 <div class="wrap">
-	<div class="house_wrap">
+<div class="content">
 	
 	<div class="title_wrap">
 	<p class="m_title">메이트 등록하기 </p> 
@@ -109,20 +118,20 @@ input[type="text"] {width:200px;}
 	<div id="mateWrite1">
 	
 	<div class="title_wrap">
-	<p class="s_title">집 기본 정보 등록 </p>
+	<p class="s_title">기본 정보 등록 </p>
 	<p>&nbsp;</p>
 	</div>
 		
 		<ul class="form_box">
-		<li> <label>게재 기간 </label><input type="date" width="100px"  /> </li>
-		<li> <label>찾는지역 </label><input type="text" name="area"/> <input type="text" name="area"/> <input type="text" name="area"/> </li>
-		<li> <label>월세예산 </label><input type="text" name="rent" placeholder="만원"/> - <input type="text" name="rent" placeholder="만원"/> 
+		<li> <label id="mate_date"> <span class="red_txt">*</span> 게재 기간(종료일) </label><input type="date" /> </li>
+		<li> <label id="mate_area"><span class="red_txt">*</span> 찾는지역 </label><input type="text" name="area"/> <input type="text" name="area"/> <input type="text" name="area"/> </li>
+		<li> <label id="mate_rent"><span class="red_txt">*</span>월세예산 </label><input type="number" name="rent" placeholder="만원"/> - <input type="number" name="rent" placeholder="만원"/> 
 				<div class="checks" >
 					<input type="checkbox" name="rent"> 
-					<label for="check0" id="rentCheck">제한없음</label> </div> </li>
-		<li> <label>입주가능일 </label><input type="date" > </li>
+					<label for="check0">제한없음</label> </div> </li>
+		<li> <label><span class="red_txt">*</span>입주가능일 </label><input type="date" > </li>
 		<li>
-			<label>최소 거주 기간</label>
+			<label><span class="red_txt">*</span>최소 거주 기간</label>
 				<select name="minStay">
 					<option value="1">1~3 개월</option>
 					<option value="2">4~6 개월</option>
@@ -130,7 +139,7 @@ input[type="text"] {width:200px;}
 					<option value="4">1년 이상</option> 
 				</select> </li>
 		<li>		
-			<label>최대 거주 기간</label>
+			<label><span class="red_txt">*</span>최대 거주 기간</label>
 				<select name="maxStay">
 					<option value="1">1~3 개월</option>
 					<option value="2">4~6 개월</option>
@@ -279,7 +288,7 @@ input[type="text"] {width:200px;}
 			
 				<li>
 				<label><span class="red_txt">*</span>모임빈도</label>
-				<div class="checks">
+				<div class="checks" id="mate_party">
 					<input type="radio" id="radio1" name="h_party"> 
 					<label for="radio1">없음</label>
 					
@@ -343,8 +352,8 @@ input[type="text"] {width:200px;}
 					<input type="checkbox" id="check3" name="h_support"> 
 					<label for="check4">미지원</label> 
 				</div>
-			</li> 
-		</ul> <br/> <br/>
+			</li> <br/> <br/>
+		</ul> 
 			<div class="btnclass">
 				<a id="mPrev4" class="green" >이전</a>
 				<a id="mNext4" class="green" >다음</a>

@@ -202,37 +202,49 @@ $(function(){
     });
 	
 });
-document.getElementById('now_date').valueAsDate = new Date();
-
-
+// autocomplete="off" //자동완성 막아줌
 
 
 </script>
 <style>
-input[type="date"] {width:200px;}
-.house_wrap{width:800px; margin:0 auto; }
-.house_wrap ul li{word-break:keep-all;}
-#houseWrite1 li{padding-left:150px; }
+/* input[type="date"] {width:200px;} */
+/* .house_wrap{width:800px; margin:0 auto; } */
+.content ul li{word-break:keep-all;}
+.form_box li input, .form_box li select{margin:0px; width:230px;}
+.form_box{width:800px; margin:0 auto; padding-left: 100px;}
+.content label{width:180px;}
+.form_box.choice li > label {width: 240px;}
 #houseWrite1_ul2{display: none;}
 .btnclass{padding-left:50px;}
-#roomPlus{margin-left:350px;}
+#roomPlus{margin-left:430px;}
+#houseWrite1 .checks {
+    width: 560px;
+}
 #houseWrite2, #houseWrite3, #houseWrite4, #houseWrite5, 
-#houseWrite6, #houseWrite7, #houseWrite8, #houseWrite9 {display:none; margin: 0 auto; width: 500px;}
+#houseWrite6, #houseWrite7, #houseWrite8, #houseWrite9 {display:none; margin: 0 auto;}
 #houseWrite2 .form_box.choice li > label {width: 110px;}
-#minStay, #maxStay{Width:200px;}
+
 #houseWrite7 li{text-align: center; padding-right: 50%; }
 #houseWrite9{width: 800px;}
 #hPic{height:125px;}
 
+#houseWrite5 label{width:160px;}
+.title_wrap div{min-height:300px;}
+.checks{width:800px;}
+.checks>label{width:120px;}
+#houseWrite6 input, #houseWrite6 select{width:230px;}
+#rent_label{width:191px;}
+#deposit_label{width:191px;}
 </style>
 <div class="wrap">
-	<div class="house_wrap">
+<div class="content">
+
 	
 	<div class="title_wrap">
 	<p class="m_title">하우스 등록하기 </p> 
 	<p>&nbsp;</p>
 	</div>
-		<form method="post" id="houseWriteFrm" action="">
+		<form method="post" id="houseWriteFrm" action="houseWriteOk" enctype="multipart/form-data">
 		
 		<div id="houseWrite1"> <!-- 등록form 1 -->
 		
@@ -242,75 +254,83 @@ input[type="date"] {width:200px;}
 		</div>
 			<div id="houseWrite1_ul1">
 			<ul class="form_box">
-				<li> <label>게재 기간 </label> <input type="date" /> </li>
-				<li> <label>주소 </label> <input type="text" name="addr"/> </li>
-			<li> <label>총 방 개수 </label><select name="room">
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-					</select> 
-			<label style="padding-left: 34px;
-    margin-right: 10px;">총 욕실 수</label>	<select name="bathroom">
+				<li> <label><span class="red_txt">*</span>게재 기간 </label> <input type="date" /> </li>
+				<li> <label><span class="red_txt">*</span>주소 </label> <input type="text" name="addr"/> </li>
+			<li> <label><span class="red_txt">*</span>총 방 개수 </label><select name="room">
 						<option value="1">1</option>
 						<option value="2">2</option>
 						<option value="3">3</option>
 						<option value="4">4</option>
 					</select> </li>
-			<li><label>현재 인원</label> <select name="nowPeople">
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-					</select> 
-			<label style="padding-left: 34px;
-    margin-right: 10px;">찾는 인원</label> <select name="searchPeople">
+			<li> <label><span class="red_txt">*</span>총 욕실 수</label> <select name="bathroom">
 						<option value="1">1</option>
 						<option value="2">2</option>
 						<option value="3">3</option>
 						<option value="4">4</option>
 					</select> </li>
-			<li><label>방 이름 </label> <input type="text" name="housename"/></li>
+			<li><label><span class="red_txt">*</span>현재 인원</label> <select name="nowPeople">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+					</select> </li>
+			<li><label><span class="red_txt">*</span>찾는 인원</label> <select name="searchPeople">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+					</select> </li>
+			<li><label><span class="red_txt">*</span>방 이름 </label> <input type="text" name="housename"/></li>
+			<li><label><span class="red_txt">*</span>가구 여부</label> 
+				<div class="checks">
+						<input type="radio" id="furniture1" value="1" name="furniture"> 
+						<label for="furniture1">있음</label>
+						
+						<input type="radio" id="furniture2" value="2" name="furniture"> 
+						<label for="furniture2">없음</label>
+					</div>
+			</li>
+			<li><label>포함된 가구</label><input type="text" name="incFurniture"/> </li>
 			</ul>
 			</div>
 			
 			<div id="houseWrite1_ul2">
 			<hr/>
 			<ul class="form_box">
-				<li> <label>게재 기간 </label> <input type="date" /> </li>
-				<li> <label>주소 </label> <input type="text" name="addr"/> </li>
-			<li> <label>총 방 개수 </label><select name="room">
+				<li> <label><span class="red_txt">*</span>게재 기간 </label> <input type="date" /> </li>
+				<li> <label><span class="red_txt">*</span>주소 </label> <input type="text" name="addr"/> </li>
+			<li> <label><span class="red_txt">*</span>총 방 개수 </label><select name="room">
 						<option value="1">1</option>
 						<option value="2">2</option>
 						<option value="3">3</option>
 						<option value="4">4</option>
 					</select> 
 			<label style="padding-left: 34px;
-    margin-right: 10px;">총 욕실 수</label>	<select name="bathroom">
+    margin-right: 18px;"><span class="red_txt">*</span>총 욕실 수</label>	<select name="bathroom">
 						<option value="1">1</option>
 						<option value="2">2</option>
 						<option value="3">3</option>
 						<option value="4">4</option>
 					</select> </li>
-			<li><label>현재 인원</label> <select name="nowPeople">
+			<li><label><span class="red_txt">*</span>현재 인원</label> <select name="nowPeople">
 						<option value="1">1</option>
 						<option value="2">2</option>
 						<option value="3">3</option>
 						<option value="4">4</option>
 					</select> 
 			<label style="padding-left: 34px;
-    margin-right: 10px;">찾는 인원</label> <select name="searchPeople">
+    margin-right: 18px;"><span class="red_txt">*</span>찾는 인원</label> <select name="searchPeople">
 						<option value="1">1</option>
 						<option value="2">2</option>
 						<option value="3">3</option>
 						<option value="4">4</option>
 					</select> </li>
-			<li><label>방 이름 </label> <input type="text" name="housename"/></li>
+			<li><label><span class="red_txt">*</span>방 이름 </label> <input type="text" name="housename"/></li>
 			</ul>
 			</div>
 			<a id="roomPlus" class="green"  >방 추가등록 </a> <br/> 
 				<div class="btnclass">
-					<a type="submit" id="hPrev1" class="green" >이전</a>
+					<a id="hPrev1" class="green" >이전</a>
 					<a id="hNext1" class="green" >다음</a>
 					<a id="hIndex1" class="green" >취소</a>
 				</div> <!-- 버튼div 종료 -->
@@ -329,21 +349,21 @@ input[type="date"] {width:200px;}
 				<li>
 					<label><span class="red_txt">*</span>주방</label>
 					<div class="checks">
-						<input type="checkbox" id="check1" name="publicFactility"> 
-						<label for="check1">냉장고</label>
-						<input type="checkbox" id="check2" name="publicFactility"> 
-						<label for="check2">정수기</label>
-						<input type="checkbox" id="check3" name="publicFactility"> 
+						<input type="checkbox" id="냉장고" name="publicFactility" value="냉장고"> 
+						<label for="냉장고">냉장고</label>
+						<input type="checkbox" id="check2" name="publicFactility" value="정수기"> 
+						<label for="">정수기</label>
+						<input type="checkbox" id="check3" name="publicFactility" value="가스레인지"> 
 						<label for="check3">가스레인지</label>
-						<input type="checkbox" id="check4" name="publicFactility"> 
-						<label for="check4">밥솥</label> <br/>
-						<input type="checkbox" id="check5" name="publicFactility">  
+						<input type="checkbox" id="check4" name="publicFactility" value="밥솥"> 
+						<label for="check4">밥솥</label> 
+						<input type="checkbox" id="check5" name="publicFactility" value="식기세척기">  
 						<label for="check5">식기세척기</label>
-						<input type="checkbox" id="check6" name="publicFactility"> 
+						<input type="checkbox" id="check6" name="publicFactility" value="냄비"> 
 						<label for="check6">냄비</label>
-						<input type="checkbox" id="check7" name="publicFactility"> 
+						<input type="checkbox" id="check7" name="publicFactility" value="프라이팬"> 
 						<label for="check7">프라이팬</label>
-						<input type="checkbox" id="check8" name="publicFactility"> 
+						<input type="checkbox" id="check8" name="publicFactility" value="토스트기"> 
 						<label for="check8">토스트기</label> 
 					</div>
 				</li> 
@@ -351,13 +371,13 @@ input[type="date"] {width:200px;}
 				<li>
 					<label><span class="red_txt">*</span>거실</label>
 					<div class="checks">
-						<input type="checkbox" id="check9" name="publicFactility"> 
+						<input type="checkbox" id="check9" name="publicFactility" value="소파"> 
 						<label for="check9">소파</label>
-						<input type="checkbox" id="check10" name="publicFactility"> 
+						<input type="checkbox" id="check10" name="publicFactility" value="티비"> 
 						<label for="check10">티비</label>
-						<input type="checkbox" id="check11" name="publicFactility"> 
+						<input type="checkbox" id="check11" name="publicFactility" value="탁자"> 
 						<label for="check11">탁자</label>
-						<input type="checkbox" id="check12" name="publicFactility"> 
+						<input type="checkbox" id="check12" name="publicFactility" value="카펫"> 
 						<label for="check12">카펫</label> <br/>
 					</div>
 				</li>
@@ -365,13 +385,13 @@ input[type="date"] {width:200px;}
 				<li>
 					<label><span class="red_txt">*</span>욕실</label>
 					<div class="checks">
-						<input type="checkbox" id="check13" name="publicFactility"> 
+						<input type="checkbox" id="check13" name="publicFactility" value="욕조"> 
 						<label for="check13">욕조</label>
-						<input type="checkbox" id="check14" name="publicFactility"> 
+						<input type="checkbox" id="check14" name="publicFactility" value="비데"> 
 						<label for="check14">비데</label>
-						<input type="checkbox" id="check15" name="publicFactility"> 
+						<input type="checkbox" id="check15" name="publicFactility" value="샴푸"> 
 						<label for="check15">샴푸</label>
-						<input type="checkbox" id="check16" name="publicFactility"> 
+						<input type="checkbox" id="check16" name="publicFactility" value="린스"> 
 						<label for="check16">린스</label> <br/>
 					</div>
 				</li>
@@ -379,14 +399,14 @@ input[type="date"] {width:200px;}
 				<li>
 					<label><span class="red_txt">*</span>기타</label>
 					<div class="checks">
-						<input type="checkbox" id="check17" name="publicFactility"> 
+						<input type="checkbox" id="check17" name="publicFactility" value="세탁기"> 
 						<label for="check17">세탁기</label>
-						<input type="checkbox" id="check18" name="publicFactility"> 
+						<input type="checkbox" id="check18" name="publicFactility" value="건조기"> 
 						<label for="check18">건조기</label>
-						<input type="checkbox" id="check19" name="publicFactility"> 
+						<input type="checkbox" id="check19" name="publicFactility" value="베란다"> 
 						<label for="check19">베란다</label>
-						<input type="checkbox" id="check20" name="publicFactility"> 
-						<label for="check20">WIFI</label> <br/>
+						<input type="checkbox" id="check20" name="publicFactility" value="WIFI"> 
+						<label for="check20">WIFI</label> 
 					</div>
 				</li>
 			</ul>	
@@ -408,61 +428,61 @@ input[type="date"] {width:200px;}
 				<li>
 					<label><span class="red_txt">*</span>생활소음</label>
 					<div class="checks">
-						<input type="radio" id="radio1" name="h_noise"> 
-						<label for="radio1">조용함</label>
+						<input type="radio" id="h_noise1" value="1" name="h_noise"> 
+						<label for="h_noise1">매우 조용함</label>
 						
-						<input type="radio" id="radio2" name="h_noise"> 
-						<label for="radio2">보통</label>
+						<input type="radio" id="h_noies2" value="2" name="h_noise"> 
+						<label for="h_noise2">보통</label>
 						
-						<input type="radio" id="radio3" name="h_noise"> 
-						<label for="radio3">활발함</label>
+						<input type="radio" id="h_noise3" value="3" name="h_noise"> 
+						<label for="h_noise3">조용하지 않음</label>
 					</div>
 				</li>
 				
 				<li>
 					<label><span class="red_txt">*</span>생활시간</label>
 					<div class="checks">
-						<input type="radio" id="radio4" name="h_pattern"> 
-						<label for="radio4">야행성</label>
+						<input type="radio" id="h_pattern1" value="1" name="h_pattern"> 
+						<label for="h_pattern1">주행성</label>
 						
-						<input type="radio" id="radio5" name="h_pattern"> 
-						<label for="radio5">주행성</label>
+						<input type="radio" id="h_pattern3" value="3" name="h_pattern"> 
+						<label for="h_pattern3">야행성</label>
 					</div>
 				</li>
 				
 					<li>
-					<label><span class="red_txt">*</span>반려동물</label>
+					<label><span class="red_txt">*</span>반려동물 여부</label>
 					<div class="checks">
-						<input type="radio" id="radio6" name="h_pet"> 
-						<label for="radio6">있음</label>
+						<input type="radio" id="h_pet3" value="3" name="h_pet"> 
+						<label for="h_pet3">있음</label>
 						
-						<input type="radio" id="radio7" name="h_pet"> 
-						<label for="radio7">없음</label>
+						<input type="radio" id="h_pet1" value="1" name="h_pet"> 
+						<label for="h_pet1">없음</label>
 					</div>
 				</li>
 				
 				<li>
-					<label><span class="red_txt">*</span>반려동물 거주</label>
+					<label><span class="red_txt">*</span>반려동물 동반 입주 여부</label>
 					<div class="checks">
-						<input type="radio" id="radio8" name="h_petwith"> 
-						<label for="radio8">가능</label>
+						<input type="radio" id="h_petwith3" value="3" name="h_petwith"> 
+						<label for="h_petwith3">가능</label>
 						
-						<input type="radio" id="radio9" name="h_petwith"> 
-						<label for="radio9">불가능</label>
+						<input type="radio" id="h_petwith1" value="1" name="h_petwith"> 
+						<label for="h_petwith1">불가능</label>
 					</div>
 				</li>
 				
 				<li>
 					<label><span class="red_txt">*</span>흡연</label>
 					<div class="checks">
-						<input type="radio" id="radio10" name="h_smoke"> 
-						<label for="radio10">실내흡연</label>
+						<input type="radio" id="h_smoke1" value="1" name="h_smoke"> 
+						<label for="h_smoke1">비흡연</label>
 						
-						<input type="radio" id="radio11" name="h_smoke"> 
-						<label for="radio11">실외흡연</label>
+						<input type="radio" id="h_smoke2" value="2" name="h_smoke"> 
+						<label for="h_smoke2">실외흡연</label>
 						
-						<input type="radio" id="radio12" name="h_smoke"> 
-						<label for="radio12">비흡연</label>
+						<input type="radio" id="h_smoke3" value="3" name="h_smoke"> 
+						<label for="h_smoke3">실내흡연</label>
 					</div>
 				</li>
 			</ul>
@@ -486,53 +506,50 @@ input[type="date"] {width:200px;}
 				<li>
 					<label><span class="red_txt">*</span>분위기</label>
 					<div class="checks">
-						<input type="radio" id="radio13" name="h_mood"> 
-						<label for="radio13">화목함</label>
+						<input type="radio" id="h_mood1" value="1" name="h_mood"> 
+						<label for="h_mood1">화목함</label>
 						
-						<input type="radio" id="radio14" name="h_mood"> 
-						<label for="radio14">보통</label>
+						<input type="radio" id="h_mood2" value="2" name="h_mood"> 
+						<label for="h_mood2">보통</label>
 						
-						<input type="radio" id="radio15" name="h_mood"> 
-						<label for="radio15">독립적</label>
+						<input type="radio" id="h_mood3" value="3" name="h_mood"> 
+						<label for="h_mood3">독립적</label>
 					</div>
 				</li>
 				
 					<li>
 					<label><span class="red_txt">*</span>소통방식</label>
 					<div class="checks">
-						<input type="radio" id="radio16" name="h_communication"> 
-						<label for="radio16">대화</label>
-						
-						<input type="radio" id="radio17" name="h_communication"> 
-						<label for="radio17">기타</label>
+						<input type="radio" id="h_communication3" value="3" name="h_communication"> 
+						<label for="h_communication3">대화</label>
+						<input type="radio" id="h_communication1" value="1" name="h_communication"> 
+						<label for="h_communication1">대화</label>
+						<input type="radio" id="h_communication2" value="2" name="h_communication"> 
+						<label for="h_communication2">기타</label>
 					</div>
 				</li>
 				
 					<li>
 					<label><span class="red_txt">*</span>모임빈도</label>
 					<div class="checks">
-						<input type="radio" id="radio18" name="h_party"> 
-						<label for="radio18">없음</label>
-						
-						<input type="radio" id="radio19" name="h_party"> 
-						<label for="radio19">가끔</label>
-						
-						<input type="radio" id="radio20" name="h_party"> 
-						<label for="radio20">보통</label>
-						
-						<input type="radio" id="radio21" name="h_party"> 
-						<label for="radio21">자주</label>
+						<input type="radio" id="h_party3" value="3" name="h_party"> 
+						<label for="h_party3">자주</label>
+						<input type="radio" id="h_party2" value="2" name="h_party"> 
+						<label for="h_party2">가끔</label>
+						<input type="radio" id="h_party1" value="1" name="h_party"> 
+						<label for="h_party1">없음</label>
 					</div>
 				</li>
 				
 					<li>
 					<label><span class="red_txt">*</span>모임참가 의무</label>
 					<div class="checks">
-						<input type="radio" id="radio22" name="h_enter"> 
-						<label for="radio22">있음</label>
-						
-						<input type="radio" id="radio23" name="h_enter"> 
-						<label for="radio23">없음</label>
+						<input type="radio" id="h_enter1" value="1" name="h_enter"> 
+						<label for="h_enter1">없음</label>
+						<input type="radio" id="h_enter2" value="2" name="h_enter"> 
+						<label for="h_enter2">상관없음</label>
+						<input type="radio" id="h_enter3" value="3" name="h_enter"> 
+						<label for="h_enter3">있음</label>
 					</div>
 				</li>
 			</ul>		
@@ -555,17 +572,17 @@ input[type="date"] {width:200px;}
 				<li>
 					<label><span class="red_txt">*</span>하우스 내 지원서비스</label>
 					<div class="checks">
-						<input type="checkbox" id="check24" name="h_support"> 
-						<label for="check24">공용공간 청소지원</label>
+						<input type="checkbox" id="h_support1" value="1" name="h_support"> 
+						<label for="h_support1">공용공간 청소지원</label>
 									
-						<input type="checkbox" id="check25" name="h_support"> 
-						<label for="check25">공용생필품 지원</label> <br/>
+						<input type="checkbox" id="h_support2" value="2" name="h_support"> 
+						<label for="h_support2">공용생필품 지원</label> <br/>
 									
-						<input type="checkbox" id="check26" name="h_support"> 
-						<label for="check26">기본 식품 지원</label> <span>&nbsp; </span>
+						<input type="checkbox" id="h_support3" value="3" name="h_support"> 
+						<label for="h_support3">기본 식품 지원</label>
 						
-						<input type="checkbox" id="check27" name="h_support"> 
-						<label for="check27">미지원</label>
+						<input type="checkbox" id="h_support4" value="4" name="h_support"> 
+						<label for="h_support4">미지원</label>
 					</div>
 				</li> <br/><br/>
 			</ul>
@@ -584,20 +601,20 @@ input[type="date"] {width:200px;}
 		</div>
 		
 			<ul class="form_box">
-				<li><label>월세(관리비)</label> <input type="text" name="rent"/> 
+				<li><label id="rent_label">월세(관리비)</label> <input type="number" name="rent"/> 
 					<div class="checks">
-						<input type="radio" id="radio28" name="rent">  <!-- 포함, 미포함 값 어떻게? -->
-						<label for="radio28">포함</label>
-						<input type="radio" id="radio29" name="rent"> 
-						<label for="radio29">미포함</label>
+						<input type="radio" id="rent1" name="rent">  <!-- 포함, 미포함 값 어떻게? -->
+						<label for="rent1">포함</label>
+						<input type="radio" id="rent2" name="rent"> 
+						<label for="rent2">미포함</label>
 					</div>		
 						
-				<li><label>보증금(조율) </label><input type="text" name="deposit"/> 
+				<li><label id="deposit_label">보증금(조율) </label><input type="number" name="deposit"/> 
 					<div class="checks">
-						<input type="radio" id="radio30" name="">  <!-- 포함, 미포함 값 어떻게? -->
-						<label for="radio30">포함</label>
-						<input type="radio" id="radio31" name=""> 
-						<label for="radio31">미포함</label>
+						<input type="radio" id="deposit1" name="">  <!-- 포함, 미포함 값 어떻게? -->
+						<label for="deposit1">포함</label>
+						<input type="radio" id="deposit2" name=""> 
+						<label for="deposit2">미포함</label>
 					</div>	</li>
 				<li><label>입주 가능일 </label> <input type="date" name="enterdate"/> </li>
 				<li><label>최소 거주 기간</label>
@@ -607,7 +624,7 @@ input[type="date"] {width:200px;}
 						<option value="3">7~12 개월</option>
 						<option value="4">1년 이상</option>
 					</select> 
-				<li><label>최대 거주 기간</label>
+				<li><label class="houseWrite6_label">최대 거주 기간</label>
 					<select name="maxStay" id="maxStay">
 						<option value="1">1~3 개월</option>
 						<option value="2">4~6 개월</option>
@@ -651,102 +668,96 @@ input[type="date"] {width:200px;}
 				<li>
 					<label><span class="red_txt">*</span>생활 시간</label>
 					<div class="checks">
-						<input type="radio" id="radio32" name="m_pattern"> 
-						<label for="radio32">야행성</label>
-						<input type="radio" id="radio33" name="m_pattern"> 
-						<label for="radio33">주행성</label>
+						<input type="radio" id="m_pattern1" value="1" name="m_pattern"> 
+						<label for="m_pattern1">야행성</label>
+						<input type="radio" id="m_pattern2" value="2" name="m_pattern"> 
+						<label for="m_pattern2">주행성</label>
 						<input type="radio" id="radio34" name="m_pattern"> 
-						<label for="radio34">상관없음</label>
+						<label for="m_pattern3">상관없음</label>
 					</div>
 				</li>
 				
 				<li>
 					<label><span class="red_txt">*</span>성격</label>
 					<div class="checks">
-						<input type="radio" id="radio35" name="m_personality"> 
-						<label for="radio35">외향적</label>
-						<input type="radio" id="radio36" name="m_personality"> 
-						<label for="radio36">내향적</label>
-						<input type="radio" id="radio37" name="m_personality"> 
-						<label for="radio37">보통</label>
-						<input type="radio" id="radio38" name="m_personality"> 
-						<label for="radio38">상관없음</label>
+						<input type="radio" id="m_personality1" value="1" name="m_personality"> 
+						<label for="m_personality1">내향적</label>
+						<input type="radio" id="m_personality3" value="3" name="m_personality"> 
+						<label for="m_personality3">외향적</label>
+						<input type="radio" id="m_personality2" value="2" name="m_personality"> 
+						<label for="m_personality2">상관없음</label>
 					</div>
 				</li>
 				
 				<li>
 					<label><span class="red_txt">*</span>반려동물 선호도</label>
 					<div class="checks">
-						<input type="radio" id="radio39" name="m_pet"> 
-						<label for="radio39">긍정적</label>
-						<input type="radio" id="radio40" name="m_pet"> 
-						<label for="radio40">부정적</label>
-						<input type="radio" id="radio41" name="m_pet"> 
-						<label for="radio41">상관없음</label>
+						<input type="radio" id="m_pet1" value="1" name="m_pet"> 
+						<label for="m_pet1">긍정적</label>
+						<input type="radio" id="m_pet3" value="3" name="m_pet"> 
+						<label for="m_pet3">부정적</label>
+						<input type="radio" id="m_pet2" value="2" name="m_pet"> 
+						<label for="m_pet2">상관없음</label>
 					</div>
 				</li>
 				
 				<li>
 					<label><span class="red_txt">*</span>흡연</label>
 					<div class="checks">
-						<input type="radio" id="radio42" name="m_smoke"> 
-						<label for="radio42">실내흡연</label>
-						<input type="radio" id="radio43" name="m_smoke"> 
-						<label for="radio43">실외흡연</label>
-						<input type="radio" id="radio44" name="m_smoke"> 
-						<label for="radio44">비흡연</label>
-						<input type="radio" id="radio45" name="m_smoke"> 
-						<label for="radio45">상관없음</label>
+						<input type="radio" id="m_smoke1" value="1" name="m_smoke"> 
+						<label for="m_smoke1">비흡연</label>
+						<input type="radio" id="m_smoke2" value="2" name="m_smoke"> 
+						<label for="m_smoke2">실외흡연</label>
+						<input type="radio" id="m_smoke3" value="3" name="m_smoke"> 
+						<label for="m_smoke3">실내흡연</label>
+						<input type="radio" id="m_smoke4" value="4" name="m_smoke"> 
+						<label for="m_smoke4">상관없음</label>
 					</div>
 				</li>
 				
 				<li>
 					<label><span class="red_txt">*</span>연령대</label>
 					<div class="checks">
-						<input type="radio" id="radio46" name="m_age"> 
-						<label for="radio46">20대</label>
-						<input type="radio" id="radio47" name="m_age"> 
-						<label for="radio47">30대</label>
-						<input type="radio" id="radio48" name="m_age"> 
-						<label for="radio48">40대</label>
-						<input type="radio" id="radio49" name="m_age"> 
-						<label for="radio49">상관없음</label>
+						<input type="radio" id="m_age1" value="1" name="m_age"> 
+						<label for="m_age1">20~30대</label>
+						<input type="radio" id="m_age3" value="3" name="m_age"> 
+						<label for="m_age3">40대</label>
+						<input type="radio" id="m_age2" value="2" name="m_age"> 
+						<label for="m_age2">상관없음</label>
 					</div>
 				</li>	
 				
 				<li>
 					<label><span class="red_txt">*</span>성별</label>
 					<div class="checks">
-						<input type="radio" id="radio50" name="m_gender"> 
-						<label for="radio50">여성</label>
-						<input type="radio" id="radio51" name="m_gender"> 
-						<label for="radio51">남성</label>
-						<input type="radio" id="radio52" name="m_gender"> 
-						<label for="radio52">상관없음</label>
+						<input type="radio" id="m_gender1" value="1" name="m_gender"> 
+						<label for="m_gender1">여성</label>
+						<input type="radio" id="m_gender2" value="2" name="m_gender"> 
+						<label for="m_gender2">남성</label>
+						<input type="radio" id="m_gender3" value="3" name="m_gender"> 
+						<label for="m_gender3">상관없음</label>
 					</div>
 				</li>	
 				
 				<li>
 					<label><span class="red_txt">*</span>외국인입주 가능여부</label>
 					<div class="checks">
-						<input type="radio" id="radio53" name="m_global"> 
-						<label for="radio53">가능</label>
-						<input type="radio" id="radio23" name="m_global"> 
-						<label for="radio23">불가능</label>
-						<input type="radio" id="radio24" name="m_global"> 
-						<label for="radio24">상관없음</label>
+						<input type="radio" id="m_global3" value="3" name="m_global"> 
+						<label for="m_global3">가능</label>
+						<input type="radio" id="m_global1" value="1" name="m_global"> 
+						<label for="m_global1">불가능</label>
+						<input type="radio" id="m_global2" value="2" name="m_global"> 
+						<label for="m_global2">상관없음</label>
 					</div>
 				</li>
 				
 				<li>
 					<label><span class="red_txt">*</span>즉시입주 가능여부</label>
 					<div class="checks">
-						<input type="radio" id="radio25" name="m_now"> 
-						<label for="radio25">가능</label>
-						<input type="radio" id="radio26" name="m_now"> 
-						<label for="radio26">불가능</label>
-						<input type="radio" id="radio27" name="m_now"> 
-						<label for="radio27">상관없음</label>
+						<input type="radio" id="m_now1" value="1" name="m_now"> 
+						<label for="m_now1">가능</label>
+						<input type="radio" id="m_now3" value="3" name="m_now"> 
+						<label for="m_now3">불가능</label>
 					</div>
 				</li>		
 			</ul>	
@@ -768,7 +779,7 @@ input[type="date"] {width:200px;}
 			
 				<div class="btnclass">
 					<a class="green" id="hPrev9" >이전</a>
-					<a class="green" id="hNext9" >다음</a> 
+					<button class="green" id="hNext9" >등록</button> 
 					<a class="green" id="hIndex9" >취소</a>
 				</div> <!-- 버튼div 종료 -->
 		</div> <!-- 등록form9 종료 -->
@@ -776,5 +787,6 @@ input[type="date"] {width:200px;}
 
 		
 	</form> <!-- 방등록 form  -->
-</div> <!-- house_wrap -->
+
+</div> <!-- content 종료 -->
 </div> <!-- wrap -->

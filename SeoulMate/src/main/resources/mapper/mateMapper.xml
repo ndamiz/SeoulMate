@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.seoulmate.home.dao.MateWriteDAO">
+<!--   	<insert id="mateInsert" parameterType="com.seoulmate.home.vo.MateWriteVO"> -->
+<!--   		insert into matewrite(no, pno, userid, area, matePic1, matePic2, matePic3, deposit, rent, enterdate, minStay, maxStay, mateProfile)  -->
+<!--   		values (housesq.nextval, #{pno}, #{userid}, #{area}, #{matePic1}, #{matePic2}, #{matePic3}, #{deposit}, #{rent}, #{enterdate}, -->
+<!--   				#{minSaty}, #{maxSaty}, #{mateProfile} ) -->
+<!--   	</insert> -->
+  
+  
+  </mapper>

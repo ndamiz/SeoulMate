@@ -64,6 +64,7 @@ button {position: relative;}
 </style>
 
 <div class="wrap houseSearch_wrap">
+<div class="content">
 	
 	<div class="boxClass"> <!-- 상단부분 div -->
 
@@ -148,7 +149,7 @@ button {position: relative;}
 			<c:forEach var="i" begin="0" end="2">
 				<li>
 					<div class="list_img">
-						<p><span>매칭</span>90<b>%</b></p>
+						
 						<button class="btn_star"></button>
 						<a href="">
 							<img alt="" src="<%=request.getContextPath()%>/img/comm/sample_house02.png">
@@ -168,5 +169,5 @@ button {position: relative;}
 		</ul>
 	</section>
 
-
+</div>
 </div>
