@@ -15,10 +15,8 @@ public class PageVO {
 	private int commOnePageRecord = 15;// 한페이지당 레코드 수
 	private String searchKey;
 	private String searchWord;
-	
-	
 
-
+	
 	public int getPageNum() {
 		return pageNum;
 	}

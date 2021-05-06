@@ -2,6 +2,7 @@ package com.seoulmate.home.controller;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ public class BoardController {
 	
 	//커뮤니티 페이지로 이동하기
 	@RequestMapping("/communityList")
-	public ModelAndView communityList(String category, BoardVO vo, PageVO pVo, HttpServletRequest req) {
+	public ModelAndView communityList(String category, PageVO pVo, HttpServletRequest req) {
 		
 		//리퀘스트돼서 오는 페이지번호가 있으면 세팅 없으면 기본값 1로 세팅
 		String pageNumStr = req.getParameter("pageNum");
@@ -27,7 +28,11 @@ public class BoardController {
 			pVo.setPageNum(Integer.parseInt(pageNumStr));
 		}
 		//넘어오는 카테고리가 있으면 세팅/ 이거 안해도 바로 세팅되는거같긴한데 일단 세팅!
-		pVo.setCategory(category);
+		if(category == null) {
+			pVo.setCategory("");
+		}else {
+			pVo.setCategory(category);
+		}
 		//검색어랑 카테고리필터에 따른 총 레코드 수 구하기
 		pVo.setTotalRecord(service.totalRecord(pVo));
 		
@@ -56,8 +61,8 @@ public class BoardController {
 	@RequestMapping(value="/communityWriteOk", method=RequestMethod.POST)
 	public ModelAndView communityWriteOk(BoardVO vo, HttpServletRequest req) {
 		//사용자 아이디
-		//vo.setUserid((String)req.getSession().getAttribute("logId"));
-		vo.setUserid("yunyun");
+		vo.setUserid((String)req.getSession().getAttribute("logId"));
+		//vo.setUserid("yunyun");
 		//등록자 아이피 주소
 		vo.setIp(req.getRemoteAddr());
 		
@@ -81,9 +86,25 @@ public class BoardController {
 	//글 내용보기
 	@RequestMapping("/communityView")
 	public ModelAndView boardView(int no) {
+		//조회수 올리기
+		service.hitUpdate(no);
+		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("vo", service.boardSelect(no));
+		mav.addObject("replyCnt", service.replyCount(no));
 		mav.setViewName("/board/communityView");
+		return mav;
+	}
+	//글 삭제하기
+	@RequestMapping("/communityDel")
+	public ModelAndView communitDel(int no, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		if(service.communityDelete(no,(String)session.getAttribute("logId"))>0) {
+			mav.setViewName("redirect:communityList");
+		}else {
+			mav.addObject("no", no);
+			mav.setViewName("redirect:communityView");
+		}
 		return mav;
 	}
 }

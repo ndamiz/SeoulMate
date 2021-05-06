@@ -10,6 +10,7 @@ public class BoardVO {
 	private String writedate;
 	private String ip;
 	
+	private int replyCnt; //글에 댓글몇개인지 확인용
 	
 	public int getNo() {
 		return no;
@@ -58,5 +59,11 @@ public class BoardVO {
 	}
 	public void setIp(String ip) {
 		this.ip = ip;
+	}
+	public int getReplyCnt() {
+		return replyCnt;
+	}
+	public void setReplyCnt(int replyCnt) {
+		this.replyCnt = replyCnt;
 	}
 }
