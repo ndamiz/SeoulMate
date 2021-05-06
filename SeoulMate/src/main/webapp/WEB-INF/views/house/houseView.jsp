@@ -6,7 +6,7 @@
 #topDiv{height:300px; width:100%; position: relative; margin-bottom: 30px;}
 #topDiv>img{height: 200px; width: 200px;}
 /* #img4, #img5, #img6{display: none;} */
-#dateDiv{float: left; height: 50px; }
+#dateDiv{float: left; height: 50px; line-height: 50px; }
 #btnDiv{float: right; height: 50px; overflow: auto;}
 
 #middle_Div{  width:100%; height:400px; }
@@ -49,7 +49,7 @@
 }
 
 .controlls{
-   width:100%;
+   width:80%;
    height:40px;
    position:absolute;
 	z-index: 1;
@@ -70,74 +70,54 @@
    left:15%;
 }
 .controlls span.next{
-   left:83%;
+   left:90%;
 }
 
-#my_modal {
-    display: none;
-    width: 500px;
-    height:650px;
-    padding: 10px 30px;
-    background-color: #fefefe;
-    border: 1px solid #888;
-    border-radius: 3px;
-}
-#my_modal p{margin: 15px 0;}
-#my_modal ul{line-height: 30px;
-	height: 30px;
-	text-align: center;
-	float: left;
-	width: 100%;
+#pup_wrap_report{display: none;}
+#pup_wrap_share{display: none;}
+#pup_wrap_share .list_title{width: 100%;}
+#snsList li{float: left;}
+
+
+#vIconTw, #vIconTg, #vIconFb, #vIconKs{
+	position: relative;
+	box-shadow: none;
+	border: none;
+	border-radius: inherit;
 	margin: 0;
 	padding: 0;
+	line-height: inherit;
+	height: inherit;
+	width: 40px;
+	height: 40px;
+	font-size:0;
 }
-
- .modal_close_btn{
- position: absolute;
- right: 180px;
- bottom: 50px;
- margin: 0 auto;
- }
-.report{
-    position: absolute;
-     right: 250px;
-     bottom: 50px;
-     margin: 0 auto;
+.snsList li {margin:0 10px;}
+.pup_body{height: inherit;}
+#pup_wrap_share .list_title{margin: 0 auto; width: max-content}
+.snsList li a::before {
+	content: "";
+	display: block;
+	position: absolute;
+	width: 40px;
+	height: 40px;
 }
-
-#my_modal img{width:250px; height: 250px; text-align: center; }
-     
-#reportS{width: 135px; height: 35px;}
-
-.modal_wrap{
-        display: none;
-        width: 550px;
-        height: 300px;
-        position: absolute;
-        top:20%;
-        left: 30%;
-        margin: 0 auto;
-        background: white;
-        z-index: 2;
-        border:1px solid black; 
-
-    }
-.modal_wrap p{text-align: center; left: 180px;}
-.share_modal{width:100%; }
-.share_modal li{
-	line-height: 30px;
-	height: 30px;
-	float:left;
-	width:25%; 
-	margin: 0;
-	padding: 0;
+#vIconTw::before {
+	background: url(/home/img/house/twt.png) no-repeat;
+	background-size: cover;
 }
- .share_close_btn{
- position: absolute;
- left: 230px;
- bottom: 50px;
- margin: 0 auto;
- }
+#vIconTg::before {
+	background: url(/home/img/house/telegram.png) no-repeat;
+	background-size: cover;
+}
+#vIconFb::before {
+	background: url(/home/img/house/facebook.png) no-repeat;
+	background-size: cover;
+}
+#vIconKs::before {
+	background: url(/home/img/house/kakaostory.jpg) no-repeat;
+	background-size: cover;
+}
 
 </style>
 <script>
@@ -149,6 +129,17 @@
         	
         });
         
+
+		$("#reportBtn").click(function(){
+			$("#pup_wrap_report").css("display", "block");
+			
+		});
+		
+		
+		$("#shareBtn").click(function(){
+			$("#pup_wrap_share").css("display", "block");
+			
+		});
       
         var slides = document.querySelector('.slides'),
         slide = document.querySelectorAll('.slides li'),
@@ -191,77 +182,8 @@
         }
      });
      
-    //모달 팝업창
-     function modal(id) {
-    	    var zIndex = 9999;
-    	    var modal = document.getElementById(id);
-
-    	    // 모달 div 뒤에 배경 처리
-    	    var bg = document.createElement('div');
-    	    bg.setStyle({
-    	        position: 'fixed',
-    	        zIndex: zIndex,
-    	        left: '0px',
-    	        top: '0px',
-    	        width: '100%',
-    	        height: '100%',
-    	        overflow: 'auto',
-    	        // 레이어 색갈은 여기서 바꾸면 됨
-    	        backgroundColor: 'rgba(0,0,0,0.4)'
-    	    });
-    	    document.body.append(bg);
-
-    	    // 닫기 버튼 처리, 배경과 모달 div 지우기
-    	    modal.querySelector('.modal_close_btn').addEventListener('click', function() {
-    	        bg.remove();
-    	        modal.style.display = 'none';
-    	    });
-
-    	    modal.setStyle({
-    	        position: 'fixed',
-    	        display: 'block',
-    	        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
-
-    	        // 배경 보다 한칸 위에 보이기
-    	        zIndex: zIndex + 1,
-
-    	        // div center 정렬
-    	        top: '50%',
-    	        left: '50%',
-    	        transform: 'translate(-50%, -50%)',
-    	        msTransform: 'translate(-50%, -50%)',
-    	        webkitTransform: 'translate(-50%, -50%)'
-    	    });
-    	}
-
-    	// Element 에 style 한번에 오브젝트로 설정하는 함수 추가
-    	Element.prototype.setStyle = function(styles) {
-    	    for (var k in styles) this.style[k] = styles[k];
-    	    return this;
-    	};
-
-    	document.getElementById('reportBtn').addEventListener('click', function() {
-    	    // 모달창 띄우기
-    	    modal('my_modal');
-    	});
-
    });
 
-    	window.onload = function() { //공유하기 모달(팝업)창
- 
-    function onClick() {
-        document.querySelector('.modal_wrap').style.display ='block';
-        document.querySelector('.black_bg').style.display ='block';
-    }   
-    function offClick() {
-        document.querySelector('.modal_wrap').style.display ='none';
-        document.querySelector('.black_bg').style.display ='none';
-    }
- 
-    document.getElementById('shareBtn').addEventListener('click', onClick);
-    document.querySelector('.share_close_btn').addEventListener('click', offClick);
- 
-};
 
 
     $(window).ready(function(){ 	  //공유하기 창
@@ -303,7 +225,7 @@
 
 </script>
 <div class="wrap">
- 
+ <div class="content">
  	<div id="topDiv">
 	 	<div id="dateDiv">
 	 	등록날짜 2021-04-20 등록
@@ -314,25 +236,6 @@
  		<button class="green" id="shareBtn" >공유하기</button> <button class="green" id="reportBtn">신고하기</button>
  		
  		</div>
- 		
- 		<!--  		<div class="black_bg"></div> -->
- 		<div class="modal_wrap">
-			<div class="share_modal">
-			<p class="s_title">SNS 공유하기</p>
-	 		<ul id="snsList" class="snsList">
-	  
-			  	<li><a href="#" id="vIconTw" onclick="return false;">트위터</a></li>
-			  	<li><a href="#" id="vIconTg" onclick="return false;">텔레그램<i class="vIconTg"></i></a></li>
-			  	<li><a href="#" id="vIconFb" onclick="return false;">페이스북<i class="vIconFb"></i></a></li>
-			 	<li><a href="#" id="vIconKs" onclick="return false;">카카오스토리<i class="vIconKs"></i></a></li>
-	  
-			</ul>
-			<br/>
-				<a class="share_close_btn" >닫기</a>
-	 		</div> <!-- share modal -->
- 		</div> <!-- modal_wrap modal 종료 -->
-		
- 		
  		
  	<br/>
 
@@ -352,27 +255,6 @@
            		</ul>
          	</div> <!-- "slides" -->
       </div> <!--slide_wraper -->
-
-    <div id="my_modal">
-    	<ul>
-    		<li><p class="s_title">신고하기</p></li>
-    		<li><img src="<%=request.getContextPath()%>/img/house/house01.jfif" id="reportPic" /></li>
-    		<li>house addr</li>
-    		<li>월세 | 1명 구해요 | 즉시 입주 가능 </li>
-    		<li> <label>신고 사유 </label><select id="reportS">
-						<option value="">허위매물</option>
-						<option>기간만료</option>
-						<option>광고</option>
-						<option>4</option>
-					</select> </li>
-<!-- 					<p>&nbsp;</p> -->
-			<li><label>상세 사유</label>
-					 <textarea cols="50"></textarea></li>
-			
-    	</ul>
-    	<a class="report">신고하기</a>
-    	<a class="modal_close_btn">닫기</a>
-	</div> <!-- 모달 종료 -->
 
  	</div> <!-- topDiv 종료 -->
  	
@@ -414,5 +296,59 @@
 	지도 부분
 	
 	</div> <!-- map_Div div종료 -->
-
+</div> <!-- content div 종료 -->
 </div>
+
+		<div class="pup_wrap" id="pup_wrap_report">
+		
+		<div class="pup_form">
+			<div class="pup_head">신고하기</div>
+			<div class="pup_body">
+			
+			<div class="pup_list">
+				<div class="list_img">
+					<img src="<%=request.getContextPath()%>/img/house/house01.jfif" id="reportPic" />
+				</div>
+				<div class="list_title">
+						<p class="s_title">house addr</p>
+						<p class="d_title">즉시입주 가능 / 1명 구해요</p>
+						<p class="d_title">월세 가격 / 보증금</p> 
+						<p class="d_title">신고사유 
+							<select>
+								<option> 허위매물 </option>
+								<option> 기간만료 </option>
+								<option> 광고물 </option>
+							</select> </p>
+						<p class="d_title">상세 사유 <textarea cols="30"></textarea></p>
+				</div>
+			</div>
+			<div class="pup_bottom">
+				<a href="" class="btn_cancel">닫기</a>
+				<a href="" class="btn_save">신고하기</a>
+			</div>
+		</div>
+			<a href="" class="btn_close">닫기</a>
+		</div>
+	</div>
+
+		<div class="pup_wrap" id="pup_wrap_share">
+			<div class="pup_form">
+				<div class="pup_head">공유하기</div>
+				<div class="pup_body">
+					
+						<div class="list_title">
+							<ul id="snsList" class="snsList">
+							<li><a href="#" id="vIconTw" onclick="return false;">트위터</a></li>
+							<li><a href="#" id="vIconTg" onclick="return false;">텔레그램</a> </li>
+							<li><a href="#" id="vIconFb" onclick="return false;">페이스북</a></li>
+							<li><a href="#" id="vIconKs" onclick="return false;">카카오스토리</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="pup_bottom">
+						<a href="" class="btn_cancel">닫기</a>
+						<a href="" class="btn_save">확인</a>
+					</div>
+				<a href="" class="btn_close">닫기</a>
+			</div>
+		</div>

@@ -10,7 +10,7 @@ input[type="date"] {width:200px;}
 input[type="text"] {width:100px;}
 input[type="number"] {width:100px;}
 #searchBox{width:300px; position:relative;}
-.searchClass ul{display:inline-block; padding-top:10px; padding-left:20px;}
+.searchClass ul{display:inline-block; padding-top:10px; }
 
 #iconPic {
 	position: absolute;
@@ -70,7 +70,7 @@ button{position: relative;}
 }
 </style>
 <div class="wrap mateSearch_wrap">
-
+<div class="content">
 	<div class="boxClass"> <!-- 상단부분 div -->
 
 	<ul class="searchClass">
@@ -156,7 +156,7 @@ button{position: relative;}
 			<c:forEach var="i" begin="0" end="2">
 				<li>
 					<div class="list_img">
-						<p><span>매칭</span>90<b>%</b></p>
+						
 						<button class="btn_star"></button>
 						<a href="">
 							<img alt="" src="<%=request.getContextPath()%>/img/comm/sample_mate02.png">
@@ -178,5 +178,5 @@ button{position: relative;}
 	</section>
 
 
-
+</div>
 </div>
