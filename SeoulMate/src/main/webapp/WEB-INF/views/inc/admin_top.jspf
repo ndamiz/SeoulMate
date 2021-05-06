@@ -21,13 +21,13 @@
 				<a href="/home/admin"><img src="<%=request.getContextPath()%>/img/comm/서울메이트_logo_white.png"/></a>
 			</div>
 			<div id="adminTopMenu" >
-				<span>2021-04-18 16:53 접속 </span> 
 				<c:if test="${adminStatus!='Y'}">
 					<a href="/home/admin/login" class="btn btn-light">로그인</a>
 				</c:if>				
 				<c:if test="${adminStatus=='Y'}">
+					<span>${loginTime}</span>
 					<a class="btn btn-light">정보수정</a>
-					<a class="btn btn-light">로그아웃</a>
+					<a href="/home/admin/logoutOk" class="btn btn-light">로그아웃</a>
 				</c:if>
 			</div>
 		</header>
