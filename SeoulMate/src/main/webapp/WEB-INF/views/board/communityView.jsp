@@ -188,7 +188,17 @@
 			});
 		});
 		
-		
+		$(document).on('click','.report', function(){
+			//값 가져오기
+			var reportUserid = $(this).prev().prev().val();
+			$("#reportUserid").val(reportUserid);
+			$('.reportpopup').css('display','block');
+			$('body').css('overflow','hidden');
+		});
+		$('.popupClose').click(function(){
+			$('.reportpopup').css('display','none');
+			$('body').css('overflow','auto');
+		});
 	});
 </script>
 <div class="wrap">
@@ -248,5 +258,37 @@
 				</li>
 			</ul>
 		</form>
+	</div>
+</div>
+<!--  팝업창///////////////////////////////////////////// -->
+<div class="pup_wrap reportpopup">
+	<div class="pup_form">
+		<div class="pup_head">신고 정보</div>
+		<div class="pup_body">
+			<div class="pup_list">
+				<ul>
+					<li><div>신고 ID</div><input id="reportUserid" type="text" name="userid" readonly></li>
+					<li><div>신고자 ID</div> <input type="text" name="reportid" value="${logId}" readonly> </li>
+					<li>
+						<div>분류</div> <input type="text" name="category" readonly> 
+						<input type="hidden" name="no">
+					</li>
+					<li><div>신고 사유</div>
+						<select>
+							<option>어쩌구</option>
+							<option>저쩌구</option>
+							<option>이러쿵</option>
+							<option>저러쿵</option>
+						</select>
+					</li>
+					<li><div>상세내용</div> <textarea rows="5" name="reportcontent"></textarea> </li>
+				</ul>
+			</div>
+		</div>
+		<div class="pup_bottom">
+			<a class="btn_cancel popupClose">닫기</a>
+			<a class="btn_save">접수</a>
+		</div>
+		<a class="pup_btn_close popupClose">닫기</a>
 	</div>
 </div>
