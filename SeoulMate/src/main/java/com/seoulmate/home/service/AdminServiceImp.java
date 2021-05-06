@@ -40,8 +40,7 @@ public class AdminServiceImp implements AdminService {
 		return dao.houseOnePageListSelect(map);
 	}
 	@Override
-	public Map<String, Object> houseDetailInfoSelect(HouseWriteVO hwVO) {
-		// TODO Auto-generated method stub
+	public List<Map<String, Object>> houseDetailInfoSelect(HouseWriteVO hwVO) {
 		return dao.houseDetailInfoSelect(hwVO);
 	}
 	

@@ -43,9 +43,6 @@
 		where <![CDATA[rownum<=]]><if test="pagingVO.pageNum==pagingVO.totalPage">${pagingVO.lastPageRecode}</if> 
   					<if test="pagingVO.pageNum!=pagingVO.totalPage">${pagingVO.onePageRecode}</if> ORDER BY no DESC
   	</select>
-  	<select id="houseDetailInfoSelect" parameterType="com.seoulmate.home.vo.HouseWriteVO" resultMap="hashMap">
-  	
-  	</select>
   	<select id="mateTotalRecode" parameterType="java.util.HashMap" resultType="int">
   		SELECT count(no) FROM (SELECT * FROM (SELECT * FROM
 			(SELECT mate.no, mate.userid, mate.area, mate.matestate, m.grade FROM mateWrite mate JOIN MEMBER m ON mate.userid=m.userid) 
@@ -90,10 +87,10 @@
 			  			<if test="payVO.selectYearMonthDate=='년별'"> payStart BETWEEN to_date('${payVO.selectStartDate}-1-1 00:00:00', 'YYYY-MM-DD HH24:MI:SS') and to_date(to_char(LAST_DAY(to_date('${payVO.selectEndDate}-12', 'YYYY-MM')), 'YYYY-MM-DD')||' 23:59:59' ,'YYYY-MM-DD HH24:MI:SS')</if>
   					</if> 
   					<if test="payVO.selectStartDate==null and payVO.selectStartDate=='' and payVO.selectEndDate==null and payVO.selectEndDate==''">)</if>
-  					order by no desc)
-  				where <![CDATA[rownum<=]]>${pagingVO.pageNum * pagingVO.onePageRecode} order by no asc)
+  					order by ${payVO.orderCondition} <if test="payVO.orderUpDown=='desc'"> desc</if><if test="payVO.orderUpDown=='asc'"> asc</if> )
+  				where <![CDATA[rownum<=]]>${pagingVO.pageNum * pagingVO.onePageRecode} order by ${payVO.orderCondition} <if test="payVO.orderUpDown=='desc'"> asc</if><if test="payVO.orderUpDown=='asc'"> desc</if>)
   			where <![CDATA[rownum<=]]><if test="pagingVO.pageNum==pagingVO.totalPage">${pagingVO.lastPageRecode}</if> 
-  					<if test="pagingVO.pageNum!=pagingVO.totalPage">${pagingVO.onePageRecode}</if> ORDER BY no DESC)
+  					<if test="pagingVO.pageNum!=pagingVO.totalPage">${pagingVO.onePageRecode}</if> ORDER BY ${payVO.orderCondition} <if test="payVO.orderUpDown=='desc'">desc</if><if test="payVO.orderUpDown=='asc'">asc</if>)
   	</select>
   	<select id="salesOnePageListSelect"  parameterType="java.util.HashMap"  resultType="com.seoulmate.home.vo.PayVO" >
 	SELECT to_char(payStart, 'YYYY-MM-DD') payStart, amount, amountCard, amountCash from  
@@ -111,10 +108,10 @@
 		  			<if test="payVO.selectYearMonthDate=='일별'"> payStart BETWEEN to_date('${payVO.selectStartDate} 00:00:00', 'YYYY-MM-DD HH24:MI:SS') and to_date('${payVO.selectEndDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')</if>
 		  			<if test="payVO.selectYearMonthDate=='월별'"> payStart BETWEEN to_date('${payVO.selectStartDate}-1 00:00:00', 'YYYY-MM-DD HH24:MI:SS') and to_date(to_char(LAST_DAY(to_date('${payVO.selectEndDate}', 'YYYY-MM')), 'YYYY-MM-DD')||' 23:59:59' ,'YYYY-MM-DD HH24:MI:SS')</if>
 		  			<if test="payVO.selectYearMonthDate=='년별'"> payStart BETWEEN to_date('${payVO.selectStartDate}-1-1 00:00:00', 'YYYY-MM-DD HH24:MI:SS') and to_date(to_char(LAST_DAY(to_date('${payVO.selectEndDate}-12', 'YYYY-MM')), 'YYYY-MM-DD')||' 23:59:59' ,'YYYY-MM-DD HH24:MI:SS')</if>
-  				</if>  ORDER BY payStart DESC)
-	  		WHERE <![CDATA[rownum<=]]>${pagingVO.pageNum * pagingVO.onePageRecode} order by payStart asc)
+  				</if>  ORDER BY ${payVO.orderCondition} <if test="payVO.orderUpDown=='desc'"> desc</if><if test="payVO.orderUpDown=='asc'"> asc</if>)
+	  		WHERE <![CDATA[rownum<=]]>${pagingVO.pageNum * pagingVO.onePageRecode} order by ${payVO.orderCondition} <if test="payVO.orderUpDown=='desc'"> asc</if><if test="payVO.orderUpDown=='asc'"> desc</if>)
   		WHERE <![CDATA[rownum<=]]><if test="pagingVO.pageNum==pagingVO.totalPage">${pagingVO.lastPageRecode}</if> 
-  					<if test="pagingVO.pageNum!=pagingVO.totalPage">${pagingVO.onePageRecode}</if> ORDER BY payStart DESC)
+  					<if test="pagingVO.pageNum!=pagingVO.totalPage">${pagingVO.onePageRecode}</if> ORDER BY ${payVO.orderCondition} <if test="payVO.orderUpDown=='desc'">desc</if><if test="payVO.orderUpDown=='asc'">asc</if>)
   	</select>
   	<select id="salesTotalAmountSelect" parameterType="com.seoulmate.home.vo.PayVO"  resultType="com.seoulmate.home.vo.PayVO">
 		SELECT payStart , sum(amount) AS amount, sum(amountCard) AS amountCard, sum(amountCash) AS amountCash from 

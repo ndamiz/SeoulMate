@@ -1,5 +1,6 @@
 package com.seoulmate.home.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,6 @@ import com.seoulmate.home.vo.PayVO;
 public interface AdminDAO {
 	// 회원 목록 출력
 	public List<String> memberSelect();
-	
 
 	// 회원 정보 출력
 	public MemberVO memberInfo(String userid);
@@ -24,7 +24,7 @@ public interface AdminDAO {
 	// 하우스관리 페이지 리스트 가져오기 
 	public List<HouseWriteVO> houseOnePageListSelect(Map<String, Object> map);
 	// 하우스관리 - 개인정보 확인 
-	public Map<String, Object> houseDetailInfoSelect(HouseWriteVO hwVO);
+	public List<Map<String, Object>> houseDetailInfoSelect(HouseWriteVO hwVO);
 	
 //mate Management ///////////////////////////////////////	
 	public int mateTotalRecode(Map<String, Object> map);

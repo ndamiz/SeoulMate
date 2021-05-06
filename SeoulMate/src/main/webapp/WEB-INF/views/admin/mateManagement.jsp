@@ -90,5 +90,121 @@
 				</div>
 			</div>
 		</section>
+			<!-- popup   -->
+		<div class="admin_Management_popup">
+			<div class="admin_Management_popup_head">메이트 관리 상세 정보</div>
+				<div class="admin_Management_popup_body">
+					<div class="admin_Management_popup_title"> [userid] 님의 메이트 게재 정보</div>
+					<ul class="admin_Management_popup_table">
+						<li class="admin_Management_popup_table_title" style="padding-left: 20px;">메이트 정보</li>
+						<li>
+							<ul class="admin_Management_popup_table_inner1">
+								<li>이름</li>
+								<li>도동개</li>
+							</ul>
+							<ul class="admin_Management_popup_table_inner0">
+								<li>등급</li>
+								<li>프리미엄</li>
+								<li>신고수</li>
+								<li>0 건</li>
+							</ul>
+							<ul class="admin_Management_popup_table_inner0">
+								<li>게재 기간</li>
+								<li>2021-05-01 ~ 2021-05-14</li>
+								<li>상태</li>
+								<li>
+									<select name="housestate" class="custom-select" style="height: 28px; padding: 2px 10px; vertical-align: top; margin-top: 1px;">
+										<option value="모집중" selected>모집중</option>
+										<option value="매칭 완료">매칭 완료</option>
+										<option value="기간 만료">기간 만료</option>
+										<option value="비공개">비공개</option>
+									</select>
+								</li>
+							</ul>
+							<ul class="admin_Management_popup_table_inner0">
+								<li>이메일</li>
+								<li>do_dong7H@gamil.com</li>
+								<li>연락처</li>
+								<li>010-0000-1111</li>
+							</ul>
+							<ul class="admin_Management_popup_table_inner2">
+								<li>선택한 성향</li>
+								<li>성격 : 외향적</li>
+								<li>애완동물 : 긍정적</li>
+								<li>흡연여부 : 흡연</li>
+								<li>나이대 : 상관없음</li>
+								<li>성별 : 여성전용</li>
+								<li>외국인 여부 : 가능</li>
+							</ul>
+						</li>
+						<li class="admin_Management_popup_table_title" style="padding-left: 20px;">희망하는 하우스 정보 </li>
+						<li>
+							<ul class="admin_Management_popup_table_inner1">
+								<li>희망 지역</li>
+								<li>마포구 아현동 / 마포구 공덕동</li>
+							</ul>
+							<ul class="admin_Management_popup_table_inner0">
+								<li>희망 보증금</li>
+								<li>3,000,000 원 이하</li>
+								<li>희망 월세</li>
+								<li>300,000 원 이하</li>
+							</ul>
+							<ul class="admin_Management_popup_table_inner0">
+								<li>룸 인원</li>
+								<li>1인실</li>
+								<li>입주가능일</li>
+								<li>2021-5-10 이후 </li>
+							</ul>
+							<ul class="admin_Management_popup_table_inner0">
+								<li>최소거주기간</li>
+								<li>4-6 개월</li>
+								<li>최대거주기간</li>
+								<li>1년 이상</li>
+							</ul>
+							<ul class="admin_Management_popup_table_inner2">
+								<li>가구</li>
+								<li style="width: 84%; border-bottom: 1px solid #dee2e6;">있음</li>
+								<li style="width: 84%;">원하는 가구 목록 뽑아내얋...</li>
+							</ul>
+						</li>
+						<li class="admin_Management_popup_table_title" style="padding-left: 20px;">희망하는 하우스 성향</li>
+						<li>
+							<ul class="admin_Management_popup_table_inner2">
+								<li>생활</li>
+								<li>생활소음 : 조용하지않음</li>
+								<li>생활시간 : 주행성</li>
+								<li>흡연 : 실외흡연</li>
+								<li style="width: 42%;">하우스 내 애완동물 여부 : 있음</li>
+								<li style="width: 42%;">애완동물 동반입실(거주) 여부 : 가능</li>
+							</ul>
+							<ul class="admin_Management_popup_table_inner2">
+								<li>소통</li>
+								<li>분위기 : 화목함</li>
+								<li>소통방식 : 대화</li>
+								<li>모임 빈도 : 가끔</li>
+								<li>모임 참가 의무 : 없음</li>
+							</ul>
+							<ul class="admin_Management_popup_table_inner1">
+								<li>지원 서비스</li>
+								<li>공용공간 청소 지원 : O</li>
+								<li>공용 생필품 지원 : O</li>
+								<li>기본 식품 지원 : O</li>
+							</ul>
+							<ul class="admin_Management_popup_table_inner1">
+								<li>기타</li>
+								<li>보증금 조절 가능 여부 : O</li>
+								<li>즉시입주 가능 여부 : O</li>
+							</ul>
+						</li>
+						<li class="admin_Management_popup_table_title" style="padding-left: 20px;">메이트 사진</li>
+						<li class="admin_Management_popup_table_img">
+							사진들어가는 자리 ~
+						</li>
+					</ul>
+				</div>
+				<div class="admin_Management_popup_table_btn">
+					<a href="" class="btn btn-custom">수정</a> <a href="" class="btn btn-custom">닫기</a>
+				</div>
+			</div>
 	</body>
 </html>

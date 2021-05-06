@@ -20,7 +20,8 @@ public class PayVO {
 	private String selectStartDate;  //보여줄 기간 선택    2021.02 ~ 2021.03 까지 만 출력.. 이런거처럼 
 	private String selectEndDate;	//보여줄 기간 선택 
 
-	private String orderCondition; //정렬 조건 (날짜, 아이디, 이름, 결제일, 결제종료일, 결제방법)
+	private String orderCondition = "no"; //정렬 조건 (날짜, 아이디, 이름, 결제일, 결제종료일, 결제방법)
+	private String orderUpDown = "desc"; //내림차순, 오름차순 
 	
 	//해당 유저의 grade 
 	private int grade;  //1 : 일반, // 2: 프리미엄 
@@ -48,6 +49,12 @@ public class PayVO {
 	}
 	public void setOrderCondition(String orderCondition) {
 		this.orderCondition = orderCondition;
+	}
+	public String getOrderUpDown() {
+		return orderUpDown;
+	}
+	public void setOrderUpDown(String orderUpDown) {
+		this.orderUpDown = orderUpDown;
 	}
 	public int getGrade() {
 		return grade;

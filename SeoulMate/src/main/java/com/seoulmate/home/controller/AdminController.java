@@ -6,9 +6,11 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.apache.ibatis.annotations.ResultMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -91,17 +93,19 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/admin/houseDetailInfo")
-	public ModelAndView houseDetailInfo(HouseWriteVO hwVO) {
-		ModelAndView mav = new ModelAndView();
-		System.out.println("no = "+ hwVO.getNo());
-		System.out.println("housename = "+ hwVO.getHousename());
+	@ResponseBody
+	public Map<String, Object> houseDetailInfo(@RequestParam(value="no") int no, @RequestParam(value="userid") String userid,
+													@RequestParam(value="housename") String housename) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-//		map = service.houseDetailInfoSelect(hwVO);
+		HouseWriteVO hwVO = new HouseWriteVO();
+		hwVO.setNo(no);
+		hwVO.setUserid(userid);
+		hwVO.setHousename(housename);
 		
 		
-		mav.setViewName("admin/houseDetailInfo");
-		return mav;
+		
+		return resultMap;
 	}
 	//관리자 - 하우스메이트 
 	@RequestMapping(value="/admin/mateManagement", method={RequestMethod.POST, RequestMethod.GET})
@@ -140,16 +144,40 @@ public class AdminController {
 		Map<String, Object> map1 = new HashMap<String, Object>();
 		map1.put("payVO", payVO);
 		map1.put("pagingVO", pagingVO);
+		
+		
 		mav.addObject("payList", service.payOnePageListSelect(map1));
 		mav.addObject("payVO", payVO);
 		mav.addObject("pagingVO", pagingVO);
 		mav.setViewName("admin/payManagement");
 		return mav;
 	}
+	@RequestMapping(value="/admin/payManagementList", method={RequestMethod.POST, RequestMethod.GET})
+	@ResponseBody
+	public Map<String, Object> payManagementList(PayVO payVO, PagingVO pagingVO){
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("payVO", payVO);
+		map.put("pagingVO", pagingVO);
+		pagingVO.setTotalRecode(service.payTotalRecode(map));
+		// 2. 한페이지 레코드 구하기 
+		Map<String, Object> map1 = new HashMap<String, Object>();
+		map1.put("payVO", payVO);
+		map1.put("pagingVO", pagingVO);
+		
+		List<PayVO> payVO_1 = service.payOnePageListSelect(map1);
+		returnMap.put("payVO", payVO_1);
+		returnMap.put("pagingVO", pagingVO);
+		
+		return returnMap;
+	}
+	
 	//관리자 - 매출
 	@RequestMapping(value="/admin/salesManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView salesManagement(PayVO payVO, PagingVO pagingVO) {
 		ModelAndView mav = new ModelAndView();
+		//기본정렬 payStart로 세팅.
+		payVO.setOrderCondition("payStart"); 
 		// 1.총 레코드 구하기  
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("payVO", payVO);
@@ -168,6 +196,31 @@ public class AdminController {
 		mav.setViewName("admin/salesManagement");
 		return mav;
 	}		
+	
+	@RequestMapping(value="/admin/salesManagementList", method={RequestMethod.POST, RequestMethod.GET})
+	@ResponseBody
+	public Map<String, Object> salesManagementList(PayVO payVO, PagingVO pagingVO){
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		// 1.총 레코드 구하기  
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("payVO", payVO);
+		map.put("pagingVO", pagingVO);
+		pagingVO.setTotalRecode(service.payTotalRecode(map));
+		// 2. 한페이지 레코드 
+		Map<String, Object> map1 = new HashMap<String, Object>();
+		map1.put("payVO", payVO);
+		map1.put("pagingVO", pagingVO);
+		List<PayVO> payList  = service.salesOnePageListSelect(map1);
+		// 3. 조건에 맞는 레코드의 총 합계 구하기
+		PayVO payVO_total = new PayVO();
+		payVO_total = service.salesTotalAmountSelect(payVO);
+		
+		returnMap.put("pagingVO", pagingVO);
+		returnMap.put("payList", payList);
+		returnMap.put("total", payVO_total);
+		
+		return returnMap;
+	}
 	//문의 관리
 	@RequestMapping("/admin/contactManagement")
 	public String contactManagement() {
