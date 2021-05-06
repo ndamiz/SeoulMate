@@ -49,7 +49,7 @@
 						tag += '<button id="'+idx+'" class="white">답글</button>'
 						tag += '<input type="hidden" value="'+obj.userid+'">'
 						tag += '<input type="hidden" value="'+obj.num+'">'
-						tag += '<button class="report">신고</button></div>'
+						tag += '<button class="report white">신고</button></div>'
 						
 						tag += '<li class="communityView_comment_content">'
 							tag += obj.content
@@ -90,6 +90,7 @@
 						console.log("댓글 등록 실패...");
 					}
 				});//ajax end
+				return false;
 			}else{
 				alert("댓글내용을 입력해야 등록이 가능합니다.");
 			}
@@ -123,6 +124,7 @@
 					console.log("댓글 수정 실패...");
 				}
 			});
+			return false;
 		});
 		
 		//4. 댓글 삭제하기
