@@ -16,10 +16,7 @@
 					return false;
 				}
 			}
-			// 전화번호 앞자리
-			var tel1=$("#telFirst").val();
-			document.getElementById("tel1").value=tel1;
-			
+						
 			// 프로필 사진 유효성 검사
 			var reg=document.getElementById("profilePic").getAttribute('type');
 			if(reg=='file'){
@@ -270,8 +267,9 @@
 	
 	// 전화번호 앞자리 넣기
 	function tel1Input(){
-		var tel1=$("#tel1").val();
-		$("#telFirst>option[value='"+tel1+"']").attr('selected', true);
+		var tel1='${vo.tel1}';
+		$("#tel1>option[value='"+tel1+"']").attr('selected', true);
+		
 	}
 	
 	function areaEdit(){
@@ -297,55 +295,6 @@
 	$(window).ready(function(){
 		tel1Input();
 	});
-	
-	
-	
-// 	// 희망 지역
-// 	function areaChange(e) {
-// 		var areaId=e.id;
-		
-// 		if(areaId=="gu1Edit"){
-// 			var target = document.getElementById("dong1Edit");
-// 		}else if(areaId=="gu2Edit"){
-// 			var target = document.getElementById("dong2Edit");
-// 		}else if(areaId=="gu3Edit"){
-// 			var target = document.getElementById("dong3Edit");
-// 		}
-// 		if(e.value=="강남구") var d = ${gangnam};
-// 		else if(e.value=="강동구") var d = gangdong;
-// 		else if(e.value=="강북구") var d = gangbuk;
-// 		else if(e.value=="강서구") var d = gangseo;
-// 		else if(e.value=="관악구") var d = gwanak;
-// 		else if(e.value=="광진구") var d = gwangjin;
-// 		else if(e.value=="구로구") var d = guro;
-// 		else if(e.value=="금천구") var d = geumcheon;
-// 		else if(e.value=="노원구") var d = nowon;
-// 		else if(e.value=="도봉구") var d = dobong;
-// 		else if(e.value=="동대문구") var d = dongdaemun;
-// 		else if(e.value=="동작구") var d = dongjak;
-// 		else if(e.value=="마포구") var d = mapo;
-// 		else if(e.value=="서대문구") var d = seodaemun;
-// 		else if(e.value=="서초구") var d = seocho;
-// 		else if(e.value=="성동구") var d = seongdong;
-// 		else if(e.value=="성북구") var d = seongbuk;
-// 		else if(e.value=="송파구") var d = songpa;
-// 		else if(e.value=="양천구") var d = yangcheon;
-// 		else if(e.value=="영등포구") var d = yeongdeungpo;
-// 		else if(e.value=="용산구") var d = yongsan;
-// 		else if(e.value=="은평구") var d = eunpyeong;
-// 		else if(e.value=="종로구") var d = jongno;
-// 		else if(e.value=="중구") var d = jung;
-// 		else if(e.value=="중랑구") var d = jungnang;
- 
-// 		target.options.length = 0;
- 
-// 		for (x in d) {
-// 			var opt = document.createElement("option");
-// 			opt.value = d[x];
-// 			opt.innerHTML = d[x];
-// 			target.appendChild(opt);
-// 		}
-// 	}
 </script>
 <div class="wrap">
 	<div class="title_wrap editDiv">
@@ -364,12 +313,11 @@
 				<li><label>이름</label>
 					<input type="text" name="username" id="username" value="${vo.username}" disabled/></li>
 				<li><label>연락처</label>
-					<select id="telFirst">
+					<select name="tel1" id="tel1">
 						<c:forEach var="i1" items="${arr1}">
 							<option value="${i1}">${i1}</option>
 						</c:forEach>
 					</select>
-					<input type="hidden" name="tel1" id="tel1" value="${vo.tel1}"/>
 					<span class="multi">-</span>
 					<input type="text" name="tel2" id="tel2" value="${vo.tel2}" maxlength="4"/><span class="multi">-</span>
 					<input type="text" name="tel3" id="tel3" value="${vo.tel3}" maxlength="4"/>

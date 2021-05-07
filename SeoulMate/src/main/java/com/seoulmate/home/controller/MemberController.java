@@ -334,7 +334,8 @@ public class MemberController {
 		if(vo.getArea3()!=null) {
 			area3=vo.getArea3().split(" "); // 희망 지역 3의 구
 		}
-		
+		System.out.println("전화번호 전체 : "+vo.getTel());
+		System.out.println("tel1 : "+vo.getTel1());
 		mav.addObject("guArr", guArr); // 구
 		mav.addObject("selDong1", service.dong(area1[0]));
 		mav.addObject("selDong2", service.dong(area2[0]));
