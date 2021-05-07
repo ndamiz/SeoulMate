@@ -60,6 +60,23 @@
 		where <![CDATA[rownum<=]]><if test="pagingVO.pageNum==pagingVO.totalPage">${pagingVO.lastPageRecode}</if> 
   					<if test="pagingVO.pageNum!=pagingVO.totalPage">${pagingVO.onePageRecode}</if> ORDER BY no DESC
   	</select>
+  	<select id="houseDetailInfoSelect" parameterType="com.seoulmate.home.vo.HouseWriteVO" resultType="com.seoulmate.home.vo.HouseWriteVO">
+  		SELECT * from	
+			(SELECT h2.NO, h2.userid, h2.pno, h2.housename, h2.addr,  h2.housepic1, h2.housepic2, h2.housepic3, h2.housepic4, h2.housepic5, 
+			h2.room, h2.bathroom, h2.searchPeople, h2.publicFacility, h2.writedate, h2.enddate, h2.houseState, h2.houseProfile, h2.reportNum, m.grade 
+			FROM  
+				(SELECT h.NO, h.userid, h.pno, h.housename ,h.addr, h.housepic1, h.housepic2, h.housepic3, h.housepic4, h.housepic5, 
+				h.room, h.bathroom, h.searchPeople, h.publicFacility, h.writedate, h.enddate, h.houseState, h.houseProfile, r.reportNum FROM HOUSEWRITE h 
+				join
+					(SELECT NO, count(num) AS reportNum FROM report GROUP BY NO) r ON h.NO=r.no(+) ) h2 JOIN 	
+		(SELECT userid, grade FROM MEMBER) m ON h2.userid=m.userid) WHERE NO=${no} AND userid='${userid}'
+  	</select>
+  	<select id="propensitySelect" parameterType="com.seoulmate.home.vo.HouseWriteVO" resultType="com.seoulmate.home.vo.PropensityVO">
+  		SELECT * FROM propensity WHERE pno=${pno}
+  	</select>
+  	<select id="houseRoomInfoSelect" parameterType="com.seoulmate.home.vo.HouseWriteVO" resultType="com.seoulmate.home.vo.HouseRoomVO">
+  		SELECT * FROM HOUSEROOM WHERE NO=${no} AND userid='${userid}'
+  	</select>
   	<select id="mateTotalRecode" parameterType="java.util.HashMap" resultType="int">
   		SELECT count(no) FROM (SELECT * FROM (SELECT * FROM
 			(SELECT mate.no, mate.userid, mate.area, mate.matestate, m.grade FROM mateWrite mate JOIN MEMBER m ON mate.userid=m.userid) 
