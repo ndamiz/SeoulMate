@@ -246,7 +246,7 @@
 								<li><div>생년월일</div><input type="text" name="birth" id="infoBirth" value="" readonly/></li>
 								<li><div>*연락처</div><input type="text" name="tel" id="infoTel" value="" maxlength="13"/></li>
 								<li><div>*email</div><input type="text" name="email" id="infoEmail" value="" autocomplete="off"/></li>
-								<li><div>신고 누적 수</div><input type="text" name="reportCnt" id="infoReportCnt" value="" readonly/></li>
+								<li><div>신고 누적 수</div><input type="text" id="infoReportCnt" value="" readonly/></li>
 								<li><div>*블랙리스트</div>
 									<div class="toggle_cont">
 										<input id="infoState" class="cmn_toggle cmn_toggle_round" type="checkbox" name="state">

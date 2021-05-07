@@ -18,7 +18,8 @@
   		<if test="pageNum!=totalPage">${onePageRecode}</if> ORDER BY no DESC
   	</select>
   	<select id="memberInfo" resultType="com.seoulmate.home.vo.MemberVO">
-  		select profilepic, userid, userpwd, username, to_char(birth, 'YYYY-MM-DD') birth, tel, email, reportcnt, state from member where userid=#{param1}
+  		select m.profilepic, m.userid, m.userpwd, m.username, to_char(m.birth, 'YYYY-MM-DD') birth, m.tel, m.email, r.reportcnt, m.state from member m join  
+		(select userid, count(num) as reportcnt from report group by userid) r on m.userid=r.userid(+) and m.userid=#{param1}
   	</select>
   	<select id="membertotalRecord" parameterType="com.seoulmate.home.vo.PagingVO" resultType="int">
   		select count(no) no from 
