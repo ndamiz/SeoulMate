@@ -24,7 +24,7 @@ img{width:250px; height:250px; }
 /* 슬라이드 */
 .slide_wraper{
    height:250px;
-   width:750px;
+   width:250px;
    margin:0 auto;
    overflow:hidden;
    
@@ -68,10 +68,10 @@ img{width:250px; height:250px; }
 }
 .controlls span.prev{
    display:block;
-   left:15%;
+   left:30%;
 }
 .controlls span.next{
-   left:110%;
+   left:70%;
 }
 
 .report{
@@ -257,9 +257,9 @@ img{width:250px; height:250px; }
             	<ul>
 	               <li><img src="<%=request.getContextPath()%>/img/house/mate01.jfif" title="메이트1"></li>
 	               <li><img src="<%=request.getContextPath()%>/img/house/mate02.jfif"></li>
-	               <li><img src="<%=request.getContextPath()%>/img/house/mate03.jfif"></li>
-	               <li><img src="<%=request.getContextPath()%>/img/house/mate01.jfif"></li>
-	               <li><img src="<%=request.getContextPath()%>/img/house/mate02.jfif"></li>
+<%-- 	               <li><img src="<%=request.getContextPath()%>/img/house/mate03.jfif"></li> --%>
+<%-- 	               <li><img src="<%=request.getContextPath()%>/img/house/mate01.jfif"></li> --%>
+<%-- 	               <li><img src="<%=request.getContextPath()%>/img/house/mate02.jfif"></li> --%>
 	            </ul>
 	         </div> <!-- "slides" -->
 	      </div> <!--slide_wraper -->

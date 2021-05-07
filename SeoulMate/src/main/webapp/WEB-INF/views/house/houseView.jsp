@@ -23,7 +23,7 @@
 /* 슬라이드 */
 .slide_wraper{
    height:250px;
-   width:750px;
+   width:250px;
    margin:0 auto;
    overflow:hidden;
    
@@ -67,10 +67,10 @@
 }
 .controlls span.prev{
    display:block;
-   left:15%;
+   left:30%;
 }
 .controlls span.next{
-   left:90%;
+   left:70%;
 }
 
 #pup_wrap_report{display: none;}

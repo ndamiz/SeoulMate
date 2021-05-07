@@ -181,8 +181,6 @@ $(function(){
 	});
 	
 	$("#hNext9").click(function(){
-// 		$("#houseWrite9").css("display", "none");
-// 		$("#houseWrite1").css("display", "block"); //마지막 등록form에서는 어디로 이동?
 		location.href="<%=request.getContextPath()%>/houseIndex";
 	});
 	$("#hPrev9").click(function(){
@@ -216,14 +214,14 @@ $(function(){
 .form_box.choice li > label {width: 240px;}
 #houseWrite1_ul2{display: none;}
 .btnclass{padding-left:50px;}
-#roomPlus{margin-left:430px;}
+#roomPlus{margin-left:650px;}
 #houseWrite1 .checks {
     width: 560px;
 }
 #houseWrite2, #houseWrite3, #houseWrite4, #houseWrite5, 
 #houseWrite6, #houseWrite7, #houseWrite8, #houseWrite9 {display:none; margin: 0 auto;}
 #houseWrite2 .form_box.choice li > label {width: 110px;}
-
+#houseWrite6 .checks {width: 295px;}
 #houseWrite7 li{text-align: center; padding-right: 50%; }
 #houseWrite9{width: 800px;}
 #hPic{height:125px;}
@@ -254,7 +252,48 @@ $(function(){
 		</div>
 			<div id="houseWrite1_ul1">
 			<ul class="form_box">
-				<li> <label><span class="red_txt">*</span>게재 기간 </label> <input type="date" /> </li>
+				<li> <label><span class="red_txt">*</span>주소 </label> <input type="text" name="addr"/> </li>
+			<li> <label><span class="red_txt">*</span>총 방 개수 </label><select name="room">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+					</select> </li>
+			<li> <label><span class="red_txt">*</span>총 욕실 수</label> <select name="bathroom">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+					</select> </li>
+			<li><label><span class="red_txt">*</span>현재 인원</label> <select name="nowPeople">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+					</select> </li>
+			<li><label><span class="red_txt">*</span>찾는 인원</label> <select name="searchPeople">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+					</select> </li>
+			<li><label><span class="red_txt">*</span>방 이름 </label> <input type="text" name="houseName"/></li>
+			<li><label><span class="red_txt">*</span>가구 여부</label> 
+				<div class="checks">
+						<input type="radio" id="furniture1" value="1" name="furniture"> 
+						<label for="furniture1">있음</label>
+						
+						<input type="radio" id="furniture2" value="2" name="furniture"> 
+						<label for="furniture2">없음</label>
+					</div>
+			</li>
+			<li><label>포함된 가구</label><input type="text" name="incFurniture"/> </li>
+			</ul>
+			</div>
+			
+			<div id="houseWrite1_ul2">
+			<hr/>
+			<ul class="form_box">
 				<li> <label><span class="red_txt">*</span>주소 </label> <input type="text" name="addr"/> </li>
 			<li> <label><span class="red_txt">*</span>총 방 개수 </label><select name="room">
 						<option value="1">1</option>
@@ -293,41 +332,6 @@ $(function(){
 			<li><label>포함된 가구</label><input type="text" name="incFurniture"/> </li>
 			</ul>
 			</div>
-			
-			<div id="houseWrite1_ul2">
-			<hr/>
-			<ul class="form_box">
-				<li> <label><span class="red_txt">*</span>게재 기간 </label> <input type="date" /> </li>
-				<li> <label><span class="red_txt">*</span>주소 </label> <input type="text" name="addr"/> </li>
-			<li> <label><span class="red_txt">*</span>총 방 개수 </label><select name="room">
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-					</select> 
-			<label style="padding-left: 34px;
-    margin-right: 18px;"><span class="red_txt">*</span>총 욕실 수</label>	<select name="bathroom">
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-					</select> </li>
-			<li><label><span class="red_txt">*</span>현재 인원</label> <select name="nowPeople">
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-					</select> 
-			<label style="padding-left: 34px;
-    margin-right: 18px;"><span class="red_txt">*</span>찾는 인원</label> <select name="searchPeople">
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-					</select> </li>
-			<li><label><span class="red_txt">*</span>방 이름 </label> <input type="text" name="housename"/></li>
-			</ul>
-			</div>
 			<a id="roomPlus" class="green"  >방 추가등록 </a> <br/> 
 				<div class="btnclass">
 					<a id="hPrev1" class="green" >이전</a>
@@ -352,7 +356,7 @@ $(function(){
 						<input type="checkbox" id="냉장고" name="publicFactility" value="냉장고"> 
 						<label for="냉장고">냉장고</label>
 						<input type="checkbox" id="check2" name="publicFactility" value="정수기"> 
-						<label for="">정수기</label>
+						<label for="정수기">정수기</label>
 						<input type="checkbox" id="check3" name="publicFactility" value="가스레인지"> 
 						<label for="check3">가스레인지</label>
 						<input type="checkbox" id="check4" name="publicFactility" value="밥솥"> 
@@ -648,7 +652,7 @@ $(function(){
 		
 			<ul class="form_box">
 				<li id="hPic"><img id="housePic1" name="housePic1" src="#" alt="upload image" style="width:150px; height:107px;"/></li>
-				<li> <input type="file" accept="image/*" id="input-image" onchange="readURL(this);"/> <br/> </li>
+				<li> <input type="file" accept="image/*" name="filename"  id="input-image" onchange="readURL(this);"/> <br/> </li>
 			</ul>
 				<div class="btnclass">
 					<a class="green" id="hPrev7">이전</a>

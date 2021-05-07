@@ -3,10 +3,10 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.seoulmate.home.dao.HouseRoomDAO">
-<!--   	<insert id="roomInsert" parameterType="com.bitcamp.home.vo.HouseRoomVO"> -->
-<!--   		insert into houseroom(hno, no, roomName, deposit, rent, enterdate, minSaty, maxSaty, roomPeople, furniture, incFurniture, userid) -->
-<!--   		values (roomsq.nextval, housesq.nextval, #{roomName}, #{deposit}, #{rent}, #{enterdate}, #{minSaty}, #{maxSaty},  -->
-<!--   		#{roomPeople}, #{furniture}, #{incFurniture}, #{userid} ) -->
-<!--   	</insert> -->
+  	<insert id="roomInsert" parameterType="com.seoulmate.home.vo.HouseRoomVO">
+  		insert into houseroom(hno, no, roomName, deposit, rent, enterdate, minStay, maxStay, roomPeople, furniture, incFurniture, userid) 
+		values (roomsq.nextval, housematesq.nextval, #{roomName}, #{deposit}, #{rent}, #{enterdate}, #{minStay}, #{maxStay}, 
+				#{roomPeople}, #{furniture}, #{incFurniture}, #{userid} )
+  	</insert>
 
   </mapper>

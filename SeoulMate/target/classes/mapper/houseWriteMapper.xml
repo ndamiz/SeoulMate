@@ -9,10 +9,10 @@
 	<select id="pnoCheck" resultType="int">
 		select count(pno) from housewrite where userid=#{param1} and pno=#{param2}
 	</select>
-<!-- 	<insert id="houseInsert" parameterType="com.seoulmate.home.vo.HouseWriteVO"> -->
-<!-- 		insert into housewrite(no, userid, addr, housePic1, room, bathroom, nowPeople,  -->
-<!-- 		searchPeople, publicFacility, writedate, enddate)  -->
-<!-- 		values (housesq.nextval, #{userid}, #{addr}, #{housePic1}, #{room}, #{bathroom}, #{nowPeople}, -->
-<!-- 		#{searchPeople}, #{publicFacility}, sysdate, sysdate+7 ) -->
-<!-- 	</insert> -->
+	<insert id="houseInsert" parameterType="com.seoulmate.home.vo.HouseWriteVO">
+			insert into housewrite(no, userid, addr, housePic1, room, bathroom, nowPeople, searchPeople, publicFacility, 
+			writedate, enddate, houseState, pno, houseProfile, houseName) 
+			values (housematesq.nextval, 'yeonju1231', '서울시 마포구', #{housePic1}, #{room}, #{bathroom}, #{nowPeople}, #{searchPeople}, 
+			#{publicFacility}, sysdate, sysdate+7, '모집중', 13, #{houserProfile}, #{houseName} )
+	</insert>
   </mapper>
