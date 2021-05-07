@@ -52,8 +52,8 @@ public class MemberController {
 		String arr1[] = {"010","02","031","032","033","041","042","043","044","051","052","053","054","055","061","062","063","064"};
 		mav.addObject("arr1", arr1);
 		
-		String guArr[]= {"강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구"
-				,"동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"};
+		// 구
+		String guArr[]=service.gu();
 		mav.addObject("guArr", guArr); 
 		
 		mav.setViewName("member/memberForm");
@@ -319,10 +319,6 @@ public class MemberController {
 		String arr1[] = {"010","02","031","032","033","041","042","043","044","051","052","053","054","055","061","062","063","064"};
 		// 구
 		String guArr[]=service.gu();
-		// 동
-		mav.addObject("gangnam", service.dong(guArr[0]));
-		
-		//"gangnam", "gangdong", "gangbuk", "gangseo", "gwanak", "gwangjin", "guro", "geumcheon", "nowon", "dobong", "dongdaemun", "dongjak", "mapo", "seodaemun", "seocho", "seongdong", "seongbuk", "songpa", "yangcheon", "yeongdeungpo", "yongsan", "eunpyeong", "jongno", "jung", "jungnang"};
 		
 		String userid=(String)session.getAttribute("logId");
 		

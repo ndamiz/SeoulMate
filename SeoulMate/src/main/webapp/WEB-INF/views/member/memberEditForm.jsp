@@ -94,7 +94,7 @@
 						temp.next().append("<option>"+dong+"</option>");
 					});
 				}, error:function(){
-					
+					console.log("동 들고오기 에러 발생");
 				}
 			});
 		});
