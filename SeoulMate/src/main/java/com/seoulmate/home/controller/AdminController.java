@@ -1,7 +1,8 @@
 package com.seoulmate.home.controller;
 
 import java.io.File;
-
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,40 @@ import com.seoulmate.home.vo.PayVO;
 public class AdminController {
 	@Inject
 	AdminService service;
+	
+	// 관리자-로그인
+	@RequestMapping("/admin/login")
+	public String adminLogin() {
+		return "/admin/adminLogin";
+	}
+	
+	@RequestMapping(value="/admin/loginOk", method = RequestMethod.POST)
+	public ModelAndView adminLoginOk(String userid, String userpwd, HttpSession session) {
+		ModelAndView mav=new ModelAndView();
+		
+		Calendar now=Calendar.getInstance(); // 현재 시간 구하기
+		SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm 접속"); // 날짜 포맷
+		String loginTime=format.format(now.getTime());
+		
+		if(userid.equals("seoulmate") && userpwd.equals("qwer1234!")) {
+			System.out.println("어드민 로그인 성공");
+			session.setAttribute("adminStatus", "Y");
+			session.setAttribute("loginTime", loginTime);
+			mav.setViewName("/admin/adminDashboard");
+		}else {
+			System.out.println("어드민 로그인 실패");
+			mav.setViewName("redirect:/admin/login");
+		}
+		return mav;
+	}
+	
+	@RequestMapping("/admin/logoutOk")
+	public String adminLogoutOk(HttpSession session) {
+		session.removeAttribute("adminStatus");
+		session.removeAttribute("loginTime");
+		
+		return "/admin/adminLogin";
+	}
 	
 	
 	//admin에 들어오면 나오는 대시보드

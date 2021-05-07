@@ -191,7 +191,7 @@
 				return false;
 			}
 			// 이메일 아이디
-			var regEmailId=/^\w{3,14}$/;
+			var regEmailId=/^\w{3,17}$/;
 			if(!regEmailId.test(document.getElementById("emailid").value)){
 				alert("이메일을 잘못 입력하셨습니다.");
 				return false;
@@ -199,7 +199,7 @@
 		}
 		
 		function regEmail(){
-			var regEmailId=/^\w{3,14}$/;
+			var regEmailId=/^\w{3,17}$/;
 			if(!regEmailId.test(document.getElementById("emailid").value)){
 				alert("이메일을 잘못 입력하셨습니다.");
 				return false;
@@ -448,7 +448,7 @@
 					<a class="white" id="area3Btn">지역3 수정</a>
 				</li>	
 				<li><label>이메일</label>
-					<input type="text" name="emailid" id="emailid" value="${vo.emailid}" placeholder="이메일"/><span>@</span> 
+					<input type="text" name="emailid" id="emailid" value="${vo.emailid}" placeholder="이메일" autocomplete="off"/><span>@</span> 
 					<select name="emaildomain" id="emaildomain">
 						<option value="naver.com" <c:if test="${vo.emaildomain=='naver.com'}">selected</c:if>>naver.com</option>
 						<option value="nate.com" <c:if test="${vo.emaildomain=='nate.com'}">selected</c:if>>nate.com</option>

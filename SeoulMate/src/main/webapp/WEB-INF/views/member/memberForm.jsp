@@ -383,7 +383,7 @@
 				return false;
 			}
 			// 이메일 아이디
-			var regEmailId=/^\w{3,14}$/;
+			var regEmailId=/^\w{3,17}$/;
 			if(!regEmailId.test(document.getElementById("emailid").value)){
 				alert("이메일을 잘못 입력하셨습니다.");
 				return false;
@@ -399,7 +399,7 @@
 		}
 		
 		function regEmail(){
-			var regEmailId=/^\w{3,14}$/;
+			var regEmailId=/^\w{3,17}$/;
 			if(!regEmailId.test(document.getElementById("emailid").value)){
 				alert("이메일을 잘못 입력하셨습니다.");
 				return false;
@@ -600,7 +600,7 @@
 						<input type="hidden" name="area3" id="area3" placeholder=""/>
 					</li>
 					<li><label><span class="red_txt">*</span>이메일</label>
-						<input type="text" name="emailid" id="emailid" value="0905cjw" placeholder="이메일"/><span>@</span> 
+						<input type="text" name="emailid" id="emailid" value="0905cjw" placeholder="이메일"  autocomplete="off"/><span>@</span> 
 						<select name="emaildomain" id="emaildomain">
 							<option value="naver.com">naver.com</option>
 							<option value="nate.com">nate.com</option>
