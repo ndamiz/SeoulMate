@@ -22,7 +22,7 @@ public class PropensityVO {
 	private int m_pattern;	// 메이트 생활시간  1:주행성, 2:야행성 
 	private int m_personality; //메이트 성격 1:내향적, 2:상관없음, 3:외향적
 	private int m_pet; // 메이트 애완동물 1:긍정적, 3부정적 
-	private int m_smoke; // 메이트 흡연여부 1:비흡연, 2:상관없음, 3:외향적 
+	private int m_smoke; // 메이트 흡연여부 1:비흡연, 2:상관없음, 3:흡연
 	private int m_age;  //메이트 나이대   1: 20~30대 , 2:상관없음, 3:40대 이상 
 	private int m_gender; // 메이트 성별  1: 여성전용, 2:상관없음, 3:남성전용 
 	private int m_global; // 메이트 외국인입주 가능여부 1:불가능, 3:가능 

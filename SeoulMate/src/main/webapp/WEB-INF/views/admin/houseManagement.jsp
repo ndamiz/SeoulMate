@@ -18,16 +18,188 @@ $(function(){
 			type : 'post', 
 			dataType : 'json',
 			success : function(result){
+				var $hrVOList = $(result.hrVOList);
 				//hwVO, hrVOList 받아옴
+				$('.admin_Management_popup_title>span').eq(0).text(result.hwVO.userid);
+				$('.admin_Management_popup_title>span').eq(1).text(result.hwVO.housename);
 				console.log(result);
+				$('#hw_writedate').text(result.hwVO.writedate.substr(0, 10));
+				$('#hw_enddate').text(result.hwVO.enddate.substr(0, 10));
+				$('input[name=hw_housestate]').val(result.hwVO.housestate).prop("selected", true);
+				$('#hw_addr').text(result.hwVO.addr);
+				$('#hw_grade').text(result.hwVO.grade);
+				$('#hw_reportNum').text(result.hwVO.reportNum);
+				$('#hw_room').text(result.hwVO.room);
+				$('#hw_bathroom').text(result.hwVO.bathroom);
+				$('#hw_nowpeople').text(result.hwVO.nowpeople);
+				$('#hw_searchpeople').text(result.hwVO.searchpeople);
+				$('#hw_publicfacility').text(result.hwVO.publicfacility);
+				//하우스 생활 소음 
+				var h_noise = result.propenVO.h_noise; 
+				if(h_noise == 1){ $('#propen_h_noise').text('매우조용함');}
+				else if(h_noise == 2){ $('#propen_h_noise').text('보통');}
+				else if(h_noise == 3){ $('#propen_h_noise').text('조용하지 않음');}
+				else{ $('#propen_h_noise').text('');}
+				//하우스 생활 시간
+				var h_pattern = result.propenVO.h_pattern;
+				if(h_pattern == 1){ $('#propen_h_pattern').text('주행성');}
+				else if(h_pattern == 3){ $('#propen_h_pattern').text('행성');}
+				else {$('#propen_h_pattern').text('');}
+				// 하우스 흡연 
+				var h_smoke = result.propenVO.h_smoke;
+				if(h_smoke == 1){ $('#propen_h_smoke').text('비흡연');}
+				else if(h_smoke == 2){ $('#propen_h_smoke').text('실외흡연');}
+				else if(h_smoke == 3){ $('#propen_h_smoke').text('실내흡연');}
+				else {$('#propen_h_smoke').text('');}
+				// 하우스 애완동물
+				var h_pet = result.propenVO.h_pet;
+				if(h_pet == 1){ $('#propen_h_pet').text('없음');}
+				else if(h_pet == 3){ $('#propen_h_pet').text('있음');}
+				else{ $('#propen_h_pet').text('');}
+				// 하우스 애완동물 동반 입실
+				var h_petwith = result.propenVO.h_petwith;
+				if(h_petwith == 1){ $('#propen_h_petwith').text('불가능');}
+				else if(h_petwith == 3){ $('#propen_h_petwith').text('가능');}
+				else { $('#propen_h_petwith').text('');}
+				// 하우스 분위기
+				var h_mood = result.propenVO.h_mood;
+				if(h_mood == 1){ $('#propen_h_mood').text('화목함');}
+				else if(h_mood == 2){ $('#propen_h_mood').text('보통');}
+				else if(h_mood == 3){ $('#propen_h_mood').text('독립적');}
+				else { $('#propen_h_mood').text('');}
+				// 하우스 소통 방식
+				var h_communication = result.propenVO.h_communication;
+				if(h_communication == 1){ $('#propen_h_communication').text('메신저');}
+				else if(h_communication == 2){ $('#propen_h_communication').text('기타');}
+				else if(h_communication == 3){ $('#propen_h_communication').text('대화');}
+				else {$('#propen_h_communication').text('');}
+				//하우스 모임 빈도
+				var h_party = result.propenVO.h_party;
+				if(h_party == 1){ $('#propen_h_party').text('없음');}
+				else if(h_party == 2){ $('#propen_h_party').text('상관없음');}
+				else if(h_party == 3){ $('#propen_h_party').text('있음');}
+				else{ $('#propen_h_party').text('');}
+				//하우스 모임 참가 의무
+				var h_enter = result.propenVO.h_enter;
+				if(h_enter == 1){ $('#propen_h_enter').text('없음');}
+				else if(h_enter == 2){ $('#propen_h_enter').text('상관없음');}
+				else if(h_enter == 3){ $('#propen_h_enter').text('있음');}
+				else{$('#propen_h_enter').text('');}
+				//지원서비스
+				//공용공간 청소 지원
+				var h_support = result.propenVO.h_support;
+				$('#propen_h_support1').text('X');
+				$('#propen_h_support2').text('X');
+				$('#propen_h_support3').text('X');
+				if(h_support>0){
+					for(var i=0; i<h_support.length; i++){
+						if(h_support[i] == 1){
+							$('#propen_h_support1').text('O');
+						}else if(h_support[i] == 2){
+							$('#propen_h_support2').text('O');
+						}else if(h_support[i] == 3){
+							$('#propen_h_support3').text('O');
+						}else{
+							
+						}
+					}
+				}
+				//기타 : 보증금 조절 가능여부, 즉시입주 가능여부
+				var h_etc = result.propenVO.h_etc;
+				$('#propen_h_etc1').text('X');
+				$('#propen_h_etc3').text('X');
+				if(h_etc>0){
+					for(var i=0; i<h_etc.length; i++){
+						if(h_etc[i] == 1){
+							$('#propen_h_etc1').text('O');
+						}else if(h_etc[i] == 3){
+							$('#propen_h_etc3').text('O');
+						}
+					}
+				}
+				// ROOM정보 반복문. 
+				
+				var cnt = 0;
+				$('#admin_Management_popup_roomInfo').empty(tag);
+				var tag = '';
+				$hrVOList.each(function(idx, obj){
+					tag += '<ul class="admin_Management_popup_table_inner0">';
+					tag += '<li>방이름</li>';
+					tag += '<li>'+result.hrVOList[cnt].roomName+'</li>';
+					tag += '<li>입주가능일</li>';
+					tag += '<li>'+result.hrVOList[cnt].enterdate.substr(0, 10)+'</li></ul>';
+					tag += '<ul class="admin_Management_popup_table_inner0">';
+					tag += '<li>보증금 / 월세</li>';
+					tag += '<li>'+result.hrVOList[cnt].deposit+'원 / '+result.hrVOList[cnt].rent+'원</li>';
+					tag += '<li>총 방인원</li>';
+					tag += '<li>'+result.hrVOList[cnt].roomPeople+'인</li></ul>'
+					tag += '<ul class="admin_Management_popup_table_inner0">';
+					tag += '<li>최소거주기간</li>';
+					tag += '<li>'+result.hrVOList[cnt].minStay+'</li>'
+					tag += '<li>최대거주기간</li>';
+					tag += '<li>'+result.hrVOList[cnt].maxStay+'</li></ul>';
+					tag += '<ul class="admin_Management_popup_table_inner2">';
+					tag += '<li>가구</li>';
+					tag += '<li style="width: 84%; border-bottom: 1px solid #dee2e6;">'+result.hrVOList[cnt].furniture+'</li>';
+					tag += '<li style="width: 84%;">'+result.hrVOList[cnt].incFurniture+'</li></ul>';
+					cnt ++;
+				});
+				$('#admin_Management_popup_roomInfo').html(tag);
+ 				$('#admin_Management_popup_roomInfo>ul').eq(0).addClass("admin_Management_popup_table_inner0");
+				$('#admin_Management_popup_roomInfo>ul').eq(1).addClass("admin_Management_popup_table_inner0");
+				$('#admin_Management_popup_roomInfo>ul').eq(2).addClass("admin_Management_popup_table_inner0");
+				$('#admin_Management_popup_roomInfo>ul').eq(3).addClass("admin_Management_popup_table_inner2");
+				//희망하는 메이트 성향
+				// 메이트 생활 시간 
+				//하우스 생활 시간
+				var m_pattern = result.propenVO.m_pattern;
+				if(m_pattern == 1){ $('#propen_m_pattern').text('주행성');}
+				else if(m_pattern == 3){ $('#propen_m_pattern').text('야행성');}
+				else{$('#propen_m_pattern').text('');}
+				// 메이트 성격
+				var m_personality = result.propenVO.m_personality;
+				if(m_personality == 1){ $('#propen_m_personality').text('내향적');}
+				else if(m_personality == 2){ $('#propen_m_personality').text('상관없음');}
+				else if(m_personality == 3){ $('#propen_m_personality').text('외향적');}
+				else { $('#propen_m_personality').text('');}
+				// 메이트 애완동물
+				var m_pet = result.propenVO.m_pet;
+				if(m_pet == 1){ $('#propen_m_pet').text('긍정적');}
+				else if(m_pet == 3){ $('#propen_m_pet').text('부정적');}
+				else {$('#propen_m_pet').text('');}
+				//메이트 흡연여부
+				var m_smoke = result.propenVO.m_smoke;
+				if(m_smoke == 1){ $('#propen_m_smoke').text('비흡연');}
+				else if(m_smoke == 2){ $('#propen_m_smoke').text('상관없음');}
+				else if(m_smoke == 3){ $('#propen_m_smoke').text('흡연');}
+				else { $('#propen_m_smoke').text('');}
+				//메이트 나이대 
+				var m_age = result.propenVO.m_age;
+				if(m_age == 1){ $('#propen_m_age').text('20~30대');}
+				else if(m_age == 2){ $('#propen_m_age').text('상관없음');}
+				else if(m_age == 3){ $('#propen_m_age').text('40대이상');}
+				else { $('#propen_m_age').text('');}
+				//메이트 성별
+				var m_gender = result.propenVO.m_gender;
+				if(m_gender == 1){ $('#propen_m_gender').text('여성');}
+				else if(m_gender == 2){ $('#propen_m_gender').text('상관없음');}
+				else if(m_gender == 3){ $('#propen_m_gender').text('남성');}
+				else { $('#propen_m_gender').text('');}
+				//메이트 외국인 입주 가능 여부
+				var m_global = result.propenVO.m_global;
+				if(m_global == 1){ $('#propen_m_global').text('불가능');}
+				else if(m_global == 3){ $('#propen_m_global').text('가능');}
+				else {$('#propen_m_global').text('');}
+				//메이트 즉시입주 가능여부
+				var m_now = result.propenVO.m_now;
+				if(m_now == 1){ $('#propen_m_now').text('가능');}
+				else if(m_now == 3){ $('#propen_m_now').text('불가능');}
+				else {$('#propen_m_now').text('');}
 				
 			}, error :function(){
 				console.log(" houseDetailInfo 데이터가져오기 에러 ");
 			}
 		});
-		
-		
-		
 		//팝업 보이도록 클래스 삭제. 
 		$('.admin_Management_popup').removeClass('popup_hidden');
 	});
@@ -37,6 +209,9 @@ function managementPopupClose(){
 	$('.admin_Management_popup').addClass('popup_hidden');
 }
 </script>
+<style>
+
+</style>
 		<section class="admin_Section">
 			<div class="admin_Content">
 				<div class="m_title managementTitle">하우스 관리</div>
@@ -140,13 +315,13 @@ function managementPopupClose(){
 		<div class="admin_Management_popup popup_hidden">
 			<div class="admin_Management_popup_head">하우스 관리 상세 정보</div>
 				<div class="admin_Management_popup_body">
-					<div class="admin_Management_popup_title"> [userid] 님의 하우스 포동포동</div>
+					<div class="admin_Management_popup_title"> [<span></span>] 님의 하우스 <span></span></div>
 					<ul class="admin_Management_popup_table">
 						<li class="admin_Management_popup_table_title" style="padding-left: 20px;">하우스 성향</li>
 						<li>
 							<ul class="admin_Management_popup_table_inner0">
 								<li>게재 기간</li>
-								<li><span id="hw_writedate">2021-05-01</span> ~ <span id="hw_enddate">2021-05-14</span></li>
+								<li><span id="hw_writedate"></span> ~ <span id="hw_enddate"></span></li>
 								<li>상태</li>
 								<li>
 									<select name="hw_housestate" class="custom-select" style="height: 28px; padding: 2px 10px; vertical-align: top; margin-top: 1px;">
@@ -159,11 +334,11 @@ function managementPopupClose(){
 							</ul>
 							<ul class="admin_Management_popup_table_inner1">
 								<li>주소</li>
-								<li style="width: 84%;" id="hw_addr">서울시 마포구 아현동 134-32번지 포동빌라 2층</li>
+								<li style="width: 84%;" id="hw_addr"></li>
 							</ul>
 							<ul class="admin_Management_popup_table_inner0">
 								<li>등급</li>
-								<li id="hw_grade">프리미엄</li>
+								<li id="hw_grade"></li>
 								<li>신고수</li>
 								<li><span id="hw_reportNum"></span> 건</li>
 							</ul>
@@ -171,26 +346,26 @@ function managementPopupClose(){
 								<li>룸 기본 정보</li>
 								<li style="width: 21%;">총 방 개수 : <span id="hw_room"></span></li>
 								<li style="width: 21%;">총 욕실 수 : <span id="hw_bathroom"></span></li>
-								<li style="width: 21%;">현재 인원 : <span id="hw_bathroom"></span></li>
+								<li style="width: 21%;">현재 인원 : <span id="hw_nowpeople"></span></li>
 								<li style="width: 21%;">찾는 인원 : <span id="hw_searchpeople"></span></li>
 							</ul>
 							<ul class="admin_Management_popup_table_inner0">
 								<li>공용시설</li>
-								<li id="hw_publicfacility">거실, 주방, 에어컨, 세탁기, ... </li>
+								<li id="hw_publicfacility"></li>
 							</ul>
 							<ul class="admin_Management_popup_table_inner2">
 								<li>생활</li>
-								<li>생활소음 : <span id="propen_h_noise">조용하지않음</span></li>
-								<li>생활시간 : <span id="propen_h_pattern">주행성</span></li>
+								<li>생활소음 : <span id="propen_h_noise"></span></li>
+								<li>생활시간 : <span id="propen_h_pattern"></span></li>
 								<li>흡연 : <span id="propen_h_smoke"></span></li>
-								<li style="width: 42%;">하우스 내 애완동물 여부 : <span id="propen_h_pet">있음</span></li>
-								<li style="width: 42%;">애완동물 동반입실(거주) 여부 : <span id="propen_h_petwith">가능</span></li>
+								<li style="width: 42%;">하우스 내 애완동물 여부 : <span id="propen_h_pet"></span></li>
+								<li style="width: 42%;">애완동물 동반입실(거주) 여부 : <span id="propen_h_petwith"></span></li>
 							</ul>
 						</li>
 						<li>
 							<ul class="admin_Management_popup_table_inner2">
 								<li>소통</li>
-								<li>분위기 : <span id="propen_h_mood">화목함</span></li>
+								<li>분위기 : <span id="propen_h_mood"></span></li>
 								<li>소통방식 : <span id="propen_h_communication"></span></li>
 								<li>모임 빈도 : <span id="propen_h_party"></span></li>
 								<li>모임 참가 의무 : <span id="propen_h_enter"></span></li>
@@ -212,12 +387,12 @@ function managementPopupClose(){
 							</ul>
 						</li>
 						<li class="admin_Management_popup_table_title" style="padding-left: 20px;">룸 상세 정보</li>
-						<li>
+						<li id="admin_Management_popup_roomInfo">
 							<ul class="admin_Management_popup_table_inner0">
 								<li>방이름</li>
 								<li id="hr_roomName"></li>
 								<li>입주가능일</li>
-								<li id="hr_incFurniture">2021-5-1</li>
+								<li id="hr_enterdate"></li>
 							</ul>
 							<ul class="admin_Management_popup_table_inner0">
 								<li>보증금 / 월세</li>
@@ -238,7 +413,7 @@ function managementPopupClose(){
 							</ul>
 						</li>
 						<li class="admin_Management_popup_table_title" style="padding-left: 20px;">희망하는 메이트의 성향</li>
-						<li>
+						<li id="admin_Management_popup_htom">
 							<ul class="admin_Management_popup_table_inner3">
 								<li>생활시간 : <span id="propen_m_pattern"></span></li>
 								<li>성격 : <span id="propen_m_personality"></span></li>

@@ -1,5 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script>
+$(function(){
+	$('.admin_HouseManagement_DetailInfo').on('click', function(){
+		$('.admin_Management_popup').removeClass('popup_hidden');
+		
+	});
+});
+function managementPopupClose(){
+	$('.admin_Management_popup').addClass('popup_hidden');
+}
+</script>
 		<section class="admin_Section">
 			<div class="admin_Content">
 				<div class="m_title managementTitle">메이트 관리</div>
@@ -47,7 +58,7 @@
 						</thead>
 						<tbody>
 							<c:forEach var="mateVO" items="${mateWriteList }">
-							<tr>
+							<tr class="admin_HouseManagement_DetailInfo" >
 								<td>${mateVO.no }</td>
 								<td>${mateVO.username }</td>
 								<td>${mateVO.userid }</td>
@@ -91,7 +102,7 @@
 			</div>
 		</section>
 			<!-- popup   -->
-		<div class="admin_Management_popup">
+		<div class="admin_Management_popup popup_hidden">
 			<div class="admin_Management_popup_head">메이트 관리 상세 정보</div>
 				<div class="admin_Management_popup_body">
 					<div class="admin_Management_popup_title"> [userid] 님의 메이트 게재 정보</div>
@@ -203,7 +214,7 @@
 					</ul>
 				</div>
 				<div class="admin_Management_popup_table_btn">
-					<a href="" class="btn btn-custom">수정</a> <a href="" class="btn btn-custom">닫기</a>
+					<a href="" class="btn btn-custom">수정</a> <a href="javascript:managementPopupClose()" class="btn btn-custom">닫기</a>
 				</div>
 			</div>
 	</body>
