@@ -31,14 +31,22 @@ public interface AdminService {
 	public List<HouseWriteVO> houseOnePageListSelect(Map<String, Object> map);
 	// 하우스관리 - 개인정보 확인 
 	public HouseWriteVO houseDetailInfoSelect(HouseWriteVO hwVO);
-	// 하우스관리 - Hosuse propensity 확인 
-	public PropensityVO propensitySelect(HouseWriteVO hwVO);
+
 	// 하우스관리 - HouseRoom정보 확인 
 	public List<HouseRoomVO> houseRoomInfoSelect(HouseWriteVO hwVO);
-	
+// 하우스,메이트 관리 
+	// propensity 확인 
+	public PropensityVO propensitySelect(int pno);
 // mate Management ///////////////////////////////////////
 	public int mateTotalRecode(Map<String, Object> map);
+	//메이트관리 - 페이지리스트 가져오기
 	public List<MateWriteVO> mateOnePageListSelect(Map<String, Object> map);
+	//메이트 관리 - 개인정보 셀렉트
+	public MateWriteVO mateDetailInfoSelectMateWrite(MateWriteVO mwVO);
+	//메이트관리 - memberVO 셀렉트 
+	public MemberVO mateDetailInfoSelectMember(String userid);
+	//메이트관리 조건에맞는 총레코드 리스트
+	public List<MateWriteVO> mateListSelect(Map<String, Object> map);
 //pay management /////////////////////////////////////////
 	// 결제관리 페이지 총 레코드 수 확인 
 	public int payTotalRecode(Map<String, Object> map);

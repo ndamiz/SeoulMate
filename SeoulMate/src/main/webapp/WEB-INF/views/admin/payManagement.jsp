@@ -9,7 +9,7 @@
 			//전체 리스트 출력 , paging 
 			function payManagementList(){
 				var url = "/home/admin/payManagementList";
-				var data = $("form[name=payManagementForm]").serialize() ;
+				var data = $("form[name=payManagementForm]").serialize();
 				$.ajax({
 					url : url,
 					data : data,
@@ -219,6 +219,5 @@
 				</div>
 			</div>
 		</section>
-		
 	</body>
 </html>

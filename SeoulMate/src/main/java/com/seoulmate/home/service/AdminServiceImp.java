@@ -58,8 +58,8 @@ public class AdminServiceImp implements AdminService {
 		return dao.houseDetailInfoSelect(hwVO);
 	}
 	@Override
-	public PropensityVO propensitySelect(HouseWriteVO hwVO) {
-		return dao.propensitySelect(hwVO);
+	public PropensityVO propensitySelect(int pno) {
+		return dao.propensitySelect(pno);
 	}
 	@Override
 	public List<HouseRoomVO> houseRoomInfoSelect(HouseWriteVO hwVO) {
@@ -75,7 +75,18 @@ public class AdminServiceImp implements AdminService {
 	public List<MateWriteVO> mateOnePageListSelect(Map<String, Object> map) {
 		return dao.mateOnePageListSelect(map);
 	}
-	
+	@Override
+	public MateWriteVO mateDetailInfoSelectMateWrite(MateWriteVO mwVO) {
+		return dao.mateDetailInfoSelectMateWrite(mwVO);
+	}
+	@Override
+	public MemberVO mateDetailInfoSelectMember(String userid) {
+		return dao.mateDetailInfoSelectMember(userid);
+	}
+	@Override
+	public List<MateWriteVO> mateListSelect(Map<String, Object> map) {
+		return dao.mateListSelect(map);
+	}
 // pay management ///////////////////////////////////
 	@Override
 	public int payTotalRecode(Map<String, Object> map) {
@@ -95,4 +106,5 @@ public class AdminServiceImp implements AdminService {
 	public PayVO salesTotalAmountSelect(PayVO payVO) {
 		return dao.salesTotalAmountSelect(payVO);
 	}
+	
 }

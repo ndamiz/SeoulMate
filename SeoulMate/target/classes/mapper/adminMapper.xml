@@ -71,8 +71,8 @@
 					(SELECT NO, count(num) AS reportNum FROM report GROUP BY NO) r ON h.NO=r.no(+) ) h2 JOIN 	
 		(SELECT userid, grade FROM MEMBER) m ON h2.userid=m.userid) WHERE NO=${no} AND userid='${userid}'
   	</select>
-  	<select id="propensitySelect" parameterType="com.seoulmate.home.vo.HouseWriteVO" resultType="com.seoulmate.home.vo.PropensityVO">
-  		SELECT * FROM propensity WHERE pno=${pno}
+  	<select id="propensitySelect" parameterType="int" resultType="com.seoulmate.home.vo.PropensityVO">
+  		SELECT * FROM propensity WHERE pno=${param1}
   	</select>
   	<select id="houseRoomInfoSelect" parameterType="com.seoulmate.home.vo.HouseWriteVO" resultType="com.seoulmate.home.vo.HouseRoomVO">
   		SELECT * FROM HOUSEROOM WHERE NO=${no} AND userid='${userid}'
@@ -97,6 +97,28 @@
 				where <![CDATA[rownum<=]]>${pagingVO.pageNum * pagingVO.onePageRecode} order by no asc)
 			where <![CDATA[rownum<=]]><if test="pagingVO.pageNum==pagingVO.totalPage">${pagingVO.lastPageRecode}</if> 
 	  					<if test="pagingVO.pageNum!=pagingVO.totalPage">${pagingVO.onePageRecode}</if> ORDER BY no DESC
+  	</select>
+  	<select id="mateDetailInfoSelectMateWrite" parameterType="com.seoulmate.home.vo.MateWriteVO" resultType="com.seoulmate.home.vo.MateWriteVO">
+		SELECT * FROM (SELECT m.NO, m.userid, m.pno, m.area, m.matepic1, m.matepic2, m.matepic3, m.deposit, m.rent, m.enterdate, 
+						m.minstay, m.maxstay, m.writedate, m.enddate, m.mateState, m.mateProfile, r.reportNum FROM MATEWRITE m 
+		join
+		(SELECT NO, count(num) AS reportNum FROM report GROUP BY NO) r ON m.NO=r.no(+) ) WHERE NO=${no} AND userid='${userid}'
+  	</select>
+  	<select id="mateDetailInfoSelectMember"  parameterType="String" resultType="com.seoulmate.home.vo.MemberVO">
+  		SELECT * FROM MEMBER WHERE userid='${param1}'
+  	</select>
+  	<select id="mateListSelect" parameterType="java.util.HashMap" resultType="com.seoulmate.home.vo.MateWriteVO">
+ 		  	SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM 
+			(SELECT mate2.NO, m.username, mate2.userid, mate2.area, mate2.matestate, mate2.reportNum, m.grade 
+			FROM 
+			(SELECT mate.NO, mate.userid, mate.area, mate.matestate, r.reportNum FROM MATEWRITE mate 
+				join
+				(SELECT NO, count(num) AS reportNum FROM report GROUP BY NO) r ON mate.NO=r.no(+)) mate2 
+					JOIN 
+					(SELECT userid, username, grade FROM MEMBER) m ON mate2.userid=m.userid)
+					<if test="pagingVO.searchWord!=null and pagingVO.searchWord != '' ">where ${pagingVO.searchKey} like '%${pagingVO.searchWord}%'</if>)
+					<if test="mwVO.matestate != null and mwVO.matestate!=''">WHERE matestate='${mwVO.matestate}'</if> )
+					<if test="mwVO.grade != null and mwVO.grade!=0">WHERE grade='${mwVO.grade}'</if> ) order by no desc
   	</select>
   	<select id="payTotalRecode" parameterType="java.util.HashMap" resultType="int">
   		select count(no) from pay 

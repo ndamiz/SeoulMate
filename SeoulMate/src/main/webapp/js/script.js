@@ -11,6 +11,4 @@ $(function(){
 	});
 	
 	//myPage - popup
-	
-	
 });

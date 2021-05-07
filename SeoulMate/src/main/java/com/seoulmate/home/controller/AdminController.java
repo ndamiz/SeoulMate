@@ -1,7 +1,7 @@
 package com.seoulmate.home.controller;
 
 import java.io.File;
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -197,7 +197,8 @@ public class AdminController {
 		// houseWriteVO 의 정보 
 		hwVO = service.houseDetailInfoSelect(hwVO);
 		// housePropensityVO 의 정보
-		PropensityVO propenVO = service.propensitySelect(hwVO);
+		int pno = hwVO.getPno();
+		PropensityVO propenVO = service.propensitySelect(pno);
 		// houseRoomVO 의 정보
 		List<HouseRoomVO> hrVOList = service.houseRoomInfoSelect(hwVO);
 		resultMap.put("hwVO", hwVO);
@@ -228,7 +229,43 @@ public class AdminController {
 		mav.setViewName("admin/mateManagement");
 		return mav;
 	}
-	
+	//
+	@RequestMapping(value="admin/mateDetailInfo", method= {RequestMethod.POST, RequestMethod.GET})
+	@ResponseBody
+	public Map<String, Object> mateDetailInfo(HttpServletRequest req){
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		int no = Integer.parseInt((String)req.getParameter("no"));
+		String userid = req.getParameter("userid");
+		
+		MateWriteVO mwVO = new MateWriteVO();
+		mwVO.setNo(no);
+		mwVO.setUserid(userid);
+		// mate 정보 가져오기
+		mwVO = service.mateDetailInfoSelectMateWrite(mwVO);
+		int pno = mwVO.getPno();
+		// mate PropensityVO 의 정보
+		PropensityVO propenVO = service.propensitySelect(pno);
+		// mate 의 member 정보
+		MemberVO memVO = service.mateDetailInfoSelectMember(userid);
+		resultMap.put("mwVO", mwVO);
+		resultMap.put("propenVO", propenVO); 
+		resultMap.put("memVO", memVO);
+		
+		return resultMap;
+	}
+	//메이트 출력용 리스트 가져오기 
+	@RequestMapping(value="admin/mateManagementList", method= {RequestMethod.POST, RequestMethod.GET})
+	@ResponseBody
+	public List<MateWriteVO> mateManagementList(MateWriteVO mwVO, PagingVO pagingVO) {
+		List<MateWriteVO> list = new ArrayList<MateWriteVO>();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("mwVO", mwVO);
+		map.put("pagingVO", pagingVO);
+		
+		list = service.mateListSelect(map);
+		return list;
+	}
 	//관리자 - 결제 
 	@RequestMapping(value="/admin/payManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView payManagement(PayVO payVO, PagingVO pagingVO) {
