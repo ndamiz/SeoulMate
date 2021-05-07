@@ -10,13 +10,13 @@
   		select area from matewrite where matestate='모집중'
 	</select>
  	<select id="getNewHouse" resultType="com.seoulmate.home.vo.HouseWriteVO">
-  		<![CDATA[select * from housewrite where rownum <=3 order by writedate desc]]>
+  		<![CDATA[select * from (select * from housewrite order by no desc) where rownum<= 3]]>
 	</select>
  	<select id="getDesposit" resultType="com.seoulmate.home.vo.HouseRoomVO">
   		select rent, deposit from houseroom where no=#{param1} and rent = (select min(rent) from houseroom where no=#{param1})
 	</select>
  	<select id="getNewMate" resultType="com.seoulmate.home.vo.MateWriteVO">
-  		<![CDATA[select * from matewrite where rownum <=3 order by writedate desc]]>
+  		<![CDATA[select * from (select * from matewrite order by no desc) where rownum<= 3]]>
 	</select>
  	<select id="getDetail" resultType="com.seoulmate.home.vo.MemberVO">
   		select gender, birth from member where userid=#{param1}
