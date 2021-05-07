@@ -1,6 +1,7 @@
 package com.seoulmate.home.controller;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.UUID;
 
@@ -314,20 +315,49 @@ public class MemberController {
 		
 		session.removeAttribute("code"); // 새로 고침 했을 때 인증 번호를 지워버림
 		
+		// 연락처 앞자리
 		String arr1[] = {"010","02","031","032","033","041","042","043","044","051","052","053","054","055","061","062","063","064"};
-		String guArr[]= {"강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구"
-				,"동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"};
+		// 구
+		String guArr[]=service.gu();
+		// 동
+		mav.addObject("gangnam", service.dong(guArr[0]));
+		
+		//"gangnam", "gangdong", "gangbuk", "gangseo", "gwanak", "gwangjin", "guro", "geumcheon", "nowon", "dobong", "dongdaemun", "dongjak", "mapo", "seodaemun", "seocho", "seongdong", "seongbuk", "songpa", "yangcheon", "yeongdeungpo", "yongsan", "eunpyeong", "jongno", "jung", "jungnang"};
 		
 		String userid=(String)session.getAttribute("logId");
-		mav.addObject("arr1", arr1);
-		mav.addObject("guArr", guArr);
 		
 		MemberVO vo=service.memberSelect(userid);
 		
+		/* 구, 동 start */
+		String[] area1=vo.getArea1().split(" "); // 희망 지역 1의 구
+		String[] area2=null;
+		String[] area3=null;
+		if(vo.getArea2()!=null) {
+			area2=vo.getArea2().split(" "); // 희망 지역 2의 구
+		}
+		if(vo.getArea3()!=null) {
+			area3=vo.getArea3().split(" "); // 희망 지역 3의 구
+		}
+		
+		mav.addObject("guArr", guArr); // 구
+		mav.addObject("selDong1", service.dong(area1[0]));
+		mav.addObject("selDong2", service.dong(area2[0]));
+		mav.addObject("selDong3", service.dong(area3[0]));
+		/* 구, 동 end */
+		
+		mav.addObject("arr1", arr1); // 연락처 앞자리
 		mav.addObject("vo", service.memberSelect(userid));
 		mav.setViewName("member/memberEditForm");
 		
 		return mav;
+	}
+	
+	@RequestMapping("/memberDong")
+	@ResponseBody
+	public String[] memberDong(String gu) {
+		String[] dong=service.dong(gu);
+		
+		return dong;
 	}
 	
 	@RequestMapping(value="/memberEditOk", method=RequestMethod.POST)

@@ -7,6 +7,10 @@ import com.seoulmate.home.vo.MemberVO;
 import com.seoulmate.home.vo.PropensityVO;
 
 public interface MemberService {
+	// 구
+	public String[] gu();
+	// 동
+	public String[] dong(String gu);
 	// 로그인
 	public MemberVO loginCheck(String userid, String username);
 	// 아이디 중복 검사

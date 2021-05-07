@@ -22,6 +22,14 @@ public class MemberServiceImp implements MemberService {
 	HouseWriteDAO hwDAO;
 	
 	@Override
+	public String[] gu() {
+		return dao.gu();
+	}
+	@Override
+	public String[] dong(String gu) {
+		return dao.dong(gu);
+	}
+	@Override
 	public MemberVO loginCheck(String userid, String username) {
 		return dao.loginCheck(userid, username);
 	}
@@ -106,6 +114,7 @@ public class MemberServiceImp implements MemberService {
 	public int pnoCheck(String userid, int pno) {
 		return hwDAO.pnoCheck(userid, pno);
 	}
+	
 	
 	
 	
