@@ -51,12 +51,6 @@
 			$(document.getElementById("infoEmail")).css('backgroundColor','#F0F0F0');
 		});
 		
-		// 신고 누적 수 고치려했던거 알려줌
-		$("#infoReportCnt").change(function(){
-			var afterName=document.getElementById("infoReportCnt").value;
-			$(document.getElementById("infoReportCnt")).css('backgroundColor','#F0F0F0');
-		});
-		
 		// 팝업창 닫기 이벤트
 		$(".pup_btn_close, #btnClose").click(function(){
 			pupClose();
@@ -84,14 +78,6 @@
 			if(!regEmail.test(document.getElementById("infoEmail").value)){
 				$("#infoEmail").focus();
 				alert("이메일을 잘못 입력하셨습니다.");
-				return false;
-			}
-			
-			// 신고 누적 수 정규식 표현
-			var regCnt=/^[0-9]$/;
-			if(!regCnt.test(document.getElementById("infoReportCnt").value)){
-				$("#infoReportCnt").focus();
-				alert("신고 누적 수는 숫자만 입력할 수 있습니다.");
 				return false;
 			}
 			
@@ -126,7 +112,6 @@
 		$(document.getElementById("infoName")).css('backgroundColor', '');
 		$(document.getElementById("infoTel")).css('backgroundColor', '');
 		$(document.getElementById("infoEmail")).css('backgroundColor', '');
-		$(document.getElementById("infoReportCnt")).css('backgroundColor', '');
 	}
 	function pageClick(page, searchKey, searchWord){
 		var f=document.go;
@@ -261,7 +246,7 @@
 								<li><div>생년월일</div><input type="text" name="birth" id="infoBirth" value="" readonly/></li>
 								<li><div>*연락처</div><input type="text" name="tel" id="infoTel" value="" maxlength="13"/></li>
 								<li><div>*email</div><input type="text" name="email" id="infoEmail" value="" autocomplete="off"/></li>
-								<li><div>*신고 누적 수</div><input type="text" name="reportCnt" id="infoReportCnt" value=""/></li>
+								<li><div>신고 누적 수</div><input type="text" name="reportCnt" id="infoReportCnt" value="" readonly/></li>
 								<li><div>*블랙리스트</div>
 									<div class="toggle_cont">
 										<input id="infoState" class="cmn_toggle cmn_toggle_round" type="checkbox" name="state">
