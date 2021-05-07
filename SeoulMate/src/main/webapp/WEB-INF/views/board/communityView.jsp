@@ -83,16 +83,19 @@
 					url : url,
 					data : params,
 					success : function(result){
-						$("#comment_content").val("");
 						replyList();
 						console.log("댓글등록 성공!!");
 					},error : function(){
 						console.log("댓글 등록 실패...");
 					}
 				});//ajax end
+				$("#comment_content").val(" ");
+				$("#replyBtn").text('댓글 등록');
+				$("#taggedNum").val(' ');
 				return false;
 			}else{
 				alert("댓글내용을 입력해야 등록이 가능합니다.");
+				return false;
 			}
 		});//2.end
 		
@@ -158,9 +161,9 @@
 			var taggedNum = $(this).next().next().val();
 			
 			$("#taggedNum").val(taggedNum);
-			$("#comment_content").html(taggedId);
+			$("#comment_content").val(taggedId);
+			alert(taggedId);
 			$("#replyBtn").text(replyid+'님에게 답글 달기');
-			
 			//아이디뒤에 커서 위치하게 만들기 위한 제이쿼리 플러그인
 			$.fn.setCursorPosition = function( pos )
 			{
@@ -178,13 +181,17 @@
 			  return this;
 			};
 			$("#comment_content").focus().setCursorPosition(replyidCnt); // 아이디 뒤에 커서 위치시키기
-			$("#comment_content").keyup(function(){
-				if($(this).val().length<replyidCnt){
-					if(confirm("답글 달기를 취소하시겠습니까?")){
-						$(this).val("");
-						$("#replyBtn").text('댓글 등록');
+			alert(replyidCnt+"!!");
+			$("#comment_content").keyup(function(e){ //답글기능 해제시키기
+				if(e.keyCode==8 || e.keyCode == 46){	//backspace or delte 키
+					if($(this).val().length<replyidCnt && $(this).val().length>0) {
+						if(confirm("답글 달기를 취소하시겠습니까?")){
+							$(this).val(" ");
+							$("#replyBtn").text('댓글 등록');
+							$("#taggedNum").val(' ');
+						}
 					}
-				}
+				}	
 			});
 		});
 		
@@ -270,15 +277,16 @@
 					<li><div>신고 ID</div><input id="reportUserid" type="text" name="userid" readonly></li>
 					<li><div>신고자 ID</div> <input type="text" name="reportid" value="${logId}" readonly> </li>
 					<li>
-						<div>분류</div> <input type="text" name="category" readonly> 
+						<div>분류</div> <input type="text" name="category" readonly>
 						<input type="hidden" name="no">
 					</li>
 					<li><div>신고 사유</div>
 						<select>
-							<option>어쩌구</option>
-							<option>저쩌구</option>
-							<option>이러쿵</option>
-							<option>저러쿵</option>
+							<option disabled selected hidden>신고사유를 선택하세요</option>
+							<option>홍보,광고</option>
+							<option>음란</option>
+							<option>욕설</option>
+							<option>기타</option>
 						</select>
 					</li>
 					<li><div>상세내용</div> <textarea rows="5" name="reportcontent"></textarea> </li>
