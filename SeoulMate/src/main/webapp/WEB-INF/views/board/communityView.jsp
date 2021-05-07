@@ -10,6 +10,8 @@
 	}
 	//2.글 수정
 	
+	//글쓴이 정보
+	var userid = "";
 	//댓글===============================================
 	//1. 댓글 목록 불러오기
 	function replyList(){
@@ -23,6 +25,7 @@
 				var $result = $(result);
 				var tag = "";
 				$result.each(function(idx, obj){
+						userid = obj.userid;
 						//댓글 사진 div
 						tag += "<li><div class='communityView_user_porfile'>";
 							tag += '<img src="<%=request.getContextPath()%>/img/comm/sample.png"/>';
@@ -40,16 +43,21 @@
 							tag += '<button class="white" style="display:none">수정취소</button>'
 							tag += '<button class="white">수정</button>'
 							tag += '<button class="white" href="">삭제</button>'
+							tag += '<button id="'+idx+'" class="white">답글</button>'
+							tag += '<input type="hidden" value="'+obj.userid+'">'
+							tag += '<input type="hidden" value="'+obj.num+'">'
+							tag += '<button class="report white" style="display:none">신고</button></div>'
 						}else{
 							//로그인 아이디랑 댓글 작성자 아이디랑 안같으면 => 버튼의 순번으로 클릭 이벤트를 처리하기 때문에 visibility로 처리함
 							tag += '<button class="white" style="display:none">수정취소</button>'
 							tag += '<button class="white" style="visibility:hidden">수정</button>'
 							tag += '<button class="white" style="visibility:hidden" href="">삭제</button>'
+							tag += '<button id="'+idx+'" class="white">답글</button>'
+							tag += '<input type="hidden" value="'+obj.userid+'">'
+							tag += '<input type="hidden" value="'+obj.num+'">'
+							tag += '<button class="replyReport white">신고</button></div>'
 						}
-						tag += '<button id="'+idx+'" class="white">답글</button>'
-						tag += '<input type="hidden" value="'+obj.userid+'">'
-						tag += '<input type="hidden" value="'+obj.num+'">'
-						tag += '<button class="report white">신고</button></div>'
+						
 						
 						tag += '<li class="communityView_comment_content">'
 							tag += obj.content
@@ -160,28 +168,7 @@
 			var replyidCnt = taggedId.length;
 			var taggedNum = $(this).next().next().val();
 			
-			$("#taggedNum").val(taggedNum);
-			$("#comment_content").val(taggedId);
-			alert(taggedId);
-			$("#replyBtn").text(replyid+'님에게 답글 달기');
-			//아이디뒤에 커서 위치하게 만들기 위한 제이쿼리 플러그인
-			$.fn.setCursorPosition = function( pos )
-			{
-			  this.each( function( index, elem ) {
-			    if( elem.setSelectionRange ) {
-			      elem.setSelectionRange(pos, pos);
-			    } else if( elem.createTextRange ) {
-			      var range = elem.createTextRange();
-			      range.collapse(true);
-			      range.moveEnd('character', pos);
-			      range.moveStart('character', pos);
-			      range.select();
-			    }
-			  });
-			  return this;
-			};
-			$("#comment_content").focus().setCursorPosition(replyidCnt); // 아이디 뒤에 커서 위치시키기
-			alert(replyidCnt+"!!");
+			reReply(replyid, taggedId, replyidCnt, taggedNum);
 			$("#comment_content").keyup(function(e){ //답글기능 해제시키기
 				if(e.keyCode==8 || e.keyCode == 46){	//backspace or delte 키
 					if($(this).val().length<replyidCnt && $(this).val().length>0) {
@@ -189,24 +176,66 @@
 							$(this).val(" ");
 							$("#replyBtn").text('댓글 등록');
 							$("#taggedNum").val(' ');
+						}else{
+							reReply(replyid, taggedId, replyidCnt, taggedNum);
 						}
 					}
 				}	
 			});
 		});
+		//글 신고하기
+		$(document).on('click','.reportBtn', function(){
+			alert(userid)
+			var	reportUserid = userid;
+			var category = '커뮤니티글';
+			report(reportUserid, category);
+		});
+		//댓글 신고하기
+		$(document).on('click','.replyReport', function(){
+			var	reportUserid = $(this).prev().prev().val();
+			var category = '댓글';
+			report(reportUserid, category);
+		});
 		
-		$(document).on('click','.report', function(){
+		//신고하기 창 띄우고 값 가져오는 함수
+		function report(reportUserid, category){
 			//값 가져오기
-			var reportUserid = $(this).prev().prev().val();
-			$("#reportUserid").val(reportUserid);
+			$(".reportUserid").val(reportUserid);
+			$(".reportCategory").val(category);
 			$('.reportpopup').css('display','block');
 			$('body').css('overflow','hidden');
-		});
+		}
+		//신고하기 팝업창 닫기
 		$('.popupClose').click(function(){
 			$('.reportpopup').css('display','none');
 			$('body').css('overflow','auto');
 		});
 	});
+	
+	function reReply(replyid, taggedId, replyidCnt, taggedNum){//대댓글시 아이디값 넣어주는 함수
+		$("#taggedNum").val(taggedNum);
+		$("#comment_content").val(taggedId);
+		alert(taggedId);
+		$("#replyBtn").text(replyid+'님에게 답글 달기');
+		//아이디뒤에 커서 위치하게 만들기 위한 제이쿼리 플러그인
+		$.fn.setCursorPosition = function( pos )
+		{
+		  this.each( function( index, elem ) {
+		    if( elem.setSelectionRange ) {
+		      elem.setSelectionRange(pos, pos);
+		    } else if( elem.createTextRange ) {
+		      var range = elem.createTextRange();
+		      range.collapse(true);
+		      range.moveEnd('character', pos);
+		      range.moveStart('character', pos);
+		      range.select();
+		    }
+		  });
+		  return this;
+		};
+		$("#comment_content").focus().setCursorPosition(replyidCnt); // 아이디 뒤에 커서 위치시키기
+		alert(replyidCnt+"!!");
+	}
 </script>
 <div class="wrap">
 	<div class="content">
@@ -214,7 +243,7 @@
 		<ul class="content_menu" style="margin:10px 0;">
 			<li><a class="on">${vo.category}</a></li>
 		</ul>
-		<a href="#" class="reportBtn" style="float:left;">
+		<a class="reportBtn" style="float:left;">
 			<img title="신고" alt="신고" src="<%=request.getContextPath()%>/img/comm/ico_report.png">
 		</a>
 		<div style="text-align:right; border-bottom: 1px solid #13a89e; padding-bottom:10px; margin-bottom:10px;">
@@ -273,24 +302,26 @@
 		<div class="pup_head">신고 정보</div>
 		<div class="pup_body">
 			<div class="pup_list">
-				<ul>
-					<li><div>신고 ID</div><input id="reportUserid" type="text" name="userid" readonly></li>
-					<li><div>신고자 ID</div> <input type="text" name="reportid" value="${logId}" readonly> </li>
-					<li>
-						<div>분류</div> <input type="text" name="category" readonly>
-						<input type="hidden" name="no">
-					</li>
-					<li><div>신고 사유</div>
-						<select>
-							<option disabled selected hidden>신고사유를 선택하세요</option>
-							<option>홍보,광고</option>
-							<option>음란</option>
-							<option>욕설</option>
-							<option>기타</option>
-						</select>
-					</li>
-					<li><div>상세내용</div> <textarea rows="5" name="reportcontent"></textarea> </li>
-				</ul>
+				<form method="post" action="/reportOk">
+					<ul>
+						<li><div>신고 ID</div><input class="reportUserid" type="text" name="userid" readonly></li>
+						<li><div>신고자 ID</div> <input type="text" name="reportid" value="${logId}" readonly> </li>
+						<li>
+							<div>분류</div> <input class="reportCategory" type="text" name="category" readonly>
+							<input type="hidden" name="no">
+						</li>
+						<li><div>신고 사유</div>
+							<select>
+								<option disabled selected hidden>신고사유를 선택하세요</option>
+								<option>홍보,광고</option>
+								<option>음란</option>
+								<option>욕설</option>
+								<option>기타</option>
+							</select>
+						</li>
+						<li><div>상세내용</div> <textarea rows="5" name="reportcontent"></textarea> </li>
+					</ul>
+				</form>
 			</div>
 		</div>
 		<div class="pup_bottom">
