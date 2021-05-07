@@ -3,7 +3,7 @@
 	<c:if test="${logId!=null}">
 	<div class="chat_wrap" style="display:none;">
 		<iframe src="http://192.168.0.118:82/chat?userid=${logId}&username=${logName}" width="370" height="580" frameborder=0 framespacing=0 marginheight=0 marginwidth=0 scrolling=no vspace=0></iframe>
-	</div>
+	</div> 
 	</c:if>
 	<div class="foot_wrap">
 		<footer>
