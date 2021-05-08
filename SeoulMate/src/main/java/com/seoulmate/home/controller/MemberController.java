@@ -337,16 +337,14 @@ public class MemberController {
 		String[] area3=null;
 		if(vo.getArea2()!=null) {
 			area2=vo.getArea2().split(" "); // 희망 지역 2의 구
+			mav.addObject("selDong2", service.dong(area2[0]));
 		}
 		if(vo.getArea3()!=null) {
 			area3=vo.getArea3().split(" "); // 희망 지역 3의 구
+			mav.addObject("selDong3", service.dong(area3[0]));
 		}
-		System.out.println("전화번호 전체 : "+vo.getTel());
-		System.out.println("tel1 : "+vo.getTel1());
 		mav.addObject("guArr", guArr); // 구
 		mav.addObject("selDong1", service.dong(area1[0]));
-		mav.addObject("selDong2", service.dong(area2[0]));
-		mav.addObject("selDong3", service.dong(area3[0]));
 		/* 구, 동 end */
 		
 		mav.addObject("arr1", arr1); // 연락처 앞자리
