@@ -339,7 +339,7 @@
 					<div class="checks">
 						<input type="radio" name="gender" id="gender1" value="1" <c:if test="${vo.gender==1}">checked</c:if> disabled/>
 						<label for="gender1">여성</label>
-						<input type="radio" name="gender" id="gender2" value="2" <c:if test="${vo.gender==2}">checked</c:if> disabled/>
+						<input type="radio" name="gender" id="gender2" value="3" <c:if test="${vo.gender==3}">checked</c:if> disabled/>
 						<label for="gender2">남성</label>
 					</div>
 				</li>

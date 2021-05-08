@@ -493,7 +493,7 @@
 						<div class="checks">
 							<input type="radio" name="gender" id="gender1" value="1" checked/>
 							<label for="gender1">여성</label>
-							<input type="radio" name="gender" id="gender2" value="2"/>
+							<input type="radio" name="gender" id="gender2" value="3"/>
 							<label for="gender2">남성</label>
 						</div>
 					</li>
