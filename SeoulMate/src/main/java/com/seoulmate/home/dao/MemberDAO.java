@@ -11,6 +11,8 @@ public interface MemberDAO {
 	public MemberVO loginCheck(String userid, String username);
 	// 아이디 중복 검사
 	public int idCheck(String userid);
+	// 이메일 중복 검사
+	public int emailCheck(String email);
 	// 회원 가입
 	public int memberInsert(MemberVO vo);
 	// 회원정보 가져오기

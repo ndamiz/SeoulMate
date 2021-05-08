@@ -61,6 +61,7 @@ span{line-height: 47px;}
 input[type=text]:readonly {background:#ddd;}
 .editDiv>p{margin:0 0 60px 0; font-size:2rem;}
 .remove_icon{margin:7px 0 0 5px; width:20px; height:20px;}
+#emailBtn, #emailCheckBtn{display:none;}
 
 /* memberExit */
 #memberExitForm>input[type=text]{width:250px;}

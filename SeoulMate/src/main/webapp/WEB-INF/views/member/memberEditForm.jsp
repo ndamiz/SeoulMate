@@ -101,7 +101,6 @@
 			if(regEmail()==false){
 				return false;
 			}else{
-				$("#emailCheck").attr("disabled", false); // 인증 번호 전송을 누르면 인증란이 열림
 				$("#emailResult").val("N"); // 인증 번호 전송을 누르면 인증 확인이 풀림
 				var emailid=document.getElementById("emailid").value;
 				var emaildomain=document.getElementById("emaildomain").value;
@@ -114,21 +113,29 @@
 					url:url,
 					data:params,
 					success:function(result){
-						alert("인증 번호가 전송되었습니다.");
-						console.log("이메일 송신 성공");
+						if(result=="fail"){ // 이메일이 중복인 경우
+							alert("중복된 이메일입니다.");
+							console.log("이메일 전송 X");
+						}else{ // 이메일이 중복되지 않은 경우
+							alert("인증 번호가 전송되었습니다.");
+							console.log("이메일 전송 O");
+							$("#emailBtn").css("display", "none"); // 인증 번호 전송을 누르면 숨김
+							$("#emailCheck").attr("disabled", false); // 인증 번호 전송을 누르면 인증란이 열림
+							$("#emailResult").val("N");
+							$("#emailCheckBtn").css("display", "block");
+							$("#emailCheck").attr("placeholder", "인증 번호를 입력해주세요");
+						}
 					}, error:function(){
-						console.log("이메일 송신 실패");
+						console.log("ajax 에러 발생");
 					}
 				});
-				$("#emailResult").val("N");
-				$("#emailCheck").attr("disabled", false);
-				$("#emailCheck").attr("placeholder", "인증 번호를 입력해주세요");
 			}
 		});
 		
 		// 이메일 아이디를 변경하면 인증 확인이 풀림
 		$("#emailid").change(function(){
 			$("#emailResult").val("N");
+			$("#emailBtn").css("display", "block");
 			$("#emailCheck").attr("disabled", true);
 			$("#emailCheck").attr("placeholder", "");
 			$("#emailCheck").val("");
@@ -137,6 +144,7 @@
 		// 이메일 도메인을 변경하면 인증 확인이 풀림
 		$("#emaildomain").change(function(){
 			$("#emailResult").val("N");
+			$("#emailBtn").css("display", "block");
 			$("#emailCheck").attr("disabled", true);
 			$("#emailCheck").attr("placeholder", "");
 			$("#emailCheck").val("");
@@ -160,6 +168,8 @@
 							$("#emailResult").val("Y");
 							alert("인증에 성공하였습니다.");
 							$("#emailCheck").attr("disabled", true);
+							$("#emailCheckBtn").css("display", "none");
+							$("#emailCheck").val("인증 완료");
 						}else{
 							alert("인증 번호가 맞지 않습니다.");
 							$("#emailResult").val("N");

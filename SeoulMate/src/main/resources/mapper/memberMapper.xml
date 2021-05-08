@@ -15,6 +15,9 @@
   	<select id="idCheck" resultType="int">
   		select count(userid) from member where userid=#{param1}
   	</select>
+  	<select id="emailCheck" resultType="int">
+  		select count(email) from member where email=#{param1}
+  	</select>
   	<insert id="memberInsert" parameterType="com.seoulmate.home.vo.MemberVO">
   		insert into member(no, userid, userpwd, username, tel, email, birth, gender, area, profilePic) 
   		values(memsq.nextval, #{userid}, #{userpwd}, #{username}, #{tel}, #{email}, #{birth}, #{gender}, #{area}, #{profilePic})

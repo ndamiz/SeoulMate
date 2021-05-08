@@ -38,6 +38,10 @@ public class MemberServiceImp implements MemberService {
 		return dao.idCheck(userid);
 	}
 	@Override
+	public int emailCheck(String email) {
+		return dao.emailCheck(email);
+	}
+	@Override
 	public int memberInsert(MemberVO vo) {
 		return dao.memberInsert(vo);
 	}
