@@ -14,6 +14,7 @@ import com.seoulmate.home.vo.MateWriteVO;
 import com.seoulmate.home.vo.MemberVO;
 import com.seoulmate.home.vo.PagingVO;
 import com.seoulmate.home.vo.PayVO;
+import com.seoulmate.home.vo.ReportVO;
 
 @Service
 public class AdminServiceImp implements AdminService {
@@ -84,5 +85,11 @@ public class AdminServiceImp implements AdminService {
 	@Override
 	public PayVO salesTotalAmountSelect(PayVO payVO) {
 		return dao.salesTotalAmountSelect(payVO);
+	}
+
+// report management ///////////////////////////////////	
+	@Override
+	public int reportInsert(ReportVO vo) {
+		return dao.reportInsert(vo);
 	}
 }

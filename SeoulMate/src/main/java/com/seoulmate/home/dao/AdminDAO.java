@@ -9,6 +9,7 @@ import com.seoulmate.home.vo.MateWriteVO;
 import com.seoulmate.home.vo.MemberVO;
 import com.seoulmate.home.vo.PagingVO;
 import com.seoulmate.home.vo.PayVO;
+import com.seoulmate.home.vo.ReportVO;
 
 public interface AdminDAO {
 	// 회원 목록 출력
@@ -43,4 +44,10 @@ public interface AdminDAO {
 	public List<PayVO> salesOnePageListSelect(Map<String, Object> map);
 	//조건에맞는 레코드의 총 합계 구하기
 	public PayVO salesTotalAmountSelect(PayVO payVO);
+	
+//report management ///////////////////////////////////////
+	// 신고 등록
+	public int reportInsert(ReportVO vo);
+	// 신고 목록 불러오기
+	//public List<ReportVO> reportTotalRecord()
 }

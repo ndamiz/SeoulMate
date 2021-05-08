@@ -36,12 +36,12 @@ public class BoardController {
 		//검색어랑 카테고리필터에 따른 총 레코드 수 구하기
 		pVo.setTotalRecord(service.totalRecord(pVo));
 		
-		//확인용
-		System.out.println("================================category=>"+pVo.getCategory());
-		System.out.println(pVo.getSearchKey()+"<----key+word------>"+pVo.getSearchWord());
-		System.out.println(pVo.getTotalRecord()+"//////////////totalRecord");
-		System.out.println(pVo.getTotalPage()+"**********************************totalPage");
-		///////
+//		//확인용
+//		System.out.println("================================category=>"+pVo.getCategory());
+//		System.out.println(pVo.getSearchKey()+"<----key+word------>"+pVo.getSearchWord());
+//		System.out.println(pVo.getTotalRecord()+"//////////////totalRecord");
+//		System.out.println(pVo.getTotalPage()+"**********************************totalPage");
+//		///////
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("list", service.comAllRecord(pVo));
@@ -95,6 +95,31 @@ public class BoardController {
 		mav.setViewName("/board/communityView");
 		return mav;
 	}
+	//글 수정하기
+	@RequestMapping("/communityEdit")
+	public ModelAndView communityEdit(int no) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", service.boardSelect(no));
+		mav.setViewName("/board/communityEdit");
+		return mav;
+	}
+	//글 수정 update
+	@RequestMapping("/communityEditOk")
+	public ModelAndView communityEditOk(BoardVO vo) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println(vo.getCategory()+"category");
+		System.out.println(vo.getSubject()+"subject");
+		System.out.println(vo.getNo()+"글번호");
+		int updateCnt = service.communityEdit(vo);
+		if(updateCnt>0) {
+			mav.setViewName("redirect:communityList");
+		}else {
+			mav.addObject("no", vo.getNo());
+			mav.setViewName("redirect:communitEdit");
+		}
+		return mav;
+	}
+	
 	//글 삭제하기
 	@RequestMapping("/communityDel")
 	public ModelAndView communitDel(int no, HttpSession session) {

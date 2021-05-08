@@ -43,7 +43,7 @@ public class BoardServiceImp implements BoardService {
 	public int hitUpdate(int no) {
 		return dao.hitUpdate(no);
 	}
-
+	
 	@Override
 	public int communityDelete(int no, String userid) {
 		return dao.communityDelete(no, userid);
@@ -53,4 +53,11 @@ public class BoardServiceImp implements BoardService {
 	public int replyUpdate(int no, String minusOrPlus) {
 		return dao.replyUpdate(no, minusOrPlus);
 	}
+
+	@Override
+	public int communityEdit(BoardVO vo) {
+		return dao.communityEdit(vo);
+	}
+
+	
 }

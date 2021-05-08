@@ -574,8 +574,8 @@ section{ margin-left:15% ; width: 85%; float: left; }
 #stateSpan{margin-left:18px;}
 
 /* reportManagement */
-.reportSearch {width:550px; float: left; overflow: auto; margin-top: 20px; }
-.reportSearch>select{width: 100px; float: left;}
+.reportSearch {width:600px; float: left; overflow: auto; margin-top: 20px; }
+.reportSearch>select{width: 180px; float: left;}
 .reportSearch>select[name=state]{width: 131px; float: left;}
 .reportSearch input[type=text]{width: 200px; float: left;}
 .reportSearch input[type=submit]{width: 80px; float: left;}
