@@ -243,6 +243,8 @@
 			$(".reportCategory").val("");
 			$(".reportNum").val("");
 			$("#reportcontent").val("");
+			$("#reportcategory option:eq(0)").prop('selected', true);
+			//$("#category").val('${list.category}').prop('selected', true);
 			$('.reportpopup').css('display','none');
 			$('body').css('overflow','auto');
 		}

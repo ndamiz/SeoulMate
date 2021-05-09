@@ -92,4 +92,8 @@ public class AdminServiceImp implements AdminService {
 	public int reportInsert(ReportVO vo) {
 		return dao.reportInsert(vo);
 	}
+	@Override
+	public List<ReportVO> reportTotalRecord() {
+		return dao.reportTotalRecord();
+	}
 }

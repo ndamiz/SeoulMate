@@ -39,6 +39,7 @@ public class AdminController {
 	public String adminDashboard() {
 		return "/admin/adminDashboard";
 	}
+	///////////////////////신고관리////////////////////
 	//신고 등록
 	@RequestMapping("/reportInsert")
 	@ResponseBody
@@ -46,11 +47,12 @@ public class AdminController {
 		service.reportInsert(reportVO);
 		return "신고등록 성공";
 	}
-	//신고관리
-	@RequestMapping("/admin/reportManagement")
+	//신고 목록 불러오기
+	@RequestMapping(value="/admin/reportManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView adminReport() {
 		ModelAndView mav = new ModelAndView();
-		//mav.addObject("report", service.)
+		mav.addObject("report", service.reportTotalRecord());
+		mav.setViewName("admin/reportManagement");
 		return mav;
 	}
 	///////////////////////////////////////////////////////

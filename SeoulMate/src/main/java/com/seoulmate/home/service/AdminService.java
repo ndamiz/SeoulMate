@@ -48,4 +48,6 @@ public interface AdminService {
 //report management ///////////////////////////////////////
 	// 신고 등록
 	public int reportInsert(ReportVO vo);
+	// 신고 목록 불러오기
+	public List<ReportVO> reportTotalRecord();
 }
