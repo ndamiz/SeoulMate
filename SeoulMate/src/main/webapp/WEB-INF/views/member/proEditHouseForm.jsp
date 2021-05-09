@@ -57,6 +57,14 @@
 			$("#hopeChoice").css("display", "block");
 			goTop();
 		});
+		$("#memNext7").click(function(){
+			if(confirm("수정하시겠습니까?")){
+				alert("수정되었습니다.");
+				return true;
+			}else{
+				return false;
+			}
+		});
 		// 상단으로 스크롤 이동
 		function goTop(){
 			$('html').scrollTop(0);

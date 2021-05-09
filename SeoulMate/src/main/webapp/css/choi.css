@@ -70,7 +70,7 @@ input[type=text]:readonly {background:#ddd;}
 
 /* memberProEdit */
 #proUl{height:50px;}
-#proUl>li{float:right;}
+#proUl>li{/* float:right; */ display:inline-block;}
 /* #proTitle{margin-bottom:30px;} */
 #proId>#memDiv3{display:block;}
 #proDiv2, #proDiv3, #proDiv4, #proDiv5{display:none;}
