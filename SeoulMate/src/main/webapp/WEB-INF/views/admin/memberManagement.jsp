@@ -194,8 +194,14 @@
 					<input type="hidden" name="searchKey"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
 					<input type="hidden" name="searchWord"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
 					<c:if test="${pVO.pageNum>1}">
-						<a href="javascript:pageClick('${state}', ${grade}, 1, '${pVO.searchKey}', '${pVO.searchWord}')" class="first_page"></a>
-						<a href="javascript:pageClick('${state}', ${grade}, ${pVO.pageNum-1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="prev_page"></a>
+						<c:if test="${pVO.searchWord==null}">
+							<a class="first_page" href="memberManagement?pageNum=1"></a>
+							<a class="prev_page" href="memberManagement?pageNum=${pVO.pageNum-1}"></a>
+						</c:if>
+						<c:if test="${pVO.searchWord!=null}">
+							<a href="javascript:pageClick('${state}', ${grade}, 1, '${pVO.searchKey}', '${pVO.searchWord}')" class="first_page"></a>
+							<a href="javascript:pageClick('${state}', ${grade}, ${pVO.pageNum-1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="prev_page"></a>
+						</c:if>
 					</c:if>
 					<c:if test="${pVO.pageNum==1}">
 						<a class="first_page"></a>
@@ -203,19 +209,33 @@
 					</c:if>
 					<c:forEach var="pageNum" begin="${pVO.startPageNum}" end="${pVO.startPageNum + pVO.onePageNum-1}">
 						<c:if test="${pageNum<=pVO.totalPage }">
-							<c:if test="${pageNum==pVO.pageNum }">
-								<a href="javascript:pageClick('${state}', ${grade}, ${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')" class="nowPageNum on">${pageNum}</a>
-<%-- 								<a href="memberManagement?pageNum=${pageNum}<c:if test="${pVO.searchWord!=null && pVO.searchWord!='' }">&searchKey=${pVO.searchKey}&searchWord=${pVO.searchWord}</c:if>">${pageNum}</a> --%>
+							<c:if test="${pVO.searchWord==null}">
+								<c:if test="${pageNum==pVO.pageNum }"><!-- 1 -->
+									<a href="memberManagement?pageNum=${pVO.pageNum}" class="nowPageNum on">${pageNum}</a>
+								</c:if>
+								<c:if test="${pageNum!=pVO.pageNum}">
+									<a href="memberManagement?pageNum=${pageNum}">${pageNum}</a>
+								</c:if>
 							</c:if>
-							<c:if test="${pageNum!=pVO.pageNum }">
-								<a href="javascript:pageClick('${state}', ${grade}, ${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')">${pageNum}</a>
-<%-- 								<a href="memberManagement?pageNum=${pageNum}<c:if test="${pVO.searchWord!=null && pVO.searchWord!='' }">&searchKey=${pVO.searchKey}&searchWord=${pVO.searchWord}</c:if>">${pageNum}</a> --%>
+							<c:if test="${pVO.searchWord!=null}"><!-- 2 -->
+								<c:if test="${pageNum==pVO.pageNum }">
+									<a href="javascript:pageClick('${state}', ${grade}, ${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')" class="nowPageNum on">${pageNum}</a>
+								</c:if>
+								<c:if test="${pageNum!=pVO.pageNum }">
+									<a href="javascript:pageClick('${state}', ${grade}, ${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')">${pageNum}</a>
+								</c:if>
 							</c:if>
 						</c:if>
 					</c:forEach>
 					<c:if test="${pVO.pageNum < pVO.totalPage}">
-						<a href="javascript:pageClick('${state}', ${grade}, ${pVO.pageNum+1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="next_page"></a>
-						<a href="javascript:pageClick('${state}', ${grade}, ${pVO.totalPage}, '${pVO.searchKey}', '${pVO.searchWord}')" class="last_page"></a>
+						<c:if test="${pVO.searchWord==null}"> <!-- 검색어가 없는 경우 -->
+							<a class="next_page" href="memberManagement?pageNum=${pVO.pageNum+1}"></a>
+							<a class="last_page" href="memberManagement?pageNum=${pVO.totalPage}"></a>
+						</c:if>
+						<c:if test="${pVO.searchWord!=null}"> <!-- 검색어가 있는 경우 -->
+							<a class="next_page" href="javascript:pageClick('${state}', ${grade}, ${pVO.pageNum+1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="next_page"></a>
+							<a class="last_page" href="javascript:pageClick('${state}', ${grade}, ${pVO.totalPage}, '${pVO.searchKey}', '${pVO.searchWord}')" class="last_page"></a>
+						</c:if>
 					</c:if>
 					<c:if test="${pVO.pageNum == pVO.totalPage}">
 						<a class="next_page"></a>
