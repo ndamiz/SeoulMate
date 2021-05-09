@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js" integrity="sha512-VMsZqo0ar06BMtg0tPsdgRADvl0kDHpTbugCBBrL55KmucH6hP9zWdLIWY//OTfMnzz6xWQRxQqsUFefwHuHyg==" crossorigin="anonymous"></script>
 <script>
 $(function(){
 	datePicker();
@@ -144,6 +145,7 @@ $(function(){
 							<div id="salesGrapeBtn">
 								<input type="button" value="엑셀로 출력" id="excelBtn" class="btn btn-custom"/>
 								<input type="image" class="btn btn-custom" id="graphBtn" src="<%=request.getContextPath()%>/img/fi-rr-stats.svg" alt="그래프 버튼"/>
+								<a href="javascript:printPage('sales')" class="btn btn-custom" id="printBtn">프린트</a>
 							</div>
 						</div>
 					</div>
@@ -172,10 +174,10 @@ $(function(){
 								<td>${totalAmountNum }</td>
 							</tr>
 							<c:forEach var="vo" items="${salesList }">
-							<tr id="adminSalesManagementList">
+							<tr id="adminSalesManagementList" calss="admin_SalesManagement_DetailInfo">
 								<td>${vo.payStart }</td>
 								<fmt:formatNumber var="amount" value="${vo.amount }" />
-								<td><c:out value="${amount}" /></td>
+								<td>${amount}</td>
 								<fmt:formatNumber var="amountCard" value="${vo.amountCard }" />
 								<td>${amountCard}</td>
 								<fmt:formatNumber var="amountCash" value="${vo.amountCash }" />
@@ -216,6 +218,66 @@ $(function(){
 					</div>
 				</div>
 			</div>
+			<div class="admin_Management_popup">
+				<div class="admin_Management_popup_head">매출 정보 그래프<span class="admin_Management_popup_head_close popup_Close">X</span></div>
+				<div class="admin_Management_popup_body" id="admin_Management_popup_print" style="overflow-y: hidden;">
+					<div class="admin_Management_popup_title"> [<span>2021-04 ~ 2021-05</span>] 매출 정보</div>
+					<div>
+						<canvas id="salesChart" height="500" ></canvas>
+					</div>
+				</div>
+				<div class="admin_Management_popup_table_btn">
+					<a href="javascript:printPage('pop')" class="btn btn-custom">프린트</a>
+					<a href="" class="btn btn-custom popup_Close">닫기</a>
+				</div>
+			</div>
+			<div class="myPage_HouseAndMate_Popup_FullScreen popup_Close popup_hidden" id="myPage_popup_FullScreen"></div>
 		</section>
 	</body>
+	<script>
+	var ctx = document.getElementById('salesChart'); 
+	var salesChart = new Chart(ctx, {
+		data : {
+			labels : ['5/1', '5/2', '5/3', '5/4', '5/5', '5/6', '5/7'],
+			datasets : [{
+				type : 'line',
+				label : '총매출',
+				data : [45000, 60000, 120000, 75000, 15000, 60000, 30000],
+				borderColor:  'rgba(194, 0, 0, 1)'
+			},{
+				type : 'bar',
+				label : '현금결제',
+				data : [15000, 0, 30000, 30000, 15000, 15000, 15000],
+				backgroundColor: 'rgba(75, 192, 192, 1)',
+			},{
+				type : 'bar',
+				label : '카드결제',
+				data : [30000, 45000, 30000, 60000, 0, 45000, 0],
+				backgroundColor: 'rgba(54, 162, 235, 1)'
+			},{
+				type : 'bar',
+				label : '그외',
+				data : [0, 15000, 15000, 15000, 0, 0, 15000],
+				backgroundColor: 'rgba(255, 180, 0, 1)'
+			}]
+		},options : {
+			scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+		}
+	});
+	
+	$(function(){
+		$('.admin_HouseManagement_DetailInfo').on('click', function(){
+			var payStart = $(this).children().eq(0).text();
+			
+			var url = "/home/admin/salesDetailInfo";
+			var data = {"payStart" : payStart};
+		});
+	});
+	</script>
 </html>

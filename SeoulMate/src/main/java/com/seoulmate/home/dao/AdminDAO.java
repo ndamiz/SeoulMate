@@ -32,6 +32,8 @@ public interface AdminDAO {
 
 	// 하우스관리 - HouseRoom정보 확인 
 	public List<HouseRoomVO> houseRoomInfoSelect(HouseWriteVO hwVO);
+	//하우스관리 조건에맞는 총레코드 리스트
+	public List<HouseWriteVO> houseListSelect(Map<String, Object> map);
 //하우스, 메이트 관리 
 	//propensity 확인 
 	public PropensityVO propensitySelect(int pno);
@@ -51,9 +53,12 @@ public interface AdminDAO {
 	public int payTotalRecode(Map<String, Object> map);
 	// 결제관리 페이지 리스트 가져오기 
 	public List<PayVO> payOnePageListSelect(Map<String, Object> map);
-	
+	//조건에맞는 총레코드 리스트
+	public List<PayVO> payListSelect(Map<String, Object> map);
 //sales management ///////////////////////////////////////
 	public List<PayVO> salesOnePageListSelect(Map<String, Object> map);
 	//조건에맞는 레코드의 총 합계 구하기
 	public PayVO salesTotalAmountSelect(PayVO payVO);
+	//조건에맞는 총레코드 리스트
+	public List<PayVO> salesListSelect(Map<String, Object> map);
 }

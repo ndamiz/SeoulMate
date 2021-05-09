@@ -22,14 +22,16 @@
 							</select>
 						</div>
 						<div class="managementSearch">
-							<select name="searchKey" class="custom-select">
+							<select name="searchKey" id="searchKey" class="custom-select">
 								<option value="userid" selected>아이디</option>
 								<option value="area">희망지역</option>
 							</select>
 							<input type="text" name="searchWord" class="form-control"/>
 							<input type="submit" value="Search" class="btn btn-custom"/>
 						</div>
-						<a href="javascript:printPage('mateWrite')" class="btn btn-custom">프린트</a>
+						<div>
+							<a href="javascript:printPage('mateWrite')" class="btn btn-custom">프린트</a>
+						</div>
 					</div>
 					
 				</form>
@@ -210,7 +212,6 @@
 			</div>
 			<div class="myPage_HouseAndMate_Popup_FullScreen popup_Close popup_hidden" id="myPage_popup_FullScreen"></div>
 	</body>
-	
 <script>
 $(function(){
 	$('.admin_HouseManagement_DetailInfo').on('click', function(){
@@ -393,64 +394,5 @@ $(function(){
 		$('body').removeClass('popup_Stop_Scroll');
 	});
 });
-
-//팝업자료 프린트하기 
-function printPage(msg){
-	var p_body = document.body.innerHTML;
-	console.log(msg);
-	window.onbeforeprint = function(){
-		if(msg == 'pop'){
-			document.body.innerHTML = document.getElementById('admin_Management_popup_print').innerHTML;
-		}
-		if(msg == 'mateWrite'){
-			console.log('matewrite 오긴오남.?');
-			mateManagementList();
-			
-		}
-		if(msg == 'houseWrite'){
-		
-		}
-	}
-	window.onafterprint = function(){
-		document.body.innerHTML = p_body;
-	}
-	window.print();
-}
-function mateManagementList(){
-	var url = '/home/admin/mateManagementList';
-	var data = $('form[name=mateManagementForm]').serialize();
-	$.ajax({
-		url : url,
-		data : data,
-		async: false,
-		success : function(result){
-			console.log(result);
-			$result = $(result);
-			var tag = '';
-			tag += '<table class="table table-hover table-sm table-bordered">';
-			tag += '<thead class="thead-light"><tr><th>NO.</th><th>이름</th><th>아이디</th><th>희망지역</th><th>등급</th><th>신고누적수</th><th>글 개제 상태</th></tr></thead>';
-			tag += '<tbody>';
-			$result.each(function(idx, obj){
-				tag += '<tr class="admin_HouseManagement_DetailInfo" >';
-				tag += '<td>'+obj.no+'</td>';
-				tag += '<td>'+obj.username+'</td>';
-				tag += '<td>'+obj.userid+'</td>';
-				tag += '<td>'+obj.area+'</td>';
-				if(obj.grade == 1){
-					tag += '<td>일반</td>';
-				}else if(obj.grade == 2){
-					tag += '<td>프리미엄</td>';
-				}
-				tag += '<td>'+obj.reportNum+'</td>';
-				tag += '<td>'+obj.matestate+'</td></tr>';
-			});
-			tag += '</tbody></table>';
-			$('#mateListPrint').html(tag);
-			
-		}, error : function(){
-			console.log('mateManagementList 데이터받기 실패');
-		}
-	});
-}
 </script>
 </html>

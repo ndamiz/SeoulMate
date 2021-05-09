@@ -253,19 +253,7 @@ public class AdminController {
 		
 		return resultMap;
 	}
-	//메이트 출력용 리스트 가져오기 
-	@RequestMapping(value="admin/mateManagementList", method= {RequestMethod.POST, RequestMethod.GET})
-	@ResponseBody
-	public List<MateWriteVO> mateManagementList(MateWriteVO mwVO, PagingVO pagingVO) {
-		List<MateWriteVO> list = new ArrayList<MateWriteVO>();
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("mwVO", mwVO);
-		map.put("pagingVO", pagingVO);
-		
-		list = service.mateListSelect(map);
-		return list;
-	}
+	
 	//관리자 - 결제 
 	@RequestMapping(value="/admin/payManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView payManagement(PayVO payVO, PagingVO pagingVO) {
@@ -359,4 +347,81 @@ public class AdminController {
 	public String contactManagement() {
 		return "/admin/contactManagement";
 	}
+	
+	@RequestMapping("/admin/adminPrintPage")
+	public ModelAndView adminPrintPage(HttpServletRequest req, PagingVO pagingVO) {
+		String msg = (String)req.getParameter("msg");
+		
+		ModelAndView mav =  new ModelAndView();
+		System.out.println(msg);
+		if(msg.equals("mateWrite")) {
+			List<MateWriteVO> mwList = new ArrayList<MateWriteVO>();
+			
+			MateWriteVO mwVO = new MateWriteVO();
+			mwVO.setMatestate((String)req.getParameter("matestate"));
+			mwVO.setGrade(Integer.parseInt((String)req.getParameter("grade")));
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("mwVO", mwVO);
+			map.put("pagingVO", pagingVO);
+			
+			mwList = service.mateListSelect(map);
+			mav.addObject("mwList", mwList);
+			mav.addObject("msg", "mate");
+		}else if(msg.equals("houseWrite")) {
+			List<HouseWriteVO> hwList = new ArrayList<HouseWriteVO>();
+			
+			HouseWriteVO hwVO = new HouseWriteVO();
+			hwVO.setHousestate((String)req.getParameter("housestate"));
+			hwVO.setGrade(Integer.parseInt((String)req.getParameter("grade")));
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			map.put("hwVO", hwVO);
+			map.put("pagingVO", pagingVO);
+			
+			hwList = service.houseListSelect(map);
+			
+			mav.addObject("hwList", hwList);
+			mav.addObject("msg", "house");
+		}else if(msg.equals("pay") || msg.equals("sales")) {
+			PayVO payVO = new PayVO();
+			payVO.setSelectYearMonthDate((String)req.getParameter("selectYearMonthDate"));
+			payVO.setSelectStartDate((String)req.getParameter("selectStartDate"));
+			payVO.setSelectEndDate((String)req.getParameter("selectEndDate"));
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("payVO", payVO);
+			map.put("pagingVO", pagingVO);
+			
+			if(msg.equals("pay")) {
+				List<PayVO> payList = new ArrayList<PayVO>();
+				payList = service.payListSelect(map);
+				mav.addObject("payList", payList);
+				mav.addObject("msg", "pay");	
+			}else if(msg.equals("sales")) {
+				List<PayVO> salesList = new ArrayList<PayVO>();
+				salesList = service.salesListSelect(map);
+				PayVO payVO_total = new PayVO();
+				payVO_total = service.salesTotalAmountSelect(payVO);
+				mav.addObject("totalVO", payVO_total);
+				mav.addObject("salesList", salesList);
+				mav.addObject("msg", "sales");	
+			}	
+		}
+		mav.setViewName("admin/adminPrintPage");
+		return mav;
+	}
+	//메이트 출력용 리스트 가져오기 
+		@RequestMapping(value="admin/mateManagementList", method= {RequestMethod.POST, RequestMethod.GET})
+		@ResponseBody
+		public List<MateWriteVO> mateManagementList(MateWriteVO mwVO, PagingVO pagingVO) {
+			List<MateWriteVO> list = new ArrayList<MateWriteVO>();
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("mwVO", mwVO);
+			map.put("pagingVO", pagingVO);
+			
+			list = service.mateListSelect(map);
+			return list;
+		}
 }

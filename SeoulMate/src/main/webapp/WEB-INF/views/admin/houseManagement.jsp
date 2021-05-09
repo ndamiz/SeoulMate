@@ -22,7 +22,7 @@
 							</select>
 						</div>
 						<div class="managementSearch">
-							<select name="searchKey" class="custom-select">
+							<select name="searchKey" id="searchKey" class="custom-select">
 								<option value="userid" selected>아이디</option>
 								<option value="housename" >하우스이름</option>
 								<option value="addr">주소</option>
@@ -31,7 +31,7 @@
 							<input type="submit" value="Search" class="btn btn-custom"/>
 						</div>
 						<div>
-							<a href="javascript:printPage('houseWrite')" ></a>
+							<a href="javascript:printPage('houseWrite')" class="btn btn-custom">프린트</a>
 						</div>
 					</div>
 				</form>
