@@ -194,14 +194,14 @@
 					<input type="hidden" name="searchKey"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
 					<input type="hidden" name="searchWord"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
 					<c:if test="${pVO.pageNum>1}">
-						<c:if test="${pVO.searchWord==null}">
-							<a class="first_page" href="memberManagement?pageNum=1"></a>
-							<a class="prev_page" href="memberManagement?pageNum=${pVO.pageNum-1}"></a>
-						</c:if>
-						<c:if test="${pVO.searchWord!=null}">
-							<a href="javascript:pageClick('${state}', ${grade}, 1, '${pVO.searchKey}', '${pVO.searchWord}')" class="first_page"></a>
-							<a href="javascript:pageClick('${state}', ${grade}, ${pVO.pageNum-1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="prev_page"></a>
-						</c:if>
+					<c:if test="${pVO.searchWord==null}">
+						<a class="first_page" href="memberManagement?pageNum=1"></a>
+						<a class="prev_page" href="memberManagement?pageNum=${pVO.pageNum-1}"></a>
+					</c:if>
+					<c:if test="${pVO.searchWord!=null}">
+						<a href="javascript:pageClick('${state}', ${grade}, 1, '${pVO.searchKey}', '${pVO.searchWord}')" class="first_page"></a>
+						<a href="javascript:pageClick('${state}', ${grade}, ${pVO.pageNum-1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="prev_page"></a>
+					</c:if>
 					</c:if>
 					<c:if test="${pVO.pageNum==1}">
 						<a class="first_page"></a>

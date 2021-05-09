@@ -57,6 +57,23 @@
 			$("#hopeChoice").css("display", "block");
 			goTop();
 		});
+		$("#memNext7").click(function(){
+			var hopeGender=document.form.m_gender.value;
+			if(hopeGender==${vo.gender} || hopeGender==2){
+				editOk();
+			}else if(hopeGender!=${vo.gender} && hopeGender!=2){
+				alert("희망 성별은 자신과 다른 성별일 수 없습니다.");
+				return false;
+			}
+			return false;
+			goTop();
+		});
+		
+		function editOk(){
+			if(confirm("성향을 수정하시겠습니까?")){
+				$("#proId").submit();
+			}
+		}
 		// 상단으로 스크롤 이동
 		function goTop(){
 			$('html').scrollTop(0);
@@ -65,7 +82,7 @@
 </script>
 <div class="wrap">
 	<div class="member_wrap">
-		<form method="post" id="proId" action="proEditMateOk">
+		<form method="post" name="form" id="proId" action="proEditMateOk">
 			<div id="mateChoice">
 				<p class="m_title">희망하는 하우스의 성향 수정</p>
 				<p class="d_title">희망하는 하우스의 라이프 스타일을 선택해주세요.</p>

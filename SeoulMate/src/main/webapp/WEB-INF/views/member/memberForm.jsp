@@ -337,14 +337,30 @@
 			goTop();
 		});
 		$("#memNext7").click(function(){
-			if(confirm("회원가입을 하시겠습니까?")){
-				return true;
-			}else{
-				return false;
+			var memGender=document.form.gender.value;
+			var memPcase=document.form.pcase.value;
+			var hopeGender=document.form.m_gender.value;
+			
+			if(memPcase=='m'){
+				if(hopeGender==memGender || hopeGender==2){
+					joinOk();
+				}else if(hopeGender!=memGender && hopeGender!=2){
+					alert("희망 성별은 자신과 다른 성별일 수 없습니다.");
+					return false;
+				}
+			}else if(memPcase=='h'){
+				joinOk();
 			}
+			
 			goTop();
 		});
 		
+		function joinOk(){
+			if(confirm("회원가입을 하시겠습니까?")){
+				$("#memId").submit();
+// 				return true;
+			}
+		}
 		// ajax
 		function ajax(){
 			var url="idChk";
@@ -461,7 +477,7 @@
 </script>
 <div class="wrap">
 	<div class="member_wrap">
-		<form method="post" id="memId" action="memberOk" enctype="multipart/form-data">
+		<form method="post" name="form" id="memId" action="memberOk" enctype="multipart/form-data">
 			<div id="memDiv1">
 				<p class="m_title">회원가입</p>
 				<p class="d_title">회원 정보 입력, 이메일 인증, 라이프 스타일을 등록 후 회원가입이 가능합니다.</p>
@@ -822,7 +838,7 @@
 				</ul>
 				<div class="btn_wrap">
 					<a class="h_btn white" id="memPrev7">이전</a>
-					<button class="h_btn green" id="memNext7">등록</button>
+					<a class="h_btn green" id="memNext7">등록</a>
 				</div>
 			</div>
 		</form>

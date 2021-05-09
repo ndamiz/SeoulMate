@@ -182,7 +182,7 @@ public class MemberController {
 		String path=req.getSession().getServletContext().getRealPath("/profilePic");
 		String orgName=filename.getOriginalFilename(); // 기존 파일 명
 		String realName="";
-		
+		String delFilename=req.getParameter("delFile");
 		try {
 			if(orgName != null && !orgName.equals("")) {
 				File f=new File(path, orgName);
@@ -234,6 +234,13 @@ public class MemberController {
 			}
 		}catch(Exception e){
 			System.out.println("회원가입 실패(트랜잭션)");
+			try { // 트랜잭션이 발생할 때 업로드하려던 파일을 다시 삭제한다.
+				File dFileObj=new File(path, realName);
+				dFileObj.delete();
+			}catch(Exception e1) {
+				System.out.println("회원가입 실패(트랜잭션) 파일 삭제 에러 발생");
+				e.printStackTrace();
+			}
 			mav.setViewName("redirect:memberForm");
 		}
 		
@@ -572,6 +579,7 @@ public class MemberController {
 		String userid=(String)session.getAttribute("logId");
 		PropensityVO pVO=service.propMateSelect(userid);
 		
+		MemberVO vo=service.memberSelect(userid);
 		/*
 		System.out.println("성향 번호 : "+pVO.getPno());
 		System.out.println("아이디 : "+pVO.getUserid());
@@ -598,7 +606,7 @@ public class MemberController {
 		System.out.println("메이트 즉시 입주 가능 여부 : "+pVO.getM_now());
 		System.out.println("성향 등록일 : "+pVO.getPdate());
 		*/
-		
+		mav.addObject("vo", vo);
 		mav.addObject("pVO", pVO);
 		mav.setViewName("member/proEditMateForm");
 		
