@@ -9,7 +9,7 @@
   		(select * from 
   		(select m.no, m.userid, m.username, m.tel, m.email, m.grade, m.state, r.reportcnt from member m join  
 		(select userid, count(num) as reportcnt from report group by userid) r on m.userid=r.userid(+) 
-  		<if test='searchKey !=null and searchWord != null and searchKey != "" and searchWord !=""'>where ${searchKey} like '%${searchWord}%'</if>)
+  		<if test='searchKey !=null and searchWord != null and searchKey != "" and searchWord !=""'>where m.${searchKey} like '%${searchWord}%'</if>)
   		<if test="grade != null and grade != 0"> where grade=${grade} </if>)
   		<if test='state != null and state !=""'> where state=#{state}</if>)  
   		order by no desc)

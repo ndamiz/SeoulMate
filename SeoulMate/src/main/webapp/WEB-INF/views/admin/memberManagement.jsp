@@ -113,20 +113,16 @@
 		$(document.getElementById("infoTel")).css('backgroundColor', '');
 		$(document.getElementById("infoEmail")).css('backgroundColor', '');
 	}
-	function pageClick(page, searchKey, searchWord){
+	function pageClick(state, grade, page, searchKey, searchWord){
 		var f=document.go;
+		f.state.value=state;
+		f.grade.value=grade;
 		f.pageNum.value=page; // post 방식을 넘길 값
 		f.searchKey.value=searchKey; // post 방식을 넘길 값
 		f.searchWord.value=searchWord; // post 방식을 넘길 값
 		f.action="/home/admin/memberManagement"; // 이동할 페이지
 		f.method="post"; // post 방식
 		f.submit();
-	}
-	function boardDel(pageNum, searchKey, searchWord){
-		alert(pageNum+", "+searchKey+", "+searchWord);
-		if(confirm("삭제하시겠습니까?")){
-			return false;
-		}
 	}
 </script>
 	<section>
@@ -136,26 +132,26 @@
 				<div class="management_memberSelect">
 					<span class="managementSpan" id="gradeSpan">등급</span>
 					<select name="grade" id="member_grade" class="custom-select">
-						<option value="0" selected>전체</option>						
-						<option value="1">일반</option>						
-						<option value="2">프리미엄</option>						
+						<option value="0" <c:if test="${grade==0}">selected</c:if>>전체</option>						
+						<option value="1" <c:if test="${grade==1}">selected</c:if>>일반</option>						
+						<option value="2" <c:if test="${grade==2}">selected</c:if>>프리미엄</option>						
 					</select>
 					<span class="managementSpan" id="stateSpan">상태</span>
 					<select name="state" id="member_state" class="custom-select">
-						<option value="" selected>전체</option>						
-						<option value="일반">일반</option>						
-						<option value="블랙">블랙리스트</option>						
-						<option value="탈퇴">탈퇴</option>						
+						<option value="" <c:if test="${state==null}">selected</c:if>>전체</option>						
+						<option value="일반" <c:if test="${state=='일반'}">selected</c:if>>일반</option>						
+						<option value="블랙" <c:if test="${state=='블랙'}">selected</c:if>>블랙리스트</option>						
+						<option value="탈퇴" <c:if test="${state=='탈퇴'}">selected</c:if>>탈퇴</option>						
 					</select>
 				</div>
 				<div class="managementSearch">
 					<select name="searchKey" class="custom-select">
-						<option value="userid">아이디</option>
-						<option value="username">이름</option>
-						<option value="tel">연락처</option>
-						<option value="email">이메일</option>
+						<option value="userid" <c:if test="${pVO.searchKey=='userid'}">selected</c:if>>아이디</option>
+						<option value="username" <c:if test="${pVO.searchKey=='username'}">selected</c:if>>이름</option>
+						<option value="tel" <c:if test="${pVO.searchKey=='tel'}">selected</c:if>>연락처</option>
+						<option value="email" <c:if test="${pVO.searchKey=='email'}">selected</c:if>>이메일</option>
 					</select>
-					<input type="text" name="searchWord" class="form-control"/>
+					<input type="text" name="searchWord" class="form-control" <c:if test="${pVO.searchWord!=null}">value="${pVO.searchWord}"</c:if>/>
 					<input type="submit" value="Search" class="btn btn-custom"/>
 				</div>
 			</div>
@@ -172,7 +168,7 @@
 						<th>이메일</th>
 						<th>등급</th>
 						<th>신고 누적 수</th>
-						<th>블랙리스트</th>
+						<th>상태</th>
 					</tr>
 				</thead>
 				<tbody id="tableMain">
@@ -192,12 +188,14 @@
 			</table>
 			<div class="paging">
 				<form name="go"> <!-- 자바스크립트로 submit 시키려면 form을 추가하고 name을 지정해야 한다. -->
+					<input type="hidden" name="state" value="${state}"/>
+					<input type="hidden" name="grade" value="${grade}"/>
 					<input type="hidden" name="pageNum"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
 					<input type="hidden" name="searchKey"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
 					<input type="hidden" name="searchWord"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
 					<c:if test="${pVO.pageNum>1}">
-						<a href="javascript:pageClick(1, '${pVO.searchKey}', '${pVO.searchWord}')" class="first_page"></a>
-						<a href="javascript:pageClick(${pVO.pageNum-1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="prev_page"></a>
+						<a href="javascript:pageClick('${state}', ${grade}, 1, '${pVO.searchKey}', '${pVO.searchWord}')" class="first_page"></a>
+						<a href="javascript:pageClick('${state}', ${grade}, ${pVO.pageNum-1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="prev_page"></a>
 					</c:if>
 					<c:if test="${pVO.pageNum==1}">
 						<a class="first_page"></a>
@@ -206,18 +204,18 @@
 					<c:forEach var="pageNum" begin="${pVO.startPageNum}" end="${pVO.startPageNum + pVO.onePageNum-1}">
 						<c:if test="${pageNum<=pVO.totalPage }">
 							<c:if test="${pageNum==pVO.pageNum }">
-								<a href="javascript:pageClick(${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')" class="nowPageNum on">${pageNum}</a>
+								<a href="javascript:pageClick('${state}', ${grade}, ${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')" class="nowPageNum on">${pageNum}</a>
 <%-- 								<a href="memberManagement?pageNum=${pageNum}<c:if test="${pVO.searchWord!=null && pVO.searchWord!='' }">&searchKey=${pVO.searchKey}&searchWord=${pVO.searchWord}</c:if>">${pageNum}</a> --%>
 							</c:if>
 							<c:if test="${pageNum!=pVO.pageNum }">
-								<a href="javascript:pageClick(${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')">${pageNum}</a>
+								<a href="javascript:pageClick('${state}', ${grade}, ${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')">${pageNum}</a>
 <%-- 								<a href="memberManagement?pageNum=${pageNum}<c:if test="${pVO.searchWord!=null && pVO.searchWord!='' }">&searchKey=${pVO.searchKey}&searchWord=${pVO.searchWord}</c:if>">${pageNum}</a> --%>
 							</c:if>
 						</c:if>
 					</c:forEach>
 					<c:if test="${pVO.pageNum < pVO.totalPage}">
-						<a href="javascript:pageClick(${pVO.pageNum+1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="next_page"></a>
-						<a href="javascript:pageClick(${pVO.totalPage}, '${pVO.searchKey}', '${pVO.searchWord}')" class="last_page"></a>
+						<a href="javascript:pageClick('${state}', ${grade}, ${pVO.pageNum+1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="next_page"></a>
+						<a href="javascript:pageClick('${state}', ${grade}, ${pVO.totalPage}, '${pVO.searchKey}', '${pVO.searchWord}')" class="last_page"></a>
 					</c:if>
 					<c:if test="${pVO.pageNum == pVO.totalPage}">
 						<a class="next_page"></a>

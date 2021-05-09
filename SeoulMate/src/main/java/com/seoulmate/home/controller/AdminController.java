@@ -85,11 +85,13 @@ public class AdminController {
 	///////////////////////////////////////////////////////
 	//관리자-회원
 	@RequestMapping(value="/admin/memberManagement", method={RequestMethod.POST, RequestMethod.GET})
-	public ModelAndView memberManagement(PagingVO pVO, HttpServletRequest req) {
+	public ModelAndView memberManagement(String state, String grade, PagingVO pVO, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
 		
 		pVO.setTotalRecode(service.membertotalRecord(pVO));
-
+		
+		mav.addObject("state", state);
+		mav.addObject("grade", grade);
 		mav.addObject("list", service.memberSelect(pVO));
 		mav.addObject("pVO", pVO);
 		
