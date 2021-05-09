@@ -1,18 +1,18 @@
 package com.seoulmate.home.vo;
 
 public class HouseRoomVO {
-	private int no;
-	private int hno;
+	private int no; //houseWrite 테이블에 no (일련번호)
+	private int hno; // 룸 일련번호  
 	private String userid;
-	private String roomName;
-	private int deposit;
-	private int rent;
-	private String enterdate;
-	private String minStay;
-	private String maxStay;
-	private int roomPeople;
-	private int furniture;
-	private String incFurniture;
+	private String roomName; // 룸 이름 
+	private int deposit;  //보증금 
+	private int rent;  //월세 
+	private String enterdate; //입주 가능일 
+	private String minStay; // 최소 거주기간  (1~3개월, 4~6개월, 7~12개월, 1년이상)
+	private String maxStay; // 최대 거주 기 (1~3개월, 4~6개월, 7~12개월, 1년이상)
+	private int roomPeople; // 방 인원 
+	private int furniture;  // 가구 여부 (있음, 없음) 
+	private String incFurniture;  //포함된 가구 
 	
 	public int getNo() {
 		return no;

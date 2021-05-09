@@ -1,33 +1,33 @@
 package com.seoulmate.home.vo;
 
 public class PropensityVO {
-	private int pno;
-	private String userid;
-	private String pcase;
-	private String housename;
-	private int h_noise;
-	private int h_pattern;
-	private int h_pet;
-	private int h_petwith;
-	private int h_smoke;
-	private int h_mood;
-	private int h_communication;
-	private int h_party;
-	private int h_enter;
-	private String h_support[];
-	private String h_supportStr="";
-	private String h_etc[];
+	private int pno; //성향번호 
+	private String userid; 
+	private String pcase;  //분류  h: 하우스, m : 메이트 
+	private String housename; //하우스일 경우 하우스 이름.. 
+	private int h_noise;  //하우스 생활 소음 1:매우조용함, 2:보통, 3:조용하지 않음
+	private int h_pattern; //하우스 생활 시간 1:주행성, 3:야행성
+	private int h_pet;	//하우스 애완 동물 1:없음, 3있음 
+	private int h_petwith; // 하우스 애완동물 동반 입실 1:불가능, 3가능
+	private int h_smoke; // 하우스 흡연  1:비흡연, 2:실외흡연, 3:실내흡연
+	private int h_mood; // 하우스 분위기 1: 화목함, 2:보통, 3:독립적 
+	private int h_communication; // 하우스 소통방식 1:메신저, 2:기타, 3:대화 
+	private int h_party; //하우스 모임빈도 1:없음, 2:상관없음, 3:있음 
+	private int h_enter; // 하우스 모임참가 의무  1: 없음, 2: 상관없음, 3:있음 
+	private String h_support[];  // 1:공용공간청소, 2:공용생필품, 3:기본식품 
+	private String h_supportStr=""; 
+	private String h_etc[]; // 1: 보증금 조절가능, 3:즉시입주가능 
 	private String h_etcStr="";
 	
-	private int m_pattern;	
-	private int m_personality;
-	private int m_pet;
-	private int m_smoke;
-	private int m_age;
-	private int m_gender;
-	private int m_global;
-	private int m_now;
-	private String pdate;
+	private int m_pattern;	// 메이트 생활시간  1:주행성, 2:야행성 
+	private int m_personality; //메이트 성격 1:내향적, 2:상관없음, 3:외향적
+	private int m_pet; // 메이트 애완동물 1:긍정적, 3부정적 
+	private int m_smoke; // 메이트 흡연여부 1:비흡연, 2:상관없음, 3:흡연
+	private int m_age;  //메이트 나이대   1: 20~30대 , 2:상관없음, 3:40대 이상 
+	private int m_gender; // 메이트 성별  1: 여성전용, 2:상관없음, 3:남성전용 
+	private int m_global; // 메이트 외국인입주 가능여부 1:불가능, 3:가능 
+	private int m_now; //메이트 즉시입주 가능여부 1: 가능, 3:불가능 
+	private String pdate;  //성향 등록일 
 	
 	public int getPno() {
 		return pno;

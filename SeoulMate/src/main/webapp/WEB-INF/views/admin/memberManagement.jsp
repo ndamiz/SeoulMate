@@ -58,7 +58,7 @@
 		});
 		
 		// 팝업창 닫기 이벤트
-		$(".pup_btn_close, .btn_cancel").click(function(){
+		$(".pup_btn_close, #btnClose").click(function(){
 			pupClose();
 		});
 		
@@ -273,8 +273,8 @@
 					</div>
 				</div>
 				<div class="pup_bottom">
-					<a class="btn_cancel">닫기</a>
-					<a class="btn_save" id="InfoSaveBtn">수정</a>
+					<a class="btn btn-custom" id="InfoSaveBtn">수정</a>
+					<a class="btn btn-custom" id="btnClose">닫기</a>
 				</div>
 			</form>
 			<a class="pup_btn_close">닫기</a>
