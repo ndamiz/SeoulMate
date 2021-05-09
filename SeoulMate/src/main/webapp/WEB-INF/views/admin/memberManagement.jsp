@@ -209,22 +209,22 @@
 					</c:if>
 					<c:forEach var="pageNum" begin="${pVO.startPageNum}" end="${pVO.startPageNum + pVO.onePageNum-1}">
 						<c:if test="${pageNum<=pVO.totalPage }">
-							<c:if test="${pVO.searchWord==null}">
-								<c:if test="${pageNum==pVO.pageNum }"><!-- 1 -->
-									<a href="memberManagement?pageNum=${pVO.pageNum}" class="nowPageNum on">${pageNum}</a>
-								</c:if>
-								<c:if test="${pageNum!=pVO.pageNum}">
-									<a href="memberManagement?pageNum=${pageNum}">${pageNum}</a>
-								</c:if>
+						<c:if test="${pVO.searchWord==null}">
+							<c:if test="${pageNum==pVO.pageNum }"><!-- 1 -->
+								<a href="memberManagement?pageNum=${pVO.pageNum}" class="nowPageNum on">${pageNum}</a>
 							</c:if>
-							<c:if test="${pVO.searchWord!=null}"><!-- 2 -->
-								<c:if test="${pageNum==pVO.pageNum }">
-									<a href="javascript:pageClick('${state}', ${grade}, ${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')" class="nowPageNum on">${pageNum}</a>
-								</c:if>
-								<c:if test="${pageNum!=pVO.pageNum }">
-									<a href="javascript:pageClick('${state}', ${grade}, ${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')">${pageNum}</a>
-								</c:if>
+							<c:if test="${pageNum!=pVO.pageNum}">
+								<a href="memberManagement?pageNum=${pageNum}">${pageNum}</a>
 							</c:if>
+						</c:if>
+						<c:if test="${pVO.searchWord!=null}"><!-- 2 -->
+							<c:if test="${pageNum==pVO.pageNum }">
+								<a href="javascript:pageClick('${state}', ${grade}, ${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')" class="nowPageNum on">${pageNum}</a>
+							</c:if>
+							<c:if test="${pageNum!=pVO.pageNum }">
+								<a href="javascript:pageClick('${state}', ${grade}, ${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')">${pageNum}</a>
+							</c:if>
+						</c:if>
 						</c:if>
 					</c:forEach>
 					<c:if test="${pVO.pageNum < pVO.totalPage}">
