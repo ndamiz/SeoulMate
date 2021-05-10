@@ -12,7 +12,7 @@ public interface BoardDAO {
 	public int boardInsert(BoardVO vo);
 	// 페이징에 쓰일 총 레코드 수 구하기
 	public int totalRecord(PageVO vo);
-	//글 내용보기
+	//글 내용보기 /글 수정하기
 	public BoardVO boardSelect(int no);
 	//댓글 수 확인용
 	public int replyCount(int no);
@@ -22,5 +22,7 @@ public interface BoardDAO {
 	public int communityDelete(int no, String userid);
 	//댓글 수 올리기
 	public int replyUpdate(int no, String minusOrPlus);
+	//글 수정하기
+	public int communityEdit(BoardVO vo);
 	
 }

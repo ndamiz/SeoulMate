@@ -119,9 +119,12 @@
 			</tbody>
 		</table>
 		<div class="paging">
-			<a class="first_page" href="communityList?pageNum=1<c:if test="${pageVO.category != null && pageVO.category != '' }">&category=${pageVO.category}</c:if><c:if test="${pageVO.searchWord != null && pageVO.searchWord != ''}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>""></a>
-			<a class="prev_page" href="communityList?pageNum=${pageVO.pageNum-1}<c:if test="${pageVO.category != null && pageVO.category != '' }">&category=${pageVO.category}</c:if><c:if test="${pageVO.searchWord != null && pageVO.searchWord != ''}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>""></a>
-			
+			<c:if test="${pageVO.totalPage>1}">
+				<a class="first_page" href="communityList?pageNum=1<c:if test="${pageVO.category != null && pageVO.category != '' }">&category=${pageVO.category}</c:if><c:if test="${pageVO.searchWord != null && pageVO.searchWord != ''}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>""></a>
+				<c:if test="${pageVO.pageNum != 1 }">
+					<a class="prev_page" href="communityList?pageNum=${pageVO.pageNum-1}<c:if test="${pageVO.category != null && pageVO.category != '' }">&category=${pageVO.category}</c:if><c:if test="${pageVO.searchWord != null && pageVO.searchWord != ''}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>""></a>
+				</c:if>
+			</c:if>
 			<c:forEach var="p" begin="${pageVO.startPageNum}" end="${pageVO.startPageNum+pageVO.onePageNum-1}">
 				<c:if test="${p<=pageVO.totalPage}">
 					<c:if test="${p==pageVO.pageNum}">
@@ -133,8 +136,12 @@
 				</c:if>
 			</c:forEach>
 				
-			<a class="next_page" href="communityList?pageNum=${pageVO.pageNum+1}<c:if test="${pageVO.category != null && pageVO.category != '' }">&category=${pageVO.category}</c:if><c:if test="${pageVO.searchWord != null && pageVO.searchWord != ''}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>""></a>
-			<a class="last_page" href="communityList?pageNum=${pageVO.totalPage}<c:if test="${pageVO.category != null && pageVO.category != '' }">&category=${pageVO.category}</c:if><c:if test="${pageVO.searchWord != null && pageVO.searchWord != ''}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>""></a>
+			<c:if test="${pageVO.totalPage>1}">
+				<c:if test="${pageVO.totalPage!=pageVO.pageNum}">
+					<a class="next_page" href="communityList?pageNum=${pageVO.pageNum+1}<c:if test="${pageVO.category != null && pageVO.category != '' }">&category=${pageVO.category}</c:if><c:if test="${pageVO.searchWord != null && pageVO.searchWord != ''}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>""></a>
+				</c:if>
+				<a class="last_page" href="communityList?pageNum=${pageVO.totalPage}<c:if test="${pageVO.category != null && pageVO.category != '' }">&category=${pageVO.category}</c:if><c:if test="${pageVO.searchWord != null && pageVO.searchWord != ''}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>""></a>
+			</c:if>	
 		</div>
 	</div>
 </div>

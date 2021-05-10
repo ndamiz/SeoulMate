@@ -29,6 +29,7 @@ import com.seoulmate.home.vo.MemberVO;
 import com.seoulmate.home.vo.PagingVO;
 import com.seoulmate.home.vo.PayVO;
 import com.seoulmate.home.vo.PropensityVO;
+import com.seoulmate.home.vo.ReportVO;
 
 @Controller
 public class AdminController {
@@ -75,14 +76,21 @@ public class AdminController {
 	public String adminDashboard() {
 		return "/admin/adminDashboard";
 	}
-	//신고관리
-	@RequestMapping("/admin/reportManagement")
-	public String adminReport() {
-		//DB에서 데이터 조회
-		
-		//페이징
-		
-		return "/admin/reportManagement";
+	///////////////////////신고관리////////////////////
+	//신고 등록
+	@RequestMapping("/reportInsert")
+	@ResponseBody
+	public String reportInsert(ReportVO reportVO) {
+		service.reportInsert(reportVO);
+		return "신고등록 성공";
+	}
+	//신고 목록 불러오기
+	@RequestMapping(value="/admin/reportManagement", method={RequestMethod.POST, RequestMethod.GET})
+	public ModelAndView adminReport() {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("report", service.reportTotalRecord());
+		mav.setViewName("admin/reportManagement");
+		return mav;
 	}
 	///////////////////////////////////////////////////////
 	//관리자-회원

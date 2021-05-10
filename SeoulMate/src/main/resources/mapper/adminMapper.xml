@@ -169,4 +169,11 @@
   			</if>)
  		GROUP BY payStart
   	</select>
+  	<insert id="reportInsert" parameterType="com.seoulmate.home.vo.ReportVO">
+  		insert into report(num, no, category, reportid, userid, reportcategory, reportcontent)
+  		values(reportsq.nextval, ${no}, #{category}, #{reportid}, #{userid}, #{reportcategory}, #{reportcontent})
+  	</insert>
+  	<select id="reportTotalRecord" resultType="com.seoulmate.home.vo.ReportVO">
+  		select * from report order by num desc
+  	</select>
 </mapper>

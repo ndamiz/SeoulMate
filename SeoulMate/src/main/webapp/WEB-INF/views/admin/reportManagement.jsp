@@ -1,21 +1,40 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script>
+	$(function(){
+		$(".admin_ReportManagement_DetailInfo").on('click', function(){
+			var no = $(this).children().eq(0).text();
+			var userid = $(this).children().eq(1).text();
+			alert(no);
+			$.ajax({
+				
+			});
+
+			reportFormFill();
+		});
+		function reportFormFill(){
+			$(".report_popup").css('display','block');
+			$(document.body).css('overflow','hidden');
+		}
+	});
+</script>
 <section class="admin_Section">
 	<div class="admin_Content">
 		<div class="m_title managementTitle">신고 관리</div>
 		<form method="post" action="/home/admin/reportManagement" class="managementSearchForm">
 			<div class="reportSearch">
 				<select name="category" class="custom-select input">
-					<option value="">전체</option>
-					<option value="1">하우스 신고 목록</option>
-					<option value="2">메이트 신고 목록</option>
-					<option value="2">커뮤니티 신고 목록</option>
+					<option value="all">전체</option>
+					<option value="sharehouse">하우스 신고 목록</option>
+					<option value="mate">메이트 신고 목록</option>
+					<option value="community">커뮤니티 신고 목록</option>
+					<option value="reply">댓글 신고 목록</option>
 				</select>
 				<select name="state" class="custom-select">
-					<option value="">전체</option>
-					<option value="1">미처리</option>
-					<option value="2">처리완료</option>
-					<option value="3">허위신고</option>
+					<option value="allState">전체</option>
+					<option value="undone">미처리</option>
+					<option value="done">처리완료</option>
+					<option value="falseReport">허위신고</option>
 				</select>
 				<input type="text" name="searchWord" class="form-control"/>
 				<input type="submit" value="Search" class="btn btn-custom"/>
@@ -29,7 +48,7 @@
 						<th>회원 ID</th>
 						<th>신고자 ID</th>
 						<th>신고분류</th>
-						<th>신고분류</th>
+						<th>신고글번호</th>
 						<th>게시글 공개</th>
 						<th>블랙리스트</th>
 						<th>신고일</th>
@@ -37,17 +56,19 @@
 					</tr>
 				</thead>
 				<tbody>
-						<tr>
-							<td>1</td>
-							<td>tiger1234</td>
-							<td>lion</td>
-							<td>하우스신고</td>
-							<td>스팸</td>
-							<td>Y</td>
-							<td>N</td>
-							<td>21-03-24 13:15</td>
-							<td>미처리</td>
+					<c:forEach var="report" items="${report}">
+						<tr class="admin_ReportManagement_DetailInfo">
+							<td>${report.num}</td>
+							<td>${report.userid}</td>
+							<td>${report.reportid}</td>
+							<td>${report.category}</td>
+							<td>${report.no}</td>
+							<td>공개</td>
+							<td>미등록</td>
+							<td>${report.reportdate}</td>
+							<td>${report.state}</td>
 						</tr>
+					</c:forEach>	
 				</tbody>
 			</table>
 			<div class="paging">
@@ -64,9 +85,9 @@
 	</div>
 </section>
 <!--  팝업창///////////////////////////////////////////// -->
-<div class="pup_wrap">
+<div class="pup_wrap report_popup">
 		<div class="pup_form">
-			<div class="pup_head">신고 정보</div>
+			<div class="pup_head">신고 처리</div>
 			<div class="pup_body">
 				<div class="pup_list">
 					<ul>

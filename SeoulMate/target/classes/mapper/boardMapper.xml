@@ -65,4 +65,7 @@
   		</if>  
   		 where no=#{param1}
   	</update>
+  	<update id="communityEdit" parameterType="com.seoulmate.home.vo.BoardVO">
+  		update community set category=#{category}, subject=#{subject}, content=#{content}, writedate=sysdate where no=${no}
+  	</update>
 </mapper>
