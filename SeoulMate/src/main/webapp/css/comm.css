@@ -1242,9 +1242,25 @@ footer .foot_btns{
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#13a89e', endColorstr='#f4f4f4',GradientType=0 ); /* IE6-9 */
 }
 
+#the_iframe{
+	opacity:0;
+	width: 100px;
+	height: 100px;
+	margin-bottom: 0px;
+	transition:.3s;
+}
+
+
 .chat_wrap .chat_window.on{
 	width: 350px;
 	height: 470px;
+	opacity: 1;
+	margin-bottom: 80px;
+}
+
+#the_iframe.on{
+	width: 370px;
+	height: 480px;
 	opacity: 1;
 	margin-bottom: 80px;
 }
