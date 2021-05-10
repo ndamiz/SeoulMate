@@ -59,14 +59,17 @@ public class AdminServiceImp implements AdminService {
 		return dao.houseDetailInfoSelect(hwVO);
 	}
 	@Override
-	public PropensityVO propensitySelect(HouseWriteVO hwVO) {
-		return dao.propensitySelect(hwVO);
+	public PropensityVO propensitySelect(int pno) {
+		return dao.propensitySelect(pno);
 	}
 	@Override
 	public List<HouseRoomVO> houseRoomInfoSelect(HouseWriteVO hwVO) {
 		return dao.houseRoomInfoSelect(hwVO);
 	}
-	
+	@Override
+	public List<HouseWriteVO> houseListSelect(Map<String, Object> map) {
+		return dao.houseListSelect(map);
+	}
 // mate management /////////////////////////////////////
 	@Override
 	public int mateTotalRecode(Map<String, Object> map) {
@@ -76,7 +79,18 @@ public class AdminServiceImp implements AdminService {
 	public List<MateWriteVO> mateOnePageListSelect(Map<String, Object> map) {
 		return dao.mateOnePageListSelect(map);
 	}
-	
+	@Override
+	public MateWriteVO mateDetailInfoSelectMateWrite(MateWriteVO mwVO) {
+		return dao.mateDetailInfoSelectMateWrite(mwVO);
+	}
+	@Override
+	public MemberVO mateDetailInfoSelectMember(String userid) {
+		return dao.mateDetailInfoSelectMember(userid);
+	}
+	@Override
+	public List<MateWriteVO> mateListSelect(Map<String, Object> map) {
+		return dao.mateListSelect(map);
+	}
 // pay management ///////////////////////////////////
 	@Override
 	public int payTotalRecode(Map<String, Object> map) {
@@ -86,7 +100,10 @@ public class AdminServiceImp implements AdminService {
 	public List<PayVO> payOnePageListSelect(Map<String, Object> map) {
 		return dao.payOnePageListSelect(map);
 	}
-	
+	@Override
+	public List<PayVO> payListSelect(Map<String, Object> map) {
+		return dao.payListSelect(map);
+	}
 // sales management ///////////////////////////////////
 	@Override
 	public List<PayVO> salesOnePageListSelect(Map<String, Object> map) {
@@ -96,6 +113,10 @@ public class AdminServiceImp implements AdminService {
 	public PayVO salesTotalAmountSelect(PayVO payVO) {
 		return dao.salesTotalAmountSelect(payVO);
 	}
+	@Override
+	public List<PayVO> salesListSelect(Map<String, Object> map) {
+		return dao.salesListSelect(map);
+	}	
 
 // report management ///////////////////////////////////	
 	@Override

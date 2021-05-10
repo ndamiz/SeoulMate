@@ -1,4 +1,4 @@
-@charset "UTF-8";
+/* @charset "UTF-8"; */
 
 @font-face {
 	font-family: "NotoSans";
@@ -270,9 +270,8 @@ section{ margin-left:15% ; width: 85%; float: left; }
 .managementRadio{ width: 600px; float: right; }
 .managementPaging li>a, .managementPaging li>a:focus {background: #13a89e; border-color: #fff; color:#fff; border-radius: 10%;}
 .managementPaging li>a:hover, .managementPaging:checked{background: #fff; border-color: #13a89e; color:#13a89e;}
-
 .managementList{width: 95%; margin: 10px auto;}
-
+#printBtn{height: 38px; float: right;}
 /* paging style */
 .paging{margin: 40px auto;width: 380px;}
 .paging a {display: inline-block; margin-top: 0;height: 40px;line-height: 40px;width: 40px;overflow: hidden;
@@ -286,7 +285,8 @@ section{ margin-left:15% ; width: 85%; float: left; }
 	color: #325288;
 	border: 1px solid #d0d9e8;
 }
-
+select[name="searchKey"]{ width: 100px;}
+.managementSearch>div{overflow: auto; float: left;}
 /*  */
 #selectYearMonthDate {
 	width: 80px;
@@ -303,8 +303,8 @@ section{ margin-left:15% ; width: 85%; float: left; }
 
 .managementSearch {width: 380px; float: left; overflow: auto; margin-top: 20px; }
 .managementSearch>select{width: 100px; float: left;}
-.managementSearch input[type=text]{width: 150px; float: left;}
-.managementSearch input[type=submit]{width: 80px; float: left;}
+.managementSearch>input[type=text]{width: 150px; float: left;}
+.managementSearch>input[type=submit]{width: 80px; float: left;}
 /* datePicker */
 .managementDatePicker {
 	float: left;
@@ -339,14 +339,17 @@ section{ margin-left:15% ; width: 85%; float: left; }
 	width: 100%;
 	overflow: auto;
 }
-
+#paySearchDiv{width: 350px;}
+#paySearchDiv>input[name=searchWord]{width: 150px;float: left;}
+#paySearchDiv>select{float: left;}
+#payBtnDiv{float: right;}
 .orderConditionTable>th>span {
 	font-size: 0.5em;
 	margin-left: 10px;
 }
 
 #payManageMentDatePicker {
-	margin: 0px 20px;
+	margin-left: 20px; width: 500px;
 }
 .nowPageNum {
 	background-color: #ddd;
@@ -363,7 +366,7 @@ section{ margin-left:15% ; width: 85%; float: left; }
 	overflow: auto;
 	margin: 40px auto 0px auto;
 }
-
+#salesChart{width: 95%; }
 #graphBtn {
 	width: 38px;
 	height: 38px;
@@ -385,7 +388,7 @@ section{ margin-left:15% ; width: 85%; float: left; }
 	overflow: auto;
 	width: 100%;
 }
-
+.management_houseSearch>div:last-of-type{float: right; margin-top: 20px;}
 .management_houseSelect {
 	float: left;
 	margin-top: 20px;
@@ -406,19 +409,18 @@ section{ margin-left:15% ; width: 85%; float: left; }
 	position: absolute;
 	top: 10%;
 	left: 20%;
-	z-index: 10;
+	z-index: 11;
 	background-color: #fff;
 	border-radius: 10px;
 	box-shadow: 4px 3px 10px 1px rgb(0 0 0/ 25%);
 	min-width: 670px;
 }
 
-.admin_Management_popup>div:nth-of-type(2) {
+.admin_Management_popup_body {
 	width: 95%;
 	margin: 20px auto 0px auto;
-	height: 650px;
+	height: 600px;
 	overflow-y: scroll;
-	border: 1px solid #dee2e6;
 }
 
 .admin_Management_popup_head {
@@ -431,7 +433,11 @@ section{ margin-left:15% ; width: 85%; float: left; }
 	line-height: 60px;
 	border-radius: 10px 10px 0px 0px;
 }
-
+.admin_Management_popup_head_close{
+	float : right;
+	padding-right: 20px;
+	cursor: pointer;
+}
 .admin_Management_popup_title {
 	text-align: center;
 	font-weight: bold;
@@ -439,11 +445,9 @@ section{ margin-left:15% ; width: 85%; float: left; }
 	font-size: 1.5em;
 	height: 60px;
 	line-height: 60px;
-	border: 1px solid #dee2e6;
 }
-
-.admin_Management_popup_table {
-	border: 1px solid #dee2e6;
+.admin_Management_popup_table{
+	border: 1px solid #e9ecef;
 }
 
 .admin_Management_popup_table, .admin_Management_popup_table ul,
@@ -462,23 +466,23 @@ section{ margin-left:15% ; width: 85%; float: left; }
 }
 
 .admin_Management_popup_table_inner0,
-	.admin_Management_popup_table_inner2,
-	.admin_Management_popup_table_inner1,
-	.admin_Management_popup_table_inner3 {
-	border: 1px solid #dee2e6;
-	overflow: auto;
+.admin_Management_popup_table_inner2,
+.admin_Management_popup_table_inner1,
+.admin_Management_popup_table_inner3 {
+border-bottom: 1px solid #dee2e6;
+overflow: auto;
 }
 
 .admin_Management_popup_table_inner0>li:nth-of-type(1),
-	.admin_Management_popup_table_inner0>li:nth-of-type(3) {
-	width: 16%; ,
-	height: 30px;
-	line-height: 30px;
-	text-align: center;
-	font-weight: bold;
-	font-size: 1em;
-	background-color: #e9ecef;
-	padding: 0;
+.admin_Management_popup_table_inner0>li:nth-of-type(3) {
+width: 16%; ,
+height: 30px;
+line-height: 30px;
+text-align: center;
+font-weight: bold;
+font-size: 1em;
+background-color: #e9ecef;
+padding: 0;
 }
 
 .admin_Management_popup_table_inner0>li:nth-of-type(2) {
@@ -533,7 +537,6 @@ section{ margin-left:15% ; width: 85%; float: left; }
 
 .admin_Management_popup_table_img {
 	height: 200px;
-	border-bottom: 1px solid #dee2e6;
 	background-color: #fff;
 }
 
@@ -547,10 +550,11 @@ section{ margin-left:15% ; width: 85%; float: left; }
 
 .admin_Management_popup_table_btn>a {
 	width: 150px;
-	margin: 0px 10px 5px 0px;
 	font-weight: bold;
 }
-
+.popup_Stop_Scroll{overflow: hidden; height: 100%; }
+.myPage_HouseAndMate_Popup_FullScreen{width: 100%; height: 100%; background-color: #ddd; opacity: 0.5;
+	position: fixed; top:0; left: 0; z-index: 10;}
 .popup_hidden {
 	display: none;
 }
