@@ -4,6 +4,7 @@ import java.io.File;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.ResultMap;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.seoulmate.home.service.AdminService;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.MateWriteVO;
@@ -54,6 +57,59 @@ public class AdminController {
 		mav.addObject("report", service.reportTotalRecord());
 		mav.setViewName("admin/reportManagement");
 		return mav;
+	}
+	//신고 상세보기
+	@RequestMapping("/admin/reportDetailInfo")
+	@ResponseBody
+	public ReportVO reportDetailInfo(int num) {
+		ReportVO reportVO = service.reportInfo(num);
+		
+		return reportVO;
+	}
+	//TEST 자동 완성==============================================================================
+	@RequestMapping(value="/admin/json", method=RequestMethod.GET, produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String json(Locale locale, Model model, String keyword) {
+		String[] array = service.reportCategorySelect(keyword);
+		
+		Gson gson = new Gson();
+		
+		return gson.toJson(array);
+	}
+	//신고 처리하기
+	@RequestMapping(value="/admin/reportAdmin")
+	@ResponseBody
+	public String reportAdmin(ReportVO reportVO, boolean visibility, boolean blacklist) {
+		String result = "";
+	
+		if(visibility && reportVO.getState().equals("처리완료")) {//게시글 공개 상태가 true면 당연히 state는 처리완료.
+			
+			//트랜잭션이 필요!!!
+			service.allStateUdate(reportVO.getNo(), reportVO.getUserid(), reportVO.getCategory());
+			service.reportStateUpdate(reportVO.getNum(), reportVO.getState());
+
+			int reportNum = service.checkReportCnt(reportVO.getUserid()); // 누적 신고수 확인
+			//5개 이상이면 블랙리스트 추가
+			if(reportNum>=5) {
+				service.addBlacklist(reportVO.getUserid());
+				result += "blacklist Added / ";
+			}
+			
+			result += "visibility done";
+		}else if(reportVO.getState().equals("허위신고")) { // 허위신고 처리
+			
+			service.reportStateUpdate(reportVO.getNum(), reportVO.getState());
+			
+			//신고처리 되었는데 알고보니 허위신고일때..? -> 게시글은 그냥 상태를 모집중/공개로 바꾸지만 댓글은 content를 업데이트하는건데.. 그럼 삭제전 댓글 내용 필드 추가해야하나...?
+			
+			result = "false report";
+		}
+		//블랙리스트 상태가 true면 해당 회원 블랙리스트 추가
+		if(blacklist) {
+			service.addBlacklist(reportVO.getUserid());
+		}
+		
+		return result;
 	}
 	///////////////////////////////////////////////////////
 	//관리자-회원

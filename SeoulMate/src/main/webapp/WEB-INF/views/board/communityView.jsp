@@ -79,7 +79,19 @@
 		});//ajax end
 	}//1.end
 	$(function(){
+		
+		//댓글 목록 출력 함수
 		replyList();
+		
+		//댓글이 등록 삭제 되었을때 페이지에 댓글 수 변화시키는 함수
+		function replyCntChange(plusOrMinus){
+			if(plusOrMinus=='plus'){//댓글 추가됨
+				$('.replyCnt').text(${replyCnt+1});
+			}else if(plusOrMinus=='minus'){//댓글 삭제됨
+				$('.replyCnt').text(${replyCnt-1});
+			}
+		}
+		
 		//2. 댓글 쓰기
 		$("#replyBtn").click(function(){
 			if($("#comment_content").val()!=''){
@@ -91,6 +103,7 @@
 					data : params,
 					success : function(result){
 						replyList();
+						replyCntChange('plus');
 						console.log("댓글등록 성공!!");
 					},error : function(){
 						console.log("댓글 등록 실패...");
@@ -153,6 +166,7 @@
 					type : "post",
 					success : function(result){
 						replyList();
+						replyCntChange('minus');
 					}, error : function(){
 						console.log("댓글 삭제 실패...");
 					}
@@ -295,7 +309,7 @@
 		</div>
 		<ul>
 			<li>
-				<span class="s_title">${vo.subject}</span>
+				<span class="communityViewSubject">${vo.subject}</span>
 				<c:if test="${vo.userid==logId}">
 					<a href="communityEdit?no=${vo.no}">수정</a>
 					<a href="javascript:communityDel()">삭제</a>
@@ -310,8 +324,8 @@
 					${vo.writedate}
 				</div>
 				<div class="communityView_user_detail">	
-					조회수 : ${vo.hit}<br>
-					댓글수 : ${replyCnt}
+					조회수 : <span>&nbsp;${vo.hit}</span><br>
+					댓글수 : &nbsp;<span class="replyCnt">${replyCnt}</span>
 				</div>
 			</li>
 			
@@ -320,7 +334,7 @@
 			</li>
 		</ul>
 		<!-- 댓글 -->
-		<p class="d_title" style="margin:15px 0; padding-bottom:10px; border-bottom:1px solid #eee">댓글 ${replyCnt}</p>
+		<p class="d_title" style="margin:15px 0; padding-bottom:10px; border-bottom:1px solid #eee">댓글 <span class="replyCnt">${replyCnt}</span></p>
 		<ul id="replyList">
 			<!-- 댓글이 들어올 부분 -->
 		</ul>

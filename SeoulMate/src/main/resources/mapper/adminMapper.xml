@@ -159,4 +159,34 @@
   	<select id="reportTotalRecord" resultType="com.seoulmate.home.vo.ReportVO">
   		select * from report order by num desc
   	</select>
+  	<select id="reportInfo" resultType="com.seoulmate.home.vo.ReportVO">
+  		select * from report where num=${param1}
+  	</select>
+  	<select id="reportCategorySelect" resultType="String">
+  		select DISTINCT dong from zipcode where dong like '%${param1}%'
+  	</select>
+  	<update id="allStateUdate">
+  		update 
+  		<if test="param3 == '하우스'">
+  			housewrite set housestate='비공개' where no=#{param1} and userid=#{param2}
+  		</if>
+  		<if test="param3 == '메이트'">
+  			matewrite set matestate='비공개' where no=#{param1} and userid=#{param2}
+  		</if>
+  		<if test="param3 == '커뮤니티'">
+  			community set state='비공개' where no=#{param1} and userid=#{param2}
+  		</if>
+  		<if test="param3 == '댓글'">
+  			communityreply set content='삭제된 댓글입니다.' where num=#{param1} and userid=#{param2}
+  		</if>
+  	</update>
+  	<update id="reportStateUpdate">
+  		update report set state=#{param2} where num=${param1}
+  	</update>
+  	<select id="checkReportCnt" resultType="int">
+		select count(state) from report where userid=#{param1} and state='처리완료'
+  	</select>
+  	<update id="addBlacklist">
+  		update member set state='블랙' where userid=#{param1}
+   	</update>
 </mapper>

@@ -63,7 +63,17 @@
 	display: table-cell;
 }
 /*/////////////////////////////글 내용 보기 스타일*/
-
+/* 제목에서 밑줄하이라이트 빼기 */
+.communityViewSubject{
+	display: inline-block;
+    margin: 40px 0;
+    font-size: 1.5rem;
+    z-index: 0;
+    padding: 0 6px;
+    position: relative;
+    font-weight: 600;
+    color: #111215;
+}
 /* 사용자 프로필이미지 크기 설정 */
 .communityView_user_porfile img{
 	width: 60px;

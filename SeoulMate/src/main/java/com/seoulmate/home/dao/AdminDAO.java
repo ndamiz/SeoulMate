@@ -50,4 +50,16 @@ public interface AdminDAO {
 	public int reportInsert(ReportVO vo);
 	// 신고 목록 불러오기
 	public List<ReportVO> reportTotalRecord();
+	// 신고 상세보기
+	public ReportVO reportInfo(int num);
+	// 검색 자동완성 테스트
+	public String[] reportCategorySelect(String keyword);
+	// 신고 처리 - 게시글/댓글 상태 수정
+	public int allStateUdate(int no, String userid, String category);
+	// 신고 처리 - 처리완료
+	public int reportStateUpdate(int num, String state);
+	// 신고 처리 - 처리완료 누적수 확인
+	public int checkReportCnt(String userid);
+	// 신고 처리 - 블랙리스트 등록
+	public int addBlacklist(String userid);
 }

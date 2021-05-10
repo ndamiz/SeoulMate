@@ -33,6 +33,8 @@
 				});
 			}
 		});
+		
+		
 	});
 </script>
 <div class="wrap">
@@ -54,7 +56,7 @@
 								<option value="content">글내용</option>
 								<option value="userid">사용자</option>
 							</select>
-							<input name="searchWord" id="comSearch" type="text" placeholder="검색어을 입력해주세요">
+							<input name="searchWord" id="comSearch" type="text" placeholder="검색어을 입력해주세요" autocomplete="off">
 							<button class="searchBtn" href="">
 								<img alt="검색하기" src="<%=request.getContextPath()%>/img/yun/ico_search_black.png">
 							</button>
