@@ -10,7 +10,7 @@
 	#loginBtn{width:350px;}
 </style>
 <div class="admin_login">
-	<div class="m_title managementTitle">로그인</div>
+	<div class="m_title managementTitle">관리자 로그인</div>
 	<form method="post" action="/home/admin/loginOk" id="admin_form">
 		<ul class="admin_ul">
 			<li><label>아이디</label>

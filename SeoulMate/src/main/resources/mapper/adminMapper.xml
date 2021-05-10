@@ -7,8 +7,9 @@
 		select * from (select * from (select * from 
   		(select * from 
   		(select * from 
-  		(select no, userid, username, tel, email, grade, reportcnt, state from member 
-  		<if test='searchKey !=null and searchWord != null and searchKey != "" and searchWord !=""'>where ${searchKey} like '%${searchWord}%'</if>)
+  		(select m.no, m.userid, m.username, m.tel, m.email, m.grade, m.state, r.reportcnt from member m join  
+		(select userid, count(num) as reportcnt from report group by userid) r on m.userid=r.userid(+) 
+  		<if test='searchKey !=null and searchWord != null and searchKey != "" and searchWord !=""'>where m.${searchKey} like '%${searchWord}%'</if>)
   		<if test="grade != null and grade != 0"> where grade=${grade} </if>)
   		<if test='state != null and state !=""'> where state=#{state}</if>)  
   		order by no desc)
@@ -17,7 +18,8 @@
   		<if test="pageNum!=totalPage">${onePageRecode}</if> ORDER BY no DESC
   	</select>
   	<select id="memberInfo" resultType="com.seoulmate.home.vo.MemberVO">
-  		select profilepic, userid, userpwd, username, to_char(birth, 'YYYY-MM-DD') birth, tel, email, reportcnt, state from member where userid=#{param1}
+  		select m.profilepic, m.userid, m.userpwd, m.username, to_char(m.birth, 'YYYY-MM-DD') birth, m.tel, m.email, r.reportcnt, m.state from member m join  
+		(select userid, count(num) as reportcnt from report group by userid) r on m.userid=r.userid(+) and m.userid=#{param1}
   	</select>
   	<select id="membertotalRecord" parameterType="com.seoulmate.home.vo.PagingVO" resultType="int">
   		select count(no) no from 
@@ -28,7 +30,7 @@
   		<if test="grade == 1 or grade == 2">where grade=${grade}</if>
   	</select>
   	<update id="memberInfoSave" parameterType="com.seoulmate.home.vo.MemberVO">
-  		update member set profilePic=#{profilePic}, reportcnt=#{reportCnt}, username=#{username}, tel=#{tel}, email=#{email}, 
+  		update member set profilePic=#{profilePic}, username=#{username}, tel=#{tel}, email=#{email}, 
   		<choose>
   			<when test='state==null'>
   				state='일반'

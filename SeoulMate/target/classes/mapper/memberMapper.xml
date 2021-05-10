@@ -3,11 +3,20 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.seoulmate.home.dao.MemberDAO">
+  	<select id="gu" resultType="String">
+  		select distinct(gu) from zipcode order by gu
+  	</select>
+  	<select id="dong" resultType="String">
+  		select distinct(dong) from zipcode where gu=#{param1} and not dong is null order by dong
+  	</select>
 	<select id="loginCheck" resultType="com.seoulmate.home.vo.MemberVO">
 		select userid, username, state, grade, area from member where userid=#{param1} and userpwd=#{param2}
 	</select>
   	<select id="idCheck" resultType="int">
   		select count(userid) from member where userid=#{param1}
+  	</select>
+  	<select id="emailCheck" resultType="int">
+  		select count(email) from member where email=#{param1}
   	</select>
   	<insert id="memberInsert" parameterType="com.seoulmate.home.vo.MemberVO">
   		insert into member(no, userid, userpwd, username, tel, email, birth, gender, area, profilePic) 

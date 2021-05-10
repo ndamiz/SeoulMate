@@ -1,6 +1,7 @@
 package com.seoulmate.home.controller;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.UUID;
 
@@ -51,8 +52,8 @@ public class MemberController {
 		String arr1[] = {"010","02","031","032","033","041","042","043","044","051","052","053","054","055","061","062","063","064"};
 		mav.addObject("arr1", arr1);
 		
-		String guArr[]= {"강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구"
-				,"동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"};
+		// 구
+		String guArr[]=service.gu();
 		mav.addObject("guArr", guArr); 
 		
 		mav.setViewName("member/memberForm");
@@ -64,36 +65,43 @@ public class MemberController {
 	@ResponseBody
 	public String emailCheck(HttpSession session, HttpServletRequest req) {
 		String email=req.getParameter("email"); // 인증 번호를 받을 이메일
-		UUID random=UUID.randomUUID();
-		String uuid=random.toString();
-		String code=uuid.substring(0,6);
-		String subject="서울메이트 이메일 인증 번호 메일입니다.";
-		String content="<div style='width: 600px; height: 225px; border-radius: 20px; "
-				+ "background-color: #fff; box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%); overflow: hidden;'>"
-				+ "<div style='height: 50px; line-height: 50px; background-color: #13a89e; color: #fff; text-align: center;'>"
-				+ "<img style='width: 121; height: 30px; margin:10px 0;' src='https://0905cjw.github.io/seoulmate_email.png'/></div>"
-				+ "<div style='padding: 30px;'>"
-				+ "<div style='margin:10px auto;'><h3>회원 가입을 위한 서울메이트 이메일 인증 번호</h3></div>"
-				+ "<span>인증 번호 : "+code
-				+ "</span></div><div style=\"padding: 15px 0; text-align: center; box-shadow: 0 -1px 22px -2px rgb(0 0 0 / 15%);\">"
-				+ "<span style=\"color: #13a89e; font-weight:bold; font-size:12px;\">Copyright © 2021 공일이오 Co., Ltd. All rights reserved.</span>"
-				+ "</div></div>";
-		try {
-			MimeMessage message=mailSender.createMimeMessage();
-			MimeMessageHelper messageHelper=new MimeMessageHelper(message, true, "UTF-8");
-			messageHelper.setFrom("seoulmatemanager@gmail.com");
-			messageHelper.setTo(email);
-			messageHelper.setSubject(subject);
-			messageHelper.setText("text/html; charset=UTF-8", content);
-			mailSender.send(message);
-			
-			session.setAttribute("code", code);
-		}catch(Exception e) {
-			System.out.println("이메일 인증번호 전송 에러 발생...");
-			e.printStackTrace();
+		String result="fail";
+		
+		int emailCheck=service.emailCheck(email);
+		if(emailCheck==0) {
+			UUID random=UUID.randomUUID();
+			String uuid=random.toString();
+			String code=uuid.substring(0,6);
+			String subject="서울메이트 이메일 인증 번호 메일입니다.";
+			String content="<div style='width: 600px; height: 225px; border-radius: 20px; "
+					+ "background-color: #fff; box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%); overflow: hidden;'>"
+					+ "<div style='height: 50px; line-height: 50px; background-color: #13a89e; color: #fff; text-align: center;'>"
+					+ "<img style='width: 121; height: 30px; margin:10px 0;' src='https://0905cjw.github.io/seoulmate_email.png'/></div>"
+					+ "<div style='padding: 30px;'>"
+					+ "<div style='margin:10px auto;'><h3>회원 가입을 위한 서울메이트 이메일 인증 번호</h3></div>"
+					+ "<span>인증 번호 : "+code
+					+ "</span></div><div style=\"padding: 15px 0; text-align: center; box-shadow: 0 -1px 22px -2px rgb(0 0 0 / 15%);\">"
+					+ "<span style=\"color: #13a89e; font-weight:bold; font-size:12px;\">Copyright © 2021 공일이오 Co., Ltd. All rights reserved.</span>"
+					+ "</div></div>";
+			try {
+				MimeMessage message=mailSender.createMimeMessage();
+				MimeMessageHelper messageHelper=new MimeMessageHelper(message, true, "UTF-8");
+				messageHelper.setFrom("seoulmatemanager@gmail.com");
+				messageHelper.setTo(email);
+				messageHelper.setSubject(subject);
+				messageHelper.setText("text/html; charset=UTF-8", content);
+				mailSender.send(message);
+				
+				session.setAttribute("code", code);
+			}catch(Exception e) {
+				System.out.println("이메일 인증번호 전송 에러 발생...");
+				e.printStackTrace();
+			}
+			result=code;
 		}
 		
-		return code;
+		
+		return result;
 	}
 	
 	@RequestMapping("/pwdFind")
@@ -174,7 +182,7 @@ public class MemberController {
 		String path=req.getSession().getServletContext().getRealPath("/profilePic");
 		String orgName=filename.getOriginalFilename(); // 기존 파일 명
 		String realName="";
-		
+		String delFilename=req.getParameter("delFile");
 		try {
 			if(orgName != null && !orgName.equals("")) {
 				File f=new File(path, orgName);
@@ -226,6 +234,13 @@ public class MemberController {
 			}
 		}catch(Exception e){
 			System.out.println("회원가입 실패(트랜잭션)");
+			try { // 트랜잭션이 발생할 때 업로드하려던 파일을 다시 삭제한다.
+				File dFileObj=new File(path, realName);
+				dFileObj.delete();
+			}catch(Exception e1) {
+				System.out.println("회원가입 실패(트랜잭션) 파일 삭제 에러 발생");
+				e.printStackTrace();
+			}
 			mav.setViewName("redirect:memberForm");
 		}
 		
@@ -314,20 +329,44 @@ public class MemberController {
 		
 		session.removeAttribute("code"); // 새로 고침 했을 때 인증 번호를 지워버림
 		
+		// 연락처 앞자리
 		String arr1[] = {"010","02","031","032","033","041","042","043","044","051","052","053","054","055","061","062","063","064"};
-		String guArr[]= {"강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구"
-				,"동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"};
+		// 구
+		String guArr[]=service.gu();
 		
 		String userid=(String)session.getAttribute("logId");
-		mav.addObject("arr1", arr1);
-		mav.addObject("guArr", guArr);
 		
 		MemberVO vo=service.memberSelect(userid);
 		
+		/* 구, 동 start */
+		String[] area1=vo.getArea1().split(" "); // 희망 지역 1의 구
+		String[] area2=null;
+		String[] area3=null;
+		if(vo.getArea2()!=null) {
+			area2=vo.getArea2().split(" "); // 희망 지역 2의 구
+			mav.addObject("selDong2", service.dong(area2[0]));
+		}
+		if(vo.getArea3()!=null) {
+			area3=vo.getArea3().split(" "); // 희망 지역 3의 구
+			mav.addObject("selDong3", service.dong(area3[0]));
+		}
+		mav.addObject("guArr", guArr); // 구
+		mav.addObject("selDong1", service.dong(area1[0]));
+		/* 구, 동 end */
+		
+		mav.addObject("arr1", arr1); // 연락처 앞자리
 		mav.addObject("vo", service.memberSelect(userid));
 		mav.setViewName("member/memberEditForm");
 		
 		return mav;
+	}
+	
+	@RequestMapping("/memberDong")
+	@ResponseBody
+	public String[] memberDong(String gu) {
+		String[] dong=service.dong(gu);
+		
+		return dong;
 	}
 	
 	@RequestMapping(value="/memberEditOk", method=RequestMethod.POST)
@@ -540,6 +579,7 @@ public class MemberController {
 		String userid=(String)session.getAttribute("logId");
 		PropensityVO pVO=service.propMateSelect(userid);
 		
+		MemberVO vo=service.memberSelect(userid);
 		/*
 		System.out.println("성향 번호 : "+pVO.getPno());
 		System.out.println("아이디 : "+pVO.getUserid());
@@ -566,7 +606,7 @@ public class MemberController {
 		System.out.println("메이트 즉시 입주 가능 여부 : "+pVO.getM_now());
 		System.out.println("성향 등록일 : "+pVO.getPdate());
 		*/
-		
+		mav.addObject("vo", vo);
 		mav.addObject("pVO", pVO);
 		mav.setViewName("member/proEditMateForm");
 		

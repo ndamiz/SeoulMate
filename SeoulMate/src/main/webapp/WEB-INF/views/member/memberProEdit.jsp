@@ -7,7 +7,7 @@
 		<div class="title_wrap p_center">
 			<c:if test="${pcaseM==1}">
 				<p class="s_title s_margin">메이트 성향 수정</p><br/>
-				<a class="green s_margin" href="proEditMateForm">메이트 성향 수정</a>
+				<a class="green s_margin" href="proEditMateForm">메이트 성향 수정</a><br/>
 			</c:if>
 			<c:if test="${pcaseH>0}"> <!-- 수정해야 할 수도 있음 -->
 				<p class="s_title s_margin">하우스 성향 수정</p><br/>
