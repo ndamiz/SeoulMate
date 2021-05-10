@@ -239,7 +239,7 @@ public class MemberController {
 				dFileObj.delete();
 			}catch(Exception e1) {
 				System.out.println("회원가입 실패(트랜잭션) 파일 삭제 에러 발생");
-				e.printStackTrace();
+				e1.printStackTrace();
 			}
 			mav.setViewName("redirect:memberForm");
 		}

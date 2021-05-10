@@ -124,6 +124,16 @@
 			$(document.getElementById("infoEmail")).css('backgroundColor', '');
 		});
 		
+		// 등급 필터
+		$("#member_grade").change(function(){
+			$("#memberForm").submit();
+		});
+		
+		// 상태 필터
+		$("#member_state").change(function(){
+			$("#memberForm").submit();
+		});
+		
 		// 프로필 사진
 		$("#profilePic").on('change', function(){
 			$("#delFile").attr('name', 'delFile');
@@ -167,7 +177,7 @@
 </script>
 	<section>
 		<div class="m_title managementTitle">회원 관리</div>
-		<form method="post" action="/home/admin/memberManagement" class="managementSearchForm">
+		<form method="post" id="memberForm" action="/home/admin/memberManagement" class="managementSearchForm">
 			<div class="management_memberSearch">
 				<div class="management_memberSelect">
 					<span class="managementSpan" id="gradeSpan">등급</span>
