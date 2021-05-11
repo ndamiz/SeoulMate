@@ -12,6 +12,9 @@
 			<c:if test="${pcaseH>0}"> <!-- 수정해야 할 수도 있음 -->
 				<p class="s_title s_margin">하우스 성향 수정</p><br/>
 				<ul class="s_margin" id="proUl">
+					<c:if test="${noHouse>0}">
+						<li><a href="proEditNoHouseForm?pno=${noList}">성향 수정</a></li>
+					</c:if>
 					<c:forEach var="vo" items="${list}">
 						<li><a href="proEditHouseForm?pno=${vo.pno}">${vo.housename}</a></li>
 					</c:forEach>

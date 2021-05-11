@@ -58,4 +58,12 @@ public interface MemberService {
 	public PropensityVO propHouseSelect(String userid, int pno);
 	// 하우스 성향 수정
 	public int propHouseUpdate(PropensityVO pVO);
+	// 집 등록을 하지않은 하우스 성향 갯수 가져오기
+	public int propHcnt(String userid);
+	// 집 등록을 하지않은 하우스의 번호 가져오기
+	public int propNoHouse(String userid);
+	// 집 등록을 하지않은 하우스의 성향 가져오기
+	public int noHousePnoChk(String userid, int pno);
+	// 집 등록을 하지않은 하우스의 성향 수정
+	public int propNoHouseUpdate(PropensityVO pVO);
 }
