@@ -13,4 +13,6 @@ public interface CommunityReplyDAO {
 	public int replyUpdate(CommunityReplyVO vo);
 	//댓글 삭제하기
 	public int replyDel(int num, String userid);
+	//신고관리에서 원글번호 알아내기
+	public String replyOriNum(int no);
 }

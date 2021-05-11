@@ -581,6 +581,11 @@ section{ margin-left:15% ; width: 85%; float: left; }
 .reportSearchKey input[type=submit]{width: 80px; float: left;}
 .reportSearch{float:right; text-align: right; width:300px;margin-top: 20px;padding-left:43px;}
 .reportSearch>input:nth-child(1){width:70%;float:left;}
+
+#reportLink, #reportcontentR{
+	padding: 0;
+}
+
 /* 팝업 스타일 */
 .pup_wrap{
 	display:none;

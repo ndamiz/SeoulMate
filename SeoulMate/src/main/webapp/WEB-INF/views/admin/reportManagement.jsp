@@ -2,10 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script>
 	$(function(){
+		var selected = "";
 		//신고 상세보기
 		$(".admin_ReportManagement_DetailInfo").on('click', function(){
 			var params = 'num='+$(this).children().eq(0).text();
 			var url = "/home/admin/reportDetailInfo"
+			selected = $(this);//눌린 
 			
 			$.ajax({
 				url : url,
@@ -31,8 +33,26 @@
 			$('#reportcontentR').val(result.reportcontent);
 			$("input:radio[name ='state']:input[value='"+result.state+"']").attr("checked", true);
 
-			//$("#category").val('${list.category}').prop('selected', true);
-			
+			//신고 글 링크 걸기
+			if(result.category=='하우스'){
+				$('#reportLink').attr('href', '/home/houseView?no='+result.no)
+			}else if(result.category=='메이트'){
+				$('#reportLink').attr('href', '/home/mateView?no='+result.no)
+			}else if(result.category=='커뮤니티'){
+				$('#reportLink').attr('href', '/home/communityView?no='+result.no)
+			}else if(result.category=='댓글'){
+				//댓글의 원글번호가 필요하다
+				$.ajax({
+					url : '/home/replyOriNum',
+					data : 'no='+result.no,
+					success : function(replyOriNum){
+						$('#reportLink').attr('href', '/home/communityView?no='+replyOriNum+'&reply='+result.no);
+					}, error :function(){
+						console.log('댓글 원번호 가져오기 에러')
+					}
+				});
+			}
+
 			//팝업 열기
 			$(".report_popup").css('display','block');
 			$(document.body).css('overflow','hidden');
@@ -40,26 +60,52 @@
 		
 		//신고처리하기
 		$('#reportAdmin').submit(function(){
-			//게시글 공개 여부
-			var state = $('input[name=visibility]').is(':checked');
-			//블랙리스트 등록 여부
-			var blacklist = $('input[name=blacklist]').is(':checked');
-			//처리 상태
-			var reportState = $('input[name=state]:checked').val();
+			
 			var num = $('#noR').val();
-			alert(num)
 			$.ajax({
 				url : '/home/admin/reportAdmin',
 				data : $(this).serialize(),
-				success : function(){
+				success : function(result){
+					console.log(result);
+					if(result=='failed'){
+						alert('신고 처리에 실패했습니다.');
+					}else{//신고처리 성공
+						alert('신고가 처리되었습니다.');
+						//게시글 공개 여부
+						var state = $('input[name=visibility]').is(':checked');
+						//블랙리스트 등록 여부
+						var blacklist = $('input[name=blacklist]').is(':checked');
+						//처리 상태
+						var reportState = $('input[name=state]:checked').val();
+						
+						updateReportTable(reportState, blacklist, state);
+					}
 					
+					$('.report_popup').css('display','none'); //창닫기
 				},error : function(){
-					
+					console.log('신고 실패')
+					alert('신고 처리에 실패했습니다.ajax');
 				}
 			})
 			return false;
 		});
 		
+		function updateReportTable(reportState, blacklist, blacklist){
+			//게시글 수정
+			if(reportState){
+				$(selected).children().eq(5).text('비공개');
+			}else{
+				$(selected).children().eq(5).text('공개');
+			}
+			//블랙리스트 상태 수정
+			if(blacklist){
+				$(selected).children().eq(6).text('등록');
+			}else{
+				$(selected).children().eq(6).text('미등록')
+			}
+			//상태 수정
+			$(selected).children().eq(8).text(blacklist);
+		}
 		//검색어 자동완성============================================================================================================
 		jQuery.curCSS = function(element, prop, val) {//jquery a.Cur샬라샬라에러떠서
 		    return jQuery(element).css(prop, val);
@@ -194,20 +240,26 @@
 							<li><div>글번호</div> <input id="noR" type="text" name="no" readonly> </li>
 							<li><div>신고일</div> <input id="reportdateR" type="text" name="reportdate" readonly> </li>
 							<li><div>신고 사유</div> <input id="reportcategoryR" type="text" name="reportcategory" readonly> </li>
-							<li><div>상세내용</div> <textarea id="reportcontentR" rows="5" name="reportcontent" readonly></textarea> </li>
-							<li><div>게시글 공개</div>
+							<li>
+								<div>
+									신고상세내용<br>
+									<a id="reportLink" target="blank">신고글보기</a>
+								</div> 
+								<textarea id="reportcontentR" rows="5" name="reportcontent" readonly></textarea> 
+							</li>
+							<li><div>*게시글 공개</div>
 								<div class="toggle_cont">
 								<input id="toggle_1" class="cmn_toggle cmn_toggle_round" type="checkbox" name="visibility">
 								<label for="toggle_1"></label>
 								</div><br>
 							</li>
-							<li><div>블랙리스트</div>
+							<li><div>*블랙리스트</div>
 								<div class="toggle_cont">
 								<input id="toggle_2" class="cmn_toggle cmn_toggle_round" type="checkbox" name="blacklist">
 								<label for="toggle_2"></label>
 								</div><br>
 							</li>
-							<li><div>처리 상태</div>
+							<li><div>*처리 상태</div>
 								<div id="radioDiv" class="reportState">
 									<input type="radio" name="state" value="미처리">미처리
 									<input type="radio" name="state" value="처리완료">처리완료
@@ -219,7 +271,7 @@
 				</div>
 			</div>
 			<div class="pup_bottom">
-				<a class="btn_cancel">닫기</a>
+				<a href="" class="btn_cancel">닫기</a>
 				<a href="javascript:$('#reportAdmin').submit()" class="btn_save">처리</a>
 <!-- 				<a href="" class="btn_del">삭제</a> -->
 			</div>

@@ -106,8 +106,8 @@ public class AdminServiceImp implements AdminService {
 		return dao.reportCategorySelect(keyword);
 	}
 	@Override
-	public int allStateUdate(int no, String userid, String category) {
-		return dao.allStateUdate(no, userid, category);
+	public int allStateUdate(int no, String userid, String category, String state) {
+		return dao.allStateUdate(no, userid, category, state);
 	}
 	@Override
 	public int reportStateUpdate(int num, String state) {

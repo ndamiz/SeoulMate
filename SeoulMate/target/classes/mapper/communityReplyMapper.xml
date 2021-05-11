@@ -16,4 +16,7 @@
  	<delete id="replyDel">
  		delete from communityreply where num=${param1} and userid=#{param2}
  	</delete>
+ 	<select id="replyOriNum" resultType="String">
+ 		select no from communityReply where num=${param1}
+ 	</select>
  </mapper>

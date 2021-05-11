@@ -11,8 +11,12 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.ResultMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,6 +40,8 @@ public class AdminController {
 	@Inject
 	AdminService service;
 	
+	@Autowired
+	private DataSourceTransactionManager transactionManager;
 	
 	//admin에 들어오면 나오는 대시보드
 	@RequestMapping("/admin")
@@ -79,30 +85,49 @@ public class AdminController {
 	//신고 처리하기
 	@RequestMapping(value="/admin/reportAdmin")
 	@ResponseBody
+	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
 	public String reportAdmin(ReportVO reportVO, boolean visibility, boolean blacklist) {
 		String result = "";
-	
-		if(visibility && reportVO.getState().equals("처리완료")) {//게시글 공개 상태가 true면 당연히 state는 처리완료.
+		
+		//트랜잭션
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED); // 트랜잭션 호출
+		TransactionStatus status = transactionManager.getTransaction(def); 
+		
+		//게시글 공개 상태가 true면 당연히 state는 처리완료.
+		if(visibility && reportVO.getState().equals("처리완료")) {
 			
-			//트랜잭션이 필요!!!
-			service.allStateUdate(reportVO.getNo(), reportVO.getUserid(), reportVO.getCategory());
-			service.reportStateUpdate(reportVO.getNum(), reportVO.getState());
+			try {
+				service.allStateUdate(reportVO.getNo(), reportVO.getUserid(), reportVO.getCategory(), reportVO.getState()); //글 상태 비공개로 변경
+				service.reportStateUpdate(reportVO.getNum(), reportVO.getState()); //신고관리목록에서 처리완료로 상태변경
 
-			int reportNum = service.checkReportCnt(reportVO.getUserid()); // 누적 신고수 확인
-			//5개 이상이면 블랙리스트 추가
-			if(reportNum>=5) {
-				service.addBlacklist(reportVO.getUserid());
-				result += "blacklist Added / ";
+				int reportNum = service.checkReportCnt(reportVO.getUserid()); // 누적 신고수 확인
+				//5개 이상이면 블랙리스트 추가
+				if(reportNum>=5) {
+					service.addBlacklist(reportVO.getUserid());
+					result += "blacklist+";
+				}
+				transactionManager.commit(status);
+				result += "blocked";
+			}catch(Exception e) {
+				e.printStackTrace();
+				System.out.println("신고하기 트랜잭션 1 - 처리완료 에러");
+				result = "failed";
 			}
-			
-			result += "visibility done";
-		}else if(reportVO.getState().equals("허위신고")) { // 허위신고 처리
-			
-			service.reportStateUpdate(reportVO.getNum(), reportVO.getState());
-			
-			//신고처리 되었는데 알고보니 허위신고일때..? -> 게시글은 그냥 상태를 모집중/공개로 바꾸지만 댓글은 content를 업데이트하는건데.. 그럼 삭제전 댓글 내용 필드 추가해야하나...?
-			
-			result = "false report";
+		
+		// 허위신고 처리
+		}else if(reportVO.getState().equals("허위신고")) {
+		
+			try {
+				service.allStateUdate(reportVO.getNo(), reportVO.getUserid(), reportVO.getCategory(), reportVO.getState()); //글 상태 공개로 다시 변경
+				service.reportStateUpdate(reportVO.getNum(), reportVO.getState());
+				transactionManager.commit(status);
+				result = "false report";
+			}catch(Exception e) {
+				e.printStackTrace();
+				System.out.println("신고하기 트랜잭션 2 - 허위신고 처리 에러");
+				result = "false report failed";
+			}
 		}
 		//블랙리스트 상태가 true면 해당 회원 블랙리스트 추가
 		if(blacklist) {

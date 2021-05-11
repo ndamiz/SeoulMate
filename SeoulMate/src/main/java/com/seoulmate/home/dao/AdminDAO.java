@@ -55,7 +55,7 @@ public interface AdminDAO {
 	// 검색 자동완성 테스트
 	public String[] reportCategorySelect(String keyword);
 	// 신고 처리 - 게시글/댓글 상태 수정
-	public int allStateUdate(int no, String userid, String category);
+	public int allStateUdate(int no, String userid, String category, String state);
 	// 신고 처리 - 처리완료
 	public int reportStateUpdate(int num, String state);
 	// 신고 처리 - 처리완료 누적수 확인

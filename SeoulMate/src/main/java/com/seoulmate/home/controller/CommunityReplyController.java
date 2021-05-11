@@ -63,4 +63,13 @@ public class CommunityReplyController {
 		}
 		return deleteCnt+"개 삭제 성공";
 	}
+	// 신고 관리에서 댓글의 원글번호 받기 
+	@RequestMapping("/replyOriNum")
+	@ResponseBody
+	public int replyOriNum(int no) {
+		System.out.println(no+"///");
+		int oriNo = Integer.parseInt(service.replyOriNum(no));
+				
+		return oriNo;
+	}
 }

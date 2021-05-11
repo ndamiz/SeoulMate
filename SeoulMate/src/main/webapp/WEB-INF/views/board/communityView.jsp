@@ -58,7 +58,7 @@
 							tag += '<button class="white" style="visibility:hidden">수정취소</button>'
 						}						
 						
-						tag += '<li class="communityView_comment_content">'
+						tag += '<li id="'+obj.num+'" class="communityView_comment_content">'
 							tag += obj.content
 						tag += '</li>';
 						//댓글 수정폼
@@ -73,15 +73,34 @@
 						}
 				});
 				$("#replyList").html(tag);
+				
+				//신고관리 접근일때 댓글 아이디값으로 바로가기.
+				if(${reply} != '0'){
+					moveToReply(${reply});
+				}
+				
 			},error : function(){
 				console.log("댓글 목록 실패...");
 			}
 		});//ajax end
 	}//1.end
+	
+	function moveToReply(num){
+		alert(num);
+		document.getElementById(num).scrollIntoView();
+		document.getElementById(num).style.backgroundColor = '#d0d9e8';
+		
+		//var replyNum = '#'+${reply};
+        //var offset = $('#commen.offset();
+        //$('html').animate({scrollTop : offset.top}, 400);
+	}
+	
 	$(function(){
 		
 		//댓글 목록 출력 함수
 		replyList();
+		
+		
 		
 		//댓글이 등록 삭제 되었을때 페이지에 댓글 수 변화시키는 함수
 		function replyCntChange(plusOrMinus){

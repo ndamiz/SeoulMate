@@ -168,16 +168,44 @@
   	<update id="allStateUdate">
   		update 
   		<if test="param3 == '하우스'">
-  			housewrite set housestate='비공개' where no=#{param1} and userid=#{param2}
+  			housewrite set 
+  			<if test="param4 == '처리완료'">
+  				housestate='비공개' 
+  			</if>
+  			<if test="param4 == '허위신고'">
+  				housestate='공개' 
+  			</if>
+  			where no=#{param1} and userid=#{param2}	
   		</if>
   		<if test="param3 == '메이트'">
-  			matewrite set matestate='비공개' where no=#{param1} and userid=#{param2}
+  			matewrite set 
+			<if test="param4 == '처리완료'">
+  				matestate='비공개' 
+  			</if>
+  			<if test="param4 == '허위신고'">
+  				matestate='공개' 
+  			</if>
+  			where no=#{param1} and userid=#{param2}	
   		</if>
   		<if test="param3 == '커뮤니티'">
-  			community set state='비공개' where no=#{param1} and userid=#{param2}
+  			community set 
+			<if test="param4 == '처리완료'">
+  				state='비공개' 
+  			</if>
+  			<if test="param4 == '허위신고'">
+  				state='공개' 
+  			</if>
+  			where no=#{param1} and userid=#{param2}
   		</if>
   		<if test="param3 == '댓글'">
-  			communityreply set content='삭제된 댓글입니다.' where num=#{param1} and userid=#{param2}
+  			communityreply set 
+			<if test="param4 == '처리완료'">
+  				state='비공개' 
+  			</if>
+  			<if test="param4 == '허위신고'">
+  				state='공개' 
+  			</if>
+  			where no=#{param1} and userid=#{param2}
   		</if>
   	</update>
   	<update id="reportStateUpdate">

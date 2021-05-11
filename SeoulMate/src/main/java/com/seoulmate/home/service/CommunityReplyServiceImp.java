@@ -34,4 +34,9 @@ public class CommunityReplyServiceImp implements CommunityReplyService {
 	public int replyDel(int num, String userid) {
 		return dao.replyDel(num, userid);
 	}
+
+	@Override
+	public String replyOriNum(int no) {
+		return dao.replyOriNum(no);
+	}
 }
