@@ -83,9 +83,9 @@
 				alert("이메일을 잘못 입력하셨습니다.");
 				return false;
 			}
-			var form=$("#memInfoForm")[0];
+			var form=$("#memInfoForm")[0]; // 폼을 변수에 담음
 			var url="/home/admin/memInfoSave";
-			var params=new FormData(form);
+			var params=new FormData(form); // 변수에 담은 폼을 FormData 객체로 만들어 데이터로 넣음
 			
 			$.ajax({
 				url:url,

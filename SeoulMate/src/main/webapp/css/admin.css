@@ -572,6 +572,7 @@ section{ margin-left:15% ; width: 85%; float: left; }
 #member_grade{width:100px;}
 #member_state{width:120px;}
 #stateSpan{margin-left:18px;}
+#profilePic{border:0 !important;}
 
 /* reportManagement */
 .reportSearch {width:550px; float: left; overflow: auto; margin-top: 20px; }
