@@ -60,6 +60,7 @@ public class AdminController {
 	@RequestMapping(value="/admin/reportManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView adminReport() {
 		ModelAndView mav = new ModelAndView();
+		
 		mav.addObject("report", service.reportTotalRecord());
 		mav.setViewName("admin/reportManagement");
 		return mav;
@@ -69,6 +70,7 @@ public class AdminController {
 	@ResponseBody
 	public ReportVO reportDetailInfo(int num) {
 		ReportVO reportVO = service.reportInfo(num);
+		//reportVO.setvState(service.)
 		
 		return reportVO;
 	}
@@ -130,7 +132,8 @@ public class AdminController {
 			}
 		}
 		//블랙리스트 상태가 true면 해당 회원 블랙리스트 추가
-		if(blacklist) {
+		if(blacklist && reportVO.getState().equals("처리완료")) {
+			System.out.println("????????????");
 			service.addBlacklist(reportVO.getUserid());
 		}
 		

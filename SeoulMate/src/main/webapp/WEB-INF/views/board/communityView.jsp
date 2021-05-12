@@ -52,15 +52,28 @@
 							tag += '<button id="'+idx+'" class="white">답글</button>'
 							tag += '<input type="hidden" value="'+obj.userid+'">'
 							tag += '<input type="hidden" value="'+obj.num+'">'
-							tag += '<button class="replyReport white">신고</button></div>'
+							if(obj.state=='공개'){
+								tag += '<button class="replyReport white">신고</button></div>'	
+							}else{
+								tag += '<button class="report white" style="display:none">신고</button></div>'				
+							}
 						}else{
 							//로그인 안했으면 . 공간 메꾸기 용 버튼
 							tag += '<button class="white" style="visibility:hidden">수정취소</button>'
 						}						
 						
-						tag += '<li id="'+obj.num+'" class="communityView_comment_content">'
+						
+						//댓글 공개 상태 체크 
+						if(obj.state=='공개'){
+							tag += '<li id="'+obj.num+'" class="communityView_comment_content">'
 							tag += obj.content
-						tag += '</li>';
+							tag += '</li>';
+						}else{
+							tag += '<li id="'+obj.num+'" class="communityView_comment_content">'
+							tag += '해당 댓글은 숨김 처리되었습니다.'
+							tag += '</li>';
+						}
+						
 						//댓글 수정폼
 						if(obj.userid=="${logId}"){
 							tag += '<form class="replyEditForm"><div style="display:none">'

@@ -31,6 +31,7 @@
 			$('#reportdateR').val(result.reportdate);
 			$('#reportcategoryR').val(result.reportcategory);
 			$('#reportcontentR').val(result.reportcontent);
+			$('#toggle_2').is(':checked') == result.bState;
 			$("input:radio[name ='state']:input[value='"+result.state+"']").attr("checked", true);
 
 			//신고 글 링크 걸기
@@ -90,7 +91,8 @@
 			return false;
 		});
 		
-		function updateReportTable(reportState, blacklist, blacklist){
+		//신고처리하고 신고테이블 바뀐 정보로 보여주기 함수
+		function updateReportTable(reportState, blacklist, state){
 			//게시글 수정
 			if(reportState){
 				$(selected).children().eq(5).text('비공개');
@@ -104,8 +106,9 @@
 				$(selected).children().eq(6).text('미등록')
 			}
 			//상태 수정
-			$(selected).children().eq(8).text(blacklist);
+			$(selected).children().eq(8).text(state);
 		}
+		
 		//검색어 자동완성============================================================================================================
 		jQuery.curCSS = function(element, prop, val) {//jquery a.Cur샬라샬라에러떠서
 		    return jQuery(element).css(prop, val);
@@ -190,7 +193,7 @@
 						<th>신고자 ID</th>
 						<th>신고분류</th>
 						<th>신고글번호</th>
-						<th>게시글 공개</th><!-- 게시글 공개여부랑 블랙리스트 상태는 ajax로 페이지 실행될때 가져와야할거같은데 왜냐면 신고목록 select 할때 글번호, 어디 게시판인지도 모르잖아 -->
+<!-- 						<th>게시글 공개</th>게시글 공개여부랑 블랙리스트 상태는 ajax로 페이지 실행될때 가져와야할거같은데 왜냐면 신고목록 select 할때 글번호, 어디 게시판인지도 모르잖아 -->
 						<th>블랙리스트</th>
 						<th>신고일</th>
 						<th>상태</th>
@@ -204,8 +207,8 @@
 							<td>${report.reportid}</td>
 							<td>${report.category}</td>
 							<td>${report.no}</td>
-							<td>공개</td>
-							<td>미등록</td>
+<%-- 							<td>${report.vState}</td> --%>
+							<td>${report.bState}</td>
 							<td>${report.reportdate}</td>
 							<td>${report.state}</td>
 						</tr>

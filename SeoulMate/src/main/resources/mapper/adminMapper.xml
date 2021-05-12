@@ -157,7 +157,9 @@
   		values(reportsq.nextval, ${no}, #{category}, #{reportid}, #{userid}, #{reportcategory}, #{reportcontent})
   	</insert>
   	<select id="reportTotalRecord" resultType="com.seoulmate.home.vo.ReportVO">
-  		select * from report order by num desc
+  		select r.num, r.userid, reportid , r.category, r.no, reportdate, r.state, m.state bState from report r 
+  		join member m on r.userid = m.userid
+		where r.state in('처리완료','미처리','허위신고') order by num desc
   	</select>
   	<select id="reportInfo" resultType="com.seoulmate.home.vo.ReportVO">
   		select * from report where num=${param1}
