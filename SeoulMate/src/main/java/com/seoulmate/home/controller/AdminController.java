@@ -58,19 +58,31 @@ public class AdminController {
 	}
 	//신고 목록 불러오기
 	@RequestMapping(value="/admin/reportManagement", method={RequestMethod.POST, RequestMethod.GET})
-	public ModelAndView adminReport() {
-		ModelAndView mav = new ModelAndView();
+	public ModelAndView adminReport(PagingVO pVO) {
 		
-		mav.addObject("report", service.reportTotalRecord());
+		pVO.setTotalRecode(service.reportRecordCnt(pVO));
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("report", service.reportTotalRecord(pVO));
+		mav.addObject("pVO", pVO);
+		
+		System.out.println("전체 페이지 : "+pVO.getTotalPage());
+		System.out.println("전체 레코드 수 : "+pVO.getTotalRecode());
+		System.out.println("시작 페이지 : "+pVO.getStartPageNum());
+		System.out.println("현재 페이지 : "+pVO.getPageNum());
+		System.out.println("페이징 개수 : "+pVO.getOnePageNum());
+		System.out.println("마지막 페이지 레코드 수 : "+pVO.getLastPageRecode());
+		
+		
+		
 		mav.setViewName("admin/reportManagement");
 		return mav;
 	}
 	//신고 상세보기
 	@RequestMapping("/admin/reportDetailInfo")
 	@ResponseBody
-	public ReportVO reportDetailInfo(int num) {
-		ReportVO reportVO = service.reportInfo(num);
-		//reportVO.setvState(service.)
+	public ReportVO reportDetailInfo(int num, String category) {
+		ReportVO reportVO = service.reportInfo(num, category);
+		System.out.println(reportVO.getvState()+"123889123987");
 		
 		return reportVO;
 	}
@@ -135,6 +147,7 @@ public class AdminController {
 		if(blacklist && reportVO.getState().equals("처리완료")) {
 			System.out.println("????????????");
 			service.addBlacklist(reportVO.getUserid());
+			result = "added to blacklist";
 		}
 		
 		return result;
@@ -150,12 +163,12 @@ public class AdminController {
 		mav.addObject("list", service.memberSelect(pVO));
 		mav.addObject("pVO", pVO);
 		
-		System.out.println("전체 페이지 : "+pVO.getTotalPage());
-		System.out.println("전체 레코드 수 : "+pVO.getTotalRecode());
-		System.out.println("시작 페이지 : "+pVO.getStartPageNum());
-		System.out.println("현재 페이지 : "+pVO.getPageNum());
-		System.out.println("페이징 개수 : "+pVO.getOnePageNum());
-		System.out.println("마지막 페이지 레코드 수 : "+pVO.getLastPageRecode());
+//		System.out.println("전체 페이지 : "+pVO.getTotalPage());
+//		System.out.println("전체 레코드 수 : "+pVO.getTotalRecode());
+//		System.out.println("시작 페이지 : "+pVO.getStartPageNum());
+//		System.out.println("현재 페이지 : "+pVO.getPageNum());
+//		System.out.println("페이징 개수 : "+pVO.getOnePageNum());
+//		System.out.println("마지막 페이지 레코드 수 : "+pVO.getLastPageRecode());
 		mav.setViewName("admin/memberManagement");
 		return mav;
 	}

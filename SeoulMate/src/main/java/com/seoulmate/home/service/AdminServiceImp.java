@@ -93,12 +93,12 @@ public class AdminServiceImp implements AdminService {
 		return dao.reportInsert(vo);
 	}
 	@Override
-	public List<ReportVO> reportTotalRecord() {
-		return dao.reportTotalRecord();
+	public List<ReportVO> reportTotalRecord(PagingVO pVo) {
+		return dao.reportTotalRecord(pVo);
 	}
 	@Override
-	public ReportVO reportInfo(int num) {
-		return dao.reportInfo(num);
+	public ReportVO reportInfo(int num, String category) {
+		return dao.reportInfo(num, category);
 		
 	}
 	@Override
@@ -120,5 +120,13 @@ public class AdminServiceImp implements AdminService {
 	@Override
 	public int addBlacklist(String userid) {
 		return dao.addBlacklist(userid);
+	}
+	@Override
+	public String getNumFromReport(int no) {
+		return dao.getNumFromReport(no);
+	}
+	@Override
+	public int reportRecordCnt(PagingVO pVO) {
+		return dao.reportRecordCnt(pVO);
 	}
 }
