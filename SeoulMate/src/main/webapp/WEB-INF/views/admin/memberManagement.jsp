@@ -3,7 +3,11 @@
 <script>
 	// 테이블의 행 클릭 시 팝업 이벤트
 	$(function(){
+		// 회원정보 수정 후 회원 목록의 값을 업데이트 해주기 위해 저장하는 변수들
+		var select;
+		
 		$("#tableMain>tr").click(function(){
+			select=$(this);
 			$("#memberInfo").css("display", "block");
 			$(document.body).css("overflow","hidden");
 			$('.pup_body').scrollTop(0);
@@ -16,7 +20,6 @@
 				data:params,
 				success:function(data){
 					var info=[data.userid, data.userpwd, data.username, data.birth, data.tel, data.email, data.reportCnt, data.state];
-					
 					$("#profileImg").attr('src', "/home/profilePic/"+data.profilePic);
 					$("#delFile").attr('value', data.profilePic);
 					for(var i=1; i<=7; i++){
@@ -80,8 +83,55 @@
 				alert("이메일을 잘못 입력하셨습니다.");
 				return false;
 			}
+			var form=$("#memInfoForm")[0]; // 폼을 변수에 담음
+			var url="/home/admin/memInfoSave";
+			var params=new FormData(form); // 변수에 담은 폼을 FormData 객체로 만들어 데이터로 넣음
 			
-			$("#memInfoForm").submit();
+			$.ajax({
+				url:url,
+				data:params,
+				dataType:'json',
+				enctype: 'multipart/form-data',
+				contentType : false,
+		        processData : false, 
+				type:"POST",
+				success:function(result){
+					console.log("성공 : "+result);
+					$("#memberInfo").css("display","none");
+// 					var uname=document.getElementById("infoName").value;
+					var uname=$("#infoName").val();
+// 					var utel=document.getElementById("infoTel").value;
+					var utel=$("#infoTel").val();
+// 					var uemail=document.getElementById("infoEmail").value;
+					var uemail=$("#infoEmail").val();
+					var ustate=$("#infoState").is(":checked");
+					if(ustate==false){
+						ustate='일반';
+					}else{
+						ustate='블랙리스트';
+					}
+					select.children().eq(2).html(uname);
+					select.children().eq(3).html(utel);
+					select.children().eq(4).html(uemail);
+					select.children().eq(7).html(ustate);
+				}, error:function(err){
+					console.log("에러 : "+err.responseText);
+				}
+			});
+			// 팝업창이 닫히면서 수정하려했던 input들의 배경색을 다시 원래대로 되돌림
+			$(document.getElementById("infoName")).css('backgroundColor', '');
+			$(document.getElementById("infoTel")).css('backgroundColor', '');
+			$(document.getElementById("infoEmail")).css('backgroundColor', '');
+		});
+		
+		// 등급 필터
+		$("#member_grade").change(function(){
+			$("#memberForm").submit();
+		});
+		
+		// 상태 필터
+		$("#member_state").change(function(){
+			$("#memberForm").submit();
 		});
 		
 		// 프로필 사진
@@ -127,7 +177,7 @@
 </script>
 	<section>
 		<div class="m_title managementTitle">회원 관리</div>
-		<form method="post" action="/home/admin/memberManagement" class="managementSearchForm">
+		<form method="post" id="memberForm" action="/home/admin/memberManagement" class="managementSearchForm">
 			<div class="management_memberSearch">
 				<div class="management_memberSelect">
 					<span class="managementSpan" id="gradeSpan">등급</span>
@@ -249,7 +299,7 @@
 	<div class="pup_wrap" id="memberInfo">
 		<div class="pup_form">
 			<div class="pup_head">회원 정보</div>
-			<form method="post" id="memInfoForm" action="memInfoSave" enctype="multipart/form-data">
+			<form method="post" id="memInfoForm" enctype="multipart/form-data"> <!-- action="memInfoSave" -->
 				<div class="pup_body">
 					<div class="pup_list">
 							<ul>

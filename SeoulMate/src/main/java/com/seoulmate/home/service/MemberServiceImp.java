@@ -118,6 +118,22 @@ public class MemberServiceImp implements MemberService {
 	public int pnoCheck(String userid, int pno) {
 		return hwDAO.pnoCheck(userid, pno);
 	}
+	@Override
+	public int propHcnt(String userid) {
+		return pDAO.propHcnt(userid);
+	}
+	@Override
+	public int propNoHouse(String userid) {
+		return pDAO.propNoHouse(userid);
+	}
+	@Override
+	public int noHousePnoChk(String userid, int pno) {
+		return pDAO.noHousePnoChk(userid, pno);
+	}
+	@Override
+	public int propNoHouseUpdate(PropensityVO pVO) {
+		return pDAO.propNoHouseUpdate(pVO);
+	}
 	
 	
 	

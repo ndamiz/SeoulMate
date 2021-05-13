@@ -45,4 +45,13 @@
 		 m_smoke=#{m_smoke}, m_age=#{m_age}, m_gender=#{m_gender}, m_global=#{m_global}, m_now=#{m_now} 
 		 where userid=#{userid} and pno=#{pno}
 	</update>
+	<select id="propHcnt" parameterType="String" resultType="int">
+		SELECT count(pno) FROM PROPENSITY WHERE pcase='h' AND userid=#{param1} AND housename IS null
+	</select>
+	<select id="propNoHouse" parameterType="String" resultType="int">
+		SELECT pno FROM PROPENSITY WHERE pcase='h' AND userid=#{param1} AND housename IS null
+	</select>
+	<select id="noHousePnoChk" resultType="int">
+		select count(pno) from PROPENSITY where userid=#{param1} and pno=#{param2}
+	</select>
   </mapper>

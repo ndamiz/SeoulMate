@@ -239,7 +239,7 @@ public class MemberController {
 				dFileObj.delete();
 			}catch(Exception e1) {
 				System.out.println("회원가입 실패(트랜잭션) 파일 삭제 에러 발생");
-				e.printStackTrace();
+				e1.printStackTrace();
 			}
 			mav.setViewName("redirect:memberForm");
 		}
@@ -544,16 +544,58 @@ public class MemberController {
 		String userid=(String)session.getAttribute("logId");
 		
 		int pcaseH=service.propPcaseH(userid);
-		System.out.println("pcaseH : "+pcaseH);
+		int noHouse=service.propHcnt(userid);
+		
 		mav.addObject("pcaseM", service.propPcaseM(userid)); // 메이트인 경우
 		mav.addObject("pcaseH", pcaseH); // 하우스인 경우
 		if(pcaseH>0) {
 			mav.addObject("list", service.houseList(userid));
 		}
-		
-		
+		mav.addObject("noHouse", noHouse);
+		if(noHouse>0) {
+			mav.addObject("noList", service.propNoHouse(userid));
+		}
 		
 		mav.setViewName("member/memberProEdit");
+		return mav;
+	}
+	
+	@RequestMapping("/proEditNoHouseForm")
+	public ModelAndView proEditnoHouseForm(HttpSession session, int pno) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
+		int result=service.noHousePnoChk(userid, pno);
+		
+		if(result>0) { // 집 등록을 하지않은 내 하우스의 성향 맞는 경우
+			mav.setViewName("member/proEditNoHouseForm");
+			mav.addObject("pVO", service.propHouseSelect(userid, pno));
+		}else { // 내 집이 아닌 경우
+			mav.setViewName("redirect:memberProEdit");
+		}
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="/proEditNoHouseOk", method=RequestMethod.POST)
+	public ModelAndView proEditNoHouseOk(PropensityVO pVO, HttpSession session) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
+		pVO.setUserid(userid);
+		
+		int result=service.propHouseUpdate(pVO);
+		
+		if(result>0) { // 성향 수정 성공
+			System.out.println("성향 수정에 성공한 경우");
+			// mav.addObject("pcaseH", service.propPcaseH(userid)); // 하우스인 경우 >????
+			mav.setViewName("redirect:memberProEdit");
+		}else { // 성향 수정 실패
+			System.out.println("성향 수정에 실패한 경우");
+			mav.addObject("fail", "fail");
+			mav.setViewName("member/historyBack");
+			// mav.setViewName("member/proEditHouseForm");
+			// 나중에는 history.back()을 해줘야 할듯
+		}
+		
 		return mav;
 	}
 	

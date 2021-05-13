@@ -191,13 +191,14 @@ public class AdminController {
 		mav.addObject("list", service.memberSelect(pVO));
 		mav.addObject("pVO", pVO);
 		
-		System.out.println("전체 페이지 : "+pVO.getTotalPage());
-		System.out.println("전체 레코드 수 : "+pVO.getTotalRecode());
-		System.out.println("시작 페이지 : "+pVO.getStartPageNum());
-		System.out.println("현재 페이지 : "+pVO.getPageNum());
-		System.out.println("페이징 개수 : "+pVO.getOnePageNum());
-		System.out.println("마지막 페이지 레코드 수 : "+pVO.getLastPageRecode());
+//		System.out.println("전체 페이지 : "+pVO.getTotalPage());
+//		System.out.println("전체 레코드 수 : "+pVO.getTotalRecode());
+//		System.out.println("시작 페이지 : "+pVO.getStartPageNum());
+//		System.out.println("현재 페이지 : "+pVO.getPageNum());
+//		System.out.println("페이징 개수 : "+pVO.getOnePageNum());
+//		System.out.println("마지막 페이지 레코드 수 : "+pVO.getLastPageRecode());
 		mav.setViewName("admin/memberManagement");
+		
 		return mav;
 	}
 	
@@ -209,16 +210,20 @@ public class AdminController {
 		return vo;
 	}
 	
-	@RequestMapping(value="/admin/memInfoSave", method=RequestMethod.POST)
-	public ModelAndView memInfoSave(MemberVO vo, HttpSession session, HttpServletRequest req) {
-		ModelAndView mav=new ModelAndView();
+	@RequestMapping(value="/admin/memInfoSave", method=RequestMethod.POST, produces="application/text;charset=UTF-8")
+	@ResponseBody
+	public String memInfoSave(MemberVO vo, HttpSession session, HttpServletRequest req) {
 		String path=session.getServletContext().getRealPath("/profilePic");
 		String selFilename=service.memberProfile(vo.getUserid());
+		
 		String delFilename=req.getParameter("delFile"); // 프로필을 변경할 때 기존 파일명이 delFile로 들어온다.
 		
 		MultipartHttpServletRequest mr=(MultipartHttpServletRequest)req;
+		
 		MultipartFile newName=mr.getFile("filename");
 		String newUpload="";
+		String res="1";
+		
 		
 		if(newUpload!=null && newName!=null) {
 			String orgname=newName.getOriginalFilename(); // 수정할 파일명
@@ -247,7 +252,6 @@ public class AdminController {
 			int result=service.memberInfoSave(vo);
 			
 			if(result>0) { // 회원정보 수정에 성공한 경우
-				mav.setViewName("redirect:memberManagement");
 				if(orgname!="" && orgname!=null) {
 					try {
 						File dFileObj=new File(path, delFilename);
@@ -265,6 +269,7 @@ public class AdminController {
 						e.printStackTrace();
 					}
 				}
+				res="2";
 			}else { // 회원정보 수정에 실패한 경우
 				if(orgname=="") {
 					try {
@@ -283,12 +288,10 @@ public class AdminController {
 						e.printStackTrace();
 					}
 				}
-				mav.setViewName("redirect:memberManagement");
 			}
 		}
 		
-		mav.setViewName("redirect:memberManagement");
-		return mav;
+		return res;
 	}
 	///////////////////////////////////////////////////////
 	
