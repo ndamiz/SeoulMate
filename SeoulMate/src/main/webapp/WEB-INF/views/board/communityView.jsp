@@ -52,15 +52,28 @@
 							tag += '<button id="'+idx+'" class="white">답글</button>'
 							tag += '<input type="hidden" value="'+obj.userid+'">'
 							tag += '<input type="hidden" value="'+obj.num+'">'
-							tag += '<button class="replyReport white">신고</button></div>'
+							if(obj.state=='공개'){
+								tag += '<button class="replyReport white">신고</button></div>'	
+							}else{
+								tag += '<button class="report white" style="display:none">신고</button></div>'				
+							}
 						}else{
 							//로그인 안했으면 . 공간 메꾸기 용 버튼
 							tag += '<button class="white" style="visibility:hidden">수정취소</button>'
 						}						
 						
-						tag += '<li class="communityView_comment_content">'
+						
+						//댓글 공개 상태 체크 
+						if(obj.state=='공개'){
+							tag += '<li id="'+obj.num+'" class="communityView_comment_content">'
 							tag += obj.content
-						tag += '</li>';
+							tag += '</li>';
+						}else{
+							tag += '<li id="'+obj.num+'" class="communityView_comment_content">'
+							tag += '해당 댓글은 숨김 처리되었습니다.'
+							tag += '</li>';
+						}
+						
 						//댓글 수정폼
 						if(obj.userid=="${logId}"){
 							tag += '<form class="replyEditForm"><div style="display:none">'
@@ -73,13 +86,44 @@
 						}
 				});
 				$("#replyList").html(tag);
+				
+				//신고관리 접근일때 댓글 아이디값으로 바로가기.
+				if(${reply} != '0'){
+					moveToReply(${reply});
+				}
+				
 			},error : function(){
 				console.log("댓글 목록 실패...");
 			}
 		});//ajax end
 	}//1.end
+	
+	function moveToReply(num){
+		alert(num);
+		document.getElementById(num).scrollIntoView();
+		document.getElementById(num).style.backgroundColor = '#d0d9e8';
+		
+		//var replyNum = '#'+${reply};
+        //var offset = $('#commen.offset();
+        //$('html').animate({scrollTop : offset.top}, 400);
+	}
+	
 	$(function(){
+		
+		//댓글 목록 출력 함수
 		replyList();
+		
+		
+		
+		//댓글이 등록 삭제 되었을때 페이지에 댓글 수 변화시키는 함수
+		function replyCntChange(plusOrMinus){
+			if(plusOrMinus=='plus'){//댓글 추가됨
+				$('.replyCnt').text(${replyCnt+1});
+			}else if(plusOrMinus=='minus'){//댓글 삭제됨
+				$('.replyCnt').text(${replyCnt-1});
+			}
+		}
+		
 		//2. 댓글 쓰기
 		$("#replyBtn").click(function(){
 			if($("#comment_content").val()!=''){
@@ -91,6 +135,7 @@
 					data : params,
 					success : function(result){
 						replyList();
+						replyCntChange('plus');
 						console.log("댓글등록 성공!!");
 					},error : function(){
 						console.log("댓글 등록 실패...");
@@ -153,6 +198,7 @@
 					type : "post",
 					success : function(result){
 						replyList();
+						replyCntChange('minus');
 					}, error : function(){
 						console.log("댓글 삭제 실패...");
 					}
@@ -295,7 +341,7 @@
 		</div>
 		<ul>
 			<li>
-				<span class="s_title">${vo.subject}</span>
+				<span class="communityViewSubject">${vo.subject}</span>
 				<c:if test="${vo.userid==logId}">
 					<a href="communityEdit?no=${vo.no}">수정</a>
 					<a href="javascript:communityDel()">삭제</a>
@@ -310,8 +356,8 @@
 					${vo.writedate}
 				</div>
 				<div class="communityView_user_detail">	
-					조회수 : ${vo.hit}<br>
-					댓글수 : ${replyCnt}
+					조회수 : <span>&nbsp;${vo.hit}</span><br>
+					댓글수 : &nbsp;<span class="replyCnt">${replyCnt}</span>
 				</div>
 			</li>
 			
@@ -320,7 +366,7 @@
 			</li>
 		</ul>
 		<!-- 댓글 -->
-		<p class="d_title" style="margin:15px 0; padding-bottom:10px; border-bottom:1px solid #eee">댓글 ${replyCnt}</p>
+		<p class="d_title" style="margin:15px 0; padding-bottom:10px; border-bottom:1px solid #eee">댓글 <span class="replyCnt">${replyCnt}</span></p>
 		<ul id="replyList">
 			<!-- 댓글이 들어올 부분 -->
 		</ul>

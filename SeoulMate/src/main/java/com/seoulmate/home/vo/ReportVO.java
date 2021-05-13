@@ -11,6 +11,9 @@ public class ReportVO {
 	private String reportdate;
 	private String state;
 	
+	private String vState;  // 해당 게시글 공개 상태 여부
+	private String bState;	// 해당 멤버 블랙리스트 등록 여부
+	
 	public int getNum() {
 		return num;
 	}
@@ -64,5 +67,17 @@ public class ReportVO {
 	}
 	public void setState(String state) {
 		this.state = state;
+	}
+	public String getvState() {
+		return vState;
+	}
+	public void setvState(String vState) {
+		this.vState = vState;
+	}
+	public String getbState() {
+		return bState;
+	}
+	public void setbState(String bState) {
+		this.bState = bState;
 	}
 }

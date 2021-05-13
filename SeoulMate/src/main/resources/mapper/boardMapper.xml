@@ -9,14 +9,17 @@
  		( select no, category, subject, userid, hit, to_char(writedate, 'MM-DD HH:MI') writedate, replycnt from community
   		<choose>
   			<when test='searchWord != null and !category.equals("")'>
-  				where category=#{category} and ${searchKey} like '%${searchWord}%'
+  				where category=#{category} and ${searchKey} like '%${searchWord}%' and state='공개'
   			</when>
   			<when test='searchWord == null and !category.equals("")'>
-				where category=#{category}	
+				where category=#{category} and state='공개'	
   			</when>
   			<when test='category.equals("") and searchWord != null'>
-				where ${searchKey} like '%${searchWord}%'			
+				where ${searchKey} like '%${searchWord}%' and state='공개'			
   			</when>
+  			<otherwise>
+  				where state='공개'
+  			</otherwise>
   		</choose>
 	  	order by no desc )
 	  	<![CDATA[where rownum<=]]>(${pageNum}*${commOnePageRecord}) order by no)

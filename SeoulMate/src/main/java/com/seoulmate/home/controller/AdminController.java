@@ -6,14 +6,20 @@ import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.ResultMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.seoulmate.home.service.AdminService;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
@@ -37,10 +44,20 @@ public class AdminController {
 	@Inject
 	AdminService service;
 	
+	@Autowired
+	private DataSourceTransactionManager transactionManager;
+
+
 	// 관리자-로그인
 	@RequestMapping("/admin/login")
 	public String adminLogin() {
 		return "/admin/adminLogin";
+	}
+	
+	//admin에 들어오면 나오는 대시보드
+	@RequestMapping("/admin")
+	public String adminDashboard() {
+		return "/admin/adminDashboard";
 	}
 	
 	@RequestMapping(value="/admin/loginOk", method = RequestMethod.POST)
@@ -62,7 +79,6 @@ public class AdminController {
 		}
 		return mav;
 	}
-	
 	@RequestMapping("/admin/logoutOk")
 	public String adminLogoutOk(HttpSession session) {
 		session.removeAttribute("adminStatus");
@@ -71,12 +87,6 @@ public class AdminController {
 		return "/admin/adminLogin";
 	}
 	
-	
-	//admin에 들어오면 나오는 대시보드
-	@RequestMapping("/admin")
-	public String adminDashboard() {
-		return "/admin/adminDashboard";
-	}
 	///////////////////////신고관리////////////////////
 	//신고 등록
 	@RequestMapping("/reportInsert")
@@ -89,9 +99,84 @@ public class AdminController {
 	@RequestMapping(value="/admin/reportManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView adminReport() {
 		ModelAndView mav = new ModelAndView();
+		
 		mav.addObject("report", service.reportTotalRecord());
 		mav.setViewName("admin/reportManagement");
 		return mav;
+	}
+	//신고 상세보기
+	@RequestMapping("/admin/reportDetailInfo")
+	@ResponseBody
+	public ReportVO reportDetailInfo(int num) {
+		ReportVO reportVO = service.reportInfo(num);
+		//reportVO.setvState(service.)
+		
+		return reportVO;
+	}
+	//TEST 자동 완성==============================================================================
+	@RequestMapping(value="/admin/json", method=RequestMethod.GET, produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String json(Locale locale, Model model, String keyword) {
+		String[] array = service.reportCategorySelect(keyword);
+		
+		Gson gson = new Gson();
+		
+		return gson.toJson(array);
+	}
+	//신고 처리하기
+	@RequestMapping(value="/admin/reportAdmin")
+	@ResponseBody
+	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
+	public String reportAdmin(ReportVO reportVO, boolean visibility, boolean blacklist) {
+		String result = "";
+		
+		//트랜잭션
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED); // 트랜잭션 호출
+		TransactionStatus status = transactionManager.getTransaction(def); 
+		
+		//게시글 공개 상태가 true면 당연히 state는 처리완료.
+		if(visibility && reportVO.getState().equals("처리완료")) {
+			
+			try {
+				service.allStateUdate(reportVO.getNo(), reportVO.getUserid(), reportVO.getCategory(), reportVO.getState()); //글 상태 비공개로 변경
+				service.reportStateUpdate(reportVO.getNum(), reportVO.getState()); //신고관리목록에서 처리완료로 상태변경
+
+				int reportNum = service.checkReportCnt(reportVO.getUserid()); // 누적 신고수 확인
+				//5개 이상이면 블랙리스트 추가
+				if(reportNum>=5) {
+					service.addBlacklist(reportVO.getUserid());
+					result += "blacklist+";
+				}
+				transactionManager.commit(status);
+				result += "blocked";
+			}catch(Exception e) {
+				e.printStackTrace();
+				System.out.println("신고하기 트랜잭션 1 - 처리완료 에러");
+				result = "failed";
+			}
+		
+		// 허위신고 처리
+		}else if(reportVO.getState().equals("허위신고")) {
+		
+			try {
+				service.allStateUdate(reportVO.getNo(), reportVO.getUserid(), reportVO.getCategory(), reportVO.getState()); //글 상태 공개로 다시 변경
+				service.reportStateUpdate(reportVO.getNum(), reportVO.getState());
+				transactionManager.commit(status);
+				result = "false report";
+			}catch(Exception e) {
+				e.printStackTrace();
+				System.out.println("신고하기 트랜잭션 2 - 허위신고 처리 에러");
+				result = "false report failed";
+			}
+		}
+		//블랙리스트 상태가 true면 해당 회원 블랙리스트 추가
+		if(blacklist && reportVO.getState().equals("처리완료")) {
+			System.out.println("????????????");
+			service.addBlacklist(reportVO.getUserid());
+		}
+		
+		return result;
 	}
 	///////////////////////////////////////////////////////
 	//관리자-회원

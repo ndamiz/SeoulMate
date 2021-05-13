@@ -2,27 +2,168 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script>
 	$(function(){
+		var selected = "";
+		//신고 상세보기
 		$(".admin_ReportManagement_DetailInfo").on('click', function(){
-			var no = $(this).children().eq(0).text();
-			var userid = $(this).children().eq(1).text();
-			alert(no);
+			var params = 'num='+$(this).children().eq(0).text();
+			var url = "/home/admin/reportDetailInfo"
+			selected = $(this);//눌린 
+			
 			$.ajax({
-				
+				url : url,
+				data : params,
+				success : function(result){
+					reportFormFill(result);		
+				},error : function(){
+					alert("신고 데이터 에러")
+				}
 			});
-
-			reportFormFill();
 		});
-		function reportFormFill(){
+		//신고 상세보기 값 넣기
+		function reportFormFill(result){
+// 			var no = parseInt(result.no);
+			
+			$("#numR").val(result.num);
+			$('#useridR').val(result.userid);
+			$('#reportidR').val(result.reportid);
+			$('#categoryR').val(result.category);
+			$('#noR').val(result.no);
+			$('#reportdateR').val(result.reportdate);
+			$('#reportcategoryR').val(result.reportcategory);
+			$('#reportcontentR').val(result.reportcontent);
+			$('#toggle_2').is(':checked') == result.bState;
+			$("input:radio[name ='state']:input[value='"+result.state+"']").attr("checked", true);
+
+			//신고 글 링크 걸기
+			if(result.category=='하우스'){
+				$('#reportLink').attr('href', '/home/houseView?no='+result.no)
+			}else if(result.category=='메이트'){
+				$('#reportLink').attr('href', '/home/mateView?no='+result.no)
+			}else if(result.category=='커뮤니티'){
+				$('#reportLink').attr('href', '/home/communityView?no='+result.no)
+			}else if(result.category=='댓글'){
+				//댓글의 원글번호가 필요하다
+				$.ajax({
+					url : '/home/replyOriNum',
+					data : 'no='+result.no,
+					success : function(replyOriNum){
+						$('#reportLink').attr('href', '/home/communityView?no='+replyOriNum+'&reply='+result.no);
+					}, error :function(){
+						console.log('댓글 원번호 가져오기 에러')
+					}
+				});
+			}
+
+			//팝업 열기
 			$(".report_popup").css('display','block');
 			$(document.body).css('overflow','hidden');
 		}
+		
+		//신고처리하기
+		$('#reportAdmin').submit(function(){
+			
+			var num = $('#noR').val();
+			$.ajax({
+				url : '/home/admin/reportAdmin',
+				data : $(this).serialize(),
+				success : function(result){
+					console.log(result);
+					if(result=='failed'){
+						alert('신고 처리에 실패했습니다.');
+					}else{//신고처리 성공
+						alert('신고가 처리되었습니다.');
+						//게시글 공개 여부
+						var state = $('input[name=visibility]').is(':checked');
+						//블랙리스트 등록 여부
+						var blacklist = $('input[name=blacklist]').is(':checked');
+						//처리 상태
+						var reportState = $('input[name=state]:checked').val();
+						
+						updateReportTable(reportState, blacklist, state);
+					}
+					
+					$('.report_popup').css('display','none'); //창닫기
+				},error : function(){
+					console.log('신고 실패')
+					alert('신고 처리에 실패했습니다.ajax');
+				}
+			})
+			return false;
+		});
+		
+		//신고처리하고 신고테이블 바뀐 정보로 보여주기 함수
+		function updateReportTable(reportState, blacklist, state){
+			//게시글 수정
+			if(reportState){
+				$(selected).children().eq(5).text('비공개');
+			}else{
+				$(selected).children().eq(5).text('공개');
+			}
+			//블랙리스트 상태 수정
+			if(blacklist){
+				$(selected).children().eq(6).text('등록');
+			}else{
+				$(selected).children().eq(6).text('미등록')
+			}
+			//상태 수정
+			$(selected).children().eq(8).text(state);
+		}
+		
+		//검색어 자동완성============================================================================================================
+		jQuery.curCSS = function(element, prop, val) {//jquery a.Cur샬라샬라에러떠서
+		    return jQuery(element).css(prop, val);
+		};
+		$('input[name=searchWord]').autocomplete({
+			source : function(req, res){
+				$.ajax({
+					type: 'get',
+					url : '/home/admin/json',
+					dataType: 'json',
+					data : "keyword="+$("input[name=searchWord]").val(),
+					success: function(data){
+						res(
+							$.map(data, function(item){
+								return {
+									label : item, //뷰단에서 보여지는 글자
+									value : item, //사용자 설정값.
+									test : item+'test'
+								}//return end
+							})//map end	
+						)//res end
+					}
+				});// ajax end
+			},//source end source는 자동 완성 대상
+			select : function(event, ui){
+				console.log(ui)
+				console.log(ui.item.label);
+				console.log(ui.item.value);
+				console.log(ui.item.test);
+			},
+			focus : function(event, ui){
+				return false;
+			},
+			minLength : 1,//최소 글자수
+			autoFocus: true,
+			classes : {
+				'ui-autocomplete' : 'highlight'	
+			},
+			delay : 500,
+			position : {my : 'right top', at : 'right bottom'},
+			close : function(event){
+				console.log(event);
+			}
+		}).autocomplete("instance")._renderItem = function(ul, item){//input에 자동완성 걸어주기
+			return $('</li>')
+			.append("<div>" + item.value + "<br>" + item.label + "</div>")
+			.appendTo(ul);
+		}//============================================================================================================
 	});
 </script>
 <section class="admin_Section">
 	<div class="admin_Content">
 		<div class="m_title managementTitle">신고 관리</div>
 		<form method="post" action="/home/admin/reportManagement" class="managementSearchForm">
-			<div class="reportSearch">
+			<div class="reportSearchKey">
 				<select name="category" class="custom-select input">
 					<option value="all">전체</option>
 					<option value="sharehouse">하우스 신고 목록</option>
@@ -36,9 +177,12 @@
 					<option value="done">처리완료</option>
 					<option value="falseReport">허위신고</option>
 				</select>
+			</div>	
+			<div class="reportSearch">
 				<input type="text" name="searchWord" class="form-control"/>
 				<input type="submit" value="Search" class="btn btn-custom"/>
 			</div>
+			
 		</form>
 		<div class="table-responsive, managementList">
 			<table class="table table-hover table-sm table-bordered">
@@ -49,7 +193,7 @@
 						<th>신고자 ID</th>
 						<th>신고분류</th>
 						<th>신고글번호</th>
-						<th>게시글 공개</th>
+<!-- 						<th>게시글 공개</th>게시글 공개여부랑 블랙리스트 상태는 ajax로 페이지 실행될때 가져와야할거같은데 왜냐면 신고목록 select 할때 글번호, 어디 게시판인지도 모르잖아 -->
 						<th>블랙리스트</th>
 						<th>신고일</th>
 						<th>상태</th>
@@ -63,8 +207,8 @@
 							<td>${report.reportid}</td>
 							<td>${report.category}</td>
 							<td>${report.no}</td>
-							<td>공개</td>
-							<td>미등록</td>
+<%-- 							<td>${report.vState}</td> --%>
+							<td>${report.bState}</td>
 							<td>${report.reportdate}</td>
 							<td>${report.state}</td>
 						</tr>
@@ -90,39 +234,49 @@
 			<div class="pup_head">신고 처리</div>
 			<div class="pup_body">
 				<div class="pup_list">
-					<ul>
-						<li><div>회원ID</div><input type="text" name="userid"></li>
-						<li><div>신고자ID</div> <input type="text" name="reportid"> </li>
-						<li><div>분류</div> <input type="text" name="category"> </li>
-						<li><div>신고일</div> <input type="text" name="reportdate"> </li>
-						<li><div>신고 사유</div> <input type="text" name="reportcategory"> </li>
-						<li><div>상세내용</div> <textarea rows="5" name="reportcontent"></textarea> </li>
-						<li><div>게시글 공개</div>
-							<div class="toggle_cont">
-							<input id="toggle_1" class="cmn_toggle cmn_toggle_round" type="checkbox" name="visibility">
-							<label for="toggle_1"></label>
-							</div><br>
-						</li>
-						<li><div>블랙리스트</div>
-							<div class="toggle_cont">
-							<input id="toggle_2" class="cmn_toggle cmn_toggle_round" type="checkbox" name="blacklist">
-							<label for="toggle_2"></label>
-							</div><br>
-						</li>
-						<li><div>처리 상태</div>
-							<div id="radioDiv">
-								<input type="radio" name="state">처리완료
-								<input type="radio" name="state">미처리
-								<input type="radio" name="state">허위신고
-							</div>
-						</li>
-					</ul>
+					<form id="reportAdmin" method="post">	
+						<input id="numR" type="hidden" name="num">
+						<ul>
+							<li><div>회원ID</div><input id="useridR" type="text" name="userid" readonly></li>
+							<li><div>신고자ID</div> <input id="reportidR" type="text" name="reportid" readonly> </li>
+							<li><div>분류</div> <input id="categoryR" type="text" name="category" readonly> </li>
+							<li><div>글번호</div> <input id="noR" type="text" name="no" readonly> </li>
+							<li><div>신고일</div> <input id="reportdateR" type="text" name="reportdate" readonly> </li>
+							<li><div>신고 사유</div> <input id="reportcategoryR" type="text" name="reportcategory" readonly> </li>
+							<li>
+								<div>
+									신고상세내용<br>
+									<a id="reportLink" target="blank">신고글보기</a>
+								</div> 
+								<textarea id="reportcontentR" rows="5" name="reportcontent" readonly></textarea> 
+							</li>
+							<li><div>*게시글 공개</div>
+								<div class="toggle_cont">
+								<input id="toggle_1" class="cmn_toggle cmn_toggle_round" type="checkbox" name="visibility">
+								<label for="toggle_1"></label>
+								</div><br>
+							</li>
+							<li><div>*블랙리스트</div>
+								<div class="toggle_cont">
+								<input id="toggle_2" class="cmn_toggle cmn_toggle_round" type="checkbox" name="blacklist">
+								<label for="toggle_2"></label>
+								</div><br>
+							</li>
+							<li><div>*처리 상태</div>
+								<div id="radioDiv" class="reportState">
+									<input type="radio" name="state" value="미처리">미처리
+									<input type="radio" name="state" value="처리완료">처리완료
+									<input type="radio" name="state" value="허위신고">허위신고
+								</div>
+							</li>
+						</ul>
+					</form>	
 				</div>
 			</div>
 			<div class="pup_bottom">
 				<a href="" class="btn_cancel">닫기</a>
-				<a href="" class="btn_save">확인</a>
-				<a href="" class="btn_del">삭제</a>
+				<a href="javascript:$('#reportAdmin').submit()" class="btn_save">처리</a>
+<!-- 				<a href="" class="btn_del">삭제</a> -->
 			</div>
 			<a href="" class="pup_btn_close">닫기</a>
 		</div>

@@ -1,4 +1,4 @@
-/* @charset "UTF-8"; */
+@charset "UTF-8";
 
 @font-face {
 	font-family: "NotoSans";
@@ -270,6 +270,7 @@ section{ margin-left:15% ; width: 85%; float: left; }
 .managementRadio{ width: 600px; float: right; }
 .managementPaging li>a, .managementPaging li>a:focus {background: #13a89e; border-color: #fff; color:#fff; border-radius: 10%;}
 .managementPaging li>a:hover, .managementPaging:checked{background: #fff; border-color: #13a89e; color:#13a89e;}
+
 .managementList{width: 95%; margin: 10px auto;}
 #printBtn{height: 38px; float: right;}
 /* paging style */
@@ -578,11 +579,17 @@ padding: 0;
 #stateSpan{margin-left:18px;}
 
 /* reportManagement */
-.reportSearch {width:600px; float: left; overflow: auto; margin-top: 20px; }
-.reportSearch>select{width: 180px; float: left;}
-.reportSearch>select[name=state]{width: 131px; float: left;}
-.reportSearch input[type=text]{width: 200px; float: left;}
-.reportSearch input[type=submit]{width: 80px; float: left;}
+.reportSearchKey {width:320px; float: left; overflow: auto; margin-top: 20px; }
+.reportSearchKey>select{width: 180px; float: left;}
+.reportSearchKey>select[name=state]{width: 131px; float: left;}
+.reportSearchKey input[type=text]{width: 200px; float: left;}
+.reportSearchKey input[type=submit]{width: 80px; float: left;}
+.reportSearch{float:right; text-align: right; width:300px;margin-top: 20px;padding-left:43px;}
+.reportSearch>input:nth-child(1){width:70%;float:left;}
+
+#reportLink, #reportcontentR{
+	padding: 0;
+}
 
 /* 팝업 스타일 */
 .pup_wrap{
@@ -616,8 +623,8 @@ padding: 0;
 	color: #fff;
 }
 .pup_body {
-	padding:10px 30px 10px 30px;
-	height: 525px;
+	padding: 30px;
+	height: 550px;
 	overflow: hidden;
 	/*overflow-y: auto;*/
 }

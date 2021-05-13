@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.seoulmate.home.dao.CommunityReplyDAO">
  	<select id="replyList" resultType="com.seoulmate.home.vo.CommunityReplyVO">
- 		select num, userid, content, writedate from communityReply where no=${param1} order by num
+ 		select num, userid, content, writedate, state from communityReply where no=${param1} order by num
  	</select>
  	<insert id="replyInsert">
  		insert into communityreply(num, no, userid, content, ip) 
@@ -16,4 +16,7 @@
  	<delete id="replyDel">
  		delete from communityreply where num=${param1} and userid=#{param2}
  	</delete>
+ 	<select id="replyOriNum" resultType="String">
+ 		select no from communityReply where num=${param1}
+ 	</select>
  </mapper>

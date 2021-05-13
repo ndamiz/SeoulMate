@@ -127,4 +127,29 @@ public class AdminServiceImp implements AdminService {
 	public List<ReportVO> reportTotalRecord() {
 		return dao.reportTotalRecord();
 	}
+	@Override
+	public ReportVO reportInfo(int num) {
+		return dao.reportInfo(num);
+		
+	}
+	@Override
+	public String[] reportCategorySelect(String keyword) {
+		return dao.reportCategorySelect(keyword);
+	}
+	@Override
+	public int allStateUdate(int no, String userid, String category, String state) {
+		return dao.allStateUdate(no, userid, category, state);
+	}
+	@Override
+	public int reportStateUpdate(int num, String state) {
+		return dao.reportStateUpdate(num, state);
+	}
+	@Override
+	public int checkReportCnt(String userid) {
+		return dao.checkReportCnt(userid);
+	}
+	@Override
+	public int addBlacklist(String userid) {
+		return dao.addBlacklist(userid);
+	}
 }

@@ -249,6 +249,66 @@
   		values(reportsq.nextval, ${no}, #{category}, #{reportid}, #{userid}, #{reportcategory}, #{reportcontent})
   	</insert>
   	<select id="reportTotalRecord" resultType="com.seoulmate.home.vo.ReportVO">
-  		select * from report order by num desc
+  		select r.num, r.userid, reportid , r.category, r.no, reportdate, r.state, m.state bState from report r 
+  		join member m on r.userid = m.userid
+		where r.state in('처리완료','미처리','허위신고') order by num desc
   	</select>
+  	<select id="reportInfo" resultType="com.seoulmate.home.vo.ReportVO">
+  		select * from report where num=${param1}
+  	</select>
+  	<select id="reportCategorySelect" resultType="String">
+  		select DISTINCT dong from zipcode where dong like '%${param1}%'
+  	</select>
+  	<update id="allStateUdate">
+  		update 
+  		<if test="param3 == '하우스'">
+  			housewrite set 
+  			<if test="param4 == '처리완료'">
+  				housestate='비공개' 
+  			</if>
+  			<if test="param4 == '허위신고'">
+  				housestate='공개' 
+  			</if>
+  			where no=#{param1} and userid=#{param2}	
+  		</if>
+  		<if test="param3 == '메이트'">
+  			matewrite set 
+			<if test="param4 == '처리완료'">
+  				matestate='비공개' 
+  			</if>
+  			<if test="param4 == '허위신고'">
+  				matestate='공개' 
+  			</if>
+  			where no=#{param1} and userid=#{param2}	
+  		</if>
+  		<if test="param3 == '커뮤니티'">
+  			community set 
+			<if test="param4 == '처리완료'">
+  				state='비공개' 
+  			</if>
+  			<if test="param4 == '허위신고'">
+  				state='공개' 
+  			</if>
+  			where no=#{param1} and userid=#{param2}
+  		</if>
+  		<if test="param3 == '댓글'">
+  			communityreply set 
+			<if test="param4 == '처리완료'">
+  				state='비공개' 
+  			</if>
+  			<if test="param4 == '허위신고'">
+  				state='공개' 
+  			</if>
+  			where no=#{param1} and userid=#{param2}
+  		</if>
+  	</update>
+  	<update id="reportStateUpdate">
+  		update report set state=#{param2} where num=${param1}
+  	</update>
+  	<select id="checkReportCnt" resultType="int">
+		select count(state) from report where userid=#{param1} and state='처리완료'
+  	</select>
+  	<update id="addBlacklist">
+  		update member set state='블랙' where userid=#{param1}
+   	</update>
 </mapper>

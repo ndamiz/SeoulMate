@@ -85,13 +85,21 @@ public class BoardController {
 	
 	//글 내용보기
 	@RequestMapping("/communityView")
-	public ModelAndView boardView(int no) {
+	public ModelAndView boardView(int no, HttpServletRequest req) {
 		//조회수 올리기
 		service.hitUpdate(no);
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("vo", service.boardSelect(no));
 		mav.addObject("replyCnt", service.replyCount(no));
+		//관리자 접근일때
+		if(req.getParameter("reply") != null) {
+			System.out.println(req.getParameter("reply")+"댓글번호");
+			mav.addObject("reply", req.getParameter("reply"));
+		}else {
+			System.out.println(req.getParameter("reply")+"댓글번호");
+			mav.addObject("reply", "0");
+		}
 		mav.setViewName("/board/communityView");
 		return mav;
 	}

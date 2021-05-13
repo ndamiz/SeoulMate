@@ -9,6 +9,7 @@ public class BoardVO {
 	private int hit;
 	private String writedate;
 	private String ip;
+	private String state;
 	
 	private int replyCnt; //글에 댓글몇개인지 확인용
 	
@@ -59,6 +60,13 @@ public class BoardVO {
 	}
 	public void setIp(String ip) {
 		this.ip = ip;
+	}
+	
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
 	public int getReplyCnt() {
 		return replyCnt;

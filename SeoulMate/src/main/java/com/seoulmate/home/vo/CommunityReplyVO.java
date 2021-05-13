@@ -7,6 +7,7 @@ public class CommunityReplyVO {
 	private String content;
 	private String writedate;
 	private String ip;
+	private String state;
 	
 	public int getNum() {
 		return num;
@@ -43,5 +44,11 @@ public class CommunityReplyVO {
 	}
 	public void setIp(String ip) {
 		this.ip = ip;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
 }
