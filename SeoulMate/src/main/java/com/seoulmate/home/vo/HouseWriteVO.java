@@ -20,7 +20,7 @@ public class HouseWriteVO {
 	private String enddate;
 	private String housestate; // 모집중, 매칭 완료, 기간 만료, 비공개
 	private String houseprofile;
-	
+	private int score;
 	
 	// index 최신 쉐어하우스 목록에서 
 	// 각 쉐어하우스의 제일 저렴한 보증금,월세 구할때
@@ -168,6 +168,12 @@ public class HouseWriteVO {
 	}
 	public void setReportNum(int reportNum) {
 		this.reportNum = reportNum;
+	}
+	public int getScore() {
+		return score;
+	}
+	public void setScore(int score) {
+		this.score = score;
 	}
 	
 }
