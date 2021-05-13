@@ -6,6 +6,9 @@ public class HouseWriteVO {
 	private String userid;
 	private String addr;
 	private String housename;
+	
+	private String filename; //사진 업로드
+	
 	private String housepic1;
 	private String housepic2; 
 	private String housepic3;
@@ -15,7 +18,10 @@ public class HouseWriteVO {
 	private int bathroom;
 	private int nowpeople;
 	private int searchpeople;
-	private String publicfacility; 
+	private String publicfacility;
+//	private String publicfacility[]; //공용시설
+//	private String publicfacilityStr="";  //공용시설 배열 값 문자열
+	
 	private String writedate;
 	private String enddate;
 	private String housestate; // 모집중, 매칭 완료, 기간 만료, 비공개
@@ -31,6 +37,7 @@ public class HouseWriteVO {
 	private int grade;  // 1:일반, 2:프리미엄 
 	private int reportNum; //신고수
 	
+
 	public int getNo() {
 		return no;
 	}
@@ -115,6 +122,24 @@ public class HouseWriteVO {
 	public void setSearchpeople(int searchpeople) {
 		this.searchpeople = searchpeople;
 	}
+
+//	public String[] getPublicfacility() {
+//		return publicfacility;
+//	}
+//	public void setPublicfacility(String[] publicfacility) {
+//		this.publicfacility = publicfacility;
+//		for(String i: publicfacility) { //배열의 값을 Str 문자열로
+//			publicfacilityStr += i+"/";
+//		}
+//	}
+//	public String getPublicfacilityStr() {
+//		return publicfacilityStr;
+//	}
+//	public void setPublicfacilityStr(String publicfacilityStr) {
+//		this.publicfacilityStr = publicfacilityStr;
+//		publicfacility = publicfacilityStr.split("/");
+//	}
+	
 	public String getPublicfacility() {
 		return publicfacility;
 	}

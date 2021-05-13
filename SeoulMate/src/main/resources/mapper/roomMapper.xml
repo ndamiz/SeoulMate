@@ -5,7 +5,7 @@
   <mapper namespace="com.seoulmate.home.dao.HouseRoomDAO">
   	<insert id="roomInsert" parameterType="com.seoulmate.home.vo.HouseRoomVO">
   		insert into houseroom(hno, no, roomName, deposit, rent, enterdate, minStay, maxStay, roomPeople, furniture, incFurniture, userid) 
-		values (roomsq.nextval, housematesq.nextval, #{roomName}, #{deposit}, #{rent}, #{enterdate}, #{minStay}, #{maxStay}, 
+		values (roomsq.nextval, housematesq.currval, #{roomName}, #{deposit}, #{rent}, #{enterdate}, #{minStay}, #{maxStay}, 
 				#{roomPeople}, #{furniture}, #{incFurniture}, #{userid} )
   	</insert>
 

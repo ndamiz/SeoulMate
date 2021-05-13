@@ -3,11 +3,18 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.seoulmate.home.dao.MateWriteDAO">
-<!--   	<insert id="mateInsert" parameterType="com.seoulmate.home.vo.MateWriteVO"> -->
-<!--   		insert into matewrite(no, pno, userid, area, matePic1, deposit, rent, enterdate, minStay, maxStay,  -->
-<!-- 		writedate, enddate, mateState, mateProfile)  -->
-<!-- 		values (housematesq.nextval, 13, #{userid}, #{area}, #{matePic}, #{deposit}, #{rent}, #{enterdate},  -->
-<!-- 				#{minStay}, #{matStay},	sysdate, sysdate+7, '모집중', #{mateProfile} ) -->
-<!--   	</insert> -->
+  	<insert id="mateInsert" parameterType="com.seoulmate.home.vo.MateWriteVO">
+  		insert into matewrite(no, pno, userid, area, matePic1, deposit, rent, enterdate, minStay, maxStay,
+  		writedate, enddate, matestate, mateProfile) 
+		values (housematesq.nextval, #{pno}, #{userid}, '마포구 공덕동', #{matePic1},  #{deposit}, #{rent}, 
+		#{enterdate}, #{minStay}, #{maxStay}, sysdate, sysdate+7, '모집중', #{mateProfile} )
+  	</insert>
+	<update id="mateUpdate" parameterType="com.seoulmate.home.vo.MateWriteVO">
+		update matewrite set matePic1=#{matePic1}, deposit=#{deposit}, rent=#{rent}, enterdate=#{enterdate},
+		minStay=#{minStay}, maxStay=#{maxStay}, mateProfile=#{mateProfile} where userid=#{userid} and pno=#{pno}
+	</update>
+	<select id="mateSelect" parameterType="String" resultType="com.seoulmate.home.vo.PropensityVO">
+		select * from propensity where pcase='m' and userid=#{param1}
+	</select>
 
   </mapper>

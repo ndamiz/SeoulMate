@@ -45,4 +45,17 @@
 		 m_smoke=#{m_smoke}, m_age=#{m_age}, m_gender=#{m_gender}, m_global=#{m_global}, m_now=#{m_now} 
 		 where userid=#{userid} and pno=#{pno}
 	</update>
+	<select id="houseCheck" resultType="int">
+		select count(pno) from propensity where pcase='h' and userid=#{param1} and housename is not null
+	</select>
+	<select id="housePnoCheck" resultType="int">
+		select pno from propensity where pcase='h' and userid=#{param1} and housename is null
+	</select>
+	<select id="proPnoCheck" resultType="int">
+		 select pno from (select pno from propensity where userid=#{param1} order by pno desc) where rownum=1
+	</select>
+	<select id="proHouseCheck" resultType="int">
+		select pno from propensity where userid=#{param1} and pcase='h'
+	</select>
+	
   </mapper>

@@ -68,10 +68,12 @@ public class HomeController {
 		
 		// 쉐어하우스 최신리스트 구하기
 		List<HouseWriteVO> nhList = service.getNewHouse();
-		
+		HouseRoomVO hrVO = new HouseRoomVO();
 		for (HouseWriteVO hwVO : nhList) {
+			
 			// 각 쉐어하우스의 제일 저렴한 월세 가져오기
-			HouseRoomVO hrVO = service.getDesposit(hwVO.getNo());
+			hrVO = service.getDesposit(hwVO.getNo());
+			
 			hwVO.setDeposit(hrVO.getDeposit());
 			hwVO.setRent(hrVO.getRent());
 			int idx = hwVO.getAddr().indexOf("동 ");

@@ -68,10 +68,10 @@ img{width:250px; height:250px; }
 }
 .controlls span.prev{
    display:block;
-   left:30%;
+   left:37%;
 }
 .controlls span.next{
-   left:70%;
+   left:75%;
 }
 
 .report{
@@ -227,8 +227,8 @@ img{width:250px; height:250px; }
                 cUrl = 'https://story.kakao.com/share?url='+cUrl;
             break;
   			}
-  		window.open(cUrl,'','width=700,height=500,top=300,left=450,scrollbars=yes');
-		}
+  		window.open(cUrl,'','width=700,height=500,top=300,left=450,scrollbars=yes')
+  		}
 
 	
 </script>
@@ -240,17 +240,18 @@ img{width:250px; height:250px; }
 	 	</div>
 	 	
 	 	<div id="btnDiv">
- 		<button id="mEdit" class="green">수정</button> <button class="green">삭제</button> <button class="green">찜</button>
- 		<a  id="shareBtn" class="green" >공유하기</a> <button class="green" id="reportBtn" >신고하기</button>
+	 
+ 		<button id="mEdit" class="white">수정</button> <button class="white">삭제</button> <button class="white">찜</button>
+ 		<a  id="shareBtn" class="white" >공유하기</a> <button class="white" id="reportBtn" >신고하기</button>
  		
  		</div>
  				
  	<br/>
  	
- 		<div class="controlls">
-         	<span class="prev">◀</span>
-         	<span class="next">▶</span>
-        </div>
+<!--  		<div class="controlls"> -->
+<!--          	<span class="prev">◀</span> -->
+<!--          	<span class="next">▶</span> -->
+<!--         </div> -->
     
       	<div class="slide_wraper">
          	<div class="slides">

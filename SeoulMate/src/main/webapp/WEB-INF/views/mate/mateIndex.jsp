@@ -104,21 +104,23 @@ button{position: relative;}
 								 </div> </li>
 						</ul>
 						<ul>
-							<li> <button type="submit" class="green search"></button> </li>
+							<li> <button class="green search"></button> </li>
 							
 						</ul>
 				</ul>
 		</ul>		
 		
-		<button class="green mate" onclick="location.href='<%=request.getContextPath()%>/mateWrite1'">메이트 등록하기</button> <br/>
+		<button class="green mate" onclick="location.href='<%=request.getContextPath()%>/mateWrite'">메이트 등록하기</button> <br/>
 		</div>
 		
 		<hr/>
+		
+	</div> <!-- content div 종료 -->
 
 	<!-- 프리미엄 추천 하우스메이트 -->
 	<section class="content recommend_list mate_list">
 		<div class="list_head">
-			<p class="m_title">user님과 잘 어울리는 메이트예요!</p>
+			<p class="m_title">${logName}님과 잘 어울리는 메이트예요!</p>
 			<a href="">더보기</a>
 		</div>
 		<ul class="list_content">
@@ -177,6 +179,4 @@ button{position: relative;}
 		</ul>
 	</section>
 
-
-</div>
-</div>
+</div> <!-- 전체 div 종료 -->
