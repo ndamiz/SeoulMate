@@ -26,6 +26,9 @@ public class PayVO {
 	//해당 유저의 grade 
 	private int grade;  //1 : 일반, // 2: 프리미엄 
 	
+	//년도, 월 비교확인
+	private String msg;
+	
 	public String getSelectStartDate() {
 		return selectStartDate;
 	}
@@ -139,6 +142,12 @@ public class PayVO {
 	}
 	public void setPayMonth(int payMonth) {
 		this.payMonth = payMonth;
+	}
+	public String getMsg() {
+		return msg;
+	}
+	public void setMsg(String msg) {
+		this.msg = msg;
 	}
 	
 }

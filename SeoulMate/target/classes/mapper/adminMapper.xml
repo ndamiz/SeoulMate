@@ -180,69 +180,33 @@
   			<if test="payVO.selectStartDate==null and payVO.selectStartDate=='' and payVO.selectEndDate==null and payVO.selectEndDate==''">)</if>
   			order by no desc
   	</select>
-  	<select id="salesOnePageListSelect"  parameterType="java.util.HashMap"  resultType="com.seoulmate.home.vo.PayVO" >
-	SELECT to_char(payStart, 'YYYY-MM-DD') payStart, amount, amountCard, amountCash from  
-  		(SELECT * FROM (SELECT * FROM (SELECT * FROM 
-			(SELECT p.payStart, p.amount , p.amountCard, cash.amountCash 
+  	
+  	<select id="salesList" parameterType="com.seoulmate.home.vo.PayVO"  resultType="com.seoulmate.home.vo.PayVO">
+  		SELECT <if test="msg!='total'">payStart ,</if> sum(amount) AS amount, sum(amountCard) AS amountCard, sum(amountCash) AS amountCash 
+  		from
+  		<if test="msg=='year'">(SELECT to_char(payStart, 'YYYY') AS PAYSTART,  AMOUNT , amountCard, amountCash from </if> 
+  		<if test="msg=='month'">(SELECT to_char(payStart, 'YYYY-MM') AS PAYSTART,  AMOUNT , amountCard, amountCash from </if> 
+  		<if test="msg=='date'">(SELECT to_char(payStart, 'YYYY-MM-DD') AS PAYSTART,  AMOUNT , amountCard, amountCash from </if> 
+  		(SELECT PAYSTART, AMOUNT , amountCard, amountCash 
+  		from 
+  			(SELECT p.payStart, p.amount , p.amountCard, cash.amountCash 
+			FROM 
+				(SELECT pay.payStart, pay.amount, card.amountCard 
 				FROM 
-					(SELECT pay.payStart, pay.amount, card.amountCard 
-					FROM pay pay 
-						join (SELECT payStart, amount AS amountCard FROM pay WHERE payMethod='card') card 
-						on pay.payStart=card.payStart(+)) p 
+				pay pay join (SELECT payStart, amount AS amountCard FROM pay WHERE payMethod='card') card 
+					on pay.payStart=card.payStart(+)) p 
 				join (SELECT payStart, amount AS amountCash FROM pay WHERE payMethod!='card') cash 
-				on p.payStart=cash.payStart(+) ) 
-				<if test="payVO.selectStartDate!=null and payVO.selectStartDate!='' and payVO.selectEndDate!=null and payVO.selectEndDate!=''"> 
-					WHERE
-		  			<if test="payVO.selectYearMonthDate=='일별'"> payStart BETWEEN to_date('${payVO.selectStartDate} 00:00:00', 'YYYY-MM-DD HH24:MI:SS') and to_date('${payVO.selectEndDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')</if>
-		  			<if test="payVO.selectYearMonthDate=='월별'"> payStart BETWEEN to_date('${payVO.selectStartDate}-1 00:00:00', 'YYYY-MM-DD HH24:MI:SS') and to_date(to_char(LAST_DAY(to_date('${payVO.selectEndDate}', 'YYYY-MM')), 'YYYY-MM-DD')||' 23:59:59' ,'YYYY-MM-DD HH24:MI:SS')</if>
-		  			<if test="payVO.selectYearMonthDate=='년별'"> payStart BETWEEN to_date('${payVO.selectStartDate}-1-1 00:00:00', 'YYYY-MM-DD HH24:MI:SS') and to_date(to_char(LAST_DAY(to_date('${payVO.selectEndDate}-12', 'YYYY-MM')), 'YYYY-MM-DD')||' 23:59:59' ,'YYYY-MM-DD HH24:MI:SS')</if>
-  				</if>  ORDER BY ${payVO.orderCondition} <if test="payVO.orderUpDown=='desc'"> desc</if><if test="payVO.orderUpDown=='asc'"> asc</if>)
-	  		WHERE <![CDATA[rownum<=]]>${pagingVO.pageNum * pagingVO.onePageRecode} order by ${payVO.orderCondition} <if test="payVO.orderUpDown=='desc'"> asc</if><if test="payVO.orderUpDown=='asc'"> desc</if>)
-  		WHERE <![CDATA[rownum<=]]><if test="pagingVO.pageNum==pagingVO.totalPage">${pagingVO.lastPageRecode}</if> 
-  					<if test="pagingVO.pageNum!=pagingVO.totalPage">${pagingVO.onePageRecode}</if> ORDER BY ${payVO.orderCondition} <if test="payVO.orderUpDown=='desc'">desc</if><if test="payVO.orderUpDown=='asc'">asc</if>)
-  	</select>
-  	<select id="salesTotalAmountSelect" parameterType="com.seoulmate.home.vo.PayVO"  resultType="com.seoulmate.home.vo.PayVO">
-		SELECT payStart , sum(amount) AS amount, sum(amountCard) AS amountCard, sum(amountCash) AS amountCash from 
-			(SELECT TO_char(payStart, 'YYYY') AS payStart, amount, amountCard, amountCash 
-				from
-				(SELECT p.payStart, p.amount, p.amountCard, cash.amountCash
-					FROM
-					(SELECT pay.payStart, pay.amount, card.amountCard 
-						FROM pay pay 
-						JOIN 
-						(SELECT payStart, amount AS amountCard FROM pay WHERE payMethod = 'card') card 
-					ON pay.payStart = card.payStart(+)) p 
-					JOIN 
-					(SELECT payStart, amount AS amountCash FROM pay WHERE payMethod != 'card') cash 
-				ON p.payStart = cash.payStart(+) ) 
+					on p.payStart=cash.payStart(+) )
 			<if test="selectStartDate!=null and selectStartDate!='' and selectEndDate!=null and selectEndDate!=''"> 
 				WHERE
-		  		<if test="selectYearMonthDate=='일별'"> payStart BETWEEN to_date('${selectStartDate} 00:00:00', 'YYYY-MM-DD HH24:MI:SS') and to_date('${selectEndDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')</if>
-		  		<if test="selectYearMonthDate=='월별'"> payStart BETWEEN to_date('${selectStartDate}-1 00:00:00', 'YYYY-MM-DD HH24:MI:SS') and to_date(to_char(LAST_DAY(to_date('${selectEndDate}', 'YYYY-MM')), 'YYYY-MM-DD')||' 23:59:59' ,'YYYY-MM-DD HH24:MI:SS')</if>
-		  		<if test="selectYearMonthDate=='년별'"> payStart BETWEEN to_date('${selectStartDate}-1-1 00:00:00', 'YYYY-MM-DD HH24:MI:SS') and to_date(to_char(LAST_DAY(to_date('${selectEndDate}-12', 'YYYY-MM')), 'YYYY-MM-DD')||' 23:59:59' ,'YYYY-MM-DD HH24:MI:SS')</if>
-  			</if>)
- 		GROUP BY payStart
+		  		<if test="selectYearMonthDate=='일별'"> payStart BETWEEN to_date('${selectStartDate} 00:00:00', 'YYYY-MM-DD HH24:MI:SS') and to_date('${selectEndDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS') </if>
+		  		<if test="selectYearMonthDate=='월별'"> payStart BETWEEN to_date('${selectStartDate}-1 00:00:00', 'YYYY-MM-DD HH24:MI:SS') and to_date(to_char(LAST_DAY(to_date('${selectEndDate}', 'YYYY-MM')), 'YYYY-MM-DD')||' 23:59:59' ,'YYYY-MM-DD HH24:MI:SS') </if>
+		  		<if test="selectYearMonthDate=='년별'"> payStart BETWEEN to_date('${selectStartDate}-1-1 00:00:00', 'YYYY-MM-DD HH24:MI:SS') and to_date(to_char(LAST_DAY(to_date('${selectEndDate}-12', 'YYYY-MM')), 'YYYY-MM-DD')||' 23:59:59' ,'YYYY-MM-DD HH24:MI:SS') </if>
+  			</if>) <if test="msg!='total'">) GROUP BY payStart</if> 
   	</select>
-	<select id="salesListSelect" parameterType="java.util.HashMap" resultType="com.seoulmate.home.vo.PayVO">
-  	SELECT to_char(payStart, 'YYYY-MM-DD') payStart, amount, amountCard, amountCash 
-  		from 
-  		(SELECT p.payStart, p.amount , p.amountCard, cash.amountCash 
-			FROM 
-			(SELECT pay.payStart, pay.amount, card.amountCard 
-			FROM 
-			pay pay join (SELECT payStart, amount AS amountCard FROM pay WHERE payMethod='card') card 
-			on pay.payStart=card.payStart(+)) p 
-			join 
-			(SELECT payStart, amount AS amountCash FROM pay WHERE payMethod!='card') cash 
-			on p.payStart=cash.payStart(+) 
-		) 
-	<if test="payVO.selectStartDate!=null and payVO.selectStartDate!='' and payVO.selectEndDate!=null and payVO.selectEndDate!=''"> 
-	WHERE
-	  	<if test="payVO.selectYearMonthDate=='일별'"> payStart BETWEEN to_date('${payVO.selectStartDate} 00:00:00', 'YYYY-MM-DD HH24:MI:SS') and to_date('${payVO.selectEndDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')</if>
-		<if test="payVO.selectYearMonthDate=='월별'"> payStart BETWEEN to_date('${payVO.selectStartDate}-1 00:00:00', 'YYYY-MM-DD HH24:MI:SS') and to_date(to_char(LAST_DAY(to_date('${payVO.selectEndDate}', 'YYYY-MM')), 'YYYY-MM-DD')||' 23:59:59' ,'YYYY-MM-DD HH24:MI:SS')</if>
-	  	<if test="payVO.selectYearMonthDate=='년별'"> payStart BETWEEN to_date('${payVO.selectStartDate}-1-1 00:00:00', 'YYYY-MM-DD HH24:MI:SS') and to_date(to_char(LAST_DAY(to_date('${payVO.selectEndDate}-12', 'YYYY-MM')), 'YYYY-MM-DD')||' 23:59:59' ,'YYYY-MM-DD HH24:MI:SS')</if>
-	</if>  ORDER BY payStart desc
-  	
+  	<select id="salesUserList" parameterType="com.seoulmate.home.vo.PayVO"  resultType="com.seoulmate.home.vo.PayVO">
+  		select no, userid, username, amount, to_char(paystart,'YYYY-MM-DD') as payStart, to_char(payend,'YYYY-MM-DD') as payEnd, payMethod, refund from pay 
+  		where to_char(paystart, 'YYYY-MM-DD') LIKE '%${param1}%'
   	</select>
   	<insert id="reportInsert" parameterType="com.seoulmate.home.vo.ReportVO">
   		insert into report(num, no, category, reportid, userid, reportcategory, reportcontent)

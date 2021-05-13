@@ -32,6 +32,7 @@
 						</div>
 						<div>
 							<a href="javascript:printPage('houseWrite')" class="btn btn-custom">프린트</a>
+							<a href="javascript:printPage('houseExcel')" class="btn btn-custom">엑셀</a>
 						</div>
 					</div>
 				</form>
@@ -425,16 +426,7 @@ $(function(){
 				console.log(" houseDetailInfo 데이터가져오기 에러 ");
 			}
 		});
-		//팝업 보이도록 클래스 삭제, 추가
-		$('body').addClass('popup_Stop_Scroll');
-		$('#myPage_popup_FullScreen').removeClass('popup_hidden');
-		$('.admin_Management_popup').removeClass('popup_hidden');
-	});
-	//팝업 닫기
-	$('.popup_Close').on('click',function(){
-		$('.admin_Management_popup').addClass('popup_hidden');
-		$('#myPage_popup_FullScreen').addClass('popup_hidden');
-		$('body').removeClass('popup_Stop_Scroll');
+		openPopup();
 	});
 });
 

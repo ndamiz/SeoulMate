@@ -31,6 +31,7 @@
 						</div>
 						<div>
 							<a href="javascript:printPage('mateWrite')" class="btn btn-custom">프린트</a>
+							<a href="javascript:printPage('mateExcel')" class="btn btn-custom">엑셀</a>
 						</div>
 					</div>
 					
@@ -382,17 +383,10 @@ $(function(){
 				console.log(" mate DetailInfo 데이터가져오기 에러 ");
 			}
 		});
-		//팝업 보이기
-		$('body').addClass('popup_Stop_Scroll');
-		$('#myPage_popup_FullScreen').removeClass('popup_hidden');
-		$('.admin_Management_popup').removeClass('popup_hidden');
+		//팝업보이기
+		openPopup();
 	});
-	//팝업 닫기
-	$('.popup_Close').on('click',function(){
-		$('.admin_Management_popup').addClass('popup_hidden');
-		$('#myPage_popup_FullScreen').addClass('popup_hidden');
-		$('body').removeClass('popup_Stop_Scroll');
-	});
+	
 });
 </script>
 </html>

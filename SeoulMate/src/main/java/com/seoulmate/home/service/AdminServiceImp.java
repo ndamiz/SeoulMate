@@ -106,18 +106,13 @@ public class AdminServiceImp implements AdminService {
 	}
 // sales management ///////////////////////////////////
 	@Override
-	public List<PayVO> salesOnePageListSelect(Map<String, Object> map) {
-		return dao.salesOnePageListSelect(map);
+	public List<PayVO> salesList(PayVO payVO) {
+		return dao.salesList(payVO);
 	}
 	@Override
-	public PayVO salesTotalAmountSelect(PayVO payVO) {
-		return dao.salesTotalAmountSelect(payVO);
+	public List<PayVO> salesUserList(String date) {
+		return dao.salesUserList(date);
 	}
-	@Override
-	public List<PayVO> salesListSelect(Map<String, Object> map) {
-		return dao.salesListSelect(map);
-	}	
-
 // report management ///////////////////////////////////	
 	@Override
 	public int reportInsert(ReportVO vo) {
@@ -127,4 +122,7 @@ public class AdminServiceImp implements AdminService {
 	public List<ReportVO> reportTotalRecord() {
 		return dao.reportTotalRecord();
 	}
+	
+
+
 }
