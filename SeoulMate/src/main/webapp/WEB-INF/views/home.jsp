@@ -46,7 +46,7 @@
                   <p><span>매칭</span>90<b>%</b></p>
                   <button class="btn_star"></button>
                   <a href="">
-                     <img alt="" src="<%=request.getContextPath()%>/img/comm/sample_house01.png">
+                     <img alt="" src="<%=request.getContextPath()%>/housePic/sample_house01.png">
                   </a>
                </div>
                <div class="list_title">
@@ -77,7 +77,7 @@
                   <p><span>매칭</span>90<b>%</b></p>
                   <button class="btn_star"></button>
                   <a href="">
-                     <img alt="" src="<%=request.getContextPath()%>/img/comm/${newHouseVO.housepic1}">
+                     <img alt="" src="<%=request.getContextPath()%>/housePic/${newHouseVO.housepic1}">
                   </a>
                </div>
                <div class="list_title">
@@ -108,7 +108,7 @@
                   <p><span>매칭</span>90<b>%</b></p>
                   <button class="btn_star"></button>
                   <a href="">
-                     <img alt="" src="<%=request.getContextPath()%>/img/comm/sample_mate01.png">
+                     <img alt="" src="<%=request.getContextPath()%>/matePic/sample_mate01.png">
                   </a>
                </div>
                <div class="list_title">
@@ -140,7 +140,7 @@
                   <p><span>매칭</span>90<b>%</b></p>
                   <button class="btn_star"></button>
                   <a href="">
-                     <img alt="" src="<%=request.getContextPath()%>/img/comm/${newMateVO.matePic1}">
+                     <img alt="" src="<%=request.getContextPath()%>/matePic/${newMateVO.matePic1}">
                   </a>
                </div>
                <div class="list_title">

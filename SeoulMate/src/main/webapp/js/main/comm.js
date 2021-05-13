@@ -8,13 +8,17 @@ $(document).ready(function(){
 			$('.main_menu li').eq(i).children().removeClass('on');
 		});
 		
-		$('.btn_chat').click(function() {
-			if($('.chat_window').hasClass('on')==true){
-				$('.chat_window').removeClass('on');
-			}else{
-				$('.chat_window').addClass('on');
-			}
-		});
+		
+    $(".btn_chat").click(function () {
+       if ($("#the_iframe").hasClass("on") == true) {
+         $("#the_iframe").css("transition", ".3s");
+         $("#the_iframe").removeClass("on");
+       } else {
+         $("#the_iframe").addClass("on");
+         $("#the_iframe").css("transition", ".3s");
+       }
+     });
 		
 	});
+	
 });
