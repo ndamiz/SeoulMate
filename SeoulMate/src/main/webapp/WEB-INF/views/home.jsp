@@ -160,7 +160,7 @@
                   <li>
                   	<p>
                   		<c:if test="${newMateVO.gender==1}">여</c:if>
-                  		<c:if test="${newMateVO.gender==2}">남</c:if>
+                  		<c:if test="${newMateVO.gender==3}">남</c:if>
                   	</p>
                   </li>
                   <li>
