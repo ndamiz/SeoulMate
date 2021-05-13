@@ -6,7 +6,21 @@ $(function(){
 			datePicker();
 	     });
 	 });
+	 
+	 //팝업 닫기
+	$('.popup_Close').on('click',function(){
+		$('.admin_Management_popup').addClass('popup_hidden');
+		$('#myPage_popup_FullScreen').addClass('popup_hidden');
+		$('body').removeClass('popup_Stop_Scroll');
+	});
 });
+//팝업 띄우기 
+function openPopup(){
+	//팝업 보이도록 클래스 삭제, 추가
+	$('body').addClass('popup_Stop_Scroll');
+	$('#myPage_popup_FullScreen').removeClass('popup_hidden');
+	$('.admin_Management_popup').removeClass('popup_hidden');
+}
 function datePicker(){
 	$('.datePicker1, .datePicker2').datepicker('destroy');
 	$('.datePicker1, .datePicker2').val("");
@@ -95,42 +109,44 @@ function datePicker(){
 	}
 	$('img.ui-datepicker-trigger').css({'cursor':'pointer', 'margin':'0px 10px 3px 5px', 'width' :'25px', 'height':'25px'});
 }
-
 //자료 프린트하기 
-function printPage(msg){;
+function printPage(msg){
 	var printWidth = 800;
 	var printHeghit = 800;
 	var state ='';
 	var grade = 0;
 	var searchKey = '';
 	var searchWord = '';
-	if(msg == 'mateWrite'){
+	var selectYearMonthDate = '';
+	var selectStartDate = '';
+	var selectEndDate = '';
+	if(msg == 'mateWrite' || msg == 'mateExcel'){
 		state =  $("#matestate option:selected").val();
 		grade = $("#grade option:selected").val();
 		searchKey = $("#searchKey option:selected").val();
 		searchWord = $("input[name=searchWord]").val();
-		window.open("/home/admin/adminPrintPage?msg="+msg+"&matestate="+state+"&grade="+grade+"&searchKey="+searchKey+"&searchWord="+searchWord, "프린트 페이지", "width=800, height=800");
+		window.open("/home/admin/adminPrintPage?msg="+msg+"&matestate="+state+"&grade="+grade+"&searchKey="+searchKey+"&searchWord="+searchWord, "PopPage", "width=800, height=800");
 	}
-	if(msg == 'houseWrite'){
+	if(msg == 'houseWrite' || msg == 'houseExcel'){
 		state =  $("#housestate option:selected").val();
 		grade = $("#grade option:selected").val();
 		searchKey = $("#searchKey option:selected").val();
 		searchWord = $("input[name=searchWord]").val();
-		window.open("/home/admin/adminPrintPage?msg="+msg+"&housestate="+state+"&grade="+grade+"&searchKey="+searchKey+"&searchWord="+searchWord, "프린트 페이지", "width=800, height=800");
+		window.open("/home/admin/adminPrintPage?msg="+msg+"&housestate="+state+"&grade="+grade+"&searchKey="+searchKey+"&searchWord="+searchWord, "PopPage", "width=800, height=800");
 	}
 	var selectYearMonthDate = '';
 	var selectStartDate = '';
 	var selectEndDate = '';
-	if(msg == 'pay' || msg=='sales'){
+	if(msg == 'pay' || msg=='sales' || msg == 'payExcel' || msg == 'salesExcel'){
 		selectYearMonthDate = $("#selectYearMonthDate option:selected").val();
 		selectStartDate = $("input[name=selectStartDate]").val();
 		selectEndDate = $("input[name=selectEndDate]").val();
-		if(msg == 'pay'){
+		if(msg == 'pay' || msg == 'payExcel'){
 			searchKey = $("#searchKey option:selected").val();
 			searchWord = $("input[name=searchWord]").val();
-			window.open("/home/admin/adminPrintPage?msg="+msg+"&selectYearMonthDate="+selectYearMonthDate+"&selectStartDate="+selectStartDate+"&selectEndDate="+selectEndDate+"&searchKey="+searchKey+"&searchWord="+searchWord, "프린트 페이지", "width=800, height=800");
-		}else if(msg=='sales'){
-			window.open("/home/admin/adminPrintPage?msg="+msg+"&selectYearMonthDate="+selectYearMonthDate+"&selectStartDate="+selectStartDate+"&selectEndDate="+selectEndDate, "프린트 페이지", "width=800, height=800");
+			window.open("/home/admin/adminPrintPage?msg="+msg+"&selectYearMonthDate="+selectYearMonthDate+"&selectStartDate="+selectStartDate+"&selectEndDate="+selectEndDate+"&searchKey="+searchKey+"&searchWord="+searchWord, "PopPage", "width=800, height=800");
+		}else if(msg=='sales' || msg == 'salesExcel'){
+			window.open("/home/admin/adminPrintPage?msg="+msg+"&selectYearMonthDate="+selectYearMonthDate+"&selectStartDate="+selectStartDate+"&selectEndDate="+selectEndDate, "PopPage", "width=800, height=800");
 		}
 	}
 	if(msg == 'pop'){
@@ -142,5 +158,18 @@ function printPage(msg){;
 			document.body.innerHTML = p_body;
 		}
 		window.print();
+	}
+	if(msg == 'popSalesExcel'){
+		var date = new Date();
+		var filename = 'salesDetail_'+date.getFullYear()+(date.getMonth()+1)+date.getDate()+date.getHours()+date.getMinutes()+date.getSeconds();
+		$("#popExcel").table2excel({ 
+			exclude: ".noExl", 
+			name: "Excel Document Name", 
+			filename: filename,
+			fileext: ".xls", 
+			exclude_img: true, 
+			exclude_links: true, 
+			exclude_inputs: true 
+		});
 	}
 }

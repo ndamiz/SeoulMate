@@ -57,13 +57,13 @@ public interface AdminDAO {
 	public List<PayVO> payOnePageListSelect(Map<String, Object> map);
 	//조건에맞는 총레코드 리스트
 	public List<PayVO> payListSelect(Map<String, Object> map);
-//sales management ///////////////////////////////////////
-	public List<PayVO> salesOnePageListSelect(Map<String, Object> map);
-	//조건에맞는 레코드의 총 합계 구하기
-	public PayVO salesTotalAmountSelect(PayVO payVO);
-	//조건에맞는 총레코드 리스트
-		public List<PayVO> salesListSelect(Map<String, Object> map);
 	
+	
+//sales management ///////////////////////////////////////
+	//조건에 맞는 레코드리스트 구하기 (year, month, date)
+	public List<PayVO> salesList(PayVO payVO);
+	//유저 목록 가져오기.  
+	public List<PayVO> salesUserList(String date);
 //report management ///////////////////////////////////////
 	// 신고 등록
 	public int reportInsert(ReportVO vo);

@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
 <style>
 .nowPageNum{background-color: #ddd;}
 </style>
 		<section class="admin_Section">
 			<div class="admin_Content">
 				<div class="m_title managementTitle">결제 관리</div>
-				<form method="post" action="/home/admin/payManagement" name="payManagementForm">
+				<form method="post" name="payManagementForm" id="payManagementForm">
 					<input type="hidden" name="orderCondition" value="no"/>
 					<input type="hidden" name="orderUpDown" value="desc"/>
 					<div class="managementSearchForm">
@@ -34,8 +35,8 @@
 								<input type="submit" value="Search" class="btn btn-custom"/>
 							</div>
 							<div id="payBtnDiv">
+								<a href="javascript:printPage('payExcel')" id="excelBtn" class="btn btn-custom">엑셀</a>
 								<a href="javascript:printPage('pay')" class="btn btn-custom" id="printBtn">프린트</a>
-								<input type="button" value="엑셀로 출력" id="excelBtn"class="btn btn-custom"/>
 							</div>
 						</div>	
 					</div>	
@@ -44,11 +45,11 @@
 					<table class="table table-hover table-sm table-bordered, managementTable" id="adminPayManagementTable">
 						<thead class="thead-light">
 							<tr class="orderConditionTable">
-								<th style="cursor:pointer;">결제번호<span class="arrowUp objectHidden">▲</span><span class="arrowDown objectHidden">▼</span></th>
+								<th style="cursor:pointer;">결제번호</th>
 								<th>아이디</th>
 								<th>이름</th>
-								<th style="cursor:pointer;">결제일<span class="arrowUp objectHidden">▲</span><span class="arrowDown objectHidden">▼</span></th>
-								<th style="cursor:pointer;">결제종료일<span class="arrowUp objectHidden">▲</span><span class="arrowDown objectHidden">▼</span></th>
+								<th style="cursor:pointer;">결제일</th>
+								<th style="cursor:pointer;">결제종료일</th>
 								<th>결제방법</th>
 								<th>등급</th>
 								<th>환불</th>
@@ -104,6 +105,9 @@
 	<script>
 		$(function(){
 			datePicker();
+			$(document).on('click','#payManagementForm', function(){
+				payManagementList();
+			});
 			//전체 리스트 출력 , paging 
 			function payManagementList(){
 				var url = "/home/admin/payManagementList";
@@ -115,6 +119,10 @@
 						var $result = $(result);
 						var $payVO = $(result.payVO);
 						var $pagingVO = $(result.pagingVO);
+						console.log(result);
+						console.log(result.prePayVO.selectStartDate);
+						console.log(result.prePayVO.selectEndDate);
+						
 						//생성되어있는 자식 태그 지우기  (목록)
 						$('#adminPayManagementTable>tbody').empty();
 						//새로목록 생성 
@@ -180,35 +188,26 @@
 			}
 			// 결제번호,결제일, 결제종료일 오름차순, 내림차순 클릭 시
 			$('.orderConditionTable>th').on('click', function(){
-				$(".orderConditionTable>th>span:first-of-type").addClass('objectHidden');
-				$(".orderConditionTable>th>span:last-of-type").addClass("objectHidden");
-				
 				if($(this).text().indexOf('결제번호') != -1){
 					if($('input[name=orderCondition]').val()=='no'){
-						$(this).children().eq(0).removeClass('objectHidden');
 						$('input[name=orderUpDown]').attr('value','asc');
 					}else{
-						$(this).children().eq(1).removeClass('objectHidden');
 						$('input[name=orderCondition]').attr('value','no');
 						$('input[name=orderUpDown]').attr('value','desc');
 					}
 				}
 				if($(this).text().indexOf('결제일') != -1){
 					if($('input[name=orderCondition]').val()=='payStart'){
-						$(this).children().eq(0).removeClass('objectHidden');
 						$('input[name=orderUpDown]').attr('value','asc');
 					}else{
-						$(this).children().eq(1).removeClass('objectHidden');
 						$('input[name=orderCondition]').attr('value','payStart');
 						$('input[name=orderUpDown]').attr('value','desc');
 					}
 				}
 				if($(this).text().indexOf('결제종료일') != -1){
-					if($('input[name=orderCondition]').val()=='payEnd'){
-						$(this).children().eq(0).removeClass('objectHidden');
+					if($('input[name=orderCondition]').val()=='payEnd'){;
 						$('input[name=orderUpDown]').attr('value','asc');
 					}else{
-						$(this).children().eq(1).removeClass('objectHidden');
 						$('input[name=orderCondition]').attr('value','payEnd');
 						$('input[name=orderUpDown]').attr('value','desc');
 					}

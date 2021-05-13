@@ -233,7 +233,7 @@ input {
 	height: 50px;
 }
 #subMenu a:hover {background-color: #325288; color:#fff; text-decoration: none; font-weight: bold;}
-
+.closeList, .openList {font-size: 0.5em; }
 section{ margin-left:15% ; width: 85%; float: left; }
 
 .admin_Section {
@@ -367,18 +367,26 @@ select[name="searchKey"]{ width: 100px;}
 	overflow: auto;
 	margin: 40px auto 0px auto;
 }
+.font_bold>td{font-weight: bold; background-color: #dee2e6;}
 #salesChart{width: 95%; }
 #graphBtn {
+	cursor: pointer;
 	width: 38px;
 	height: 38px;
 	float: right;
 	margin: 0 5px;
 }
-
-#excelBtn {
+#graphImgSvg{
+	filter: invert(100%) sepia(0%) saturate(7482%) hue-rotate(191deg) brightness(113%) contrast(105%);}
+#Btn {
+	height: 38px;
 	float: right;
 	margin: 0 5px;
 }
+/* 체크박스 색상변경.. */
+/* 보여질 부분의 스타일을 추가하면 된다. */ 
+.openCheck input[type="checkbox"]:checked + label:after{ background-color:skyblue; }
+
 /* house ManageMent */
 .houseManagenent_span {
 	display: block;
@@ -552,6 +560,7 @@ padding: 0;
 .admin_Management_popup_table_btn>a {
 	width: 150px;
 	font-weight: bold;
+	margin: 0 10px;
 }
 .popup_Stop_Scroll{overflow: hidden; height: 100%; }
 .myPage_HouseAndMate_Popup_FullScreen{width: 100%; height: 100%; background-color: #ddd; opacity: 0.5;
@@ -559,6 +568,7 @@ padding: 0;
 .popup_hidden {
 	display: none;
 }
+.cuser_Pointer { cursor:pointer; }
 
 #graphBtn {width: 38px; height: 38px; float:right; margin: 0 5px;}
 #excelBtn {float: right; margin: 0 5px;}

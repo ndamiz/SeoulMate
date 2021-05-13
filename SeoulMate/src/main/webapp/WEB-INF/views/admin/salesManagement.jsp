@@ -1,128 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js" integrity="sha512-VMsZqo0ar06BMtg0tPsdgRADvl0kDHpTbugCBBrL55KmucH6hP9zWdLIWY//OTfMnzz6xWQRxQqsUFefwHuHyg==" crossorigin="anonymous"></script>
 <script>
 $(function(){
 	datePicker();
-	
-	//전체 리스트 출력 , paging 
-	function salesManagementList(){
-		var url = "/home/admin/salesManagementList";
-		var data = $("form[name=salesManagementForm]").serialize() ;
-		$.ajax({
-			url : url,
-			data : data,
-			success : function(result){
-				// pagingVO, payList, total 끌어옴.. 
-				var $payList = $(result.payList);
-				var $pagingVO = $(result.pagingVO);
-				//생성되어있는 자식 태그 지우기  (목록)
-				$('#adminManagementTable>tbody').empty();
-				// 총계 목록 생성 
-				var tag = "";
-				tag+= '<tr><td>총계</td>';
-				tag+= '<td>'+result.total.amount.toLocaleString('ko-KR')+'</td>';
-				tag+= '<td>'+result.total.amountCard.toLocaleString('ko-KR')+'</td>';
-				tag+= '<td>'+result.total.amountCash.toLocaleString('ko-KR')+'</td>';
-				tag+= '<td>'+(result.total.amount)/15000+'</td></tr>';
-				// 기본 리스트 
-				$payList.each(function(idx, obj){
-					tag += '<tr class="admin_List_table">';
-					tag += '<td>'+obj.payStart+'</td>';
-					tag += '<td>'+(obj.amount).toLocaleString("ko-KR")+'</td>';
-					tag += '<td>'+(obj.amountCard).toLocaleString("ko-KR")+'</td>';
-					tag += '<td>'+(obj.amountCash).toLocaleString("ko-KR")+'</td>';
-					tag += '<td>'+obj.amount/15000+'</td>';
-				});
-				$('#adminManagementTable>tbody').html(tag);
-				
-				// 페이징 새로 
-				$('#adminPayManagementPaging').empty();
-				var pagingTag ="";
-				var cnt = 1;
-				if(result.pagingVO.pageNum >1){
-					pagingTag += '<a href="javascript:pageClick("first_page")" class="first_page"></a>';
-					pagingTag += '<a href="javascript:pageClick("prev_page")"  class="prev_page"></a>';
-				}else if(result.pagingVO.pageNum ==1){
-					pagingTag += '<a href="#" class="first_page"></a>';
-					pagingTag += '<a href="#" class="prev_page"></a>';
-				}
-				$pagingVO.each(function(idx, obj){
-					if(idx<=obj.totalPage ){
-						if(idx==obj.pageNum ){
-							pagingTag += '<a href="javascript:pageClick("'+cnt+'")">'+cnt+'</a>';
-						}else if(idx!=obj.pageNum){
-							pagingTag += '<a href="javascript:pageClick("'+cnt+'")">'+cnt+'</a>';
-						}
-					}
-					cnt++;
-				});
-				if(result.pagingVO.pageNum < result.pagingVO.totalPage ){
-					pagingTag += '<a href="javascript:pageClick("next_page")" class="next_page"></a>';
-					pagingTag += '<a href="javascript:pageClick("last_page")" class="last_page"></a>';
-				}else if(result.pagingVO.pageNum == result.pagingVO.totalPage){
-					pagingTag += '<a href="#" class="next_page"></a>';
-					pagingTag += '<a href="#" class="last_page"></a>';
-				}
-				$('#adminPayManagementPaging').html(pagingTag);
-				
-				$('#adminPayManagementPaging').children('a').each(function(){
-					if( $(this).text() == result.pagingVO.pageNum){
-						$(this).addClass('nowPageNum');
-					}
-				});
-			}, error :function(){
-				console.log("sales 리스트 데이터가져오기 에러 ");
-			}
-		});
-	}
-	// 날짜, 총매출액, 결제건수 오름차순, 내림차순 클릭 시
-	$('.orderConditionTable>th').on('click', function(){
-		$(".orderConditionTable>th>span:first-of-type").addClass('objectHidden');
-		$(".orderConditionTable>th>span:last-of-type").addClass("objectHidden");
-		
-		if($(this).text().indexOf('날짜') != -1){
-			if($('input[name=orderCondition]').val()=='payStart'){
-				$(this).children().eq(0).removeClass('objectHidden');
-				$('input[name=orderUpDown]').attr('value','asc');
-			}else{
-				$(this).children().eq(1).removeClass('objectHidden');
-				$('input[name=orderCondition]').attr('value','payStart');
-				$('input[name=orderUpDown]').attr('value','desc');
-			}
-		}
-		if($(this).text().indexOf('총매출액') != -1){
-			if($('input[name=orderCondition]').val()=='amount'){
-				$(this).children().eq(0).removeClass('objectHidden');
-				$('input[name=orderUpDown]').attr('value','asc');
-			}else{
-				$(this).children().eq(1).removeClass('objectHidden');
-				$('input[name=orderCondition]').attr('value','amount');
-				$('input[name=orderUpDown]').attr('value','desc');
-			}
-		}
-		if($(this).text().indexOf('결제종료일') != -1){
-			if($('input[name=orderCondition]').val()=='payEnd'){
-				$(this).children().eq(0).removeClass('objectHidden');
-				$('input[name=orderUpDown]').attr('value','asc');
-			}else{
-				$(this).children().eq(1).removeClass('objectHidden');
-				$('input[name=orderCondition]').attr('value','payEnd');
-				$('input[name=orderUpDown]').attr('value','desc');
-			}
-		}
-		salesManagementList();
-	});
-	$('form[name=salesManagementForm]').on('click', function(){
-		salesManagementList();
-	});
 });
 </script>
 		<section class="admin_Section">
 			<div class="admin_Content">
 				<div class="m_title managementTitle">매출 관리</div>
-				<form method="post" name="salesManagementForm">
+				<form method="post" action="/home/admin/salesManagement" name="salesManagementForm">
 					<input type="hidden" name="orderCondition" value="payStart"/>
 					<input type="hidden" name="orderUpDown" value="desc"/>
 					<div id="salesManagementDiv">
@@ -130,39 +21,58 @@ $(function(){
 							<div class="dateChoose">
 								<span class="managementSpan3">기간 선택</span>
 								<select name="selectYearMonthDate" id="selectYearMonthDate" class="custom-select">
-									<option value="일별" selected>일별</option>
-									<option value="월별">월별</option>
-									<option value="년별">년별</option>
+									<c:if test="${payVO.selectYearMonthDate=='일별' }">
+										<option value="일별" selected>일별</option>
+									</c:if>
+									<c:if test="${payVO.selectYearMonthDate!='일별' }">
+										<option value="일별" >일별</option>
+									</c:if>
+									<c:if test="${payVO.selectYearMonthDate=='월별' }">
+										<option value="월별" selected>월별</option>
+									</c:if>
+									<c:if test="${payVO.selectYearMonthDate!='월별' }">
+										<option value="월별" >월별</option>
+									</c:if>
+									<c:if test="${payVO.selectYearMonthDate=='년별' }">
+										<option value="년별" selected>년별</option>
+									</c:if>
+									<c:if test="${payVO.selectYearMonthDate!='년별' }">
+										<option value="년별" >년별</option>
+									</c:if>
 								</select>
 							</div>
 							<div>
-								<input type="text" name="selectStartDate" class="datePicker1" readonly="readonly" /> ~
-								<input type="text" name="selectEndDate" class="datePicker2" readonly="readonly" />
+								<input type="text" name="selectStartDate" class="datePicker1" readonly="readonly"/> ~
+								<input type="text" name="selectEndDate" class="datePicker2" readonly="readonly"/>
 							</div>
 							<div>
 								<input type="submit" value="Search" class="btn btn-custom"/>
 							</div>
 							<div id="salesGrapeBtn">
-								<input type="button" value="엑셀로 출력" id="excelBtn" class="btn btn-custom"/>
-								<input type="image" class="btn btn-custom" id="graphBtn" src="<%=request.getContextPath()%>/img/fi-rr-stats.svg" alt="그래프 버튼"/>
+								<a href="javascript:printPage('salesExcel')" id="excelBtn" class="btn btn-custom">엑셀</a>
+								<a href="#" class="btn btn-custom" id="graphBtn">
+								<img src="<%=request.getContextPath()%>/img/fi-rr-stats.svg" alt="그래프 버튼" id="graphImgSvg"/>
+								</a>
 								<a href="javascript:printPage('sales')" class="btn btn-custom" id="printBtn">프린트</a>
 							</div>
 						</div>
 					</div>
 				</form>
-				<div class="table-responsive, managementList">
+				<div class="table-responsive, managementList" id="salesManagementTable">
 					<table class="table table-hover table-sm table-bordered, managementTable" id="adminManagementTable">
 						<thead class="thead-light">
 							<tr class="orderConditionTable">
-								<th style="cursor:pointer;">날짜<span class="arrowUp objectHidden">▲</span><span class="arrowDown objectHidden">▼</span></th>
-								<th style="cursor:pointer;">총매출액<span class="arrowUp objectHidden">▲</span><span class="arrowDown objectHidden">▼</span></th>
+								<c:if test="${payVO.selectYearMonthDate!='일별' && payVO.selectYearMonthDate!='' && payVO.selectYearMonthDate!=null}"><th>펼쳐보기</th></c:if>
+								<th>날짜</th>
+								<th>총매출액</th>
 								<th>카드</th>
-								<th>현금</th>
-								<th style="cursor:pointer;">결제건수<span class="arrowUp objectHidden">▲</span><span class="arrowDown objectHidden">▼</span></th>
+								<th>그외</th>
+								<th>결제건수</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
+								<c:if test="${payVO.selectYearMonthDate!='일별' && payVO.selectYearMonthDate!='' && payVO.selectYearMonthDate!=null}"><td></td></c:if>
 								<td>총 계</td>
 								<fmt:formatNumber var="totalAmount" value="${totalVO.amount}" />
 								<td>${totalAmount }</td>
@@ -173,60 +83,74 @@ $(function(){
 								<fmt:formatNumber var="totalAmountNum" value="${totalVO.amount/15000 }" />
 								<td>${totalAmountNum }</td>
 							</tr>
-							<c:forEach var="vo" items="${salesList }">
-							<tr id="adminSalesManagementList" calss="admin_SalesManagement_DetailInfo">
-								<td>${vo.payStart }</td>
-								<fmt:formatNumber var="amount" value="${vo.amount }" />
-								<td>${amount}</td>
-								<fmt:formatNumber var="amountCard" value="${vo.amountCard }" />
-								<td>${amountCard}</td>
-								<fmt:formatNumber var="amountCash" value="${vo.amountCash }" />
-								<td>${amountCash }</td>
-								<fmt:formatNumber var="amountNum" type="number" value="${vo.amount/15000 }" />
-								<td>${amountNum }</td>
-							</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-					<div class="paging" id="adminPayManagementPaging">
-						<c:if test="${pagingVO.pageNum>1 }">
-							<a href="javascript:pageClick('first_page')" class="first_page"></a>
-							<a href="javascript:pageClick('prev_page')"  class="prev_page"></a>
-						</c:if>
-						<c:if test="${pagingVO.pageNum==1 }">
-							<a href="#" class="first_page"></a>
-							<a href="#"  class="prev_page"></a>
-						</c:if>
-						<c:forEach var="pageNum" begin="${pagingVO.startPageNum }" end="${pagingVO.startPageNum+pagingVO.onePageNum-1 }">
-							<c:if test="${pageNum<=pagingVO.totalPage }">
-								<c:if test="${pageNum==pagingVO.pageNum }">
-									<a href="javascript:pageClick('${pageNum }')" class="nowPageNum">${pageNum }</a>
-								</c:if>
-								<c:if test="${pageNum!=pagingVO.pageNum }">
-									<a href="javascript:pageClick('${pageNum }')">${pageNum }</a>
+							<c:if test="${payVO.selectYearMonthDate=='년별'}">
+								<c:forEach var="year" items="${yearList }">
+									<tr class="adminSalesManagementList cuser_Pointer list_year">
+										<td>
+												<input type="checkbox" name="openList_year"/>
+										</td>
+										<td>${year.payStart }년<span class="objectHidden">${year.payStart }</span></td>
+										<fmt:formatNumber var="amount" value="${year.amount }" />
+										<td class="salesPopup">${amount}</td>
+										<fmt:formatNumber var="amountCard" value="${year.amountCard }" />
+										<td class="salesPopup">${amountCard}</td>
+										<fmt:formatNumber var="amountCash" value="${year.amountCash }" />
+										<td class="salesPopup">${amountCash }</td>
+										<fmt:formatNumber var="amountNum" type="number" value="${year.amount/15000 }" />
+										<td class="salesPopup">${amountNum }</td>
+									</tr>
+								</c:forEach>
+							</c:if>
+							<c:if test="${payVO.selectYearMonthDate=='월별'}">
+								<c:forEach var="month" items="${monthList }">
+									<tr class="adminSalesManagementList cuser_Pointer list_month">
+										<td>
+											<input type="checkbox" name="openList_month"/>
+										</td>
+										<td class="salesPopup">${month.payStart }<span class="objectHidden">${month.payStart }</span></td>
+										<fmt:formatNumber var="amount" value="${month.amount }" />
+										<td class="salesPopup">${amount}</td>
+										<fmt:formatNumber var="amountCard" value="${month.amountCard }" />
+										<td class="salesPopup">${amountCard}</td>
+										<fmt:formatNumber var="amountCash" value="${month.amountCash }" />
+										<td class="salesPopup">${amountCash }</td>
+										<fmt:formatNumber var="amountNum" type="number" value="${month.amount/15000 }" />
+										<td class="salesPopup">${amountNum }</td>
+									</tr>
+									
+								</c:forEach>
+							</c:if>
+							<c:if test="${payVO.selectYearMonthDate==null || payVO.selectYearMonthDate=='일별' || payVO.selectYearMonthDate==''}">
+								<c:if test="${fn:length(dateList) < 31 }">
+								<c:forEach var="date" items="${dateList }">
+									<tr class="adminSalesManagementList salesManagement_date cuser_Pointer list_date">
+										<td class="salesPopup">${date.payStart }<span class="objectHidden">${date.payStart }</span></td>
+										<fmt:formatNumber var="amount" value="${date.amount }" />
+										<td class="salesPopup">${amount}</td>
+										<fmt:formatNumber var="amountCard" value="${date.amountCard }" />
+										<td class="salesPopup">${amountCard}</td>
+										<fmt:formatNumber var="amountCash" value="${date.amountCash }" />
+										<td class="salesPopup">${amountCash }</td>
+										<fmt:formatNumber var="amountNum" type="number" value="${date.amount/15000 }" />
+										<td class="salesPopup">${amountNum }</td>
+									</tr>
+								</c:forEach>
 								</c:if>
 							</c:if>
-						</c:forEach>
-						<c:if test="${pagingVO.pageNum < pagingVO.totalPage }">
-							<a href="javascript:pageClick('next_page')" class="next_page"></a>
-							<a href="javascript:pageClick('last_page')" class="last_page"></a>
-						</c:if>
-						<c:if test="${pagingVO.pageNum == pagingVO.totalPage }">
-							<a href="#" class="next_page"></a>
-							<a href="#" class="last_page"></a>
-						</c:if>
-					</div>
+						</tbody>
+					</table>
 				</div>
 			</div>
-			<div class="admin_Management_popup">
+			<div class="admin_Management_popup popup_hidden">
 				<div class="admin_Management_popup_head">매출 정보 그래프<span class="admin_Management_popup_head_close popup_Close">X</span></div>
 				<div class="admin_Management_popup_body" id="admin_Management_popup_print" style="overflow-y: hidden;">
-					<div class="admin_Management_popup_title"> [<span>2021-04 ~ 2021-05</span>] 매출 정보</div>
+					<div class="admin_Management_popup_title" id="salesManagementView"></div>
 					<div>
-						<canvas id="salesChart" height="500" ></canvas>
+						<canvas id="salesChart"style="height:55vh; width:55vw" ></canvas>
 					</div>
 				</div>
-				<div class="admin_Management_popup_table_btn">
+				<div class="admin_Management_popup_table_btn" id="sales_popupBtn">
+					<a href="javascript:printPage('popSalesExcel')" class="btn btn-custom">엑셀</a>
 					<a href="javascript:printPage('pop')" class="btn btn-custom">프린트</a>
 					<a href="" class="btn btn-custom popup_Close">닫기</a>
 				</div>
@@ -234,50 +158,247 @@ $(function(){
 			<div class="myPage_HouseAndMate_Popup_FullScreen popup_Close popup_hidden" id="myPage_popup_FullScreen"></div>
 		</section>
 	</body>
-	<script>
-	var ctx = document.getElementById('salesChart'); 
-	var salesChart = new Chart(ctx, {
-		data : {
-			labels : ['5/1', '5/2', '5/3', '5/4', '5/5', '5/6', '5/7'],
-			datasets : [{
-				type : 'line',
-				label : '총매출',
-				data : [45000, 60000, 120000, 75000, 15000, 60000, 30000],
-				borderColor:  'rgba(194, 0, 0, 1)'
-			},{
-				type : 'bar',
-				label : '현금결제',
-				data : [15000, 0, 30000, 30000, 15000, 15000, 15000],
-				backgroundColor: 'rgba(75, 192, 192, 1)',
-			},{
-				type : 'bar',
-				label : '카드결제',
-				data : [30000, 45000, 30000, 60000, 0, 45000, 0],
-				backgroundColor: 'rgba(54, 162, 235, 1)'
-			},{
-				type : 'bar',
-				label : '그외',
-				data : [0, 15000, 15000, 15000, 0, 0, 15000],
-				backgroundColor: 'rgba(255, 180, 0, 1)'
-			}]
-		},options : {
-			scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-		}
-	});
-	
+<script>
 	$(function(){
-		$('.admin_HouseManagement_DetailInfo').on('click', function(){
-			var payStart = $(this).children().eq(0).text();
+		$(document).on('click', '#graphBtn', function(){
+			var selectYearMonthDate ='<c:out value="${payVO.selectYearMonthDate}"/>';
+			//초기화 
+			var tag = '<canvas id="salesChart"style="height:55vh; width:55vw" ></canvas>';
+			$('#salesManagementView').next().empty();
+			$('#salesManagementView').next().append(tag);
 			
-			var url = "/home/admin/salesDetailInfo";
-			var data = {"payStart" : payStart};
+			//버튼 변경 
+			$('#sales_popupBtn').empty();
+			var btnTag = '';
+			btnTag += '<a href="javascript:printPage("pop")" class="btn btn-custom " >프린트</a>';
+			btnTag += '<a href="" class="btn btn-custom popup_Close">닫기</a>';
+			$('#sales_popupBtn').html(btnTag);
+			
+			var payStart=[]; //결제일
+			var amount=[]; //결제금액합계 
+			var amountCard=[]; //카드결제
+			var amountCash=[]; //그외결제  
+			if(selectYearMonthDate=='년별'){
+				<c:forEach items="${yearList}" var="item">
+					payStart.push("${item.payStart}");
+					amount.push("${item.amount}");
+					amountCard.push("${item.amountCard}");
+					amountCash.push("${item.amountCash}");
+				</c:forEach>
+			}else if(selectYearMonthDate=='월별'){
+				<c:forEach items="${monthList}" var="item">
+					payStart.push("${item.payStart}");
+					amount.push("${item.amount}");
+					amountCard.push("${item.amountCard}");
+					amountCash.push("${item.amountCash}");
+				</c:forEach>
+			}else if(selectYearMonthDate=='일별' || selectYearMonthDate=='' || selectYearMonthDate==null){
+				<c:forEach items="${dateList}" var="item">
+					payStart.push("${item.payStart}");
+					amount.push("${item.amount}");
+					amountCard.push("${item.amountCard}");
+					amountCash.push("${item.amountCash}");
+				</c:forEach>
+			}
+			console.log(payStart.length);
+			var title='';
+			if(payStart.length>1){
+				var start = payStart[0];
+				var end = payStart[payStart.length-1];
+				title = start+' ~ '+end+' 매출 정보';
+			}else{
+				title = payStart[0]+' 매출 정보';
+			}
+			console.log(title);
+			$('#salesManagementView').text(title);
+			//그래프 띄우기
+			var ctx = document.getElementById('salesChart'); 
+			var salesChart = new Chart(ctx, {
+				data : {
+					labels : payStart,
+					datasets : [{
+						type : 'line',
+						label : '총매출',
+						data : amount,
+						borderColor:  'rgba(194, 0, 0, 1)'
+					},{
+						type : 'bar',
+						label : '현금결제',
+						data : amountCash,
+						backgroundColor: 'rgba(75, 192, 192, 1)',
+					},{
+						type : 'bar',
+						label : '카드결제',
+						data : amountCard,
+						backgroundColor: 'rgba(54, 162, 235, 1)'
+					}]
+				},options : {
+					responsive: false,
+					scales: {
+		                yAxes: [{
+		                    ticks: {
+		                        beginAtZero: true
+		                    }
+		                }]
+		            }
+				}
+			});
+			//팝업보이기
+			openPopup();
 		});
+		
+		$(document).on('click','.salesPopup' ,function(){
+			var selectYearMonthDate ='<c:out value="${payVO.selectYearMonthDate}"/>';
+			if(selectYearMonthDate=='일별' || selectYearMonthDate=='' || selectYearMonthDate==null){
+				var checkDate = $(this).parent().children().eq(0).children().text();
+			}else{
+				var checkDate = $(this).parent().children().eq(1).children().text();
+			}
+			
+			
+			var excelTag = '';
+			excelTag += '<a href="javascript:printPage("popSalesExcel")" class="btn btn-custom">엑셀</a>';
+			excelTag += '<a href="javascript:printPage("pop")" class="btn btn-custom">프린트</a>';
+			excelTag+= '<a href="" class="btn btn-custom popup_Close">닫기</a>';
+			$('#sales_popupBtn').empty();
+			$('#sales_popupBtn').html(excelTag);
+			$(".admin_Management_popup_head").text('매출 상세 정보 리스트');
+			
+			var url = "/home/admin/salesUserList";
+			var data = { "date" : checkDate };
+			var tag = '';
+			$.ajax({
+				url : url,
+				data : data,
+				success : function(result){
+					$result = $(result);
+					var titleTag ='';
+					if(checkDate.length==4){
+						titleTag = '['+checkDate+' 년]';
+					}else if(checkDate.length==7){
+						titleTag ='['+checkDate.substr(0,4)+'년 '+Number(checkDate.substr(5,2))+'월 ]';
+					}else if(checkDate.length==10){
+						titleTag = '['+checkDate.substr(0,4)+'년 '+Number(checkDate.substr(5,2))+'월 '+Number(checkDate.substr(8,2))+'일 ]';
+					}
+					$('#salesManagementView').text(titleTag);
+					console.log(titleTag);
+					//팝업 div 비워주기 
+					$('#salesManagementView').next().empty();
+					tag += '<table class="table table-hover table-sm table-bordered, managementTable" id="popExcel">';
+					tag += '<thead class="thead-light">';
+					tag += '<tr class="orderConditionTable">';
+					tag += '<th>아이디</th><th>이름</th><th>결제금액</th><th>결제일</th><th>종료일</th><th>결제수단</th><th>환불여부</th></tr></thead><tbody>';
+					$result.each(function(idx, obj){
+						tag += '<tr class="adminSalesManagementList">';
+						tag += '<td>'+obj.userid+'</td>';
+						tag += '<td>'+obj.username+'</td>';
+						tag += '<td>'+Number(obj.amount).toLocaleString('ko-KR')+'</td>';
+						tag += '<td>'+obj.payStart+'</td>';
+						tag += '<td>'+obj.payEnd+'</td>';
+						tag += '<td>'+obj.payMethod+'</td>';
+						if(obj.refund==null){
+							tag += '<td>X</td></tr>';
+						}else{
+							tag += '<td>O</td></tr>';
+						}
+					});
+					tag += '</tbody></table>'
+					
+					$('#salesManagementView').next().html(tag);
+				},error : function(){
+					console.log("sales user 리스트  데이터가져오기 에러 ");
+				}
+			});
+			//팝업보이기
+			openPopup();
+		});
+		//년도 선택하여 펼쳐보기 할 경우
+		$(document).on('click', "input[name='openList_year']", function(){
+			console.log('adasd');
+			var checkDate = $(this).parent().next().children().text();
+			// 2021   년도 숫자를 가져옴. 
+			var payStart = []; var amount =[]; var amountCard = []; var amountCash = [];
+			// jstl 사용가능하도록 처리.. 
+			<c:forEach items="${monthList}" var="item">
+				payStart.push("${item.payStart}");
+				amount.push("${item.amount}");
+				amountCard.push("${item.amountCard}");
+				amountCash.push("${item.amountCash}");
+			</c:forEach>
+			
+			if($(this).context.checked==true){
+				//체크 상태일경우  (이번에 눌렸다, 데이터가 보여야한다. )
+				// 다른곳에있는 모든 정보들 지우기.. (초기화)
+				$('.list_month').remove(); 
+				$('.list_date').remove();
+				//반복문을 통해서 태그 추가하기. 
+				
+				//체크상태 지우기
+				$("input:checkbox[name='openList_year']").prop("checked", false);
+				$(this).prop("checked", true);
+				
+				
+				var tag = '';
+				for(var i=0; i<payStart.length; i++){
+ 					if(checkDate.substr(0,4) == payStart[i].substr(0,4)){
+						tag += '<tr class="adminSalesManagementList cuser_Pointer list_month">';
+						tag += '<td style="padding-left:20px;"><input type="checkbox" name="openList_month"/></td>';
+						tag += '<td style="padding-left:20px;" class="salesPopup">'+Number(payStart[i].substr(5,7))+'월<span class="objectHidden">'+payStart[i]+'</span></td>';
+						tag += '<td class="salesPopup">'+Number(amount[i]).toLocaleString('ko-KR')+'</td>';
+						tag += '<td class="salesPopup">'+Number(amountCard[i]).toLocaleString('ko-KR')+'</td>';
+						tag += '<td class="salesPopup">'+Number(amountCash[i]).toLocaleString('ko-KR')+'</td>';
+						tag += '<td class="salesPopup">'+Number(amount[i])/15000+'</td></tr>';
+ 					}
+ 				}
+				//클릭한 부모 tr의 다음에다가 태그 추가하기 
+				$(this).parent().parent().after(tag);
+				
+			}else{
+				//체크 X 
+				$('.list_month').remove(); 
+				$('.list_date').remove();
+			}
+		}); //년도체크박스 선택 end
+			
+		//월 체크를 눌럿을 경우 
+		$(document).on('click', "input[name='openList_month']", function(){
+			var checkDate = $(this).parent().next().children().text();
+			
+			var payStart = []; var amount =[]; var amountCard = []; var amountCash = [];
+			<c:forEach items="${dateList}" var="item">
+				payStart.push("${item.payStart}");
+				amount.push("${item.amount}");
+				amountCard.push("${item.amountCard}");
+				amountCash.push("${item.amountCash}");
+			</c:forEach>
+			
+			if($(this).context.checked==true){
+				//체크를 눌렀을 경우 
+				//다른리스트 모두 지우기 
+				$('.list_date').remove();
+				//체크상태 지우기
+				$("input:checkbox[name='openList_month']").prop("checked", false);
+				$(this).prop("checked", true);
+				//반복문을 통해서 태그 추가하기
+				var tag = '';
+				for(var i=0; i<payStart.length; i++){
+					if(checkDate == payStart[i].substr(0,7)){
+						tag += '<tr class="adminSalesManagementList cuser_Pointer list_date">';
+						tag += '<td></td>';
+						tag += '<td style="padding-left:20px;" class="salesPopup">'+Number(payStart[i].substr(8,10))+'일<span class="objectHidden">'+payStart[i]+'</span></td>';
+						tag += '<td class="salesPopup">'+Number(amount[i]).toLocaleString('ko-KR')+'</td>';
+						tag += '<td class="salesPopup">'+Number(amountCard[i]).toLocaleString('ko-KR')+'</td>';
+						tag += '<td class="salesPopup">'+Number(amountCash[i]).toLocaleString('ko-KR')+'</td>';
+						tag += '<td class="salesPopup">'+Number(amount[i])/15000+'</td></tr>';
+					}
+				}
+ 				$(this).parent().parent().after(tag);
+			}else{
+				//체크를 풀었을 경우 
+				$('.list_date').remove();
+			}
+		});//월 체크박스 선택 end
+		
 	});
-	</script>
+</script>
 </html>

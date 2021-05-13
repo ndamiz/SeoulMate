@@ -422,6 +422,7 @@ public class AdminController {
 		map1.put("pagingVO", pagingVO);
 		
 		List<PayVO> payVO_1 = service.payOnePageListSelect(map1);
+		returnMap.put("prePayVO", payVO);
 		returnMap.put("payVO", payVO_1);
 		returnMap.put("pagingVO", pagingVO);
 		
@@ -433,62 +434,51 @@ public class AdminController {
 		ModelAndView mav = new ModelAndView();
 		//기본정렬 payStart로 세팅.
 		payVO.setOrderCondition("payStart"); 
-		// 1.총 레코드 구하기  
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("payVO", payVO);
-		map.put("pagingVO", pagingVO);
-		pagingVO.setTotalRecode(service.payTotalRecode(map));
-		// 2. 한페이지 레코드 
-		Map<String, Object> map1 = new HashMap<String, Object>();
-		map1.put("payVO", payVO);
-		map1.put("pagingVO", pagingVO);
-		mav.addObject("salesList", service.salesOnePageListSelect(map1));
-		
-		// 3. 조건에 맞는 레코드의 총 합계 구하기
-		mav.addObject("totalVO", service.salesTotalAmountSelect(payVO));
+		// year Recode
+		List<PayVO> yearList = new ArrayList<PayVO>();
+		payVO.setMsg("year");
+		yearList = service.salesList(payVO);
+		// month Recode
+		List<PayVO> monthList = new ArrayList<PayVO>();
+		payVO.setMsg("month");
+		monthList = service.salesList(payVO);
+		// date Recode
+		List<PayVO> dateList = new ArrayList<PayVO>();
+		payVO.setMsg("date");
+		dateList = service.salesList(payVO);
+		// 조건에 맞는 레코드의 총 합계
+		List<PayVO> totalList = new ArrayList<PayVO>();
+		payVO.setMsg("total");
+		totalList = service.salesList(payVO);
+		PayVO totalVO = totalList.get(0);
+		mav.addObject("yearList", yearList);
+		mav.addObject("monthList", monthList);
+		mav.addObject("dateList", dateList);
+		mav.addObject("totalVO", totalVO);
 		mav.addObject("payVO", payVO);
-		mav.addObject("pagingVO", pagingVO);
 		mav.setViewName("admin/salesManagement");
 		return mav;
-	}		
-	
-	@RequestMapping(value="/admin/salesManagementList", method={RequestMethod.POST, RequestMethod.GET})
+	}	
+	@RequestMapping("/admin/salesUserList")
 	@ResponseBody
-	public Map<String, Object> salesManagementList(PayVO payVO, PagingVO pagingVO){
-		Map<String, Object> returnMap = new HashMap<String, Object>();
-		// 1.총 레코드 구하기  
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("payVO", payVO);
-		map.put("pagingVO", pagingVO);
-		pagingVO.setTotalRecode(service.payTotalRecode(map));
-		// 2. 한페이지 레코드 
-		Map<String, Object> map1 = new HashMap<String, Object>();
-		map1.put("payVO", payVO);
-		map1.put("pagingVO", pagingVO);
-		List<PayVO> payList  = service.salesOnePageListSelect(map1);
-		// 3. 조건에 맞는 레코드의 총 합계 구하기
-		PayVO payVO_total = new PayVO();
-		payVO_total = service.salesTotalAmountSelect(payVO);
-		
-		returnMap.put("pagingVO", pagingVO);
-		returnMap.put("payList", payList);
-		returnMap.put("total", payVO_total);
-		
-		return returnMap;
+	public List<PayVO> salesUserList(HttpServletRequest req){
+		String date = req.getParameter("date");
+		List<PayVO> userList = new ArrayList<PayVO>();
+		userList = service.salesUserList(date);
+		return userList;
 	}
 	//문의 관리
 	@RequestMapping("/admin/contactManagement")
 	public String contactManagement() {
 		return "/admin/contactManagement";
 	}
-	
+	//프린트.. 
 	@RequestMapping("/admin/adminPrintPage")
 	public ModelAndView adminPrintPage(HttpServletRequest req, PagingVO pagingVO) {
 		String msg = (String)req.getParameter("msg");
 		
 		ModelAndView mav =  new ModelAndView();
-		System.out.println(msg);
-		if(msg.equals("mateWrite")) {
+		if(msg.equals("mateWrite") || msg.equals("mateExcel") ) {
 			List<MateWriteVO> mwList = new ArrayList<MateWriteVO>();
 			
 			MateWriteVO mwVO = new MateWriteVO();
@@ -501,8 +491,12 @@ public class AdminController {
 			
 			mwList = service.mateListSelect(map);
 			mav.addObject("mwList", mwList);
-			mav.addObject("msg", "mate");
-		}else if(msg.equals("houseWrite")) {
+			if(msg.equals("mateWrite")) {
+				mav.addObject("msg", "mate");
+			}else if(msg.equals("mateExcel")) {
+				mav.addObject("msg", "mateExcel");
+			}
+		}else if(msg.equals("houseWrite") || msg.equals("houseExcel") ) {
 			List<HouseWriteVO> hwList = new ArrayList<HouseWriteVO>();
 			
 			HouseWriteVO hwVO = new HouseWriteVO();
@@ -516,8 +510,12 @@ public class AdminController {
 			hwList = service.houseListSelect(map);
 			
 			mav.addObject("hwList", hwList);
-			mav.addObject("msg", "house");
-		}else if(msg.equals("pay") || msg.equals("sales")) {
+			if(msg.equals("houseWrite")) {
+				mav.addObject("msg", "house");
+			}else if(msg.equals("houseExcel")) {
+				mav.addObject("msg", "houseExcel");
+			}
+		}else if(msg.equals("pay") || msg.equals("sales") || msg.equals("payExcel") || msg.equals("salesExcel")) {
 			PayVO payVO = new PayVO();
 			payVO.setSelectYearMonthDate((String)req.getParameter("selectYearMonthDate"));
 			payVO.setSelectStartDate((String)req.getParameter("selectStartDate"));
@@ -527,19 +525,37 @@ public class AdminController {
 			map.put("payVO", payVO);
 			map.put("pagingVO", pagingVO);
 			
-			if(msg.equals("pay")) {
+			if(msg.equals("pay") || msg.equals("payExcel")) {
 				List<PayVO> payList = new ArrayList<PayVO>();
 				payList = service.payListSelect(map);
 				mav.addObject("payList", payList);
-				mav.addObject("msg", "pay");	
-			}else if(msg.equals("sales")) {
+				if(msg.equals("pay")) {
+					mav.addObject("msg", "pay");
+				}else if( msg.equals("payExcel")) {
+					mav.addObject("msg", "payExcel");
+				}	
+			}else if(msg.equals("sales") || msg.equals("salesExcel")) {
 				List<PayVO> salesList = new ArrayList<PayVO>();
-				salesList = service.salesListSelect(map);
-				PayVO payVO_total = new PayVO();
-				payVO_total = service.salesTotalAmountSelect(payVO);
-				mav.addObject("totalVO", payVO_total);
+				if(payVO.getSelectYearMonthDate().equals("년별")) {
+					payVO.setMsg("year");
+				}else if(payVO.getSelectYearMonthDate().equals("월별")) {
+					payVO.setMsg("month");
+				}else if(payVO.getSelectYearMonthDate().equals("일별")) {
+					payVO.setMsg("date");
+				}else {
+					payVO.setMsg("date");
+				}
+				salesList = service.salesList(payVO);
+				payVO.setMsg("total");
+				List<PayVO> total_list = new ArrayList<PayVO>();
+				total_list = service.salesList(payVO);
+				mav.addObject("total_list", total_list);
 				mav.addObject("salesList", salesList);
-				mav.addObject("msg", "sales");	
+				if(msg.equals("sales")) {
+					mav.addObject("msg", "sales");	
+				}else if(msg.equals("salesExcel")){
+					mav.addObject("msg", "salesExcel");	
+				}
 			}	
 		}
 		mav.setViewName("admin/adminPrintPage");
