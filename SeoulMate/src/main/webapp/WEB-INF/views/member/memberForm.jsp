@@ -570,7 +570,7 @@
 						<label></label>
 						<input type="text" name="emailCheck" id="emailCheck" value="" placeholder="" disabled autocomplete="off"/>
 						<a class="green" id="emailCheckBtn">인증번호 확인</a>
-						<input type="hidden" name="emailResult" id="emailResult" value="N"/>
+						<input type="hidden" name="emailResult" id="emailResult" value="Y"/>
 					</li>
 				</ul>
 				<a class="q_btn green" id="memNext1">다음</a>

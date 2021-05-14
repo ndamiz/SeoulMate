@@ -292,4 +292,16 @@
 		<if test="grade != null and grade != '' "> where category=#{grade}</if>
 		<if test="state != null and state != '' "> where state=#{state}</if>
    	</select>
+   	<select id="faqAllRecord" resultType="com.seoulmate.home.vo.FaqVO">
+   		SELECT no, subject, content, userid, to_char(writedate, 'YYYY-MM-DD HH24:MI') writedate FROM faq order by no desc
+   	</select>
+   	<select id="faqInfo" parameterType="int" resultType="com.seoulmate.home.vo.FaqVO">
+   		SELECT NO, subject, content, userid FROM FAQ WHERE NO=#{param1}
+   	</select>
+   	<insert id="faqInsert" parameterType="com.seoulmate.home.vo.FaqVO">
+   		insert into faq values(fsq.nextval, #{subject}, #{content}, #{userid}, sysdate)
+   	</insert>
+   	<update id="faqUpdate" parameterType="com.seoulmate.home.vo.FaqVO">
+   		update faq set subject=#{subject}, content=#{content} where no=#{no}
+   	</update>
 </mapper>

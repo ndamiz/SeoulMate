@@ -345,7 +345,7 @@
 				</li>
 				<li id="proli"><label>프로필 사진</label>
 					<div class="profile_div">
-						<img class="profile_img" id="profileOrg" src="/home/profilePic/${vo.profilePic}"/>
+						<img class="profile_img" id="profileOrg" src="/home/profilePic/${vo.profilePic}" onerror="this.src='<%=request.getContextPath()%>/profilePic/basic.jpg'"/>
 						<div>
 							<img class="remove_icon" id="profileDel" src="/home/img/choi/trash-can.png"/>
 							<input type="hidden" name="" value="${vo.profilePic}"/><br/>

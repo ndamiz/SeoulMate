@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.seoulmate.home.vo.FaqVO;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.MateWriteVO;
@@ -85,4 +86,14 @@ public interface AdminDAO {
 	public String getNumFromReport(int no);
 	// 페이징을 위한 총 레코드 수 구하기
 	public int reportRecordCnt(PagingVO pVO);
+	
+// faq management
+	// 자주하는 질문 목록 출력
+	public List<FaqVO> faqAllRecord();
+	// 자주하는 질문 보기
+	public FaqVO faqInfo(int no);
+	// 자주하는 질문 추가
+	public int faqInsert(FaqVO fVO);
+	// 자주하는 질문 수정
+	public int faqUpdate(FaqVO fVO);
 }
