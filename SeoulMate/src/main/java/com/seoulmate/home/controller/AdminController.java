@@ -299,7 +299,10 @@ public class AdminController {
 	@RequestMapping(value="/admin/houseManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView houseManagement(HouseWriteVO hwVO, PagingVO pagingVO) {
 		ModelAndView mav = new ModelAndView();
+		System.out.println(pagingVO.getGrade()+"페이징브이오 폼에서보낸 그레이드");
+		System.out.println(pagingVO.getState()  +"페이징브이오 폼에서보낸 그레이드");
 		
+		hwVO.setHousestate(pagingVO.getState());
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("hwVO", hwVO);
 		map.put("pagingVO", pagingVO);
@@ -311,6 +314,9 @@ public class AdminController {
 		map1.put("pagingVO", pagingVO);
 		
 		mav.addObject("houseWriteList", service.houseOnePageListSelect(map1));
+		if(pagingVO.getPageNum()>pagingVO.getTotalPage()) {
+			pagingVO.setPageNum(pagingVO.getTotalPage());
+		}
 		mav.addObject("hwVO", hwVO);
 		mav.addObject("pagingVO", pagingVO);
 		
@@ -344,12 +350,13 @@ public class AdminController {
 	@RequestMapping(value="/admin/mateManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView mateManagement(MateWriteVO mwVO, PagingVO pagingVO) {
 		ModelAndView mav = new ModelAndView();
-		
+		mwVO.setMatestate(pagingVO.getState());
 		// 조건에 맞는 총 레코드 수. 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("mwVO", mwVO);
 		map.put("pagingVO", pagingVO);
 		pagingVO.setTotalRecode(service.mateTotalRecode(map));
+		
 		
 		//2. 한페이지에 들어가는 레코드
 		Map<String, Object> map1 = new HashMap<String, Object>();
@@ -357,13 +364,15 @@ public class AdminController {
 		map1.put("pagingVO", pagingVO);
 		
 		mav.addObject("mateWriteList", service.mateOnePageListSelect(map1));
+		if(pagingVO.getPageNum()>pagingVO.getTotalPage()) {
+			pagingVO.setPageNum(pagingVO.getTotalPage());
+		}
 		mav.addObject("mwVO", mwVO);
 		mav.addObject("pagingVO", pagingVO);
-		
 		mav.setViewName("admin/mateManagement");
 		return mav;
 	}
-	//
+	
 	@RequestMapping(value="admin/mateDetailInfo", method= {RequestMethod.POST, RequestMethod.GET})
 	@ResponseBody
 	public Map<String, Object> mateDetailInfo(HttpServletRequest req){
@@ -403,6 +412,9 @@ public class AdminController {
 		map1.put("pagingVO", pagingVO);
 		
 		mav.addObject("payList", service.payOnePageListSelect(map1));
+		if(pagingVO.getPageNum()>pagingVO.getTotalPage()) {
+			pagingVO.setPageNum(pagingVO.getTotalPage());
+		}
 		mav.addObject("payVO", payVO);
 		mav.addObject("pagingVO", pagingVO);
 		mav.setViewName("admin/payManagement");

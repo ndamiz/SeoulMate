@@ -62,7 +62,7 @@ $(function(){
 					<table class="table table-hover table-sm table-bordered, managementTable" id="adminManagementTable">
 						<thead class="thead-light">
 							<tr class="orderConditionTable">
-								<c:if test="${payVO.selectYearMonthDate!='일별' && payVO.selectYearMonthDate!='' && payVO.selectYearMonthDate!=null}"><th>펼쳐보기</th></c:if>
+								<c:if test="${payVO.selectYearMonthDate!='일별' }"><th>펼쳐보기</th></c:if>
 								<th>날짜</th>
 								<th>총매출액</th>
 								<th>카드</th>
@@ -72,7 +72,7 @@ $(function(){
 						</thead>
 						<tbody>
 							<tr>
-								<c:if test="${payVO.selectYearMonthDate!='일별' && payVO.selectYearMonthDate!='' && payVO.selectYearMonthDate!=null}"><td></td></c:if>
+								<c:if test="${payVO.selectYearMonthDate!='일별' }"><td></td></c:if>
 								<td>총 계</td>
 								<fmt:formatNumber var="totalAmount" value="${totalVO.amount}" />
 								<td>${totalAmount }</td>
@@ -83,7 +83,7 @@ $(function(){
 								<fmt:formatNumber var="totalAmountNum" value="${totalVO.amount/15000 }" />
 								<td>${totalAmountNum }</td>
 							</tr>
-							<c:if test="${payVO.selectYearMonthDate=='년별'}">
+							<c:if test="${payVO.selectYearMonthDate==null || payVO.selectYearMonthDate=='년별'  || payVO.selectYearMonthDate==''}">
 								<c:forEach var="year" items="${yearList }">
 									<tr class="adminSalesManagementList cuser_Pointer list_year">
 										<td>
@@ -120,7 +120,7 @@ $(function(){
 									
 								</c:forEach>
 							</c:if>
-							<c:if test="${payVO.selectYearMonthDate==null || payVO.selectYearMonthDate=='일별' || payVO.selectYearMonthDate==''}">
+							<c:if test="${payVO.selectYearMonthDate=='일별' }">
 								<c:if test="${fn:length(dateList) < 31 }">
 								<c:forEach var="date" items="${dateList }">
 									<tr class="adminSalesManagementList salesManagement_date cuser_Pointer list_date">

@@ -8,7 +8,7 @@ public class PagingVO {
 	
 	// 페이징 
 	private int pageNum = 1; //현재 페이지 
-	private int onePageNum = 5; //페이징 개수
+	private int onePageNum = 4; //페이징 개수
 	private int onePageRecode = 10; //한페이지당 레코드 수
 	private int totalRecode; // 총 레코드 수
 	private int totalPage; // 마지막페이지, 총 페이지 수 

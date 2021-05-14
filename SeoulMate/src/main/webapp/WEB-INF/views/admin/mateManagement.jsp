@@ -3,30 +3,31 @@
 		<section class="admin_Section">
 			<div class="admin_Content">
 				<div class="m_title managementTitle">메이트 관리</div>
-				<form method="post" action="/home/admin/mateManagement" class="managementSearchForm" name="mateManagementForm">
+				<form method="post" action="/home/admin/mateManagement" class="managementSearchForm management_SearchForm" name="mateManagementForm">
 					<div class="management_houseSearch">
 						<div class="management_houseSelect management_houseStateSelect">
 							<span class="managementSpan3">글 개제 상태</span>
-								<select name="matestate" id="matestate" class="custom-select">
-								<option value="" selected>전체</option>
-								<option value="모집중">모집중</option>
-								<option value="매칭완료">매칭완료</option>
-								<option value="기간만료">기간만료</option>
-								<option value="비공개">비공개</option>
-							</select>
+								<select name="state" id="matestate" class="custom-select">
+									<option value="" <c:if test="${pagingVO.state==null }">selected</c:if>>전체</option>
+									<option value="모집중" <c:if test="${pagingVO.state=='모집중' }">selected</c:if>>모집중</option>
+									<option value="매칭 완료" <c:if test="${pagingVO.state=='매칭 완료' }">selected</c:if>>매칭 완료</option>
+									<option value="기간 만료" <c:if test="${pagingVO.state=='기간 만료' }">selected</c:if>>기간 만료</option>
+									<option value="비공개" <c:if test="${pagingVO.state=='비공개' }">selected</c:if>>비공개</option>
+								</select>
 							<span class="managementSpan3">멤버십 상태</span>
 							<select name="grade" id="grade" class="custom-select">
-								<option value="0" selected>전체</option>
-								<option value="1">일반</option>
-								<option value="2">프리미엄</option>
+								<option value="0" <c:if test="${pagingVO.grade==0 }">selected</c:if>>전체</option>
+								<option value="1" <c:if test="${pagingVO.grade==1 }">selected</c:if>>일반</option>
+								<option value="2" <c:if test="${pagingVO.grade==2 }">selected</c:if>>프리미엄</option>
 							</select>
 						</div>
 						<div class="managementSearch">
 							<select name="searchKey" id="searchKey" class="custom-select">
-								<option value="userid" selected>아이디</option>
-								<option value="area">희망지역</option>
+								<option value="userid" <c:if test="${pagingVO.searchKey==null || pagingVO.searchKey=='userid' }">selected</c:if>>아이디</option>
+								<option value="area"  <c:if test="${pagingVO.searchKey=='area' }">selected</c:if>>희망지역</option>
 							</select>
-							<input type="text" name="searchWord" class="form-control"/>
+							<input type="hidden" name="pageNum" id="hiddenPageNum" value="${pagingVO.pageNum}"/>
+							<input type="text" name="searchWord" class="form-control" value=<c:if test="${pagingVO.searchWord!=null }">"${pagingVO.searchWord}"</c:if><c:if test="${pagingVO.searchWord==null }">""</c:if> />
 							<input type="submit" value="Search" class="btn btn-custom"/>
 						</div>
 						<div>
@@ -201,7 +202,7 @@
 						</li>
 						<li class="admin_Management_popup_table_title" style="padding-left: 20px;">메이트 사진</li>
 						<li class="admin_Management_popup_table_img" id="mw_matePic">
-							사진들어가는 자리 ~
+							<input id="delFile" type="hidden" name="" value=""/>
 						</li>
 					</ul>
 				</div>
@@ -379,6 +380,18 @@ $(function(){
 						}
 					}
 				}
+				// 이미지 넣기
+				var mateImgTag = '';
+				if(result.mwVO.matePic1!=null && result.mwVO.matePic1!=''){
+					mateImgTag += '<img class="mate_img" id="matePic1" name="matePic1" src="/home/matePic/'+result.mwVO.matePic1+'" alt="matePic1"/>';
+				}
+				if(result.mwVO.matePic2!=null && result.mwVO.matePic2!=''){
+					mateImgTag += '<img class="mate_img" id="matePic2" name="matePic2" src="/home/matePic/'+result.mwVO.matePic2+'" alt="matePic2"/>';
+				}
+				if(result.mwVO.matePic3!=null && result.mwVO.matePic3!=''){
+					mateImgTag += '<img class="mate_img" id="matePic3" name="matePic3" src="/home/matePic/'+result.mwVO.matePic3+'" alt="matePic3"/>';
+				}
+				$('#mw_matePic').html(mateImgTag);
 			}, error : function(){
 				console.log(" mate DetailInfo 데이터가져오기 에러 ");
 			}

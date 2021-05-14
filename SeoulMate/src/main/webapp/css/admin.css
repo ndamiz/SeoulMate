@@ -303,7 +303,7 @@ select[name="searchKey"]{ width: 100px;}
 }
 
 .managementSearch {width: 380px; float: left; overflow: auto; margin-top: 20px; }
-.managementSearch>select{width: 100px; float: left;}
+.managementSearch>select{width: 120px; float: left;}
 .managementSearch>input[type=text]{width: 150px; float: left;}
 .managementSearch>input[type=submit]{width: 80px; float: left;}
 /* datePicker */
@@ -383,9 +383,6 @@ select[name="searchKey"]{ width: 100px;}
 	float: right;
 	margin: 0 5px;
 }
-/* 체크박스 색상변경.. */
-/* 보여질 부분의 스타일을 추가하면 된다. */ 
-.openCheck input[type="checkbox"]:checked + label:after{ background-color:skyblue; }
 
 /* house ManageMent */
 .houseManagenent_span {
@@ -409,10 +406,10 @@ select[name="searchKey"]{ width: 100px;}
 }
 
 .management_houseStateSelect>select {
-	width: 100px;
+	width: 110px;
 	float: left;
 }
-
+.house_img, .mate_img{width: 200px; height: 200px; margin: 10px;}
 .admin_Management_popup {
 	width: 60%;
 	position: absolute;
@@ -545,7 +542,6 @@ padding: 0;
 }
 
 .admin_Management_popup_table_img {
-	height: 200px;
 	background-color: #fff;
 }
 

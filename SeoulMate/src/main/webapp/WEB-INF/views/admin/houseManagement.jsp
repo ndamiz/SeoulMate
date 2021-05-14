@@ -3,31 +3,32 @@
 		<section class="admin_Section">
 			<div class="admin_Content">
 				<div class="m_title managementTitle">하우스 관리</div>
-				<form method="post" action="/home/admin/houseManagement" class="managementSearchForm">
+				<form method="post" action="/home/admin/houseManagement" class="managementSearchForm management_SearchForm" >
 					<div class="management_houseSearch">
 						<div class="management_houseSelect management_houseStateSelect">
 							<span class="managementSpan3">글 개제 상태</span>
-							<select name="housestate" id="housestate" class="custom-select">
-								<option value="" selected>전체</option>
-								<option value="모집중">모집중</option>
-								<option value="매칭 완료">매칭 완료</option>
-								<option value="기간 만료">기간 만료</option>
-								<option value="비공개">비공개</option>
+							<select name="state" id="housestate" class="custom-select">
+								<option value="" <c:if test="${pagingVO.state==null }">selected</c:if>>전체</option>
+								<option value="모집중" <c:if test="${pagingVO.state=='모집중' }">selected</c:if>>모집중</option>
+								<option value="매칭 완료" <c:if test="${pagingVO.state=='매칭 완료' }">selected</c:if>>매칭 완료</option>
+								<option value="기간 만료" <c:if test="${pagingVO.state=='기간 만료' }">selected</c:if>>기간 만료</option>
+								<option value="비공개" <c:if test="${pagingVO.state=='비공개' }">selected</c:if>>비공개</option>
 							</select>
 							<span class="managementSpan3">멤버십 상태</span>
 							<select name="grade" id="grade" class="custom-select">
-								<option value="0" selected>전체</option>
-								<option value="1">일반</option>
-								<option value="2">프리미엄</option>
+								<option value="0" <c:if test="${pagingVO.grade==0 }">selected</c:if>>전체</option>
+								<option value="1" <c:if test="${pagingVO.grade==1 }">selected</c:if>>일반</option>
+								<option value="2" <c:if test="${pagingVO.grade==2 }">selected</c:if>>프리미엄</option>
 							</select>
 						</div>
 						<div class="managementSearch">
 							<select name="searchKey" id="searchKey" class="custom-select">
-								<option value="userid" selected>아이디</option>
-								<option value="housename" >하우스이름</option>
-								<option value="addr">주소</option>
+								<option value="userid" <c:if test="${pagingVO.searchKey==null || pagingVO.searchKey=='userid' }">selected</c:if>>아이디</option>
+								<option value="housename" <c:if test="${pagingVO.searchKey=='housename' }">selected</c:if> >하우스이름</option>
+								<option value="addr" <c:if test="${pagingVO.searchKey=='addr' }">selected</c:if> >주소</option>
 							</select>
-							<input type="text" name="searchWord" class="form-control"/>
+							<input type="hidden" name="pageNum" id="hiddenPageNum" value="${pagingVO.pageNum}"/>
+							<input type="text" name="searchWord" class="form-control" value=<c:if test="${pagingVO.searchWord!=null }">"${pagingVO.searchWord}"</c:if><c:if test="${pagingVO.searchWord==null }">""</c:if> />
 							<input type="submit" value="Search" class="btn btn-custom"/>
 						</div>
 						<div>
@@ -77,7 +78,7 @@
 							<a href="javascript:pageClick('first_page')" class="first_page"></a>
 							<a href="javascript:pageClick('prev_page')"  class="prev_page"></a>
 						</c:if>
-						<c:if test="${pagingVO.pageNum==1 }">
+						<c:if test="${pagingVO.pageNum==1}">
 							<a href="#" class="first_page"></a>
 							<a href="#"  class="prev_page"></a>
 						</c:if>
@@ -87,13 +88,13 @@
 									<a href="javascript:pageClick('${pageNum }')" class="nowPageNum">${pageNum }</a>
 								</c:if>
 								<c:if test="${pageNum!=pagingVO.pageNum }">
-									<a href="javascript:pageClick('${pageNum }')">${pageNum }</a>
+									<a href="javascript:pageClick('${pageNum }')" class="pageBtn">${pageNum }</a>
 								</c:if>
 							</c:if>
 						</c:forEach>
 						<c:if test="${pagingVO.pageNum < pagingVO.totalPage }">
-							<a href="javascript:pageClick('next_page')" class="next_page"></a>
-							<a href="javascript:pageClick('last_page')" class="last_page"></a>
+							<a href="javascript:pageClick('next_page')" class="next_page pageBtn"></a>
+							<a href="javascript:pageClick('last_page')" class="last_page pageBtn"></a>
 						</c:if>
 						<c:if test="${pagingVO.pageNum == pagingVO.totalPage }">
 							<a href="#" class="next_page"></a>
@@ -218,21 +219,24 @@
 						</li>
 						<li class="admin_Management_popup_table_title" style="padding-left: 20px;">룸 사진</li>
 						<li class="admin_Management_popup_table_img" id="hw_housepic">
-							사진들어가는 자리 ~
+							<input id="delFile" type="hidden" name="" value=""/>
 						</li>
 					</ul>
 				</div>
 				<div class="admin_Management_popup_table_btn">
 					<a href="javascript:printPage('pop')" class="btn btn-custom">프린트</a>
-					<a href="" class="btn btn-custom">수정</a>
+					<a href="javascript:managementInfoEdit()" class="btn btn-custom">수정</a>
 					<a href="" class="btn btn-custom popup_Close">닫기</a>
 				</div>
 			</div>
 			<div class="myPage_HouseAndMate_Popup_FullScreen popup_Close popup_hidden" id="myPage_popup_FullScreen"></div>
 	</body>
 <script>
+function managementInfoEdit(){
+	var 
+}
 $(function(){
-	$('.admin_HouseManagement_DetailInfo').on('click', function(){
+	$(document).on('click', '.admin_HouseManagement_DetailInfo',function(){
 		var no = $(this).children().eq(0).text();
 		var userid = $(this).children().eq(1).text();
 		
@@ -353,6 +357,7 @@ $(function(){
 				var cnt = 0;
 				$('#admin_Management_popup_roomInfo').empty(tag);
 				var tag = '';
+				var furniture = '';
 				$hrVOList.each(function(idx, obj){
 					tag += '<ul class="admin_Management_popup_table_inner0">';
 					tag += '<li>방이름</li>';
@@ -369,9 +374,18 @@ $(function(){
 					tag += '<li>'+result.hrVOList[cnt].minStay+'</li>'
 					tag += '<li>최대거주기간</li>';
 					tag += '<li>'+result.hrVOList[cnt].maxStay+'</li></ul>';
-					tag += '<ul class="admin_Management_popup_table_inner2">';
+					if(cnt==result.hrVOList.length-1){
+						tag += '<ul class="admin_Management_popup_table_inner2">';
+					}else{
+						tag += '<ul class="admin_Management_popup_table_inner2" style="border-bottom: 1px solid #ababab;">';
+					}
 					tag += '<li>가구</li>';
-					tag += '<li style="width: 84%; border-bottom: 1px solid #dee2e6;">'+result.hrVOList[cnt].furniture+'</li>';
+					if(result.hrVOList[cnt].furniture==1){
+						furniture = '있음';
+					}else{
+						furniture = '없음';
+					}
+					tag += '<li style="width: 84%;">'+furniture+'</li>';
 					tag += '<li style="width: 84%;">'+result.hrVOList[cnt].incFurniture+'</li></ul>';
 					cnt ++;
 				});
@@ -421,13 +435,31 @@ $(function(){
 				if(m_now == 1){ $('#propen_m_now').text('가능');}
 				else if(m_now == 3){ $('#propen_m_now').text('불가능');}
 				else {$('#propen_m_now').text('');}
-				
+				// 이미지 넣기
+				var houseImgTag = '';
+				if(result.hwVO.housepic1!=null && result.hwVO.housepic1!=''){
+					houseImgTag += '<img class="house_img" id="housepic1" name="housepic1" src="/home/housePic/'+result.hwVO.housepic1+'" alt="housepic1"/>';
+				}
+				if(result.hwVO.housepic2!=null && result.hwVO.housepic2!=''){
+					houseImgTag += '<img class="house_img" id="housepic2" name="housepic2" src="/home/housePic/'+result.hwVO.housepic2+'" alt="housepic2"/>';
+				}
+				if(result.hwVO.housepic3!=null && result.hwVO.housepic3!=''){
+					houseImgTag += '<img class="house_img" id="housepic3" name="housepic3" src="/home/housePic/'+result.hwVO.housepic3+'" alt="housepic3"/>';
+				}
+				if(result.hwVO.housepic4!=null && result.hwVO.housepic4!=''){
+					houseImgTag += '<img class="house_img" id="housepic4" name="housepic4" src="/home/housePic/'+result.hwVO.housepic4+'" alt="housepic4"/>';
+				}
+				if(result.hwVO.housepic5!=null && result.hwVO.housepic5!=''){
+					houseImgTag += '<img class="house_img" id="housepic5" name="housepic5" src="/home/housePic/'+result.hwVO.housepic5+'" alt="housepic5"/>';
+				}
+				$('#hw_housepic').html(houseImgTag);
 			}, error :function(){
 				console.log(" houseDetailInfo 데이터가져오기 에러 ");
 			}
 		});
 		openPopup();
 	});
+	
 });
 
 </script>

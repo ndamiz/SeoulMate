@@ -7,7 +7,7 @@
 		<section class="admin_Section">
 			<div class="admin_Content">
 				<div class="m_title managementTitle">결제 관리</div>
-				<form method="post" name="payManagementForm" id="payManagementForm">
+				<form method="post" name="payManagementForm" id="payManagementForm" class="management_SearchForm">
 					<input type="hidden" name="orderCondition" value="no"/>
 					<input type="hidden" name="orderUpDown" value="desc"/>
 					<div class="managementSearchForm">
@@ -16,9 +16,9 @@
 								<div class="dateChoose">
 									<span class="managementSpan3">기간 선택</span>
 									<select name="selectYearMonthDate" id="selectYearMonthDate" class="custom-select">
-										<option value="일별" selected>일별</option>
-										<option value="월별">월별</option>
-										<option value="년별">년별</option>
+										<option value="일별"  <c:if test="${payVO.selectYearMonthDate==null || payVO.selectYearMonthDate=='일별' }">selected</c:if>>일별</option>
+										<option value="월별" <c:if test="${payVO.selectYearMonthDate=='월별' }">selected</c:if>>월별</option>
+										<option value="년별" <c:if test="${payVO.selectYearMonthDate=='년별' }">selected</c:if>>년별</option>
 									</select>
 								</div>
 								<div>
@@ -28,10 +28,11 @@
 							</div>
 							<div id="paySearchDiv">
 								<select name="searchKey" id="searchKey" class="custom-select">
-									<option value="userid" selected>아이디</option>
-									<option value="username">이름</option>
+									<option value="userid" <c:if test="${pagingVO.searchKey==null || pagingVO.searchKey=='userid' }">selected</c:if>>아이디</option>
+									<option value="username" <c:if test="${pagingVO.searchKey=='username' }">selected</c:if>>이름</option>
 								</select>
-								<input type="text" name="searchWord" class="form-control"/>
+								<input type="hidden" name="pageNum" id="hiddenPageNum" value="${pagingVO.pageNum}"/>
+								<input type="text" name="searchWord" class="form-control" value=<c:if test="${pagingVO.searchWord!=null }">"${pagingVO.searchWord}"</c:if><c:if test="${pagingVO.searchWord==null }">""</c:if> />
 								<input type="submit" value="Search" class="btn btn-custom"/>
 							</div>
 							<div id="payBtnDiv">
