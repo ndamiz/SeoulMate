@@ -299,8 +299,6 @@ public class AdminController {
 	@RequestMapping(value="/admin/houseManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView houseManagement(HouseWriteVO hwVO, PagingVO pagingVO) {
 		ModelAndView mav = new ModelAndView();
-		System.out.println(pagingVO.getGrade()+"페이징브이오 폼에서보낸 그레이드");
-		System.out.println(pagingVO.getState()  +"페이징브이오 폼에서보낸 그레이드");
 		
 		hwVO.setHousestate(pagingVO.getState());
 		Map<String, Object> map = new HashMap<String, Object>();
