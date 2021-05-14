@@ -140,7 +140,7 @@
                   <p><span>매칭</span>90<b>%</b></p>
                   <button class="btn_star"></button>
                   <a href="">
-                     <img alt="" src="<%=request.getContextPath()%>/matePic/${newMateVO.matePic1}">
+                     <img alt="" src="<%=request.getContextPath()%>/matePic/${newMateVO.matePic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
                   </a>
                </div>
                <div class="list_title">
@@ -160,7 +160,7 @@
                   <li>
                   	<p>
                   		<c:if test="${newMateVO.gender==1}">여</c:if>
-                  		<c:if test="${newMateVO.gender==2}">남</c:if>
+                  		<c:if test="${newMateVO.gender==3}">남</c:if>
                   	</p>
                   </li>
                   <li>
