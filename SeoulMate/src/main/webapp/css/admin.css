@@ -586,7 +586,7 @@ padding: 0;
 #profilePic{border:0 !important;}
 
 /* reportManagement */
-.reportSearchCategory {width:320px; float: left; overflow: auto; margin-top: 20px; }
+.reportSearchCategory {width:450px; float: left; overflow: auto; margin-top: 20px; }
 .reportSearchCategory>select{width: 180px; float: left;}
 .reportSearchCategory>select[name=state]{width: 131px; float: left;}
 .reportSearchCategory input[type=text]{width: 200px; float: left;}
@@ -595,6 +595,17 @@ padding: 0;
 .reportSearch>select{width:30%;float:left;}
 .reportSearch>input:nth-child(1){width:70%;float:left;}
 .reportSearch>input:nth-child(2){width:50%;float:left;}
+.reportSpan{
+	float: left;
+	/*margin: 7px 15px 0 0;*/
+	font-weight: bold;
+    font-size: 1.1em;
+    margin-right: 5px;
+    display: block;
+    height: 36px;
+    float: left;
+    line-height: 36px;
+}
 
 #reportLink, #reportcontentR{
 	padding: 0;
@@ -759,7 +770,30 @@ input.cmn_toggle_round:checked + label:after {margin-left:30px;}
 } 
 .contact_form{
 	width: 600px;
+	position:absolute;
+	top: 50%;
+	left: 50%;
+	margin-top:-387px;
 	margin-left:-250px;
+	/*border-radius: 20px;*/
+	background-color: #fff;
+	box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%);
+	overflow: hidden;
+}
+.contact_form .contact_head{
+	position: relative;
+	height: 50px;
+	line-height: 50px;
+	font-size: 20px;
+	padding-left: 20px;
+	background-color: #2D4368;
+	color: #fff;
+}
+.contact_pup_body{
+	padding: 30px;
+	height: 700px;
+	overflow: hidden;
+	overflow-y: auto;	
 }
 #contactState {
 	height:30px;

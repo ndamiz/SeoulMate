@@ -51,7 +51,7 @@
 }
 /*글목록 제목에 넓이주고 textoverflow 설정*/
 .commSubject{
-	max-width : 350px;
+	max-width : 850px;
 	white-space: nowrap;
 	overflow-wrap: normal;
 	overflow: hidden;

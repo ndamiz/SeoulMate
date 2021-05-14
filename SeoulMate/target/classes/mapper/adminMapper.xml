@@ -213,22 +213,18 @@
   		values(reportsq.nextval, ${no}, #{category}, #{reportid}, #{userid}, #{reportcategory}, #{reportcontent})
   	</insert>
   	<select id="reportTotalRecord" parameterType="com.seoulmate.home.vo.PagingVO" resultType="com.seoulmate.home.vo.ReportVO">
-  		select * from
-		(select * from
-		(select r.num, r.userid, r.reportid , r.category, r.no, r.reportdate, r.state, m.state bState from report r join member m on r.userid = m.userid 
-		<if test="searchWord!=null and searchWord != '' "> 
-   			<if test="searchKey=='userid' "> where r.${searchKey} like '%${searchWord}%' </if>
-   			<if test="searchKey!='userid'">where ${searchKey} like '%${searchWord}%'</if>
-   		</if>
-		<if test="grade != null and grade != '' "> where category=#{grade}</if>
-		<if test="state != null and state != '' "> where r.state=#{state}</if>  		
-		  		
-		order by num desc)
-		where <![CDATA[ rownum<=]]> ${pageNum * onePageRecode} order by num)
-		where <![CDATA[ rownum<=]]> <if test="pageNum==totalPage">${lastPageRecode}</if>
-		<if test="pageNum!=totalPage">${onePageRecode}</if>
-		order by num desc
-		
+  		select * from (select * from (select * from 
+  		(select * from 
+  		(select * from 
+  		(select r.num, r.userid, r.reportid, r.category, r.no, r.reportdate, r.state, m.state bState from report r join  
+		member m on r.userid = m.userid 
+  		<if test='searchKey !=null and searchWord != null and searchKey != "" and searchWord !=""'>where r.${searchKey} like '%${searchWord}%'</if>)
+  		<if test="grade != null and grade != ''"> where category=#{grade} </if>)
+  		<if test='state != null and state !=""'> where state=#{state}</if>)  
+  		order by no desc)
+  		where <![CDATA[rownum<=]]>${pageNum * onePageRecode} order by no asc)
+  		where <![CDATA[rownum<=]]><if test="pageNum==totalPage">${lastPageRecode}</if> 
+  		<if test="pageNum!=totalPage">${onePageRecode}</if> ORDER BY no DESC
   	</select>
   	<select id="reportInfo" resultType="com.seoulmate.home.vo.ReportVO">
   		select r.num, r.no, r.category, r.userid, reportid, reportcategory, reportcontent, reportdate, r.state, c.state vState, m.state bState
@@ -287,9 +283,42 @@
    		select num from report where no=${param1}
    	</select>
    	<select id="reportRecordCnt" parameterType="com.seoulmate.home.vo.PagingVO" resultType="int">
-   		select count(num) totalRecode from report
-   		<if test="searchWord!=null and searchWord != '' ">where ${searchKey} like '%${searchWord}%'</if>
-		<if test="grade != null and grade != '' "> where category=#{grade}</if>
+   		select count(num) num from
+   		(select * from
+   		(select * from report
+   		<if test="searchWord!=null and searchWord != '' ">where ${searchKey} like '%${searchWord}%'</if>)
+		<if test="grade != null and grade != '' "> where category=#{grade}</if>)
 		<if test="state != null and state != '' "> where state=#{state}</if>
    	</select>
+   	<select id="contactAllRecord" parameterType="com.seoulmate.home.vo.PagingVO" resultType="com.seoulmate.home.vo.ContactVO">
+   		select * from
+		   (select * from
+		        (select * from 
+		            (select * from 
+		                (select * from 
+		                    (select * from qna 
+		                    <if test="searchKey != null and searchWord != null and searchKey != '' and searchKey != '' ">where ${searchKey} like '%${searchWord}%'</if>)
+		                <if test="grade != null and grade != '' ">where category=#{grade}</if>) 
+		            <if test="state != null and state != '' ">where state=#{state}</if>)
+		        order by no desc)
+		    where <![CDATA[rownum<=]]>${pageNum * onePageRecode} order by no asc)
+		where <![CDATA[rownum<=]]><if test="pageNum == totalPage">${lastPageRecode}</if>
+		<if test="pageNum != totalPage">${onePageRecode}</if> order by no desc
+   	</select>
+   	<select id="contactRecordCnt" parameterType="com.seoulmate.home.vo.PagingVO" resultType="int"> 
+		select count(no) no from
+		(select * from
+		(select * from qna
+		<if test="searchWord!=null and searchWord != '' ">where ${searchKey} like '%${searchWord}%'</if>)
+		<if test="grade != null and grade != '' "> where category=#{grade}</if>)
+		<if test="state != null and state != '' "> where state=#{state}</if>  		
+   	</select>
+   	<select id="contactInfo" resultType="com.seoulmate.home.vo.ContactVO">
+   		select * from (select q.no, q.userid, q.username, q.email, category, qcontent, acontent, qdate, adate, q.state, m.tel
+   		from qna q join member m on q.userid=m.userid )where no=${param1}
+   	</select>
 </mapper>
+
+
+
+

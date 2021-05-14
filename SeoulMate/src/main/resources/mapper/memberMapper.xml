@@ -10,7 +10,7 @@
   		select distinct(dong) from zipcode where gu=#{param1} and not dong is null order by dong
   	</select>
 	<select id="loginCheck" resultType="com.seoulmate.home.vo.MemberVO">
-		select userid, username, state, grade, area from member where userid=#{param1} and userpwd=#{param2}
+		select userid, username, state, grade, area, email from member where userid=#{param1} and userpwd=#{param2}
 	</select>
   	<select id="idCheck" resultType="int">
   		select count(userid) from member where userid=#{param1}

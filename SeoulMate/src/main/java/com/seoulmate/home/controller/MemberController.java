@@ -292,6 +292,7 @@ public class MemberController {
 			session.setAttribute("logName", logVO.getUsername());
 			session.setAttribute("logGrade", logVO.getGrade());
 			session.setAttribute("logArea", logVO.getArea1());
+			session.setAttribute("logEmail", logVO.getEmail());
 			
 			mav.setViewName("redirect:/");
 		}

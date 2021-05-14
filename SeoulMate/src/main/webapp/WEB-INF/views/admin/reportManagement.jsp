@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script>
-	//왜 초기화가 된거지???
 	//페이징
-	function pageClick(page, searchKey, searchWord){
+	function pageClick(state, grade, page, searchKey, searchWord){
 		var f=document.go;
+		f.state.value=state;
+		f.grade.value=grade;
 		f.pageNum.value=page; // post 방식을 넘길 값
 		f.searchKey.value=searchKey; // post 방식을 넘길 값
 		f.searchWord.value=searchWord; // post 방식을 넘길 값
@@ -13,6 +14,7 @@
 		f.submit();
 	}
 	$(function(){
+		
 		
 		var selected = "";
 		//신고 상세보기
@@ -127,7 +129,10 @@
 		$('select[name=state]').change(function(){
 			$('.managementSearchForm').submit();
 		});
-		
+		//검색창 리셋
+		$("#searchWord").click(function(){
+			$("#searchWord").val("");
+		});
 		
 		//신고처리하고 신고테이블 바뀐 정보로 보여주기 함수
 		function updateReportTable(state, blacklist, reportState){
@@ -203,29 +208,29 @@
 		<div class="m_title managementTitle">신고 관리</div>
 		<form method="post" action="/home/admin/reportManagement" class="managementSearchForm">
 			<div class="reportSearchCategory">
+				<span class="reportSpan" id="categorySpan">분류</span>
 				<select name=grade class="custom-select input">
 					<option value="" selected>전체</option>
-					<option value="하우스">하우스 신고 목록</option>
-					<option value="메이트">메이트 신고 목록</option>
-					<option value="커뮤니티">커뮤니티 신고 목록</option>
-					<option value="댓글">댓글 신고 목록</option>
+					<option value="하우스" <c:if test="${pVO.grade=='하우스'}">selected</c:if>>하우스 신고 목록</option>
+					<option value="메이트" <c:if test="${pVO.grade=='메이트'}">selected</c:if>>메이트 신고 목록</option>
+					<option value="커뮤니티" <c:if test="${pVO.grade=='커뮤니티'}">selected</c:if>>커뮤니티 신고 목록</option>
+					<option value="댓글"<c:if test="${pVO.grade=='댓글'}">selected</c:if>>댓글 신고 목록</option>
 				</select>
+				<span class="reportSpan" id="stateSpan"> 상태</span>
 				<select name="state" class="custom-select">
 					<option value="" selected>전체</option>
-					<option value="미처리">미처리</option>
-					<option value="처리완료">처리완료</option>
-					<option value="허위신고">허위신고</option>
-					<option value="허위신고">삭제됨</option>
+					<option value="미처리" <c:if test="${pVO.state=='미처리'}">selected</c:if>>미처리</option>
+					<option value="처리완료" <c:if test="${pVO.state=='처리완료'}">selected</c:if>>처리완료</option>
+					<option value="허위신고" <c:if test="${pVO.state=='허위신고'}">selected</c:if>>허위신고</option>
+					<option value="삭제됨" <c:if test="${pVO.state=='삭제됨'}">selected</c:if>>삭제됨</option>
 				</select>
 			</div>	
 			<div class="reportSearch">
 				<select name="searchKey" class="custom-select reportSearchKey">
-					<option value="">전체</option>
-					<option value="userid">아이디</option>
-					<option value="reportid">신고자</option>
-<!-- 					<option value="reportdate">신고일</option> -->
+					<option value="userid"<c:if test="${pVO.searchKey=='userid'}">selected</c:if>>아이디</option>
+					<option value="reportid"<c:if test="${pVO.searchKey=='reportid'}">selected</c:if>>신고자</option>
 				</select>
-				<input type="text" name="searchWord" class="form-control"/>
+				<input type="text" id="searchWord" name="searchWord" class="form-control" <c:if test="${pVO.searchWord!=null}">value="${pVO.searchWord}"</c:if>/>
 				<input type="submit" value="Search" class="btn btn-custom"/>
 			</div>
 		</form>
@@ -257,7 +262,7 @@
 							<td>${report.reportdate}</td>
 							
 							<c:if test="${report.state=='미처리'}">
-								<td style="color:#01579b;">${report.state}</td>
+								<td style="color:#007bff;">${report.state}</td>
 							</c:if>
 							<c:if test="${report.state!='미처리'}">
 								<td>${report.state}</td>
@@ -268,12 +273,21 @@
 			</table>
 			<div class="paging">
 				<form name="go"> <!-- 자바스크립트로 submit 시키려면 form을 추가하고 name을 지정해야 한다. -->
+					<input type="hidden" name="state" value="${state}"/>
+					<input type="hidden" name="grade" value="${grade}"/>
 					<input type="hidden" name="pageNum"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
 					<input type="hidden" name="searchKey"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
 					<input type="hidden" name="searchWord"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
 					<c:if test="${pVO.pageNum>1}">
-						<a href="javascript:pageClick(1, '${pVO.searchKey}', '${pVO.searchWord}')" class="first_page"></a>
-						<a href="javascript:pageClick(${pVO.pageNum-1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="prev_page"></a>
+					<c:if test="${pVO.searchWord==null}">
+						<a class="first_page" href="reportManagement?pageNum=1"></a>
+						<a class="prev_page" href="reportManagement?pageNum=${pVO.pageNum-1}"></a>
+					</c:if>
+					
+					<c:if test="${pVO.searchWord!=null}">
+						<a href="javascript:pageClick('${state}', '${grade}', 1, '${pVO.searchKey}', '${pVO.searchWord}')" class="first_page"></a>
+						<a href="javascript:pageClick('${state}', '${grade}', ${pVO.pageNum-1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="prev_page"></a>
+					</c:if>
 					</c:if>
 					<c:if test="${pVO.pageNum==1}">
 						<a class="first_page"></a>
@@ -281,21 +295,38 @@
 					</c:if>
 					<c:forEach var="pageNum" begin="${pVO.startPageNum}" end="${pVO.startPageNum + pVO.onePageNum-1}">
 						<c:if test="${pageNum<=pVO.totalPage }">
+						<c:if test="${pVO.searchWord==null}">
+							<c:if test="${pageNum==pVO.pageNum }"><!-- 1 -->
+								<a href="reportManagement?pageNum=${pVO.pageNum}" class="nowPageNum on">${pageNum}</a>
+							</c:if>
+							<c:if test="${pageNum!=pVO.pageNum}">
+								<a href="reportManagement?pageNum=${pageNum}">${pageNum}</a>
+							</c:if>
+						</c:if>
+						<c:if test="${pVO.searchWord!=null}"><!-- 2 -->
 							<c:if test="${pageNum==pVO.pageNum }">
-								<a href="javascript:pageClick(${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')" class="nowPageNum on">${pageNum}</a>
-	<%-- 								<a href="memberManagement?pageNum=${pageNum}<c:if test="${pVO.searchWord!=null && pVO.searchWord!='' }">&searchKey=${pVO.searchKey}&searchWord=${pVO.searchWord}</c:if>">${pageNum}</a> --%>
+								<a href="javascript:pageClick('${state}', '${grade}', ${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')" class="nowPageNum on">${pageNum}</a>
 							</c:if>
 							<c:if test="${pageNum!=pVO.pageNum }">
-								<a href="javascript:pageClick(${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')">${pageNum}</a>
-	<%-- 								<a href="memberManagement?pageNum=${pageNum}<c:if test="${pVO.searchWord!=null && pVO.searchWord!='' }">&searchKey=${pVO.searchKey}&searchWord=${pVO.searchWord}</c:if>">${pageNum}</a> --%>
+								<a href="javascript:pageClick('${state}', '${grade}', ${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')">${pageNum}</a>
 							</c:if>
+						</c:if>
 						</c:if>
 					</c:forEach>
 					<c:if test="${pVO.pageNum < pVO.totalPage}">
-						<a href="javascript:pageClick(${pVO.pageNum+1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="next_page"></a>
-						<a href="javascript:pageClick(${pVO.totalPage}, '${pVO.searchKey}', '${pVO.searchWord}')" class="last_page"></a>
+						<c:if test="${pVO.searchWord==null}"> <!-- 검색어가 없는 경우 -->
+							<a class="next_page" href="reportManagement?pageNum=${pVO.pageNum+1}"></a>
+							<a class="last_page" href="reportManagement?pageNum=${pVO.totalPage}"></a>
+						</c:if>
+						<c:if test="${pVO.searchWord!=null}"> <!-- 검색어가 있는 경우 -->
+							<a class="next_page" href="javascript:pageClick('${state}', '${grade}', ${pVO.pageNum+1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="next_page"></a>
+							<a class="last_page" href="javascript:pageClick('${state}', '${grade}', ${pVO.totalPage}, '${pVO.searchKey}', '${pVO.searchWord}')" class="last_page"></a>
+						</c:if>
 					</c:if>
-					<c:if test="${pVO.pageNum == pVO.totalPage}">
+					<c:if test="${pVO.totalPage==0}">
+						<a class="nowPageNum on">1</a>
+					</c:if>
+					<c:if test="${pVO.pageNum == pVO.totalPage || pVO.totalPage == 0}">
 						<a class="next_page"></a>
 						<a class="last_page"></a>
 					</c:if>

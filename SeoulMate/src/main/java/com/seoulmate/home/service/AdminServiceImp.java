@@ -17,6 +17,7 @@ import com.seoulmate.home.vo.PagingVO;
 import com.seoulmate.home.vo.PayVO;
 import com.seoulmate.home.vo.PropensityVO;
 import com.seoulmate.home.vo.ReportVO;
+import com.seoulmate.home.vo.ContactVO;
 
 @Service
 public class AdminServiceImp implements AdminService {
@@ -154,5 +155,18 @@ public class AdminServiceImp implements AdminService {
 	@Override
 	public int reportRecordCnt(PagingVO pVO) {
 		return dao.reportRecordCnt(pVO);
+	}
+	// contact management ///////////////////////////////////	
+	@Override
+	public List<ContactVO> contactAllRecord(PagingVO pVO) {
+		return dao.contactAllRecord(pVO);
+	}
+	@Override
+	public int contactRecordCnt(PagingVO pVO) {
+		return dao.contactRecordCnt(pVO);
+	}
+	@Override
+	public ContactVO contactInfo(int no) {
+		return dao.contactInfo(no);
 	}
 }

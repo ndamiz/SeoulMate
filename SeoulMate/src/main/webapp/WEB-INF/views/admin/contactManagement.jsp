@@ -1,90 +1,233 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script>
+	//페이징
+	function pageClick(state, grade, page, searchKey, searchWord){
+		var f=document.go;
+		f.state.value=state;
+		f.grade.value=grade;
+		f.pageNum.value=page; // post 방식을 넘길 값
+		f.searchKey.value=searchKey; // post 방식을 넘길 값
+		f.searchWord.value=searchWord; // post 방식을 넘길 값
+		f.action="/home/admin/contactManagement"; // 이동할 페이지
+		f.method="post"; // post 방식
+		f.submit();
+	}
+	$(function(){
+		//필터 기능 
+		$('select[name=grade]').change(function(){
+			$('.managementSearchForm').submit();
+		});
+		$('select[name=state]').change(function(){
+			$('.managementSearchForm').submit();
+		});
+		//검색창 리셋
+		$("#contactSearchWord").click(function(){
+			$("#contactSearchWord").val("");
+		});
+		
+		//문의 상세보기
+		$(".admin_contactManagement_DetailInfo").on('click', function(){
+			var params = 'no='+$(this).children().eq(0).text();
+			var url = "/home/admin/contactDetailInfo"
+			
+			$.ajax({
+				url : url,
+				data : params,
+				success : function(result){
+					console.log(result)
+					contactFormFill(result);
+				},error : function(){
+					alert("문의 데이터 에러");
+				}
+			});
+		});
+		//문의 상세보기 값 넣기
+		function contactFormFill(result){
+			$("#contactUserid").val(result.userid);
+			$('#contactTel').val(result.tel);
+			$('#contactEmail').val(result.email);
+			$('#contactCategory').val(result.category);
+			$('#qDate').val(result.qdate);
+			$('#qContent').val(result.qContent);
+			
+			//팝업 열기
+			$(".contact_wrap").css('display','block');
+			$(document.body).css('overflow','hidden');
+		}
+	});
+</script>
 		<section class="admin_Section">
 			<div class="admin_Content">
 				<div class="m_title managementTitle">문의 관리</div>
-				<form method="post" action="/home/admin/houseManagement" class="managementSearchForm">
-					<div class="qnaSearch">
-						<select name="searchKey" class="custom-select">
-							<option selected>전체</option>
-							<option>쉐어하우스</option>
-							<option>하우스메이트</option>
-							<option>커뮤니티</option>
-							<option>프리미엄 결제</option>
-							<option>기타</option>
+				<form method="post" action="/home/admin/contactManagement" class="managementSearchForm">
+					<div class="reportSearchCategory">
+						<span class="reportSpan" id="categorySpan">분류</span>
+						<select name=grade class="custom-select input">
+							<option value="" selected>전체</option>
+							<option value="쉐어하우스" <c:if test="${pVO.grade=='쉐어하우스'}">selected</c:if>>쉐어하우스</option>
+							<option value="하우스메이트" <c:if test="${pVO.grade=='하우스메이트'}">selected</c:if>>하우스메이트</option>
+							<option value="커뮤니티" <c:if test="${pVO.grade=='커뮤니티'}">selected</c:if>>커뮤니티</option>
+							<option value="프리미엄 결제"<c:if test="${pVO.grade=='프리미엄 결제'}">selected</c:if>>프리미엄 결제</option>
+							<option value="기타"<c:if test="${pVO.grade=='기타'}">selected</c:if>>기타</option>
 						</select>
-						<input type="text" name="searchWord" class="form-control"/>
+						<span class="reportSpan" id="stateSpan">답변 상태</span>
+						<select name="state" class="custom-select">
+							<option value="" selected>전체</option>
+							<option value="미답변" <c:if test="${pVO.state=='미답변'}">selected</c:if>>미답변</option>
+							<option value="답변완료" <c:if test="${pVO.state=='답변완료'}">selected</c:if>>답변완료</option>
+						</select>
+					</div>	
+					<div class="reportSearch">
+						<select name="searchKey" class="custom-select reportSearchKey">
+							<option value="userid"<c:if test="${pVO.searchKey=='userid'}">selected</c:if>>아이디</option>
+							<option value="username"<c:if test="${pVO.searchKey=='username'}">selected</c:if>>이름</option>
+							<option value="email"<c:if test="${pVO.searchKey=='email'}">selected</c:if>>이메일</option>
+						</select>
+						<input type="text" id="contactSearchWord" name="searchWord" class="form-control" <c:if test="${pVO.searchWord!=null}">value="${pVO.searchWord}"</c:if>/>
 						<input type="submit" value="Search" class="btn btn-custom"/>
 					</div>
+<!-- 					<div class="qnaSearch"> -->
+<!-- 						<select name="searchKey" class="custom-select"> -->
+<!-- 							<option selected>전체</option> -->
+<!-- 							<option>쉐어하우스</option> -->
+<!-- 							<option>하우스메이트</option> -->
+<!-- 							<option>커뮤니티</option> -->
+<!-- 							<option>프리미엄 결제</option> -->
+<!-- 							<option>기타</option> -->
+<!-- 						</select> -->
+<!-- 						<input type="text" name="searchWord" class="form-control"/> -->
+<!-- 						<input type="submit" value="Search" class="btn btn-custom"/> -->
+<!-- 					</div> -->
 				</form>
+				
 				<div class="table-responsive, managementList">
 					<table class="table table-hover table-sm table-bordered">
 						<thead class="thead-light">
-							
 							<tr>
 								<th>No.</th>
 								<th>카테고리</th>
 								<th>아이디</th>
 								<th>이름</th>
 								<th>이메일</th>
+								<th>등록일</th>
 								<th>상태</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>1</td>
-								<td>쉐어하우스</td>
-								<td>tiger1234</td>
-								<td>윤민</td>
-								<td>yunyun@gmail.com</td>
-								<td>답변완료</td>
-							</tr>
+							<c:forEach var="contact" items="${contact}">
+								<tr class="admin_contactManagement_DetailInfo">
+									<td>${contact.no}</td>
+									<td>${contact.category}</td>
+									<td>${contact.userid}</td>
+									<td>${contact.username}</td>
+									<td>${contact.email}</td>
+									<td>${contact.qdate}</td>
+									<c:if test="${contact.state=='미답변'}">
+										<td style="color:#007bff">${contact.state}</td>
+									</c:if>
+									<c:if test="${contact.state!='미답변'}">
+										<td>${contact.state}</td>
+									</c:if>	
+								</tr>
+							</c:forEach>	
 						</tbody>
 					</table>
 					<div class="paging">
-						<a class="first_page" href=""></a>
-						<a class="prev_page" href=""></a>
-						<a class="on" href="">1</a>
-						<a class="" href="">2</a>
-						<a class="" href="">3</a>
-						<a class="" href="">4</a>
-						<a class="next_page" href=""></a>
-						<a class="last_page" href=""></a>
+						<form name="go"> <!-- 자바스크립트로 submit 시키려면 form을 추가하고 name을 지정해야 한다. -->
+							<input type="hidden" name="state" value="${state}"/>
+							<input type="hidden" name="grade" value="${grade}"/>
+							<input type="hidden" name="pageNum"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
+							<input type="hidden" name="searchKey"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
+							<input type="hidden" name="searchWord"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
+							<c:if test="${pVO.pageNum>1}">
+							<c:if test="${pVO.searchWord==null}">
+								<a class="first_page" href="reportManagement?pageNum=1"></a>
+								<a class="prev_page" href="reportManagement?pageNum=${pVO.pageNum-1}"></a>
+							</c:if>
+							
+							<c:if test="${pVO.searchWord!=null}">
+								<a href="javascript:pageClick('${state}', '${grade}', 1, '${pVO.searchKey}', '${pVO.searchWord}')" class="first_page"></a>
+								<a href="javascript:pageClick('${state}', '${grade}', ${pVO.pageNum-1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="prev_page"></a>
+							</c:if>
+							</c:if>
+							<c:if test="${pVO.pageNum==1}">
+								<a class="first_page"></a>
+								<a class="prev_page"></a>
+							</c:if>
+							<c:forEach var="pageNum" begin="${pVO.startPageNum}" end="${pVO.startPageNum + pVO.onePageNum-1}">
+								<c:if test="${pageNum<=pVO.totalPage }">
+								<c:if test="${pVO.searchWord==null}">
+									<c:if test="${pageNum==pVO.pageNum }"><!-- 1 -->
+										<a href="reportManagement?pageNum=${pVO.pageNum}" class="nowPageNum on">${pageNum}</a>
+									</c:if>
+									<c:if test="${pageNum!=pVO.pageNum}">
+										<a href="reportManagement?pageNum=${pageNum}">${pageNum}</a>
+									</c:if>
+								</c:if>
+								<c:if test="${pVO.searchWord!=null}"><!-- 2 -->
+									<c:if test="${pageNum==pVO.pageNum }">
+										<a href="javascript:pageClick('${state}', '${grade}', ${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')" class="nowPageNum on">${pageNum}</a>
+									</c:if>
+									<c:if test="${pageNum!=pVO.pageNum }">
+										<a href="javascript:pageClick('${state}', '${grade}', ${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')">${pageNum}</a>
+									</c:if>
+								</c:if>
+								</c:if>
+							</c:forEach>
+							<c:if test="${pVO.pageNum < pVO.totalPage}">
+								<c:if test="${pVO.searchWord==null}"> <!-- 검색어가 없는 경우 -->
+									<a class="next_page" href="reportManagement?pageNum=${pVO.pageNum+1}"></a>
+									<a class="last_page" href="reportManagement?pageNum=${pVO.totalPage}"></a>
+								</c:if>
+								<c:if test="${pVO.searchWord!=null}"> <!-- 검색어가 있는 경우 -->
+									<a class="next_page" href="javascript:pageClick('${state}', '${grade}', ${pVO.pageNum+1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="next_page"></a>
+									<a class="last_page" href="javascript:pageClick('${state}', '${grade}', ${pVO.totalPage}, '${pVO.searchKey}', '${pVO.searchWord}')" class="last_page"></a>
+								</c:if>
+							</c:if>
+							<c:if test="${pVO.totalPage==0}">
+								<a class="nowPageNum on">1</a>
+							</c:if>
+							<c:if test="${pVO.pageNum == pVO.totalPage || pVO.totalPage == 0}">
+								<a class="next_page"></a>
+								<a class="last_page"></a>
+							</c:if>
+						</form>
 					</div>
 				</div>
 			</div>
 		</section>
 <!-- 팝업창*********************************************** -->
 		<div class="contact_wrap">
-			<div class="contact_form pup_form ">
-				<div class="pup_head">문의 관리</div>
-				<div class="pup_body">
+			<div class="contact_form">
+				<div class="contact_head">문의 관리</div>
+				<div class="contact_pup_body">
 					<div class="contact_list">
 						<ul>
-							<li><div>아이디</div><input type="text" name="userid"></li>
-							<li><div>연락처</div><input type="text" name=""></li>
+							<li><div>아이디</div><input id="contactUserid" type="text" name="userid" readonly></li>
+							<li><div>연락처</div><input id="contactTel" type="text" name="tel" readonly></li>
 						</ul>
 						<ul>	
 							<li><div>답변상태</div>
-								<select id="contactState">
-									<option>미답변</option>
-									<option>답변완료</option>
+								<select id="contactState" name="state" disabled>
+									<option value="미답변">미답변</option>
+									<option value="답변완료">답변완료</option>
 								</select>
 							</li>
-							<li><div>이메일</div><input type="text" name="email"></li>
+							<li><div>이메일</div><input id="contactEmail" type="text" name="email" readonly></li>
 						</ul>
 						<ul>	
-							<li><div id="divGap">문의 종류</div> <input type="text" name="reportcategory"> </li>
-							<li><div>문의 날짜</div> <input type="text" name="qdate"> </li>
+							<li><div id="divGap">문의 분류</div> <input id="contactCategory" type="text" name="category" readonly></li>
+							<li><div>문의 날짜</div> <input id="qDate" type="text" name="qDate" readonly> </li>
 						</ul>
+<!-- 						<ul>	 -->
+<!-- 							<li><div>제목</div><input type="text" name="" id="contactTitle"></li> -->
+<!-- 						</ul>	 -->
 						<ul>	
-							<li><div>제목</div><input type="text" name="" id="contactTitle"></li>
-						</ul>	
-						<ul>	
-							<li><div>문의 내용</div> <textarea rows="5" name="qContent"></textarea></li>
-							<li><div>답변 내용</div> <textarea rows="5" name="aContent"></textarea></li>
+							<li><div>문의 내용</div> <textarea id="qContent" rows="5" name="qContent" readonly></textarea></li>
+							<li><div>답변 내용</div> <textarea id="aContent" rows="5" name="aContent"></textarea></li>
 						</ul>
-						답변 날짜 : 2021-04-30
+						답변 날짜 : <span id="adate">2021-04-30</span>
 					</div>
 				</div>
 				<div class="pup_bottom">

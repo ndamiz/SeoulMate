@@ -13,6 +13,7 @@ import com.seoulmate.home.vo.PagingVO;
 import com.seoulmate.home.vo.PayVO;
 import com.seoulmate.home.vo.PropensityVO;
 import com.seoulmate.home.vo.ReportVO;
+import com.seoulmate.home.vo.ContactVO;
 
 public interface AdminService {
 	// 회원 목록 출력
@@ -84,4 +85,11 @@ public interface AdminService {
 	public String getNumFromReport(int no);
 	// 페이징을 위한 총 레코드 수 구하기
 	public int reportRecordCnt(PagingVO pVO);
+	//contact management ///////////////////////////////////////
+	//문의 목록 출력
+	public List<ContactVO> contactAllRecord(PagingVO pVO);
+	//문의 목록 레코드 수 구하기
+	public int contactRecordCnt(PagingVO pVO);
+	//문의 상세보기
+	public ContactVO contactInfo(int no);
 }

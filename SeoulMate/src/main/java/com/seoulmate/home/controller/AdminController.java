@@ -38,6 +38,7 @@ import com.seoulmate.home.vo.PagingVO;
 import com.seoulmate.home.vo.PayVO;
 import com.seoulmate.home.vo.PropensityVO;
 import com.seoulmate.home.vo.ReportVO;
+import com.seoulmate.home.vo.ContactVO;
 
 @Controller
 public class AdminController {
@@ -86,8 +87,27 @@ public class AdminController {
 		
 		return "/admin/adminLogin";
 	}
-	
-	///////////////////////신고관리////////////////////
+	///////////////////////문의관리//////////////////////////////
+	//문의 관리
+	@RequestMapping(value="/admin/contactManagement", method= {RequestMethod.POST, RequestMethod.GET})
+	public ModelAndView contactManagement(PagingVO pVO, String state, String grade) {
+		ModelAndView mav = new ModelAndView();
+		pVO.setTotalRecode(service.contactRecordCnt(pVO));
+		mav.addObject("contact", service.contactAllRecord(pVO));
+		mav.addObject("pVO", pVO);
+		mav.addObject("state", state);
+		mav.addObject("grade", grade);
+		mav.setViewName("admin/contactManagement");
+		return mav;
+	}
+	//문의 상세보기
+	@RequestMapping("/admin/contactDetailInfo")
+	@ResponseBody
+	public ContactVO contactDetailInfo(int no) {
+		ContactVO cVO = service.contactInfo(no);
+		return cVO;
+	}
+	///////////////////////신고관리//////////////////////////////
 	//신고 등록
 	@RequestMapping("/reportInsert")
 	@ResponseBody
@@ -97,21 +117,21 @@ public class AdminController {
 	}
 	//신고 목록 불러오기
 	@RequestMapping(value="/admin/reportManagement", method={RequestMethod.POST, RequestMethod.GET})
-	public ModelAndView adminReport(PagingVO pVO) {
+	public ModelAndView adminReport(PagingVO pVO, String state, String grade) {
 		
 		pVO.setTotalRecode(service.reportRecordCnt(pVO));
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("report", service.reportTotalRecord(pVO));
 		mav.addObject("pVO", pVO);
+		mav.addObject("state", state);
+		mav.addObject("grade", grade);
 		
-		System.out.println("전체 페이지 : "+pVO.getTotalPage());
-		System.out.println("전체 레코드 수 : "+pVO.getTotalRecode());
-		System.out.println("시작 페이지 : "+pVO.getStartPageNum());
-		System.out.println("현재 페이지 : "+pVO.getPageNum());
-		System.out.println("페이징 개수 : "+pVO.getOnePageNum());
-		System.out.println("마지막 페이지 레코드 수 : "+pVO.getLastPageRecode());
-		
-		
+//		System.out.println("전체 페이지 : "+pVO.getTotalPage());
+//		System.out.println("전체 레코드 수 : "+pVO.getTotalRecode());
+//		System.out.println("시작 페이지 : "+pVO.getStartPageNum());
+//		System.out.println("현재 페이지 : "+pVO.getPageNum());
+//		System.out.println("페이징 개수 : "+pVO.getOnePageNum());
+//		System.out.println("마지막 페이지 레코드 수 : "+pVO.getLastPageRecode());
 		
 		mav.setViewName("admin/reportManagement");
 		return mav;
@@ -490,11 +510,7 @@ public class AdminController {
 		userList = service.salesUserList(date);
 		return userList;
 	}
-	//문의 관리
-	@RequestMapping("/admin/contactManagement")
-	public String contactManagement() {
-		return "/admin/contactManagement";
-	}
+	
 	//프린트.. 
 	@RequestMapping("/admin/adminPrintPage")
 	public ModelAndView adminPrintPage(HttpServletRequest req, PagingVO pagingVO) {
