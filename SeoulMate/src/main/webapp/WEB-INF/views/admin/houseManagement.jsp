@@ -232,9 +232,6 @@
 			<div class="myPage_HouseAndMate_Popup_FullScreen popup_Close popup_hidden" id="myPage_popup_FullScreen"></div>
 	</body>
 <script>
-function managementInfoEdit(){
-	var 
-}
 $(function(){
 	$(document).on('click', '.admin_HouseManagement_DetailInfo',function(){
 		var no = $(this).children().eq(0).text();

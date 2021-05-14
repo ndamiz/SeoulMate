@@ -660,7 +660,7 @@ padding: 0;
 	background-color: #8f969d;
 }
 .pup_bottom a.btn_save {
-	background-color: #2171cc;
+	background-color: #2D4368;
 }
 .pup_bottom a.btn_del {
 	background-color: #ef8181;
@@ -724,7 +724,7 @@ padding: 0;
  	width: 30px;
  }
  .pup_bottom>.btn_cancel:hover, .pup_bottom>.btn_save:hover, .pup_bottom>.btn_del:hover{
- 	background-color: #D2D2D2; color:#13a89e; text-decoration: none; font-weight: bold;
+ 	background-color: #D2D2D2; color:#2D4368; text-decoration: none; font-weight: bold;
  }
  /* 토글버튼==========*/
 .toggle_cont {margin:0 10px 0 0;}
