@@ -33,8 +33,6 @@
 				});
 			}
 		});
-		
-		
 	});
 </script>
 <div class="wrap">
@@ -80,7 +78,9 @@
 						</a>
 						검색버튼 == <button class="searchBtn">검색</button>
 					</li> -->
-				<li><a href="communityWrite" class="green" id="communityWrite">글쓰기</a></li>
+				<c:if test="${logId!=null}">
+					<li><a href="communityWrite" class="green" id="communityWrite">글쓰기</a></li>
+				</c:if>
 			</ul>
 		<table class="tb">
 			<caption>테이블명</caption>

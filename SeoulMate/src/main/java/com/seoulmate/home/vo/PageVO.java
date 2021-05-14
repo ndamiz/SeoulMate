@@ -8,7 +8,7 @@ public class PageVO {
 	private int totalPage;		//마지막 페이지(총 페이지 수)
 	private int startPageNum = 1;	//시작페이지
 	
-	private int lastPageRecord = 5; //마지막 페이지의 남은 레코드 수
+	private int lastPageRecord; //마지막 페이지의 남은 레코드 수
 
 	//커뮤니티용	
 	private String category;
