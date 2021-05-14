@@ -21,9 +21,17 @@
 										<option value="년별" <c:if test="${payVO.selectYearMonthDate=='년별' }">selected</c:if>>년별</option>
 									</select>
 								</div>
-								<div>
-									<input type="text" name="selectStartDate" class="datePicker1" readonly="readonly" /> ~
-									<input type="text" name="selectEndDate" class="datePicker2" readonly="readonly" />
+								<div class="dateChoose">
+									<c:if test="${payVO.selectYearMonthDate==null || payVO.selectYearMonthDate=='일별' }">
+										<input type="date" name="selectStartDate"/>
+										<input type="date" name="selectEndDate"/>
+									</c:if>
+									<c:if test="${payVO.selectYearMonthDate=='월별' || payVO.selectYearMonthDate=='년별' }">
+										<input type="month" name="selectStartDate"/>
+										<input type="month" name="selectEndDate"/>
+									</c:if>
+<!-- 									<input type="text" name="selectStartDate" class="datePicker1" readonly="readonly" /> ~ -->
+<!-- 									<input type="text" name="selectEndDate" class="datePicker2" readonly="readonly" /> -->
 								</div>
 							</div>
 							<div id="paySearchDiv">
@@ -105,7 +113,71 @@
 	</body>
 	<script>
 		$(function(){
-			datePicker();
+// 			datePicker();
+			$(document).on('change', 'select[name=selectYearMonthDate]', function(){
+				console.log('일별월별년별? = ' + $(this).val());
+				var selectYearMonthDate = $(this).val();
+				var selectStartDate = $('input[name="selectStartDate"]').val();
+				var selectEndDate = $('input[name="selectStartDate"]').val();
+				var changeStartDate = '';
+				var changeEndDate = '';
+				if(selectStartDate!=null){
+					if(selectStartDate.length==7){
+						//이전 정보값이 년도, 월 선택함. 
+						if(selectYearMonthDate=='일별'|| selectYearMonthDate=='' || selectYearMonthDate==null){
+							//만약 바꾸었다면? 
+							changeStartDate = selectStartDate+'-01'; // 1일날짜로 바꿈, 
+						}else{
+							changeStartDate = selectStartDate; //  값 그대로 가져감. 
+						}
+					}else if(selectStartDate.length==10){
+						//이전 정보값이 일자로 선택이 되어 있었음.
+						if(selectYearMonthDate=='월별' || selectYearMonthDate=='년별'){
+							//만약 바꾸었다면? 
+							changeStartDate = selectStartDate.substr(0,7); // 2021-05 로 정보를 바꿈. 
+						}else{
+							changeStartDate = selectStartDate; //  값 그대로 가져감. 
+						}
+					}
+				}
+				if(selectEndDate!=null){
+					if(selectEndDate.length==7){
+						//이전 정보값이 년도, 월 선택함. 
+						if(selectYearMonthDate=='일별'|| selectYearMonthDate=='' || selectYearMonthDate==null){
+							//만약 바꾸었다면? 
+							changeEndDate = selectEndDate+'-01'; // 1일날짜로 바꿈, 
+						}else{
+							changeEndDate = selectEndDate; //  값 그대로 가져감. 
+						}
+					}else if(selectEndDate.length==10){
+						//이전 정보값이 일자로 선택이 되어 있었음.
+						if(selectYearMonthDate=='월별' || selectYearMonthDate=='년별'){
+							//만약 바꾸었다면? 
+							changeEndDate = selectEndDate.substr(0,7); // 2021-05 로 정보를 바꿈. 
+						}else{
+							changeEndDate = selectEndDate; //  값 그대로 가져감. 
+						}
+					}
+				}
+				console.log('changeStartDate = '+changeStartDate);
+				var tag = '';
+				if(selectYearMonthDate=='일별' || selectYearMonthDate=='' || selectYearMonthDate==null){
+					if(selectStartDate==null){
+						tag += '<input type="date" name="selectStartDate"/>';
+					}else{
+						
+						tag += '<input type="date" name="selectStartDate"/>';
+						console.log('selectStartDate = '+ selectStartDate +'길이'+selectStartDate.length);
+					}
+					console.log('selectEndDate = '+ selectEndDate +'길이'+selectEndDate.length);
+					
+					tag += '<input type="date" name="selectEndDate"/>';
+				}else if(selectYearMonthDate=='월별' || selectYearMonthDate=='년별'){
+					tag += '<input type="month" name="selectStartDate"/>';
+					tag += '<input type="month" name="selectEndDate"/>';
+				}
+// 				$('.dateChoose').html(tag);
+			});
 			$(document).on('click','#payManagementForm', function(){
 				payManagementList();
 			});
@@ -120,9 +192,6 @@
 						var $result = $(result);
 						var $payVO = $(result.payVO);
 						var $pagingVO = $(result.pagingVO);
-						console.log(result);
-						console.log(result.prePayVO.selectStartDate);
-						console.log(result.prePayVO.selectEndDate);
 						
 						//생성되어있는 자식 태그 지우기  (목록)
 						$('#adminPayManagementTable>tbody').empty();
