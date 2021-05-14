@@ -96,9 +96,10 @@ $(function(){
 	});
 	$("#mNext7").click(function(){
 		var hopeGender = document.mateFrm.m_gender.value;
-		if(hopeGender==${mVO.gender}||hopeGender==2){
+		if(hopeGender==${mVO.gender}||hopeGender==2){ //자신과 다른 성별 선택불가
 			if(confirm("메이트를 등록하시겠습니까?")){
 				$("#mateFrm").submit();
+				return true;
 			}
 		}else if(hopeGender!=${mVO.gender}&&hopeGender!=2){
 			alert("희망성별은 자신과 다른 성별을 선택할 수 없습니다.");
@@ -146,11 +147,11 @@ $(function(){
 <div class="content">
 	
 	<div class="title_wrap">
-	<p class="m_title">메이트 수정하기 </p> 
+	<p class="m_title">메이트 등록하기 </p> 
 	<p>&nbsp;</p>
 	</div>
 	
-	<form method="post" id="mateFrm" name="mateFrm" action="mateEditOk" enctype="multipart/form-data">
+	<form method="post" id="mateFrm" name="mateFrm" action="mateWriteOk" enctype="multipart/form-data">
 	
 	<div id="mateWrite1">
 	
@@ -176,7 +177,7 @@ $(function(){
 						<label for="deposit2">조율 불가능</label>
 					</div>	</li>			
 			<li> <label id="mate_area"><span class="red_txt">*</span> 희망 지역 </label>
-					<input type="text" name="area" id="area1"/> <input type="text" name="area" id="area2"/> <input type="text" name="area" id="area3"/> </li>
+					<input type="text" name="area" id="area"/> <input type="text" name="area" id="area2"/> <input type="text" name="area" id="area3"/> </li>
 			<li> <label><span class="red_txt">*</span>입주가능일 </label><input type="date" name="enterdate" > </li>
 			<li> <label><span class="red_txt">*</span>최소 거주 기간</label>
 				 	<select name="minStay">
@@ -403,13 +404,13 @@ $(function(){
 			<li>
 			<label><span class="red_txt">*</span>하우스 내 지원서비스</label>
 				<div class="checks">
-					<input type="checkbox" id="h_support1" value="1" name="h_support" <c:if test="${pVO.h_support==1}">checked</c:if> > 
+					<input type="checkbox" id="h_support1" value="1" name="h_support" <c:forEach var="i" items="${pVO.h_support}"><c:if test="${i=='1'}">checked</c:if></c:forEach> > 
 					<label for="h_support1">공용공간 청소지원</label>
 								
-					<input type="checkbox" id="h_support2" value="2" name="h_support" <c:if test="${pVO.h_support==2}">checked</c:if> > 
+					<input type="checkbox" id="h_support2" value="2" name="h_support" <c:forEach var="i" items="${pVO.h_support}"><c:if test="${i=='2'}">checked</c:if></c:forEach> > 
 					<label for="h_support2">공용생필품 지원</label> <br/>
 								
-					<input type="checkbox" id="h_support3" value="3" name="h_support" <c:if test="${pVO.h_support==3}">checked</c:if> > 
+					<input type="checkbox" id="h_support3" value="3" name="h_support" <c:forEach var="i" items="${pVO.h_support}"><c:if test="${i=='3'}">checked</c:if></c:forEach> > 
 					<label for="h_support3">기본 식품 지원</label>
 				</div>
 			</li> <br/><br/>

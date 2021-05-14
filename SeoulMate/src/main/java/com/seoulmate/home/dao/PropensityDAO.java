@@ -25,4 +25,13 @@ public interface PropensityDAO {
 	public int noHousePnoChk(String userid, int pno);
 	// 집 등록을 하지않은 하우스의 성향 수정
 	public int propNoHouseUpdate(PropensityVO pVO);
+	//하우스 등록했는지 확인 (0-> 성향pno 확인해야함)
+	public int houseCheck(String userid);
+	
+	//성향 pno 확인
+	public int housePnoCheck(String userid);
+	//성향pno의 psq.currval 값 가져오기
+	public int proPnoCheck(String userid);
+	//가입할때 h 유형가입, pno 확인
+	public int proHouseCheck(String userid);
 }

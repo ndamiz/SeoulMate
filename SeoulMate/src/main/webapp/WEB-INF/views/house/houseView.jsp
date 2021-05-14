@@ -23,7 +23,7 @@
 /* 슬라이드 */
 .slide_wraper{
    height:250px;
-   width:750px;
+   width:250px;
    margin:0 auto;
    overflow:hidden;
    
@@ -67,12 +67,12 @@
 }
 .controlls span.prev{
    display:block;
-   left:15%;
+   left:37%;
 }
 .controlls span.next{
-   left:90%;
+   left:75%;
 }
-
+.reportpopup{display: none;}
 #pup_wrap_report{display: none;}
 #pup_wrap_share{display: none;}
 #pup_wrap_share .list_title{width: 100%;}
@@ -125,20 +125,17 @@
 
         
         $('#hEdit').click(function(){ //수정하기 버튼
-        	location.href="houseEdit"; //방등록하기 form 으로 이동
-        	
+        	location.href="houseEdit"; //방수정하기 form 으로 이동
         });
         
 
-		$("#reportBtn").click(function(){
-			$("#pup_wrap_report").css("display", "block");
-			
+		$("#reportBtn").click(function(){ //신고하기 버튼 신고팝업창
+			$(".reportpopup").css("display", "block");
 		});
 		
 		
-		$("#shareBtn").click(function(){
+		$("#shareBtn").click(function(){ //공유하기 버튼 공유하기팝업창
 			$("#pup_wrap_share").css("display", "block");
-			
 		});
       
         var slides = document.querySelector('.slides'),
@@ -150,22 +147,22 @@
         slideWidth = 250,
         slideMargin = 0,
      
-     slides.style.width = (slideWidth + slideMargin)*slideCount - slideMargin +'px';//슬라이드의 넓이
+     slides.style.width = (slideWidth + slideMargin)*slideCount - slideMargin +'px'; //슬라이드의 넓이
      
      function moveSlide(num){
         slides.style.left = -num * 250 +'px';
         currentIdx = num;
      }
      
-     //버튼이벤트
+     //이미지 슬라이드 버튼이벤트
      nextBtn.addEventListener('click',function(){
         console.log(currentIdx);
-        if(currentIdx < slideCount - 3){
+        if(currentIdx < slideCount - 1){
            moveSlide(currentIdx + 1);
            if(currentIdx>0){
               prevBtn.style.display = 'block';
            }
-           if(currentIdx==slideCount-3){
+           if(currentIdx==slideCount-1){
               nextBtn.style.display = 'none';
            }
         }
@@ -184,38 +181,94 @@
      
    });
 
+	//신고하기
+		$(document).on('click','.replyReport', function(){
+			var	reportid = $(this).prev().prev().val();
+			var category = '하우스';
+			var no = $(this).prev().val();
+			report(reportid, category, no);
+		});
+		
+		//신고하기 창 띄우고 값 가져오는 함수
+		function report(reportid, category, no){
+			//값 가져오기
+			$(".userid").val(reportid);
+			$(".reportCategory").val(category);
+			$(".reportNum").val(no);
+			$('.reportpopup').css('postion','relative');
+			$('.reportpopup').css('z-index','999');
+			$('.reportpopup').css('display','block');
+			$('body').css('overflow','hidden');
+		}
+		//신고하기 팝업창 닫기
+		$('.popupClose').click(function(){
+			reportFormReset();
+		});
+		function reportFormReset(){
+			//값 초기화
+			$(".userid").val("");
+			$(".reportCategory").val("");
+			$(".reportNum").val("");
+			$("#reportcontent").val("");
+			$("#reportcategory option:eq(0)").prop('selected', true);
+			//$("#category").val('${list.category}').prop('selected', true);
+			$('.reportpopup').css('display','none');
+			$('body').css('overflow','auto');
+		}
+		//신고하기 서브밋
+		$('#reportForm').submit(function(){
+			if($("#reportcategory option").index($("#reportcategory option:selected"))==0){
+				alert("신고사유를 선택하세요.");
+				return false;
+			}
+			if($("#reportcontent").val()==''){
+				alert("상세내용을 입력해주세요.");
+				return false;
+			}
+			var url = '/home/reportInsert'
+			var params = $(this).serialize();
+			
+			$.ajax({
+				url : url,
+				data : params,
+				success : function(result){
+					alert("신고가 정상적으로 접수되었습니다.");
+					reportFormReset();
+				},error : function(){
+					alert("신고접수에 실패했습니다..");
+				}
+			});//ajax end
+			return false;
+		});
 
+    
 
-    $(window).ready(function(){ 	  //공유하기 창
+    $(window).ready(function(){  //공유하기 팝업창
         $(".snsList li a").click(function(){
 			shareAct(this);
   		});
   });
     
-    function shareAct(a){
+    function shareAct(a){ //공유하기
   
         var snsCode = $(a).attr('id');
         var cUrl = document.location.href; console.log(cUrl);
   
         switch(snsCode){
   
-            case"vIconTw":
-                //트위터
+            case"vIconTw": //트위터
                 cUrl = 'https://twitter.com/intent/tweet?text=페이지제목:&url='+cUrl;
             break;
   
-            case"vIconTg":
-                //텔레그램
+            case"vIconTg": //텔레그램
                 cUrl = 'https://telegram.me/share/url?url='+cUrl;
             break;
                   
-            case"vIconFb":
-                //페이스북
+            case"vIconFb": //페이스북
                 cUrl = 'http://www.facebook.com/sharer/sharer.php?u='+cUrl;
             break;
   
-            case"vIconKs":
-                //카카오스토리
+            case"vIconKs": //카카오스토리
                 cUrl = 'https://story.kakao.com/share?url='+cUrl;
             break;
   			}
@@ -230,10 +283,14 @@
 	 	<div id="dateDiv">
 	 	등록날짜 2021-04-20 등록
 	 	</div>
-	 	
+	 	<input type="hidden" value="${hVO.userid }"/>
+	 	<input type="hidden" value="${logId }"/>
 	 	<div id="btnDiv"> <!-- 수정, 삭제는 본인의 글을 볼 경우에만 -->
- 		<button id="hEdit" class="green" >수정</button> <button class="green">삭제</button> <button class="green">찜</button> 
- 		<button class="green" id="shareBtn" >공유하기</button> <button class="green" id="reportBtn">신고하기</button>
+	 	<c:if test="${logId==hVO.userid }">
+ 		<button id="hEdit" class="white" >수정</button> <button class="white">삭제</button> 
+ 		</c:if>
+ 		<button class="white">찜</button> 
+ 		<button class="white" id="shareBtn" >공유하기</button> <button class="white" id="reportBtn">신고하기</button>
  		
  		</div>
  		
@@ -263,7 +320,7 @@
 	<div id="middle_Div">
 	
 		<div id="houseExplain">
-		<p class="s_title">서울특별시 마포구 백범로</p> <br/> 
+		<p class="s_title">서울특별시 마포구 백범로 </p> <br/> 
 		보증금 얼마 | 월세 얼마 | 0명 구해요 | 즉시 입주 가능 <br/>
 		<p>방 몇개 | 현재 거주중인 인원 | 욕실 몇개 </p> <br/>
 		House 키워드 <br/>
@@ -286,7 +343,7 @@
 		</div> <!-- peopleExplain div 종료 -->
 	<hr/>
 		<div id="matching" >
-		매칭률 넣어서 보여주기 어떻게 넣어야하는거야..
+		매칭률 넣어서 
 		<!-- 프리미엄 추천 쉐어하우스 -->
 	
 		</div> <!-- macthing 넣을 div 종료 -->
@@ -297,39 +354,78 @@
 	
 	</div> <!-- map_Div div종료 -->
 </div> <!-- content div 종료 -->
-</div>
+</div> <!-- 전체div 종료 -->
 
-		<div class="pup_wrap" id="pup_wrap_report">
+<!-- 		<div class="pup_wrap" id="pup_wrap_report"> -->
 		
-		<div class="pup_form">
-			<div class="pup_head">신고하기</div>
-			<div class="pup_body">
+<!-- 		<div class="pup_form"> -->
+<!-- 			<div class="pup_head">신고하기</div> -->
+<!-- 			<div class="pup_body"> -->
 			
-			<div class="pup_list">
-				<div class="list_img">
-					<img src="<%=request.getContextPath()%>/img/house/house01.jfif" id="reportPic" />
+<!-- 			<div class="pup_list"> -->
+<!-- 				<div class="list_img"> -->
+<%-- 					<img src="<%=request.getContextPath()%>/img/house/house01.jfif" id="reportPic" /> --%>
+<!-- 				</div> -->
+<!-- 				<div class="list_title"> -->
+<!-- 						<p class="s_title">house addr</p> -->
+<!-- 						<p class="d_title">즉시입주 가능 / 1명 구해요</p> -->
+<!-- 						<p class="d_title">월세 가격 / 보증금</p>  -->
+<!-- 						<p class="d_title">신고사유  -->
+<!-- 							<select> -->
+<!-- 								<option> 허위매물 </option> -->
+<!-- 								<option> 기간만료 </option> -->
+<!-- 								<option> 광고물 </option> -->
+<!-- 							</select> </p> -->
+<!-- 						<p class="d_title">상세 사유 <textarea cols="30"></textarea></p> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 			<div class="pup_bottom"> -->
+<!-- 				<a href="" class="btn_cancel">닫기</a> -->
+<!-- 				<a href="" class="btn_save">신고하기</a> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 			<a href="" class="btn_close">닫기</a> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+
+
+	<!--  팝업창///////////////////////////////////////////// -->
+	<div class="pup_wrap reportpopup">
+		<div class="pup_form">
+			<form id="reportForm" method="post">
+				<div class="pup_head">신고 정보</div>
+				<div class="pup_body">
+					<div class="pup_list">
+						<ul>
+							<li><div>신고 ID</div><input class="userid" type="text" name="userid" readonly></li>
+							<li><div>신고자 ID</div> <input type="text" name="reportid" value="${logId}" readonly> </li>
+							<li>
+								<div>분류</div> <input class="reportCategory" type="text" name="category" readonly>
+								<input type="hidden" class="reportNum" name="no"><!-- 글/댓글번호 -->
+							</li>
+							<li><div>신고 사유</div>
+								<select id="reportcategory" name="reportcategory">
+									<option disabled selected hidden>신고사유를 선택하세요</option>
+									<option>홍보,광고</option>
+									<option>음란</option>
+									<option>욕설</option>
+									<option>기타</option>
+								</select>
+							</li>
+							<li><div>상세내용</div> <textarea rows="5" id="reportcontent" name="reportcontent"></textarea></li>
+						</ul>
+					
+					</div>
 				</div>
-				<div class="list_title">
-						<p class="s_title">house addr</p>
-						<p class="d_title">즉시입주 가능 / 1명 구해요</p>
-						<p class="d_title">월세 가격 / 보증금</p> 
-						<p class="d_title">신고사유 
-							<select>
-								<option> 허위매물 </option>
-								<option> 기간만료 </option>
-								<option> 광고물 </option>
-							</select> </p>
-						<p class="d_title">상세 사유 <textarea cols="30"></textarea></p>
+				<div class="pup_bottom">
+					<a class="btn_cancel popupClose">닫기</a>
+					<a href="javascript:$('#reportForm').submit()" id="reportBtn" class="btn_save">접수</a>
 				</div>
-			</div>
-			<div class="pup_bottom">
-				<a href="" class="btn_cancel">닫기</a>
-				<a href="" class="btn_save">신고하기</a>
-			</div>
-		</div>
-			<a href="" class="btn_close">닫기</a>
+				<a class="pup_btn_close popupClose">닫기</a>
+			</form>
 		</div>
 	</div>
+
 
 		<div class="pup_wrap" id="pup_wrap_share">
 			<div class="pup_form">

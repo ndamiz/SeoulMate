@@ -94,23 +94,23 @@ button {position: relative;}
 					</ul>
 					<ul>
 						<li>
-							<button type="submit" class="green search"></button>
+							<button class="green search"></button>
 						</li>
 						
 					</ul>
 			</ul>
 	</ul>		
 		
-	<button class="green room" onclick="location.href='<%=request.getContextPath()%>/houseWrite1'">방 등록하기</button> <br/>
+	<button class="green room" onclick="location.href='<%=request.getContextPath()%>/houseWrite'">방 등록하기</button> <br/>
 	</div>
 	
 	<hr/>
-
+</div> <!-- content 종료 -->
 
 <!-- 프리미엄 추천 쉐어하우스 -->
 	<section class="content recommend_list">
 		<div class="list_head">
-			<p class="m_title">user님과 잘 어울리는 집이예요!</p>
+			<p class="m_title">${logName}님과 잘 어울리는 집이예요!</p>
 			<a href="">더보기</a>
 		</div>
 		<ul class="list_content">
@@ -169,5 +169,5 @@ button {position: relative;}
 		</ul>
 	</section>
 
-</div>
+
 </div>
