@@ -41,7 +41,7 @@
 								</select>
 								<input type="hidden" name="pageNum" id="hiddenPageNum" value="${pagingVO.pageNum}"/>
 								<input type="text" name="searchWord" class="form-control" value=<c:if test="${pagingVO.searchWord!=null }">"${pagingVO.searchWord}"</c:if><c:if test="${pagingVO.searchWord==null }">""</c:if> />
-								<input type="submit" value="Search" class="btn btn-custom"/>
+								<input type="submit" value="Search" class="btn btn-custom" id="managementSearch_submit"/>
 							</div>
 							<div id="payBtnDiv">
 								<a href="javascript:printPage('payExcel')" id="excelBtn" class="btn btn-custom">엑셀</a>
@@ -160,6 +160,7 @@
 					}
 				}
 				console.log('changeStartDate = '+changeStartDate);
+				console.log('changeEndDate = '+changeEndDate);
 				var tag = '';
 				if(selectYearMonthDate=='일별' || selectYearMonthDate=='' || selectYearMonthDate==null){
 					if(selectStartDate==null){
@@ -178,7 +179,7 @@
 				}
 // 				$('.dateChoose').html(tag);
 			});
-			$(document).on('click','#payManagementForm', function(){
+			$(document).on('click','#managementSearch_submit', function(){
 				payManagementList();
 			});
 			//전체 리스트 출력 , paging 
