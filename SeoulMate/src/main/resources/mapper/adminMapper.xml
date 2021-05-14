@@ -231,13 +231,13 @@
 		
   	</select>
   	<select id="reportInfo" resultType="com.seoulmate.home.vo.ReportVO">
-  		select num, r.no, r.category, r.userid, reportid, reportcategory, reportcontent, reportdate, r.state, c.state vState, m.state bState
+  		select r.num, r.no, r.category, r.userid, reportid, reportcategory, reportcontent, reportdate, r.state, c.state vState, m.state bState
   		from report r join 
   		<if test="param2 == '하우스'">housewrite c on r.no=c.no </if>
    		<if test="param2 == '메이트'">matewrite c on r.no=c.no </if>
    		<if test="param2 == '커뮤니티'">community c on r.no=c.no </if>
-   		<if test="param2 == '댓글'">communityreply c on r.no=c.num </if>
-   		join member m on m.userid=r.userid where num=${param1}
+   		<if test="param2 == '댓글'">communityreply c on r.no=c.num</if>
+   		join member m on m.userid=r.userid where r.num=${param1}
   	</select>
   	<select id="reportCategorySelect" resultType="String">
   		select DISTINCT dong from zipcode where dong like '%${param1}%'

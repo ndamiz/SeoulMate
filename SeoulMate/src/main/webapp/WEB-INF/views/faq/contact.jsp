@@ -9,6 +9,9 @@
 		<p class="d_title">고객님의 소중한 의견을 들려주세요.</p>
 		<br>
 		<form method="post" action="" id="contactForm">
+			<input type="text" name="content" placeholder="아이디" value="${logId}">
+			<br>
+			<br>
 			<input type="text" name="content" placeholder="이름">
 			<br>
 			<br>

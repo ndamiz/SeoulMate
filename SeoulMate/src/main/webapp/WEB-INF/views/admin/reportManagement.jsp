@@ -13,6 +13,7 @@
 		f.submit();
 	}
 	$(function(){
+		
 		var selected = "";
 		//신고 상세보기
 		$(".admin_ReportManagement_DetailInfo").on('click', function(){
@@ -214,6 +215,7 @@
 					<option value="미처리">미처리</option>
 					<option value="처리완료">처리완료</option>
 					<option value="허위신고">허위신고</option>
+					<option value="허위신고">삭제됨</option>
 				</select>
 			</div>	
 			<div class="reportSearch">
@@ -253,7 +255,13 @@
 <%-- 							<td>${report.vState}</td> --%>
 							<td>${report.bState}</td>
 							<td>${report.reportdate}</td>
-							<td>${report.state}</td>
+							
+							<c:if test="${report.state=='미처리'}">
+								<td style="color:#01579b;">${report.state}</td>
+							</c:if>
+							<c:if test="${report.state!='미처리'}">
+								<td>${report.state}</td>
+							</c:if>
 						</tr>
 					</c:forEach>	
 				</tbody>
