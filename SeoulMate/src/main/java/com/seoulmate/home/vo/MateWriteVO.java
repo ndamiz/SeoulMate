@@ -32,7 +32,6 @@ public class MateWriteVO {
 	//admin page에서 사용하기 위함.  
 	private int grade;  // 1:일반, 2:프리미엄 
 	private int reportNum; //신고수
-	
 	private String username;
 	
 	public int getNo() {
