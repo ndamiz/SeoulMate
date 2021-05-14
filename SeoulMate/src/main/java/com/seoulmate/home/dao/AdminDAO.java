@@ -68,9 +68,9 @@ public interface AdminDAO {
 	// 신고 등록
 	public int reportInsert(ReportVO vo);
 	// 신고 목록 불러오기
-	public List<ReportVO> reportTotalRecord();
+	public List<ReportVO> reportTotalRecord(PagingVO pVo);
 	// 신고 상세보기
-	public ReportVO reportInfo(int num);
+	public ReportVO reportInfo(int num, String category);
 	// 검색 자동완성 테스트
 	public String[] reportCategorySelect(String keyword);
 	// 신고 처리 - 게시글/댓글 상태 수정
@@ -81,4 +81,8 @@ public interface AdminDAO {
 	public int checkReportCnt(String userid);
 	// 신고 처리 - 블랙리스트 등록
 	public int addBlacklist(String userid);
+	// 글이 삭제될때 신고테이블에 있는지 확인하는 메소드
+	public String getNumFromReport(int no);
+	// 페이징을 위한 총 레코드 수 구하기
+	public int reportRecordCnt(PagingVO pVO);
 }

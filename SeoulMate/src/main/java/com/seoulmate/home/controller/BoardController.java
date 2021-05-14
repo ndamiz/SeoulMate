@@ -4,11 +4,17 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.seoulmate.home.service.AdminService;
 import com.seoulmate.home.service.BoardService;
 import com.seoulmate.home.vo.BoardVO;
 import com.seoulmate.home.vo.PageVO;
@@ -17,6 +23,12 @@ import com.seoulmate.home.vo.PageVO;
 public class BoardController {
 	@Inject
 	BoardService service;
+	
+	@Inject
+	AdminService aService;
+	
+	@Autowired
+	private DataSourceTransactionManager transactionManager;
 	
 	//커뮤니티 페이지로 이동하기
 	@RequestMapping("/communityList")
@@ -130,11 +142,34 @@ public class BoardController {
 	
 	//글 삭제하기
 	@RequestMapping("/communityDel")
+	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
 	public ModelAndView communitDel(int no, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		if(service.communityDelete(no,(String)session.getAttribute("logId"))>0) {
-			mav.setViewName("redirect:communityList");
-		}else {
+		
+		//트랜잭션
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED); // 트랜잭션 호출
+		TransactionStatus status = transactionManager.getTransaction(def); 
+		
+		try {
+			if(service.communityDelete(no,(String)session.getAttribute("logId"))>0) {
+				//신고테이블에 있는 먼저 조회한다
+				String reportNum = aService.getNumFromReport(no);
+				System.out.println(reportNum+"????????????????????");
+				if(reportNum!=null) {
+					//글이 삭제되면 신고 테이블에서 상태 '삭제됨'으로 업데이트
+					aService.reportStateUpdate(Integer.parseInt(reportNum), "삭제됨");
+				}
+				transactionManager.commit(status);
+				mav.setViewName("redirect:communityList");
+			}else {
+				mav.addObject("no", no);
+				mav.setViewName("redirect:communityView");
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("글살제 트랜잭션 발생...");
 			mav.addObject("no", no);
 			mav.setViewName("redirect:communityView");
 		}

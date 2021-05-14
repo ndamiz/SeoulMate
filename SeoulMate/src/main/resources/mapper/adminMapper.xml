@@ -212,57 +212,58 @@
   		insert into report(num, no, category, reportid, userid, reportcategory, reportcontent)
   		values(reportsq.nextval, ${no}, #{category}, #{reportid}, #{userid}, #{reportcategory}, #{reportcontent})
   	</insert>
-  	<select id="reportTotalRecord" resultType="com.seoulmate.home.vo.ReportVO">
-  		select r.num, r.userid, reportid , r.category, r.no, reportdate, r.state, m.state bState from report r 
-  		join member m on r.userid = m.userid
-		where r.state in('처리완료','미처리','허위신고') order by num desc
+  	<select id="reportTotalRecord" parameterType="com.seoulmate.home.vo.PagingVO" resultType="com.seoulmate.home.vo.ReportVO">
+  		select * from
+		(select * from
+		(select r.num, r.userid, r.reportid , r.category, r.no, r.reportdate, r.state, m.state bState from report r join member m on r.userid = m.userid 
+		<if test="searchWord!=null and searchWord != '' "> 
+   			<if test="searchKey=='userid' "> where r.${searchKey} like '%${searchWord}%' </if>
+   			<if test="searchKey!='userid'">where ${searchKey} like '%${searchWord}%'</if>
+   		</if>
+		<if test="grade != null and grade != '' "> where category=#{grade}</if>
+		<if test="state != null and state != '' "> where r.state=#{state}</if>  		
+		  		
+		order by num desc)
+		where <![CDATA[ rownum<=]]> ${pageNum * onePageRecode} order by num)
+		where <![CDATA[ rownum<=]]> <if test="pageNum==totalPage">${lastPageRecode}</if>
+		<if test="pageNum!=totalPage">${onePageRecode}</if>
+		order by num desc
+		
   	</select>
   	<select id="reportInfo" resultType="com.seoulmate.home.vo.ReportVO">
-  		select * from report where num=${param1}
+  		select num, r.no, r.category, r.userid, reportid, reportcategory, reportcontent, reportdate, r.state, c.state vState, m.state bState
+  		from report r join 
+  		<if test="param2 == '하우스'">housewrite c on r.no=c.no </if>
+   		<if test="param2 == '메이트'">matewrite c on r.no=c.no </if>
+   		<if test="param2 == '커뮤니티'">community c on r.no=c.no </if>
+   		<if test="param2 == '댓글'">communityreply c on r.no=c.num </if>
+   		join member m on m.userid=r.userid where num=${param1}
   	</select>
   	<select id="reportCategorySelect" resultType="String">
   		select DISTINCT dong from zipcode where dong like '%${param1}%'
   	</select>
   	<update id="allStateUdate">
   		update 
-  		<if test="param3 == '하우스'">
-  			housewrite set 
-  			<if test="param4 == '처리완료'">
-  				housestate='비공개' 
-  			</if>
-  			<if test="param4 == '허위신고'">
-  				housestate='공개' 
-  			</if>
+  		<if test="param3 == '하우스'">housewrite set 
+  			<if test="param4 == '처리완료'">housestate='비공개' </if>
+  			<if test="param4 == '허위신고'">housestate='공개' </if>
   			where no=#{param1} and userid=#{param2}	
   		</if>
-  		<if test="param3 == '메이트'">
-  			matewrite set 
-			<if test="param4 == '처리완료'">
-  				matestate='비공개' 
-  			</if>
-  			<if test="param4 == '허위신고'">
-  				matestate='공개' 
-  			</if>
+  		<if test="param3 == '메이트'">matewrite set 
+			<if test="param4 == '처리완료'">matestate='비공개' </if>
+  			<if test="param4 == '허위신고'">matestate='공개' </if>
   			where no=#{param1} and userid=#{param2}	
   		</if>
   		<if test="param3 == '커뮤니티'">
   			community set 
-			<if test="param4 == '처리완료'">
-  				state='비공개' 
-  			</if>
-  			<if test="param4 == '허위신고'">
-  				state='공개' 
-  			</if>
+			<if test="param4 == '처리완료'">state='비공개' </if>
+  			<if test="param4 == '허위신고'">state='공개' </if>
   			where no=#{param1} and userid=#{param2}
   		</if>
   		<if test="param3 == '댓글'">
   			communityreply set 
-			<if test="param4 == '처리완료'">
-  				state='비공개' 
-  			</if>
-  			<if test="param4 == '허위신고'">
-  				state='공개' 
-  			</if>
+			<if test="param4 == '처리완료'">state='비공개' </if>
+  			<if test="param4 == '허위신고'">state='공개' </if>
   			where no=#{param1} and userid=#{param2}
   		</if>
   	</update>
@@ -275,4 +276,20 @@
   	<update id="addBlacklist">
   		update member set state='블랙' where userid=#{param1}
    	</update>
+   	<select id="getState" resultType="String">
+   		select state vState from 
+   		<if test="param1 == '하우스'">housewrite where no=${param2}</if>
+   		<if test="param1 == '메이트'">matewrite where no=${param2}</if>
+   		<if test="param1 == '커뮤니티'">community where no=${param2}</if>
+   		<if test="param1 == '댓글'">communityreply where num=${param2}</if>
+   	</select>
+   	<select id="getNumFromReport" resultType="String">
+   		select num from report where no=${param1}
+   	</select>
+   	<select id="reportRecordCnt" parameterType="com.seoulmate.home.vo.PagingVO" resultType="int">
+   		select count(num) totalRecode from report
+   		<if test="searchWord!=null and searchWord != '' ">where ${searchKey} like '%${searchWord}%'</if>
+		<if test="grade != null and grade != '' "> where category=#{grade}</if>
+		<if test="state != null and state != '' "> where state=#{state}</if>
+   	</select>
 </mapper>

@@ -233,6 +233,12 @@
 	</body>
 <script>
 $(function(){
+	$(document).on('change', 'select[name=hw_housestate]', function(){
+		console.log('체인지 이벵트 ~');
+		var housestate = $(this).val();
+		console.log( 'housestate = '+housestate);
+		
+	});
 	$(document).on('click', '.admin_HouseManagement_DetailInfo',function(){
 		var no = $(this).children().eq(0).text();
 		var userid = $(this).children().eq(1).text();
