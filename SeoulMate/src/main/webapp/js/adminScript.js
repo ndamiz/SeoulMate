@@ -1,16 +1,78 @@
 var dateChoose ='';
-$(function(){
-	 $('#selectYearMonthDate').change(function(){
-		 $("#selectYearMonthDate option:selected").each(function() {
-			datePicker();
-	     });
-	 });
-	 
+$(function(){	 
 	 //팝업 닫기
 	$('.popup_Close').on('click',function(){
 		$('.admin_Management_popup').addClass('popup_hidden');
 		$('#myPage_popup_FullScreen').addClass('popup_hidden');
 		$('body').removeClass('popup_Stop_Scroll');
+	});
+	//일,월,년도별 클릭..
+	$(document).on('change', 'select[name=selectYearMonthDate]', function(){
+		//초기화
+		console.log('일별월별년별? = ' + $(this).val());
+		var selectYearMonthDate = $(this).val();
+		var selectStartDate = $('input[name=selectStartDate]').val();
+		var selectEndDate = $('input[name=selectEndDate]').val();
+		console.log("selectStartDate = "+selectStartDate);
+		console.log("selectEndDate = "+selectEndDate);
+		var tag = '';
+		$('.selectDateChoose').empty();
+		if(selectYearMonthDate=='일별'|| selectYearMonthDate=='' || selectYearMonthDate==null){
+			if(selectStartDate==null || selectStartDate==''){
+				console.log('start 일별선택 -> 기존 월별 or 년별 이었음 / 날짜는 선택안함');
+				tag += '<input type="date" name="selectStartDate"/>';
+				
+			}else{
+				if(selectStartDate.length==10){
+					console.log('start 일별선택 -> 기존 일별 날짜 선택되어 있었음. ');
+					tag += '<input type="date" name="selectStartDate" value="'+selectStartDate+'"/>';
+				}else if(selectStartDate.length==7){
+					console.log('start 일별선택 -> 기존 월별 or 년별 날짜 선택되어 있었음. ');
+					tag += '<input type="date" name="selectStartDate" value="'+selectStartDate+'-01'+'"/>';
+				}
+			}
+			
+			if(selectEndDate==null || selectEndDate==''){
+				console.log('end 일별선택 -> 기존 월별 or 년별 이었음 / 날짜는 선택안함');
+				tag += '<input type="date" name="selectEndDate"/>';
+			}else{
+				if(selectEndDate.length==10){
+					console.log('end 일별선택 -> 기존 일별 날짜 선택되어 있었음. ');
+					tag += '<input type="date" name="selectEndDate" value="'+selectEndDate+'"/>';
+				}else if(selectEndDate.length==7){
+					var lastDay = ( new Date( selectEndDate.substr(0,4), selectEndDate.substr(6, 2), 0) ).getDate();
+					console.log('end 일별선택 -> 기존 월별 or 년별 날짜 선택되어 있었음. ');
+					tag += '<input type="date" name="selectEndDate" value="'+selectEndDate+'-'+lastDay+'"/>';
+				}
+			}
+		}else if(selectYearMonthDate=='월별' || selectYearMonthDate=='년별'){
+			if(selectStartDate==null || selectStartDate==''){
+				console.log('start 월별선택 -> 기존 월별 or 년별 이었음 / 날짜는 선택안함');
+				tag += '<input type="month" name="selectStartDate"/>';
+			}else{
+				if(selectStartDate.length==10){
+					console.log('start 월별선택 or 년별 선택 -> 기존 일별 날짜 선택되어 있었음. ');
+					tag += '<input type="month" name="selectStartDate" value="'+selectStartDate.substr(0,7)+'"/>';
+					console.log(selectStartDate.substr(0,7));
+				}else if(selectEndDate.length==7){
+					console.log('start 월별선택 -> 기존 월별 or 년별 날짜 선택되어 있었음. ');
+					tag += '<input type="month" name="selectStartDate" value="'+selectStartDate+'"/>';
+				}
+			}
+			if(selectEndDate==null || selectEndDate==''){
+				console.log('end 월별선택 -> 기존 월별 or 년별 이었음 / 날짜는 선택안함');
+				tag += '<input type="month" name="selectEndDate"/>';
+			}else{
+				if(selectEndDate.length==10){
+					console.log('end 월별선택 -> 기존 일별 날짜 선택되어 있었음. ');
+					tag += '<input type="month" name="selectEndDate" value="'+selectEndDate.substr(0,7)+'"/>';
+				}else if(selectEndDate.length==7){
+					console.log('end 월별선택 -> 기존 월별 or 년별 날짜 선택되어 있었음. ');
+					tag += '<input type="month" name="selectEndDate" value="'+selectEndDate+'"/>';
+				}
+			}
+		}
+		$('.selectDateChoose').html(tag);
 	});
 });
 //팝업 띄우기 
@@ -19,94 +81,6 @@ function openPopup(){
 	$('body').addClass('popup_Stop_Scroll');
 	$('#myPage_popup_FullScreen').removeClass('popup_hidden');
 	$('.admin_Management_popup').removeClass('popup_hidden');
-}
-function datePicker(){
-	$('.datePicker1, .datePicker2').datepicker('destroy');
-	$('.datePicker1, .datePicker2').val("");
-	var dateChoose = $("#selectYearMonthDate option:selected").val();
-	$.datepicker.setDefaults({
-		showOn : 'both',
-		buttonImage : '../img/fi-rr-calendar.svg',
-		buttonImageOnly : true,
-		monthNames : ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-		monthNamesShort : ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-		dayNames : ["일","월","화","수","목","금","토"], 
-		dayNamesMin : ["일","월","화","수","목","금","토"],
-		dayNamesShort :  ["일","월","화","수","목","금","토"],
-		changeYear : true,
-		changeMonth : true,
-		maxDate : '+0D',
-		nextText : '다음달',
-		prevTet : '이전달',
-		showButtonPanel : true,
-		currentText : '오늘날짜',
-		closeText :'확인',
-		showMonthAfterYear : true
-	});
-	if(dateChoose == '일별'){
-		console.log("일별선택.. ");
-		$('.datePicker1, .datePicker2').datepicker({
-			dateFormat : 'yy-mm-dd',
-			displayFormat :'yyyy-mm-dd',
-			minDate : '-1M'
-		}).focus(function () {
-            $(".ui-datepicker-month").show();
-            $(".ui-datepicker-calendar").show();
-            $("div.ui-datepicker-header a.ui-datepicker-prev,div.ui-datepicker-header a.ui-datepicker-next").show();
-        });
-        
-	}
-	if(dateChoose == '월별'){
-		console.log("월별선택.. ");
-		$('.datePicker1, .datePicker2').datepicker({
-			dateFormat : 'yy-mm',
-			displayFormat :'yyyy-mm',
-			minDate : '-1Y',
-			onClose :function(dataText, inst){
-				var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-				var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-				$(this).datepicker('setDate', new Date(year, month, 1));
-			},
-			beforeShow : function(input, inst) {
-				if ((datestr = $(this).val()).length > 0) {
-					actDate = datestr.split('-');
-					year = actDate[0];
-					month = actDate[1]-1;
-					$(this).datepicker('option', 'defaultDate', new Date(year, month));
-					$(this).datepicker('setDate', new Date(year, month));
-				}
-			}
-		}).focus(function () {
-            $(".ui-datepicker-month").show();
-            $(".ui-datepicker-calendar").hide();
-            $("div.ui-datepicker-header a.ui-datepicker-prev,div.ui-datepicker-header a.ui-datepicker-next").hide();
-        });
- 	}
- 	if(dateChoose == '년별'){
- 		console.log("년별선택.. ");
- 		$('.datePicker1, .datePicker2').datepicker({
- 			dateFormat : 'yy',
- 			displayFormat :'yyyy',
-		    minDate : '-10Y',
-		    onClose :function(dataText, inst){
-				var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-				$(this).datepicker('setDate', new Date(year, 1, 1));
-			},
-			beforeShow : function(input, inst) {
-				if ((datestr = $(this).val()).length > 0) {
-					actDate = datestr.split('-');
-					year = actDate[0];
-					$(this).datepicker('option', 'defaultDate', new Date(year));
-					$(this).datepicker('setDate', new Date(year));
-				}
-			}
-		}).focus(function () {
-            $(".ui-datepicker-month").hide();
-            $(".ui-datepicker-calendar").hide();
-            $("div.ui-datepicker-header a.ui-datepicker-prev,div.ui-datepicker-header a.ui-datepicker-next").hide();
-        });
-	}
-	$('img.ui-datepicker-trigger').css({'cursor':'pointer', 'margin':'0px 10px 3px 5px', 'width' :'25px', 'height':'25px'});
 }
 //자료 프린트하기 
 function printPage(msg){

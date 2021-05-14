@@ -143,8 +143,8 @@
   		<if test="payVO.selectStartDate!=null and payVO.selectStartDate!='' and payVO.selectEndDate!=null and payVO.selectEndDate!=''"> 
   			<if test="pagingVO.searchWord == null or pagingVO.searchWord ==''"> where </if>
   			<if test="payVO.selectYearMonthDate=='일별'"> payStart BETWEEN to_date('${payVO.selectStartDate} 00:00:00', 'YYYY-MM-DD HH24:MI:SS') and to_date('${payVO.selectEndDate} 23:59:59', 'YYYY-MM-DD HH24:MI:SS')</if>
-  			<if test="payVO.selectYearMonthDate=='월별'"> payStart BETWEEN to_date('${payVO.selectStartDate}-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS') and to_date(to_char(LAST_DAY(to_date('${payVO.selectEndDate}', 'YYYY-MM')), 'YYYY-MM-DD')||' 23:59:59' ,'YYYY-MM-DD HH24:MI:SS')</if>
-  			<if test="payVO.selectYearMonthDate=='년별'"> payStart BETWEEN to_date('${payVO.selectStartDate}-01-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS') and to_date(to_char(LAST_DAY(to_date('${payVO.selectEndDate}-12', 'YYYY-MM')), 'YYYY-MM-DD')||' 23:59:59' ,'YYYY-MM-DD HH24:MI:SS')</if>
+  			<if test="payVO.selectYearMonthDate=='월별'"> payStart BETWEEN to_date('${payVO.selectStartDate}-1 00:00:00', 'YYYY-MM-DD HH24:MI:SS') and to_date(to_char(LAST_DAY(to_date('${payVO.selectEndDate}', 'YYYY-MM')), 'YYYY-MM-DD')||' 23:59:59' ,'YYYY-MM-DD HH24:MI:SS')</if>
+  			<if test="payVO.selectYearMonthDate=='년별'"> payStart BETWEEN to_date('${payVO.selectStartDate}-1-1 00:00:00', 'YYYY-MM-DD HH24:MI:SS') and to_date(to_char(LAST_DAY(to_date('${payVO.selectEndDate}-12', 'YYYY-MM')), 'YYYY-MM-DD')||' 23:59:59' ,'YYYY-MM-DD HH24:MI:SS')</if>
   		</if>
   	</select>
   	<select id="payOnePageListSelect" parameterType="java.util.HashMap"  resultType="com.seoulmate.home.vo.PayVO" >
