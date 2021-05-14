@@ -44,17 +44,6 @@ public class MateController {
 		return "mate/mateView";
 	}
 	
-//	//메이트 글 등록
-//	@RequestMapping("/mateWrite")
-//	public String mateWrite(HttpSession session) {
-//		String userid = (String)session.getAttribute("logId");
-//		System.out.println("1"+userid);
-//		System.out.println("123456");
-////		service.mateSelect(userid); //string 아니고 ModelAndView 형식으로 
-//		
-//	return "mate/mateWrite";
-//	}
-	
 	//메이트 글 등록
 	@RequestMapping("/mateWrite")
 	public ModelAndView mateWrite(String userid, HttpSession session) {
