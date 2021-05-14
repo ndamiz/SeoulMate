@@ -581,17 +581,16 @@ public class MemberController {
 		ModelAndView mav=new ModelAndView();
 		String userid=(String)session.getAttribute("logId");
 		pVO.setUserid(userid);
-		
 		int result=service.propHouseUpdate(pVO);
 		
 		if(result>0) { // 성향 수정 성공
-			System.out.println("성향 수정에 성공한 경우");
+			System.out.println("No 성향 수정에 성공한 경우");
 			// mav.addObject("pcaseH", service.propPcaseH(userid)); // 하우스인 경우 >????
 			mav.setViewName("redirect:memberProEdit");
 		}else { // 성향 수정 실패
-			System.out.println("성향 수정에 실패한 경우");
+			System.out.println("No 성향 수정에 실패한 경우");
 			mav.addObject("fail", "fail");
-			mav.setViewName("member/historyBack");
+			mav.setViewName("member/proEditHouseForm");
 			// mav.setViewName("member/proEditHouseForm");
 			// 나중에는 history.back()을 해줘야 할듯
 		}
