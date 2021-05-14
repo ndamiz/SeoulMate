@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script>
+	//왜 초기화가 된거지???
 	//페이징
 	function pageClick(page, searchKey, searchWord){
 		var f=document.go;
