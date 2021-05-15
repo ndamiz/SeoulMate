@@ -4,6 +4,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.seoulmate.home.service.QnaService;
 @Controller
@@ -12,14 +13,19 @@ public class QnaController {
 	QnaService service;
 	
 	//자주하는 질문 게시판
-		@RequestMapping("/qna")
-		public String faqList() {
-			return "/faq/qna";
-		}
+	@RequestMapping("/qna")
+	public ModelAndView faqList() {
+		ModelAndView mav=new ModelAndView();
 		
-		//문의하기
-		@RequestMapping("/contact")
-		public String inquiry() {
-			return "/faq/contact";
-		}
+		mav.addObject("faqList", service.faqAllRecord());
+		mav.setViewName("faq/qna");
+		
+		return mav;
+	}
+		
+	//문의하기
+	@RequestMapping("/contact")
+	public String inquiry() {
+		return "/faq/contact";
+	}
 }
