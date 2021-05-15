@@ -5,7 +5,6 @@
 	$(function(){
 		//카테고리 클릭시 class on 바꾸기
 		var category = '${category}';
-		console.log(category);
 		//카테고리가 null이면 '전체'에 불들어오기
 		if(category==''){
 			$(".content_menu a").first().addClass('on');
@@ -27,10 +26,11 @@
 				alert("검색어를 입력해주세요.")
 				return false;
 			}else{
-				$("#searchFrm").submit(function(){
-					alert($("select[name=searchKey]").val())
-					alert($("input[name=searchWord]").val())
-				});
+				$("#searchFrm").submit();
+// 						function(){
+// 					alert($("select[name=searchKey]").val())
+// 					alert($("input[name=searchWord]").val())
+// 				});
 			}
 		});
 	});
@@ -108,7 +108,7 @@
 						<td>${vo.no}</td>
 						<td>${vo.category}</td>
 						<td class="t_title">
-							<a class="commSubject" href="communityView?category=${vo.category}&no=${vo.no}">${vo.subject} </a>
+							<a class="commSubject" href="communityView?category=${vo.category}&no=${vo.no}<c:if test="${pageVO.searchKey != null && pageVO.searchWord != null}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>">${vo.subject} </a>
 							<c:if test="${vo.replyCnt>0}">
 								<span class="commentNum" style="color: #13a89e">&nbsp;[ ${vo.replyCnt} ]</span>
 							</c:if>	

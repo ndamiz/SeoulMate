@@ -47,7 +47,7 @@ public class BoardController {
 		}
 		//검색어랑 카테고리필터에 따른 총 레코드 수 구하기
 		pVo.setTotalRecord(service.totalRecord(pVo));
-		
+		System.out.println(pVo.getSearchKey()+"?????????????1");
 //		//확인용
 //		System.out.println("================================category=>"+pVo.getCategory());
 //		System.out.println(pVo.getSearchKey()+"<----key+word------>"+pVo.getSearchWord());
@@ -97,7 +97,7 @@ public class BoardController {
 	
 	//글 내용보기
 	@RequestMapping("/communityView")
-	public ModelAndView boardView(int no, HttpServletRequest req) {
+	public ModelAndView boardView(int no, HttpServletRequest req, PageVO pVO) {
 		//조회수 올리기
 		service.hitUpdate(no);
 		
@@ -113,6 +113,10 @@ public class BoardController {
 			mav.addObject("reply", "0");
 		}
 		mav.setViewName("/board/communityView");
+		
+		//다음글 이전글
+		pVO = service.nextPrevSelect(no, pVO.getCategory(), pVO.getSearchKey(), pVO.getSearchWord());
+		mav.addObject("pVO", pVO);
 		return mav;
 	}
 	//글 수정하기

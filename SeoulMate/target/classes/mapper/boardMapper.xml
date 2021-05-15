@@ -4,26 +4,14 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.seoulmate.home.dao.BoardDAO">
  	<select id="comAllRecord" parameterType="com.seoulmate.home.vo.PageVO" resultType="com.seoulmate.home.vo.BoardVO">
- 		select * from
- 		( select * from 
- 		( select no, category, subject, userid, hit, to_char(writedate, 'MM-DD HH:MI') writedate, replycnt from community
-  		<choose>
-  			<when test='searchWord != null and !category.equals("")'>
-  				where category=#{category} and ${searchKey} like '%${searchWord}%' and state='공개'
-  			</when>
-  			<when test='searchWord == null and !category.equals("")'>
-				where category=#{category} and state='공개'	
-  			</when>
-  			<when test='category.equals("") and searchWord != null'>
-				where ${searchKey} like '%${searchWord}%' and state='공개'			
-  			</when>
-  			<otherwise>
-  				where state='공개'
-  			</otherwise>
-  		</choose>
-	  	order by no desc )
-	  	<![CDATA[where rownum<=]]>(${pageNum}*${commOnePageRecord}) order by no)
-	  	<![CDATA[where rownum<=]]>
+ 		select * from        
+		    (select * from               
+		        (select * from         
+		            (select no, category, subject, userid, hit, to_char(writedate, 'MM-DD HH:MI') writedate, replycnt, state from community
+		            <if test="searchKey != null and searchWord != null and searchKey != '' and searchKey != '' ">where ${searchKey} like '%${searchWord}%' and state='공개'</if> order by no desc)
+		       <if test="category != null and category != '' ">where category=#{category}</if>)
+		    where <![CDATA[rownum<=]]>${pageNum * commOnePageRecord}  order by no asc)
+		where <![CDATA[rownum<=]]>
 	  	<if test="pageNum==totalPage">${lastPageRecord}</if>
 	  	<if test="pageNum!=totalPage">${commOnePageRecord}</if>
 	  	order by no desc
@@ -33,18 +21,10 @@
   		values(comsq.nextval, #{userid}, #{category}, #{subject}, #{content}, #{ip}, '공개')
   	</insert>
   	<select id="totalRecord" parameterType="com.seoulmate.home.vo.PageVO" resultType="int">
-  		select count(no) totalRecord from community
-  		<choose>
-  			<when test='searchWord != null and !category.equals("")'>
-  				where category=#{category} and ${searchKey} like '%${searchWord}%'
-  			</when>
-  			<when test='searchWord == null and !category.equals("")'>
-				where category=#{category}	
-  			</when>
-  			<when test='category.equals("") and searchWord != null'>
-				where ${searchKey} like '%${searchWord}%'			
-  			</when>
-  		</choose>
+  		select count(no) totalRecord from
+  			(select * from community
+  			<if test="searchKey != null and searchWord != null and searchKey != '' and searchWord != '' ">where ${searchKey} like '%${searchWord}%' and state='공개'</if>)
+  		<if test="category != null and category != '' ">where category=#{category}</if>	
   	</select>
   	<select id="boardSelect" resultType="com.seoulmate.home.vo.BoardVO">
   		select no, userid, subject, content, category, hit, writedate from community where no=${param1}
@@ -71,4 +51,15 @@
   	<update id="communityEdit" parameterType="com.seoulmate.home.vo.BoardVO">
   		update community set category=#{category}, subject=#{subject}, content=#{content}, writedate=sysdate where no=${no}
   	</update>
+  	<select id="nextPrevSelect" resultType="com.seoulmate.home.vo.PageVO">
+  		select * from
+		    (select * from 
+		        (select no, category,
+		        lead(no, 1, 0) over (order by no desc) prevNo,
+		        lag(no, 1, 0) over (order by no desc) nextNo
+		        from community 
+		       <if test="param3 != null and param4 != null and param3 != '' and param4 != '' ">where subject like '%다%' </if> order by no desc)
+		   where no=${param1})
+		<if test="param2 != null and param2 != '' ">where category=#{param2}</if>
+  	</select>
 </mapper>

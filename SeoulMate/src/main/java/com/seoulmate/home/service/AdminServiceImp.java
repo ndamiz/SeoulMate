@@ -169,4 +169,8 @@ public class AdminServiceImp implements AdminService {
 	public ContactVO contactInfo(int no) {
 		return dao.contactInfo(no);
 	}
+	@Override
+	public int contactUpdate(ContactVO cVO) {
+		return dao.contactUpdate(cVO);
+	}
 }

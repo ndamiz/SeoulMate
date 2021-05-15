@@ -14,8 +14,6 @@
 		f.submit();
 	}
 	$(function(){
-		
-		
 		var selected = "";
 		//신고 상세보기
 		$(".admin_ReportManagement_DetailInfo").on('click', function(){
@@ -197,10 +195,12 @@
 				console.log(event);
 			}
 		}).autocomplete("instance")._renderItem = function(ul, item){//input에 자동완성 걸어주기
-			return $('</li>')
-			.append("<div>" + item.value + "<br>" + item.label + "</div>")
+			return $('<li>')
+			.attr('data-value', item.value)
+			.append(item.label)
 			.appendTo(ul);
-		}//============================================================================================================
+		}
+		//============================================================================================================
 	});
 </script>
 <section class="admin_Section">
@@ -209,7 +209,7 @@
 		<form method="post" action="/home/admin/reportManagement" class="managementSearchForm">
 			<div class="reportSearchCategory">
 				<span class="reportSpan" id="categorySpan">분류</span>
-				<select name=grade class="custom-select input">
+				<select id="test" name=grade class="custom-select input">
 					<option value="" selected>전체</option>
 					<option value="하우스" <c:if test="${pVO.grade=='하우스'}">selected</c:if>>하우스 신고 목록</option>
 					<option value="메이트" <c:if test="${pVO.grade=='메이트'}">selected</c:if>>메이트 신고 목록</option>

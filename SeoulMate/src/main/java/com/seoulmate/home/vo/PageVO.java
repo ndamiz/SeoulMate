@@ -16,6 +16,10 @@ public class PageVO {
 	private String searchKey;
 	private String searchWord;
 	
+	//다음글 이전글
+	private int prevNo;
+	private int nextNo;
+	
 	public int getPageNum() {
 		return pageNum;
 	}
@@ -109,4 +113,19 @@ public class PageVO {
 		this.category = category;
 	}
 
+	public int getPrevNo() {
+		return prevNo;
+	}
+
+	public void setPrevNo(int prevNo) {
+		this.prevNo = prevNo;
+	}
+
+	public int getNextNo() {
+		return nextNo;
+	}
+
+	public void setNextNo(int nextNo) {
+		this.nextNo = nextNo;
+	}
 }

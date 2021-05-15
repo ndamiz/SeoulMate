@@ -11,7 +11,7 @@ public class ContactVO {
 	private String qdate;
 	private String adate;
 	private String state;
-	private String tel;
+	private String mState;
 	
 	public int getNo() {
 		return no;
@@ -73,10 +73,10 @@ public class ContactVO {
 	public void setState(String state) {
 		this.state = state;
 	}
-	public String getTel() {
-		return tel;
+	public String getmState() {
+		return mState;
 	}
-	public void setTel(String tel) {
-		this.tel = tel;
+	public void setmState(String mState) {
+		this.mState = mState;
 	}
 }

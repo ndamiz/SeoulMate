@@ -16,4 +16,9 @@ public class QnaServiceImp implements QnaService {
 	public int contactInsert(ContactVO cVO) {
 		return dao.contactInsert(cVO);
 	}
+
+	@Override
+	public String useridCheck(String userid) {
+		return dao.useridCheck(userid);
+	}
 }

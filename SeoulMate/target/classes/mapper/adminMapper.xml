@@ -296,8 +296,9 @@
 		        (select * from 
 		            (select * from 
 		                (select * from 
-		                    (select * from qna 
-		                    <if test="searchKey != null and searchWord != null and searchKey != '' and searchKey != '' ">where ${searchKey} like '%${searchWord}%'</if>)
+		                    (select q.no, q.userid, q.username, q.email, category, qcontent, acontent, qdate, adate, q.state state, m.state mState
+   							from qna q join member m on q.userid=m.userid 
+		                    <if test="searchKey != null and searchWord != null and searchKey != '' and searchKey != '' ">where q.${searchKey} like '%${searchWord}%'</if>)
 		                <if test="grade != null and grade != '' ">where category=#{grade}</if>) 
 		            <if test="state != null and state != '' ">where state=#{state}</if>)
 		        order by no desc)
@@ -314,9 +315,12 @@
 		<if test="state != null and state != '' "> where state=#{state}</if>  		
    	</select>
    	<select id="contactInfo" resultType="com.seoulmate.home.vo.ContactVO">
-   		select * from (select q.no, q.userid, q.username, q.email, category, qcontent, acontent, qdate, adate, q.state, m.tel
+   		select * from (select q.no, q.userid, q.username, q.email, category, qcontent, acontent, qdate, adate, q.state, m.state mState
    		from qna q join member m on q.userid=m.userid )where no=${param1}
    	</select>
+   	<update id="contactUpdate" parameterType="com.seoulmate.home.vo.ContactVO">
+   		update qna set aContent=#{aContent}, state='답변완료' where no=${no}
+   	</update>
 </mapper>
 
 

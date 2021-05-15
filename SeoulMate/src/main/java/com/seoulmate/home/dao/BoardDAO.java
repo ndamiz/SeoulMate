@@ -24,5 +24,7 @@ public interface BoardDAO {
 	public int replyUpdate(int no, String minusOrPlus);
 	//글 수정하기
 	public int communityEdit(BoardVO vo);
+	//이전글 다음글
+	public PageVO nextPrevSelect(int no, String category, String searchKey, String searchWord);
 	
 }

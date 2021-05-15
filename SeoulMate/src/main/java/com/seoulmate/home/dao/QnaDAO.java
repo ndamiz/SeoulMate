@@ -3,6 +3,8 @@ package com.seoulmate.home.dao;
 import com.seoulmate.home.vo.ContactVO;
 
 public interface QnaDAO {
-	//신고 등록하기
+	//문의 등록하기
 	public int contactInsert(ContactVO cVO);
+	//비회원 아이디 체크
+	public String useridCheck(String userid);
 }

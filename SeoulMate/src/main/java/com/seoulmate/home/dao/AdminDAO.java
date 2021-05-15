@@ -93,4 +93,6 @@ public interface AdminDAO {
 	public int contactRecordCnt(PagingVO pVO);
 	//문의 상세보기
 	public ContactVO contactInfo(int no);
+	//문의 답변하기
+	public int contactUpdate(ContactVO cVO);
 }

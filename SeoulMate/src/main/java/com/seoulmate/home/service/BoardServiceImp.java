@@ -59,5 +59,10 @@ public class BoardServiceImp implements BoardService {
 		return dao.communityEdit(vo);
 	}
 
+	@Override
+	public PageVO nextPrevSelect(int no, String category, String searchKey, String searchWord) {
+		return dao.nextPrevSelect(no, category, searchKey, searchWord);
+	}
+
 	
 }

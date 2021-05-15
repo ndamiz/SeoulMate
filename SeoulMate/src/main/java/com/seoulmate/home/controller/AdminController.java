@@ -10,11 +10,14 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +47,9 @@ import com.seoulmate.home.vo.ContactVO;
 public class AdminController {
 	@Inject
 	AdminService service;
+	
+	@Inject
+	JavaMailSenderImpl mailSender;
 	
 	@Autowired
 	private DataSourceTransactionManager transactionManager;
@@ -107,6 +113,45 @@ public class AdminController {
 		ContactVO cVO = service.contactInfo(no);
 		return cVO;
 	}
+	//문의 처리하기
+	@RequestMapping("/admin/contactAdmin")
+	@ResponseBody
+	public int contactAdmin(ContactVO cVO) {
+		int contactUpdate = 0;
+		int result = service.contactUpdate(cVO);
+		
+		//이메일 답변 보내기
+		String email = cVO.getEmail();
+		if(result>0) {
+			String subject = "서울메이트 - "+cVO.getUserid()+"님 문의글에 대한 답변입니다.";
+			String content = "<div style='width: 600px; border-radius: 20px; "
+					+ "background-color: #fff; box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%); overflow: hidden;'>"
+					+ "<div style='height: 50px; line-height: 50px; background-color: #13a89e; color: #fff; text-align: center;'>"
+					+ "<img style='width: 121; height: 30px; margin:10px 0;' src='https://0905cjw.github.io/seoulmate_email.png'/></div>"
+					+ "<div style='padding: 30px;'>"
+					+ "<div style='margin:10px auto;'><h3>"+cVO.getQdate()+"에 접수된 문의사항입니다.</h3></div>"
+					+ "<span><h3>문의 내용 : <h3><h2>"+cVO.getqContent()+"<h2></span><br>"
+					+ "<span><h3>답변 내용 : <h3><h2>"+cVO.getaContent()+"<h2></span>"
+					+ "</div><div style=\"padding: 15px 0; text-align: center; box-shadow: 0 -1px 22px -2px rgb(0 0 0 / 15%);\">"
+					+ "<span style=\"color: #13a89e; font-weight:bold; font-size:12px;\">Copyright © 2021 공일이오 Co., Ltd. All rights reserved.</span>"
+					+ "</div></div>";
+			try {
+				MimeMessage message=mailSender.createMimeMessage();
+				MimeMessageHelper messageHelper=new MimeMessageHelper(message, true, "UTF-8");
+				messageHelper.setFrom("seoulmatemanager@gmail.com");
+				messageHelper.setTo(email);
+				messageHelper.setSubject(subject);
+				messageHelper.setText("text/html; charset=UTF-8", content);
+				mailSender.send(message);
+				
+				contactUpdate = result; 
+			}catch(Exception e) {
+				e.printStackTrace();
+				System.out.println("문의관리 답변 이메일 보내기 에러 발생.");
+			}
+		}
+		return contactUpdate;
+	}
 	///////////////////////신고관리//////////////////////////////
 	//신고 등록
 	@RequestMapping("/reportInsert")
@@ -141,8 +186,6 @@ public class AdminController {
 	@ResponseBody
 	public ReportVO reportDetailInfo(int num, String category) {
 		ReportVO reportVO = service.reportInfo(num, category);
-		System.out.println(reportVO.getvState()+"123889123987");
-		
 		return reportVO;
 	}
 	//TEST 자동 완성==============================================================================
@@ -156,7 +199,7 @@ public class AdminController {
 		return gson.toJson(array);
 	}
 	//신고 처리하기
-	@RequestMapping(value="/admin/reportAdmin")
+	@RequestMapping("/admin/reportAdmin")
 	@ResponseBody
 	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
 	public String reportAdmin(ReportVO reportVO, boolean visibility, boolean blacklist) {

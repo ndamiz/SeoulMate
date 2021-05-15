@@ -14,6 +14,9 @@
 		f.submit();
 	}
 	$(function(){
+		//선택한 tr
+		var selected = "";
+		
 		//필터 기능 
 		$('select[name=grade]').change(function(){
 			$('.managementSearchForm').submit();
@@ -28,6 +31,7 @@
 		
 		//문의 상세보기
 		$(".admin_contactManagement_DetailInfo").on('click', function(){
+			selected = $(this);
 			var params = 'no='+$(this).children().eq(0).text();
 			var url = "/home/admin/contactDetailInfo"
 			
@@ -44,16 +48,52 @@
 		});
 		//문의 상세보기 값 넣기
 		function contactFormFill(result){
+			$("#contactNo").val(result.no);
 			$("#contactUserid").val(result.userid);
-			$('#contactTel').val(result.tel);
+			$("#contactState").val(result.state);
+			$('#contactMState').val(result.mState);
 			$('#contactEmail').val(result.email);
 			$('#contactCategory').val(result.category);
 			$('#qDate').val(result.qdate);
 			$('#qContent').val(result.qContent);
+			$('#aContent').val(result.aContent);
+			if(result.state=='답변완료'){
+				$('#adate').text(result.adate);
+				$('.contactUpdateSubmitBtn').css('display','none');
+				
+			}else{
+				$('#adate').text("미답변 상태입니다.");
+			}
 			
 			//팝업 열기
 			$(".contact_wrap").css('display','block');
 			$(document.body).css('overflow','hidden');
+		}
+		
+		//답변하기
+		$('#contactUpdateForm').submit(function(){
+			$.ajax({
+				url : '/home/admin/contactAdmin',
+				data : $(this).serialize(),
+				success : function(result){
+					console.log(result)
+					updateContactTable(result);
+					alert("문의 답변이 완료되었습니다.");
+				},error : function(){
+					console.log("???")
+				}
+			});
+			return false;
+		});
+		
+		//문의처리하고 테이블 정보바꾸기
+		function updateContactTable(state){
+			//상태 수정
+			if(state==1){
+				$(selected).children().eq(7).css('color','black');
+				$(selected).children().eq(7).text('답변완료');
+				$('.contact_wrap').css('display','none');
+			}
 		}
 	});
 </script>
@@ -109,6 +149,7 @@
 								<th>카테고리</th>
 								<th>아이디</th>
 								<th>이름</th>
+								<th>회원등급</th>
 								<th>이메일</th>
 								<th>등록일</th>
 								<th>상태</th>
@@ -121,6 +162,7 @@
 									<td>${contact.category}</td>
 									<td>${contact.userid}</td>
 									<td>${contact.username}</td>
+									<td>${contact.mState}</td>
 									<td>${contact.email}</td>
 									<td>${contact.qdate}</td>
 									<c:if test="${contact.state=='미답변'}">
@@ -142,8 +184,8 @@
 							<input type="hidden" name="searchWord"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
 							<c:if test="${pVO.pageNum>1}">
 							<c:if test="${pVO.searchWord==null}">
-								<a class="first_page" href="reportManagement?pageNum=1"></a>
-								<a class="prev_page" href="reportManagement?pageNum=${pVO.pageNum-1}"></a>
+								<a class="first_page" href="contactManagement?pageNum=1"></a>
+								<a class="prev_page" href="contacttManagement?pageNum=${pVO.pageNum-1}"></a>
 							</c:if>
 							
 							<c:if test="${pVO.searchWord!=null}">
@@ -159,10 +201,10 @@
 								<c:if test="${pageNum<=pVO.totalPage }">
 								<c:if test="${pVO.searchWord==null}">
 									<c:if test="${pageNum==pVO.pageNum }"><!-- 1 -->
-										<a href="reportManagement?pageNum=${pVO.pageNum}" class="nowPageNum on">${pageNum}</a>
+										<a href="contactManagement?pageNum=${pVO.pageNum}" class="nowPageNum on">${pageNum}</a>
 									</c:if>
 									<c:if test="${pageNum!=pVO.pageNum}">
-										<a href="reportManagement?pageNum=${pageNum}">${pageNum}</a>
+										<a href="contactManagement?pageNum=${pageNum}">${pageNum}</a>
 									</c:if>
 								</c:if>
 								<c:if test="${pVO.searchWord!=null}"><!-- 2 -->
@@ -177,8 +219,8 @@
 							</c:forEach>
 							<c:if test="${pVO.pageNum < pVO.totalPage}">
 								<c:if test="${pVO.searchWord==null}"> <!-- 검색어가 없는 경우 -->
-									<a class="next_page" href="reportManagement?pageNum=${pVO.pageNum+1}"></a>
-									<a class="last_page" href="reportManagement?pageNum=${pVO.totalPage}"></a>
+									<a class="next_page" href="contactManagement?pageNum=${pVO.pageNum+1}"></a>
+									<a class="last_page" href="contactManagement?pageNum=${pVO.totalPage}"></a>
 								</c:if>
 								<c:if test="${pVO.searchWord!=null}"> <!-- 검색어가 있는 경우 -->
 									<a class="next_page" href="javascript:pageClick('${state}', '${grade}', ${pVO.pageNum+1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="next_page"></a>
@@ -203,37 +245,35 @@
 				<div class="contact_head">문의 관리</div>
 				<div class="contact_pup_body">
 					<div class="contact_list">
-						<ul>
-							<li><div>아이디</div><input id="contactUserid" type="text" name="userid" readonly></li>
-							<li><div>연락처</div><input id="contactTel" type="text" name="tel" readonly></li>
-						</ul>
-						<ul>	
-							<li><div>답변상태</div>
-								<select id="contactState" name="state" disabled>
-									<option value="미답변">미답변</option>
-									<option value="답변완료">답변완료</option>
-								</select>
-							</li>
-							<li><div>이메일</div><input id="contactEmail" type="text" name="email" readonly></li>
-						</ul>
-						<ul>	
-							<li><div id="divGap">문의 분류</div> <input id="contactCategory" type="text" name="category" readonly></li>
-							<li><div>문의 날짜</div> <input id="qDate" type="text" name="qDate" readonly> </li>
-						</ul>
-<!-- 						<ul>	 -->
-<!-- 							<li><div>제목</div><input type="text" name="" id="contactTitle"></li> -->
-<!-- 						</ul>	 -->
-						<ul>	
-							<li><div>문의 내용</div> <textarea id="qContent" rows="5" name="qContent" readonly></textarea></li>
-							<li><div>답변 내용</div> <textarea id="aContent" rows="5" name="aContent"></textarea></li>
-						</ul>
-						답변 날짜 : <span id="adate">2021-04-30</span>
+						<form post="post"id="contactUpdateForm">
+							<ul>
+								<li><div>아이디</div><input id="contactUserid" type="text" name="userid" readonly></li>
+								<li><div>회원등급</div><input id="contactMState" type="text" name="mState" readonly></li>
+							</ul>
+							<ul>	
+								<li><div>답변상태</div>
+									<input id="contactState" type="text" name="state" readonly>
+								</li>
+								<li><div>이메일</div><input id="contactEmail" type="text" name="email" readonly></li>
+							</ul>
+							<ul>	
+								<li><div id="divGap">문의 분류</div> <input id="contactCategory" type="text" name="category" readonly></li>
+								<li><div>문의 날짜</div> <input id="qDate" type="text" name="qdate" readonly> </li>
+							</ul>
+	<!-- 						<ul>	 -->
+	<!-- 							<li><div>제목</div><input type="text" name="" id="contactTitle"></li> -->
+	<!-- 						</ul>	 -->
+							<ul>	
+								<li><div>문의 내용</div> <textarea id="qContent" rows="5" name="qContent" readonly></textarea></li>
+								<li><div>답변 내용</div> <textarea id="aContent" rows="5" name="aContent"></textarea></li>
+							</ul>
+							답변 날짜 : <span id="adate"></span><input id="contactNo" type="hidden" name="no">
+						</form>	
 					</div>
 				</div>
 				<div class="pup_bottom">
 					<a href="" class="btn_cancel">닫기</a>
-					<a href="" class="btn_save">확인</a>
-					<a href="" class="btn_reply">답변하기</a>
+					<a href="javascript:$('#contactUpdateForm').submit()" class="btn_reply contactUpdateSubmitBtn">답변하기</a>
 				</div>
 				<a href="" class="pup_btn_close">닫기</a>
 			</div>
