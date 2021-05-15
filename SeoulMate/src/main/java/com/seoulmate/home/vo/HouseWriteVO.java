@@ -8,6 +8,10 @@ public class HouseWriteVO {
 	private String housename;
 	
 	private String filename; //사진 업로드
+	private String filename2;
+	private String filename3;
+	private String filename4;
+	private String filename5;
 	
 	private String housepic1;
 	private String housepic2; 
@@ -18,9 +22,9 @@ public class HouseWriteVO {
 	private int bathroom;
 	private int nowpeople;
 	private int searchpeople;
-//	private String publicfacility;
-	private String publicfacility[]; //공용시설
-	private String publicfacilityStr="";  //공용시설 배열 값 문자열
+	private String publicfacility;
+//	private String publicfacility[]; //공용시설
+//	private String publicfacilityStr="";  //공용시설 배열 값 문자열
 	
 	private String writedate;
 	private String enddate;
@@ -123,29 +127,29 @@ public class HouseWriteVO {
 		this.searchpeople = searchpeople;
 	}
 
-	public String[] getPublicfacility() {
-		return publicfacility;
-	}
-	public void setPublicfacility(String[] publicfacility) {
-		this.publicfacility = publicfacility;
-		for(String i: publicfacility) { //배열의 값을 Str 문자열로
-			publicfacilityStr += i+"/";
-		}
-	}
-	public String getPublicfacilityStr() {
-		return publicfacilityStr;
-	}
-	public void setPublicfacilityStr(String publicfacilityStr) {
-		this.publicfacilityStr = publicfacilityStr;
-		publicfacility = publicfacilityStr.split("/");
-	}
-	
-//	public String getPublicfacility() {
+//	public String[] getPublicfacility() {
 //		return publicfacility;
 //	}
-//	public void setPublicfacility(String publicfacility) {
+//	public void setPublicfacility(String[] publicfacility) {
 //		this.publicfacility = publicfacility;
+//		for(String i: publicfacility) { //배열의 값을 Str 문자열로
+//			publicfacilityStr += i+"/";
+//		}
 //	}
+//	public String getPublicfacilityStr() {
+//		return publicfacilityStr;
+//	}
+//	public void setPublicfacilityStr(String publicfacilityStr) {
+//		this.publicfacilityStr = publicfacilityStr;
+//		publicfacility = publicfacilityStr.split("/");
+//	}
+	
+	public String getPublicfacility() {
+		return publicfacility;
+	}
+	public void setPublicfacility(String publicfacility) {
+		this.publicfacility = publicfacility;
+	}
 	public String getWritedate() {
 		return writedate;
 	}

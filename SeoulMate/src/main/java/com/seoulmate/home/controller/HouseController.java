@@ -56,6 +56,7 @@ public class HouseController {
 	public ModelAndView houseWirte(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		String userid=(String)session.getAttribute("logId");
+		PropensityVO pVO = service.propHouseSelect(userid, 0);
 		int pcaseH = memService.propPcaseH(userid);
 		int houseCheck = service.houseCheck(userid);
 		if(houseCheck==0) { //하우스 등록 안했을 경우
@@ -78,9 +79,8 @@ public class HouseController {
 	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
 	public ModelAndView houseWriteOk(HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, @RequestParam("filename") MultipartFile filename, HttpSession session ,HttpServletRequest req) {
 		System.out.println(pVO.getPno());
-		System.out.println("pno확인"+session.getAttribute("housePno"));
 		String userid=(String)session.getAttribute("logId");
-		pVO.setPno(service.proPnoCheck(userid));
+		
 		
 		hVO.setUserid(userid);
 		rVO.setUserid(userid);
@@ -123,54 +123,55 @@ public class HouseController {
 		TransactionStatus status=transactionManager.getTransaction(def);
 		
 		try {
-			int result1 = service.propInsert(pVO);
-			pVO.setPno(service.proPnoCheck(userid));
+			int result1 = 0;
+			System.out.println("0->"+pVO.getPno());
+			if(pVO.getPno()==0) {
+				System.out.println("1->"+pVO.getPno());
+				result1 = service.propInsert(pVO);
+				pVO.setPno(service.proPnoCheck(userid));
+				System.out.println("2->"+pVO.getPno());
+				System.out.println("성향 등록 시도");
+			}else {
+				System.out.println("3->"+pVO.getPno());
+				result1 = service.propHouseUpdate(pVO);
+				System.out.println("성향 업데이트 시도");
+			}
+			
 			System.out.println("성향 insert 값 확인->"+result1);
 			System.out.println("아이디:"+pVO.getUserid());
 			System.out.println("케이스 확인:"+pVO.getPcase());
-			System.out.println("p넘버:"+pVO.getPno());
+			System.out.println("4 p넘버:"+pVO.getPno());
 			if(result1>0) { //성향 등록 
 				System.out.println("성향 등록 성공");
-				
-				int proPnoCheck = service.proPnoCheck(userid); //pno 값 확인 (psq.currval 값)
-				hVO.setPno(proPnoCheck); //성향은 있지만 house가 없기때문에 house의 pno에 이미 존재하는 성향테이블 pno(psq.currval)값 을 넣어줌
+				System.out.println("hVO="+hVO.getHousename());
+				hVO.setPno(pVO.getPno());
 				int result2 = service.houseInsert(hVO);
 				
 				if(result2>0) { //집(house) 등록 
 					System.out.println("하우스 등록 성공");
-
-					if(hVO.getPno()!=0) { //house 테이블의 pno가 0이 아닐때는-> pno(성향 테이블) 이미 존재 -> 성향 업데이트
-						System.out.println("성향 업데이트 시도");
-						 //존재하는 성향테이블 pno 값 확인
-						
-						int result4 = service.propHouseUpdate(pVO); //성향 수정
-						
-						if(result4>0) {
-							System.out.println("성향 업데이트 성공");
-							int result3 = service.roomInsert(rVO);
-							if(result3>0) {
-								System.out.println("방 등록 성공");
-								transactionManager.commit(status);
-								mav.setViewName("redirect:houseIndex");
-							}
-						}
-					}else { // hVO.getPno가 0일 경우 -> 하우스테이블의 pno가 없을 경우 
-						
-						int result3 = service.roomInsert(rVO); 
-						if(result3>0) { //방(room) 등록
+					System.out.println("하우스 등록 시도 에러 확인"+pVO.getPno());
+					
+					String houseName = hVO.getHousename(); //성향의 housename을 housewrite의 테이블의 housename의 값으로 설정
+					System.out.println("하우스확인"+houseName);
+					int houseUpdate = service.housenameUpdate(houseName, pVO.getPno()); 
+					
+					if(houseUpdate>0) {
+						System.out.println("하우스네임 업데이트 성공");
+						int result3 = service.roomInsert(rVO);
+						if(result3>0) {
 							System.out.println("방 등록 성공");
 							transactionManager.commit(status);
 							mav.setViewName("redirect:houseIndex");
 						}else {
-							System.out.println("방 등록실패");
+							System.out.println("방 등록 실패");
 						}
+					}else {
+						System.out.println("하우스네임 업데이트 실패");
 					}
-					
 				}else {
 					System.out.println("하우스 등록 실패");
 				}
 			}else {
-				
 				if(realName!=null) {
 					File f = new File(path, realName);
 					f.delete();

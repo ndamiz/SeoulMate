@@ -1,7 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script src="//cdn.ckeditor.com/4.16.0/basic/ckeditor.js"></script>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/housemate.css">
 <script>
+$(function(){
+	CKEDITOR.replace("mateProfile", {
+		height:300,
+		width:'100%'
+		
+	}); //설명글 name 설정 필요
+	
+	$("#write").on('submit', function(){
+		if(CKEDITOR.instances.content.getData()==""){
+			alert("내용을 입력해주세요");
+			return false;
+		}return true;
+	});
+	
+});
 
 function readURL(input) {
     if (input.files && input.files[0]) {
@@ -14,12 +30,6 @@ function readURL(input) {
       reader.readAsDataURL(input.files[0]);
     }
 }
-
-$(function(){
-	CKEDITOR.replace("mateProfile"); //설명글 name 설정 필요
-	
-});	
-
 
 $(function(){
 	
@@ -130,6 +140,7 @@ $(function(){
 .checks{width:800px;}
 .checks>label{width:120px;}
 .title_wrap div{min-height: 300px;}
+#ck{margin:0 auto; width: 60%;}
 #mateImg1{width:150px; height:107px; }
 #matePic1 img{width:150px; height: 150px;}
 #mateWrite1 .checks>label{width:130px;}
@@ -244,7 +255,9 @@ $(function(){
 	<p class="s_title">내 소개 등록 </p>
 	<p>&nbsp;</p>
 	</div>
-		<textarea name="mateProfile"></textarea><br/>
+	<div id="ck">
+		<textarea id="write" name="mateProfile" ></textarea><br/>
+	</div>		
 			<div class="btnclass">
 				<a id="mPrev3" class="green" >이전</a>
 				<a id="mNext3" class="green" >다음</a>
@@ -265,7 +278,7 @@ $(function(){
 						<input type="radio" id="h_noise1" value="1" name="h_noise" <c:if test="${pVO.h_noise==1}">checked</c:if>> 
 						<label for="h_noise1">매우 조용함</label>
 						
-						<input type="radio" id="h_noies2" value="2" name="h_noise" <c:if test="${pVO.h_noise==2}">checked</c:if>> 
+						<input type="radio" id="h_noise2" value="2" name="h_noise" <c:if test="${pVO.h_noise==2}">checked</c:if>> 
 						<label for="h_noise2">보통</label>
 						
 						<input type="radio" id="h_noise3" value="3" name="h_noise" <c:if test="${pVO.h_noise==3}">checked</c:if>> 

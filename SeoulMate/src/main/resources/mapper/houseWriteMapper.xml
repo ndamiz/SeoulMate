@@ -19,4 +19,10 @@
 		update housewrite set addr=#{addr}, housePic1=#{housePic}, room=#{room}, bathroom=#{bathroom}, nowpeople=#{nowpeople}, searchpeople=#{searchpeople},
 		publicfacility=#{publicfacility}, houseprofile=#{houseprofile}, housename=#{housename} where userid=#{userid} and no=#{no}
 	</update>
+	<select id="housenameCheck" resultType="String">
+		select housename from housewrite where pno=#{param1}
+	</select>
+	<update id="housenameUpdate">
+		update propensity set housename= #{param1} where pno=#{param2}
+	</update>
   </mapper>

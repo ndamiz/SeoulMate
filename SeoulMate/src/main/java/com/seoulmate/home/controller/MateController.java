@@ -31,6 +31,7 @@ public class MateController {
 	@Inject
 	MemberService memService;
 	
+	
 	@Autowired
 	private DataSourceTransactionManager transactionManager;
 	
@@ -49,7 +50,8 @@ public class MateController {
 	public ModelAndView mateWrite(String userid, HttpSession session) {
 		userid = (String)session.getAttribute("logId");
 		ModelAndView mav = new ModelAndView();
-		PropensityVO pVO = service.mateSelect(userid); //메이트 성향
+//		PropensityVO pVO = service.mateSelect(userid); //메이트 성향
+		PropensityVO pVO=memService.propMateSelect(userid);
 		if(pVO==null) { //메이트 성향이 없을 경우?
 		mav.setViewName("redirect:memberProEdit"); //성향수정 페이지로 이동
 		}else { //메이트 성향이 있을 경우 id 기준으로 값 가져감
@@ -59,6 +61,7 @@ public class MateController {
 		mav.addObject("pVO",pVO);
 		mav.addObject("mVO", mVO);
 		}
+		System.out.println(pVO.getH_supportStr());
 		return mav;
 	}
 	
@@ -134,9 +137,20 @@ public class MateController {
 	
 	//메이트 수정
 	@RequestMapping("/mateEdit")
-	public String mateEdit() {
-		return "mate/mateEdit";
+	public ModelAndView mateEdit(MateWriteVO mVO, PropensityVO pVO, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		
+		String userid = (String)session.getAttribute("logId");
+		int result = service.mateSelect(userid);
+		System.out.println("메이트 글 번호 확인:"+result);
+		mav.addObject("mVO", mVO);
+		mav.addObject("pVO", pVO);
+		mav.setViewName("mate/mateEdit");
+		return mav;
 	}
+	
+	//메이트 수정 확인
+	
 	
 
 	
