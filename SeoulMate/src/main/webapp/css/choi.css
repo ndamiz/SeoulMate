@@ -69,8 +69,9 @@ input[type=text]:readonly {background:#ddd;}
 .center>button{width: 100%;margin-top: 40px;}
 
 /* memberProEdit */
-#proUl{height:50px;}
-#proUl>li{/* float:right; */ display:inline-block;}
+#proUl, #delUl{height:50px;}
+#proUl>li, #delUl>li{/* float:right; */ display:inline-block;}
+
 /* #proTitle{margin-bottom:30px;} */
 #proId>#memDiv3{display:block;}
 #proDiv2, #proDiv3, #proDiv4, #proDiv5{display:none;}

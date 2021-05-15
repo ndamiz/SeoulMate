@@ -6,6 +6,11 @@
 	<select id="houseList" resultType="com.seoulmate.home.vo.HouseWriteVO">
 		select * from housewrite where userid=#{param1}
 	</select>
+	<select id="houseproList" resultType="com.seoulmate.home.vo.HouseWriteVO">
+		select p.pno, p.housename from 
+		(select pno, userid, housename from propensity where pcase='h' and userid=#{param1}) p 
+		join (select pno, userid, housename from housewrite where userid=#{param1}) h on p.pno=h.pno and p.housename is not null
+	</select>
 	<select id="pnoCheck" resultType="int">
 		select count(pno) from housewrite where userid=#{param1} and pno=#{param2}
 	</select>

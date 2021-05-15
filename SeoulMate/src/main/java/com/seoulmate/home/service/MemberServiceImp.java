@@ -115,6 +115,10 @@ public class MemberServiceImp implements MemberService {
 		return hwDAO.houseList(userid);
 	}
 	@Override
+	public List<HouseWriteVO> houseproList(String userid) {
+		return hwDAO.houseproList(userid);
+	}
+	@Override
 	public int pnoCheck(String userid, int pno) {
 		return hwDAO.pnoCheck(userid, pno);
 	}
@@ -138,9 +142,8 @@ public class MemberServiceImp implements MemberService {
 	public int[] proNoHouse(String userid) {
 		return pDAO.proNoHouse(userid);
 	}
-	
-	
-	
-	
-	
+	@Override
+	public int proDelNoHouse(String userid, int pno) {
+		return pDAO.proDelNoHouse(userid, pno);
+	}
 }
