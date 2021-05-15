@@ -4,7 +4,8 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.seoulmate.home.dao.CommunityReplyDAO">
  	<select id="replyList" resultType="com.seoulmate.home.vo.CommunityReplyVO">
- 		select num, userid, content, writedate, state from communityReply where no=${param1} order by num
+ 		select num, c.userid, content, writedate, c.state, m.profilepic profilePic
+ 		from communityReply c join member m on c.userid=m.userid where c.no=${param1} order by num
  	</select>
  	<insert id="replyInsert">
  		insert into communityreply(num, no, userid, content, ip) 

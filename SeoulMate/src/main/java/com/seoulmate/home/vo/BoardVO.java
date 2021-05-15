@@ -13,6 +13,9 @@ public class BoardVO {
 	
 	private int replyCnt; //글에 댓글몇개인지 확인용
 	
+	//프로필사진
+	private String profilePic;
+	
 	public int getNo() {
 		return no;
 	}
@@ -61,7 +64,6 @@ public class BoardVO {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
-	
 	public String getState() {
 		return state;
 	}
@@ -73,5 +75,11 @@ public class BoardVO {
 	}
 	public void setReplyCnt(int replyCnt) {
 		this.replyCnt = replyCnt;
+	}
+	public String getProfilePic() {
+		return profilePic;
+	}
+	public void setProfilePic(String profilePic) {
+		this.profilePic = profilePic;
 	}
 }

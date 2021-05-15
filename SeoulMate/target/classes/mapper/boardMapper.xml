@@ -27,7 +27,8 @@
   		<if test="category != null and category != '' ">where category=#{category}</if>	
   	</select>
   	<select id="boardSelect" resultType="com.seoulmate.home.vo.BoardVO">
-  		select no, userid, subject, content, category, hit, writedate from community where no=${param1}
+  		select c.no, c.userid, subject, content, category, hit, writedate, m.profilepic profilePic
+		from community c join member m on c.userid=m.userid where c.no=${param1}
   	</select>
   	<select id="replyCount" resultType="int">
   		select count(num) cnt from communityReply where no=#{param1}

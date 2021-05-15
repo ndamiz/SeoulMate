@@ -25,7 +25,7 @@
 				$result.each(function(idx, obj){
 						//댓글 사진 div
 						tag += "<li><div class='communityView_user_porfile'>";
-							tag += '<img src="<%=request.getContextPath()%>/img/comm/sample.png"/>';
+							tag += '<img src="/home/profilePic/'+obj.profilePic+'"/>';
 						tag += '</div>'
 						
 						//아이디랑 등록시간 div
@@ -353,7 +353,7 @@
 			</li>
 			<li>
 				<div class="communityView_user_porfile">
-					<img src="<%=request.getContextPath()%>/img/comm/sample.png"/>
+					<img src="/home/profilePic/${vo.profilePic}"/>
 				</div>
 				<div class="communityView_user_detail">
 					${vo.userid}<br>

@@ -32,7 +32,7 @@
 			<ul class="content_menu" id="myPage_HouseAndMate_menu">
 				<li><a class="">쉐어하우스</a></li>
 				<li><a class="">하우스메이트</a></li>
-				<li><a class="likeMarkerList">찜목록</a></li>
+				<li><a href="likeMarkerList" class="likeMarkerList">찜목록</a></li>
 			</ul>
 			<!-- 페이지 로딩시에 해당 아이디로 작성된 글을 확인하고, 작성된 사항 확인하여 띄워주며, 둘다 있을 경우 하우스메이트를 기본적으로 띄움 -->
 			<!-- 둘다 없을 경우,  찜목록을 띄움 -->

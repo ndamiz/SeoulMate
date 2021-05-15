@@ -9,6 +9,9 @@ public class CommunityReplyVO {
 	private String ip;
 	private String state;
 	
+	//프로필 사진
+	private String profilePic;
+	
 	public int getNum() {
 		return num;
 	}
@@ -50,5 +53,11 @@ public class CommunityReplyVO {
 	}
 	public void setState(String state) {
 		this.state = state;
+	}
+	public String getProfilePic() {
+		return profilePic;
+	}
+	public void setProfilePic(String profilePic) {
+		this.profilePic = profilePic;
 	}
 }
