@@ -1,12 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <link rel="stylesheet" href="/home/css/choi.css"/>
 <script>
 	$(function(){
-		$("#delUl>li>a").click(function(){
-			var delNo=$(this).attr("id"); // 삭제할 성향 번호를 id로 가져옴
+		$("#delUl>.no>a").click(function(){
+			var delNo=$(this).attr("class"); // 삭제할 성향 번호를 id로 가져옴
+			
 			if(confirm("삭제하시겠습니까?")){
 				location.href="proDelNoHouse?pno="+delNo;
+			}
+		});
+		
+		$("#delUl>.yes>a").click(function(){
+			var delNo=$(this).attr("class"); // 삭제할 성향 번호를 id로 가져옴
+			
+			if(confirm("삭제하시겠습니까?")){
+				location.href="proDelHouse?pno="+delNo;
 			}
 		});
 	});
@@ -31,14 +41,19 @@
 						<li><a href="proEditHouseForm?pno=${vo.pno}">${vo.housename}</a></li>
 					</c:forEach>
 				</ul>
-				<c:if test="${noHouse>0}">
+				<c:if test="${noHouse>0 || fn:length(list)>0}">
 				<p class="s_title s_margin">하우스 성향 삭제</p><br/>
 				<ul class="s_margin" id="delUl">
 					<%-- <c:if test="${noHouse>0}"> --%>
 						<c:forEach var="pno" items="${noList}">
-							<li><a id="${pno}">성향${pno} 삭제</a></li>
+							<li class="no"><a class="${pno}">성향${pno} 삭제</a></li>
 						</c:forEach>
 					<%-- </c:if> --%>
+					<c:if test="${fn:length(list)>0}">
+						<c:forEach var="pno" items="${list}">
+							<li class="yes"><a class="${pno.pno}">${pno.housename} 삭제</a></li>
+						</c:forEach>
+					</c:if>
 				</ul>
 				</c:if>
 			</c:if>

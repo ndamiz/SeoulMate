@@ -146,4 +146,8 @@ public class MemberServiceImp implements MemberService {
 	public int proDelNoHouse(String userid, int pno) {
 		return pDAO.proDelNoHouse(userid, pno);
 	}
+	@Override
+	public int housestateCheck(int pno) {
+		return pDAO.housestateCheck(pno);
+	}
 }

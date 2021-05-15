@@ -598,7 +598,8 @@ public class MemberController {
 		
 		return mav;
 	}
-	// ㄹ머나오리마ㅓㄴㅇ화멍ㅀㄹ않ㄴㅇㅀㄹㅇ
+	
+	// 집 이름이 없는 성향 삭제
 	@RequestMapping("/proDelNoHouse")
 	public ModelAndView proDelNoHouse(HttpSession session, int pno) {
 		ModelAndView mav=new ModelAndView();
@@ -611,6 +612,31 @@ public class MemberController {
 				System.out.println("성향 삭제 성공");
 			}else { // 성향 삭제 실패
 				System.out.println("성향 삭제 실패");
+			}
+		}
+		mav.setViewName("redirect:memberProEdit");
+		
+		return mav;
+	}
+	
+	// 집 이름이 있지만 모집중이 아닌 성향 삭제
+	@RequestMapping("/proDelHouse")
+	public ModelAndView proDelHouse(HttpSession session, int pno) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
+		int result=service.noHousePnoChk(userid, pno);
+		
+		if(result>0) {
+			int mozipNoCnt=service.housestateCheck(pno);
+			if(mozipNoCnt>0) {
+				int delResult=service.proDelNoHouse(userid, pno);
+				if(delResult>0) { // 성향 삭제 성공
+					System.out.println("성향 삭제 성공");
+				}else { // 성향 삭제 실패
+					System.out.println("성향 삭제 실패");
+				}
+			}else {
+				System.out.println("모집중인 하우스의 성향은 삭제가 불가능합니다.");
 			}
 		}
 		mav.setViewName("redirect:memberProEdit");

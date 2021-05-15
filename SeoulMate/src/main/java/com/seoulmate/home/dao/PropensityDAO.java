@@ -33,6 +33,8 @@ public interface PropensityDAO {
 	public int[] proNoHouse(String userid);
 	// 집 등록을 하지않은 하우스 성향 삭제하기
 	public int proDelNoHouse(String userid, int pno);
+	// 모집중이 아닌 성향 가져오기
+	public int housestateCheck(int pno);
 	
 	//성향 pno 확인
 	public int housePnoCheck(String userid);

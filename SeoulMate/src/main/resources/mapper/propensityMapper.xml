@@ -69,6 +69,9 @@
 	<select id="proHouseCheck" resultType="int">
 		select pno from propensity where userid=#{param1} and pcase='h'
 	</select>
+	<select id="housestateCheck" resultType="int">
+		select count(pno) pno from housewrite where pno=#{param1} and housestate!='모집중'
+	</select>
 	<delete id="proDelNoHouse">
 		delete from propensity where userid=#{param1} and pno=#{param2}
 	</delete>
