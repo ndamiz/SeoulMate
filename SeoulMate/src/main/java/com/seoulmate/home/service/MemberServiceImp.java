@@ -134,6 +134,10 @@ public class MemberServiceImp implements MemberService {
 	public int propNoHouseUpdate(PropensityVO pVO) {
 		return pDAO.propNoHouseUpdate(pVO);
 	}
+	@Override
+	public int[] proNoHouse(String userid) {
+		return pDAO.proNoHouse(userid);
+	}
 	
 	
 	

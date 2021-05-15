@@ -62,6 +62,8 @@ public interface MemberService {
 	public int propHcnt(String userid);
 	// 집 등록을 하지않은 하우스의 번호 가져오기
 	public int propNoHouse(String userid);
+	// 집 등록을 하지않은 하우스의 성향을 VO로 가져오기
+	public int[] proNoHouse(String userid);
 	// 집 등록을 하지않은 하우스의 성향 가져오기
 	public int noHousePnoChk(String userid, int pno);
 	// 집 등록을 하지않은 하우스의 성향 수정

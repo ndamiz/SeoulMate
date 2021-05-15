@@ -552,8 +552,9 @@ public class MemberController {
 			mav.addObject("list", service.houseList(userid));
 		}
 		mav.addObject("noHouse", noHouse);
+		
 		if(noHouse>0) {
-			mav.addObject("noList", service.propNoHouse(userid));
+			mav.addObject("noList", service.proNoHouse(userid)); // 집 이름이 없는 성향의 VO가 반환된다.
 		}
 		
 		mav.setViewName("member/memberProEdit");

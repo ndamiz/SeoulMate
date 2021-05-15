@@ -1,5 +1,7 @@
 package com.seoulmate.home.dao;
 
+import java.util.List;
+
 import com.seoulmate.home.vo.PropensityVO;
 
 public interface PropensityDAO {
@@ -27,6 +29,8 @@ public interface PropensityDAO {
 	public int propNoHouseUpdate(PropensityVO pVO);
 	//하우스 등록했는지 확인 (0-> 성향pno 확인해야함)
 	public int houseCheck(String userid);
+	// 집 등록을 하지않은 하우스의 성향을 VO로 가져오기
+	public int[] proNoHouse(String userid);
 	
 	//성향 pno 확인
 	public int housePnoCheck(String userid);

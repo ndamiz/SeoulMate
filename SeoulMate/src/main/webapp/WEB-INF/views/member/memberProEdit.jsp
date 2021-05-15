@@ -13,7 +13,9 @@
 				<p class="s_title s_margin">하우스 성향 수정</p><br/>
 				<ul class="s_margin" id="proUl">
 					<c:if test="${noHouse>0}">
-						<li><a href="proEditNoHouseForm?pno=${noList}">성향 수정</a></li>
+						<c:forEach var="pno" items="${noList}">
+							<li><a href="proEditNoHouseForm?pno=${pno}">성향 수정</a></li>
+						</c:forEach>
 					</c:if>
 					<c:forEach var="vo" items="${list}">
 						<li><a href="proEditHouseForm?pno=${vo.pno}">${vo.housename}</a></li>
