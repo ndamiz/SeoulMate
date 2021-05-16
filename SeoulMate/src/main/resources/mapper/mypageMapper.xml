@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.seoulmate.home.dao.MypageDAO">
+	<insert id="likemarkInsert">
+		insert into likemark(lno, no, userid, category) values(likesq.nextval, ${param1}, #{param2}, #{param3})
+	</insert>
+	<select id="likemarkAllRecord" resultType="com.seoulmate.home.vo.LikeMarkVO">
+		select no, category from likemark where
+		category=#{param1} and userid=#{param2} order by lno desc
+	</select>
+	<select id="getHousedetails" resultType="com.seoulmate.home.vo.HouseWriteVO">
+		select * from housewrite where no=${param1}
+	</select>
+	<select id="getMinRentDeposit" resultType="com.seoulmate.home.vo.HouseRoomVO">
+		select min(rent) rent, min(deposit) deposit from houseroom where no=${param1} group by no
+	</select>
+	<select id="getMatedetails" resultType="com.seoulmate.home.vo.MateWriteVO">
+		select * from matewrite where no=${param1}
+	</select>
+  </mapper>
