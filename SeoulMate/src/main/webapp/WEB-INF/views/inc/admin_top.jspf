@@ -26,7 +26,6 @@
 				</c:if>				
 				<c:if test="${adminStatus=='Y'}">
 					<span>${loginTime}</span>
-					<a class="btn btn-light">정보수정</a>
 					<a href="/home/admin/logoutOk" class="btn btn-light">로그아웃</a>
 				</c:if>
 			</div>
