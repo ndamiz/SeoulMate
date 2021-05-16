@@ -15,6 +15,14 @@ import com.seoulmate.home.vo.ReportVO;
 import com.seoulmate.home.vo.ContactVO;
 
 public interface AdminDAO {
+//Dashboard ///////////////////////////////////////
+	//오늘 신고	
+	public int todayReportNum(String category);
+	//오늘 문의, 프리미엄
+	public int todayNum(String tablename);
+	//오늘 매출
+	public String salesAmount();
+//Member Management ///////////////////////////////////////	
 	// 회원 목록 출력
 	public List<String> memberSelect(PagingVO pVO);
 	// 회원 정보 출력

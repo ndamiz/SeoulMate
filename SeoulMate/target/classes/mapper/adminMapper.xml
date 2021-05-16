@@ -321,6 +321,26 @@
    	<update id="contactUpdate" parameterType="com.seoulmate.home.vo.ContactVO">
    		update qna set aContent=#{aContent}, state='답변완료' where no=${no}
    	</update>
+   	<!-- Dashboard -->
+   	<select id="todayReportNum" resultType="int">
+   		select count(category) from
+		    (select * from
+		        (select category, to_char(reportdate, 'YYYY-MM-DD') reportdate from report)
+		    <if test="param1 == '하우스' "> where category='하우스'</if>
+		    <if test="param1 == '메이트'"> where category='메이트'</if>
+		    <if test="param1 == '커뮤니티' "> where category='커뮤니티' or category='댓글'</if>
+		    )
+		where reportdate = to_char(sysdate, 'YYYY-MM-DD')
+   	</select>
+   	<select id="todayNum" resultType="int">
+   		select count(no) from 
+   		<if test="param1 == '문의' "> qna where to_char(qdate</if>
+   		<if test="param1 == '프리미엄' "> pay where to_char(paystart</if>
+   		, 'YYYY-MM-DD') = to_char(sysdate, 'YYYY-MM-DD')
+   	</select>
+   	<select id="salesAmount" resultType="String">
+   		select to_char(sum(amount), '999,999,999') from pay where to_char(paystart, 'YYYY-MM-DD')= to_char(sysdate, 'YYYY-MM-DD')
+   	</select>
 </mapper>
 
 

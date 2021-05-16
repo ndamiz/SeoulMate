@@ -63,8 +63,16 @@ public class AdminController {
 	
 	//admin에 들어오면 나오는 대시보드
 	@RequestMapping("/admin")
-	public String adminDashboard() {
-		return "/admin/adminDashboard";
+	public ModelAndView adminDashboard() {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("houseReport", service.todayReportNum("하우스"));
+		mav.addObject("mateReport", service.todayReportNum("메이트"));
+		mav.addObject("communityReport", service.todayReportNum("커뮤니티"));
+		mav.addObject("contactCnt", service.todayNum("문의"));
+		mav.addObject("premiumCnt", service.todayNum("프리미엄"));
+		mav.addObject("salesAmount", service.salesAmount());
+		mav.setViewName("admin/adminDashboard");
+		return mav;
 	}
 	
 	@RequestMapping(value="/admin/loginOk", method = RequestMethod.POST)
@@ -163,7 +171,6 @@ public class AdminController {
 	//신고 목록 불러오기
 	@RequestMapping(value="/admin/reportManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView adminReport(PagingVO pVO, String state, String grade) {
-		
 		pVO.setTotalRecode(service.reportRecordCnt(pVO));
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("report", service.reportTotalRecord(pVO));

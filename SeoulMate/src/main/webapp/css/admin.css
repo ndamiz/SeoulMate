@@ -829,3 +829,45 @@ input.cmn_toggle_round:checked + label:after {margin-left:30px;}
 .pup_bottom a.btn_reply {
 	background-color: #13a89e;
 }
+/*///////////////////////////  관리자 대시보드 스타일 ///////////*/
+.dashMainDiv{ /* 화면 왼쪽 메뉴때문에 왼쪽 마진 15% */
+	margin-left: 15%;
+	padding: 2% 0 0 2%;
+}
+#dashUl{
+	height:100px;
+	padding-left: 30px;
+	margin-top: 40px;
+	
+}
+#dashUl ul, #dashUl ul li{ /*대시보드 ul,li 초기화*/
+	margin:0;
+	padding:0;
+	list-style:none;
+	float:left;
+	text-align: center;
+}
+#dashUl ul{	/* 상단 ul 3개 디자인*/
+	width: 84%;
+	height: 100px;
+	padding: 25px 10px 25px 40px;
+	border-radius: 10px;
+	border: 1px solid #eee;
+	box-shadow: 5px 5px 10px 1px rgb(0 0 0 / 15%);
+}
+#dashUl ul p{	/* 글자랑 아이콘 사이 간견 조정 */
+	margin-bottom: 5px;
+}
+#dashUl ul img{	/* 아이콘 크기 조정 */
+	width: 20px;
+}
+#dashUl ul li>span{ /* 3 ul>li 정렬*/
+	display: inline-block;
+	padding-right: 12px;
+}
+#dashUl ul li{
+	width: 16%;
+}
+#chartTd{
+	padding: 0 90px;
+}

@@ -173,4 +173,17 @@ public class AdminServiceImp implements AdminService {
 	public int contactUpdate(ContactVO cVO) {
 		return dao.contactUpdate(cVO);
 	}
+// DASHBOARD ///////////////////////////////////	
+	@Override
+	public int todayReportNum(String category) {
+		return dao.todayReportNum(category);
+	}
+	@Override
+	public int todayNum(String tablename) {
+		return dao.todayNum(tablename);
+	}
+	@Override
+	public String salesAmount() {
+		return dao.salesAmount();
+	}
 }
