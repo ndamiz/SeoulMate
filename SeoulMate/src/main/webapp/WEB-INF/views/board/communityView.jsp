@@ -2,13 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/yun.css">
 <script>
-	//1.글삭제
+	//글삭제
 	function communityDel(){
 		if(confirm('해당 글을 삭제하나요?')){
 			location.href="communityDel?no=${vo.no}";
 		}
 	}
-	//2.글 수정
 	
 	//댓글===============================================
 	//1. 댓글 목록 불러오기
