@@ -85,6 +85,7 @@ public class MypageController {
 		if(msg==null || msg.equals("")) {
 			msg = "house";
 		}
+		System.out.println(msg);
 		mav.addObject("msg", msg);
 		mav.setViewName("mypage/myHouseAndMateList");
 		return mav;
