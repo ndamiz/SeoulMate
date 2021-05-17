@@ -62,6 +62,11 @@
 			}else{
 				$('#toggle_2').prop('checked',false);
 			}
+			//탈퇴 상태
+			if(result.bState=='탈퇴'){
+				$('#toggle_1').prop('disabled',true);
+				$('#toggle_2').prop('disabled',true);
+			}
 			
 			$("input:radio[name ='state']:input[value='"+result.state+"']").attr("checked", true);
 
@@ -124,6 +129,19 @@
 			return false;
 		});
 		
+		//신고처리하고 신고테이블 바뀐 정보로 보여주기 함수
+		function updateReportTable(state, blacklist, reportState){
+			//블랙리스트 상태 수정
+			if(blacklist){
+				$(selected).children().eq(5).text('블랙');
+			}else{
+				$(selected).children().eq(5).text('일반')
+			}
+			//상태 수정
+			$(selected).children().eq(7).text(reportState);
+			$(selected).children().eq(7).css('color','black');
+		}
+		
 		//필터 기능 
 		$('select[name=grade]').change(function(){
 			$('.managementSearchForm').submit();
@@ -135,24 +153,6 @@
 		$("#searchWord").click(function(){
 			$("#searchWord").val("");
 		});
-		
-		//신고처리하고 신고테이블 바뀐 정보로 보여주기 함수
-		function updateReportTable(state, blacklist, reportState){
-			//블랙리스트 상태 수정
-			if(blacklist){
-				$(selected).children().eq(5).text('블랙');
-			}else{
-				if($(selected).children().eq(5).text()=='프리미엄'){
-					$(selected).children().eq(5).text('일반')
-				}else{
-					$(selected).children().eq(5).text('일반')
-				}
-			}
-			//상태 수정
-			$(selected).children().eq(7).text(reportState);
-			$(selected).children().eq(7).css('color','black');
-		}
-		
 		
 		//검색어 자동완성============================================================================================================
 		jQuery.curCSS = function(element, prop, val) {//jquery a.Cur샬라샬라에러떠서
@@ -370,6 +370,7 @@
 								<div class="toggle_cont">
 								<input id="toggle_2" class="cmn_toggle cmn_toggle_round" type="checkbox" name="blacklist">
 								<label for="toggle_2"></label>
+								<input id="originalState" type="hidden">
 								</div><br>
 							</li>
 							<li><div>*처리 상태</div>

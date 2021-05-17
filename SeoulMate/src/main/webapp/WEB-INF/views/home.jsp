@@ -12,26 +12,20 @@
    console.log(${logGrade});
    
    $(function(){
-	   //내가 찜한 글은 별버튼에 불 들어오기
-	   //페이지에서 모든 글번호 가져와서 리스트에 담기
-	   var noList = new Array();
-	   $('.btn_star').each(function(index, item){
-		   noList.push($(item).val());
-	   });
-	   
-	   $.ajax({
-		   url : '/home/likemarkCheck',
-		   data : {'noList': noList, 'userid': '${logId}'},
-		   traditional : true,
-		   success : function(){
-			   alert("/???")
-		   },error : function(){
-			   alert("!!!!")
-		   }
-	   });
-		
-		
-		// 찜하기
+	   //내가 찜한 글은 별버튼에 불 들어오기==============================================세트
+	   if(${logId != null}){ // 로그인 했을때만 실행
+		   $.ajax({
+			   url : '/home/likemarkCheck',
+			   data : {'userid': '${logId}'},
+			   traditional : true,
+			   success : function(result){
+				   likeButtonOn(result);
+			   },error : function(){
+				   alert('찜 목록 불러오기 실패')
+			   }
+		   });
+	   }
+		// 찜하기 등록 + 삭제
 		$('.btn_star').click(function(){
 			var obj = $(this);
 			var no = $(this).val();
@@ -47,9 +41,8 @@
 				}
 				likeInsert(no, category, userid, obj); // 찜 등록 ajax함수.
 			}
-		});
+		});//=====================================================================세트
    });
-   
    
 </script>
 <div class="main_wrap">
@@ -191,7 +184,7 @@
             <li>
                <div class="list_img">
                   <p><span>매칭</span>90<b>%</b></p>
-                  <button class="btn_star matelike"></button>
+                  <button class="btn_star matelike" value="2"></button>
                   <a href="">
                      <img alt="" src="<%=request.getContextPath()%>/matePic/${newMateVO.matePic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
                   </a>

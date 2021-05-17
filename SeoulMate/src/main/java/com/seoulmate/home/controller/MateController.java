@@ -1,7 +1,6 @@
 package com.seoulmate.home.controller;
 
 import java.io.File;
-import java.net.http.HttpRequest;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;

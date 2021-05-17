@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -156,16 +157,11 @@ public class MypageController {
 	// 인덱스 / 하우스 / 메이트에 들어가면 내가 찜한 글인지 확인 처리
 	@RequestMapping("/likemarkCheck")
 	@ResponseBody
-	public String likemarkCheck(HttpServletRequest req, String userid) {
-		//ajax로 받은 페이지내 모든 글 번호
-		String[] allNum = req.getParameterValues("noList");
+	public String likemarkCheck(String userid) {
 		//사용자가 찜한 글 번호 다 가져오기
 		String[] userNum = service.getLikedNumber(userid);
-		System.out.println(Arrays.toString(allNum)+"///////ajax");
-		System.out.println(Arrays.toString(userNum)+"!!!!!!!!!!!!");
 		Gson gson = new Gson();
-		
-		return "";
+		return gson.toJson(userNum);
 	}
 	//마이페이지 결제내역 확인 페이지
 	@RequestMapping("/payDetailList")
