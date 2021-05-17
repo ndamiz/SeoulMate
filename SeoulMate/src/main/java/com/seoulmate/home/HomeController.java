@@ -113,16 +113,33 @@ public class HomeController {
 			
 			// 각 쉐어하우스의 제일 저렴한 월세 가져오기
 			hrVO = service.getDesposit(hwVO.getNo());
-			ListVO scoreVO=listService.premiumHouseSocre(userid, hwVO.getPno());
+			
+			if(session.getAttribute("logId")!=null) {
+				if((Integer)session.getAttribute("logGrade")==2) {
+					ListVO scoreVO=listService.premiumHouseSocre(userid, hwVO.getPno());
+					hwVO.setScore(scoreVO.getScore());
+				}
+			}
+			
 			hwVO.setDeposit(hrVO.getDeposit());
 			hwVO.setRent(hrVO.getRent());
-			hwVO.setScore(scoreVO.getScore());
 			
 			int idx = hwVO.getAddr().indexOf("동 ");
 			hwVO.setAddr(hwVO.getAddr().substring(0, idx+1));
 		}
 		
 		mav.addObject("newHouseList", nhList);
+		
+		// 내 하우스 성향 가져오기
+		if(session.getAttribute("logId")!=null) {
+			
+			int myHousePnoCnt=listService.myHousePnoCount(userid);
+			mav.addObject("myHousePnoCnt", myHousePnoCnt);
+			if(myHousePnoCnt>0) { // 하우스 성향이 있는 경우
+				int myHousePnoList[]=listService.myHousePno(userid);
+				mav.addObject("myHousePno", myHousePnoList);
+			}
+		}
 		
 		
 		// 하우스메이트 최신리스트 구하기

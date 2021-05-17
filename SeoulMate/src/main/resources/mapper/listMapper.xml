@@ -51,4 +51,10 @@ FROM (SELECT * FROM PROPENSITY WHERE housename IS NOT NULL) h
 JOIN (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople FROM housewrite WHERE housestate='모집중') h2
 ON h.pno=h2.pno) h3 ON m.pdate=h3.pdate) h4) where pno=#{param2} ORDER BY score desc) where <![CDATA[rownum<=3]]>
   	</select>
+  	<select id="myHousePnoCount" resultType="int">
+  		select count(pno) FROM PROPENSITY WHERE pcase='h' AND userid=#{param1}
+  	</select>
+  	<select id="myHousePno" resultType="int">
+  		SELECT pno FROM PROPENSITY WHERE pcase='h' AND userid=#{param1}
+  	</select>
   </mapper>
