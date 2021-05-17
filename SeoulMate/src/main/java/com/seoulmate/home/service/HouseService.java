@@ -39,4 +39,7 @@ public interface HouseService {
 	//pcase='h' 일 경우 성향 가져오기
 	public PropensityVO propHouseSelect(String userid, int pno);
 	
+	//housewrite 가져오기
+	public HouseWriteVO houseSelect(String userid);
+	
 }

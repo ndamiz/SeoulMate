@@ -38,25 +38,21 @@ public class HouseServiceImp implements HouseService {
 
 	@Override
 	public int propHouseUpdate(PropensityVO vo) { //하우스성향 수정
-		// TODO Auto-generated method stub
 		return pDAO.propHouseUpdate(vo);
 	}
 
 	@Override
 	public int houseCheck(String userid) {
-		// TODO Auto-generated method stub
 		return pDAO.houseCheck(userid);
 	}
 
 	@Override
 	public int housePnoCheck(String userid) {
-		// TODO Auto-generated method stub
 		return pDAO.housePnoCheck(userid);
 	}
 
 	@Override
 	public int proPnoCheck(String userid) {
-		// TODO Auto-generated method stub
 		return pDAO.proPnoCheck(userid);
 	}
 
@@ -73,13 +69,17 @@ public class HouseServiceImp implements HouseService {
 
 	@Override
 	public int housenameUpdate(String housename, int pno) {
-		// TODO Auto-generated method stub
 		return hDAO.housenameUpdate(housename, pno);
 	}
 
 	@Override
 	public PropensityVO propHouseSelect(String userid, int pno) {
 		return pDAO.propHouseSelect(userid, pno);
+	}
+
+	@Override
+	public HouseWriteVO houseSelect(String userid) { //housewrite 가져오기
+		return hDAO.houseSelect(userid);
 	}
 
 

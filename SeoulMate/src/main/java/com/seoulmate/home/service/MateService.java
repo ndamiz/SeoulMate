@@ -18,5 +18,8 @@ public interface MateService {
 	public int mateUpdate(MateWriteVO vo);
 	
 	//메이트 테이블 no 가져오기
-	public int mateSelect(String userid);
+//	public int mateSelect(String userid);
+	
+	//matewrite 가져오기
+	public MateWriteVO mateSelect(String userid);
 }

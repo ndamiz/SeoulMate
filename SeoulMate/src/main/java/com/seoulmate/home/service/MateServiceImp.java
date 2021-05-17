@@ -36,8 +36,13 @@ public class MateServiceImp implements MateService {
 		return dao.mateUpdate(vo);
 	}
 
+//	@Override
+//	public int mateSelect(String userid) { //메이트 테이블 no 가져오기
+//		return dao.mateSelect(userid);
+//	}
+
 	@Override
-	public int mateSelect(String userid) { //메이트 테이블 no 가져오기
+	public MateWriteVO mateSelect(String userid) { //matewrite 가져오기
 		return dao.mateSelect(userid);
 	}
 

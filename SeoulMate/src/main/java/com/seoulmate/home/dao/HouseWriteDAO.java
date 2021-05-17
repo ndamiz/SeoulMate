@@ -26,4 +26,7 @@ public interface HouseWriteDAO {
 	
 	//house name 수정하기
 	public int housenameUpdate(String housename, int pno);
+	
+	//housewrite 가져오기
+	public HouseWriteVO houseSelect(String userid);
 }

@@ -181,7 +181,7 @@ $(function(){
 						<input type="radio" id="rent2" name="rent"> 
 						<label for="rent2">미포함</label>
 					</div>	</li>	
-			<li><span class="red_txt">*</span><label>보증금(조율) </label><input type="number" name="deposit"/> 
+			<li><span class="red_txt">*</span><label>보증금(조율) </label><input type="number" name="deposit" value="${mVO.deposit }"/> 
 					<div class="checks">
 						<input type="radio" id="deposit1" name="">  <!-- 포함, 미포함 값 어떻게? -->
 						<label for="deposit1">조율 가능</label>
@@ -189,11 +189,11 @@ $(function(){
 						<label for="deposit2">조율 불가능</label>
 					</div>	</li>			
 			<li> <label id="mate_area"><span class="red_txt">*</span> 희망 지역 </label>
-					<input type="text" name="area" id="area" /> <input type="text" name="area" id="area2"/> <input type="text" name="area" id="area3"/> </li>
+					<input type="text" name="area" id="area" value="${mVO.area }" /> <input type="text" name="area" id="area2"/> <input type="text" name="area" id="area3"/> </li>
 			<li> <label><span class="red_txt">*</span>입주가능일 </label><input type="date" name="enterdate" > </li>
 			<li> <label><span class="red_txt">*</span>최소 거주 기간</label>
 				 	<select name="minStay">
-						<option value="1-3개월">1~3 개월</option>
+						<option value="1-3개월" >1~3 개월</option>
 						<option value="4-6개월">4~6 개월</option>
 						<option value="7-12개월">7~12 개월</option>
 						<option value="1년 이상">1년 이상</option> 
@@ -257,7 +257,8 @@ $(function(){
 	<p>&nbsp;</p>
 	</div>
 	<div id="ck">
-		<textarea id="write" name="mateProfile" ></textarea><br/>
+		<textarea id="write" name="mateProfile"> ${mVO.mateProfile }</textarea><br/>
+		
 	</div>		
 			<div class="btnclass">
 				<a id="mPrev3" class="green" >이전</a>
@@ -418,13 +419,13 @@ $(function(){
 			<li>
 			<label><span class="red_txt">*</span>하우스 내 지원서비스</label>
 				<div class="checks">
-					<input type="checkbox" id="h_support1" value="1" name="h_support" <c:forEach var="i" items="${pVO.h_support}"><c:if test="${i=='1'}">checked</c:if></c:forEach> > 
+					<input type="checkbox" id="h_support1" value="1" name="h_support" <c:forEach var="i" items="${pVO.h_supportStr}"><c:if test="${i=='1'}">checked</c:if></c:forEach> > 
 					<label for="h_support1">공용공간 청소지원</label>
 								
-					<input type="checkbox" id="h_support2" value="2" name="h_support" <c:forEach var="i" items="${pVO.h_support}"><c:if test="${i=='2'}">checked</c:if></c:forEach> > 
+					<input type="checkbox" id="h_support2" value="2" name="h_support" <c:forEach var="i" items="${pVO.h_supportStr}"><c:if test="${i=='2'}">checked</c:if></c:forEach> > 
 					<label for="h_support2">공용생필품 지원</label> <br/>
 								
-					<input type="checkbox" id="h_support3" value="3" name="h_support" <c:forEach var="i" items="${pVO.h_support}"><c:if test="${i=='3'}">checked</c:if></c:forEach> > 
+					<input type="checkbox" id="h_support3" value="3" name="h_support" <c:forEach var="i" items="${pVO.h_supportStr}"><c:if test="${i=='3'}">checked</c:if></c:forEach> > 
 					<label for="h_support3">기본 식품 지원</label>
 				</div>
 			</li> <br/><br/>

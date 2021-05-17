@@ -13,8 +13,11 @@
 		update matewrite set matePic1=#{matePic1}, deposit=#{deposit}, rent=#{rent}, enterdate=#{enterdate},
 		minStay=#{minStay}, maxStay=#{maxStay}, mateProfile=#{mateProfile} where userid=#{userid} and pno=#{pno}
 	</update>
-	<select id="mateSelect" resultType="int">
-		select no from matewrite where userid=#{param1}
+<!-- 	<select id="mateNoSelect" resultType="int"> -->
+<!-- 		select no from matewrite where userid=#{param1} -->
+<!-- 	</select> -->
+	<select id="mateSelect" resultType="com.seoulmate.home.vo.MateWriteVO">
+		select no, pno, userid, area, matePic1, deposit, rent, enterdate, minStay, maxStay, writedate, enddate, matestate, mateProfile 
+		from matewrite where userid=#{param1h}
 	</select>
-
   </mapper>

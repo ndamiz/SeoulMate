@@ -59,7 +59,7 @@ public class HouseController {
 		PropensityVO pVO = service.propHouseSelect(userid, 0);
 		int pcaseH = memService.propPcaseH(userid);
 		int houseCheck = service.houseCheck(userid);
-		if(houseCheck==0) { //하우스 등록 안했을 경우
+		if(houseCheck<0) { //하우스 등록 안했을 경우(가입할때 성향은 존재, 하우스 글 등록x)
 			int housePno = service.housePnoCheck(userid); //pno(성향테이블 no) 값 가져오기
 			mav.addObject("housePno", housePno);
 		}else {
@@ -198,7 +198,29 @@ public class HouseController {
 	
 	//하우스 등록 수정
 	@RequestMapping("/houseEdit")
-	public String houseEdit() {
-		return "house/houseEdit";
+	public ModelAndView houseEdit(HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, HttpServletRequest req) {
+		ModelAndView mav = new ModelAndView();
+		
+		String userid = (String)req.getSession().getAttribute("logId");
+		hVO.setUserid(userid);
+		rVO.setUserid(userid);
+		pVO.setUserid(userid);
+		pVO.setPcase("h");
+		
+		hVO = service.houseSelect(userid);
+		System.out.println(hVO.getUserid());
+		System.out.println(hVO.getNo());
+		System.out.println(hVO.getPno());
+		mav.addObject("hVO", hVO);
+		mav.setViewName("house/houseEdit");
+		return mav;
 	}
+	
+	
+	//하우스 수정 확인
+	
+	
+	
+	
+	
 }
