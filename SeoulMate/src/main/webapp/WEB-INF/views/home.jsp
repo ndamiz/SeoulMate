@@ -124,29 +124,37 @@
 		         </select>
 		         <a href="">더보기</a>
 		      </div>
-		      <ul class="list_content">
-		         <c:forEach var="pmList" items="${pmList}">
-		            <li>
-		               <div class="list_img">
-		                  <p><span>매칭</span>${pmList.score}<b>%</b></p>
-		                  <button class="btn_star"></button>
-		                  <a href="">
-		                     <img alt="" src="<%=request.getContextPath()%>/matePic/${pmList.matepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
-		                  </a>
-		               </div>
-		               <div class="list_title">
-		                  <span class="mate_id">USER1</span>
-		                  <span class="pay">￦ 100 / 25</span>
-		               </div>
-		               <span class="address">서강동 | 합정동 | 당산동</span>
-		               <ol class="list_icon">
-		                  <li><p>여</p></li>
-		                  <li><p>27세</p></li>
-		                  <li><p>즉시</p></li>
-		               </ol>
-		            </li>
-		         </c:forEach>
-		      </ul>
+		      <c:if test="${pmList!=null}">
+			      <ul class="list_content">
+			         <c:forEach var="pmList" items="${pmList}">
+			            <li>
+			               <div class="list_img">
+			                  <p><span>매칭</span>${pmList.score}<b>%</b></p>
+			                  <button class="btn_star"></button>
+			                  <a href="">
+			                     <img alt="" src="<%=request.getContextPath()%>/matePic/${pmList.matepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
+			                  </a>
+			               </div>
+			               <div class="list_title">
+			                  <span class="mate_id">USER1</span>
+			                  <span class="pay">￦ 100 / 25</span>
+			               </div>
+			               <span class="address">서강동 | 합정동 | 당산동</span>
+			               <ol class="list_icon">
+			                  <li><p>여</p></li>
+			                  <li><p>27세</p></li>
+			                  <li><p>즉시</p></li>
+			               </ol>
+			            </li>
+			         </c:forEach>
+			      </ul>
+		      </c:if>
+		      <c:if test="${pmList==null}">
+				<div class="empty_div">
+	      			<img class="empty" src="<%=request.getContextPath()%>/img/empty.png" onerror="this.src='<%=request.getContextPath()%>/img/empty.png'"/>
+	      			<p style="text-align:center;">매칭에 맞는 결과가 없습니다.</p>
+      			</div>
+		      </c:if>
 		   </section>
 	   </c:if>
    </c:if>
@@ -160,10 +168,12 @@
          <c:forEach items="${newMateList}" var="newMateVO">
             <li>
                <div class="list_img">
-                  <p><span>매칭</span>90<b>%</b></p>
+               	 <c:if test="${myHousePnoCnt>0}"> <!-- 등록된 하우스 성향이 없으면 매칭을 안보여줌 -->
+                  <p><span>매칭</span>${newMateVO.score}<b>%</b></p>
+                 </c:if>
                   <button class="btn_star"></button>
                   <a href="">
-                     <img alt="" src="<%=request.getContextPath()%>/matePic/${newMateVO.matePic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
+                     <img alt="" src="<%=request.getContextPath()%>/matePic/${newMateVO.matePic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'">
                   </a>
                </div>
                <div class="list_title">

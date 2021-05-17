@@ -83,8 +83,7 @@ public class HomeController {
 				
 				if(matePnoCheck>0) { // 메이트 성향이 있을 때만 매칭된 하우스 목록을 띄워준다.
 					int m_gender=listService.mate_m_gender(userid);
-					System.out.println("m_gender : "+m_gender);
-					System.out.println("프리미엄임");
+					
 					// 쉐어하우스 매칭 리스트 구하기
 					List<ListVO> phList = listService.premiumHouseList(userid, m_gender); // PremiumHouseList
 					
@@ -195,8 +194,6 @@ public class HomeController {
 						}
 					}
 				}
-				
-				
 			}
 		}
 		
@@ -211,7 +208,7 @@ public class HomeController {
 			
 			if(session.getAttribute("logId")!=null) {
 				if((Integer)session.getAttribute("logGrade")==2) {
-					ListVO scoreVO=listService.premiumHouseSocre(userid, hwVO.getPno());
+					ListVO scoreVO=listService.premiumHouseScore(userid, hwVO.getPno());
 					hwVO.setScore(scoreVO.getScore());
 				}
 			}
@@ -232,7 +229,16 @@ public class HomeController {
 			// 각 하우스 메이트의 성별, 나이 구하기
 			MemberVO mVO = service.getDetail(mwVO.getUserid());
 			mwVO.setGender(mVO.getGender());
-			 
+			
+			System.out.println("hPno : "+(Integer)session.getAttribute("hPno"));
+			if(session.getAttribute("hPno")!=null) {
+				if(session.getAttribute("logId")!=null) {
+					if((Integer)session.getAttribute("logGrade")==2) {
+						ListVO scoreVO=listService.premiumMateScore(userid, (Integer)session.getAttribute("hPno"), mwVO.getPno());
+						mwVO.setScore(scoreVO.getScore());
+					}
+				}
+			}	 
 			// 생년월일을 받아서 만 나이로 처리
 			String b = mVO.getBirth();
 			int i = b.indexOf(" 00");
@@ -278,6 +284,7 @@ public class HomeController {
 				mwVO.setArea(mwVO.getArea3().substring(j+1));
 			}
 		}
+		
 		mav.addObject("newMateList", nmList);
 		
 		mav.setViewName("home");
