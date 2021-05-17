@@ -77,7 +77,7 @@
                   <p><span>매칭</span>90<b>%</b></p>
                   <button class="btn_star"></button>
                   <a href="">
-                     <img alt="" src="<%=request.getContextPath()%>/housePic/${newHouseVO.housepic1}">
+                     <img alt="" src="<%=request.getContextPath()%>/housePic/${newHouseVO.housepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
                   </a>
                </div>
                <div class="list_title">
