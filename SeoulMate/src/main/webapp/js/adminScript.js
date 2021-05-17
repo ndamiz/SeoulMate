@@ -1,4 +1,3 @@
-var dateChoose ='';
 $(function(){	 
 	 //팝업 닫기
 	$('.popup_Close').on('click',function(){

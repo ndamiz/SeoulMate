@@ -34,6 +34,9 @@ public class MateWriteVO {
 	private int reportNum; //신고수
 	private String username;
 	
+	private int age;
+	private int m_now; 
+	
 	public int getNo() {
 		return no;
 	}
@@ -206,4 +209,17 @@ public class MateWriteVO {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	public int getM_now() {
+		return m_now;
+	}
+	public void setM_now(int m_now) {
+		this.m_now = m_now;
+	}
+	
 }

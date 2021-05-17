@@ -37,7 +37,7 @@ public class HouseWriteVO {
 	private int grade;  // 1:일반, 2:프리미엄 
 	private int reportNum; //신고수
 	
-
+	
 	public int getNo() {
 		return no;
 	}
