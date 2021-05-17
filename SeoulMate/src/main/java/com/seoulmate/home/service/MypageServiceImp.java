@@ -21,7 +21,6 @@ public class MypageServiceImp implements MypageService {
 		// 찜 등록
 		return dao.likemarkInsert(no, userid, category);
 	}
-
 	@Override
 	public List<LikeMarkVO> likemarkAllRecord(String category, String userid) {
 		// 찜 목록 출력
@@ -45,6 +44,37 @@ public class MypageServiceImp implements MypageService {
 		// 메이트
 		return dao.getMatedetails(no);
 	}
-
 	
+	public int houseConfirm(String userid) {
+		return dao.houseConfirm(userid);
+	}
+	@Override
+	public List<HouseWriteVO> myPageHouseWriteSelect(String userid) {
+		return dao.myPageHouseWriteSelect(userid);
+	}
+	@Override
+	public int mateConfirm(String userid) {
+		return dao.mateConfirm(userid);
+	}
+	@Override
+	public MateWriteVO myPageMateWriteSelect(String userid) {
+		return dao.myPageMateWriteSelect(userid);
+	}
+	@Override
+	public int likeMarkConfirm(String userid) {
+		return dao.likeMarkConfirm(userid);
+	}
+	@Override
+	public List<LikeMarkVO> likeMarkSelect(String userid) {
+		return dao.likeMarkSelect(userid);
+	}
+	@Override
+	public HouseWriteVO houseLikeSelect(int no) {
+		return dao.houseLikeSelect(no);
+	}
+
+	@Override
+	public MateWriteVO mateLikeSelect(int no) {
+		return dao.mateLikeSelect(no);
+	}
 }

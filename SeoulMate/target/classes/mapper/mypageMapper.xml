@@ -19,4 +19,101 @@
 	<select id="getMatedetails" resultType="com.seoulmate.home.vo.MateWriteVO">
 		select * from matewrite where no=${param1}
 	</select>
-  </mapper>
+	<select id="houseConfirm" parameterType="String" resultType="int" >
+		SELECT nvl(max(count(no)), 0) AS NO
+		FROM 
+			(SELECT h.NO, h.pno 
+			FROM 
+				(SELECT pno FROM PROPENSITY WHERE userid='${userid }' AND PCASE ='h') p
+			JOIN 
+				HOUSEWRITE h 
+			ON
+				h.pno=p.pno) 
+		GROUP BY NO
+	</select>
+	<select id="myPageHouseWriteSelect" parameterType="String" resultType="com.seoulmate.home.vo.HouseWriteVO">
+		SELECT house.NO, house.PNO, house.USERID, house.HOUSENAME, room.deposit, room.rent, house.ADDR,  house.HOUSEPIC1, 
+			house.ROOM , house.BATHROOM, house.NOWPEOPLE, house.SEARCHPEOPLE, house.WRITEDATE, house.ENDDATE, house.HOUSESTATE 
+		FROM 
+			(SELECT NO, DEPOSIT, rent FROM HOUSEROOM) room 
+		JOIN 
+			(SELECT h.NO, h.PNO, h.USERID ,h.ADDR, h.HOUSENAME, h.HOUSEPIC1, 
+				h.ROOM , h.BATHROOM, h.NOWPEOPLE, h.SEARCHPEOPLE, h.WRITEDATE, h.ENDDATE, h.HOUSESTATE 
+			FROM 
+				HOUSEWRITE h 
+			JOIN 
+				(SELECT pno, userid FROM PROPENSITY WHERE userid= #{userid } AND PCASE ='h') p ON h.pno=p.pno ) house 
+			ON 
+				house.NO=room.NO
+	</select>
+	<select id="mateConfirm" parameterType="String" resultType="int" >
+		SELECT nvl(max(count(no)), 0) AS NO 
+		FROM 
+			(SELECT m.NO, m.pno
+		FROM 
+			(SELECT pno FROM PROPENSITY WHERE userid='${username}' AND PCASE ='m') p
+		JOIN 
+			MATEWRITE m 
+		ON
+			m.pno=p.pno) 
+		GROUP BY NO
+	</select>
+	<select id="myPageMateWriteSelect" parameterType="String" resultType="com.seoulmate.home.vo.MateWriteVO">
+		SELECT m1.NO, m1.userid, m1.area, m1.matePic1, m1.deposit, m1.rent,  to_char(enterdate, 'mm/dd') as enterdate, m1.minstay, m1.maxstay,
+			to_char(writedate, 'YYYY-MM-DD') AS writedate, to_char(enddate, 'YYYY-MM-DD') AS enddate, m1.matestate, m1.m_now,
+			mem.gender, mem.age
+		FROM 
+			(SELECT m.NO, m.pno, p.USERID, m.area, m.matepic1, 
+				m.deposit, m.rent, m.enterdate, m.minstay, m.maxstay, m.writedate, m.enddate, m.matestate,
+				p.m_now
+			FROM
+				(SELECT * FROM mateWrite WHERE userid='${userid }' ) m 
+			JOIN 
+				(SELECT pno, userid, m_now FROM PROPENSITY WHERE userid='${userid }' AND PCASE ='m') p 
+			ON 
+				m.pno=p.pno) m1
+		JOIN 
+			(SELECT userid, gender, to_char(birth, 'YYYY-MM-DD') AS birth, 
+				MONTHS_BETWEEN(TRUNC(SYSDATE,'YEAR'), TRUNC(to_date(to_char(birth,'YYYYMMDD'),'YYYYMMDD'), 'Year')) /12 + 1 AS age 
+			FROM 
+				MEMBER WHERE userid='${userid }') mem 
+			ON 
+				m1.userid=mem.userid
+	</select>
+	<select id="likeMarkConfirm" parameterType="String" resultType="int" >
+		select nvl(max(count(lno)), 0) as no from LIKEMARK WHERE userid= #{param1} GROUP BY lno
+	</select>
+	<select id="likeMarkSelect" parameterType="String" resultType="com.seoulmate.home.vo.LikeMarkVO" >
+		SELECT lno, NO, CATEGORY FROM LIKEMARK WHERE userid= #{param1}
+	</select>
+	<select id="houseLikeSelect" parameterType="int" resultType="com.seoulmate.home.vo.HouseWriteVO">
+		SELECT house.NO, house.PNO, house.USERID, house.HOUSENAME, room.deposit, room.rent, house.ADDR,  house.HOUSEPIC1, 
+			house.ROOM , house.BATHROOM, house.NOWPEOPLE, house.SEARCHPEOPLE, house.WRITEDATE, house.ENDDATE, house.HOUSESTATE 
+		FROM 
+			(SELECT NO, DEPOSIT, rent FROM HOUSEROOM WHERE NO= ${no } ) room 
+		JOIN 
+			HOUSEWRITE house 
+		ON
+			house.NO=room.NO
+	</select>
+	<select id="mateLikeSelect" parameterType="int" resultType="com.seoulmate.home.vo.MateWriteVO">
+		SELECT m.NO, m.userid, m.area, m.matePic1, m.deposit, m.rent,  to_char(enterdate, 'mm/dd') as enterdate, m.minstay, m.maxstay,
+			to_char(writedate, 'YYYY-MM-DD') AS writedate, to_char(enddate, 'YYYY-MM-DD') AS enddate, m.matestate,
+			mem.gender, mem.age
+		FROM 
+			MATEWRITE m 
+		JOIN 
+			(SELECT mem2.userid, p.m_now, mem2.gender, mem2.birth, mem2.age 
+			FROM 
+				(SELECT userid, m_now FROM PROPENSITY) p 
+			JOIN 
+				(SELECT userid, gender, to_char(birth, 'YYYY-MM-DD') AS birth, 
+					MONTHS_BETWEEN(TRUNC(SYSDATE,'YEAR'), TRUNC(to_date(to_char(birth,'YYYYMMDD'),'YYYYMMDD'), 'Year')) /12 + 1 AS age 
+				FROM 
+					MEMBER) mem2
+			ON 
+				mem2.userid =p.userid) mem 
+		ON 
+			m.userid=mem.userid WHERE m.NO=${no }
+	</select>
+</mapper>

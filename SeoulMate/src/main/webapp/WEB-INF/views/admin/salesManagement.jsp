@@ -5,11 +5,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js" integrity="sha512-VMsZqo0ar06BMtg0tPsdgRADvl0kDHpTbugCBBrL55KmucH6hP9zWdLIWY//OTfMnzz6xWQRxQqsUFefwHuHyg==" crossorigin="anonymous"></script>
-<script>
-$(function(){
-	datePicker();
-});
-</script>
 		<section class="admin_Section">
 			<div class="admin_Content">
 				<div class="m_title managementTitle">매출 관리</div>
@@ -33,7 +28,7 @@ $(function(){
 									<c:if test="${payVO.selectYearMonthDate!='월별' }">
 										<option value="월별" >월별</option>
 									</c:if>
-									<c:if test="${payVO.selectYearMonthDate=='년별' }">
+									<c:if test="${payVO.selectYearMonthDate=='년별'}">
 										<option value="년별" selected>년별</option>
 									</c:if>
 									<c:if test="${payVO.selectYearMonthDate!='년별' }">
@@ -41,9 +36,19 @@ $(function(){
 									</c:if>
 								</select>
 							</div>
-							<div>
-								<input type="text" name="selectStartDate" class="datePicker1" readonly="readonly"/> ~
-								<input type="text" name="selectEndDate" class="datePicker2" readonly="readonly"/>
+							<div class="selectDateChoose">
+								<c:if test="${payVO.selectYearMonthDate==null || payVO.selectYearMonthDate=='일별' }">
+										<input type="date" name="selectStartDate" <c:if test="${payVO.selectStartDate != null && payVO.selectStartDate != ''}">value="${payVO.selectStartDate}"</c:if>/>
+										<input type="date" name="selectEndDate" <c:if test="${payVO.selectEndDate != null && payVO.selectEndDate != ''}">value="${payVO.selectEndDate}"</c:if>/>
+									</c:if>
+									<c:if test="${payVO.selectYearMonthDate=='월별'}">
+										<input type="month" name="selectStartDate" <c:if test="${payVO.selectStartDate != null && payVO.selectStartDate != ''}">value="${payVO.selectStartDate}"</c:if>/>
+										<input type="month" name="selectEndDate"  <c:if test="${payVO.selectEndDate != null && payVO.selectEndDate != ''}">value="${payVO.selectEndDate}"</c:if>/>
+									</c:if>
+									<c:if test="${payVO.selectYearMonthDate=='년별' }">
+										<input type="month" name="selectStartDate" <c:if test="${payVO.selectStartDate != null && payVO.selectStartDate != ''}">value="${payVO.selectStartDate}-01"</c:if>/>
+										<input type="month" name="selectEndDate"  <c:if test="${payVO.selectEndDate != null && payVO.selectEndDate != ''}">value="${payVO.selectEndDate}-12"</c:if>/>
+									</c:if>
 							</div>
 							<div>
 								<input type="submit" value="Search" class="btn btn-custom"/>
@@ -210,6 +215,7 @@ $(function(){
 				title = payStart[0]+' 매출 정보';
 			}
 			console.log(title);
+			
 			$('#salesManagementView').text(title);
 			//그래프 띄우기
 			var ctx = document.getElementById('salesChart'); 

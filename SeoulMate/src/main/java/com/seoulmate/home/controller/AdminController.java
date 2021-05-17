@@ -25,7 +25,6 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -484,6 +483,16 @@ public class AdminController {
 		ModelAndView mav = new ModelAndView();
 		// 1.총 레코드 
 		Map<String, Object> map = new HashMap<String, Object>();
+		String selectStartDate = "";
+		String selectEndDate = "";
+		if( payVO.getSelectYearMonthDate()!=null) {
+			if((payVO.getSelectYearMonthDate()).equals("년별")) {
+				selectStartDate = (String)(payVO.getSelectStartDate()).substring(0, 4);
+				selectEndDate = (String)(payVO.getSelectEndDate()).substring(0, 4);
+				payVO.setSelectStartDate(selectStartDate);
+				payVO.setSelectEndDate(selectEndDate);
+			}
+		}
 		map.put("payVO", payVO);
 		map.put("pagingVO", pagingVO);
 		pagingVO.setTotalRecode(service.payTotalRecode(map));
@@ -501,32 +510,32 @@ public class AdminController {
 		mav.setViewName("admin/payManagement");
 		return mav;
 	}		
-	@RequestMapping(value="/admin/payManagementList", method={RequestMethod.POST, RequestMethod.GET})
-	@ResponseBody
-	public Map<String, Object> payManagementList(PayVO payVO, PagingVO pagingVO){
-		Map<String, Object> returnMap = new HashMap<String, Object>();
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("payVO", payVO);
-		map.put("pagingVO", pagingVO);
-		pagingVO.setTotalRecode(service.payTotalRecode(map));
-		// 2. 한페이지 레코드 구하기 
-		Map<String, Object> map1 = new HashMap<String, Object>();
-		map1.put("payVO", payVO);
-		map1.put("pagingVO", pagingVO);
-		
-		List<PayVO> payVO_1 = service.payOnePageListSelect(map1);
-		returnMap.put("prePayVO", payVO);
-		returnMap.put("payVO", payVO_1);
-		returnMap.put("pagingVO", pagingVO);
-		
-		return returnMap;
-	}
 	//관리자 - 매출
 	@RequestMapping(value="/admin/salesManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView salesManagement(PayVO payVO, PagingVO pagingVO) {
 		ModelAndView mav = new ModelAndView();
 		//기본정렬 payStart로 세팅.
-		payVO.setOrderCondition("payStart"); 
+		System.out.println(payVO.getSelectYearMonthDate());
+		if(payVO.getOrderCondition().equals("no")) {
+			payVO.setOrderCondition("payStart"); 
+		}
+		String selectStartDate = "";
+		String selectEndDate = "";
+		if(payVO.getSelectYearMonthDate()!=null){
+			if(payVO.getSelectYearMonthDate().equals("년별")) {
+				if(payVO.getSelectStartDate()!=null) {
+					selectStartDate = (String)(payVO.getSelectStartDate()).substring(0, 4);
+					payVO.setSelectStartDate(selectStartDate);
+				}
+				if(payVO.getSelectEndDate()!=null) {
+					selectEndDate = (String)(payVO.getSelectEndDate()).substring(0, 4);
+					payVO.setSelectEndDate(selectEndDate);
+				}
+			}
+		}
+		if(payVO.getSelectYearMonthDate()==null) {
+			payVO.setSelectYearMonthDate("년별");
+		}
 		// year Recode
 		List<PayVO> yearList = new ArrayList<PayVO>();
 		payVO.setMsg("year");

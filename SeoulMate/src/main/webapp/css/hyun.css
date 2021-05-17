@@ -4,11 +4,11 @@
 #payYearSelect{width: 150px; height: 30px; margin: 40px 0px 10px 0px;}
 
 /* 하우스&메이트 관리 => 찜목록 => 리스트 div */
-.myHouseMateList{width: 100%; overflow: auto;  min-width: 780px;} 
+.myHouseMateList{width: 100%; overflow: auto;  min-width: 930px;} 
 
 /* (공통) 하우스&메이트 관리 한 블록*/
 #myPage_HouseAndMate_Content{min-width: 870px; }
-.myPage_HouseAndMate_oneBlock{height: 260px; width: 97%;
+.myPage_HouseAndMate_oneBlock{height: 260px; width: 97%; 
 	border-radius: 20px; box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%); margin: 20px 10px;}
 
 /* (공통) 하우스&메이트 관리 => 이미지 */
@@ -54,17 +54,14 @@
 /* 하우스&메이트 관리 => 버튼 들어갈 박스 */
 .myPage_HouseAndMate_Btn>a , .myPage_HouseAndMate_LikeMarker_Btn>a{height: 40px; line-height: 40px; font-size: 1.2em; margin-top: 10px;}
 .myPage_HouseAndMate_Btn{position: relative; top:90px; right:0px; 
-	min-width: 740px; min-height: 100px;}
+	min-width: 810px; min-height: 100px;}
 .myPage_HouseAndMate_LikeMarker_Btn{height: 85px;  position: relative; top:90px; right:0px; 
-	min-width: 740px; min-height: 85px;}
+	min-width: 810px; min-height: 85px;}
 @media screen and (max-width:1680px){
 	.myPage_HouseAndMate_Btn{top:70px;}
 }
 @media screen and (max-width:1331px){
 	.myPage_HouseAndMate_Btn{top:50px;}
-}
-@media screen and (max-width:1203px){
-	.myPage_HouseAndMate_Btn{top:20px;}
 }
 
 
@@ -77,6 +74,7 @@
 	z-index: 11; }
 .popup_Stop_Scroll{overflow: hidden; height: 100%; }
 .popup_hidden{display: none;}
+.objectHidden{display: none;}
 .myPage_HouseAndMate_Popup_Title{padding-left: 20px; width: 100%; height: 50px; line-height: 50px; 
 	background-color: #13a89e; color: #fff; border-radius: 20px 20px 0px 0px; font-size: 1.2em;}
 .myPage_HouseAndMate_Popup_Title>span{float: right; padding-right: 20px;  cursor: pointer;}

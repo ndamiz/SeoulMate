@@ -296,7 +296,9 @@ select[name="searchKey"]{ width: 100px;}
 #salesDatePicker {
 	width: 100%;
 }
-
+.selectDateChoose>input[type='date'], .selectDateChoose>input[type='month']{
+	width: 170px; height: 38px; float: left;
+}
 .managementSearch {
 	float: left;
 	margin-top: 20px;
