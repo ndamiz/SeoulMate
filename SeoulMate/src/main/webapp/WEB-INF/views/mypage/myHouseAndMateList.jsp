@@ -85,7 +85,7 @@
 							<div class="myPage_HouseAndMate_oneBlock" >
 								<div class="myPage_HouseAndMate_Img">
 									<!-- 글내용보기로 이동시켜야함. -->
-									<a href=""><img alt="" src="/home/housePic/${hwVO.housePic1 }"/></a>
+									<a href=""><img alt="" src="/home/housePic/${hwVO.housepic1 }"/></a>
 								</div>
 								<ul class="myPage_HouseAndMate_Info">
 									<li>${hwVO.housename }</li>
@@ -94,7 +94,7 @@
 									<li>
 										<ul class="myPage_HouseAndMate_House">
 											<li><p>${hwVO.room }</p></li>
-											<li><p>${hwVO.bathRoom }</p></li>
+											<li><p>${hwVO.bathroom }</p></li>
 											<li><p>${hwVO.searchpeople }</p></li>
 										</ul>
 									</li>
