@@ -10,4 +10,7 @@
    	<select id="useridCheck" resultType="String">
    		select state from member where userid = #{param1}
    	</select>
+   	<select id="faqAllRecord" resultType="com.seoulmate.home.vo.FaqVO">
+ 		SELECT NO, subject, content FROM faq ORDER BY NO DESC
+ 	</select>
  </mapper> 	

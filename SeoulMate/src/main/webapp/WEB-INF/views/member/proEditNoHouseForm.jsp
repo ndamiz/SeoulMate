@@ -74,6 +74,7 @@
 <div class="wrap">
 	<div class="member_wrap">
 		<form method="post" id="proId" action="proEditNoHouseOk">
+			<input type="hidden" name="pno" value="${pVO.pno}"/>
 			<div id="mateChoice">
 				<p class="m_title" id="proTitle">${pVO.housename} 하우스의 성향 수정</p>
 				<p class="d_title">우리 하우스의 라이프 스타일을 선택해주세요.</p>

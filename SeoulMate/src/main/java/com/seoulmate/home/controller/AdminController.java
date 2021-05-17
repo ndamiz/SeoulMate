@@ -23,6 +23,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,6 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.seoulmate.home.service.AdminService;
+import com.seoulmate.home.vo.FaqVO;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.MateWriteVO;
@@ -84,6 +86,7 @@ public class AdminController {
 		
 		if(userid.equals("seoulmate") && userpwd.equals("qwer1234!")) {
 			System.out.println("어드민 로그인 성공");
+			session.setAttribute("adminId", userid);
 			session.setAttribute("adminStatus", "Y");
 			session.setAttribute("loginTime", loginTime);
 			mav.setViewName("/admin/adminDashboard");
@@ -672,4 +675,54 @@ public class AdminController {
 			list = service.mateListSelect(map);
 			return list;
 		}
+	// 자주하는 질문 관리
+	@RequestMapping("/admin/faqManagement")
+	public ModelAndView faqManagement(HttpSession session) {
+		ModelAndView mav=new ModelAndView();
+		
+		mav.addObject("faqList", service.faqAllRecord());
+		mav.setViewName("admin/faqManagement");
+		
+		return mav;
+	}
+	
+	@RequestMapping("/admin/faqList")
+	@ResponseBody
+	public List<FaqVO> faqList(){
+		return service.faqAllRecord();
+	}
+	
+	@RequestMapping("/admin/faqInfo")
+	@ResponseBody
+	public FaqVO faqInfo(int no) {
+		FaqVO vo=service.faqInfo(no);
+		
+		return vo;
+	}
+	
+	@RequestMapping("/admin/faqInsert")
+	@ResponseBody
+	public int faqInsert(FaqVO vo) {
+		System.out.println(vo.getNo());
+		System.out.println(vo.getSubject());
+		System.out.println(vo.getContent());
+		System.out.println(vo.getUserid());
+		int result=0;
+		int res=service.faqInsert(vo);
+		if(res==1) {
+			result=res;
+		}
+		return result;
+	}
+	
+	@RequestMapping("/admin/faqEdit")
+	@ResponseBody
+	public int faqEdit(FaqVO vo) {
+		int result=0;
+		int res=service.faqUpdate(vo);
+		if(res==1) {
+			result=res;
+		}
+		return result;
+	}
 }

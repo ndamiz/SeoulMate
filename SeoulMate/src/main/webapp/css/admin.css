@@ -302,6 +302,7 @@ select[name="searchKey"]{ width: 100px;}
 .managementSearch {
 	float: left;
 	margin-top: 20px;
+	padding-left:30px;
 }
 
 .managementSearch {width: 380px; float: left; overflow: auto; margin-top: 20px; }
@@ -873,3 +874,28 @@ input.cmn_toggle_round:checked + label:after {margin-left:30px;}
 #chartTd{
 	padding: 0 90px;
 }
+
+/* 자주하는 질문 */
+.red_txt{
+	color:#ca3d3d;
+}
+.pup_list>ul>li>.faq_label{
+	width:60px;
+}
+.pup_list>ul>li>#faqSubject, .pup_list>ul>li>#faqContent{
+	width:370px; resize: none;
+}
+.pup_list>ul>li>#faqSubject{
+	height:67px; overflow-x:hidden; overflow-y:auto;
+}
+.pup_list>ul>li>#faqContent{
+	height:370px;
+}
+.pup_list>.faqUl{
+	margin:0;
+}
+.m_title.managementTitle>#faqAddBtn{
+	float:right;
+	margin-top:30px;
+}
+#faqTable{margin-top:50px;}

@@ -124,6 +124,11 @@
 			$(document.getElementById("infoEmail")).css('backgroundColor', '');
 		});
 		
+		// 검색창을 누르면 값을 지워준다.
+		$("#searchWord").click(function(){
+			$("#searchWord").val("");
+		});
+		
 		// 등급 필터
 		$("#member_grade").change(function(){
 			$("#memberForm").submit();
@@ -176,122 +181,127 @@
 	}
 </script>
 	<section>
-		<div class="m_title managementTitle">회원 관리</div>
-		<form method="post" id="memberForm" action="/home/admin/memberManagement" class="managementSearchForm">
-			<div class="management_memberSearch">
-				<div class="management_memberSelect">
-					<span class="managementSpan" id="gradeSpan">등급</span>
-					<select name="grade" id="member_grade" class="custom-select">
-						<option value="0" <c:if test="${grade==0}">selected</c:if>>전체</option>						
-						<option value="1" <c:if test="${grade==1}">selected</c:if>>일반</option>						
-						<option value="2" <c:if test="${grade==2}">selected</c:if>>프리미엄</option>						
-					</select>
-					<span class="managementSpan" id="stateSpan">상태</span>
-					<select name="state" id="member_state" class="custom-select">
-						<option value="" <c:if test="${state==null}">selected</c:if>>전체</option>						
-						<option value="일반" <c:if test="${state=='일반'}">selected</c:if>>일반</option>						
-						<option value="블랙" <c:if test="${state=='블랙'}">selected</c:if>>블랙리스트</option>						
-						<option value="탈퇴" <c:if test="${state=='탈퇴'}">selected</c:if>>탈퇴</option>						
-					</select>
+		<div class="admin_Content">
+			<div class="m_title managementTitle">회원 관리</div>
+			<form method="post" id="memberForm" action="/home/admin/memberManagement" class="managementSearchForm">
+				<div class="management_memberSearch">
+					<div class="management_memberSelect">
+						<span class="managementSpan" id="gradeSpan">등급</span>
+						<select name="grade" id="member_grade" class="custom-select">
+							<option value="0" <c:if test="${grade==0}">selected</c:if>>전체</option>						
+							<option value="1" <c:if test="${grade==1}">selected</c:if>>일반</option>						
+							<option value="2" <c:if test="${grade==2}">selected</c:if>>프리미엄</option>						
+						</select>
+						<span class="managementSpan" id="stateSpan">상태</span>
+						<select name="state" id="member_state" class="custom-select">
+							<option value="" <c:if test="${state==null}">selected</c:if>>전체</option>						
+							<option value="일반" <c:if test="${state=='일반'}">selected</c:if>>일반</option>						
+							<option value="블랙" <c:if test="${state=='블랙'}">selected</c:if>>블랙리스트</option>						
+							<option value="탈퇴" <c:if test="${state=='탈퇴'}">selected</c:if>>탈퇴</option>						
+						</select>
+					</div>
+					<div class="managementSearch">
+						<select name="searchKey" class="custom-select">
+							<option value="userid" <c:if test="${pVO.searchKey=='userid'}">selected</c:if>>아이디</option>
+							<option value="username" <c:if test="${pVO.searchKey=='username'}">selected</c:if>>이름</option>
+							<option value="tel" <c:if test="${pVO.searchKey=='tel'}">selected</c:if>>연락처</option>
+							<option value="email" <c:if test="${pVO.searchKey=='email'}">selected</c:if>>이메일</option>
+						</select>
+						<input type="text" id="searchWord" name="searchWord" class="form-control" <c:if test="${pVO.searchWord!=null}">value="${pVO.searchWord}"</c:if>/>
+						<input type="submit" value="Search" class="btn btn-custom"/>
+					</div>
 				</div>
-				<div class="managementSearch">
-					<select name="searchKey" class="custom-select">
-						<option value="userid" <c:if test="${pVO.searchKey=='userid'}">selected</c:if>>아이디</option>
-						<option value="username" <c:if test="${pVO.searchKey=='username'}">selected</c:if>>이름</option>
-						<option value="tel" <c:if test="${pVO.searchKey=='tel'}">selected</c:if>>연락처</option>
-						<option value="email" <c:if test="${pVO.searchKey=='email'}">selected</c:if>>이메일</option>
-					</select>
-					<input type="text" name="searchWord" class="form-control" <c:if test="${pVO.searchWord!=null}">value="${pVO.searchWord}"</c:if>/>
-					<input type="submit" value="Search" class="btn btn-custom"/>
-				</div>
-			</div>
-			
-		</form>
-		<div class="table-responsive, managementList">
-			<table class="table table-hover table-sm table-bordered" id="memberTable">
-				<thead class="thead-light">
-					<tr>
-						<th>No.</th>
-						<th>아이디</th>
-						<th>이름</th>
-						<th>연락처</th>
-						<th>이메일</th>
-						<th>등급</th>
-						<th>신고 누적 수</th>
-						<th>상태</th>
-					</tr>
-				</thead>
-				<tbody id="tableMain">
-					<c:forEach var="vo" items="${list}">
+				
+			</form>
+			<div class="table-responsive, managementList">
+				<table class="table table-hover table-sm table-bordered" id="memberTable">
+					<thead class="thead-light">
 						<tr>
-							<td>${vo.no}</td>
-							<td>${vo.userid}</td>
-							<td>${vo.username}</td>
-							<td>${vo.tel}</td>
-							<td>${vo.email}</td>
-							<td><c:if test="${vo.grade==1}">일반</c:if><c:if test="${vo.grade==2}">프리미엄</c:if></td>
-							<td>${vo.reportCnt}</td>
-							<td><c:if test="${vo.state=='일반'}">일반</c:if><c:if test="${vo.state=='블랙'}">블랙리스트</c:if><c:if test="${vo.state=='탈퇴'}">탈퇴</c:if></td>
+							<th width="7%">No.</th>
+							<th width="13%">아이디</th>
+							<th width="11%">이름</th>
+							<th width="14%">연락처</th>
+							<th width="25%">이메일</th>
+							<th width="10%">등급</th>
+							<th width="10%">신고 누적 수</th>
+							<th width="10%">상태</th>
 						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-			<div class="paging">
-				<form name="go"> <!-- 자바스크립트로 submit 시키려면 form을 추가하고 name을 지정해야 한다. -->
-					<input type="hidden" name="state" value="${state}"/>
-					<input type="hidden" name="grade" value="${grade}"/>
-					<input type="hidden" name="pageNum"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
-					<input type="hidden" name="searchKey"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
-					<input type="hidden" name="searchWord"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
-					<c:if test="${pVO.pageNum>1}">
-					<c:if test="${pVO.searchWord==null}">
-						<a class="first_page" href="memberManagement?pageNum=1"></a>
-						<a class="prev_page" href="memberManagement?pageNum=${pVO.pageNum-1}"></a>
-					</c:if>
-					<c:if test="${pVO.searchWord!=null}">
-						<a href="javascript:pageClick('${state}', ${grade}, 1, '${pVO.searchKey}', '${pVO.searchWord}')" class="first_page"></a>
-						<a href="javascript:pageClick('${state}', ${grade}, ${pVO.pageNum-1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="prev_page"></a>
-					</c:if>
-					</c:if>
-					<c:if test="${pVO.pageNum==1}">
-						<a class="first_page"></a>
-						<a class="prev_page"></a>
-					</c:if>
-					<c:forEach var="pageNum" begin="${pVO.startPageNum}" end="${pVO.startPageNum + pVO.onePageNum-1}">
-						<c:if test="${pageNum<=pVO.totalPage }">
+					</thead>
+					<tbody id="tableMain">
+						<c:forEach var="vo" items="${list}">
+							<tr>
+								<td>${vo.no}</td>
+								<td>${vo.userid}</td>
+								<td>${vo.username}</td>
+								<td>${vo.tel}</td>
+								<td>${vo.email}</td>
+								<td><c:if test="${vo.grade==1}">일반</c:if><c:if test="${vo.grade==2}">프리미엄</c:if></td>
+								<td>${vo.reportCnt}</td>
+								<td><c:if test="${vo.state=='일반'}">일반</c:if><c:if test="${vo.state=='블랙'}">블랙리스트</c:if><c:if test="${vo.state=='탈퇴'}">탈퇴</c:if></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+				<div class="paging">
+					<form name="go"> <!-- 자바스크립트로 submit 시키려면 form을 추가하고 name을 지정해야 한다. -->
+						<input type="hidden" name="state" value="${state}"/>
+						<input type="hidden" name="grade" value="${grade}"/>
+						<input type="hidden" name="pageNum"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
+						<input type="hidden" name="searchKey"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
+						<input type="hidden" name="searchWord"/> <!-- 폼에 post로 값을 보내주기 위해 hidden -->
+						<c:if test="${pVO.pageNum>1}">
 						<c:if test="${pVO.searchWord==null}">
-							<c:if test="${pageNum==pVO.pageNum }"><!-- 1 -->
-								<a href="memberManagement?pageNum=${pVO.pageNum}" class="nowPageNum on">${pageNum}</a>
+							<a class="first_page" href="memberManagement?pageNum=1"></a>
+							<a class="prev_page" href="memberManagement?pageNum=${pVO.pageNum-1}"></a>
+						</c:if>
+						<c:if test="${pVO.searchWord!=null}">
+							<a href="javascript:pageClick('${state}', ${grade}, 1, '${pVO.searchKey}', '${pVO.searchWord}')" class="first_page"></a>
+							<a href="javascript:pageClick('${state}', ${grade}, ${pVO.pageNum-1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="prev_page"></a>
+						</c:if>
+						</c:if>
+						<c:if test="${pVO.pageNum==1}">
+							<a class="first_page"></a>
+							<a class="prev_page"></a>
+						</c:if>
+						<c:forEach var="pageNum" begin="${pVO.startPageNum}" end="${pVO.startPageNum + pVO.onePageNum-1}">
+							<c:if test="${pageNum<=pVO.totalPage }">
+							<c:if test="${pVO.searchWord==null}">
+								<c:if test="${pageNum==pVO.pageNum }"><!-- 1 -->
+									<a href="memberManagement?pageNum=${pVO.pageNum}" class="nowPageNum on">${pageNum}</a>
+								</c:if>
+								<c:if test="${pageNum!=pVO.pageNum}">
+									<a href="memberManagement?pageNum=${pageNum}">${pageNum}</a>
+								</c:if>
 							</c:if>
-							<c:if test="${pageNum!=pVO.pageNum}">
-								<a href="memberManagement?pageNum=${pageNum}">${pageNum}</a>
+							<c:if test="${pVO.searchWord!=null}"><!-- 2 -->
+								<c:if test="${pageNum==pVO.pageNum }">
+									<a href="javascript:pageClick('${state}', ${grade}, ${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')" class="nowPageNum on">${pageNum}</a>
+								</c:if>
+								<c:if test="${pageNum!=pVO.pageNum }">
+									<a href="javascript:pageClick('${state}', ${grade}, ${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')">${pageNum}</a>
+								</c:if>
+							</c:if>
+							</c:if>
+						</c:forEach>
+						<c:if test="${pVO.pageNum < pVO.totalPage}">
+							<c:if test="${pVO.searchWord==null}"> <!-- 검색어가 없는 경우 -->
+								<a class="next_page" href="memberManagement?pageNum=${pVO.pageNum+1}"></a>
+								<a class="last_page" href="memberManagement?pageNum=${pVO.totalPage}"></a>
+							</c:if>
+							<c:if test="${pVO.searchWord!=null}"> <!-- 검색어가 있는 경우 -->
+								<a class="next_page" href="javascript:pageClick('${state}', ${grade}, ${pVO.pageNum+1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="next_page"></a>
+								<a class="last_page" href="javascript:pageClick('${state}', ${grade}, ${pVO.totalPage}, '${pVO.searchKey}', '${pVO.searchWord}')" class="last_page"></a>
 							</c:if>
 						</c:if>
-						<c:if test="${pVO.searchWord!=null}"><!-- 2 -->
-							<c:if test="${pageNum==pVO.pageNum }">
-								<a href="javascript:pageClick('${state}', ${grade}, ${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')" class="nowPageNum on">${pageNum}</a>
-							</c:if>
-							<c:if test="${pageNum!=pVO.pageNum }">
-								<a href="javascript:pageClick('${state}', ${grade}, ${pageNum}, '${pVO.searchKey}', '${pVO.searchWord}')">${pageNum}</a>
-							</c:if>
+						<c:if test="${pVO.totalPage == 0}">
+							<a class="nowPageNum on">1</a>
 						</c:if>
+						<c:if test="${pVO.pageNum == pVO.totalPage || pVO.totalPage == 0}">
+							<a class="next_page"></a>
+							<a class="last_page"></a>
 						</c:if>
-					</c:forEach>
-					<c:if test="${pVO.pageNum < pVO.totalPage}">
-						<c:if test="${pVO.searchWord==null}"> <!-- 검색어가 없는 경우 -->
-							<a class="next_page" href="memberManagement?pageNum=${pVO.pageNum+1}"></a>
-							<a class="last_page" href="memberManagement?pageNum=${pVO.totalPage}"></a>
-						</c:if>
-						<c:if test="${pVO.searchWord!=null}"> <!-- 검색어가 있는 경우 -->
-							<a class="next_page" href="javascript:pageClick('${state}', ${grade}, ${pVO.pageNum+1}, '${pVO.searchKey}', '${pVO.searchWord}')" class="next_page"></a>
-							<a class="last_page" href="javascript:pageClick('${state}', ${grade}, ${pVO.totalPage}, '${pVO.searchKey}', '${pVO.searchWord}')" class="last_page"></a>
-						</c:if>
-					</c:if>
-					<c:if test="${pVO.pageNum == pVO.totalPage}">
-						<a class="next_page"></a>
-						<a class="last_page"></a>
-					</c:if>
-				</form>
+					</form>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -304,7 +314,7 @@
 					<div class="pup_list">
 							<ul>
 								<li class="pup_long"><div>프로필 사진</div>
-									<img class="profile_img" id="profileImg" name="profileImg" src="" alt="upload image"/>
+									<img class="profile_img" id="profileImg" name="profileImg" src="" onerror="this.src='<%=request.getContextPath()%>/profilePic/basic.jpg'" alt="upload image"/>
 									<input id="delFile" type="hidden" name="" value=""/>
 									<input class="profile_input profile_left" type="file" accept="image/*" name="filename" id="profilePic" />
 								</li>

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.seoulmate.home.service.QnaService;
 import com.seoulmate.home.vo.ContactVO;
@@ -17,10 +18,15 @@ public class QnaController {
 	QnaService service;
 	
 	//자주하는 질문 게시판
-		@RequestMapping("/qna")
-		public String faqList() {
-			return "/faq/qna";
-		}
+	@RequestMapping("/qna")
+	public ModelAndView faqList() {
+		ModelAndView mav=new ModelAndView();
+		
+		mav.addObject("faqList", service.faqAllRecord());
+		mav.setViewName("faq/qna");
+		
+		return mav;
+	}
 		
 		//문의하기
 		@RequestMapping("/contact")

@@ -549,12 +549,13 @@ public class MemberController {
 		
 		mav.addObject("pcaseM", service.propPcaseM(userid)); // 메이트인 경우
 		mav.addObject("pcaseH", pcaseH); // 하우스인 경우
-		if(pcaseH>0) {
-			mav.addObject("list", service.houseList(userid));
-		}
 		mav.addObject("noHouse", noHouse);
+		if(pcaseH>0) {
+			mav.addObject("list", service.houseproList(userid)); // 성향의 집이름과 하우스 글의 집이름이 동일한 레코드만 선택함
+		}
+		
 		if(noHouse>0) {
-			mav.addObject("noList", service.propNoHouse(userid));
+			mav.addObject("noList", service.proNoHouse(userid)); // 집 이름이 없는 성향의 VO가 반환된다.
 		}
 		
 		mav.setViewName("member/memberProEdit");
@@ -582,20 +583,64 @@ public class MemberController {
 		ModelAndView mav=new ModelAndView();
 		String userid=(String)session.getAttribute("logId");
 		pVO.setUserid(userid);
-		
 		int result=service.propHouseUpdate(pVO);
 		
 		if(result>0) { // 성향 수정 성공
-			System.out.println("성향 수정에 성공한 경우");
+			System.out.println("No 성향 수정에 성공한 경우");
 			// mav.addObject("pcaseH", service.propPcaseH(userid)); // 하우스인 경우 >????
 			mav.setViewName("redirect:memberProEdit");
 		}else { // 성향 수정 실패
-			System.out.println("성향 수정에 실패한 경우");
+			System.out.println("No 성향 수정에 실패한 경우");
 			mav.addObject("fail", "fail");
-			mav.setViewName("member/historyBack");
+			mav.setViewName("member/proEditHouseForm");
 			// mav.setViewName("member/proEditHouseForm");
 			// 나중에는 history.back()을 해줘야 할듯
 		}
+		
+		return mav;
+	}
+	
+	// 집 이름이 없는 성향 삭제
+	@RequestMapping("/proDelNoHouse")
+	public ModelAndView proDelNoHouse(HttpSession session, int pno) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
+		int result=service.noHousePnoChk(userid, pno);
+		
+		if(result>0) { // 집 등록을 하지않은 내 하우스의 성향인 경우
+			int delResult=service.proDelNoHouse(userid, pno);
+			if(delResult>0) { // 성향 삭제 성공
+				System.out.println("성향 삭제 성공");
+			}else { // 성향 삭제 실패
+				System.out.println("성향 삭제 실패");
+			}
+		}
+		mav.setViewName("redirect:memberProEdit");
+		
+		return mav;
+	}
+	
+	// 집 이름이 있지만 모집중이 아닌 성향 삭제
+	@RequestMapping("/proDelHouse")
+	public ModelAndView proDelHouse(HttpSession session, int pno) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
+		int result=service.noHousePnoChk(userid, pno);
+		
+		if(result>0) {
+			int mozipNoCnt=service.housestateCheck(pno);
+			if(mozipNoCnt>0) {
+				int delResult=service.proDelNoHouse(userid, pno);
+				if(delResult>0) { // 성향 삭제 성공
+					System.out.println("성향 삭제 성공");
+				}else { // 성향 삭제 실패
+					System.out.println("성향 삭제 실패");
+				}
+			}else {
+				System.out.println("모집중인 하우스의 성향은 삭제가 불가능합니다.");
+			}
+		}
+		mav.setViewName("redirect:memberProEdit");
 		
 		return mav;
 	}

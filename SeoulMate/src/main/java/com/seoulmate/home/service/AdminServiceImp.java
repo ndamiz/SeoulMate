@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.seoulmate.home.dao.AdminDAO;
 import com.seoulmate.home.dao.MemberDAO;
+import com.seoulmate.home.vo.FaqVO;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.MateWriteVO;
@@ -185,5 +186,21 @@ public class AdminServiceImp implements AdminService {
 	@Override
 	public String salesAmount() {
 		return dao.salesAmount();
+	}
+	@Override
+	public List<FaqVO> faqAllRecord() {
+		return dao.faqAllRecord();
+	}
+	@Override
+	public FaqVO faqInfo(int no) {
+		return dao.faqInfo(no);
+	}
+	@Override
+	public int faqInsert(FaqVO fVO) {
+		return dao.faqInsert(fVO);
+	}
+	@Override
+	public int faqUpdate(FaqVO fVO) {
+		return dao.faqUpdate(fVO);
 	}
 }

@@ -14,9 +14,9 @@
 	<form method="post" action="/home/admin/loginOk" id="admin_form">
 		<ul class="admin_ul">
 			<li><label>아이디</label>
-			<input type="text" name="userid" id="admin_id" autocomplete="off"/></li>
+			<input type="text" name="userid" id="admin_id" value="seoulmate" autocomplete="off"/></li>
 			<li><label>비밀번호</label>
-			<input type="password" name="userpwd" id="admin_pwd"/></li>
+			<input type="password" name="userpwd" id="admin_pwd" value="qwer1234!"/></li>
 			<li><button class="btn btn-custom" id="loginBtn">로그인</button></li>
 		</ul>
 	</form>

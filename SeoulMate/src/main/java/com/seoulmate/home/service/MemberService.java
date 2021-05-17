@@ -52,6 +52,8 @@ public interface MemberService {
 	
 	// 특정 대상의 하우스 목록 가져오기
 	List<HouseWriteVO> houseList(String userid);
+	// 특정 대상의 하우스 집이 등록된 성향의 목록을 가져오기
+	List<HouseWriteVO> houseproList(String userid);
 	// 하우스글의 성향 번호 가져오기
 	int pnoCheck(String userid, int pno);
 	// 하우스 성향 가져오기
@@ -62,8 +64,14 @@ public interface MemberService {
 	public int propHcnt(String userid);
 	// 집 등록을 하지않은 하우스의 번호 가져오기
 	public int propNoHouse(String userid);
+	// 집 등록을 하지않은 하우스의 성향을 VO로 가져오기
+	public int[] proNoHouse(String userid);
 	// 집 등록을 하지않은 하우스의 성향 가져오기
 	public int noHousePnoChk(String userid, int pno);
 	// 집 등록을 하지않은 하우스의 성향 수정
 	public int propNoHouseUpdate(PropensityVO pVO);
+	// 집 등록을 하지않은 하우스 성향 삭제하기
+	public int proDelNoHouse(String userid, int pno);
+	// 모집중이 아닌 성향 가져오기
+	public int housestateCheck(int pno);
 }
