@@ -134,65 +134,69 @@ public class HomeController {
 				
 				mav.addObject("housePnoCheck", housePnoCheck); // 하우스 번호의 갯수를 반환한다.(하우스 성향이 없는 사람이 있기 때문에)
 				
-				int pno=(Integer)session.getAttribute("hPno"); // 로그인 후에 세션에 저장된 하우스 성향 번호를 가져온다.
-				System.out.println("하우스 성향 번호 : "+pno);
-				if(housePnoCheck>0) { // 메이트 성향이 있을 때만 매칭된 하우스 목록을 띄워준다.
-					int m_gender=listService.house_m_gender(userid, pno);
-					System.out.println("m_gender : "+m_gender);
-					// 메이트 매칭 리스트 구하기
-					List<ListVO> pmList = listService.premiumMateList(userid, pno, m_gender);
-					
-					if(pmList.get(0)!=null) {
-						for(ListVO pmVO : pmList) {
-							MemberVO mVO=service.getDetail(pmVO.getUserid());
-							pmVO.setGender(mVO.getGender());
-							
-							// 생년월일을 받아서 만 나이로 처리
-							String b=mVO.getBirth();
-							int i=b.indexOf(" 00");
-							b=b.substring(0, i+1);
-							String birth[]= b.split("-");
-							int bYear=Integer.parseInt(birth[0]);
-							int bMonth=Integer.parseInt(birth[1]);
-							int bDay=Integer.parseInt(birth[2].replace(" ", ""));
-							int age=(y-bYear);
-							
-							// 생일이 안 지난 경우 -1
-							if(bMonth * 100 + bDay > m * 100 + d) {
-								age--;
+				if(session.getAttribute("hPno")!=null) {
+					int pno=(Integer)session.getAttribute("hPno"); // 로그인 후에 세션에 저장된 하우스 성향 번호를 가져온다.
+					System.out.println("하우스 성향 번호 : "+pno);
+					if(housePnoCheck>0) { // 메이트 성향이 있을 때만 매칭된 하우스 목록을 띄워준다.
+						int m_gender=listService.house_m_gender(userid, pno);
+						System.out.println("m_gender : "+m_gender);
+						// 메이트 매칭 리스트 구하기
+						List<ListVO> pmList = listService.premiumMateList(userid, pno, m_gender);
+						
+						if(pmList.get(0)!=null) {
+							for(ListVO pmVO : pmList) {
+								MemberVO mVO=service.getDetail(pmVO.getUserid());
+								pmVO.setGender(mVO.getGender());
+								
+								// 생년월일을 받아서 만 나이로 처리
+								String b=mVO.getBirth();
+								int i=b.indexOf(" 00");
+								b=b.substring(0, i+1);
+								String birth[]= b.split("-");
+								int bYear=Integer.parseInt(birth[0]);
+								int bMonth=Integer.parseInt(birth[1]);
+								int bDay=Integer.parseInt(birth[2].replace(" ", ""));
+								int age=(y-bYear);
+								
+								// 생일이 안 지난 경우 -1
+								if(bMonth * 100 + bDay > m * 100 + d) {
+									age--;
+								}
+								String BrithAge=age+"";
+								pmVO.setBirth(BrithAge);
+								
+								// 입주 디데이 9일 때 즉시 문자열 처리
+								String e=pmVO.getEnterdate();
+								int ee=e.indexOf(" ");
+								e=e.substring(0, ee+1);
+								e=e.replace(" ", "");
+								int enterNum=Integer.parseInt(e.replace("-", ""));
+								String enterDay="";
+								if(enterNum - today > 0 && enterNum - today <= 7) {
+									enterDay="즉시";
+								}else {
+									enterDay=(enterNum-today) + "일";
+								}
+								pmVO.setEnterdate(enterDay);
+								
+								// 희망지역 1~3 서울시 자르기
+								int j = pmVO.getArea1().indexOf("구 ");
+								pmVO.setArea(pmVO.getArea1().substring(j+1));
+								if (pmVO.getArea2() != null) {
+									j = pmVO.getArea2().indexOf("구 ");
+									pmVO.setArea(pmVO.getArea2().substring(j+1));
+								}
+								if (pmVO.getArea3() != null) {
+									j = pmVO.getArea3().indexOf("구 ");
+									pmVO.setArea(pmVO.getArea3().substring(j+1));
+								}
 							}
-							String BrithAge=age+"";
-							pmVO.setBirth(BrithAge);
-							
-							// 입주 디데이 9일 때 즉시 문자열 처리
-							String e=pmVO.getEnterdate();
-							int ee=e.indexOf(" ");
-							e=e.substring(0, ee+1);
-							e=e.replace(" ", "");
-							int enterNum=Integer.parseInt(e.replace("-", ""));
-							String enterDay="";
-							if(enterNum - today > 0 && enterNum - today <= 7) {
-								enterDay="즉시";
-							}else {
-								enterDay=(enterNum-today) + "일";
-							}
-							pmVO.setEnterdate(enterDay);
-							
-							// 희망지역 1~3 서울시 자르기
-							int j = pmVO.getArea1().indexOf("구 ");
-							pmVO.setArea(pmVO.getArea1().substring(j+1));
-							if (pmVO.getArea2() != null) {
-								j = pmVO.getArea2().indexOf("구 ");
-								pmVO.setArea(pmVO.getArea2().substring(j+1));
-							}
-							if (pmVO.getArea3() != null) {
-								j = pmVO.getArea3().indexOf("구 ");
-								pmVO.setArea(pmVO.getArea3().substring(j+1));
-							}
+							mav.addObject("pmList", pmList);
 						}
-						mav.addObject("pmList", pmList);
 					}
 				}
+				
+				
 			}
 		}
 		
