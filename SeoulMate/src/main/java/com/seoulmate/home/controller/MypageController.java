@@ -143,6 +143,10 @@ public class MypageController {
 	public int likemarkInsert(int no, String userid, String category) {
 		return service.likemarkInsert(no, userid, category);
 	}
+	// 인덱스 / 하우스 / 메이트에 들어가면 내가 찜한 글인지 확인 처리
+//	@RequestMapping("/likemarkCheck")
+//	@ResponseBody
+//	public 
 	//마이페이지 결제내역 확인 페이지
 	@RequestMapping("/payDetailList")
 	public ModelAndView payDetailList() {
