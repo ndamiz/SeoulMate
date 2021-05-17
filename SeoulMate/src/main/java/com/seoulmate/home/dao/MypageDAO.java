@@ -8,9 +8,9 @@ import com.seoulmate.home.vo.MateWriteVO;
 
 public interface MypageDAO {
 	// 찜 목록/////////////////////////////////////////////
-		// 찜 등록하기
-		public int likemarkInsert(int no, String userid, String category);
-	
+	// 찜 등록하기
+	public int likemarkInsert(int no, String userid, String category);
+
 	//글 번호, 카테고리 받아오기
 	public List<LikeMarkVO> likemarkAllRecord(String category, String userid);
 	//하우스 글 정보 불러오기

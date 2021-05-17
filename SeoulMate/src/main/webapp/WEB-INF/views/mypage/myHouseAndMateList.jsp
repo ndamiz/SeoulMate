@@ -19,10 +19,7 @@
 		}
 	}
 	$(function(){
-		
-		
-		
-		$('.popup_Close').on('click',function(){
+		$(document).on('click', '.popup_Close', function(){
 			$('#myPage_popup_FullScreen').addClass('popup_hidden');
 			$(".myPage_HouseAndMate_Popup").addClass('popup_hidden');
 			$('body').removeClass('popup_Stop_Scroll');
@@ -31,29 +28,29 @@
 	function viewMyHouseAndMateList(msg){
 		// msg = house, mate, likemark
 		if(msg=='house'){
-			$('.mypage_HouseList').removeClass('objectHidden');
-			$('.mypage_Mate').addClass('objectHidden');
-			$('.mypage_likeMarkList').addClass('objectHidden');
+			$('.mypage_HouseList').addClass('on');
+			$('.mypage_Mate').removeClass('on');
+			$('.mypage_likeMarkList').removeClass('on');
 			
 			$('#myPage_HouseList').removeClass('objectHidden');
 			$('#myPage_MateList').addClass('objectHidden');
-			$('#myPage_MateList').addClass('objectHidden');
+			$('#myPage_LikeMarkerList').addClass('objectHidden');
 		}else if(msg=='mate'){
-			$('.mypage_HouseList').addClass('objectHidden');
-			$('.mypage_Mate').removeClass('objectHidden');
-			$('.mypage_likeMarkList').addClass('objectHidden');
+			$('.mypage_HouseList').removeClass('on');
+			$('.myPage_MateList').addClass('on');
+			$('.mypage_likeMarkList').removeClass('on');
 			
 			$('#myPage_HouseList').addClass('objectHidden');
 			$('#myPage_MateList').removeClass('objectHidden');
-			$('#myPage_MateList').addClass('objectHidden');
+			$('#myPage_LikeMarkerList').addClass('objectHidden');
 		}else if(msg=='likemark'){
-			$('.mypage_HouseList').addClass('objectHidden');
-			$('.mypage_Mate').removeClass('objectHidden');
-			$('.mypage_likeMarkList').addClass('objectHidden');
+			$('.mypage_HouseList').removeClass('on');
+			$('.mypage_Mate').removeClass('on');
+			$('.mypage_likeMarkList').addClass('on');
 			
 			$('#myPage_HouseList').addClass('objectHidden');
 			$('#myPage_MateList').addClass('objectHidden');
-			$('#myPage_MateList').removeClass('objectHidden');
+			$('#myPage_LikeMarkerList').removeClass('objectHidden');
 		}
 	}
 	
@@ -62,9 +59,6 @@
 		<section class="content" > <!-- id="myPage_HouseAndMate_Content" -->
 			<p class="m_title">하우스&메이트 관리</p>
 			<ul class="content_menu" id="myPage_HouseAndMate_menu">
-				<li><a class="">쉐어하우스</a></li>
-				<li><a class="">하우스메이트</a></li>
-				<li><a href="likeMarkerList" class="likeMarkerList">찜목록</a></li>
 			<c:choose>
 				<c:when test="${msg=='house'}">
 					<li><a href="javascript:viewMyHouseAndMateList('house')" class="mypage_HouseList on">쉐어하우스</a></li>
@@ -83,10 +77,6 @@
 			</c:choose>
 				<li><a href="javascript:viewMyHouseAndMateList('likemark')" class="mypage_likeMarkList">찜목록</a></li>
 			</ul>
-			<!-- 페이지 로딩시에 해당 아이디로 작성된 글을 확인하고, 작성된 사항 확인하여 띄워주며, 둘다 있을 경우 쉐어하우스 글을 기본적으로 띄움 -->
-			<!-- 둘다 없을 경우,  찜목록을 띄움 -->
-			<!-- 셋다 없을경우... .. 가입한 유형을 확인하여 글을 작성하라고 글작성하는 곳으로 링크를 넣기로 하자.  -->
-			
 			<!-- 쉐어 하우스 글을 작성했을 경우 및 클릭 시 -->
 			<c:choose>
 				<c:when test="${not empty hwList }">
