@@ -16,6 +16,20 @@ public class ListVO {
 	
 	private int deposit; // 보증금
 	private int rent; // 월세
+	
+	// 메이트 추가
+	private String matepic1;
+	private int gender;
+	private String enterdate;
+	private String birth;
+	
+	private String area="";
+	private String aList[]=null;
+	
+	private String area1;
+	private String area2;
+	private String area3;
+	
 	public int getNo() {
 		return no;
 	}
@@ -87,5 +101,83 @@ public class ListVO {
 	}
 	public void setRent(int rent) {
 		this.rent = rent;
+	}
+	
+	// 메이트 추가
+	public String[] getaList() {
+		return aList;
+	}
+	public String getMatepic1() {
+		return matepic1;
+	}
+	public void setMatepic1(String matepic1) {
+		this.matepic1 = matepic1;
+	}
+	public int getGender() {
+		return gender;
+	}
+	public void setGender(int gender) {
+		this.gender = gender;
+	}
+	public String getEnterdate() {
+		return enterdate;
+	}
+	public void setEnterdate(String enterdate) {
+		this.enterdate = enterdate;
+	}
+	public String getBirth() {
+		return birth;
+	}
+	public void setBirth(String birth) {
+		this.birth = birth;
+	}
+	public void setaList(String[] aList) {
+		this.aList = aList;
+	}
+	public String getArea() {
+		area="";
+		if(area1!=null && !area1.equals("")) {
+			area+=area1+"/";
+		}
+		if(area2!=null && !area2.equals("")) {
+			area+=area2+"/";
+		}
+		if(area3!=null && !area3.equals("")) {
+			area+=area3;
+		}
+		return area;
+	}
+	public void setArea(String area) {
+		this.area = area;
+		if(area!=null) {
+			aList=area.split("/");
+		}
+	}
+	public String getArea1() {
+		if(aList!=null && aList.length>=1) {
+			area1=aList[0];
+		}
+		return area1;
+	}
+	public void setArea1(String area1) {
+		this.area1 = area1;
+	}
+	public String getArea2() {
+		if(aList!=null && aList.length>=2) {
+			area2=aList[1];
+		}
+		return area2;
+	}
+	public void setArea2(String area2) {
+		this.area2 = area2;
+	}
+	public String getArea3() {
+		if(aList!=null && aList.length>=3) {
+			area3=aList[2];
+		}
+		return area3;
+	}
+	public void setArea3(String area3) {
+		this.area3 = area3;
 	}
 }

@@ -21,6 +21,7 @@ import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.ListVO;
 import com.seoulmate.home.vo.MateWriteVO;
 import com.seoulmate.home.vo.MemberVO;
+import com.seoulmate.home.vo.PropensityVO;
 
 @Controller
 public class HomeController {
@@ -75,36 +76,126 @@ public class HomeController {
 			int logGrade=(Integer)session.getAttribute("logGrade");
 			// 프리미엄일 때만
 			if(logGrade==2) {
-				System.out.println("프리미엄임");
-				// 쉐어하우스 매칭 리스트 구하기
-				List<ListVO> phList = listService.premiumHouseList(userid); // PremiumHouseList
-				HouseRoomVO phhrVO = new HouseRoomVO();
-				for (ListVO phVO : phList) {
+				// 메이트의 희망 성별 가져오기
+				int matePnoCheck=listService.myMatePnoCheck(userid);
+				
+				mav.addObject("matePnoCheck", matePnoCheck); // 메이트 번호의 갯수를 반환한다.
+				
+				if(matePnoCheck>0) { // 메이트 성향이 있을 때만 매칭된 하우스 목록을 띄워준다.
+					int m_gender=listService.mate_m_gender(userid);
+					System.out.println("m_gender : "+m_gender);
+					System.out.println("프리미엄임");
+					// 쉐어하우스 매칭 리스트 구하기
+					List<ListVO> phList = listService.premiumHouseList(userid, m_gender); // PremiumHouseList
 					
-					// 각 쉐어하우스의 제일 저렴한 월세 가져오기
-					phhrVO = service.getDesposit(phVO.getNo());
-					
-					phVO.setDeposit(phhrVO.getDeposit());
-					phVO.setRent(phhrVO.getRent());
-					int idx = phVO.getAddr().indexOf("동 ");
-					phVO.setAddr(phVO.getAddr().substring(0, idx+1));
-					
-					System.out.println("글 번호 : "+phVO.getNo());
-					System.out.println("사진 : "+phVO.getHousepic1());
-					System.out.println("매칭 점수 : "+phVO.getScore());
-					System.out.println("주소 : "+phVO.getAddr());
-					System.out.println("방 갯수 : "+phVO.getRoom());
-					System.out.println("침대 갯수 : "+phVO.getBathroom());
-					System.out.println("현재 인원 : "+phVO.getNowpeople());
-					System.out.println("보증금 : "+phVO.getDeposit());
-					System.out.println("월세 : "+phVO.getRent());
+					if(phList.get(0)!=null){ // else if(phList!=null)
+						HouseRoomVO phhrVO = new HouseRoomVO();
+						for (ListVO phVO : phList) {
+							// 각 쉐어하우스의 제일 저렴한 월세 가져오기
+							phhrVO = service.getDesposit(phVO.getNo());
+							
+							phVO.setDeposit(phhrVO.getDeposit());
+							phVO.setRent(phhrVO.getRent());
+							int idx = phVO.getAddr().indexOf("동 ");
+							phVO.setAddr(phVO.getAddr().substring(0, idx+1));
+						}
+						mav.addObject("phList", phList);
+					}
 				}
 				
-				mav.addObject("phList", phList);
 			}
 		}
 		
 		/////////////////////////////////////////////////////////////////////////
+		Calendar cal = Calendar.getInstance();
+        int y  = cal.get(Calendar.YEAR);
+        int m = cal.get(Calendar.MONTH) + 1;
+        int d   = cal.get(Calendar.DAY_OF_MONTH);
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        int today = Integer.parseInt(format.format(cal.getTime()));
+        
+		// 내 하우스 성향 가져오기
+		if(session.getAttribute("logId")!=null) {
+			int myHousePnoCnt=listService.myHousePnoCount(userid);
+			mav.addObject("myHousePnoCnt", myHousePnoCnt);
+			if(myHousePnoCnt>0) { // 하우스 성향이 있는 경우
+				List<PropensityVO> myHousePnoList=listService.myHousePno(userid);
+				mav.addObject("myHousePno", myHousePnoList);
+			}
+		}
+		
+		// 매칭
+		if(session.getAttribute("logId")!=null) {
+			int logGrade=(Integer)session.getAttribute("logGrade");
+			// 프리미엄일 때만
+			if(logGrade==2) {
+				// 메이트의 희망 성별 가져오기
+				int housePnoCheck=listService.myHousePnoCount(userid);
+				
+				mav.addObject("housePnoCheck", housePnoCheck); // 하우스 번호의 갯수를 반환한다.(하우스 성향이 없는 사람이 있기 때문에)
+				
+				int pno=(Integer)session.getAttribute("hPno"); // 로그인 후에 세션에 저장된 하우스 성향 번호를 가져온다.
+				System.out.println("하우스 성향 번호 : "+pno);
+				if(housePnoCheck>0) { // 메이트 성향이 있을 때만 매칭된 하우스 목록을 띄워준다.
+					int m_gender=listService.house_m_gender(userid, pno);
+					System.out.println("m_gender : "+m_gender);
+					// 메이트 매칭 리스트 구하기
+					List<ListVO> pmList = listService.premiumMateList(userid, pno, m_gender);
+					
+					if(pmList.get(0)!=null) {
+						for(ListVO pmVO : pmList) {
+							MemberVO mVO=service.getDetail(pmVO.getUserid());
+							pmVO.setGender(mVO.getGender());
+							
+							// 생년월일을 받아서 만 나이로 처리
+							String b=mVO.getBirth();
+							int i=b.indexOf(" 00");
+							b=b.substring(0, i+1);
+							String birth[]= b.split("-");
+							int bYear=Integer.parseInt(birth[0]);
+							int bMonth=Integer.parseInt(birth[1]);
+							int bDay=Integer.parseInt(birth[2].replace(" ", ""));
+							int age=(y-bYear);
+							
+							// 생일이 안 지난 경우 -1
+							if(bMonth * 100 + bDay > m * 100 + d) {
+								age--;
+							}
+							String BrithAge=age+"";
+							pmVO.setBirth(BrithAge);
+							
+							// 입주 디데이 9일 때 즉시 문자열 처리
+							String e=pmVO.getEnterdate();
+							int ee=e.indexOf(" ");
+							e=e.substring(0, ee+1);
+							e=e.replace(" ", "");
+							int enterNum=Integer.parseInt(e.replace("-", ""));
+							String enterDay="";
+							if(enterNum - today > 0 && enterNum - today <= 7) {
+								enterDay="즉시";
+							}else {
+								enterDay=(enterNum-today) + "일";
+							}
+							pmVO.setEnterdate(enterDay);
+							
+							// 희망지역 1~3 서울시 자르기
+							int j = pmVO.getArea1().indexOf("구 ");
+							pmVO.setArea(pmVO.getArea1().substring(j+1));
+							if (pmVO.getArea2() != null) {
+								j = pmVO.getArea2().indexOf("구 ");
+								pmVO.setArea(pmVO.getArea2().substring(j+1));
+							}
+							if (pmVO.getArea3() != null) {
+								j = pmVO.getArea3().indexOf("구 ");
+								pmVO.setArea(pmVO.getArea3().substring(j+1));
+							}
+						}
+						mav.addObject("pmList", pmList);
+					}
+				}
+			}
+		}
+		
 		
 		// 쉐어하우스 최신리스트 구하기
 		List<HouseWriteVO> nhList = service.getNewHouse();
@@ -130,26 +221,9 @@ public class HomeController {
 		
 		mav.addObject("newHouseList", nhList);
 		
-		// 내 하우스 성향 가져오기
-		if(session.getAttribute("logId")!=null) {
-			
-			int myHousePnoCnt=listService.myHousePnoCount(userid);
-			mav.addObject("myHousePnoCnt", myHousePnoCnt);
-			if(myHousePnoCnt>0) { // 하우스 성향이 있는 경우
-				int myHousePnoList[]=listService.myHousePno(userid);
-				mav.addObject("myHousePno", myHousePnoList);
-			}
-		}
-		
-		
 		// 하우스메이트 최신리스트 구하기
 		List<MateWriteVO> nmList = service.getNewMate();
-	    Calendar cal = Calendar.getInstance();
-        int y  = cal.get(Calendar.YEAR);
-        int m = cal.get(Calendar.MONTH) + 1;
-        int d   = cal.get(Calendar.DAY_OF_MONTH);
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-        int today = Integer.parseInt(format.format(cal.getTime()));
+	    
 		for (MateWriteVO mwVO : nmList) {
 			// 각 하우스 메이트의 성별, 나이 구하기
 			MemberVO mVO = service.getDetail(mwVO.getUserid());

@@ -34,10 +34,11 @@
    
    <!-- 프리미엄 추천 쉐어하우스 -->
    <c:if test="${logGrade==2}">
+   <c:if test="${matePnoCheck>0}">
    <section class="content recommend_list">
       <div class="list_head">
-         <p class="m_title">${logName}님과 잘 어울리는 집이예요!</p>
-         <a href="">더보기</a>
+	       <p class="m_title">${logName}님과 잘 어울리는 집이예요!</p>
+	       <a href="">더보기</a>
       </div>
       <c:if test="${phList!=null}">
 	      <ul class="list_content">
@@ -64,7 +65,14 @@
 	         </c:forEach>
 	      </ul>
       </c:if>
+      <c:if test="${phList==null}">
+      	<div class="empty_div">
+	      	<img class="empty" src="<%=request.getContextPath()%>/img/empty.png" onerror="this.src='<%=request.getContextPath()%>/img/empty.png'"/>
+	      	<p style="text-align:center;">매칭에 맞는 결과가 없습니다.</p>
+      	</div>
+      </c:if>
    </section>
+   </c:if>
    </c:if>
    
    <!-- 신규 쉐어하우스 -->
@@ -78,7 +86,9 @@
             <li>
                <div class="list_img">
                	<c:if test="${logGrade==2}">
+               	  <c:if test="${matePnoCheck>0}"> <!-- 등록된 메이트 성향이 없으면 매칭을 안보여줌 -->
                   <p><span>매칭</span>${newHouseVO.score}<b>%</b></p>
+                  </c:if>
                 </c:if>
                   <button class="btn_star"></button>
                   <a href="">
@@ -98,6 +108,7 @@
          </c:forEach>
       </ul>
    </section>
+   
    <c:if test="${myHousePnoCnt>0}">
 	   <c:if test="${logGrade==2}">
 		   <!-- 프리미엄 추천 하우스메이트 -->
@@ -105,18 +116,22 @@
 		      <div class="list_head">
 		         <p class="m_title">${logName}님과 잘 어울리는 메이트예요!</p>
 		         <select name="pno" id="myHousepno" class="custom-select">
-<!-- 		         	<option  -->
+		         	<c:forEach var="housePno" items="${myHousePno}">
+		         		<option value="${housePno.pno}" <c:if test="${hPno==housePno.pno}">selected</c:if>>
+		         			<c:if test="${housePno.housename!=null}">${housePno.housename}</c:if>
+		         			<c:if test="${housePno.housename==null}">성향 ${housePno.pno}번</c:if>
+		         	</c:forEach>
 		         </select>
 		         <a href="">더보기</a>
 		      </div>
 		      <ul class="list_content">
-		         <c:forEach var="i" begin="0" end="2">
+		         <c:forEach var="pmList" items="${pmList}">
 		            <li>
 		               <div class="list_img">
-		                  <p><span>매칭</span>90<b>%</b></p>
+		                  <p><span>매칭</span>${pmList.score}<b>%</b></p>
 		                  <button class="btn_star"></button>
 		                  <a href="">
-		                     <img alt="" src="<%=request.getContextPath()%>/matePic/sample_mate01.png">
+		                     <img alt="" src="<%=request.getContextPath()%>/matePic/${pmList.matepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
 		                  </a>
 		               </div>
 		               <div class="list_title">

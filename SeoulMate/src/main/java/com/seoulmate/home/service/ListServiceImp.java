@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.seoulmate.home.dao.ListDAO;
 import com.seoulmate.home.vo.ListVO;
+import com.seoulmate.home.vo.PropensityVO;
 
 @Service
 public class ListServiceImp implements ListService{
@@ -15,8 +16,8 @@ public class ListServiceImp implements ListService{
 	ListDAO dao;
 
 	@Override
-	public List<ListVO> premiumHouseList(String userid) {
-		return dao.premiumHouseList(userid);
+	public List<ListVO> premiumHouseList(String userid, int m_gender) {
+		return dao.premiumHouseList(userid, m_gender);
 	}
 
 	@Override
@@ -30,9 +31,32 @@ public class ListServiceImp implements ListService{
 	}
 	
 	@Override
-	public int[] myHousePno(String userid) {
+	public List<PropensityVO> myHousePno(String userid) {
 		return dao.myHousePno(userid);
 	}
+	
+	@Override
+	public int myMatePnoCheck(String userid) {
+		return dao.myMatePnoCheck(userid);
+	}
+	@Override
+	public int mate_m_gender(String userid) {
+		return dao.mate_m_gender(userid);
+	}
 
+	@Override
+	public int house_m_gender(String userid, int pno) {
+		return dao.house_m_gender(userid, pno);
+	}
+
+	@Override
+	public int newHpno(String userid) {
+		return dao.newHpno(userid);
+	}
+
+	@Override
+	public List<ListVO> premiumMateList(String userid, int pno, int m_gender) {
+		return dao.premiumMateList(userid, pno, m_gender);
+	}
 	
 }

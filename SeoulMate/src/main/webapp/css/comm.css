@@ -1565,3 +1565,17 @@ input.cmn_toggle_round:checked + label:before {background-color: #13a89e;}
 input.cmn_toggle_round:checked + label:after {margin-left:30px;}
 .toggle_cont label {margin:0 auto;}
 
+/* 매칭 목록 */
+.empty_div{
+	text-align:center;
+}
+.empty{
+	margin-bottom:10px !important;
+	width: 150px !important;
+	height: 150px !important;
+}
+#myHousepno{ /* 매칭된 메이트 목록을 띄울 하우스 성향 */
+	margin-left:30px;
+	width:max-content;
+	height:35px;
+}
