@@ -214,7 +214,6 @@
 			}else{
 				title = payStart[0]+' 매출 정보';
 			}
-			console.log(title);
 			
 			$('#salesManagementView').text(title);
 			//그래프 띄우기

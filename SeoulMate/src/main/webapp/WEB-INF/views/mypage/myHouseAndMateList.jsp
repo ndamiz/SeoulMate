@@ -24,6 +24,54 @@
 			$(".myPage_HouseAndMate_Popup").addClass('popup_hidden');
 			$('body').removeClass('popup_Stop_Scroll');
 		});
+		// house => 받은신청, 보낸초대  ///  mate => 받은초대, 보낸신청 
+		$(document).on('click', '.mypage_Popup', function(){
+			var no = $(this).parent().children().eq(0).val();
+			var msg = '';
+			// 하우스 기준.
+			if($(this).hasClass("takeApply")){ // 받은 신청을 누른 경우
+				msg = 'takeApply';
+			}else if($(this).hasClass("sendInvite")){ // 보낸 초대를 누른경우
+				msg='sendInvite';
+			}// 메이트 기준 
+			else if($(this).hasClass("takeInvite")){ // 받은 초대를 누른 경우
+				msg='takeInvite';
+			}else if($(this).hasClass("sendApply")){ // 보낸 신청을 누른경우
+				msg='sendApply';
+			}
+			var url = '/home/mypagePopup'
+			var data = {'no':no, 'msg':msg};
+			
+			$.ajax({
+				url:url,
+				data : data,
+				success : function(result){
+					console.log(result);
+					$mwVOList = $(result.pop_mwVO);
+					
+					var tag = '';
+					if(msg == 'takeApply'){
+						//받은 신청 (리턴값 mate정보 리스트)
+						//1.  #popup_TakeApply 자식 eq1안에있는 거 지우기.. 
+						$('#popup_TakeApply').children().eq(1).empty();
+						//2. 포문돌려서 tag 만들어 넣기. 
+						
+						//1. #popup_TakeApply 의 popup_hidden 클래스 지워서 띄우기. 
+					}else if(msg=='sendInvite'){
+						//보낸 초대 (리턴값 mate정보 리스트)
+						
+					}else if(msg=='takeInvite'){
+						//받은 초대 (리턴값 house정보 리스트)
+						
+					}else if(msg=='sendApply'){
+						//보낸 신청 (리턴값 house정보 리스트)
+						
+					}
+				}, error : function(){
+					console.log('마이페이지 팝업 데이터 불러오기 실패');
+				}
+			});
+		});
 	});
 	function viewMyHouseAndMateList(msg){
 		// msg = house, mate, likemark
@@ -100,8 +148,9 @@
 									</li>
 								</ul>
 								<div class="myPage_HouseAndMate_Btn">
-									<a href="javascript:myPage_Popup('popup_TakeApply')" class="b_btn white">받은신청</a>
-									<a href="javascript:myPage_Popup('popup_SendInvite')" class="b_btn white">보낸초대</a>
+									<input type="hidden" name="no" value="${hwVO.no }" />
+									<a href="#" class="b_btn white takeApply mypage_Popup">받은신청</a>
+									<a href="#" class="b_btn white sendInvite mypage_Popup">보낸초대</a>
 									<a href="" class="b_btn white">수정</a>
 									<a href="" class="b_btn white">삭제</a>
 									<a href="" class="b_btn green">매칭완료</a>
@@ -151,8 +200,9 @@
 								</li>
 							</ul>
 							<div class="myPage_HouseAndMate_Btn">
-								<a href="javascript:myPage_Popup('popup_TakeInvite')" class="b_btn white">받은초대</a>
-								<a href="javascript:myPage_Popup('popup_SendApply')" class="b_btn white">보낸신청</a>
+								<input type="hidden" name="no" value="${mwVO.no }" />
+								<a href="#" class="b_btn white takeInvite mypage_Popup">받은초대</a>
+								<a href="#" class="b_btn white sendApply mypage_Popup">보낸신청</a>
 								<a href="" class="b_btn white">수정</a>
 								<a href="" class="b_btn white">삭제</a>
 								<a href="" class="b_btn green">매칭완료</a>
@@ -190,7 +240,7 @@
 						</ul>
 						<div class="myPage_HouseAndMate_LikeMarker_Btn">
 							<a href="" class="b_btn white">찜 삭제</a>
-							<a href="" class="b_btn white">약속잡기</a>
+							<a href="" class="b_btn white">신청하기</a>
 						</div>
 					</div>
 					</c:forEach>
@@ -239,9 +289,10 @@
 				</c:if>
 			</div>
 		</section>
+		
 		<!--받은신청 -  팝업 (하우스에서 클릭 할 경우/ 띄우는건 신청을 한 메이트의 정보-->
 		<div class="myPage_HouseAndMate_Popup popup_hidden" id="popup_TakeApply">
-			<div class="myPage_HouseAndMate_Popup_Title">받은신청<span class="popup_Close">✕</span></div>
+			<div class="myPage_HouseAndMate_Popup_Title" >받은신청<span class="popup_Close">✕</span></div>
 			<div class="myPage_HouseAndMate_Popup_Content">
 				<div class="myPage_HouseAndMate_Popup_OneBlock">
 					<div class="myPage_HouseAndMate_Popup_Img">

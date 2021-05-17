@@ -23,7 +23,8 @@
 /* 하우스&메이트 관리 => 리스트별 디자인 */
 .myPage_HouseAndMate_Info{float:left; width: 300px; margin: 25px 0px 0px 30px; height: 250px;}
 .myPage_HouseAndMate_Info>li{height: 15%;}
-.myPage_HouseAndMate_Info>li:first-of-type{height: 30%; font-size: 1.5em; font-weight: bold; margin-top: 10px;}
+.myPage_HouseAndMate_Info>li:first-of-type{height: 30%; font-size: 1.5em; font-weight: bold; margin-top: 10px;
+	font-family: SsangmunDong; }
 .myPage_HouseAndMate_Info>li:nth-of-type(2){ }
 .myPage_HouseAndMate_Info>li:last-of-type{height: 30%; padding-top: 10px;}
 

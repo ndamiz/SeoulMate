@@ -46,6 +46,21 @@
 			ON 
 				house.NO=room.NO
 	</select>
+	<select  id="oneHouseWriteSelect" parameterType="int" resultType="com.seoulmate.home.vo.HouseWriteVO">
+		SELECT house.NO, house.PNO, house.USERID, house.HOUSENAME, room.deposit, room.rent, house.ADDR,  house.HOUSEPIC1, 
+			house.ROOM , house.BATHROOM, house.NOWPEOPLE, house.SEARCHPEOPLE, house.WRITEDATE, house.ENDDATE, house.HOUSESTATE 
+		FROM 
+			(SELECT NO, DEPOSIT, rent FROM HOUSEROOM) room 
+		JOIN 
+			(SELECT h.NO, h.PNO, h.USERID ,h.ADDR, h.HOUSENAME, h.HOUSEPIC1, 
+				h.ROOM , h.BATHROOM, h.NOWPEOPLE, h.SEARCHPEOPLE, h.WRITEDATE, h.ENDDATE, h.HOUSESTATE 
+			FROM 
+				HOUSEWRITE h 
+			WHERE 
+				NO=${no } ) house 
+			ON 
+				house.NO=room.NO
+	</select>
 	<select id="mateConfirm" parameterType="String" resultType="int" >
 		SELECT nvl(max(count(no)), 0) AS NO 
 		FROM 
@@ -115,5 +130,15 @@
 				mem2.userid =p.userid) mem 
 		ON 
 			m.userid=mem.userid WHERE m.NO=${no }
+	</select>
+	<select id="applyInviteSelect" parameterType="com.seoulmate.home.vo.ApplyInviteVO" resultType="com.seoulmate.home.vo.ApplyInviteVO">
+		SELECT aino, no, userid, to_char(aidate, 'YYYY-MM-DD') as aidate, state
+		FROM
+			applyInvite 
+		WHERE
+		<if test="msg == 'takeApply'"> NO=${no } AND state='신청'</if>
+		<if test="msg == 'sendInvite'">NO=${no } AND state='초대'</if>
+		<if test="msg == 'takeInvite'">userid='${userid }' AND state='초대'</if>
+		<if test="msg == 'sendApply'">userid='${userid }' AND state='신청'</if>
 	</select>
 </mapper>

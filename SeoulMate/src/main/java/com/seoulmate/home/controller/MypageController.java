@@ -1,7 +1,9 @@
 package com.seoulmate.home.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -9,10 +11,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.seoulmate.home.service.MypageService;
+import com.seoulmate.home.vo.ApplyInviteVO;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.LikeMarkVO;
@@ -137,6 +141,46 @@ public class MypageController {
 		mav.setViewName("mypage/likeMarkerList");
 		return mav;
 	}
+	//마이페이지 팝업 
+	@RequestMapping(value="/mypagePopup", method = {RequestMethod.POST, RequestMethod.GET})
+	@ResponseBody
+	public Map<String, Object> mypagePopup(int no, String msg, HttpServletRequest req){
+		Map<String, Object> result = new HashMap<String, Object>();
+		ApplyInviteVO aiVO = new ApplyInviteVO();
+		aiVO.setNo(no);
+		aiVO.setMsg(msg);
+		aiVO.setUserid((String)req.getSession().getAttribute("logId"));
+		
+System.out.println("msg="+msg);
+System.out.println("no="+no);
+System.out.println("userid="+(String)req.getSession().getAttribute("logId"));
+		
+		List<ApplyInviteVO> aiList = new ArrayList<ApplyInviteVO>();
+		aiList =  service.applyInviteSelect(aiVO);
+		if(aiList.size()>0) {
+			// 하우스 기준
+			if(msg.equals("takeApply") || msg.equals("sendInvite")) {
+				//받은 신청  // 보낸초대 
+				List<MateWriteVO> pop_mwVO = new ArrayList<MateWriteVO>();
+				for(int i=0; i<aiList.size(); i++) {
+					pop_mwVO.add(service.myPageMateWriteSelect(aiList.get(i).getUserid()));
+				}
+				result.put("pop_mwVO", pop_mwVO);
+			}//메이트 기준
+			else if(msg.equals("takeInvite") || msg.equals("sendApply")) {
+				List<HouseWriteVO> pop_hwVO = new ArrayList<HouseWriteVO>();
+				//받은초대  or 보낸 신청
+				// list값 중에서 no를 사용하여 리스트를 가져온다.  
+				for(int i=0; i<aiList.size(); i++) {
+					pop_hwVO.add(service.oneHouseWriteSelect(aiList.get(i).getNo()));
+					System.out.println(aiList.get(i).getNo());
+				}
+				result.put("pop_hwVO", pop_hwVO);
+			}
+		}
+		return result;
+	}
+	
 	//찜 등록
 	@RequestMapping("/likemarkInsert")
 	@ResponseBody

@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.seoulmate.home.dao.MypageDAO;
+import com.seoulmate.home.vo.ApplyInviteVO;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.LikeMarkVO;
@@ -77,4 +78,18 @@ public class MypageServiceImp implements MypageService {
 	public MateWriteVO mateLikeSelect(int no) {
 		return dao.mateLikeSelect(no);
 	}
+	//팝업
+	@Override
+	public List<ApplyInviteVO> applyInviteSelect(ApplyInviteVO aiVO) {
+		// 메이트확인. 받은초대, 보낸신청 (userid)
+		// 하우스확인. 받은신청, 보낸초대 (no)
+		return dao.applyInviteSelect(aiVO);
+	}
+	// 메이트 글 vo받아오는거는 myPageMateWriteSelect사용하여 받기, 
+	// 하우스 글 vo받아오기 
+	@Override
+	public HouseWriteVO oneHouseWriteSelect(int no) {
+		return dao.oneHouseWriteSelect(no);
+	}
+	
 }
