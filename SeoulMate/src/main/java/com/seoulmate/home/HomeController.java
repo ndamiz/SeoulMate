@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.seoulmate.home.service.HomeService;
+import com.seoulmate.home.service.ListService;
 import com.seoulmate.home.service.MemberService;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
+import com.seoulmate.home.vo.ListVO;
 import com.seoulmate.home.vo.MateWriteVO;
 import com.seoulmate.home.vo.MemberVO;
 
@@ -27,6 +29,8 @@ public class HomeController {
 	HomeService service;
 	@Inject
 	MemberService memberService;
+	@Inject
+	ListService listService;
 	
 	
 	/*
@@ -37,6 +41,7 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
 		
 		// 로그인전 하우스 맵 정보 구하기
 		String[] houseMapList = service.getHouseMap();
@@ -66,6 +71,41 @@ public class HomeController {
 			mav.addObject("memberVO", memberVO);
 		}
 		
+		if(session.getAttribute("logId")!=null) {
+			int logGrade=(Integer)session.getAttribute("logGrade");
+			// 프리미엄일 때만
+			if(logGrade==2) {
+				System.out.println("프리미엄임");
+				// 쉐어하우스 매칭 리스트 구하기
+				List<ListVO> phList = listService.premiumHouseList(userid); // PremiumHouseList
+				HouseRoomVO phhrVO = new HouseRoomVO();
+				for (ListVO phVO : phList) {
+					
+					// 각 쉐어하우스의 제일 저렴한 월세 가져오기
+					phhrVO = service.getDesposit(phVO.getNo());
+					
+					phVO.setDeposit(phhrVO.getDeposit());
+					phVO.setRent(phhrVO.getRent());
+					int idx = phVO.getAddr().indexOf("동 ");
+					phVO.setAddr(phVO.getAddr().substring(0, idx+1));
+					
+					System.out.println("글 번호 : "+phVO.getNo());
+					System.out.println("사진 : "+phVO.getHousepic1());
+					System.out.println("매칭 점수 : "+phVO.getScore());
+					System.out.println("주소 : "+phVO.getAddr());
+					System.out.println("방 갯수 : "+phVO.getRoom());
+					System.out.println("침대 갯수 : "+phVO.getBathroom());
+					System.out.println("현재 인원 : "+phVO.getNowpeople());
+					System.out.println("보증금 : "+phVO.getDeposit());
+					System.out.println("월세 : "+phVO.getRent());
+				}
+				
+				mav.addObject("phList", phList);
+			}
+		}
+		
+		/////////////////////////////////////////////////////////////////////////
+		
 		// 쉐어하우스 최신리스트 구하기
 		List<HouseWriteVO> nhList = service.getNewHouse();
 		HouseRoomVO hrVO = new HouseRoomVO();
@@ -73,9 +113,11 @@ public class HomeController {
 			
 			// 각 쉐어하우스의 제일 저렴한 월세 가져오기
 			hrVO = service.getDesposit(hwVO.getNo());
-			
+			ListVO scoreVO=listService.premiumHouseSocre(userid, hwVO.getPno());
 			hwVO.setDeposit(hrVO.getDeposit());
 			hwVO.setRent(hrVO.getRent());
+			hwVO.setScore(scoreVO.getScore());
+			
 			int idx = hwVO.getAddr().indexOf("동 ");
 			hwVO.setAddr(hwVO.getAddr().substring(0, idx+1));
 		}
