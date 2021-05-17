@@ -1,6 +1,7 @@
 package com.seoulmate.home.controller;
 
 import java.io.File;
+import java.net.http.HttpRequest;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,7 @@ public class MateController {
 	@Inject
 	MemberService memService;
 	
+	
 	@Autowired
 	private DataSourceTransactionManager transactionManager;
 	
@@ -49,7 +51,8 @@ public class MateController {
 	public ModelAndView mateWrite(String userid, HttpSession session) {
 		userid = (String)session.getAttribute("logId");
 		ModelAndView mav = new ModelAndView();
-		PropensityVO pVO = service.mateSelect(userid); //메이트 성향
+//		PropensityVO pVO = service.mateSelect(userid); //메이트 성향
+		PropensityVO pVO=memService.propMateSelect(userid);
 		if(pVO==null) { //메이트 성향이 없을 경우?
 		mav.setViewName("redirect:memberProEdit"); //성향수정 페이지로 이동
 		}else { //메이트 성향이 있을 경우 id 기준으로 값 가져감
@@ -59,6 +62,7 @@ public class MateController {
 		mav.addObject("pVO",pVO);
 		mav.addObject("mVO", mVO);
 		}
+		System.out.println(pVO.getH_supportStr());
 		return mav;
 	}
 	
@@ -134,9 +138,61 @@ public class MateController {
 	
 	//메이트 수정
 	@RequestMapping("/mateEdit")
-	public String mateEdit() {
-		return "mate/mateEdit";
+	public ModelAndView mateEdit(MateWriteVO mVO, PropensityVO pVO, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		
+		String userid = (String)session.getAttribute("logId");
+		mVO = service.mateSelect(userid);
+		pVO = memService.propMateSelect(userid);
+		System.out.println("메이트 글 번호 확인:"+mVO.getNo());
+		mav.addObject("mVO", mVO);
+		mav.addObject("pVO", pVO);
+		mav.setViewName("mate/mateEdit");
+		return mav;
 	}
+	
+	//메이트 수정 확인
+	@RequestMapping(value = "/mateEditOk", method = RequestMethod.POST)
+	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
+	public ModelAndView mateEditOk(MateWriteVO mVO, PropensityVO pVO, HttpServletRequest req, @RequestParam("filename") MultipartFile filename) {
+		ModelAndView mav = new ModelAndView();
+		mVO.setUserid((String)req.getSession().getAttribute("logId"));
+		pVO.setUserid((String)req.getSession().getAttribute("logId"));
+		pVO.setPcase("m");
+		
+		//사진 수정
+		
+		
+		DefaultTransactionDefinition def=new DefaultTransactionDefinition();
+		def.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED); // 트랜잭션 호출
+		TransactionStatus status=transactionManager.getTransaction(def);
+		
+		try {
+			int result1 = service.mateUpdate(mVO);
+			if(result1>0) {
+				System.out.println("메이트 글 수정 완료");
+				
+				int result2 = memService.propMateUpdate(pVO);
+				if(result2>0) {
+					System.out.println("메이트성향 수정 성공");
+					transactionManager.commit(status);
+					mav.setViewName("redirect:mateIndex");
+				}else {
+					System.out.println("메이트성향 수정 실패");
+					mav.setViewName("redirect:mateEdit");
+				}
+			}else {
+				System.out.println("메이트 글 수정 실패");
+			}
+		}catch(Exception e) {
+			System.out.println("메이트 글+성향 수정 실패");
+			//사진 수정 트랜잭션 실행문
+		}
+		
+		return mav;
+	}
+	
+	
 	
 
 	

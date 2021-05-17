@@ -8,6 +8,10 @@ public class HouseWriteVO {
 	private String housename;
 	
 	private String filename; //사진 업로드
+	private String filename2;
+	private String filename3;
+	private String filename4;
+	private String filename5;
 	
 	private String housepic1;
 	private String housepic2; 

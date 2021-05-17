@@ -1,7 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script src="//cdn.ckeditor.com/4.16.0/basic/ckeditor.js"></script>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/housemate.css">
 <script>
+$(function(){
+	CKEDITOR.replace("mateProfile", {
+		height:300,
+		width:'100%'
+		
+	}); //설명글 name 설정 필요
+	
+	$("#write").on('submit', function(){
+		if(CKEDITOR.instances.content.getData()==""){
+			alert("내용을 입력해주세요");
+			return false;
+		}return true;
+	});
+	
+});
 
 function readURL(input) {
     if (input.files && input.files[0]) {
@@ -14,12 +30,6 @@ function readURL(input) {
       reader.readAsDataURL(input.files[0]);
     }
 }
-
-$(function(){
-	CKEDITOR.replace("mateProfile"); //설명글 name 설정 필요
-	
-});	
-
 
 $(function(){
 	
@@ -96,9 +106,10 @@ $(function(){
 	});
 	$("#mNext7").click(function(){
 		var hopeGender = document.mateFrm.m_gender.value;
-		if(hopeGender==${mVO.gender}||hopeGender==2){
+		if(hopeGender==${mVO.gender}||hopeGender==2){ //자신과 다른 성별 선택불가
 			if(confirm("메이트를 등록하시겠습니까?")){
 				$("#mateFrm").submit();
+				return true;
 			}
 		}else if(hopeGender!=${mVO.gender}&&hopeGender!=2){
 			alert("희망성별은 자신과 다른 성별을 선택할 수 없습니다.");
@@ -129,6 +140,7 @@ $(function(){
 .checks{width:800px;}
 .checks>label{width:120px;}
 .title_wrap div{min-height: 300px;}
+#ck{margin:0 auto; width: 60%;}
 #mateImg1{width:150px; height:107px; }
 #matePic1 img{width:150px; height: 150px;}
 #mateWrite1 .checks>label{width:130px;}
@@ -138,7 +150,7 @@ $(function(){
 /* #mateWrite6{width: 800px;} */
 #mateWrite6 .checks>label{width:200px;}
 /* #mate_party checks{width:600px;} */
-.btnclass{padding-left:50px; padding-top:50px;}
+.btnclass{padding-left:50px; padding-top50px;}
 #mateWrite2, #mateWrite3, #mateWrite4, #mateWrite5, #mateWrite6, #mateWrite7 {display:none; }
 #mPic{height:125px;}
 </style>
@@ -159,16 +171,17 @@ $(function(){
 	<p>&nbsp;</p>
 	</div>
 		<input type="hidden" name="pno" value="${pVO.pno }"/>
+		<input type="hidden" name="no" value="${mVO.no }"/>
 		
 		<ul class="form_box">
-			<li><span class="red_txt">*</span><label>월세(관리비)</label> <input type="number" name="rent"/> 
+			<li><span class="red_txt">*</span><label>월세(관리비)</label> <input type="number" name="rent" value="${mVO.rent }"/> 
 					<div class="checks">
 						<input type="radio" id="rent1" name="rent">  <!-- 포함, 미포함 값 어떻게? -->
 						<label for="rent1">포함</label>
 						<input type="radio" id="rent2" name="rent"> 
 						<label for="rent2">미포함</label>
 					</div>	</li>	
-			<li><span class="red_txt">*</span><label>보증금(조율) </label><input type="number" name="deposit"/> 
+			<li><span class="red_txt">*</span><label>보증금(조율) </label><input type="number" name="deposit" value="${mVO.deposit }"/> 
 					<div class="checks">
 						<input type="radio" id="deposit1" name="">  <!-- 포함, 미포함 값 어떻게? -->
 						<label for="deposit1">조율 가능</label>
@@ -176,11 +189,11 @@ $(function(){
 						<label for="deposit2">조율 불가능</label>
 					</div>	</li>			
 			<li> <label id="mate_area"><span class="red_txt">*</span> 희망 지역 </label>
-					<input type="text" name="area" id="area1"/> <input type="text" name="area" id="area2"/> <input type="text" name="area" id="area3"/> </li>
+					<input type="text" name="area" id="area" value="${mVO.area }" /> <input type="text" name="area" id="area2"/> <input type="text" name="area" id="area3"/> </li>
 			<li> <label><span class="red_txt">*</span>입주가능일 </label><input type="date" name="enterdate" > </li>
 			<li> <label><span class="red_txt">*</span>최소 거주 기간</label>
 				 	<select name="minStay">
-						<option value="1-3개월">1~3 개월</option>
+						<option value="1-3개월" >1~3 개월</option>
 						<option value="4-6개월">4~6 개월</option>
 						<option value="7-12개월">7~12 개월</option>
 						<option value="1년 이상">1년 이상</option> 
@@ -243,7 +256,10 @@ $(function(){
 	<p class="s_title">내 소개 등록 </p>
 	<p>&nbsp;</p>
 	</div>
-		<textarea name="mateProfile"></textarea><br/>
+	<div id="ck">
+		<textarea id="write" name="mateProfile"> ${mVO.mateProfile }</textarea><br/>
+		
+	</div>		
 			<div class="btnclass">
 				<a id="mPrev3" class="green" >이전</a>
 				<a id="mNext3" class="green" >다음</a>
@@ -264,7 +280,7 @@ $(function(){
 						<input type="radio" id="h_noise1" value="1" name="h_noise" <c:if test="${pVO.h_noise==1}">checked</c:if>> 
 						<label for="h_noise1">매우 조용함</label>
 						
-						<input type="radio" id="h_noies2" value="2" name="h_noise" <c:if test="${pVO.h_noise==2}">checked</c:if>> 
+						<input type="radio" id="h_noise2" value="2" name="h_noise" <c:if test="${pVO.h_noise==2}">checked</c:if>> 
 						<label for="h_noise2">보통</label>
 						
 						<input type="radio" id="h_noise3" value="3" name="h_noise" <c:if test="${pVO.h_noise==3}">checked</c:if>> 
@@ -403,13 +419,13 @@ $(function(){
 			<li>
 			<label><span class="red_txt">*</span>하우스 내 지원서비스</label>
 				<div class="checks">
-					<input type="checkbox" id="h_support1" value="1" name="h_support" <c:if test="${pVO.h_support==1}">checked</c:if> > 
+					<input type="checkbox" id="h_support1" value="1" name="h_support" <c:forEach var="i" items="${pVO.h_supportStr}"><c:if test="${i=='1'}">checked</c:if></c:forEach> > 
 					<label for="h_support1">공용공간 청소지원</label>
 								
-					<input type="checkbox" id="h_support2" value="2" name="h_support" <c:if test="${pVO.h_support==2}">checked</c:if> > 
+					<input type="checkbox" id="h_support2" value="2" name="h_support" <c:forEach var="i" items="${pVO.h_supportStr}"><c:if test="${i=='2'}">checked</c:if></c:forEach> > 
 					<label for="h_support2">공용생필품 지원</label> <br/>
 								
-					<input type="checkbox" id="h_support3" value="3" name="h_support" <c:if test="${pVO.h_support==3}">checked</c:if> > 
+					<input type="checkbox" id="h_support3" value="3" name="h_support" <c:forEach var="i" items="${pVO.h_supportStr}"><c:if test="${i=='3'}">checked</c:if></c:forEach> > 
 					<label for="h_support3">기본 식품 지원</label>
 				</div>
 			</li> <br/><br/>

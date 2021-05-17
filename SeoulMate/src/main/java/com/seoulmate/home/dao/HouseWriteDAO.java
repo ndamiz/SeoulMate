@@ -22,4 +22,13 @@ public interface HouseWriteDAO {
 	
 	//가입할때 h 유형가입, pno 확인
 //	public int proHouseCheck(String userid);
+	
+	//house name 가져오기
+//	public String housenameCheck(String housename);
+	
+	//house name 수정하기
+	public int housenameUpdate(String housename, int pno);
+	
+	//housewrite 가져오기
+	public HouseWriteVO houseSelect(String userid);
 }

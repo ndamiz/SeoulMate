@@ -666,7 +666,8 @@ public class MemberController {
 		ModelAndView mav=new ModelAndView();
 		String userid=(String)session.getAttribute("logId");
 		PropensityVO pVO=service.propMateSelect(userid);
-		
+		System.out.println("Str->"+pVO.getH_supportStr());
+		System.out.println("배열->"+pVO.getH_support());
 		MemberVO vo=service.memberSelect(userid);
 		/*
 		System.out.println("성향 번호 : "+pVO.getPno());

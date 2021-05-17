@@ -225,7 +225,7 @@ $(function(){
 <div class="wrap">
 <div class="content">
 
-	
+	<input type="hidden" name="no" value="${hVO. no }">
 	<div class="title_wrap">
 	<p class="m_title">하우스 수정하기 </p> 
 	<p>&nbsp;</p>

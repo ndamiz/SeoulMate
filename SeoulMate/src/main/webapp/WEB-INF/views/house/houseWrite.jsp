@@ -1,13 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script src="//cdn.ckeditor.com/4.16.0/basic/ckeditor.js"></script>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/housemate.css">
-<script src="//cdn.ckeditor.com/4.16.0/full/ckeditor.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<c:set var="today" value="<%=new java.util.Date()%>"/>
+<c:set var="now"><fmt:formatDate value="${today}" pattern="yyyy-MM-dd"/></c:set>
 
-<!-- <!— include summernote css/js —> -->
-<!-- <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet"> -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script> -->
 <script>
+
+$(function(){
+	CKEDITOR.replace("houseprofile", {
+		height:300,
+		width:'100%'
+		
+	}); //설명글 name 설정 필요
+	
+	$("#write").on('submit', function(){
+		if(CKEDITOR.instances.content.getData()==""){
+			alert("내용을 입력해주세요");
+			return false;
+		}return true;
+	});
+	
+});
+
+
 
 // 	$(function() {
 // 	    $("#input-image").on('change', function(){
@@ -27,18 +45,6 @@
 	    }
 	}
 
-	$(function(){
-		CKEDITOR.replace("houseprofile"); //설명글 name 설정 필요
-		
-		$("#write").on('submit', function(){
-			if(CKEDITOR.instances.content.getData()==""){
-				alert("내용을 입력해주세요");
-				return false;
-			}return true;
-		});
-		
-	});
-	
 	
 	
 
@@ -246,7 +252,7 @@ $(function(){
 /* input[type="date"] {width:200px;} */
 /* .house_wrap{width:800px; margin:0 auto; } */
 .content ul li{word-break:keep-all;}
-.form_box li input, .form_box li select{margin:0px; width:230px;}
+.form_box li input, .form_box li select{margin:0px; width:300px;}
 .form_box{width:800px; margin:0 auto; padding-left: 100px;}
 .content label{width:180px;}
 .form_box.choice li > label {width: 240px;}
@@ -254,6 +260,7 @@ $(function(){
 .btnclass{padding-left:50px;}
 #roomPlus{margin-left:650px;}
 #houseWrite1 .checks { width: 560px;}
+#ck{margin:0 auto; width: 60%;}
 #houseImg1{width:150px; height:107px;}
 
 #houseWrite2, #houseWrite3, #houseWrite4, #houseWrite5, 
@@ -273,8 +280,8 @@ $(function(){
 .checks{width:800px;}
 .checks>label{width:120px;}
 /* #houseWrite6 input, #houseWrite6 select{width:230px;} */
-#rent_label{width:191px;}
-#deposit_label{width:191px;}
+/* #rent_label{width:191px;} */
+/* #deposit_label{width:191px;} */
 </style>
 <div class="wrap">
 <div class="content">
@@ -300,8 +307,8 @@ $(function(){
 				<a class="green" onclick="sample4_execDaumPostcode()" >주소 검색</a> </label> <!-- <input type="text" name="addr"/> --> 
 				
 				<input type="text" id="sample4_postcode" placeholder="우편번호"></li>
-				<li><label><span class="red_txt"></span></label><input type="text" name="addr" id="sample4_roadAddress" placeholder="도로명주소"></li>
-				<li><label><span class="red_txt"></span></label><input type="text" id="sample4_jibunAddress" placeholder="지번주소"> <br/></li>
+				<li><label><span class="red_txt"></span></label><input type="text" id="sample4_roadAddress" placeholder="도로명주소"></li>
+				<li><label><span class="red_txt"></span></label><input type="text" name="addr" id="sample4_jibunAddress" placeholder="지번주소"> <br/></li>
 				<li><label><span class="red_txt"></span></label><span id="guide" style="color:#999;display:none"></span></li>
 				<li><label><span class="red_txt"></span></label><input type="text" id="sample4_detailAddress" placeholder="상세주소"> <br/> </li>
 				<li><label><span class="red_txt"></span></label><input type="text" id="sample4_extraAddress" placeholder="참고항목"> </li>
@@ -431,7 +438,12 @@ $(function(){
 		
 			<ul class="form_box">
 				<li id="hPic"><img id="houseImg1" name="houseImg1" src="#" alt="upload image" /></li>
-				<li> <input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);"/> <br/> </li>
+				<li> <input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);"/>
+<!-- 					<input type="file" accept="image/*" name="filename2"  id="housepic2" onchange="readURL(this);"/> -->
+<!-- 					<input type="file" accept="image/*" name="filename3"  id="housepic3" onchange="readURL(this);"/> -->
+<!-- 					<input type="file" accept="image/*" name="filename4"  id="housepic4" onchange="readURL(this);"/> -->
+<!-- 					<input type="file" accept="image/*" name="filename5"  id="housepic5" onchange="readURL(this);"/>  -->
+					<br/> </li>
 			</ul>
 				<div class="btnclass">
 					<a class="green" id="hPrev3">이전</a>
@@ -447,9 +459,9 @@ $(function(){
 		<p class="s_title">우리집설명 </p> <br/>
 		<p>&nbsp;</p>
 		</div>
-		
-			<textarea id="houseprofile" name="houseprofile"></textarea><br/>
-			
+		<div id="ck">
+			<textarea id="write" name="houseprofile"></textarea><br/>
+		</div>	
 				<div class="btnclass">
 					<a class="green" id="hPrev4" >이전</a>
 					<a class="green" id="hNext4" >등록</a> 
@@ -467,19 +479,19 @@ $(function(){
 		
 			<ul class="form_box">
 				<li><label><span class="red_txt">*</span>방 이름 </label> <input type="text" name="roomName"/></li>
-				<li><span class="red_txt">*</span><label id="rent_label">월세(관리비포함)</label> <input type="number" name="rent"/> </li> 
+				<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" name="rent"/> </li> 
 					
-				<li><span class="red_txt">*</span><label id="deposit_label">보증금 </label><input type="number" name="deposit"/> 	</li>
-				<li><span class="red_txt">*</span><label>방 인원</label> <input type="number" name="roomPeople"/> </li>
-				<li><span class="red_txt">*</span><label>입주 가능일 </label> <input type="date" name="enterdate"/> </li>
-				<li><span class="red_txt">*</span><label>최소 거주 기간</label>
+				<li><label><span class="red_txt">*</span>보증금 </label><input type="number" name="deposit"/> 	</li>
+				<li><label><span class="red_txt">*</span>방 인원</label> <input type="number" name="roomPeople"/> </li>
+				<li><label><span class="red_txt">*</span>입주 가능일 </label> <input type="date" name="enterdate"  min="${now}"/> </li>
+				<li><label><span class="red_txt">*</span>최소 거주 기간</label>
 					<select name="minStay" id="minStay">
 						<option value="1-3개월">1~3 개월</option>
 						<option value="4-6개월">4~6 개월</option>
 						<option value="7-12개월">7~12 개월</option>
 						<option value="1년이상">1년 이상</option>
 					</select> 
-				<li><span class="red_txt">*</span><label class="houseWrite6_label">최대 거주 기간</label>
+				<li><label class="houseWrite6_label"><span class="red_txt">*</span>최대 거주 기간</label>
 					<select name="maxStay" id="maxStay">
 						<option value="1-3개월">1~3 개월</option>
 						<option value="4-6개월">4~6 개월</option>

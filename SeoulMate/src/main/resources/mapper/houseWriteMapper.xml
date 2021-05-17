@@ -24,4 +24,14 @@
 		update housewrite set addr=#{addr}, housePic1=#{housePic}, room=#{room}, bathroom=#{bathroom}, nowpeople=#{nowpeople}, searchpeople=#{searchpeople},
 		publicfacility=#{publicfacility}, houseprofile=#{houseprofile}, housename=#{housename} where userid=#{userid} and no=#{no}
 	</update>
+	<select id="housenameCheck" resultType="String">
+		select housename from housewrite where pno=#{param1}
+	</select>
+	<update id="housenameUpdate">
+		update propensity set housename= #{param1} where pno=#{param2}
+	</update>
+	<select id="houseSelect" resultType="com.seoulmate.home.vo.HouseWriteVO">
+		 select no, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, searchpeople, publicfacility, writedate, enddate, 
+		 housestate, houseprofile from housewrite where userid=#{param1}
+	</select>
   </mapper>
