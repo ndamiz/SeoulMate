@@ -10,6 +10,11 @@ import com.seoulmate.home.vo.MateWriteVO;
 public interface MypageService {
 	// 찜 등록하기
 	public int likemarkInsert(int no, String userid, String category);
+	// 찜 삭제하기
+	public int likemarkDelete(int no, String userid);
+	//사용자가 찜한 번호 가져오기
+	public String[] getLikedNumber(String userid);
+	
 	//목록 불러오기
 	public List<LikeMarkVO> likemarkAllRecord(String category, String userid);
 	//하우스 글 정보 불러오기

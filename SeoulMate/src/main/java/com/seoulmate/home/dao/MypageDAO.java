@@ -10,6 +10,10 @@ public interface MypageDAO {
 	// 찜 목록/////////////////////////////////////////////
 	// 찜 등록하기
 	public int likemarkInsert(int no, String userid, String category);
+	// 찜 삭제하기
+	public int likemarkDelete(int no, String userid);
+	//사용자가 찜한 번호 가져오기
+	public String[] getLikedNumber(String userid);
 
 	//글 번호, 카테고리 받아오기
 	public List<LikeMarkVO> likemarkAllRecord(String category, String userid);

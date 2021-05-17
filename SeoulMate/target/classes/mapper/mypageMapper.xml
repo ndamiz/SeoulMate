@@ -6,6 +6,9 @@
 	<insert id="likemarkInsert">
 		insert into likemark(lno, no, userid, category) values(likesq.nextval, ${param1}, #{param2}, #{param3})
 	</insert>
+	<delete id="likemarkDelete">
+		delete from likemark where no=${param1} and userid=#{param2}
+	</delete>
 	<select id="likemarkAllRecord" resultType="com.seoulmate.home.vo.LikeMarkVO">
 		select no, category from likemark where
 		category=#{param1} and userid=#{param2} order by lno desc
@@ -115,5 +118,8 @@
 				mem2.userid =p.userid) mem 
 		ON 
 			m.userid=mem.userid WHERE m.NO=${no }
+	</select>
+	<select id="getLikedNumber" resultType="String">
+		select no from likemark where userid=#{param1}
 	</select>
 </mapper>

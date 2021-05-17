@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script src = "<%=request.getContextPath()%>/js/like.js"></script>
 <c:set var ="mateArrList" value="mateMapList"/>
 <script>
    function exitCheck(){
@@ -9,6 +10,47 @@
    }
    exitCheck();
    console.log(${logGrade});
+   
+   $(function(){
+	   //내가 찜한 글은 별버튼에 불 들어오기
+	   //페이지에서 모든 글번호 가져와서 리스트에 담기
+	   var noList = new Array();
+	   $('.btn_star').each(function(index, item){
+		   noList.push($(item).val());
+	   });
+	   
+	   $.ajax({
+		   url : '/home/likemarkCheck',
+		   data : {'noList': noList, 'userid': '${logId}'},
+		   traditional : true,
+		   success : function(){
+			   alert("/???")
+		   },error : function(){
+			   alert("!!!!")
+		   }
+	   });
+		
+		
+		// 찜하기
+		$('.btn_star').click(function(){
+			var obj = $(this);
+			var no = $(this).val();
+			var userid = '${logId}'
+			var category = ''; 
+			if($(obj).hasClass('on')){// 이미 등록한 버튼 눌리면 찜목록에서 삭제
+				likeDelete(no, userid, obj)
+			}else{
+				if($(this).hasClass('houselike')){ // 찜하는 글이 하우스 글일때
+					category = '하우스'; 
+				}else{ //메이트 글일때.
+					category = '메이트';
+				}
+				likeInsert(no, category, userid, obj); // 찜 등록 ajax함수.
+			}
+		});
+   });
+   
+   
 </script>
 <div class="main_wrap">
    <div class="content">
@@ -45,9 +87,10 @@
 	            <li>
 	               <div class="list_img">
 	                  <p><span>매칭</span>${phList.score}<b>%</b></p>
-	                  <button class="btn_star"></button>
+	                  <c:if test="${logId != null}">
+	                  	<button class="btn_star houselike" value="${phList.no}"></button>
+	                  </c:if>
 	                  <a href="">
-	                  	<input type="hidden" value="${phList.no}"/>
 	                     <img alt="${phList.housename}" src="<%=request.getContextPath()%>/housePic/${phList.housepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
 	                  </a>
 	               </div>
@@ -80,7 +123,9 @@
                	<c:if test="${logGrade==2}">
                   <p><span>매칭</span>${newHouseVO.score}<b>%</b></p>
                 </c:if>
-                  <button class="btn_star"></button>
+                  <c:if test="${logId != null}">
+	              	<button class="btn_star houselike" value=""></button>
+	              </c:if>
                   <a href="">
                      <img alt="" src="<%=request.getContextPath()%>/housePic/${newHouseVO.housepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
                   </a>
@@ -114,7 +159,7 @@
 		            <li>
 		               <div class="list_img">
 		                  <p><span>매칭</span>90<b>%</b></p>
-		                  <button class="btn_star"></button>
+		                  <button class="btn_star matelike"></button>
 		                  <a href="">
 		                     <img alt="" src="<%=request.getContextPath()%>/matePic/sample_mate01.png">
 		                  </a>
@@ -146,7 +191,7 @@
             <li>
                <div class="list_img">
                   <p><span>매칭</span>90<b>%</b></p>
-                  <button class="btn_star"></button>
+                  <button class="btn_star matelike"></button>
                   <a href="">
                      <img alt="" src="<%=request.getContextPath()%>/matePic/${newMateVO.matePic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
                   </a>

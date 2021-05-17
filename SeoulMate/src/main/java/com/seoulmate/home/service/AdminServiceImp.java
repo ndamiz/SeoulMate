@@ -203,4 +203,9 @@ public class AdminServiceImp implements AdminService {
 	public int faqUpdate(FaqVO fVO) {
 		return dao.faqUpdate(fVO);
 	}
+	@Override
+	public int removeBlacklist(String userid) {
+		// 신고관리 - 블랙리스트 제거
+		return dao.removeBlacklist(userid);
+	}
 }

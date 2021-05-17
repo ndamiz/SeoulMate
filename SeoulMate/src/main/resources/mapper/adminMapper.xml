@@ -216,23 +216,27 @@
   		select * from (select * from (select * from 
   		(select * from 
   		(select * from 
-  		(select r.num, r.userid, r.reportid, r.category, r.no, r.reportdate, r.state, m.state bState from report r join  
-		member m on r.userid = m.userid 
+  		(select r.num, r.userid, r.reportid, r.category, r.no, r.reportdate, r.state, m.state bState from report r join member m on r.userid = m.userid 
   		<if test='searchKey !=null and searchWord != null and searchKey != "" and searchWord !=""'>where r.${searchKey} like '%${searchWord}%'</if>)
   		<if test="grade != null and grade != ''"> where category=#{grade} </if>)
   		<if test='state != null and state !=""'> where state=#{state}</if>)  
-  		order by no desc)
-  		where <![CDATA[rownum<=]]>${pageNum * onePageRecode} order by no asc)
+  		order by num desc)
+  		where <![CDATA[rownum<=]]>${pageNum * onePageRecode} order by num asc)
   		where <![CDATA[rownum<=]]><if test="pageNum==totalPage">${lastPageRecode}</if> 
-  		<if test="pageNum!=totalPage">${onePageRecode}</if> ORDER BY no DESC
+  		<if test="pageNum!=totalPage">${onePageRecode}</if> ORDER BY num DESC
   	</select>
   	<select id="reportInfo" resultType="com.seoulmate.home.vo.ReportVO">
-  		select r.num, r.no, r.category, r.userid, reportid, reportcategory, reportcontent, reportdate, r.state, c.state vState, m.state bState
+  		select r.num, r.no, r.category, r.userid, reportid, reportcategory, reportcontent, reportdate, r.state, 
+  		<if test="param2 != '채팅' ">
+  			c.state vState, 
+  		</if>
+  		m.state bState
   		from report r join 
   		<if test="param2 == '하우스'">housewrite c on r.no=c.no </if>
    		<if test="param2 == '메이트'">matewrite c on r.no=c.no </if>
    		<if test="param2 == '커뮤니티'">community c on r.no=c.no </if>
    		<if test="param2 == '댓글'">communityreply c on r.no=c.num</if>
+   		<if test="param2 == '채팅'">chatroom c on r.no=c.no</if>
    		join member m on m.userid=r.userid where r.num=${param1}
   	</select>
   	<select id="reportCategorySelect" resultType="String">
@@ -271,6 +275,9 @@
   	</select>
   	<update id="addBlacklist">
   		update member set state='블랙' where userid=#{param1}
+   	</update>
+   	<update id="removeBlacklist">
+   		update member set state='일반' where userid=#{param1} 
    	</update>
    	<select id="getState" resultType="String">
    		select state vState from 
