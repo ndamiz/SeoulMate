@@ -94,7 +94,9 @@ public interface AdminService {
 	public String getNumFromReport(int no);
 	// 페이징을 위한 총 레코드 수 구하기
 	public int reportRecordCnt(PagingVO pVO);
-	//contact management ///////////////////////////////////////
+	// 블랙리스트에서 제거
+	public int removeBlacklist(String userid);
+//contact management ///////////////////////////////////////
 	//문의 목록 출력
 	public List<ContactVO> contactAllRecord(PagingVO pVO);
 	//문의 목록 레코드 수 구하기

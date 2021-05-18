@@ -1,14 +1,55 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script src = "<%=request.getContextPath()%>/js/like.js"></script>
 <c:set var ="mateArrList" value="mateMapList"/>
 <script>
+	$(function(){
+		$("#hPnoSelect>a").click(function(){
+			var hpno=$(this).attr("id");
+			location.href="hpnoDefault?pno="+hpno;
+		});
+	});
    function exitCheck(){
       if(${pwdCheck=='일치'}){
          alert("그동안 서울 메이트를 이용해주셔서 감사합니다.");
       }
    }
+   
    exitCheck();
    console.log(${logGrade});
+   $(function(){
+	   //내가 찜한 글은 별버튼에 불 들어오기==============================================세트
+	   if(${logId != null}){ // 로그인 했을때만 실행
+		   $.ajax({
+			   url : '/home/likemarkCheck',
+			   data : {'userid': '${logId}'},
+			   traditional : true,
+			   success : function(result){
+				   likeButtonOn(result);
+			   },error : function(){
+				   alert('찜 목록 불러오기 실패')
+			   }
+		   });
+	   }
+		// 찜하기 등록 + 삭제
+		$('.btn_star').click(function(){
+			var obj = $(this);
+			var no = $(this).val();
+			var userid = '${logId}'
+			var category = ''; 
+			if($(obj).hasClass('on')){// 이미 등록한 버튼 눌리면 찜목록에서 삭제
+				likeDelete(no, userid, obj)
+			}else{
+				if($(this).hasClass('houselike')){ // 찜하는 글이 하우스 글일때
+					category = '하우스'; 
+				}else{ //메이트 글일때.
+					category = '메이트';
+				}
+				likeInsert(no, category, userid, obj); // 찜 등록 ajax함수.
+			}
+		});//=====================================================================세트
+   });
+   
 </script>
 <div class="main_wrap">
    <div class="content">
@@ -31,37 +72,62 @@
          </div>
       </form>
    </div>
-   
+   <c:if test="${myHousePnoCnt>0}">
+	   <c:if test="${logGrade==2}"> <!-- 프리미엄인 하우스의 성향 고르기 -->
+	   		<div class="title_wrap" id="hPnoSelect">
+	   			<p class="s_title">어느 집의 메이트를 구하시나요?</p><br/>
+				<c:forEach var="housePno" items="${myHousePno}">
+					<a class="<c:if test='${hPno==housePno.pno}'>green</c:if>" id="${housePno.pno}">
+						<c:if test="${housePno.housename!=null}">${housePno.housename}</c:if>
+						<c:if test="${housePno.housename==null}">${housePno.pno}</c:if>
+					</a>
+				</c:forEach>
+			</div>
+   	   </c:if>
+   </c:if>
    <!-- 프리미엄 추천 쉐어하우스 -->
    <c:if test="${logGrade==2}">
-   <section class="content recommend_list">
-      <div class="list_head">
-         <p class="m_title">${logName}님과 잘 어울리는 집이예요!</p>
-         <a href="">더보기</a>
-      </div>
-      <ul class="list_content">
-         <c:forEach var="i" begin="0" end="2">
-            <li>
-               <div class="list_img">
-                  <p><span>매칭</span>90<b>%</b></p>
-                  <button class="btn_star"></button>
-                  <a href="">
-                     <img alt="" src="<%=request.getContextPath()%>/housePic/sample_house01.png">
-                  </a>
-               </div>
-               <div class="list_title">
-                  <span class="address">서울시 마포구 서강동</span>
-                  <span class="pay">￦ 100 / 25</span>
-               </div>
-               <ol class="list_icon">
-                  <li><p>1</p></li>
-                  <li><p>2</p></li>
-                  <li><p>3</p></li>
-               </ol>
-            </li>
-         </c:forEach>
-      </ul>
-   </section>
+	   <c:if test="${matePnoCheck>0}">
+		   <section class="content recommend_list">
+		      <div class="list_head">
+			       <p class="m_title">${logName}님과 잘 어울리는 집이예요!</p>
+			       <a href="">더보기</a>
+		      </div>
+		      <c:if test="${phList!=null}">
+			      <ul class="list_content">
+			         <c:forEach var="phList" items="${phList}">
+			            <li>
+			               <div class="list_img">
+			                  <p><span>매칭</span>${phList.score}<b>%</b></p>
+			                   <c:if test="${logId != null}">
+	                  				<button class="btn_star houselike" value="${phList.no}"></button>
+	                		  </c:if>
+			                  <a href="">
+			                  	<input type="hidden" value="${phList.no}"/>
+			                     <img alt="${phList.housename}" src="<%=request.getContextPath()%>/housePic/${phList.housepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
+			                  </a>
+			               </div>
+			               <div class="list_title">
+			                  <span class="address">${phList.addr}</span>
+			                  <span class="pay">￦ ${phList.deposit} / ${phList.rent}</span>
+			               </div>
+			               <ol class="list_icon">
+			                  <li><p>${phList.room}</p></li>
+			                  <li><p>${phList.bathroom}</p></li>
+			                  <li><p>${phList.nowpeople}</p></li>
+			               </ol>
+			            </li>
+			         </c:forEach>
+			      </ul>
+		      </c:if>
+		      <c:if test="${phList==null}">
+		      	<div class="empty_div">
+			      	<img class="empty" src="<%=request.getContextPath()%>/img/empty.png" onerror="this.src='<%=request.getContextPath()%>/img/empty.png'"/>
+			      	<p style="text-align:center;">매칭에 맞는 결과가 없습니다.</p>
+		      	</div>
+		      </c:if>
+		   </section>
+	   </c:if>
    </c:if>
    
    <!-- 신규 쉐어하우스 -->
@@ -74,7 +140,12 @@
          <c:forEach items="${newHouseList}" var="newHouseVO">
             <li>
                <div class="list_img">
-                  <p><span>매칭</span>90<b>%</b></p>
+               <input type="hidden" value="${newHouseVO.no}"/> <!-- 글 번호 확인용 -->
+               	<c:if test="${logGrade==2}">
+               	  <c:if test="${matePnoCheck>0}"> <!-- 등록된 메이트 성향이 없으면 매칭을 안보여줌 -->
+                  <p><span>매칭</span>${newHouseVO.score}<b>%</b></p>
+                  </c:if>
+                </c:if>
                   <button class="btn_star"></button>
                   <a href="">
                      <img alt="" src="<%=request.getContextPath()%>/housePic/${newHouseVO.housepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
@@ -94,39 +165,48 @@
       </ul>
    </section>
    
-   <c:if test="${logGrade==2}">
-   <!-- 프리미엄 추천 하우스메이트 -->
-   <section class="content recommend_list mate_list">
-      <div class="list_head">
-         <p class="m_title">${logName}님과 잘 어울리는 메이트예요!</p>
-         <a href="">더보기</a>
-      </div>
-      <ul class="list_content">
-         <c:forEach var="i" begin="0" end="2">
-            <li>
-               <div class="list_img">
-                  <p><span>매칭</span>90<b>%</b></p>
-                  <button class="btn_star"></button>
-                  <a href="">
-                     <img alt="" src="<%=request.getContextPath()%>/matePic/sample_mate01.png">
-                  </a>
-               </div>
-               <div class="list_title">
-                  <span class="mate_id">USER1</span>
-                  <span class="pay">￦ 100 / 25</span>
-               </div>
-               <span class="address">서강동 | 합정동 | 당산동</span>
-               <ol class="list_icon">
-                  <li><p>여</p></li>
-                  <li><p>27세</p></li>
-                  <li><p>즉시</p></li>
-               </ol>
-            </li>
-         </c:forEach>
-      </ul>
-   </section>
+   <c:if test="${myHousePnoCnt>0}">
+	   <c:if test="${logGrade==2}">
+		   <!-- 프리미엄 추천 하우스메이트 -->
+		   <section class="content recommend_list mate_list">
+		      <div class="list_head">
+		         <p class="m_title">${logName}님과 잘 어울리는 메이트예요!</p>
+		         <a href="">더보기</a>
+		      </div>
+		      <c:if test="${pmList!=null}">
+			      <ul class="list_content">
+			         <c:forEach var="pmList" items="${pmList}">
+			            <li>
+			               <div class="list_img">
+			                  <p><span>매칭</span>${pmList.score}<b>%</b></p>
+			                  <button class="btn_star"></button>
+			                  <a href="">
+			                     <img alt="" src="<%=request.getContextPath()%>/matePic/${pmList.matepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
+			                  </a>
+			               </div>
+			               <div class="list_title">
+			                  <span class="mate_id">USER1</span>
+			                  <span class="pay">￦ 100 / 25</span>
+			               </div>
+			               <span class="address">서강동 | 합정동 | 당산동</span>
+			               <ol class="list_icon">
+			                  <li><p>여</p></li>
+			                  <li><p>27세</p></li>
+			                  <li><p>즉시</p></li>
+			               </ol>
+			            </li>
+			         </c:forEach>
+			      </ul>
+		      </c:if>
+		      <c:if test="${pmList==null}">
+				<div class="empty_div">
+	      			<img class="empty" src="<%=request.getContextPath()%>/img/empty.png" onerror="this.src='<%=request.getContextPath()%>/img/empty.png'"/>
+	      			<p style="text-align:center;">매칭에 맞는 결과가 없습니다.</p>
+      			</div>
+		      </c:if>
+		   </section>
+	   </c:if>
    </c:if>
-   
    <!-- 신규 하우스메이트 -->
    <section class="content recommend_list mate_list">
       <div class="list_head">
@@ -137,10 +217,12 @@
          <c:forEach items="${newMateList}" var="newMateVO">
             <li>
                <div class="list_img">
-                  <p><span>매칭</span>90<b>%</b></p>
+               	 <c:if test="${myHousePnoCnt>0}"> <!-- 등록된 하우스 성향이 없으면 매칭을 안보여줌 -->
+                  <p><span>매칭</span>${newMateVO.score}<b>%</b></p>
+                 </c:if>
                   <button class="btn_star"></button>
                   <a href="">
-                     <img alt="" src="<%=request.getContextPath()%>/matePic/${newMateVO.matePic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
+                     <img alt="" src="<%=request.getContextPath()%>/matePic/${newMateVO.matePic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'">
                   </a>
                </div>
                <div class="list_title">

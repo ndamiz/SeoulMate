@@ -65,8 +65,15 @@ public class BoardController {
 	
 	//커뮤니티에 글쓰기버튼 클릭시
 	@RequestMapping("/communityWrite")
-	public String communityWrite() {
-		return "/board/communityWrite";
+	public ModelAndView communityWrite(HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		if(session.getAttribute("logId") != null) {
+			 mav.setViewName("/board/communityWrite");
+		}else if(session.getAttribute("logId") == null) {
+			System.out.println(session.getAttribute("logId")+"--------------------------");
+			mav.setViewName("redirect:communityList");
+		}
+		return mav;
 	}
 	
 	//글쓰기 폼에서 글쓰기 클릭 -> 글 등록
@@ -89,42 +96,56 @@ public class BoardController {
 		}
 		return mav;
 	}
-	//////////////////////////////////찜하기->멤버나 마이페이지로 이동해야함
-	@RequestMapping("/memberLike")
-	public String memberLike() {
-		return "/board/memberLike";
-	}
 	
 	//글 내용보기
 	@RequestMapping("/communityView")
 	public ModelAndView boardView(int no, HttpServletRequest req, PageVO pVO) {
-		//조회수 올리기
-		service.hitUpdate(no);
-		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("vo", service.boardSelect(no));
-		mav.addObject("replyCnt", service.replyCount(no));
-		//관리자 접근일때
-		if(req.getParameter("reply") != null) {
-			System.out.println(req.getParameter("reply")+"댓글번호");
-			mav.addObject("reply", req.getParameter("reply"));
-		}else {
-			System.out.println(req.getParameter("reply")+"댓글번호");
-			mav.addObject("reply", "0");
-		}
-		mav.setViewName("/board/communityView");
 		
-		//다음글 이전글
-		pVO = service.nextPrevSelect(no, pVO.getCategory(), pVO.getSearchKey(), pVO.getSearchWord());
-		mav.addObject("pVO", pVO);
+		//get방식으로 타고올때 우연히 비공개 글인 경우
+		int numState = service.stateCheck(no, (String)req.getSession().getAttribute("logId"));
+		if(numState>0) {
+			//조회수 올리기
+			service.hitUpdate(no);
+			
+			mav.addObject("vo", service.boardSelect(no));
+			mav.addObject("replyCnt", service.replyCount(no));
+			//관리자 접근일때
+			if(req.getParameter("reply") != null) {
+				System.out.println(req.getParameter("reply")+"댓글번호");
+				mav.addObject("reply", req.getParameter("reply"));
+			}else {
+				System.out.println(req.getParameter("reply")+"댓글번호");
+				mav.addObject("reply", "0");
+			}
+			mav.setViewName("/board/communityView");
+			
+			//다음글 이전글
+			pVO = service.nextPrevSelect(no, pVO.getCategory(), pVO.getSearchKey(), pVO.getSearchWord());
+			mav.addObject("pVO", pVO);
+		}else {
+			mav.setViewName("redirect:communityList");
+		}
 		return mav;
 	}
 	//글 수정하기
 	@RequestMapping("/communityEdit")
-	public ModelAndView communityEdit(int no) {
+	public ModelAndView communityEdit(int no, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("list", service.boardSelect(no));
-		mav.setViewName("/board/communityEdit");
+		
+		if((String)req.getSession().getAttribute("logId") != null) { //로그인했을때
+			//get방식으로 타고올때 우연히 비공개 글인 경우
+			int numState = service.stateCheck(no, (String)req.getSession().getAttribute("logId"));
+			if(numState>0) {
+				mav.addObject("list", service.boardSelect(no));
+				mav.setViewName("/board/communityEdit");
+			}else {
+				mav.setViewName("redirect:communityList");
+			}
+		}else { //로그인 안하면
+			mav.setViewName("redirect:communityList");
+		}
+		
 		return mav;
 	}
 	//글 수정 update
@@ -150,32 +171,43 @@ public class BoardController {
 	public ModelAndView communitDel(int no, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		
-		//트랜잭션
-		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
-		def.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED); // 트랜잭션 호출
-		TransactionStatus status = transactionManager.getTransaction(def); 
-		
-		try {
-			if(service.communityDelete(no,(String)session.getAttribute("logId"))>0) {
-				//신고테이블에 있는 먼저 조회한다
-				String reportNum = aService.getNumFromReport(no);
-				System.out.println(reportNum+"????????????????????");
-				if(reportNum!=null) {
-					//글이 삭제되면 신고 테이블에서 상태 '삭제됨'으로 업데이트
-					aService.reportStateUpdate(Integer.parseInt(reportNum), "삭제됨");
+		if((String)session.getAttribute("logId") != null) {
+			//get방식으로 타고올때 우연히 비공개 글인 경우
+			int numState = service.stateCheck(no, (String)session.getAttribute("logId"));
+			System.out.println(numState+"=================");
+			if(numState>0) {
+				//트랜잭션
+				DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+				def.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED); // 트랜잭션 호출
+				TransactionStatus status = transactionManager.getTransaction(def); 
+				
+				try {
+					if(service.communityDelete(no,(String)session.getAttribute("logId"))>0) {
+						//신고테이블에 있는 먼저 조회한다
+						String reportNum = aService.getNumFromReport(no);
+						System.out.println(reportNum+"????????????????????");
+						if(reportNum!=null) {
+							//글이 삭제되면 신고 테이블에서 상태 '삭제됨'으로 업데이트
+							aService.reportStateUpdate(Integer.parseInt(reportNum), "삭제됨");
+						}
+						transactionManager.commit(status);
+						mav.setViewName("redirect:communityList");
+					}else {
+						mav.addObject("no", no);
+						mav.setViewName("redirect:communityView");
+					}
+					
+				}catch(Exception e) {
+					e.printStackTrace();
+					System.out.println("글살제 트랜잭션 발생...");
+					mav.addObject("no", no);
+					mav.setViewName("redirect:communityView");
 				}
-				transactionManager.commit(status);
-				mav.setViewName("redirect:communityList");
 			}else {
-				mav.addObject("no", no);
-				mav.setViewName("redirect:communityView");
+				mav.setViewName("redirect:communityList");
 			}
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-			System.out.println("글살제 트랜잭션 발생...");
-			mav.addObject("no", no);
-			mav.setViewName("redirect:communityView");
+		}else {
+			mav.setViewName("redirect:communityList");
 		}
 		return mav;
 	}

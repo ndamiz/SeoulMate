@@ -26,5 +26,7 @@ public interface BoardDAO {
 	public int communityEdit(BoardVO vo);
 	//이전글 다음글
 	public PageVO nextPrevSelect(int no, String category, String searchKey, String searchWord);
+	//비정상적 get방식 체크
+	public int stateCheck(int no, String userid);
 	
 }

@@ -137,7 +137,7 @@ public class AdminController {
 			String content = "<div style='width: 600px; border-radius: 20px; "
 					+ "background-color: #fff; box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%); overflow: hidden;'>"
 					+ "<div style='height: 50px; line-height: 50px; background-color: #13a89e; color: #fff; text-align: center;'>"
-					+ "<img style='width: 121; height: 30px; margin:10px 0;' src='https://0905cjw.github.io/seoulmate_email.png'/></div>"
+					+ "<img style='width: 121; height: 30px; margin:10px 0;' src='https://0905cjw.github.io/seoulmate_logo_white.png'/></div>"
 					+ "<div style='padding: 30px;'>"
 					+ "<div style='margin:10px auto;'><h3>"+cVO.getQdate()+"에 접수된 문의사항입니다.</h3></div>"
 					+ "<span><h3>문의 내용 : <h3><h2>"+cVO.getqContent()+"<h2></span><br>"
@@ -223,7 +223,9 @@ public class AdminController {
 		if(visibility && reportVO.getState().equals("처리완료")) {
 			
 			try {
-				service.allStateUdate(reportVO.getNo(), reportVO.getUserid(), reportVO.getCategory(), reportVO.getState()); //글 상태 비공개로 변경
+				if(!reportVO.getCategory().equals("채팅")) {
+					service.allStateUdate(reportVO.getNo(), reportVO.getUserid(), reportVO.getCategory(), reportVO.getState()); //글 상태 비공개로 변경
+				}
 				service.reportStateUpdate(reportVO.getNum(), reportVO.getState()); //신고관리목록에서 처리완료로 상태변경
 
 				int reportNum = service.checkReportCnt(reportVO.getUserid()); // 누적 신고수 확인
@@ -244,8 +246,18 @@ public class AdminController {
 		}else if(reportVO.getState().equals("허위신고")) {
 		
 			try {
-				service.allStateUdate(reportVO.getNo(), reportVO.getUserid(), reportVO.getCategory(), reportVO.getState()); //글 상태 공개로 다시 변경
+				if(!reportVO.getCategory().equals("채팅")) {
+					service.allStateUdate(reportVO.getNo(), reportVO.getUserid(), reportVO.getCategory(), reportVO.getState()); //글 상태 비공개로 변경
+				}
 				service.reportStateUpdate(reportVO.getNum(), reportVO.getState());
+				
+				int reportNum = service.checkReportCnt(reportVO.getUserid()); // 누적 신고수 확인
+				//허위신고로 돌아가서 누적 신고수가 5보다 작으면
+				if(reportNum<5) {
+					service.removeBlacklist(reportVO.getUserid());
+					result += "blacklist removed+";
+				}
+				
 				transactionManager.commit(status);
 				result = "false report";
 			}catch(Exception e) {

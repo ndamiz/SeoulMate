@@ -34,6 +34,8 @@ public class MateWriteVO {
 	private int reportNum; //신고수
 	private String username;
 	
+	private int score;
+	
 	private int age;
 	private int m_now; 
 	
@@ -220,6 +222,12 @@ public class MateWriteVO {
 	}
 	public void setM_now(int m_now) {
 		this.m_now = m_now;
+	}
+	public int getScore() {
+		return score;
+	}
+	public void setScore(int score) {
+		this.score = score;
 	}
 	
 }

@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.seoulmate.home.service.ListService;
 import com.seoulmate.home.service.MemberService;
 import com.seoulmate.home.vo.MemberVO;
 import com.seoulmate.home.vo.PropensityVO;
@@ -33,6 +34,8 @@ import com.seoulmate.home.vo.PropensityVO;
 public class MemberController {
 	@Inject
 	MemberService service;
+	@Inject
+	ListService listService;
 	@Inject
 	JavaMailSenderImpl mailSender;
 	
@@ -293,6 +296,13 @@ public class MemberController {
 			session.setAttribute("logGrade", logVO.getGrade());
 			session.setAttribute("logArea", logVO.getArea1());
 			session.setAttribute("logEmail", logVO.getEmail());
+			
+			// 내 하우스 성향의 갯수를 구한다.(프리미엄인 하우스에게 메이트 매칭 목록을 띄워주기 위해)
+			int myHousePnoCnt=listService.myHousePnoCount(userid);
+			if(myHousePnoCnt>0) {
+				int newHpno=listService.newHpno(userid); // 내 최신 하우스 성향을 세션에 저장한다.
+				session.setAttribute("hPno", newHpno);
+			}
 			
 			mav.setViewName("redirect:/");
 		}
@@ -588,6 +598,14 @@ public class MemberController {
 		if(result>0) { // 성향 수정 성공
 			System.out.println("No 성향 수정에 성공한 경우");
 			// mav.addObject("pcaseH", service.propPcaseH(userid)); // 하우스인 경우 >????
+			
+			// 내 하우스 성향의 갯수를 구한다.(프리미엄인 하우스에게 메이트 매칭 목록을 띄워주기 위해)
+			int myHousePnoCnt=listService.myHousePnoCount(userid);
+			if(myHousePnoCnt>0) {
+				int newHpno=listService.newHpno(userid); // 내 최신 하우스 성향을 세션에 저장한다.
+				session.setAttribute("hPno", newHpno);
+			}
+						
 			mav.setViewName("redirect:memberProEdit");
 		}else { // 성향 수정 실패
 			System.out.println("No 성향 수정에 실패한 경우");
@@ -611,6 +629,13 @@ public class MemberController {
 			int delResult=service.proDelNoHouse(userid, pno);
 			if(delResult>0) { // 성향 삭제 성공
 				System.out.println("성향 삭제 성공");
+				
+				// 내 하우스 성향의 갯수를 구한다.(프리미엄인 하우스에게 메이트 매칭 목록을 띄워주기 위해)
+				int myHousePnoCnt=listService.myHousePnoCount(userid);
+				if(myHousePnoCnt>0) {
+					int newHpno=listService.newHpno(userid); // 내 최신 하우스 성향을 세션에 저장한다.
+					session.setAttribute("hPno", newHpno);
+				}
 			}else { // 성향 삭제 실패
 				System.out.println("성향 삭제 실패");
 			}
@@ -633,6 +658,13 @@ public class MemberController {
 				int delResult=service.proDelNoHouse(userid, pno);
 				if(delResult>0) { // 성향 삭제 성공
 					System.out.println("성향 삭제 성공");
+					
+					// 내 하우스 성향의 갯수를 구한다.(프리미엄인 하우스에게 메이트 매칭 목록을 띄워주기 위해)
+					int myHousePnoCnt=listService.myHousePnoCount(userid);
+					if(myHousePnoCnt>0) {
+						int newHpno=listService.newHpno(userid); // 내 최신 하우스 성향을 세션에 저장한다.
+						session.setAttribute("hPno", newHpno);
+					}
 				}else { // 성향 삭제 실패
 					System.out.println("성향 삭제 실패");
 				}
@@ -735,6 +767,13 @@ public class MemberController {
 		if(result>0) { // 성향 수정 성공
 			System.out.println("성향 수정에 성공한 경우");
 			// mav.addObject("pcaseH", service.propPcaseH(userid)); // 하우스인 경우 >????
+			
+			// 내 하우스 성향의 갯수를 구한다.(프리미엄인 하우스에게 메이트 매칭 목록을 띄워주기 위해)
+			int myHousePnoCnt=listService.myHousePnoCount(userid);
+			if(myHousePnoCnt>0) {
+				int newHpno=listService.newHpno(userid); // 내 최신 하우스 성향을 세션에 저장한다.
+				session.setAttribute("hPno", newHpno);
+			}
 			mav.setViewName("redirect:memberProEdit");
 		}else { // 성향 수정 실패
 			System.out.println("성향 수정에 실패한 경우");
