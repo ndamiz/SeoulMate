@@ -45,6 +45,15 @@ public class HouseController {
 	@RequestMapping("/houseView")
 	public ModelAndView houseSearch(int no, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+		String userid = (String)session.getAttribute("logId");
+		
+		HouseWriteVO hVO = service.houseSelect(no, userid); //HouseWriteVO 값 가져오기
+		HouseRoomVO rVO = service.roomSelect(no, userid); //HouseRoomVO 값 가져오기
+		PropensityVO pVO = service.propHouseSelect(userid, hVO.getPno()); //PropensityVO 값 가져오기
+		
+		mav.addObject("hVO", hVO);
+		mav.addObject("rVO", rVO);
+		mav.addObject("pVO", pVO);
 		
 		mav.setViewName("house/houseView");
 		
@@ -415,6 +424,7 @@ public class HouseController {
 	
 	
 	//하우스 삭제 -> 글이 2개 이상일때는 하우스,룸,성향 모두 함께 삭제, 글이 1개 이하일때는 성향은 남겨둬야함
+	//성향은 제외하고 houseWrite, houseRoom 만 삭제, Propensity 의 housename을 null 로 업데이트
 	@RequestMapping("/houseDel")
 	public ModelAndView houseDel(HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
@@ -423,7 +433,14 @@ public class HouseController {
 		rVO.setUserid(userid);
 		pVO.setUserid(userid);
 		
-		int result1;
+		int result1 = service.houseDel(hVO);
+		if(result1>0) {
+			System.out.println("하우스 삭제");
+			
+			rVO.setNo(hVO.getNo()); //HouseRoom 의 no을 HouseWrite의 no으로 설정
+		}else {
+			System.out.println("하우스 삭제 실패");
+		}
 		
 		return mav;
 	}
