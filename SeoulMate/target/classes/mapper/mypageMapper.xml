@@ -31,16 +31,16 @@
 			JOIN 
 				HOUSEWRITE h 
 			ON
-				h.pno(+)=p.pno) 
+				h.pno=p.pno) 
 		GROUP BY NO
 	</select>
 	<select id="myPageHouseWriteSelect" parameterType="String" resultType="com.seoulmate.home.vo.HouseWriteVO">
 		SELECT house.NO, house.PNO, house.USERID, house.HOUSENAME, room.deposit, room.rent, house.ADDR,  house.HOUSEPIC1, 
 			house.ROOM , house.BATHROOM, house.NOWPEOPLE, house.SEARCHPEOPLE, house.WRITEDATE, house.ENDDATE, house.HOUSESTATE 
 		FROM 
-			(SELECT NO, DEPOSIT, rent FROM HOUSEROOM) room 
+			(SELECT NO, min(DEPOSIT) AS DEPOSIT , min(rent) AS RENT  FROM HOUSEROOM GROUP BY no) room 
 		JOIN 
-			(SELECT h.NO, h.PNO, h.USERID ,h.ADDR, h.HOUSENAME, h.HOUSEPIC1, 
+			(SELECT h.NO, p.PNO, p.USERID ,h.ADDR, h.HOUSENAME, h.HOUSEPIC1, 
 				h.ROOM , h.BATHROOM, h.NOWPEOPLE, h.SEARCHPEOPLE, h.WRITEDATE, h.ENDDATE, h.HOUSESTATE 
 			FROM 
 				HOUSEWRITE h 
@@ -55,7 +55,7 @@
 		SELECT house.NO, house.PNO, house.USERID, house.HOUSENAME, room.deposit, room.rent, house.ADDR,  house.HOUSEPIC1, 
 			house.ROOM , house.BATHROOM, house.NOWPEOPLE, house.SEARCHPEOPLE, house.WRITEDATE, house.ENDDATE, house.HOUSESTATE 
 		FROM 
-			(SELECT NO, DEPOSIT, rent FROM HOUSEROOM) room 
+			(SELECT NO, min(DEPOSIT) AS DEPOSIT , min(rent) AS RENT  FROM HOUSEROOM GROUP BY no) room 
 		JOIN 
 			(SELECT h.NO, h.PNO, h.USERID ,h.ADDR, h.HOUSENAME, h.HOUSEPIC1, 
 				h.ROOM , h.BATHROOM, h.NOWPEOPLE, h.SEARCHPEOPLE, h.WRITEDATE, h.ENDDATE, h.HOUSESTATE 
@@ -75,7 +75,7 @@
 		JOIN 
 			MATEWRITE m 
 		ON
-			m.pno(+)=p.pno) 
+			m.pno=p.pno) 
 		GROUP BY NO
 	</select>
 	<select id="myPageMateWriteSelect" parameterType="String" resultType="com.seoulmate.home.vo.MateWriteVO">
@@ -83,7 +83,7 @@
 			to_char(writedate, 'YYYY-MM-DD') AS writedate, to_char(enddate, 'YYYY-MM-DD') AS enddate, m1.matestate, m1.m_now,
 			mem.gender, mem.age
 		FROM 
-			(SELECT m.NO, m.pno, p.USERID, m.area, m.matepic1, 
+			(SELECT m.NO, p.pno, p.USERID, m.area, m.matepic1, 
 				m.deposit, m.rent, m.enterdate, m.minstay, m.maxstay, m.writedate, m.enddate, m.matestate,
 				p.m_now
 			FROM
@@ -110,7 +110,11 @@
 		SELECT house.NO, house.PNO, house.USERID, house.HOUSENAME, room.deposit, room.rent, house.ADDR,  house.HOUSEPIC1, 
 			house.ROOM , house.BATHROOM, house.NOWPEOPLE, house.SEARCHPEOPLE, house.WRITEDATE, house.ENDDATE, house.HOUSESTATE 
 		FROM 
-			(SELECT NO, DEPOSIT, rent FROM HOUSEROOM WHERE NO= ${no } ) room 
+			(SELECT NO, min(DEPOSIT) AS DEPOSIT , min(rent) AS RENT 
+			FROM 
+				HOUSEROOM 
+			WHERE 
+				NO= ${no } GROUP BY no) room 
 		JOIN 
 			HOUSEWRITE house 
 		ON
@@ -123,7 +127,7 @@
 		FROM 
 			MATEWRITE m 
 		JOIN 
-			(SELECT mem2.userid, p.m_now, mem2.gender, mem2.birth, mem2.age 
+			(SELECT p.userid, p.m_now, mem2.gender, mem2.birth, mem2.age 
 			FROM 
 				(SELECT userid, m_now FROM PROPENSITY) p 
 			JOIN 
@@ -183,5 +187,8 @@
 	</update>
 	<select id="getLikedNumber" resultType="String">
 		select no from likemark where  userid=#{param1}
+	</select>
+	<select id="noConfirmHouseOrMate" parameterType="String" resultType="int">
+		select nvl(max(count(no)), 0) as no from ${param2} WHERE no=${param1} GROUP BY no
 	</select>
 </mapper>

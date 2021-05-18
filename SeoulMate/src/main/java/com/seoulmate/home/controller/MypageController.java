@@ -258,6 +258,15 @@ System.out.println(hwList.size());
 		}
 		return inResult;
 	}
+	//매칭완료 
+	@RequestMapping("/stateComplete")
+	public int stateComplete(int no, HttpSession session) {
+		String userid = (String)session.getAttribute("logId");
+		//noConfirmHouseOrMate 
+		service.noConfirmHouseOrMate(no, "houseWrite");
+		
+		return 1;
+	}
 	//찜 등록
 	@RequestMapping("/likemarkInsert")
 	@ResponseBody

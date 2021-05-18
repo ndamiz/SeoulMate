@@ -10,6 +10,23 @@
 			$(".alert_pop").addClass('popup_hidden');
 			$('body').removeClass('popup_Stop_Scroll');
 		});
+		// 매칭완료 상태 변경.  
+		$(document).on('click','.stateChange', function(){
+			var no = $(this).parent().children().eq(0).val();
+			var url = '/home/stateComplete'
+			var data = {"no":no}
+			console.log(no);
+			$.ajax({
+				url : url,
+				data : data,
+				success : function(result){
+					console.log(result);
+				}, error : function(){
+					console.log('마이페이지 매칭완료 처리 실패');
+				}
+			});
+			
+		});
 		//받은신청 승인, 보낸초대 승인
 		$(document).on('click','.applyInviteApprove', function(){
 			var msg = $('.myPage_HouseAndMate_Popup_Content').children().eq(0).val();
@@ -360,11 +377,17 @@
 								</ul>
 								<div class="myPage_HouseAndMate_Btn">
 									<input type="hidden" name="no" value="${hwVO.no }" />
+									<c:if test="${hwVO.housestate =='모집중'}">
 									<a href="#" class="b_btn white takeApply mypage_Popup">받은신청</a>
 									<a href="#" class="b_btn white sendInvite mypage_Popup">보낸초대</a>
-									<a href="" class="b_btn white">수정</a>
-									<a href="" class="b_btn white">삭제</a>
-									<a href="" class="b_btn green">매칭완료</a>
+									<a href="#" class="b_btn white">수정</a>
+									<a href="#" class="b_btn white">삭제</a>
+									<a href="#" class="b_btn green stateChange">매칭완료</a>
+									</c:if>
+									<c:if test="${hwVO.housestate =='매칭 완료' or hwVO.housestate =='기간 만료'}">
+									<a href="#" class="b_btn white">재등록</a>
+									<a href="#" class="b_btn white">삭제</a>
+									</c:if>
 								</div>
 							</div>
 					</c:forEach>
@@ -419,9 +442,9 @@
 								<input type="hidden" name="no" value="${mwVO.no }" />
 								<a href="#" class="b_btn white takeInvite mypage_Popup">받은초대</a>
 								<a href="#" class="b_btn white sendApply mypage_Popup">보낸신청</a>
-								<a href="" class="b_btn white">수정</a>
-								<a href="" class="b_btn white">삭제</a>
-								<a href="" class="b_btn green">매칭완료</a>
+								<a href="#" class="b_btn white">수정</a>
+								<a href="#" class="b_btn white">삭제</a>
+								<a href="#" class="b_btn green stateChange">매칭완료</a>
 							</div>
 						</div>
 					</div>

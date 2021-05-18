@@ -68,5 +68,6 @@ public interface MypageDAO {
 	public int chatUpdate(ChatRoomVO crVO);
 	//하우스명이 채팅방 네임에 있는지 확인.
 	public int chatCheckName(String name, String chatuser1, String chatuser2);
-	
+	//하우스인지, 메이트인지 확인. 
+	public int noConfirmHouseOrMate(int no, String msg);
 }

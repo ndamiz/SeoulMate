@@ -143,6 +143,11 @@ public class MypageServiceImp implements MypageService {
 	public int chatCheckName(String name, String chatuser1, String chatuser2) {
 		return dao.chatCheckName(name, chatuser1, chatuser2);
 	}
+	//하우스인지, 메이트인지 확인. 
+	@Override
+	public int noConfirmHouseOrMate(int no, String msg) {
+		return dao.noConfirmHouseOrMate(no, msg);
+	}
 	
 	
 	
