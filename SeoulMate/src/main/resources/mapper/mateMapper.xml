@@ -20,4 +20,7 @@
 		select no, pno, userid, area, matePic1, deposit, rent, enterdate, minStay, maxStay, writedate, enddate, matestate, mateProfile 
 		from matewrite where userid=#{param1h}
 	</select>
+	<delete id="mateDel" parameterType="com.seoulmate.home.vo.MateWriteVO">
+		delete from matewrite where no=#{param1} and userid=#{param2}	
+	</delete>
   </mapper>

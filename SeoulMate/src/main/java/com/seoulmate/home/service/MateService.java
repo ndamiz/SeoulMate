@@ -22,4 +22,7 @@ public interface MateService {
 	
 	//matewrite 가져오기
 	public MateWriteVO mateSelect(String userid);
+	
+	//메이트 삭제
+	public int mateDel(int no, String userid);
 }

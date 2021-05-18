@@ -261,8 +261,8 @@ $(function(){
 #roomPlus{margin-left:650px;}
 #houseWrite1 .checks { width: 560px;}
 #ck{margin:0 auto; width: 60%;}
-#houseImg1{width:150px; height:107px;}
-
+#houseImg1{width:250px; height:250px; position: relative; margin:0 auto; text-align: center;}
+#housepic1{width:250px; height: 250px; margin:0 auto;}
 #houseWrite2, #houseWrite3, #houseWrite4, #houseWrite5, 
 #houseWrite6, #houseWrite7, #houseWrite8, #houseWrite9 {display:none; margin: 0 auto;}
 
@@ -273,15 +273,14 @@ $(function(){
 #houseWrite5 .checks {width: 295px;}
 #houseWrite8{width: 800px;}
 #houseWrite8 .checks>label{width:200px;}
-#hPic{height:125px;}
+#hPic{height:250px; width: 250px; margin:0 auto; text-align: center;}
 #HproUl>li{float: right;}
 
 .title_wrap div{min-height:300px;}
 .checks{width:800px;}
 .checks>label{width:120px;}
 /* #houseWrite6 input, #houseWrite6 select{width:230px;} */
-/* #rent_label{width:191px;} */
-/* #deposit_label{width:191px;} */
+
 </style>
 <div class="wrap">
 <div class="content">
@@ -294,6 +293,7 @@ $(function(){
 		<form method="post" id="houseWriteFrm" action="houseWriteOk" enctype="multipart/form-data">
 		
 		<input type="hidden" name="pno" value="${housePno }"/>
+		<input type="hidden" name="no" value="${hVO.no }"/>
 		
 		<div id="houseWrite1"> <!-- 등록form 1 -->
 		
@@ -491,7 +491,7 @@ $(function(){
 						<option value="7-12개월">7~12 개월</option>
 						<option value="1년이상">1년 이상</option>
 					</select> 
-				<li><label class="houseWrite6_label"><span class="red_txt">*</span>최대 거주 기간</label>
+				<li><label ><span class="red_txt">*</span>최대 거주 기간</label>
 					<select name="maxStay" id="maxStay">
 						<option value="1-3개월">1~3 개월</option>
 						<option value="4-6개월">4~6 개월</option>
@@ -538,13 +538,13 @@ $(function(){
 				<li>
 					<label><span class="red_txt">*</span>생활소음</label>
 					<div class="checks">
-						<input type="radio" id="h_noise1" value="1" name="h_noise"> 
+						<input type="radio" id="h_noise1" value="1" name="h_noise" <c:if test="${vo.h_noise==1}">checked</c:if> > 
 						<label for="h_noise1">매우 조용함</label>
 						
-						<input type="radio" id="h_noies2" value="2" name="h_noise"> 
+						<input type="radio" id="h_noies2" value="2" name="h_noise" <c:if test="${vo.h_noise==2}">checked</c:if> > 
 						<label for="h_noise2">보통</label>
 						
-						<input type="radio" id="h_noise3" value="3" name="h_noise"> 
+						<input type="radio" id="h_noise3" value="3" name="h_noise" <c:if test="${vo.h_noise==3}">checked</c:if> > 
 						<label for="h_noise3">조용하지 않음</label>
 					</div>
 				</li>

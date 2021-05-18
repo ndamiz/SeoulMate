@@ -142,7 +142,10 @@ public class MateController {
 		
 		String userid = (String)session.getAttribute("logId");
 		mVO = service.mateSelect(userid);
+		System.out.println("mVO->"+mVO.getUserid());
+		
 		pVO = memService.propMateSelect(userid);
+		System.out.println("pVO->"+pVO.getUserid());
 		System.out.println("메이트 글 번호 확인:"+mVO.getNo());
 		mav.addObject("mVO", mVO);
 		mav.addObject("pVO", pVO);
@@ -192,6 +195,14 @@ public class MateController {
 	}
 	
 	
+	//메이트 삭제
+	@RequestMapping("/mateDel")
+	public ModelAndView mateDel(MateWriteVO mVO, PropensityVO pVO) {
+		ModelAndView mav = new ModelAndView();
+		
+		
+		return mav;
+	}
 	
 
 	

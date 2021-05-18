@@ -26,13 +26,11 @@ public class HouseServiceImp implements HouseService {
 
 	@Override
 	public int houseInsert(HouseWriteVO vo) { //하우스 등록
-		// TODO Auto-generated method stub
 		return hDAO.houseInsert(vo);
 	}
 
 	@Override
 	public int propInsert(PropensityVO vo) { //성향 등록
-		// TODO Auto-generated method stub
 		return pDAO.propInsert(vo);
 	}
 
@@ -73,14 +71,46 @@ public class HouseServiceImp implements HouseService {
 	}
 
 	@Override
-	public PropensityVO propHouseSelect(String userid, int pno) {
+	public PropensityVO propHouseSelect(String userid, int pno) { //pcase='h' 일 경우 성향 가져오기, 하우스 성향 가져오기
 		return pDAO.propHouseSelect(userid, pno);
 	}
 
 	@Override
-	public HouseWriteVO houseSelect(String userid) { //housewrite 가져오기
-		return hDAO.houseSelect(userid);
+	public HouseWriteVO houseSelect(int no, String userid) { //housewrite 가져오기
+		return hDAO.houseSelect(no, userid);
 	}
+
+	@Override
+	public HouseRoomVO roomSelect(int no, String userid) { //houseRoom 가져오기
+		return dao.roomSelect(no, userid);
+	}
+
+	@Override
+	public int houseUpdate(HouseWriteVO vo) { //하우스 수정하기
+		return hDAO.houseUpdate(vo);
+	}
+	
+	@Override
+	public int roomUpdate(HouseRoomVO vo) { //방 수정하기
+		return dao.roomUpdate(vo);
+	}
+
+	@Override
+	public int houseDel(HouseWriteVO vo) { //하우스 삭제
+		return hDAO.houseDel(vo);
+	}
+
+	@Override
+	public int roomDel(HouseRoomVO vo) { //방 삭제
+		return dao.roomDel(vo);
+	}
+
+	@Override
+	public String houseProfile(String housepic1,int no) { //하우스사진 가져오기
+		return hDAO.houseProfile(housepic1, no);
+	}
+
+	
 
 
 
