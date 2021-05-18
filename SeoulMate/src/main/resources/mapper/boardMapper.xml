@@ -54,15 +54,19 @@
   		update community set category=#{category}, subject=#{subject}, content=#{content}, writedate=sysdate where no=${no}
   	</update>
   	<select id="nextPrevSelect" resultType="com.seoulmate.home.vo.PageVO">
-  		select * from
-		    (select * from 
-		        (select no, category,
-		        lead(no, 1, 0) over (order by no desc) prevNo,
-		        lag(no, 1, 0) over (order by no desc) nextNo
-		        from community 
-		       <if test="param3 != null and param4 != null and param3 != '' and param4 != '' ">where subject like '%${param4}%' </if> order by no desc)
-		   where no=${param1})
-		<if test="param2 != null and param2 != '' ">where category=#{param2}</if>
+		select * from
+		    (select
+		    lead(no, 1, 0) over (order by no desc) prevNo,
+		    lag(no, 1, 0) over (order by no desc) nextNo,
+		    no, category, userid, subject, content
+		    from
+		        (select * from 
+		            (select * from
+		                (select no, category, userid, subject, content
+		                from community where state='공개')
+		           <if test="param3 != null and param4 != null and param3 != '' and param4 != '' "> where ${param3} like '%${param4}%'</if> order by no desc)
+		       <if test="param2 != null and param2 != '' "> where category=#{param2}</if>) )
+		where no=${param1}
   	</select>
   	<select id="stateCheck" resultType="int">
   		select count(no) from community where 

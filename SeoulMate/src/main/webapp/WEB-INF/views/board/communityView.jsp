@@ -305,7 +305,7 @@
 			}
 			var url = '/home/reportInsert'
 			var params = $(this).serialize();
-			
+
 			$.ajax({
 				url : url,
 				data : params,
@@ -318,6 +318,7 @@
 			});//ajax end
 			return false;
 		});
+		
 	});
 	
 	
@@ -335,10 +336,10 @@
 		</c:if>
 		<div style="text-align:right; border-bottom: 1px solid #13a89e; padding-bottom:10px; margin-bottom:10px;">
 			<c:if test="${pVO.prevNo != 0}">		
-				<a class="white aTagReset" href="communityView?no=${pVO.prevNo}">이전글</a>
+				<a class="white aTagReset" href="communityView?no=${pVO.prevNo}<c:if test="${pVO.category != null}">&category=${pVO.category}</c:if><c:if test="${category != null}">&category=${category}</c:if><c:if test="${pVO.searchKey != null}">&searchKey=${pVO.searchKey}&searchWord=${pVO.searchWord}</c:if>">이전글</a>
 			</c:if>
 			<c:if test="${pVO.nextNo != 0}">
-				<a class="white aTagReset" href="communityView?no=${pVO.nextNo}">다음글</a>
+				<a class="white aTagReset" href="communityView?no=${pVO.nextNo}<c:if test="${pVO.category != null}">&category=${pVO.category}</c:if><c:if test="${category != null}">&category=${category}</c:if><c:if test="${pVO.searchKey != null}">&searchKey=${pVO.searchKey}&searchWord=${pVO.searchWord}</c:if>">다음글</a>
 			</c:if>
 			<a class="white aTagReset" href="communityList">전체목록</a>
 		</div>

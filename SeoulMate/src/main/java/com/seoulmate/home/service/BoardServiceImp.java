@@ -61,6 +61,7 @@ public class BoardServiceImp implements BoardService {
 
 	@Override
 	public PageVO nextPrevSelect(int no, String category, String searchKey, String searchWord) {
+		System.out.println(searchWord+"------>daodaodao");
 		return dao.nextPrevSelect(no, category, searchKey, searchWord);
 	}
 
