@@ -2,6 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var ="mateArrList" value="mateMapList"/>
 <script>
+	if(${hPno}!=null){
+		alert("hPno : "+${hPno});
+	}
    function exitCheck(){
       if(${pwdCheck=='일치'}){
          alert("그동안 서울 메이트를 이용해주셔서 감사합니다.");
@@ -31,48 +34,49 @@
          </div>
       </form>
    </div>
+   <!-- 프리미엄인 하우스의 성향 고르기 -->
    
    <!-- 프리미엄 추천 쉐어하우스 -->
    <c:if test="${logGrade==2}">
-   <c:if test="${matePnoCheck>0}">
-   <section class="content recommend_list">
-      <div class="list_head">
-	       <p class="m_title">${logName}님과 잘 어울리는 집이예요!</p>
-	       <a href="">더보기</a>
-      </div>
-      <c:if test="${phList!=null}">
-	      <ul class="list_content">
-	         <c:forEach var="phList" items="${phList}">
-	            <li>
-	               <div class="list_img">
-	                  <p><span>매칭</span>${phList.score}<b>%</b></p>
-	                  <button class="btn_star"></button>
-	                  <a href="">
-	                  	<input type="hidden" value="${phList.no}"/>
-	                     <img alt="${phList.housename}" src="<%=request.getContextPath()%>/housePic/${phList.housepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
-	                  </a>
-	               </div>
-	               <div class="list_title">
-	                  <span class="address">${phList.addr}</span>
-	                  <span class="pay">￦ ${phList.deposit} / ${phList.rent}</span>
-	               </div>
-	               <ol class="list_icon">
-	                  <li><p>${phList.room}</p></li>
-	                  <li><p>${phList.bathroom}</p></li>
-	                  <li><p>${phList.nowpeople}</p></li>
-	               </ol>
-	            </li>
-	         </c:forEach>
-	      </ul>
-      </c:if>
-      <c:if test="${phList==null}">
-      	<div class="empty_div">
-	      	<img class="empty" src="<%=request.getContextPath()%>/img/empty.png" onerror="this.src='<%=request.getContextPath()%>/img/empty.png'"/>
-	      	<p style="text-align:center;">매칭에 맞는 결과가 없습니다.</p>
-      	</div>
-      </c:if>
-   </section>
-   </c:if>
+	   <c:if test="${matePnoCheck>0}">
+		   <section class="content recommend_list">
+		      <div class="list_head">
+			       <p class="m_title">${logName}님과 잘 어울리는 집이예요!</p>
+			       <a href="">더보기</a>
+		      </div>
+		      <c:if test="${phList!=null}">
+			      <ul class="list_content">
+			         <c:forEach var="phList" items="${phList}">
+			            <li>
+			               <div class="list_img">
+			                  <p><span>매칭</span>${phList.score}<b>%</b></p>
+			                  <button class="btn_star"></button>
+			                  <a href="">
+			                  	<input type="hidden" value="${phList.no}"/>
+			                     <img alt="${phList.housename}" src="<%=request.getContextPath()%>/housePic/${phList.housepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
+			                  </a>
+			               </div>
+			               <div class="list_title">
+			                  <span class="address">${phList.addr}</span>
+			                  <span class="pay">￦ ${phList.deposit} / ${phList.rent}</span>
+			               </div>
+			               <ol class="list_icon">
+			                  <li><p>${phList.room}</p></li>
+			                  <li><p>${phList.bathroom}</p></li>
+			                  <li><p>${phList.nowpeople}</p></li>
+			               </ol>
+			            </li>
+			         </c:forEach>
+			      </ul>
+		      </c:if>
+		      <c:if test="${phList==null}">
+		      	<div class="empty_div">
+			      	<img class="empty" src="<%=request.getContextPath()%>/img/empty.png" onerror="this.src='<%=request.getContextPath()%>/img/empty.png'"/>
+			      	<p style="text-align:center;">매칭에 맞는 결과가 없습니다.</p>
+		      	</div>
+		      </c:if>
+		   </section>
+	   </c:if>
    </c:if>
    
    <!-- 신규 쉐어하우스 -->
@@ -115,13 +119,6 @@
 		   <section class="content recommend_list mate_list">
 		      <div class="list_head">
 		         <p class="m_title">${logName}님과 잘 어울리는 메이트예요!</p>
-		         <select name="pno" id="myHousepno" class="custom-select">
-		         	<c:forEach var="housePno" items="${myHousePno}">
-		         		<option value="${housePno.pno}" <c:if test="${hPno==housePno.pno}">selected</c:if>>
-		         			<c:if test="${housePno.housename!=null}">${housePno.housename}</c:if>
-		         			<c:if test="${housePno.housename==null}">성향 ${housePno.pno}번</c:if>
-		         	</c:forEach>
-		         </select>
 		         <a href="">더보기</a>
 		      </div>
 		      <c:if test="${pmList!=null}">

@@ -146,7 +146,7 @@
 	FROM
 	(SELECT pno, m_gender, h_noise, h_pattern, h_pet, h_petwith, h_smoke, h_mood, h_communication, h_party, h_enter, m_pattern, 
 		m_personality, m_pet, m_smoke, m_age, m_global, m_now, substr(to_char(pdate, 'YYYY'), 1,1) AS pdate 
-	FROM PROPENSITY WHERE userid='house1234' AND pcase='h' AND pno=21) h 
+	FROM PROPENSITY WHERE userid=#{param1} AND pcase='h' AND pno=#{param2}) h 
 	FULL OUTER JOIN 
 	(SELECT mw.NO, mw.pno, mw.userid, mw.area, mw.matepic1, mw.matepic2, mw.matepic3, mw.deposit, mw.rent, mw.enterdate, mw.minstay, mw.maxstay, mw.writedate, 
 		mw.enddate, mw.matestate, mw.mateprofile, p.m_gender, p.h_noise, p.h_pattern, p.h_pet, p.h_petwith, p.h_smoke, p.h_mood, p.h_communication, p.h_party, 
