@@ -218,7 +218,9 @@
             <li>
                <div class="list_img">
                	 <c:if test="${myHousePnoCnt>0}"> <!-- 등록된 하우스 성향이 없으면 매칭을 안보여줌 -->
-                  <p><span>매칭</span>${newMateVO.score}<b>%</b></p>
+               	 	<c:if test="${logGrade==2}"> <!-- 프리미엄만 매칭을 보여줌 -->
+                  		<p><span>매칭</span>${newMateVO.score}<b>%</b></p>
+                  	</c:if>
                  </c:if>
                   <button class="btn_star"></button>
                   <a href="">

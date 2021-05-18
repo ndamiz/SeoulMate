@@ -23,4 +23,7 @@
 	<delete id="mateDel" parameterType="com.seoulmate.home.vo.MateWriteVO">
 		delete from matewrite where no=#{param1} and userid=#{param2}	
 	</delete>
+	<select id="getNewIndexMate" resultType="com.seoulmate.home.vo.MateWriteVO">
+  		<![CDATA[select * from (select * from matewrite where matestate='모집중' order by no desc) where rownum<= 9]]>
+	</select>
   </mapper>

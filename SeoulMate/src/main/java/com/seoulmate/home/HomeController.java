@@ -123,6 +123,7 @@ public class HomeController {
 			}
 		}
 		
+		
 		// 매칭
 		if(session.getAttribute("logId")!=null) {
 			int logGrade=(Integer)session.getAttribute("logGrade");
