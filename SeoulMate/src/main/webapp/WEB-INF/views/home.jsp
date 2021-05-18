@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script src = "<%=request.getContextPath()%>/js/like.js"></script>
 <c:set var ="mateArrList" value="mateMapList"/>
 <script>
 	$(function(){
@@ -13,8 +14,42 @@
          alert("그동안 서울 메이트를 이용해주셔서 감사합니다.");
       }
    }
+   
    exitCheck();
    console.log(${logGrade});
+   $(function(){
+	   //내가 찜한 글은 별버튼에 불 들어오기==============================================세트
+	   if(${logId != null}){ // 로그인 했을때만 실행
+		   $.ajax({
+			   url : '/home/likemarkCheck',
+			   data : {'userid': '${logId}'},
+			   traditional : true,
+			   success : function(result){
+				   likeButtonOn(result);
+			   },error : function(){
+				   alert('찜 목록 불러오기 실패')
+			   }
+		   });
+	   }
+		// 찜하기 등록 + 삭제
+		$('.btn_star').click(function(){
+			var obj = $(this);
+			var no = $(this).val();
+			var userid = '${logId}'
+			var category = ''; 
+			if($(obj).hasClass('on')){// 이미 등록한 버튼 눌리면 찜목록에서 삭제
+				likeDelete(no, userid, obj)
+			}else{
+				if($(this).hasClass('houselike')){ // 찜하는 글이 하우스 글일때
+					category = '하우스'; 
+				}else{ //메이트 글일때.
+					category = '메이트';
+				}
+				likeInsert(no, category, userid, obj); // 찜 등록 ajax함수.
+			}
+		});//=====================================================================세트
+   });
+   
 </script>
 <div class="main_wrap">
    <div class="content">
@@ -64,7 +99,9 @@
 			            <li>
 			               <div class="list_img">
 			                  <p><span>매칭</span>${phList.score}<b>%</b></p>
-			                  <button class="btn_star"></button>
+			                   <c:if test="${logId != null}">
+	                  				<button class="btn_star houselike" value="${phList.no}"></button>
+	                		  </c:if>
 			                  <a href="">
 			                  	<input type="hidden" value="${phList.no}"/>
 			                     <img alt="${phList.housename}" src="<%=request.getContextPath()%>/housePic/${phList.housepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">

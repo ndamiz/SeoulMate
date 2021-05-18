@@ -21,12 +21,25 @@ public class MypageServiceImp implements MypageService {
 		// 찜 등록
 		return dao.likemarkInsert(no, userid, category);
 	}
+	
+	@Override
+	public int likemarkDelete(int no, String userid) {
+		// 찜 삭제하기
+		return dao.likemarkDelete(no, userid);
+	}
+	
 	@Override
 	public List<LikeMarkVO> likemarkAllRecord(String category, String userid) {
 		// 찜 목록 출력
 		return dao.likemarkAllRecord(category, userid);
 	}
 
+	@Override
+	public String[] getLikedNumber(String userid) {
+		// 사용자의 찜목록
+		return dao.getLikedNumber(userid);
+	}
+	
 	@Override
 	public HouseWriteVO getHousedetails(int no) {
 		// 하우스
@@ -77,4 +90,7 @@ public class MypageServiceImp implements MypageService {
 	public MateWriteVO mateLikeSelect(int no) {
 		return dao.mateLikeSelect(no);
 	}
+
+	
+	
 }

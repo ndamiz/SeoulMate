@@ -1,17 +1,22 @@
 package com.seoulmate.home.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.seoulmate.home.service.MypageService;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
@@ -143,10 +148,21 @@ public class MypageController {
 	public int likemarkInsert(int no, String userid, String category) {
 		return service.likemarkInsert(no, userid, category);
 	}
+	//찜 삭제
+	@RequestMapping("/likemarkDelete")
+	@ResponseBody
+	public int likemarkDelete(int no, String userid) {
+		return service.likemarkDelete(no, userid);
+	}
 	// 인덱스 / 하우스 / 메이트에 들어가면 내가 찜한 글인지 확인 처리
-//	@RequestMapping("/likemarkCheck")
-//	@ResponseBody
-//	public 
+	@RequestMapping("/likemarkCheck")
+	@ResponseBody
+	public String likemarkCheck(String userid) {
+		//사용자가 찜한 글 번호 다 가져오기
+		String[] userNum = service.getLikedNumber(userid);
+		Gson gson = new Gson();
+		return gson.toJson(userNum);
+	}
 	//마이페이지 결제내역 확인 페이지
 	@RequestMapping("/payDetailList")
 	public ModelAndView payDetailList() {
