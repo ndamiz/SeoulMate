@@ -42,7 +42,7 @@
 		 h_smoke=#{h_smoke}, h_mood=#{h_mood}, h_communication=#{h_communication}, h_party=#{h_party}, 
 		 h_enter=#{h_enter}, h_support=#{h_supportStr}, h_etc=#{h_etcStr}, 
 		 m_pattern=#{m_pattern}, m_personality=#{m_personality}, m_pet=#{m_pet}, 
-		 m_smoke=#{m_smoke}, m_age=#{m_age}, m_gender=#{m_gender}, m_global=#{m_global}, m_now=#{m_now} 
+		 m_smoke=#{m_smoke}, m_age=#{m_age}, m_gender=#{m_gender}, m_global=#{m_global}, m_now=#{m_now}, pdate=sysdate 
 		 where userid=#{userid} and pno=#{pno}
 	</update>
 	<select id="propHcnt" parameterType="String" resultType="int">
