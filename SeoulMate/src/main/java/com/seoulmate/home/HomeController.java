@@ -135,7 +135,7 @@ public class HomeController {
 				
 				if(session.getAttribute("hPno")!=null) {
 					int pno=(Integer)session.getAttribute("hPno"); // 로그인 후에 세션에 저장된 하우스 성향 번호를 가져온다.
-					System.out.println("하우스 성향 번호 : "+pno);
+					
 					if(housePnoCheck>0) { // 메이트 성향이 있을 때만 매칭된 하우스 목록을 띄워준다.
 						int m_gender=listService.house_m_gender(userid, pno);
 						System.out.println("m_gender : "+m_gender);
@@ -196,7 +196,6 @@ public class HomeController {
 				}
 			}
 		}
-		System.out.println("세션에 저장된 하우스 성향 번호 : "+(Integer)session.getAttribute("hPno"));
 		
 		// 쉐어하우스 최신리스트 구하기
 		int MyMpnoCnt=0;
@@ -242,7 +241,6 @@ public class HomeController {
 			MemberVO mVO = service.getDetail(mwVO.getUserid());
 			mwVO.setGender(mVO.getGender());
 			
-			System.out.println("hPno : "+(Integer)session.getAttribute("hPno"));
 			if(session.getAttribute("hPno")!=null) {
 				if(session.getAttribute("logId")!=null) {
 					if((Integer)session.getAttribute("logGrade")==2) {
