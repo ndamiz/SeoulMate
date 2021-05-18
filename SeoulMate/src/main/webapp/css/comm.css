@@ -1579,3 +1579,11 @@ input.cmn_toggle_round:checked + label:after {margin-left:30px;}
 	width:max-content;
 	height:35px;
 }
+/* 하우스 성향 선택 */
+#hPnoSelect{
+	text-align:center;
+}
+#hPnoSelect *{
+	margin:20px 0;
+	
+}

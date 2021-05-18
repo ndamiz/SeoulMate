@@ -196,22 +196,31 @@ public class HomeController {
 				}
 			}
 		}
-		System.out.println("세션에 저장된 성향 번호 : "+(Integer)session.getAttribute("hPno"));
+		System.out.println("세션에 저장된 하우스 성향 번호 : "+(Integer)session.getAttribute("hPno"));
 		
 		// 쉐어하우스 최신리스트 구하기
-		int MyMpnoCnt=listService.myMatePnoCheck(userid); // 내 메이트 성향 갯수 가져오기
+		int MyMpnoCnt=0;
+		if(session.getAttribute("logId")!=null) {
+			if(listService.myMatePnoCheck(userid)>0) {
+				MyMpnoCnt=listService.myMatePnoCheck(userid);
+			}
+		}
+		
+		
+//		int MyMpnoCnt=listService.myMatePnoCheck(userid); // 내 메이트 성향 갯수 가져오기
 		List<HouseWriteVO> nhList = service.getNewHouse();
 		HouseRoomVO hrVO = new HouseRoomVO();
 		for (HouseWriteVO hwVO : nhList) {
-			
 			// 각 쉐어하우스의 제일 저렴한 월세 가져오기
 			hrVO = service.getDesposit(hwVO.getNo());
 			
-			if(MyMpnoCnt>0) {
-				if(session.getAttribute("logId")!=null) {
-					if((Integer)session.getAttribute("logGrade")==2) {
+			if(session.getAttribute("logId")!=null) {
+				if((Integer)session.getAttribute("logGrade")==2) {
+					if(MyMpnoCnt>0) {
 						ListVO scoreVO=listService.premiumHouseScore(userid, hwVO.getPno());
-						hwVO.setScore(scoreVO.getScore());
+//						if(scoreVO!=null) {
+							hwVO.setScore(scoreVO.getScore());
+//						}
 					}
 				}
 			}
@@ -291,6 +300,21 @@ public class HomeController {
 		mav.addObject("newMateList", nmList);
 		
 		mav.setViewName("home");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/hpnoDefault", method = RequestMethod.GET)
+	public ModelAndView hpnoDefault(HttpSession session, int pno) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
+		
+		// 내 하우스 성향의 갯수를 구한다.(프리미엄인 하우스에게 메이트 매칭 목록을 띄워주기 위해)
+		int myHousePnoCnt=listService.myHousePnoCount(userid);
+		if(myHousePnoCnt>0) {
+			session.setAttribute("hPno", pno);
+		}
+		mav.setViewName("redirect:/");
+		
 		return mav;
 	}
 }

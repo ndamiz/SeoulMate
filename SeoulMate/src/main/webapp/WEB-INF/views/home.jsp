@@ -2,9 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var ="mateArrList" value="mateMapList"/>
 <script>
-	if(${hPno}!=null){
-		alert("hPno : "+${hPno});
-	}
+	$(function(){
+		$("#hPnoSelect>a").click(function(){
+			var hpno=$(this).attr("id");
+			location.href="hpnoDefault?pno="+hpno;
+		});
+	});
    function exitCheck(){
       if(${pwdCheck=='일치'}){
          alert("그동안 서울 메이트를 이용해주셔서 감사합니다.");
@@ -34,8 +37,19 @@
          </div>
       </form>
    </div>
-   <!-- 프리미엄인 하우스의 성향 고르기 -->
-   
+   <c:if test="${myHousePnoCnt>0}">
+	   <c:if test="${logGrade==2}"> <!-- 프리미엄인 하우스의 성향 고르기 -->
+	   		<div class="title_wrap" id="hPnoSelect">
+	   			<p class="s_title">어느 집의 메이트를 구하시나요?</p><br/>
+				<c:forEach var="housePno" items="${myHousePno}">
+					<a class="<c:if test='${hPno==housePno.pno}'>green</c:if>" id="${housePno.pno}">
+						<c:if test="${housePno.housename!=null}">${housePno.housename}</c:if>
+						<c:if test="${housePno.housename==null}">${housePno.pno}</c:if>
+					</a>
+				</c:forEach>
+			</div>
+   	   </c:if>
+   </c:if>
    <!-- 프리미엄 추천 쉐어하우스 -->
    <c:if test="${logGrade==2}">
 	   <c:if test="${matePnoCheck>0}">
@@ -89,6 +103,7 @@
          <c:forEach items="${newHouseList}" var="newHouseVO">
             <li>
                <div class="list_img">
+               <input type="hidden" value="${newHouseVO.no}"/> <!-- 글 번호 확인용 -->
                	<c:if test="${logGrade==2}">
                	  <c:if test="${matePnoCheck>0}"> <!-- 등록된 메이트 성향이 없으면 매칭을 안보여줌 -->
                   <p><span>매칭</span>${newHouseVO.score}<b>%</b></p>
