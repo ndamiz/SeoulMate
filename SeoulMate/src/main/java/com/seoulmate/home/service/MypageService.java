@@ -46,4 +46,14 @@ public interface MypageService {
 	// 메이트 글 vo받아오는거는 myPageMateWriteSelect사용하여 받기, 
 	// 하우스 글 vo받아오기 
 	public HouseWriteVO oneHouseWriteSelect(int no);
+	//보낸신청, 보낸초대 삭제. 
+	public int mypageApplyInviteCancel(ApplyInviteVO aiVO);
+	//받은신청, 받은초대 - 승인
+	public int applyInviteApproveUpdate(ApplyInviteVO aiVO);
+	// 승인 후 housename, userid 가져오기. 
+	public HouseWriteVO chatHouseSelect(int no); 
+	// 채팅 DB 데이터 확인. 
+	public int chatCheck(String name, String chatuser1, String chatuser2);
+	// 승인 후 채팅 insert 
+	public int chatInsert(String name, String chatuser1, String chatuser2);
 }

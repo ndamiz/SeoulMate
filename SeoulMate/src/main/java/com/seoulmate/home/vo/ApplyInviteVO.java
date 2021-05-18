@@ -6,7 +6,7 @@ public class ApplyInviteVO {
 	private String userid; // mate의 유저 아이디만 들어간다. 
 	private String aidate; // 신청,초대 일자
 	private String state; //신청인지 초대인지 확인  '신청' or '초대'
-	
+	private String confirm; //승인, 미승인
 	private String msg; // 보낸초대 or 받은초대 or 보낸신청 or 보낸초대 / 팝업확인용 
 	
 	
@@ -45,6 +45,12 @@ public class ApplyInviteVO {
 	}
 	public void setMsg(String msg) {
 		this.msg = msg;
+	}
+	public String getConfirm() {
+		return confirm;
+	}
+	public void setConfirm(String confirm) {
+		this.confirm = confirm;
 	}
 	
 }

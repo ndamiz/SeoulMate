@@ -3,31 +3,282 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/hyun.css">
 <script>
-	function myPage_Popup(popupId){
-		//팝업 클릭시에 popup id를 받아와서 해당 popup div 띄워주기
-		$('#myPage_popup_FullScreen').removeClass('popup_hidden');
-		$('body').addClass('popup_Stop_Scroll');
-		console.log(popupId);
-		if(popupId=='popup_TakeApply'){
-			$("#popup_TakeApply").removeClass('popup_hidden');
-		}if(popupId=='popup_SendApply'){
-			$("#popup_SendApply").removeClass('popup_hidden');
-		}if(popupId=='popup_TakeInvite'){
-			$("#popup_TakeInvite").removeClass('popup_hidden');
-		}if(popupId=='popup_SendInvite'){
-			$("#popup_SendInvite").removeClass('popup_hidden');
-		}
-	}
 	$(function(){
 		$(document).on('click', '.popup_Close', function(){
 			$('#myPage_popup_FullScreen').addClass('popup_hidden');
 			$(".myPage_HouseAndMate_Popup").addClass('popup_hidden');
+			$(".alert_pop").addClass('popup_hidden');
 			$('body').removeClass('popup_Stop_Scroll');
 		});
+		//받은신청 승인, 보낸초대 승인
+		$(document).on('click','.applyInviteApprove', function(){
+			var msg = $('.myPage_HouseAndMate_Popup_Content').children().eq(0).val();
+			var no =0;
+			var userid = '';
+	console.log('초대승인');
+			if(msg=='takeApply'){
+				//받은 신청  takeApply  (하우스입장에서 확인 )
+				//no = 하우스글번호(본인글) , userid = 신청한 사람 아이디 (유동적)
+				no = $('.myPage_HouseAndMate_Popup_Content').children().eq(1).val();
+				userid =$(this).parent().children().eq(0).val();
+			}else if(msg == 'takeInvite'){
+				//받은 초대 takeInvite 
+				// no = 초대를한글번호 (유동적) , userid = 본인 
+				userid = $('.myPage_HouseAndMate_Popup_Content').children().eq(1).val();
+				no = $(this).parent().children().eq(0).val();
+			}
+			console.log('msg='+msg);
+			console.log('no='+no);
+			console.log('userid='+userid);
+			
+			var url = '/home/applyInviteApprove';
+			var data = {'no':no, 'msg':msg, 'userid':userid};
+			$.ajax({
+				url : url,
+				data : data,
+				success : function(result){
+					console.log(result); 
+					userid='<c:out value="${logId }"/>';
+					if(result==1){
+						// 채팅방  insert완료 
+						if(msg=='takeApply'){
+							$('.alert_pop_Content').html('<p>신청 수락이 완료되었습니다.</p><p>채팅으로 약속을 잡아보세요!</p>');
+							$('.alert_pop').removeClass("popup_hidden");
+							$('#myPage_popup_FullScreen').removeClass('popup_hidden');
+							$('body').addClass('popup_Stop_Scroll');
+						}else if(msg=='takeInvite'){
+							$('.alert_pop_Content').html('<p>초대 수락이 완료되었습니다.</p><p>채팅으로 약속을 잡아보세요!</p>');
+							$('.alert_pop').removeClass("popup_hidden");
+							$('#myPage_popup_FullScreen').removeClass('popup_hidden');
+							$('body').addClass('popup_Stop_Scroll');
+						}
+						location.reload();
+					}else if(result==200){
+						// 이미 채팅방이있다. 
+						$('.alert_pop_Content').html('<p>이미 채팅이 활성화 되어있습니다.</p><p>채팅으로 약속을 잡아보세요!</p>');
+						$('.alert_pop').removeClass("popup_hidden");
+						$('#myPage_popup_FullScreen').removeClass('popup_hidden');
+						$('body').addClass('popup_Stop_Scroll');
+							
+						userid='<c:out value="${logId }"/>';
+						applyInviteList(no, msg, userid);
+					}else {
+						console.log('리턴0 업데이트실패.');
+					}
+				}, error : function(){
+					console.log('마이페이지 받은신청, 받은초대 DB데이터 승인으로 업데이트 실패');
+				}
+			});
+		});
+		//보낸 신청, 보낸 초대 취소 클릭 시에 실행.
+		$(document).on('click', '.applyInviteCancel', function(){
+			var msg = $('.myPage_HouseAndMate_Popup_Content').children().eq(0).val();
+			var no =0;
+			var userid = '';
+			if(msg='takeApply' || msg == 'sendInvite'){
+				// 받은 신청 (userid 변동됨 /no=로그인한사람이 쓴 하우스글번호)
+				// 보낸초대 (userid변동됨(mate) / no= 로그인한사람=하우스글쓴이)
+				// 글번호는 1개고, 받은신청은 여러개/ 보낸초대 여러개 
+				no = $('.myPage_HouseAndMate_Popup_Content').children().eq(1).val();
+				userid =$(this).parent().children().eq(0).val();
+			}
+			if(msg == 'sendApply' || msg == 'takeInvite'){
+				// 보낸신청 (userid = 본인  / no = 신청을 한 글번호들)
+				// 받은 초대 (userid = 본인 / no = 나한테초대를 누른 하우스글번호)
+				// 글번호여러개, 보낸신청 / 받은초대 userid 본인 혼자.  
+				userid = $('.myPage_HouseAndMate_Popup_Content').children().eq(1).val();
+				no = $(this).parent().children().eq(0).val();
+			}
+			console.log('msg='+msg);
+			console.log('no='+no);
+			console.log('userid='+userid);
+			// ajax로 지운 후, 지웟다고 확인되면, applyInviteList(no, msg, userid) 함수 실행. 
+			var url = '/home/mypageApplyInviteCancel';
+			var data = {'no':no, 'msg':msg, 'userid':userid};
+			$.ajax({
+				url : url,
+				data : data,
+				success : function(result){
+					console.log(result); 
+					userid='<c:out value="${logId }"/>';
+					if(result>0){
+						applyInviteList(no, msg, userid);
+					}else{
+						console.log('리턴0 삭제실패.');
+					}
+				}, error : function(){
+					console.log('마이페이지 보낸신청, 보낸초대 DB데이터 삭제 실패');
+				}
+			});
+		});
+		// 리스트 
+		function applyInviteList(no, msg, userid){
+			var url = '/home/mypagePopup'
+			var data = {'no':no, 'msg':msg};
+			
+			$.ajax({
+				url:url,
+				data : data,
+				success : function(result){
+					$mwVOList = $(result.pop_mwVO);
+					$hwVOList = $(result.pop_hwVO);
+					$aiList = $(result.aiList);
+					console.log(result.aiList);
+					var tag = '';
+					var gender = '';
+					if(result.pop_mwVO!=null ){
+						
+						if(msg == 'takeApply' || msg=='sendInvite'){
+							//받은 신청 (리턴값 mate정보 리스트) // //보낸 초대 (리턴값 mate정보 리스트)
+							//1. 팝업 내용 초기화 
+							$('.myPage_HouseAndMate_Popup').children().eq(1).empty();
+							//2. 타이틀 내용 변경. 
+							if(msg == 'takeApply'){
+								$('.myPage_HouseAndMate_Popup_Title').html('받은 신청<span class="popup_Close">✕</span>');
+							}else if(msg=='sendInvite'){
+								$('.myPage_HouseAndMate_Popup_Title').html('보낸 초대<span class="popup_Close">✕</span>');	
+							}
+							tag+='<input type="hidden" name="msg" value="'+msg+'" />';	
+							tag+='<input type="hidden" name="no" value="'+no+'" />';
+							//3. 반복문돌려서 tag 만들어 넣기. 
+							
+							$mwVOList.each(function(idx,obj){
+								var confirm = '';
+								$aiList.each(function(aIdx, aObj){
+									if(obj.userid == aObj.userid){
+										confirm = aObj.confirm;
+										console.log('var confirm = '+confirm);
+									}
+								});
+								tag+='<div class="myPage_HouseAndMate_Popup_OneBlock">';
+								tag+='<div class="myPage_HouseAndMate_Popup_Img">';
+								tag+='<a href=""><img alt="" src="/home/matePic/'+obj.matePic1+'"/></a></div>';
+								tag+='<ul class="myPage_HouseAndMate_Popup_Info">';
+								if(obj.gender==1){ gender = '여성'; }
+								else if(obj.gender==2){ gender = '남성';}
+								tag+='<li><span class="s_title">'+obj.userid+'</span><span class="s_title">'+gender+'</span><span class="s_title">'+obj.age+'세</span></li>';
+								tag+='<li>';
+								if(obj.aList[0] != null && obj.aList[0] != ''){ tag += obj.aList[0]; }
+								if(obj.aList[1] != null && obj.aList[1] != ''){ tag += ' | '+ obj.aList[1]; }
+								if(obj.aList[2] != null && obj.aList[2] != ''){ tag += ' | '+ obj.aList[2]; }
+								tag+='</li>';
+								tag+='<li>보증금 : '+obj.deposit+'만원 | 월세 : '+obj.rent+'만원</li></ul>';
+								tag+='<div class="myPage_HouseAndMate_Popup_Btn">';
+								tag+='<input type="hidden" name="userid" value="'+obj.userid+'" />';
+								if(msg == 'takeApply'){
+									if(confirm=='미승인'){
+										tag+='<a href="#" class="b_btn green applyInviteApprove">신청승인</a>';
+										tag+='<a href="#" class="b_btn green applyInviteCancel">신청거절</a>';
+									}else if(confirm =='승인'){
+										tag +='<p>수락 완료</p>'
+										tag +='<p>채팅방이 활성화 되었습니다</p>';
+									}
+								}else if(msg=='sendInvite'){	
+									if(confirm=='미승인'){
+										tag+='<a href="#" class="b_btn green applyInviteCancel">초대취소</a>';
+									}else if(confirm =='승인'){
+										tag +='<p>수락 완료</p>';
+										tag +='<p>채팅방이 활성화 되었습니다</p>';
+									}
+										
+								}
+								tag+='</div></div>';
+							});
+							$('.myPage_HouseAndMate_Popup').children().eq(1).html(tag);
+							$('.myPage_HouseAndMate_Popup').removeClass("popup_hidden");
+							$('#myPage_popup_FullScreen').removeClass('popup_hidden');
+							$('body').addClass('popup_Stop_Scroll');
+						}
+					}else if(result.pop_hwVO!=null){
+						if(msg=='takeInvite' || msg=='sendApply'){
+							//받은 초대 (리턴값 house정보 리스트)  //보낸 신청 (리턴값 house정보 리스트)
+							//1. 팝업 내용 초기화 
+							$('.myPage_HouseAndMate_Popup').children().eq(1).empty();
+							//2. 타이틀 내용 변경. 
+							if(msg == 'takeInvite'){
+								$('.myPage_HouseAndMate_Popup_Title').html('받은 초대<span class="popup_Close">✕</span>');
+							}else if(msg=='sendApply'){
+								$('.myPage_HouseAndMate_Popup_Title').html('보낸 신청<span class="popup_Close">✕</span>');
+							}
+							tag+='<input type="hidden" name="msg" value="'+msg+'" />';	
+							tag+='<input type="hidden" name="userid" value="'+userid+'" />';	
+							//3. 반복문돌려서 tag 만들어 넣기. 
+							$hwVOList.each(function(idx,obj){
+								var confirm = '';
+								$aiList.each(function(aIdx, aObj){
+									if(obj.no == aObj.no){
+										confirm = aObj.confirm;
+										console.log('var confirm = '+confirm);
+									}
+								});
+								tag+='<div class="myPage_HouseAndMate_Popup_OneBlock">';
+								tag+='<div class="myPage_HouseAndMate_Popup_Img">';
+								tag+='<a href=""><img src="/home/housePic/'+obj.housepic1+'"/></a></div>';
+								tag+='<ul class="myPage_HouseAndMate_Popup_Info">';
+								tag+='<li><span class="s_title">'+obj.housename+'</span></li>';
+								tag+='<li>'+obj.addr+'</li>';
+								tag+='<li>보증금 : '+obj.deposit+'만원 | 월세 : '+obj.rent+'만원</li></ul>';
+								tag+='<div class="myPage_HouseAndMate_Popup_Btn">';
+								tag+='<input type="hidden" name="no" value="'+obj.no+'" />';						
+								if(msg == 'takeInvite'){
+									if(confirm=='미승인'){
+										tag+='<a href="#" class="b_btn green applyInviteApprove">초대승인</a>';
+										tag+='<a href="#" class="b_btn green applyInviteCancel">초대거절</a>';
+									}else if(confirm =='승인'){
+										tag +='<p>승인완료</p>'
+										tag +='<p>채팅방이 활성화 되었습니다</p>';
+									}
+								}else if(msg=='sendApply'){
+									if(confirm=='미승인'){
+										tag+='<a href="#" class="b_btn green applyInviteCancel">신청취소</a>';
+									}else if(confirm =='승인'){
+										tag +='<p>승인완료</p>';
+										tag +='<p>채팅방이 활성화 되었습니다</p>';
+									}
+								}
+								tag+='</div></div>';
+							});
+							$('.myPage_HouseAndMate_Popup').children().eq(1).html(tag);
+							$('.myPage_HouseAndMate_Popup').removeClass("popup_hidden");
+							$('#myPage_popup_FullScreen').removeClass('popup_hidden');
+							$('body').addClass('popup_Stop_Scroll');
+						}
+					}else{
+						if($(".myPage_HouseAndMate_Popup").hasClass('popup_hidden')){
+							// 누르지 않은 상태. 
+							var alertTag = '';
+							if(msg == 'takeApply'){
+								alertTag = '<p>받은신청이 없습니다</p>';
+							}else if(msg=='sendInvite'){
+								alertTag = '<p>보낸 초대가 없습니다</p>';
+							}else if(msg=='takeInvite'){
+								alertTag = '<p>받은 초대가 없습니다</p>';
+							}else if(msg=='sendApply'){
+								alertTag = '<p>보낸 신청이 없습니다</p>';
+							}
+							$('.alert_pop_Content').html(alertTag);
+							$('.alert_pop').removeClass("popup_hidden");
+							$('#myPage_popup_FullScreen').removeClass('popup_hidden');
+							$('body').addClass('popup_Stop_Scroll');
+						}else{
+							//눌러놓은 상태 
+							$('#myPage_popup_FullScreen').addClass('popup_hidden');
+							$(".myPage_HouseAndMate_Popup").addClass('popup_hidden');
+							$('body').removeClass('popup_Stop_Scroll');
+						}
+					}
+				}, error : function(){
+					console.log('마이페이지 팝업 데이터 불러오기 실패');
+				}
+			});
+		}
+		
 		// house => 받은신청, 보낸초대  ///  mate => 받은초대, 보낸신청 
 		$(document).on('click', '.mypage_Popup', function(){
-			var no = $(this).parent().children().eq(0).val();
-			var msg = '';
+			var no = $(this).parent().children().eq(0).val(); //해당 글 번호
+			var msg = ''; 
+			var userid = '<c:out value="${logId }"/>';
+			console.log(userid);
 			// 하우스 기준.
 			if($(this).hasClass("takeApply")){ // 받은 신청을 누른 경우
 				msg = 'takeApply';
@@ -39,38 +290,7 @@
 			}else if($(this).hasClass("sendApply")){ // 보낸 신청을 누른경우
 				msg='sendApply';
 			}
-			var url = '/home/mypagePopup'
-			var data = {'no':no, 'msg':msg};
-			
-			$.ajax({
-				url:url,
-				data : data,
-				success : function(result){
-					console.log(result);
-					$mwVOList = $(result.pop_mwVO);
-					
-					var tag = '';
-					if(msg == 'takeApply'){
-						//받은 신청 (리턴값 mate정보 리스트)
-						//1.  #popup_TakeApply 자식 eq1안에있는 거 지우기.. 
-						$('#popup_TakeApply').children().eq(1).empty();
-						//2. 포문돌려서 tag 만들어 넣기. 
-						
-						//1. #popup_TakeApply 의 popup_hidden 클래스 지워서 띄우기. 
-					}else if(msg=='sendInvite'){
-						//보낸 초대 (리턴값 mate정보 리스트)
-						
-					}else if(msg=='takeInvite'){
-						//받은 초대 (리턴값 house정보 리스트)
-						
-					}else if(msg=='sendApply'){
-						//보낸 신청 (리턴값 house정보 리스트)
-						
-					}
-				}, error : function(){
-					console.log('마이페이지 팝업 데이터 불러오기 실패');
-				}
-			});
+			applyInviteList(no, msg, userid);
 		});
 	});
 	function viewMyHouseAndMateList(msg){
@@ -161,7 +381,12 @@
 				</c:when>
 				<c:when test="${empty hwList}">
 					<div class="myHouseMateList <c:if test="${msg!='house' }">objectHidden</c:if>" id="myPage_HouseList">
-						<div>houseWrite 데이터 없습니다. </div>
+						<div class="myPage_HouseAndMate_oneBlock" >
+							<ul class="myPage_HouseAndMate_empty">
+								<li>쉐어하우스로 작성한 글이 없습니다.</li>
+								<li>모집글을 작성해 주세요!</li>
+							</ul>
+						</div>
 					</div>
 				</c:when>
 			</c:choose>
@@ -211,8 +436,13 @@
 					</div>
 				</c:when>
 				<c:when test="${mwVO.no==null}">
-					<div class="myHouseMateList <c:if test="${msg=='house' }">objectHidden</c:if>" id="myPage_MateList">
-						<div>mateWrite 데이터 없습니다. </div>
+					<div class="myHouseMateList <c:if test="${msg!='mate' }">objectHidden</c:if>" id="myPage_MateList">
+						<div class="myPage_HouseAndMate_oneBlock" >
+							<ul class="myPage_HouseAndMate_empty">
+								<li>하우스메이트로 작성한 글이 없습니다.</li>
+								<li>모집글을 작성해 주세요 ! </li>
+							</ul>
+						</div>
 					</div>
 				</c:when>
 			</c:choose>
@@ -285,134 +515,31 @@
 					</div>
 				</c:if>
 				<c:if test="${empty houseLikeList && empty mateLikeList}">
-					<div>찜목록 리스트 없습니다.</div>
+					<div class="myHouseMateList <c:if test="${msg=='likemark' }">objectHidden</c:if>" id="mypage_likeMarkList">
+						<div class="myPage_HouseAndMate_oneBlock" >
+							<ul class="myPage_HouseAndMate_empty">
+								<li>찜목록이 비어있습니다. </li>
+								<li>마음에 드는 모집글에 찜버튼을 눌러주세요 !</li>
+							</ul>
+						</div>
+					</div>
 				</c:if>
 			</div>
 		</section>
-		
-		<!--받은신청 -  팝업 (하우스에서 클릭 할 경우/ 띄우는건 신청을 한 메이트의 정보-->
-		<div class="myPage_HouseAndMate_Popup popup_hidden" id="popup_TakeApply">
+		<!-- alert 대신 사용할 팝업 -->
+		<div class="alert_pop popup_hidden">
+			<div class="alert_pop_Title"><span class="popup_Close">✕</span></div>
+			<div class="alert_pop_Content">
+			</div>
+			<div class="alert_pop_footer">
+				<p class="b_btn white popup_Close" >닫기</p>
+			</div>
+		</div>
+		<!--팝업-->
+		<div class="myPage_HouseAndMate_Popup popup_hidden">
 			<div class="myPage_HouseAndMate_Popup_Title" >받은신청<span class="popup_Close">✕</span></div>
 			<div class="myPage_HouseAndMate_Popup_Content">
-				<div class="myPage_HouseAndMate_Popup_OneBlock">
-					<div class="myPage_HouseAndMate_Popup_Img">
-						<a href=""><img alt="" src="<%=request.getContextPath()%>/img/comm/sample_mate02.png"/></a>
-					</div>
-					<ul class="myPage_HouseAndMate_Popup_Info">
-						<li><span class="s_title">user1</span><span class="s_title">남성</span><span class="s_title">31세</span></li>
-						<li>대흥동 | 공덕동 | 북아현동</li>
-						<li>보증금 : 300만원 | 월세 : 25만원</li>
-					</ul>
-					<div class="myPage_HouseAndMate_Popup_Btn">
-						<a href="" class="b_btn green">승인</a>
-						<a href="" class="b_btn green">메세지</a>
-						<a href="" class="b_btn green">거절</a>
-					</div>
-				</div>
-				<div class="myPage_HouseAndMate_Popup_OneBlock">
-					<div class="myPage_HouseAndMate_Popup_Img">
-						<a href=""><img alt="" src="<%=request.getContextPath()%>/img/comm/sample_mate03.png"/></a>
-					</div>
-					<ul class="myPage_HouseAndMate_Popup_Info">
-						<li><span class="s_title">user1</span><span class="s_title">남성</span><span class="s_title">31세</span></li>
-						<li>대흥동 | 공덕동 | 북아현동</li>
-						<li>보증금 : 300만원 | 월세 : 25만원</li>
-					</ul>
-					<div class="myPage_HouseAndMate_Popup_Btn">
-						<a href="" class="b_btn green">승인</a>
-						<a href="" class="b_btn green">메세지</a>
-						<a href="" class="b_btn green">거절</a>
-					</div>
-				</div>
-			</div>
-			<div class="myPage_HouseAndMate_Popup_footer">
-				<p class="b_btn white popup_Close" >닫기</p>
-			</div>
-		</div>
-		
-		<!--보낸초대 -  팝업 (하우스에서 클릭 할 경우 / 띄우는건 내가 초대를 보낸 메이트의 정보-->
-		<div class="myPage_HouseAndMate_Popup popup_hidden" id="popup_SendInvite">
-			<div class="myPage_HouseAndMate_Popup_Title">보낸초대<span class="popup_Close">✕</span></div>
-			<div class="myPage_HouseAndMate_Popup_Content">
-				<div class="myPage_HouseAndMate_Popup_OneBlock">
-					<div class="myPage_HouseAndMate_Popup_Img">
-						<a href=""><img alt="" src="<%=request.getContextPath()%>/img/comm/sample_mate02.png"/></a>
-					</div>
-					<ul class="myPage_HouseAndMate_Popup_Info">
-						<li><span class="s_title">user1</span><span class="s_title">남성</span><span class="s_title">31세</span></li>
-						<li>대흥동 | 공덕동 | 북아현동</li>
-						<li>보증금 : 300만원 | 월세 : 25만원</li>
-					</ul>
-					<div class="myPage_HouseAndMate_Popup_Btn">
-							<a href="" class="b_btn green">메세지</a>
-							<a href="" class="b_btn green">취소</a>
-						</div>
-				</div>
-			</div>
-			<div class="myPage_HouseAndMate_Popup_footer">
-				<p class="b_btn white popup_Close" >닫기</p>
-			</div>
-		</div>
-		
-		<!-- 받은초대  (메이트일 경우에 나옴)집의 정보  -->
-		<div class="myPage_HouseAndMate_Popup popup_hidden" id="popup_TakeInvite">
-			<div class="myPage_HouseAndMate_Popup_Title">받은초대<span class="popup_Close">✕</span></div>
-			<div class="myPage_HouseAndMate_Popup_Content">
-				<div class="myPage_HouseAndMate_Popup_OneBlock">
-					<div class="myPage_HouseAndMate_Popup_Img">
-						<a href=""><img alt="" src="<%=request.getContextPath()%>/img/comm/sample_house01.png"/></a>
-					</div>
-					<ul class="myPage_HouseAndMate_Popup_Info">
-						<li><span class="s_title">집이름</span></li>
-						<li>서울시 마포구 아현동</li>
-						<li>보증금 : 300만원 | 월세 : 25만원</li>
-					</ul>
-					<div class="myPage_HouseAndMate_Popup_Btn">
-						<a href="" class="b_btn green">승인</a>
-						<a href="" class="b_btn green">메세지</a>
-						<a href="" class="b_btn green">거절</a>
-					</div>
-				</div>
-				<div class="myPage_HouseAndMate_Popup_OneBlock">
-					<div class="myPage_HouseAndMate_Popup_Img">
-						<a href=""><img alt="" src="<%=request.getContextPath()%>/img/comm/sample_house02.png"/></a>
-					</div>
-					<ul class="myPage_HouseAndMate_Popup_Info">
-						<li><span class="s_title">집이름</span></li>
-						<li>서울시 마포구 대흥동</li>
-						<li>보증금 : 300만원 | 월세 : 30만원</li>
-					</ul>
-					<div class="myPage_HouseAndMate_Popup_Btn">
-						<a href="" class="b_btn green">승인</a>
-						<a href="" class="b_btn green">메세지</a>
-						<a href="" class="b_btn green">거절</a>
-					</div>
-				</div>
-			</div>
-			<div class="myPage_HouseAndMate_Popup_footer">
-				<p class="b_btn white popup_Close" >닫기</p>
-			</div>
-		</div>
-		
-		
-		<!-- 보낸신청 -->
-		<div class="myPage_HouseAndMate_Popup popup_hidden" id="popup_SendApply">
-			<div class="myPage_HouseAndMate_Popup_Title">보낸신청<span class="popup_Close">✕</span></div>
-			<div class="myPage_HouseAndMate_Popup_Content">
-				<div class="myPage_HouseAndMate_Popup_OneBlock">
-					<div class="myPage_HouseAndMate_Popup_Img">
-						<a href=""><img alt="" src="<%=request.getContextPath()%>/img/comm/sample_house02.png"/></a>
-					</div>
-					<ul class="myPage_HouseAndMate_Popup_Info">
-						<li><span class="s_title">집이름</span></li>
-						<li>서울시 마포구 대흥동</li>
-						<li>보증금 : 300만원 | 월세 : 30만원</li>
-					</ul>
-					<div class="myPage_HouseAndMate_Popup_Btn">
-							<a href="" class="b_btn green">메세지</a>
-							<a href="" class="b_btn green">취소</a>
-						</div>
-				</div>
+				
 			</div>
 			<div class="myPage_HouseAndMate_Popup_footer">
 				<p class="b_btn white popup_Close" >닫기</p>
