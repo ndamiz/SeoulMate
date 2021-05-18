@@ -51,13 +51,6 @@ public class HouseController {
 	public ModelAndView houseIndex(HttpSession session) {
 		ModelAndView mav=new ModelAndView();
 		String userid=(String)session.getAttribute("logId");
-		
-		Calendar cal = Calendar.getInstance();
-        int y  = cal.get(Calendar.YEAR);
-        int m = cal.get(Calendar.MONTH) + 1;
-        int d   = cal.get(Calendar.DAY_OF_MONTH);
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-        int today = Integer.parseInt(format.format(cal.getTime()));
         
         if(session.getAttribute("logId")!=null) {
 			int logGrade=(Integer)session.getAttribute("logGrade");
