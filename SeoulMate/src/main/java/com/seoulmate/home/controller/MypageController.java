@@ -1,24 +1,32 @@
 package com.seoulmate.home.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
+
 import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
+import java.util.Map;
+
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+
+
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.seoulmate.home.service.MypageService;
-import com.seoulmate.home.vo.HouseRoomVO;
+import com.seoulmate.home.vo.ApplyInviteVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.LikeMarkVO;
 import com.seoulmate.home.vo.MateWriteVO;
@@ -26,6 +34,9 @@ import com.seoulmate.home.vo.MateWriteVO;
 public class MypageController {
 	@Inject
 	MypageService service;
+	
+	@Autowired
+	private DataSourceTransactionManager transactionManager;
 	
 	//마이페이지 하우스&메이트 관리 
 	@RequestMapping("/myHouseAndMateList")
@@ -39,12 +50,14 @@ public class MypageController {
 		//1. 세션아이디, 등급(일반 /프리미엄) 
 		String userid = (String)session.getAttribute("logId");
 		List<HouseWriteVO> hwList = new ArrayList<HouseWriteVO>();
+		
 		//1. 하우스로 등록된 성향으로 작성된 글이 있는지 확인.
 		if( service.houseConfirm(userid)>0) {
 			//1개이상 작성된 글이 있는 경우. 
 			//1-1. 후 목록 가져오기 (모집중이 아닌것도 모두 가져온다,) 
 			hwList = service.myPageHouseWriteSelect(userid);
 			mav.addObject("hwList", hwList);
+	System.out.println(hwList.size());
 			if(msg==null || msg.equals("")) {
 				msg = "house";
 			}
@@ -95,52 +108,126 @@ public class MypageController {
 		mav.setViewName("mypage/myHouseAndMateList");
 		return mav;
 	}
-	
-	//마이페이지 찜목록
-	@RequestMapping("/likeMarkerList")
-	public ModelAndView likeMarkerList(String category, HttpSession session) {
-		ModelAndView mav = new ModelAndView();
-		String userid = ((String)session.getAttribute("logId"));
-		System.out.println(category+"@@@@@@@@");
-		if(category==null) { //찜 목록에 처음 들어올때는 카테고리가 없다. 그래서 기본 화면인 하우스로 세팅
-			category = "하우스";
-		}
-		int check = 0;
-		List<LikeMarkVO> likedNumCategory = service.likemarkAllRecord(category, userid); //찜 테이블에서 사용자 아이디와 카테고리로 조회해서 원글번호, 카테고리를 가져온다.
-		List<HouseWriteVO> house = new ArrayList<HouseWriteVO>();
-		List<MateWriteVO> mate = new ArrayList<MateWriteVO>();
-		if(likedNumCategory.size() != 0) { // 레코드가 없을 경우 조건문이 실행되지 않고 찜목록으로 넘어간다.
-			if((likedNumCategory.get(0).getCategory()).equals("하우스")) {
-				
-				for(int i=0; i<likedNumCategory.size(); i++) {
-					System.out.println("%%%%%");
-					HouseWriteVO hVO = service.getHousedetails(likedNumCategory.get(i).getNo());
-					HouseRoomVO rVO = service.getMinRentDeposit(likedNumCategory.get(i).getNo());
-					hVO.setRent(rVO.getRent());
-					hVO.setDeposit(rVO.getDeposit());
-					house.add(hVO);
-					System.out.println(house.get(i).getDeposit()+"만원");
+	//마이페이지 팝업 
+	@RequestMapping(value="/mypagePopup", method = {RequestMethod.POST, RequestMethod.GET})
+	@ResponseBody
+	public Map<String, Object> mypagePopup(int no, String msg, HttpServletRequest req){
+		Map<String, Object> result = new HashMap<String, Object>();
+		ApplyInviteVO aiVO = new ApplyInviteVO();
+		aiVO.setNo(no);
+		aiVO.setMsg(msg);
+		aiVO.setUserid((String)req.getSession().getAttribute("logId"));
+		
+		List<ApplyInviteVO> aiList = new ArrayList<ApplyInviteVO>();
+		aiList =  service.applyInviteSelect(aiVO);
+		if(aiList.size()>0) {
+			result.put("aiList", aiList);
+			// 하우스 기준
+			if(msg.equals("takeApply") || msg.equals("sendInvite")) {
+				//받은 신청  // 보낸초대 
+				List<MateWriteVO> pop_mwVO = new ArrayList<MateWriteVO>();
+				for(int i=0; i<aiList.size(); i++) {
+					pop_mwVO.add(service.myPageMateWriteSelect(aiList.get(i).getUserid()));
 				}
-				check = 1;
-				System.out.println("????1212!!!@##="+check);
-			}else if((likedNumCategory.get(0).getCategory()).equals("메이트")) {
-				
-				for(int i=0; i<likedNumCategory.size(); i++) {
-					mate.add((MateWriteVO) service.getMatedetails(likedNumCategory.get(i).getNo()));
+				result.put("pop_mwVO", pop_mwVO);
+			}//메이트 기준
+			else if(msg.equals("takeInvite") || msg.equals("sendApply")) {
+				List<HouseWriteVO> pop_hwVO = new ArrayList<HouseWriteVO>();
+				//받은초대  or 보낸 신청
+				// list값 중에서 no를 사용하여 리스트를 가져온다.  
+				for(int i=0; i<aiList.size(); i++) {
+					pop_hwVO.add(service.oneHouseWriteSelect(aiList.get(i).getNo()));
 				}
-				
-				check = 2;
-				System.out.println("????1212!!!@##="+check);
+				result.put("pop_hwVO", pop_hwVO);
 			}
 		}
-		if(check==1) {
-			mav.addObject("house", house);
-		}else if(check==2) {
-			mav.addObject("mate", mate);
+		return result;
+	}
+	//마이페이지 보낸신청, 보낸초대 취소 ,  받은신청, 받은초대- 거절
+	@RequestMapping(value="/mypageApplyInviteCancel", method = {RequestMethod.POST, RequestMethod.GET})
+	@ResponseBody
+	public int mypageApplyInviteCancel(int no, String msg, String userid) {
+		ApplyInviteVO aiVO = new ApplyInviteVO();
+		aiVO.setNo(no);
+		aiVO.setMsg(msg);
+		aiVO.setUserid(userid);
+		//sendInvite 보낸초대 취소 (house -> mate 초대를 취소함) 
+		 	// no=본인글 , userid='초대받은사람 ', state='초대 '
+		// takeApply 받은 신청 거절 (mate -> house 신청을 거절 함)
+			 // no=본인글 , userid='신청한사람', state='신청'
+		//sendApply 보낸신청 취소  (mate -> house 신청을 취소함)
+			// no=신청한 하우스글,  userid=본인아이디, state='신청'
+		// takeInvite 받은초대 거절 (house->mate 초대를 거절함) 
+			// no=날초대한 하우스글, userid=본인아이디, state='초대'
+		
+		// 신청자 본인 아이디와 글번호를 확인하여 삭제. 
+		return service.mypageApplyInviteCancel(aiVO);
+	}
+	//마이페이지 받은신청, 받은초대 승인
+	@RequestMapping(value="/applyInviteApprove", method = {RequestMethod.POST, RequestMethod.GET})
+	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
+	@ResponseBody
+	public int applyInviteApprove(int no, String userid, String msg, HttpSession session) {
+		ApplyInviteVO aiVO = new ApplyInviteVO();
+		aiVO.setNo(no);
+		aiVO.setMsg(msg);
+		aiVO.setUserid(userid);
+		
+		int inResult = 0;
+		String name = "";
+		int cnt = 0;
+		// 트랜잭션
+		DefaultTransactionDefinition def=new DefaultTransactionDefinition();
+		def.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED); // 트랜잭션 호출
+		TransactionStatus status=transactionManager.getTransaction(def);
+		try {
+			int result = service.applyInviteApproveUpdate(aiVO);
+			// 승인 완료 후 
+			if(result>0) {
+				//채팅방 insert 
+				HouseWriteVO hwVO = service.chatHouseSelect(no);
+				System.out.println("hwVO housename" + hwVO.getHousename());
+				name = hwVO.getHousename() +" ("+userid+")";
+		System.out.println("채팅방이름 = " + name);
+				if(msg.equals("takeApply")) {
+					//받은신청// 신청 승낙했다. 세션 에있는 아이디가 나 (=글쓴이) , 신청햇던사람은 현재userid
+					String chatuser1 = (String)session.getAttribute("logId");
+					// DB에 있는 정보인지 확인
+					cnt = service.chatCheck(name, chatuser1, userid);
+					if(cnt>0) {
+						//받은 신청에 이미 채팅방이 있다
+						inResult = 200;
+						transactionManager.commit(status);
+					}else {
+						//채팅방이 없다 -> 개설한다. 
+						//1. name 받아오기,   2.chatuser1 = 수락한사람, 3.chatuser2 = 신청한사람 (나머지 디폴트 = 0)
+						//name 은 하우스글 이름
+						// no를 이용해서 해당유저아이디, 해당 하우스네임 가져오기 . 
+													//					 housewrite글쓴이,  신청자(메이트) 
+						inResult = service.chatInsert(name, chatuser1, userid);
+					}
+				}else if(msg.equals("takeInvite")) {
+					cnt = service.chatCheck(name, hwVO.getUserid(), userid);
+		System.out.println("cnt = "+cnt +"채팅방이 있는지 확인");
+					if(cnt>0) {
+						//받은 초대에 이미 채팅방이 있다
+						inResult = 200;
+						transactionManager.commit(status);
+					}else if(cnt==0){
+						//채팅방이 없다 -> 개설한다. 
+						//받은 초대// 초대를 승낙했다. 승낙한사람 = 현재 userid,  승낙한 글번호 = no -> no를 이용하여 해당유저아이디 셀렉트 
+						//1. 글번호의 userid 가져오기     //본인 초대한하우스   	 //하우스글쓴이      메이트본인 	
+						inResult = service.chatInsert(name, hwVO.getUserid(), userid);
+					}
+				}
+			}	
+		}catch (Exception e) {
+			e.printStackTrace();
+			//초대, 신청 승낙 및 채팅방 insert 에러 발생 
+			System.out.println("초대, 신청 승낙 및 채팅방 insert 에러 발생 ");
+			inResult = -1; 
 		}
-		mav.addObject("check", check);
-		mav.setViewName("mypage/likeMarkerList");
-		return mav;
+		return inResult;
 	}
 	//찜 등록
 	@RequestMapping("/likemarkInsert")

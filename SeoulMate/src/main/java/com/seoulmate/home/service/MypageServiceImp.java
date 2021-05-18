@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.seoulmate.home.dao.MypageDAO;
+import com.seoulmate.home.vo.ApplyInviteVO;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.LikeMarkVO;
@@ -91,6 +92,47 @@ public class MypageServiceImp implements MypageService {
 		return dao.mateLikeSelect(no);
 	}
 
+	
+	
+	//팝업
+	@Override
+	public List<ApplyInviteVO> applyInviteSelect(ApplyInviteVO aiVO) {
+		// 메이트확인. 받은초대, 보낸신청 (userid)
+		// 하우스확인. 받은신청, 보낸초대 (no)
+		return dao.applyInviteSelect(aiVO);
+	}
+	// 메이트 글 vo받아오는거는 myPageMateWriteSelect사용하여 받기, 
+	// 하우스 글 vo받아오기 
+	@Override
+	public HouseWriteVO oneHouseWriteSelect(int no) {
+		return dao.oneHouseWriteSelect(no);
+	}
+	//보낸신청, 보낸초대 삭제. 
+	@Override
+	public int mypageApplyInviteCancel(ApplyInviteVO aiVO) {
+		return dao.mypageApplyInviteCancel(aiVO);
+	}
+	//받은신청, 받은초대 - 승인
+	@Override
+	public int applyInviteApproveUpdate(ApplyInviteVO aiVO) {
+		return dao.applyInviteApproveUpdate(aiVO);
+	}
+	// 승인 후 housename, userid 가져오기. 
+	@Override
+	public HouseWriteVO chatHouseSelect(int no) {
+		return dao.chatHouseSelect(no);
+	}
+	// 채팅 DB 데이터 확인. 
+	@Override
+	public int chatCheck(String name, String chatuser1, String chatuser2) {
+		return dao.chatCheck(name, chatuser1, chatuser2);
+	}
+	// 승인 후 채팅 insert 
+	@Override
+	public int chatInsert(String name, String chatuser1, String chatuser2) {
+		return dao.chatInsert(name, chatuser1, chatuser2);
+	}
+	
 	
 	
 }

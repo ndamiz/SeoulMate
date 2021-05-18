@@ -23,7 +23,8 @@
 /* 하우스&메이트 관리 => 리스트별 디자인 */
 .myPage_HouseAndMate_Info{float:left; width: 300px; margin: 25px 0px 0px 30px; height: 250px;}
 .myPage_HouseAndMate_Info>li{height: 15%;}
-.myPage_HouseAndMate_Info>li:first-of-type{height: 30%; font-size: 1.5em; font-weight: bold; margin-top: 10px;}
+.myPage_HouseAndMate_Info>li:first-of-type{height: 30%; font-size: 1.5em; font-weight: bold; margin-top: 10px;
+	font-family: SsangmunDong; }
 .myPage_HouseAndMate_Info>li:nth-of-type(2){ }
 .myPage_HouseAndMate_Info>li:last-of-type{height: 30%; padding-top: 10px;}
 
@@ -72,6 +73,14 @@
 .myPage_HouseAndMate_Popup {width: 610px; height: 600px; border-radius: 20px; position: fixed; left: 30%; 
 	top: 15%; box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%); background-color: #fff;
 	z-index: 11; }
+.alert_pop{width: 300px; height: 200px; background-color: #fff; border-radius: 20px;
+	position: fixed; left: 40%;  box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%); z-index: 11; top: 15%;	}
+.alert_pop_Title{padding-left: 20px; width: 100%; height: 30px; line-height: 30px; 
+	background-color: #fff; border-radius: 20px 20px 0px 0px; font-size: 1.2em;
+    box-shadow: 0px 6px 10px 0px rgb(0 0 0 / 10%);
+	}
+.alert_pop_Title>span{float: right; padding-right: 20px;  cursor: pointer;}
+.alert_pop_Content{ width: 100%; height: 120px;	padding:20px; }
 .popup_Stop_Scroll{overflow: hidden; height: 100%; }
 .popup_hidden{display: none;}
 .objectHidden{display: none;}
@@ -91,33 +100,45 @@
 .myPage_HouseAndMate_Popup_Info>li:first-of-type{margin: 20px 0px 10px 10px;}
 .myPage_HouseAndMate_Popup_Info>li>span{margin:0px 10px 0px 0px;}
 .myPage_HouseAndMate_Popup_Info>li>span::before{background-color: #ffeb3f;}
-.myPage_HouseAndMate_Popup_Btn{float: left; width: 110px; height: 120px; margin-top: 10px;}
-.myPage_HouseAndMate_Popup_Btn>a, .myPage_HouseAndMate_Popup_footer>a{height: 30px; width: 100px; line-height: 30px; 
-	font-size: 0.9em; text-align: center; background-color: #fff; color:#000;}
-.myPage_HouseAndMate_Popup_footer{text-align: center; height: 50px; box-shadow: 0px -5px 11px 0px rgb(0 0 0 / 10%); 
+.myPage_HouseAndMate_empty{
+	float: left;
+    width: 80%;
+    margin: 25px 0px 0px 30px;
+    padding: 20px;
+    height: 250px;
+    font-size: 1.2em;}
+.myPage_HouseAndMate_empty>li:first-of-type{
+	    height: 30%;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 10px;
+    font-family: SsangmunDong;
+}
+.myPage_HouseAndMate_empty>li:last-of-type{
+	height: 30%;
+    padding-top: 10px;
+}
+.myPage_HouseAndMate_Popup_Btn{float: left; width: 110px; height: 120px; margin-top: 25px;}
+.myPage_HouseAndMate_Popup_Btn>a, .myPage_HouseAndMate_Popup_footer>a{height: 30px; width: 105px; line-height: 30px; 
+	font-size: 0.9em; text-align: center; background-color: #fff; color:#000; border-radius: 5px;}
+.myPage_HouseAndMate_Popup_footer, .alert_pop_footer{text-align: center; height: 50px; box-shadow: 0px -5px 11px 0px rgb(0 0 0 / 10%); 
 	border-radius: 0px 0px 20px 20px; background-color: #fff; }
-.myPage_HouseAndMate_Popup_footer>p{ width: 100px; height: 30px; line-height: 30px; font-size:1em; background-color: #ddd; border-radius: 5px;
+.myPage_HouseAndMate_Popup_footer>p, .alert_pop_footer>p { width: 100px; height: 30px; line-height: 30px; font-size:1em; background-color: #ddd; border-radius: 5px;
 	box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%); margin-top: 10px; display: inline-block; cursor: pointer;}
-
-/* /* 마이페이지 - 보낸 초대 sendInviteList */
-/* .inviteRequsetContent{width: 1000px; margin: 40px auto; overflow:auto; } */
-/* .inviteRequsetList{overflow: auto;} */
-/* .inviteRequsetList>div{width: 500px; height: 250px; float: left; margin-bottom: 40px;} */
-/* .inviteRequsetPic{display:block; float:left; border-radius: 50%; width: 150px;} */
-/* .inviteRequsetInfo{float:none; overflow: auto; } */
-/* .inviteRequsetInfo>ul{margin-left: 30px; line-height: 30px; height: 165px;} */
-/* .inviteRequsetInfo>ul>li::before{background-color: #d2d2d2;} */
-/* .inviteRequsetInfo>ul>li:first-of-type{margin: 0;} */
-/* .inviteRequsetInfo>ul>li:first-of-type {float: none; } */
-/* .sendInviteBtn{float: right; margin: 20px 20px 0px 0px; } */
-/* .sendInviteBtn>a {width: 200px; height: 30px; line-height: 30px; font-size: 1em;S} */
-
- 
-/* /* 마이페이지 - 받은 신청 takeRequestList*/
-/* .takeRequestBtn>a{float: right;   margin-right:10px; border-radius: 5px; width: 110px; height: 30px; line-height: 30px; font-size: 1em;} */
-/* .takeRequestBtn {float: right; width: 450px; height: 60px; overflow: auto; margin-top: 10px; margin-right: 40px;} */
-/* #takeRequestMore, #sendInviteMore{display:block; width: 800px; margin: 10px auto; height: 30px; line-height: 30px; color:#5E5E5E; text-align: center; cursor: pointer;} */
-/* #takeRequestMore>span, #sendInviteMore>span{font-size: 0.8em;} */
-
-
-
+.myPage_HouseAndMate_Popup_Btn>p:first-of-type{
+	width: 100%;
+    height: 24px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    line-height: 22px;
+    text-align: center;
+    font-size: 1em;
+}
+.myPage_HouseAndMate_Popup_Btn>p:last-of-type{
+	border-radius: 5px;
+    border: 1px solid #ddd;
+    height: 70px;
+    text-align: center;
+    margin-top: 10px;
+    padding-top: 10px;
+}

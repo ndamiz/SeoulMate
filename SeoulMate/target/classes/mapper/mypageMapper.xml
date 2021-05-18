@@ -31,7 +31,7 @@
 			JOIN 
 				HOUSEWRITE h 
 			ON
-				h.pno=p.pno) 
+				h.pno(+)=p.pno) 
 		GROUP BY NO
 	</select>
 	<select id="myPageHouseWriteSelect" parameterType="String" resultType="com.seoulmate.home.vo.HouseWriteVO">
@@ -45,9 +45,26 @@
 			FROM 
 				HOUSEWRITE h 
 			JOIN 
-				(SELECT pno, userid FROM PROPENSITY WHERE userid= #{userid } AND PCASE ='h') p ON h.pno=p.pno ) house 
+				(SELECT pno, userid FROM PROPENSITY WHERE userid= #{userid } AND PCASE ='h') p 
 			ON 
-				house.NO=room.NO
+				h.pno(+)=p.pno ) house 
+		ON 
+			house.NO=room.NO(+)
+	</select>
+	<select  id="oneHouseWriteSelect" parameterType="int" resultType="com.seoulmate.home.vo.HouseWriteVO">
+		SELECT house.NO, house.PNO, house.USERID, house.HOUSENAME, room.deposit, room.rent, house.ADDR,  house.HOUSEPIC1, 
+			house.ROOM , house.BATHROOM, house.NOWPEOPLE, house.SEARCHPEOPLE, house.WRITEDATE, house.ENDDATE, house.HOUSESTATE 
+		FROM 
+			(SELECT NO, DEPOSIT, rent FROM HOUSEROOM) room 
+		JOIN 
+			(SELECT h.NO, h.PNO, h.USERID ,h.ADDR, h.HOUSENAME, h.HOUSEPIC1, 
+				h.ROOM , h.BATHROOM, h.NOWPEOPLE, h.SEARCHPEOPLE, h.WRITEDATE, h.ENDDATE, h.HOUSESTATE 
+			FROM 
+				HOUSEWRITE h 
+			WHERE 
+				NO=${no } ) house 
+		ON 
+			house.NO=room.NO(+)
 	</select>
 	<select id="mateConfirm" parameterType="String" resultType="int" >
 		SELECT nvl(max(count(no)), 0) AS NO 
@@ -58,7 +75,7 @@
 		JOIN 
 			MATEWRITE m 
 		ON
-			m.pno=p.pno) 
+			m.pno(+)=p.pno) 
 		GROUP BY NO
 	</select>
 	<select id="myPageMateWriteSelect" parameterType="String" resultType="com.seoulmate.home.vo.MateWriteVO">
@@ -74,14 +91,14 @@
 			JOIN 
 				(SELECT pno, userid, m_now FROM PROPENSITY WHERE userid='${userid }' AND PCASE ='m') p 
 			ON 
-				m.pno=p.pno) m1
+				m.pno(+)=p.pno) m1
 		JOIN 
 			(SELECT userid, gender, to_char(birth, 'YYYY-MM-DD') AS birth, 
 				MONTHS_BETWEEN(TRUNC(SYSDATE,'YEAR'), TRUNC(to_date(to_char(birth,'YYYYMMDD'),'YYYYMMDD'), 'Year')) /12 + 1 AS age 
 			FROM 
 				MEMBER WHERE userid='${userid }') mem 
 			ON 
-				m1.userid=mem.userid
+				m1.userid(+)=mem.userid
 	</select>
 	<select id="likeMarkConfirm" parameterType="String" resultType="int" >
 		select nvl(max(count(lno)), 0) as no from LIKEMARK WHERE userid= #{param1} GROUP BY lno
@@ -97,7 +114,7 @@
 		JOIN 
 			HOUSEWRITE house 
 		ON
-			house.NO=room.NO
+			house.NO=room.NO(+)
 	</select>
 	<select id="mateLikeSelect" parameterType="int" resultType="com.seoulmate.home.vo.MateWriteVO">
 		SELECT m.NO, m.userid, m.area, m.matePic1, m.deposit, m.rent,  to_char(enterdate, 'mm/dd') as enterdate, m.minstay, m.maxstay,
@@ -115,11 +132,47 @@
 				FROM 
 					MEMBER) mem2
 			ON 
-				mem2.userid =p.userid) mem 
+				mem2.userid =p.userid(+)) mem 
 		ON 
-			m.userid=mem.userid WHERE m.NO=${no }
+			m.userid(+)=mem.userid 
+		WHERE 
+			m.NO=${no }
 	</select>
-	<select id="getLikedNumber" resultType="String">
-		select no from likemark where userid=#{param1}
+	<select id="applyInviteSelect" parameterType="com.seoulmate.home.vo.ApplyInviteVO" resultType="com.seoulmate.home.vo.ApplyInviteVO">
+		SELECT aino, no, userid, to_char(aidate, 'YYYY-MM-DD') as aidate, state, confirm
+		FROM
+			applyInvite 
+		WHERE
+		<if test="msg == 'takeApply'"> NO=${no } AND state='신청'</if>
+		<if test="msg == 'sendInvite'">NO=${no } AND state='초대'</if>
+		<if test="msg == 'takeInvite'">userid='${userid }' AND state='초대'</if>
+		<if test="msg == 'sendApply'">userid='${userid }' AND state='신청'</if>
 	</select>
+	<delete id="mypageSendApplyInviteCancel" parameterType="com.seoulmate.home.vo.ApplyInviteVO">
+		delete from applyInvite 
+		where 
+			no=${no} and userid='${userid}' 
+		<if test="msg=='sendInvite' or msg=='takeInvite'" >and state='초대'</if>
+		<if test="msg=='sendApply' or msg=='takeApply'">and state='신청'</if>
+		
+	</delete>
+	<update id="applyInviteApproveUpdate"  parameterType="com.seoulmate.home.vo.ApplyInviteVO">
+		update applyInvite set confirm='승인'
+		where 
+			no=${no} and userid='${userid}' 
+		<if test="msg=='takeInvite'" > and state='초대'</if>
+		<if test="msg=='takeApply'"> and state='신청'</if>
+	</update>
+	<select id="chatHouseSelect" parameterType="int" resultType="com.seoulmate.home.vo.HouseWriteVO">
+		SELECT userid, housename from houseWrite where no=${no }
+	</select>	
+	<select id="chatCheck" parameterType="String" resultType="int">
+		SELECT nvl(max(count(name)),0) 
+		FROM CHATROOM 
+		WHERE name=#{param1} AND CHATUSER1=#{param2} AND CHATUSER2=#{param3} GROUP BY NAME
+	</select>
+	<insert id="chatInsert" parameterType="String" >
+		INSERT into chatroom(no, name, chatuser1, chatuser2, chatroomdate) 
+		values(chatsq.nextval, #{param1}, #{param2}, #{param3}, sysdate)
+	</insert>
 </mapper>
