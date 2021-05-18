@@ -2,7 +2,9 @@ package com.seoulmate.home.dao;
 
 import java.util.List;
 
+import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
+import com.seoulmate.home.vo.PropensityVO;
 
 public interface HouseWriteDAO {
 	// 특정 대상의 하우스 목록 가져오기
@@ -30,5 +32,20 @@ public interface HouseWriteDAO {
 	public int housenameUpdate(String housename, int pno);
 	
 	//housewrite 가져오기
-	public HouseWriteVO houseSelect(String userid);
+	public HouseWriteVO houseSelect(int no, String userid);
+	
+	//houseroom 가져오기
+	public HouseRoomVO roomSelect(int no, String userid);
+
+	// 하우스 성향 가져오기
+	public PropensityVO propHouseSelect(String userid, int pno);
+	
+	//하우스 업데이트
+	public int houseUpdate(HouseWriteVO vo);
+	
+	//하우스 삭제
+	public int houseDel(HouseWriteVO vo);
+	
+	//하우스 사진 가져오기
+	public String houseProfile(String housepic1,int no);
 }

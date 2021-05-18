@@ -36,10 +36,27 @@ public interface HouseService {
 	//house name 수정하기
 	public int housenameUpdate(String housename, int pno);
 	
-	//pcase='h' 일 경우 성향 가져오기
+	//pcase='h' 일 경우 성향 가져오기, 하우스 성향 가져오기
 	public PropensityVO propHouseSelect(String userid, int pno);
 	
 	//housewrite 가져오기
-	public HouseWriteVO houseSelect(String userid);
+	public HouseWriteVO houseSelect(int no, String userid);
 	
+	//houseroom 가져오기
+	public HouseRoomVO roomSelect(int no, String userid);
+	
+	//하우스 업데이트
+	public int houseUpdate(HouseWriteVO vo);
+	
+	//방 수정
+	public int roomUpdate(HouseRoomVO vo);
+	
+	//하우스 삭제
+	public int houseDel(HouseWriteVO vo);
+	
+	//방 삭제
+	public int roomDel(HouseRoomVO vo);
+	
+	//하우스 사진 가져오기
+	public String houseProfile(String housepic1, int no);
 }

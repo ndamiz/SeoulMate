@@ -21,7 +21,9 @@
 		#{publicfacility}, sysdate, sysdate+7, '모집중', #{pno}, #{houseprofile}, #{housename} )
 	</insert>
 	<update id="houseUpdate" parameterType="com.seoulmate.home.vo.HouseWriteVO">
-		update housewrite set addr=#{addr}, housePic1=#{housePic}, room=#{room}, bathroom=#{bathroom}, nowpeople=#{nowpeople}, searchpeople=#{searchpeople},
+		update housewrite set addr=#{addr}, 
+		<if test="housepic1!=null and housepic1!=''">housepic1=#{housepic1}, </if>
+		room=#{room}, bathroom=#{bathroom}, nowpeople=#{nowpeople}, searchpeople=#{searchpeople},
 		publicfacility=#{publicfacility}, houseprofile=#{houseprofile}, housename=#{housename} where userid=#{userid} and no=#{no}
 	</update>
 	<select id="housenameCheck" resultType="String">
@@ -30,8 +32,14 @@
 	<update id="housenameUpdate">
 		update propensity set housename= #{param1} where pno=#{param2}
 	</update>
-	<select id="houseSelect" resultType="com.seoulmate.home.vo.HouseWriteVO">
+	<select id="houseSelect"  resultType="com.seoulmate.home.vo.HouseWriteVO">
 		 select no, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, searchpeople, publicfacility, writedate, enddate, 
-		 housestate, houseprofile from housewrite where userid=#{param1}
+		 housestate, houseprofile from housewrite where no=#{param1} and userid=#{param2}
 	</select>
+	<delete id="houseDel" parameterType="com.seoulmate.home.vo.HouseWriteVO">
+		delete from housewrite where no=#{param1} and userid=#{param2}	
+	</delete>
+  	<select id="houseProfile" resultType="String">
+  		select housepic1 from housewrite where userid=#{param1} and no=#{param2}
+  	</select>
   </mapper>

@@ -46,5 +46,10 @@ public class MateServiceImp implements MateService {
 		return dao.mateSelect(userid);
 	}
 
+	@Override
+	public int mateDel(int no, String userid) { //메이트 삭제
+		return dao.mateDel(no, userid);
+	}
+
 
 }
