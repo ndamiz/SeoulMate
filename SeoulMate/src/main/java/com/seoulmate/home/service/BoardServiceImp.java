@@ -64,5 +64,10 @@ public class BoardServiceImp implements BoardService {
 		return dao.nextPrevSelect(no, category, searchKey, searchWord);
 	}
 
+	@Override
+	public int stateCheck(int no, String userid) {
+		return dao.stateCheck(no, userid);
+	}
+
 	
 }
