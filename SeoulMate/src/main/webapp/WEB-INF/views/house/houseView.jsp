@@ -286,9 +286,9 @@
 	 	<input type="hidden" value="${hVO.userid }"/>
 	 	<input type="hidden" value="${logId }"/>
 	 	<div id="btnDiv"> <!-- 수정, 삭제는 본인의 글을 볼 경우에만 -->
-	 	<c:if test="${logId==hVO.userid }">
+<%-- 	 	<c:if test="${logId==hVO.userid }"> --%>
  		<button id="hEdit" class="white" >수정</button> <button class="white">삭제</button> 
- 		</c:if>
+<%--  		</c:if> --%>
  		<button class="white">찜</button> 
  		<button class="white" id="shareBtn" >공유하기</button> <button class="white" id="reportBtn">신고하기</button>
  		

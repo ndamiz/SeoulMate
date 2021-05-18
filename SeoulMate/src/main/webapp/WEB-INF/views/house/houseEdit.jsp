@@ -1,13 +1,34 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/housemate.css">
 <script src="//cdn.ckeditor.com/4.16.0/full/ckeditor.js"></script>
+<c:set var="today" value="<%=new java.util.Date()%>"/>
+<c:set var="now"><fmt:formatDate value="${today}" pattern="yyyy-MM-dd"/></c:set>
 
 
 <!-- <!— include summernote css/js —> -->
 <!-- <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet"> -->
 <!-- <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script> -->
 <script>
+
+
+$(function(){
+	CKEDITOR.replace("houseprofile", {
+		height:300,
+		width:'100%'
+		
+	}); //설명글 name 설정 필요
+	
+	$("#write").on('submit', function(){
+		if(CKEDITOR.instances.content.getData()==""){
+			alert("내용을 입력해주세요");
+			return false;
+		}return true;
+	});
+	
+});
+
 
 // 	$(function() {
 // 	    $("#input-image").on('change', function(){
@@ -192,7 +213,7 @@ $(function(){
 /* input[type="date"] {width:200px;} */
 /* .house_wrap{width:800px; margin:0 auto; } */
 .content ul li{word-break:keep-all;}
-.form_box li input, .form_box li select{margin:0px; width:230px;}
+.form_box li input, .form_box li select{margin:0px; width:300px;}
 .form_box{width:800px; margin:0 auto; padding-left: 100px;}
 .content label{width:180px;}
 .form_box.choice li > label {width: 240px;}
@@ -200,8 +221,9 @@ $(function(){
 .btnclass{padding-left:50px;}
 #roomPlus{margin-left:650px;}
 #houseWrite1 .checks { width: 560px;}
-#houseImg1{width:150px; height:107px;}
-
+#ck{margin:0 auto; width: 60%;}
+#houseImg1{width:250px; height:250px; position: relative; margin: 0 auto; text-align: center;}
+#housepic1{width: 250px; height: 250px; margin: 0 auto;}
 #houseWrite2, #houseWrite3, #houseWrite4, #houseWrite5, 
 #houseWrite6, #houseWrite7, #houseWrite8, #houseWrite9 {display:none; margin: 0 auto;}
 
@@ -212,25 +234,25 @@ $(function(){
 #houseWrite5 .checks {width: 295px;}
 #houseWrite8{width: 800px;}
 #houseWrite8 .checks>label{width:200px;}
-#hPic{height:125px;}
+#hPic{height:250px; width:250px; margin: 0 auto; text-align: center;}
 #HproUl>li{float: right;}
 
 .title_wrap div{min-height:300px;}
 .checks{width:800px;}
 .checks>label{width:120px;}
 /* #houseWrite6 input, #houseWrite6 select{width:230px;} */
-#rent_label{width:191px;}
-#deposit_label{width:191px;}
+
 </style>
 <div class="wrap">
 <div class="content">
 
 	<input type="hidden" name="no" value="${hVO. no }">
+	<input type="hidden" name="no" value="${rVO. no }">
 	<div class="title_wrap">
 	<p class="m_title">하우스 수정하기 </p> 
 	<p>&nbsp;</p>
 	</div>
-		<form method="post" id="houseWriteFrm" action="houseWriteOk" enctype="multipart/form-data">
+		<form method="post" id="houseWriteFrm" action="houseEditOk" enctype="multipart/form-data">
 		
 		<div id="houseWrite1"> <!-- 등록form 1 -->
 		
@@ -240,31 +262,31 @@ $(function(){
 		</div>
 			
 			<ul class="form_box">
-				<li> <label><span class="red_txt">*</span>주소 </label> <input type="text" name="addr"/> </li>
-				<li><label><span class="red_txt">*</span>하우스 이름 </label> <input type="text" name="housename"/></li>
-			<li> <label><span class="red_txt">*</span>총 방 개수 </label><select name="room">
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
+				<li> <label><span class="red_txt">*</span>주소 </label> <input type="text" name="addr" value="${hVO.addr }" /> </li>
+				<li><label><span class="red_txt">*</span>하우스 이름 </label> <input type="text" name="housename" value="${hVO.housename }"/></li>
+			<li> <label><span class="red_txt">*</span>총 방 개수 </label><select name="room" >
+						<option value="1" <c:if test="${hVO.room==1 }">selected </c:if> >1</option>
+						<option value="2" <c:if test="${hVO.room==2 }">selected </c:if> >2</option>
+						<option value="3" <c:if test="${hVO.room==3 }">selected </c:if> >3</option>
+						<option value="4" <c:if test="${hVO.room==4 }">selected </c:if> >4</option>
 					</select> </li>
 			<li> <label><span class="red_txt">*</span>총 욕실 수</label> <select name="bathroom">
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
+						<option value="1" <c:if test="${hVO.bathroom==1 }">selected </c:if> >1</option>
+						<option value="2" <c:if test="${hVO.bathroom==2 }">selected </c:if> >2</option>
+						<option value="3" <c:if test="${hVO.bathroom==3 }">selected </c:if> >3</option>
+						<option value="4" <c:if test="${hVO.bathroom==4 }">selected </c:if> >4</option>
 					</select> </li>
 			<li><label><span class="red_txt">*</span>현재 인원</label> <select name="nowpeople">
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
+						<option value="1" <c:if test="${hVO.nowpeople==1 }">selected </c:if> >1</option>
+						<option value="2" <c:if test="${hVO.nowpeople==2 }">selected </c:if> >2</option>
+						<option value="3" <c:if test="${hVO.nowpeople==3 }">selected </c:if> >3</option>
+						<option value="4" <c:if test="${hVO.nowpeople==4 }">selected </c:if> >4</option>
 					</select> </li>
 			<li><label><span class="red_txt">*</span>찾는 인원</label> <select name="searchpeople">
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
+						<option value="1" <c:if test="${hVO.searchpeople==1 }">selected </c:if> >1</option>
+						<option value="2" <c:if test="${hVO.searchpeople==2 }">selected </c:if> >2</option>
+						<option value="3" <c:if test="${hVO.searchpeople==3 }">selected </c:if> >3</option>
+						<option value="4" <c:if test="${hVO.searchpeople==4 }">selected </c:if> >4</option>
 					</select> </li>
 			</ul>
 		
@@ -287,21 +309,21 @@ $(function(){
 				<li>
 					<label>주방</label>
 					<div class="checks">
-						<input type="checkbox" id="냉장고" name="publicfacility" value="냉장고"> 
+						<input type="checkbox" id="냉장고" name="publicfacility" value="냉장고" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='냉장고' }">checked</c:if> </c:forEach> > 
 						<label for="냉장고">냉장고</label>
-						<input type="checkbox" id="정수기" name="publicfacility" value="정수기"> 
+						<input type="checkbox" id="정수기" name="publicfacility" value="정수기" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='정수기' }">checked</c:if> </c:forEach> > 
 						<label for="정수기">정수기</label>
-						<input type="checkbox" id="check3" name="publicfacility" value="가스레인지"> 
+						<input type="checkbox" id="check3" name="publicfacility" value="가스레인지" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='가스레인지' }">checked</c:if> </c:forEach> > 
 						<label for="check3">가스레인지</label>
-						<input type="checkbox" id="check4" name="publicfacility" value="밥솥"> 
+						<input type="checkbox" id="check4" name="publicfacility" value="밥솥" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='밥솥' }">checked</c:if> </c:forEach> > 
 						<label for="check4">밥솥</label> 
-						<input type="checkbox" id="check5" name="publicfacility" value="식기세척기">  
+						<input type="checkbox" id="check5" name="publicfacility" value="식기세척기" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='식기세척기' }">checked</c:if> </c:forEach> >  
 						<label for="check5">식기세척기</label>
-						<input type="checkbox" id="check6" name="publicfacility" value="냄비"> 
+						<input type="checkbox" id="check6" name="publicfacility" value="냄비" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='냄비' }">checked</c:if> </c:forEach> > 
 						<label for="check6">냄비</label>
-						<input type="checkbox" id="check7" name="publicfacility" value="프라이팬"> 
+						<input type="checkbox" id="check7" name="publicfacility" value="프라이팬" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='프라이팬' }">checked</c:if> </c:forEach> > 
 						<label for="check7">프라이팬</label>
-						<input type="checkbox" id="check8" name="publicfacility" value="토스트기"> 
+						<input type="checkbox" id="check8" name="publicfacility" value="토스트기" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='토스트기' }">checked</c:if> </c:forEach> > 
 						<label for="check8">토스트기</label> 
 					</div>
 				</li> 
@@ -309,13 +331,13 @@ $(function(){
 				<li>
 					<label>거실</label>
 					<div class="checks">
-						<input type="checkbox" id="check9" name="publicfactility" value="소파"> 
+						<input type="checkbox" id="check9" name="publicfactility" value="소파" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='소파' }">checked</c:if> </c:forEach> > 
 						<label for="check9">소파</label>
-						<input type="checkbox" id="check10" name="publicfactility" value="티비"> 
+						<input type="checkbox" id="check10" name="publicfactility" value="티비" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='티비' }">checked</c:if> </c:forEach> > 
 						<label for="check10">티비</label>
-						<input type="checkbox" id="check11" name="publicfactility" value="탁자"> 
+						<input type="checkbox" id="check11" name="publicfactility" value="탁자" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='탁자' }">checked</c:if> </c:forEach> > 
 						<label for="check11">탁자</label>
-						<input type="checkbox" id="check12" name="publicfactility" value="카펫"> 
+						<input type="checkbox" id="check12" name="publicfactility" value="카펫" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='카펫' }">checked</c:if> </c:forEach> > 
 						<label for="check12">카펫</label> <br/>
 					</div>
 				</li>
@@ -323,13 +345,13 @@ $(function(){
 				<li>
 					<label>욕실</label>
 					<div class="checks">
-						<input type="checkbox" id="check13" name="publicfactility" value="욕조"> 
+						<input type="checkbox" id="check13" name="publicfactility" value="욕조" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='욕조' }">checked</c:if> </c:forEach> > 
 						<label for="check13">욕조</label>
-						<input type="checkbox" id="check14" name="publicfactility" value="비데"> 
+						<input type="checkbox" id="check14" name="publicfactility" value="비데" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='비데' }">checked</c:if> </c:forEach> > 
 						<label for="check14">비데</label>
-						<input type="checkbox" id="check15" name="publicfactility" value="샴푸"> 
+						<input type="checkbox" id="check15" name="publicfactility" value="샴푸" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='샴푸' }">checked</c:if> </c:forEach> > 
 						<label for="check15">샴푸</label>
-						<input type="checkbox" id="check16" name="publicfactility" value="린스"> 
+						<input type="checkbox" id="check16" name="publicfactility" value="린스" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='린스' }">checked</c:if> </c:forEach> > 
 						<label for="check16">린스</label> <br/>
 					</div>
 				</li>
@@ -337,13 +359,13 @@ $(function(){
 				<li>
 					<label>기타</label>
 					<div class="checks">
-						<input type="checkbox" id="check17" name="publicfactility" value="세탁기"> 
+						<input type="checkbox" id="check17" name="publicfactility" value="세탁기" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='세탁기' }">checked</c:if> </c:forEach> > 
 						<label for="check17">세탁기</label>
-						<input type="checkbox" id="check18" name="publicfactility" value="건조기"> 
+						<input type="checkbox" id="check18" name="publicfactility" value="건조기" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='건조기' }">checked</c:if> </c:forEach> > 
 						<label for="check18">건조기</label>
-						<input type="checkbox" id="check19" name="publicfactility" value="베란다"> 
+						<input type="checkbox" id="check19" name="publicfactility" value="베란다" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='베란다' }">checked</c:if> </c:forEach> > 
 						<label for="check19">베란다</label>
-						<input type="checkbox" id="check20" name="publicfactility" value="WIFI"> 
+						<input type="checkbox" id="check20" name="publicfactility" value="WIFI" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='WIFI' }">checked</c:if> </c:forEach> > 
 						<label for="check20">WIFI</label> 
 					</div>
 				</li>
@@ -363,8 +385,8 @@ $(function(){
 		</div>
 		
 			<ul class="form_box">
-				<li id="hPic"><img id="houseImg1" name="houseImg1" src="#" alt="upload image" /></li>
-				<li> <input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);"/> <br/> </li>
+				<li id="hPic"><img id="houseImg1" name="houseImg1" src="/home/housePic/${hVO.housepic1}" alt="upload image" /></li>
+				<li> <input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);" /> <br/> </li>
 			</ul>
 				<div class="btnclass">
 					<a class="green" id="hPrev3">이전</a>
@@ -380,9 +402,9 @@ $(function(){
 		<p class="s_title">우리집설명 </p> <br/>
 		<p>&nbsp;</p>
 		</div>
-		
-			<textarea id="houseprofile" name="houseprofile"></textarea><br/>
-			
+		<div id="ck">
+			<textarea id="houseprofile" name="houseprofile">${hVO.houseprofile }</textarea><br/>
+		</div>	
 				<div class="btnclass">
 					<a class="green" id="hPrev4" >이전</a>
 					<a class="green" id="hNext4" >등록</a> 
@@ -399,45 +421,32 @@ $(function(){
 		</div>
 		
 			<ul class="form_box">
-				<li><label><span class="red_txt">*</span>방 이름 </label> <input type="text" name="roomName"/></li>
-				<li><span class="red_txt">*</span><label id="rent_label">월세(관리비)</label> <input type="number" name="rent"/> 
-					<div class="checks">
-						<input type="radio" id="rent1" name="rent">  <!-- 포함, 미포함 값 어떻게? -->
-						<label for="rent1">포함</label>
-						<input type="radio" id="rent2" name="rent"> 
-						<label for="rent2">미포함</label>
-					</div>		
-						
-				<li><span class="red_txt">*</span><label id="deposit_label">보증금(조율) </label><input type="number" name="deposit"/> 
-					<div class="checks">
-						<input type="radio" id="deposit1" name="">  <!-- 포함, 미포함 값 어떻게? -->
-						<label for="deposit1">조율 가능</label>
-						<input type="radio" id="deposit2" name=""> 
-						<label for="deposit2">조율 불가능</label>
-					</div>	</li>
-				<li><span class="red_txt">*</span><label>방 인원</label> <input type="number" name="roomPeople"/> </li>
-				<li><span class="red_txt">*</span><label>입주 가능일 </label> <input type="date" name="enterdate"/> </li>
-				<li><span class="red_txt">*</span><label>최소 거주 기간</label>
-					<select name="minStay" id="minStay">
-						<option value="1-3개월">1~3 개월</option>
-						<option value="4-6개월">4~6 개월</option>
-						<option value="7-12개월">7~12 개월</option>
-						<option value="1년이상">1년 이상</option>
+				<li><label><span class="red_txt">*</span>방 이름 </label> <input type="text" name="roomName" value="${rVO.roomName }" /></li>
+				<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" name="rent" value="${rVO.rent }"/> 
+				<li><label><span class="red_txt">*</span>보증금(조율) </label><input type="number" name="deposit" value="${rVO.deposit }"/> </li>
+				<li><label><span class="red_txt">*</span>방 인원</label> <input type="number" name="roomPeople" value="${rVO.roomPeople }" /> </li>
+				<li><label><span class="red_txt">*</span>입주 가능일 </label> <input type="date" name="enterdate" min="${now}" value="${rVO.enterdate }" /> </li>
+				<li><label><span class="red_txt">*</span>최소 거주 기간</label>
+					<select name="minStay" >
+						<option value="1-3개월" <c:if test="${rVO.minStay=='1-3개월' }">selected </c:if> >1~3 개월</option>
+						<option value="4-6개월" <c:if test="${rVO.minStay=='4-6개월' }">selected </c:if> >4~6 개월</option>
+						<option value="7-12개월" <c:if test="${rVO.minStay=='7-12개월' }">selected </c:if> >7~12 개월</option>
+						<option value="1년이상" <c:if test="${rVO.minStay=='1년이상' }">selected </c:if> >1년 이상</option>
 					</select> 
-				<li><span class="red_txt">*</span><label class="houseWrite6_label">최대 거주 기간</label>
-					<select name="maxStay" id="maxStay">
-						<option value="1-3개월">1~3 개월</option>
-						<option value="4-6개월">4~6 개월</option>
-						<option value="7-12개월">7~12 개월</option>
-						<option value="1년이상">1년 이상</option>
+				<li><label><span class="red_txt">*</span>최대 거주 기간</label>
+					<select name="maxStay" >
+						<option value="1-3개월" <c:if test="${rVO.maxStay=='1-3개월' }">selected </c:if> >1~3 개월</option>
+						<option value="4-6개월" <c:if test="${rVO.maxStay=='4-7개월' }">selected </c:if> >4~6 개월</option>
+						<option value="7-12개월" <c:if test="${rVO.maxStay=='7-12개월' }">selected </c:if> >7~12 개월</option>
+						<option value="1년이상" <c:if test="${rVO.maxStay=='1년이상' }">selected </c:if> >1년 이상</option>
 					</select> </li>
 					
 				<li><label><span class="red_txt">*</span>가구 여부</label> 
 					<div class="checks">
-							<input type="radio" id="furniture1" value="1" name="furniture"> 
+							<input type="radio" id="furniture1" value="1" name="furniture" <c:if test="${rVO.furniture==1}">checked</c:if> > 
 							<label for="furniture1">있음</label>
 							
-							<input type="radio" id="furniture2" value="2" name="furniture"> 
+							<input type="radio" id="furniture2" value="2" name="furniture" <c:if test="${rVO.furniture==2}">checked</c:if> > 
 							<label for="furniture2">없음</label>
 						</div>	</li>
 				<li><label>포함된 가구</label><input type="text" name="incFurniture"/> </li>
@@ -471,13 +480,13 @@ $(function(){
 				<li>
 					<label><span class="red_txt">*</span>생활소음</label>
 					<div class="checks">
-						<input type="radio" id="h_noise1" value="1" name="h_noise"> 
+						<input type="radio" id="h_noise1" value="1" name="h_noise" <c:if test="${pVO.h_noise==1}">checked</c:if> > 
 						<label for="h_noise1">매우 조용함</label>
 						
-						<input type="radio" id="h_noies2" value="2" name="h_noise"> 
+						<input type="radio" id="h_noies2" value="2" name="h_noise" <c:if test="${pVO.h_noise==2}">checked</c:if> > 
 						<label for="h_noise2">보통</label>
 						
-						<input type="radio" id="h_noise3" value="3" name="h_noise"> 
+						<input type="radio" id="h_noise3" value="3" name="h_noise" <c:if test="${pVO.h_noise==3}">checked</c:if> > 
 						<label for="h_noise3">조용하지 않음</label>
 					</div>
 				</li>
@@ -485,10 +494,10 @@ $(function(){
 				<li>
 					<label><span class="red_txt">*</span>생활시간</label>
 					<div class="checks">
-						<input type="radio" id="h_pattern1" value="1" name="h_pattern"> 
+						<input type="radio" id="h_pattern1" value="1" name="h_pattern" <c:if test="${pVO.h_pattern==1}">checked</c:if> > 
 						<label for="h_pattern1">주행성</label>
 						
-						<input type="radio" id="h_pattern3" value="3" name="h_pattern"> 
+						<input type="radio" id="h_pattern3" value="3" name="h_pattern" <c:if test="${pVO.h_pattern==3}">checked</c:if> > 
 						<label for="h_pattern3">야행성</label>
 					</div>
 				</li>
@@ -496,10 +505,10 @@ $(function(){
 					<li>
 					<label><span class="red_txt">*</span>반려동물 여부</label>
 					<div class="checks">
-						<input type="radio" id="h_pet3" value="3" name="h_pet"> 
+						<input type="radio" id="h_pet3" value="3" name="h_pet" <c:if test="${pVO.h_pet==3}">checked</c:if> > 
 						<label for="h_pet3">있음</label>	
 						
-						<input type="radio" id="h_pet1" value="1" name="h_pet"> 
+						<input type="radio" id="h_pet1" value="1" name="h_pet" <c:if test="${pVO.h_pet==1}">checked</c:if> > 
 						<label for="h_pet1">없음</label>
 					</div>
 				</li>
@@ -507,10 +516,10 @@ $(function(){
 				<li>
 					<label><span class="red_txt">*</span>반려동물 동반 입주 여부</label>
 					<div class="checks">
-						<input type="radio" id="h_petwith3" value="3" name="h_petwith"> 
+						<input type="radio" id="h_petwith3" value="3" name="h_petwith" <c:if test="${pVO.h_petwith==3}">checked</c:if> > 
 						<label for="h_petwith3">가능</label>
 						
-						<input type="radio" id="h_petwith1" value="1" name="h_petwith"> 
+						<input type="radio" id="h_petwith1" value="1" name="h_petwith" <c:if test="${pVO.h_petwith==1}">checked</c:if> > 
 						<label for="h_petwith1">불가능</label>
 					</div>
 				</li>
@@ -518,13 +527,13 @@ $(function(){
 				<li>
 					<label><span class="red_txt">*</span>흡연</label>
 					<div class="checks">
-						<input type="radio" id="h_smoke1" value="1" name="h_smoke"> 
+						<input type="radio" id="h_smoke1" value="1" name="h_smoke" <c:if test="${pVO.h_smoke==1}">checked</c:if> > 
 						<label for="h_smoke1">비흡연</label>
 						
-						<input type="radio" id="h_smoke2" value="2" name="h_smoke"> 
+						<input type="radio" id="h_smoke2" value="2" name="h_smoke" <c:if test="${pVO.h_smoke==2}">checked</c:if> > 
 						<label for="h_smoke2">실외흡연</label>
 						
-						<input type="radio" id="h_smoke3" value="3" name="h_smoke"> 
+						<input type="radio" id="h_smoke3" value="3" name="h_smoke" <c:if test="${pVO.h_smoke==3}">checked</c:if> > 
 						<label for="h_smoke3">실내흡연</label>
 					</div>
 				</li>
@@ -549,13 +558,13 @@ $(function(){
 				<li>
 					<label><span class="red_txt">*</span>분위기</label>
 					<div class="checks">
-						<input type="radio" id="h_mood1" value="1" name="h_mood"> 
+						<input type="radio" id="h_mood1" value="1" name="h_mood" <c:if test="${pVO.h_mood==1}">checked</c:if> > 
 						<label for="h_mood1">화목함</label>
 						
-						<input type="radio" id="h_mood2" value="2" name="h_mood"> 
+						<input type="radio" id="h_mood2" value="2" name="h_mood" <c:if test="${pVO.h_mood==2}">checked</c:if> > 
 						<label for="h_mood2">보통</label>
 						
-						<input type="radio" id="h_mood3" value="3" name="h_mood"> 
+						<input type="radio" id="h_mood3" value="3" name="h_mood" <c:if test="${pVO.h_mood==3}">checked</c:if> > 
 						<label for="h_mood3">독립적</label>
 					</div>
 				</li>
@@ -563,11 +572,11 @@ $(function(){
 					<li>
 					<label><span class="red_txt">*</span>소통방식</label>
 					<div class="checks">
-						<input type="radio" id="h_communication3" value="3" name="h_communication"> 
+						<input type="radio" id="h_communication3" value="3" name="h_communication" <c:if test="${pVO.h_communication==3}">checked</c:if> > 
 						<label for="h_communication3">대화</label>
-						<input type="radio" id="h_communication1" value="1" name="h_communication"> 
+						<input type="radio" id="h_communication1" value="1" name="h_communication" <c:if test="${pVO.h_communication==1}">checked</c:if> > 
 						<label for="h_communication1">메신저</label>
-						<input type="radio" id="h_communication2" value="2" name="h_communication"> 
+						<input type="radio" id="h_communication2" value="2" name="h_communication" <c:if test="${pVO.h_communication==2}">checked</c:if> > 
 						<label for="h_communication2">기타</label>
 					</div>
 				</li>
@@ -575,11 +584,11 @@ $(function(){
 					<li>
 					<label><span class="red_txt">*</span>모임빈도</label>
 					<div class="checks">
-						<input type="radio" id="h_party3" value="3" name="h_party"> 
+						<input type="radio" id="h_party3" value="3" name="h_party" <c:if test="${pVO.h_party==3}">checked</c:if> > 
 						<label for="h_party3">자주</label>
-						<input type="radio" id="h_party2" value="2" name="h_party"> 
+						<input type="radio" id="h_party2" value="2" name="h_party" <c:if test="${pVO.h_party==2}">checked</c:if> > 
 						<label for="h_party2">가끔</label>
-						<input type="radio" id="h_party1" value="1" name="h_party"> 
+						<input type="radio" id="h_party1" value="1" name="h_party" <c:if test="${pVO.h_party==1}">checked</c:if> > 
 						<label for="h_party1">없음</label>
 					</div>
 				</li>
@@ -587,11 +596,11 @@ $(function(){
 					<li>
 					<label><span class="red_txt">*</span>모임참가 의무</label>
 					<div class="checks">
-						<input type="radio" id="h_enter1" value="1" name="h_enter"> 
+						<input type="radio" id="h_enter1" value="1" name="h_enter" <c:if test="${pVO.h_enter==1}">checked</c:if> > 
 						<label for="h_enter1">없음</label>
-						<input type="radio" id="h_enter2" value="2" name="h_enter"> 
+						<input type="radio" id="h_enter2" value="2" name="h_enter" <c:if test="${pVO.h_enter==2}">checked</c:if> > 
 						<label for="h_enter2">상관없음</label>
-						<input type="radio" id="h_enter3" value="3" name="h_enter"> 
+						<input type="radio" id="h_enter3" value="3" name="h_enter" <c:if test="${pVO.h_enter==3}">checked</c:if> > 
 						<label for="h_enter3">있음</label>
 					</div>
 				</li>
@@ -615,13 +624,13 @@ $(function(){
 				<li>
 					<label><span class="red_txt">*</span>하우스 내 지원서비스</label>
 					<div class="checks">
-						<input type="checkbox" id="h_support1" value="1" name="h_support"> 
+						<input type="checkbox" id="h_support1" value="1" name="h_support" <c:forEach var="i" items="${pVO.h_support}"><c:if test="${i=='1'}">checked</c:if></c:forEach> > 
 						<label for="h_support1">공용공간 청소지원</label>
 									
-						<input type="checkbox" id="h_support2" value="2" name="h_support"> 
+						<input type="checkbox" id="h_support2" value="2" name="h_support" <c:forEach var="i" items="${pVO.h_support}"><c:if test="${i=='2'}">checked</c:if></c:forEach> > 
 						<label for="h_support2">공용생필품 지원</label> <br/>
 									
-						<input type="checkbox" id="h_support3" value="3" name="h_support"> 
+						<input type="checkbox" id="h_support3" value="3" name="h_support" <c:forEach var="i" items="${pVO.h_support}"><c:if test="${i=='3'}">checked</c:if></c:forEach> > 
 						<label for="h_support3">기본 식품 지원</label>
 					</div>
 				</li> <br/><br/>
@@ -645,10 +654,10 @@ $(function(){
 				<li>
 					<label><span class="red_txt">*</span>생활 시간</label>
 					<div class="checks">
-						<input type="radio" id="m_pattern1" value="1" name="m_pattern"> 
+						<input type="radio" id="m_pattern1" value="1" name="m_pattern" <c:if test="${pVO.m_pattern==1}">checked</c:if> > 
 						<label for="m_pattern1">주행성</label>
 						
-						<input type="radio" id="m_pattern3" value="3" name="m_pattern"> 
+						<input type="radio" id="m_pattern3" value="3" name="m_pattern" <c:if test="${pVO.m_pattern==3}">checked</c:if> > 
 						<label for="m_pattern3">야행성</label>
 					</div>
 				</li>
@@ -656,11 +665,11 @@ $(function(){
 				<li>
 					<label><span class="red_txt">*</span>성격</label>
 					<div class="checks">
-						<input type="radio" id="m_personality1" value="1" name="m_personality"> 
+						<input type="radio" id="m_personality1" value="1" name="m_personality" <c:if test="${pVO.m_personality==1}">checked</c:if> > 
 						<label for="m_personality1">내향적</label>
-						<input type="radio" id="m_personality3" value="3" name="m_personality"> 
+						<input type="radio" id="m_personality3" value="3" name="m_personality" <c:if test="${pVO.m_personality==3}">checked</c:if> > 
 						<label for="m_personality3">외향적</label>
-						<input type="radio" id="m_personality2" value="2" name="m_personality"> 
+						<input type="radio" id="m_personality2" value="2" name="m_personality" <c:if test="${pVO.m_personality==2}">checked</c:if> > 
 						<label for="m_personality2">상관없음</label>
 					</div>
 				</li>
@@ -668,9 +677,9 @@ $(function(){
 				<li>
 					<label><span class="red_txt">*</span>반려동물 선호도</label>
 					<div class="checks">
-						<input type="radio" id="m_pet1" value="1" name="m_pet"> 
+						<input type="radio" id="m_pet1" value="1" name="m_pet" <c:if test="${pVO.m_pet==1}">checked</c:if> > 
 						<label for="m_pet1">가능</label>
-						<input type="radio" id="m_pet3" value="3" name="m_pet"> 
+						<input type="radio" id="m_pet3" value="3" name="m_pet" <c:if test="${pVO.m_pet==3}">checked</c:if> > 
 						<label for="m_pet3">불가능</label>
 					</div>
 				</li>
@@ -678,11 +687,11 @@ $(function(){
 				<li>
 					<label><span class="red_txt">*</span>흡연</label>
 					<div class="checks">
-						<input type="radio" id="m_smoke1" value="1" name="m_smoke"> 
+						<input type="radio" id="m_smoke1" value="1" name="m_smoke" <c:if test="${pVO.m_smoke==1}">checked</c:if> > 
 						<label for="m_smoke1">비흡연</label>
-						<input type="radio" id="m_smoke3" value="3" name="m_smoke"> 
+						<input type="radio" id="m_smoke3" value="3" name="m_smoke" <c:if test="${pVO.m_smoke==3}">checked</c:if> > 
 						<label for="m_smoke3">흡연</label>
-						<input type="radio" id="m_smoke2" value="2" name="m_smoke"> 
+						<input type="radio" id="m_smoke2" value="2" name="m_smoke" <c:if test="${pVO.m_smoke==2}">checked</c:if> > 
 						<label for="m_smoke2">상관없음</label>
 					</div>
 				</li>
@@ -690,11 +699,11 @@ $(function(){
 				<li>
 					<label><span class="red_txt">*</span>연령대</label>
 					<div class="checks">
-						<input type="radio" id="m_age1" value="1" name="m_age"> 
+						<input type="radio" id="m_age1" value="1" name="m_age" <c:if test="${pVO.m_age==1}">checked</c:if> > 
 						<label for="m_age1">20~30대</label>
-						<input type="radio" id="m_age3" value="3" name="m_age"> 
+						<input type="radio" id="m_age3" value="3" name="m_age" <c:if test="${pVO.m_age==3}">checked</c:if> > 
 						<label for="m_age3">40대 이상</label>
-						<input type="radio" id="m_age2" value="2" name="m_age"> 
+						<input type="radio" id="m_age2" value="2" name="m_age" <c:if test="${pVO.m_age==2}">checked</c:if> > 
 						<label for="m_age2">상관없음</label>
 					</div>
 				</li>	
@@ -702,11 +711,11 @@ $(function(){
 				<li>
 					<label><span class="red_txt">*</span>성별</label>
 					<div class="checks">
-						<input type="radio" id="m_gender1" value="1" name="m_gender"> 
+						<input type="radio" id="m_gender1" value="1" name="m_gender" <c:if test="${pVO.m_gender==1}">checked</c:if> > 
 						<label for="m_gender1">여성</label>
-						<input type="radio" id="m_gender3" value="3" name="m_gender"> 
+						<input type="radio" id="m_gender3" value="3" name="m_gender" <c:if test="${pVO.m_gender==3}">checked</c:if> > 
 						<label for="m_gender3">남성</label>
-						<input type="radio" id="m_gender2" value="2" name="m_gender"> 
+						<input type="radio" id="m_gender2" value="2" name="m_gender" <c:if test="${pVO.m_gender==2}">checked</c:if> > 
 						<label for="m_gender2">상관없음</label>
 					</div>
 				</li>	
@@ -714,9 +723,9 @@ $(function(){
 				<li>
 					<label><span class="red_txt">*</span>외국인입주 가능여부</label>
 					<div class="checks">
-						<input type="radio" id="m_global3" value="3" name="m_global"> 
+						<input type="radio" id="m_global3" value="3" name="m_global" <c:if test="${pVO.m_gender==3}">checked</c:if> > 
 						<label for="m_global3">가능</label>
-						<input type="radio" id="m_global1" value="1" name="m_global"> 
+						<input type="radio" id="m_global1" value="1" name="m_global" <c:if test="${pVO.m_gender==1}">checked</c:if> > 
 						<label for="m_global1">불가능</label>
 					</div>
 				</li>
@@ -724,9 +733,9 @@ $(function(){
 				<li>
 					<label><span class="red_txt">*</span>즉시입주 가능여부</label>
 					<div class="checks">
-						<input type="radio" id="m_now1" value="1" name="m_now"> 
+						<input type="radio" id="m_now1" value="1" name="m_now" <c:if test="${pVO.m_now==1}">checked</c:if> > 
 						<label for="m_now1">가능</label>
-						<input type="radio" id="m_now3" value="3" name="m_now"> 
+						<input type="radio" id="m_now3" value="3" name="m_now" <c:if test="${pVO.m_now==3}">checked</c:if> > 
 						<label for="m_now3">불가능</label>
 					</div>
 				</li>		
