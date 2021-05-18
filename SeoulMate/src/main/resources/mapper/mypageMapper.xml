@@ -175,4 +175,7 @@
 		INSERT into chatroom(no, name, chatuser1, chatuser2, chatroomdate) 
 		values(chatsq.nextval, #{param1}, #{param2}, #{param3}, sysdate)
 	</insert>
+	<select id="getLikedNumber" resultType="String">
+		select no from likemark where userid=#{param1}
+	</select>
 </mapper>
