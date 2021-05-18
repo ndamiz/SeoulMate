@@ -191,23 +191,55 @@ System.out.println(hwList.size());
 					crVO = service.chatCheck(chatuser1, userid);
 					if(crVO.getNo() != 0) {
 						//받은 신청에 이미 채팅방이 있다
-						
-						inResult = 200;
+						service.chatCheckName(hwVO.getHousename(), chatuser1, userid);
+						if(service.chatCheckName(hwVO.getHousename(), chatuser1, userid)>0) {
+							//이미 들어가있는 이름. 
+							inResult = 200;
+						}else {
+							//없다 이름 합쳐서 업데이트 
+							String crVO_name = crVO.getName();
+							String chatName = crVO_name.substring(0, crVO_name.indexOf("("+userid+")")-1);
+							name = chatName+", "+hwVO.getHousename() +" ("+userid+")";
+							crVO.setName(name);
+							int up = service.chatUpdate(crVO);
+							if(up>0) {
+								inResult = 200;
+							}else {
+								System.out.println("name update 에러");
+								inResult = -1; 
+							}
+						}
 					}else {
 						//채팅방이 없다 -> 개설한다. 
 						//1. name 받아오기,   2.chatuser1 = 수락한사람, 3.chatuser2 = 신청한사람 (나머지 디폴트 = 0)
 						//name 은 하우스글 이름
 						// no를 이용해서 해당유저아이디, 해당 하우스네임 가져오기 . 
-													//					 housewrite글쓴이,  신청자(메이트) 
-						
+													//	 housewrite글쓴이,  신청자(메이트) 
 						inResult = service.chatInsert(name, chatuser1, userid);
 					}
 				}else if(msg.equals("takeInvite")) {
 					crVO = service.chatCheck(hwVO.getUserid(), userid);
-		System.out.println("cnt = "+cnt +"채팅방이 있는지 확인");
-					if(cnt>0) {
+					System.out.println("crVO.getNo = " + crVO.getNo());
+					if(crVO.getNo() != 0) {
 						//받은 초대에 이미 채팅방이 있다
-						inResult = 200;
+						service.chatCheckName(hwVO.getHousename(), hwVO.getUserid(), userid);
+						if(service.chatCheckName(hwVO.getHousename(), hwVO.getUserid(), userid)>0) {
+							//이미 들어가있는 이름. 
+							inResult = 200;
+						}else {
+							//없다 이름 합쳐서 업데이트 
+							String crVO_name = crVO.getName();
+							String chatName = crVO_name.substring(0, crVO_name.indexOf("("+userid+")")-1);
+							name = chatName+", "+hwVO.getHousename() +" ("+userid+")";
+							crVO.setName(name);
+							int up = service.chatUpdate(crVO);
+							if(up>0) {
+								inResult = 200;
+							}else {
+								System.out.println("name update 에러");
+								inResult = -1; 
+							}
+						}
 					}else if(cnt==0){
 						//채팅방이 없다 -> 개설한다. 
 						//받은 초대// 초대를 승낙했다. 승낙한사람 = 현재 userid,  승낙한 글번호 = no -> no를 이용하여 해당유저아이디 셀렉트 

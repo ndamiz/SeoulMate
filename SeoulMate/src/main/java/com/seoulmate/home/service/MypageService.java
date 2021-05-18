@@ -62,4 +62,8 @@ public interface MypageService {
 	public ChatRoomVO chatCheck(String chatuser1, String chatuser2);
 	// 승인 후 채팅 insert 
 	public int chatInsert(String name, String chatuser1, String chatuser2);
+	// 채팅 name update
+	public int chatUpdate(ChatRoomVO crVO);
+	//하우스명이 채팅방 네임에 있는지 확인.
+	public int chatCheckName(String name, String chatuser1, String chatuser2);
 }

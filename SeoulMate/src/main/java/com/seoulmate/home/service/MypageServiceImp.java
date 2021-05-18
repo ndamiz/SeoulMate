@@ -133,6 +133,16 @@ public class MypageServiceImp implements MypageService {
 	public int chatInsert(String name, String chatuser1, String chatuser2) {
 		return dao.chatInsert(name, chatuser1, chatuser2);
 	}
+	// 채팅 name update
+	@Override
+	public int chatUpdate(ChatRoomVO crVO) {
+		return dao.chatUpdate(crVO);
+	}
+	//하우스명이 채팅방 네임에 있는지 확인.
+	@Override
+	public int chatCheckName(String name, String chatuser1, String chatuser2) {
+		return dao.chatCheckName(name, chatuser1, chatuser2);
+	}
 	
 	
 	

@@ -35,6 +35,7 @@
 				data : data,
 				success : function(result){
 					userid='<c:out value="${logId }"/>';
+		console.log(result);
 					if(result==1){
 						// 채팅방  insert완료 
 						if(msg=='takeApply'){
@@ -58,8 +59,10 @@
 							
 						userid='<c:out value="${logId }"/>';
 						applyInviteList(no, msg, userid);
+					}else if(result== -1) {
+						console.log('리턴-1- 이미채팅방은있음. name update 실패.');
 					}else {
-						console.log('리턴0 업데이트실패.');
+						console.log('리턴0  에러실패');
 					}
 				}, error : function(){
 					console.log('마이페이지 받은신청, 받은초대 DB데이터 승인으로 업데이트 실패');

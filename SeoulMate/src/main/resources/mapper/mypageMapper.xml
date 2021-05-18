@@ -165,16 +165,23 @@
 	<select id="chatHouseSelect" parameterType="int" resultType="com.seoulmate.home.vo.HouseWriteVO">
 		SELECT userid, housename from houseWrite where no=${no }
 	</select>	
-	<select id="chatCheck" parameterType="String" resultType="int">
+	<select id="chatCheck" parameterType="String" resultType="com.seoulmate.home.vo.ChatRoomVO">
 		SELECT no, name, chatuser1, chatuser2 
 		FROM CHATROOM 
 		WHERE CHATUSER1=#{param1} AND CHATUSER2=#{param2} 
+	</select>
+	<select id="chatCheckName" parameterType="String" resultType="int">
+		SELECT nvl(max(count(name)),0)  FROM CHATROOM
+		WHERE CHATUSER1=#{param2} AND CHATUSER2=#{param3} AND name LIKE '%${param1}%' Group by name
 	</select>
 	<insert id="chatInsert" parameterType="String" >
 		INSERT into chatroom(no, name, chatuser1, chatuser2, chatroomdate) 
 		values(chatsq.nextval, #{param1}, #{param2}, #{param3}, sysdate)
 	</insert>
+	<update id="chatUpdate" parameterType="com.seoulmate.home.vo.ChatRoomVO">
+		UPDATE chatRoom set name=#{name} where chatuser1=#{chatUser1} and chatuser2=#{chatUser2} 
+	</update>
 	<select id="getLikedNumber" resultType="String">
-		select no from likemark where userid=#{param1}
+		select no from likemark where  userid=#{param1}
 	</select>
 </mapper>
