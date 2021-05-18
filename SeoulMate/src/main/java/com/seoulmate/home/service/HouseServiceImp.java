@@ -1,5 +1,7 @@
 package com.seoulmate.home.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -108,6 +110,11 @@ public class HouseServiceImp implements HouseService {
 	@Override
 	public String houseProfile(String housepic1,int no) { //하우스사진 가져오기
 		return hDAO.houseProfile(housepic1, no);
+	}
+
+	@Override
+	public List<HouseWriteVO> getNewIndexHouse() {
+		return hDAO.getNewIndexHouse();
 	}
 
 	

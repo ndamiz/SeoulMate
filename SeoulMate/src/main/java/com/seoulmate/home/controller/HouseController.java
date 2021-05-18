@@ -1,6 +1,9 @@
 package com.seoulmate.home.controller;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -20,10 +23,13 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.seoulmate.home.dao.HouseWriteDAO;
+import com.seoulmate.home.service.HomeService;
 import com.seoulmate.home.service.HouseService;
+import com.seoulmate.home.service.ListService;
 import com.seoulmate.home.service.MemberService;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
+import com.seoulmate.home.vo.ListVO;
 import com.seoulmate.home.vo.MemberVO;
 import com.seoulmate.home.vo.PropensityVO;
 
@@ -33,13 +39,94 @@ public class HouseController {
 	HouseService service;
 	@Inject
 	MemberService memService;
+	@Inject
+	ListService listService;
+	@Inject
+	HomeService HomeService;
 	
 	@Autowired
 	private DataSourceTransactionManager transactionManager;
 	
 	@RequestMapping("/houseIndex")
-	public String houseIndex() {
-	return "house/houseIndex";
+	public ModelAndView houseIndex(HttpSession session) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
+		
+		Calendar cal = Calendar.getInstance();
+        int y  = cal.get(Calendar.YEAR);
+        int m = cal.get(Calendar.MONTH) + 1;
+        int d   = cal.get(Calendar.DAY_OF_MONTH);
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        int today = Integer.parseInt(format.format(cal.getTime()));
+        
+        if(session.getAttribute("logId")!=null) {
+			int logGrade=(Integer)session.getAttribute("logGrade");
+			// 프리미엄일 때만
+			if(logGrade==2) {
+				// 메이트의 희망 성별 가져오기
+				int matePnoCheck=listService.myMatePnoCheck(userid);
+				
+				mav.addObject("matePnoCheck", matePnoCheck); // 메이트 번호의 갯수를 반환한다.
+				
+				if(matePnoCheck>0) { // 메이트 성향이 있을 때만 매칭된 하우스 목록을 띄워준다.
+					int m_gender=listService.mate_m_gender(userid);
+					
+					// 쉐어하우스 매칭 리스트 구하기
+					List<ListVO> phList = listService.premiumHouseList(userid, m_gender); // PremiumHouseList
+					
+					if(phList.get(0)!=null){ // else if(phList!=null)
+						HouseRoomVO phhrVO = new HouseRoomVO();
+						for (ListVO phVO : phList) {
+							// 각 쉐어하우스의 제일 저렴한 월세 가져오기
+							phhrVO = HomeService.getDesposit(phVO.getNo());
+							
+							phVO.setDeposit(phhrVO.getDeposit());
+							phVO.setRent(phhrVO.getRent());
+							int idx = phVO.getAddr().indexOf("동 ");
+							phVO.setAddr(phVO.getAddr().substring(0, idx+1));
+						}
+						mav.addObject("phList", phList);
+					}
+				}
+				
+			}
+		}
+        
+        // 쉐어하우스 최신리스트 구하기
+		int MyMpnoCnt=0;
+		if(session.getAttribute("logId")!=null) {
+			if(listService.myMatePnoCheck(userid)>0) {
+				MyMpnoCnt=listService.myMatePnoCheck(userid);
+			}
+		}
+		
+		List<HouseWriteVO> nhList = service.getNewIndexHouse(); // 1. homeService 함수는 row<=3이고, HouseService는 row<=9
+		HouseRoomVO hrVO = new HouseRoomVO();
+		for (HouseWriteVO hwVO : nhList) {
+			// 각 쉐어하우스의 제일 저렴한 월세 가져오기
+			hrVO = HomeService.getDesposit(hwVO.getNo()); // 2. 이건 같아서 HomeService꺼 그대로 가져다 씀
+			
+			if(session.getAttribute("logId")!=null) {
+				if((Integer)session.getAttribute("logGrade")==2) {
+					if(MyMpnoCnt>0) {
+						ListVO scoreVO=listService.premiumHouseScore(userid, hwVO.getPno());
+						hwVO.setScore(scoreVO.getScore());
+					}
+				}
+			}
+			
+			hwVO.setDeposit(hrVO.getDeposit());
+			hwVO.setRent(hrVO.getRent());
+			
+			int idx = hwVO.getAddr().indexOf("동 ");
+			hwVO.setAddr(hwVO.getAddr().substring(0, idx+1));
+		}
+		
+		mav.addObject("newHouseList", nhList);
+	
+		
+		mav.setViewName("house/houseIndex");
+	return mav;
 	}
 	
 	@RequestMapping("/houseView")

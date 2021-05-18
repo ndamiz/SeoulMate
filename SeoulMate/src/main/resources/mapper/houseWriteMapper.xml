@@ -42,4 +42,7 @@
   	<select id="houseProfile" resultType="String">
   		select housepic1 from housewrite where userid=#{param1} and no=#{param2}
   	</select>
+  	<select id="getNewIndexHouse" resultType="com.seoulmate.home.vo.HouseWriteVO">
+  		<![CDATA[select * from (select * from housewrite where housestate='모집중' order by no desc) where rownum<= 9]]>
+	</select>
   </mapper>

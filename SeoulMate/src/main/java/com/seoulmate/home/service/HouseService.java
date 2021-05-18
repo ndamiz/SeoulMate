@@ -1,5 +1,7 @@
 package com.seoulmate.home.service;
 
+import java.util.List;
+
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.PropensityVO;
@@ -59,4 +61,7 @@ public interface HouseService {
 	
 	//하우스 사진 가져오기
 	public String houseProfile(String housepic1, int no);
+	
+	//하우스 인덱스에서 New 하우스 리스트 9개 출력하기
+	public List<HouseWriteVO> getNewIndexHouse();
 }
