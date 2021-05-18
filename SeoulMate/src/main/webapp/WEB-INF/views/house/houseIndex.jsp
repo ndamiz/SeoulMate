@@ -106,68 +106,81 @@ button {position: relative;}
 	
 	<hr/>
 </div> <!-- content 종료 -->
-
 <!-- 프리미엄 추천 쉐어하우스 -->
-	<section class="content recommend_list">
-		<div class="list_head">
-			<p class="m_title">${logName}님과 잘 어울리는 집이예요!</p>
-			<a href="">더보기</a>
-		</div>
-		<ul class="list_content">
-			<c:forEach var="i" begin="0" end="2">
-				
-				<li>
-					<div class="list_img">
-						<p><span>매칭</span>90<b>%</b></p>
-						<button class="btn_star"></button>
-						<a href="<%=request.getContextPath()%>/houseView">
-							<img alt="" src="<%=request.getContextPath()%>/img/comm/sample_house01.png">
-						</a>
-					</div>
-					<div class="list_title">
-						<span class="address">서울시 마포구 서강동</span>
-						<span class="pay">￦ 100 / 25</span>
-					</div>
-					<ol class="list_icon">
-						<li><p>1</p></li>
-						<li><p>2</p></li>
-						<li><p>3</p></li>
-					</ol>
-				</li>
-				
-			</c:forEach>
-		</ul>
-	</section>
+<c:if test="${logGrade==2}">
+	<c:if test="${matePnoCheck>0}">
+		<section class="content recommend_list">
+			<div class="list_head">
+				<p class="m_title">${logName}님과 잘 어울리는 집이예요!</p>
+				<a href="">더보기</a>
+			</div>
+			<c:if test="${phList!=null}">
+				<ul class="list_content">
+					<c:forEach var="phList" items="${phList}">
+						<li>
+							<div class="list_img">
+								<p><span>매칭</span>${phList.score}<b>%</b></p>
+								<c:if test="${logId != null}">
+									<button class="btn_star houselike" value="${phList.no}"></button>
+								</c:if>
+								<a href="houseView?no=${phList.no}">
+									<img alt="${phList.housename}" src="<%=request.getContextPath()%>/housePic/${phList.housepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
+								</a>
+							</div>
+							<div class="list_title">
+								<span class="address">${phList.addr}</span>
+								<span class="pay">￦ ${phList.deposit} / ${phList.rent}</span>
+							</div>
+							<ol class="list_icon">
+								<li><p>${phList.room}</p></li>
+								<li><p>${phList.bathroom}</p></li>
+								<li><p>${phList.nowpeople}</p></li>
+							</ol>
+						</li>
+					</c:forEach>
+				</ul>
+			</c:if>
+			<c:if test="${phList==null}">
+				<div class="empty_div">
+					<img class="empty" src="<%=request.getContextPath()%>/img/empty.png" onerror="this.src='<%=request.getContextPath()%>/img/empty.png'"/>
+					<p style="text-align:center;">매칭에 맞는 결과가 없습니다.</p>
+				</div>
+			</c:if>
+		</section>
+	</c:if>
+</c:if>
 	
-	<!-- 신규 쉐어하우스 -->
-	<section class="content recommend_list">
-		<div class="list_head">
-			<p class="m_title">NEW 쉐어하우스</p>
-			<a href="">더보기</a>
-		</div>
-		<ul class="list_content">
-			<c:forEach var="i" begin="0" end="2">
-				<li>
-					<div class="list_img">
-						
-						<button class="btn_star"></button>
-						<a href="">
-							<img alt="" src="<%=request.getContextPath()%>/img/comm/sample_house02.png">
-						</a>
-					</div>
-					<div class="list_title">
-						<span class="address">서울시 마포구 서강동</span>
-						<span class="pay">￦ 100 / 25</span>
-					</div>
-					<ol class="list_icon">
-						<li><p>1</p></li>
-						<li><p>2</p></li>
-						<li><p>3</p></li>
-					</ol>
-				</li>
-			</c:forEach>
-		</ul>
-	</section>
-
-
+<!-- 신규 쉐어하우스 -->
+<section class="content recommend_list">
+	<div class="list_head">
+		<p class="m_title">NEW 쉐어하우스</p>
+		<a href="#">더보기</a>
+	</div>
+	<ul class="list_content">
+		<c:forEach items="${newHouseList}" var="newHouseVO">
+			<li>
+				<div class="list_img">
+					<c:if test="${logGrade==2}">
+						<c:if test="${matePnoCheck>0}"> <!-- 등록된 메이트 성향이 없으면 매칭을 안보여줌 -->
+							<p><span>매칭</span>${newHouseVO.score}<b>%</b></p>
+						</c:if>
+					</c:if>
+					<button class="btn_star"></button>
+					<a href="houseView?no=${newHouseVO.no}">
+						<img alt="" src="<%=request.getContextPath()%>/housePic/${newHouseVO.housepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
+					</a>
+				</div>
+				<div class="list_title">
+					<span class="address">${newHouseVO.addr}</span>
+					<span class="pay">￦ ${newHouseVO.deposit} / ${newHouseVO.rent}</span>
+				</div>
+				<ol class="list_icon">
+					<li><p>${newHouseVO.room}</p></li>
+					<li><p>${newHouseVO.bathroom}</p></li>
+					<li><p>${newHouseVO.nowpeople}</p></li>
+				</ol>
+			</li>
+		</c:forEach>
+	</ul>
+</section>
 </div>

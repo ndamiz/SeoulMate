@@ -188,7 +188,7 @@ $(function(){
 	$("#hNext9").click(function(){
 		location.href="<%=request.getContextPath()%>/houseIndex";
 	});
-	$("#hPrev9").click(function(){
+	$("#hPrve9").click(function(){
 		$("#houseWrite9").css("display", "none");
 		$("#houseWrite8").css("display", "block"); 
 	});

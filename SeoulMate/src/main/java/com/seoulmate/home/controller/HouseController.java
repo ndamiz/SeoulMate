@@ -1,6 +1,9 @@
 package com.seoulmate.home.controller;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -20,10 +23,13 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.seoulmate.home.dao.HouseWriteDAO;
+import com.seoulmate.home.service.HomeService;
 import com.seoulmate.home.service.HouseService;
+import com.seoulmate.home.service.ListService;
 import com.seoulmate.home.service.MemberService;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
+import com.seoulmate.home.vo.ListVO;
 import com.seoulmate.home.vo.MemberVO;
 import com.seoulmate.home.vo.PropensityVO;
 
@@ -33,18 +39,108 @@ public class HouseController {
 	HouseService service;
 	@Inject
 	MemberService memService;
+	@Inject
+	ListService listService;
+	@Inject
+	HomeService HomeService;
 	
 	@Autowired
 	private DataSourceTransactionManager transactionManager;
 	
 	@RequestMapping("/houseIndex")
-	public String houseIndex() {
-	return "house/houseIndex";
+	public ModelAndView houseIndex(HttpSession session) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
+		
+		Calendar cal = Calendar.getInstance();
+        int y  = cal.get(Calendar.YEAR);
+        int m = cal.get(Calendar.MONTH) + 1;
+        int d   = cal.get(Calendar.DAY_OF_MONTH);
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        int today = Integer.parseInt(format.format(cal.getTime()));
+        
+        if(session.getAttribute("logId")!=null) {
+			int logGrade=(Integer)session.getAttribute("logGrade");
+			// 프리미엄일 때만
+			if(logGrade==2) {
+				// 메이트의 희망 성별 가져오기
+				int matePnoCheck=listService.myMatePnoCheck(userid);
+				
+				mav.addObject("matePnoCheck", matePnoCheck); // 메이트 번호의 갯수를 반환한다.
+				
+				if(matePnoCheck>0) { // 메이트 성향이 있을 때만 매칭된 하우스 목록을 띄워준다.
+					int m_gender=listService.mate_m_gender(userid);
+					
+					// 쉐어하우스 매칭 리스트 구하기
+					List<ListVO> phList = listService.premiumHouseList(userid, m_gender); // PremiumHouseList
+					
+					if(phList.get(0)!=null){ // else if(phList!=null)
+						HouseRoomVO phhrVO = new HouseRoomVO();
+						for (ListVO phVO : phList) {
+							// 각 쉐어하우스의 제일 저렴한 월세 가져오기
+							phhrVO = HomeService.getDesposit(phVO.getNo());
+							
+							phVO.setDeposit(phhrVO.getDeposit());
+							phVO.setRent(phhrVO.getRent());
+							int idx = phVO.getAddr().indexOf("동 ");
+							phVO.setAddr(phVO.getAddr().substring(0, idx+1));
+						}
+						mav.addObject("phList", phList);
+					}
+				}
+				
+			}
+		}
+        
+        // 쉐어하우스 최신리스트 구하기
+		int MyMpnoCnt=0;
+		if(session.getAttribute("logId")!=null) {
+			if(listService.myMatePnoCheck(userid)>0) {
+				MyMpnoCnt=listService.myMatePnoCheck(userid);
+			}
+		}
+		
+		List<HouseWriteVO> nhList = service.getNewIndexHouse(); // 1. homeService 함수는 row<=3이고, HouseService는 row<=9
+		HouseRoomVO hrVO = new HouseRoomVO();
+		for (HouseWriteVO hwVO : nhList) {
+			// 각 쉐어하우스의 제일 저렴한 월세 가져오기
+			hrVO = HomeService.getDesposit(hwVO.getNo()); // 2. 이건 같아서 HomeService꺼 그대로 가져다 씀
+			
+			if(session.getAttribute("logId")!=null) {
+				if((Integer)session.getAttribute("logGrade")==2) {
+					if(MyMpnoCnt>0) {
+						ListVO scoreVO=listService.premiumHouseScore(userid, hwVO.getPno());
+						hwVO.setScore(scoreVO.getScore());
+					}
+				}
+			}
+			
+			hwVO.setDeposit(hrVO.getDeposit());
+			hwVO.setRent(hrVO.getRent());
+			
+			int idx = hwVO.getAddr().indexOf("동 ");
+			hwVO.setAddr(hwVO.getAddr().substring(0, idx+1));
+		}
+		
+		mav.addObject("newHouseList", nhList);
+	
+		
+		mav.setViewName("house/houseIndex");
+	return mav;
 	}
 	
 	@RequestMapping("/houseView")
-	public ModelAndView houseSearch(int no, HttpSession session) {
+	public ModelAndView houseView(int no, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+//		String userid = (String)session.getAttribute("logId");
+		
+		HouseWriteVO hVO = service.houseSelect2(no); //HouseWriteVO 값 가져오기
+		HouseRoomVO rVO = service.roomSelect2(no); //HouseRoomVO 값 가져오기
+		PropensityVO pVO = service.propHouseSelect2(hVO.getPno()); //PropensityVO 값 가져오기
+		
+		mav.addObject("hVO", hVO);
+		mav.addObject("rVO", rVO);
+		mav.addObject("pVO", pVO);
 		
 		mav.setViewName("house/houseView");
 		
@@ -209,7 +305,7 @@ public class HouseController {
 	
 	//하우스 등록 수정
 	@RequestMapping("/houseEdit")
-	public ModelAndView houseEdit( HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, HttpSession session, HttpServletRequest req) {
+	public ModelAndView houseEdit(int no, HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, HttpSession session, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
 		String userid = (String)session.getAttribute("logId");
 		
@@ -222,12 +318,12 @@ public class HouseController {
 		System.out.println("hVO id->"+hVO.getUserid());
 
 //		System.out.println("hVO->"+hVO.getNo());
-		hVO = service.houseSelect(3, userid);
+		hVO = service.houseSelect(no, userid);
 		//int no -> VO와 같이 넣어주기
 		//hVO = service.houseSelect(no, userid); 로 ?
 		
-		rVO = service.roomSelect(3, userid);
-		pVO = service.propHouseSelect(userid, 22);
+		rVO = service.roomSelect(no, userid);
+		pVO = service.propHouseSelect(userid, hVO.getPno());
 //		System.out.println("성향 타입-> "+pVO.getPcase());
 //		System.out.println("성향 pno-> "+pVO.getPno());
 		System.out.println("hVO Pno-> "+hVO.getPno());
@@ -414,7 +510,7 @@ public class HouseController {
 	}
 	
 	
-	//하우스 삭제 -> 글이 2개 이상일때는 하우스,룸,성향 모두 함께 삭제, 글이 1개 이하일때는 성향은 남겨둬야함
+	//하우스 삭제 -> 성향은 제외하고 houseWrite, houseRoom 만 삭제, Propensity 의 housename을 null 로 업데이트
 	@RequestMapping("/houseDel")
 	public ModelAndView houseDel(HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
@@ -423,7 +519,14 @@ public class HouseController {
 		rVO.setUserid(userid);
 		pVO.setUserid(userid);
 		
-		int result1;
+		int result1 = service.houseDel(hVO);
+		if(result1>0) {
+			System.out.println("하우스 삭제");
+			
+			rVO.setNo(hVO.getNo()); //HouseRoom 의 no을 HouseWrite의 no으로 설정
+		}else {
+			System.out.println("하우스 삭제 실패");
+		}
 		
 		return mav;
 	}

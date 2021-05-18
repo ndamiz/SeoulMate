@@ -36,10 +36,17 @@
 		 select no, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, searchpeople, publicfacility, writedate, enddate, 
 		 housestate, houseprofile from housewrite where no=#{param1} and userid=#{param2}
 	</select>
+		<select id="houseSelect2"  resultType="com.seoulmate.home.vo.HouseWriteVO">
+		 select no, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, searchpeople, publicfacility, writedate, enddate, 
+		 housestate, houseprofile from housewrite where no=#{param1}
+	</select>
 	<delete id="houseDel" parameterType="com.seoulmate.home.vo.HouseWriteVO">
 		delete from housewrite where no=#{param1} and userid=#{param2}	
 	</delete>
   	<select id="houseProfile" resultType="String">
   		select housepic1 from housewrite where userid=#{param1} and no=#{param2}
   	</select>
+  	<select id="getNewIndexHouse" resultType="com.seoulmate.home.vo.HouseWriteVO">
+  		<![CDATA[select * from (select * from housewrite where housestate='모집중' order by no desc) where rownum<= 9]]>
+	</select>
   </mapper>

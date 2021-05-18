@@ -27,4 +27,6 @@ public interface ListService {
 	
 	// 내 최신 하우스 성향 번호 가져오기
 	public int newHpno(String userid);
+	// 하우스 index에서 9개의 매칭된 하우스 목록 가져오기
+	public ListVO premiumHouseIndexScore(String userid, int pno);
 }

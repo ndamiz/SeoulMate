@@ -48,4 +48,10 @@ public interface HouseWriteDAO {
 	
 	//하우스 사진 가져오기
 	public String houseProfile(String housepic1,int no);
+	
+	//하우스 인덱스에서 New 하우스 리스트 9개 출력하기
+	public List<HouseWriteVO> getNewIndexHouse();
+	
+	//하우스 보기(내가 쓴 글 아니여도 가능)
+	public HouseWriteVO houseSelect2(int no);
 }
