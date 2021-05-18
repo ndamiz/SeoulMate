@@ -47,9 +47,9 @@
 			JOIN 
 				(SELECT pno, userid FROM PROPENSITY WHERE userid= #{userid } AND PCASE ='h') p 
 			ON 
-				h.pno(+)=p.pno ) house 
+				h.pno=p.pno ) house 
 		ON 
-			house.NO=room.NO(+)
+			house.NO=room.NO
 	</select>
 	<select  id="oneHouseWriteSelect" parameterType="int" resultType="com.seoulmate.home.vo.HouseWriteVO">
 		SELECT house.NO, house.PNO, house.USERID, house.HOUSENAME, room.deposit, room.rent, house.ADDR,  house.HOUSEPIC1, 
@@ -64,7 +64,7 @@
 			WHERE 
 				NO=${no } ) house 
 		ON 
-			house.NO=room.NO(+)
+			house.NO=room.NO
 	</select>
 	<select id="mateConfirm" parameterType="String" resultType="int" >
 		SELECT nvl(max(count(no)), 0) AS NO 
@@ -91,14 +91,14 @@
 			JOIN 
 				(SELECT pno, userid, m_now FROM PROPENSITY WHERE userid='${userid }' AND PCASE ='m') p 
 			ON 
-				m.pno(+)=p.pno) m1
+				m.pno=p.pno) m1
 		JOIN 
 			(SELECT userid, gender, to_char(birth, 'YYYY-MM-DD') AS birth, 
 				MONTHS_BETWEEN(TRUNC(SYSDATE,'YEAR'), TRUNC(to_date(to_char(birth,'YYYYMMDD'),'YYYYMMDD'), 'Year')) /12 + 1 AS age 
 			FROM 
 				MEMBER WHERE userid='${userid }') mem 
 			ON 
-				m1.userid(+)=mem.userid
+				m1.userid=mem.userid
 	</select>
 	<select id="likeMarkConfirm" parameterType="String" resultType="int" >
 		select nvl(max(count(lno)), 0) as no from LIKEMARK WHERE userid= #{param1} GROUP BY lno
@@ -118,7 +118,7 @@
 		JOIN 
 			HOUSEWRITE house 
 		ON
-			house.NO=room.NO(+)
+			house.NO=room.NO
 	</select>
 	<select id="mateLikeSelect" parameterType="int" resultType="com.seoulmate.home.vo.MateWriteVO">
 		SELECT m.NO, m.userid, m.area, m.matePic1, m.deposit, m.rent,  to_char(enterdate, 'mm/dd') as enterdate, m.minstay, m.maxstay,
@@ -136,9 +136,9 @@
 				FROM 
 					MEMBER) mem2
 			ON 
-				mem2.userid =p.userid(+)) mem 
+				mem2.userid =p.userid) mem 
 		ON 
-			m.userid(+)=mem.userid 
+			m.userid=mem.userid 
 		WHERE 
 			m.NO=${no }
 	</select>
@@ -191,4 +191,10 @@
 	<select id="noConfirmHouseOrMate" parameterType="String" resultType="int">
 		select nvl(max(count(no)), 0) as no from ${param2} WHERE no=${param1} GROUP BY no
 	</select>
+	<select id="pnoConfirm" parameterType="String" resultType="int">
+		select nvl(max(count(pno)), 0) as pno from PROPENSITY WHERE userid=#{param1} and pcase=#{param2} GROUP BY pno
+	</select>
+	<update id="stateCompleteUpdate" parameterType="String">
+		update ${param1 } set ${param2} = '매칭 완료' where no=${param3} and userid=#{param4}
+	</update>
 </mapper>

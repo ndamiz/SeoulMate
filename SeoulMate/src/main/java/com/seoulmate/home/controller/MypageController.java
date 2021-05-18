@@ -55,12 +55,10 @@ public class MypageController {
 			//1-1. 후 목록 가져오기 (모집중이 아닌것도 모두 가져온다,) 
 			hwList = service.myPageHouseWriteSelect(userid);
 			mav.addObject("hwList", hwList);
-System.out.println(hwList.size());
 			if(msg==null || msg.equals("")) {
 				msg = "house";
 			}
 		}
-		
 		//2. 메이트로 등록된 성향+글이 있는지 확인. 
 		MateWriteVO mwVO = new MateWriteVO();
 		if(service.mateConfirm(userid)>0) {
@@ -68,9 +66,6 @@ System.out.println(hwList.size());
 			mwVO= service.myPageMateWriteSelect(userid);
 			mav.addObject("mwVO", mwVO);
 			// 하우스 글이 없을 경우엔 mate로 메세지 변경.
-			if(msg==null || msg.equals("")) {
-				msg = "mate";
-			}
 		}
 		//3, likemark가 있는 지 확인. 
 		if(service.likeMarkConfirm(userid)>0) {
@@ -99,7 +94,13 @@ System.out.println(hwList.size());
 			}	
 		}  
 		if(msg==null || msg.equals("")) {
-			msg = "house";
+			if(service.pnoConfirm(userid, "h")>0) {
+				// house 로 등록된 pno가 있다면, 
+				msg = "house";
+			}else if(service.pnoConfirm(userid, "m")>0) {
+				// mate 로 등록된 pno가 있다면
+				msg = "mate";
+			}
 		}
 		System.out.println(msg);
 		mav.addObject("msg", msg);
@@ -260,12 +261,22 @@ System.out.println(hwList.size());
 	}
 	//매칭완료 
 	@RequestMapping("/stateComplete")
+	@ResponseBody
 	public int stateComplete(int no, HttpSession session) {
 		String userid = (String)session.getAttribute("logId");
 		//noConfirmHouseOrMate 
-		service.noConfirmHouseOrMate(no, "houseWrite");
-		
-		return 1;
+		int result = 0;
+		if(service.noConfirmHouseOrMate(no, "houseWrite")>0) {
+			// no가 하우스글 인 경우 
+			// state를 매칭완료료 변경한다. 
+			result = service.stateCompleteUpdate("houseWrite", "houseState", Integer.toString(no), userid);
+
+		}else if(service.noConfirmHouseOrMate(no, "mateWrite")>0) {
+			result = service.stateCompleteUpdate("mateWrite", "houseState", Integer.toString(no), userid);
+		}else {
+			result=200;
+		}
+		return result;
 	}
 	//찜 등록
 	@RequestMapping("/likemarkInsert")

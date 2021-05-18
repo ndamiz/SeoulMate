@@ -68,4 +68,8 @@ public interface MypageService {
 	public int chatCheckName(String name, String chatuser1, String chatuser2);
 	//하우스인지, 메이트인지 확인. 
 	public int noConfirmHouseOrMate(int no, String msg);
+	//pno확인
+	public int pnoConfirm(String userid, String pcase);
+	//매칭완료로 변경
+	public int stateCompleteUpdate(String tableName, String stateName, String no, String userid);
 }

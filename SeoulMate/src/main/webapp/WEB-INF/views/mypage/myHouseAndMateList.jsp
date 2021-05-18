@@ -20,6 +20,11 @@
 				url : url,
 				data : data,
 				success : function(result){
+					//1은 완료  //완료되면 매칭완료 처리되었다는 팝업 뜨게하구, 페이지 재실행, 
+					// 매칭완료 처리가 된 하우스는 버튼을 다르게 처리된다.. (재등록, 글삭제) 
+					
+					//200은 에러 . 
+					
 					console.log(result);
 				}, error : function(){
 					console.log('마이페이지 매칭완료 처리 실패');

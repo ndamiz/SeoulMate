@@ -148,7 +148,16 @@ public class MypageServiceImp implements MypageService {
 	public int noConfirmHouseOrMate(int no, String msg) {
 		return dao.noConfirmHouseOrMate(no, msg);
 	}
-	
+	//pno확인
+	@Override
+	public int pnoConfirm(String userid, String pcase) {
+		return dao.pnoConfirm(userid, pcase);
+	}
+	//매칭완료로 변경
+	@Override
+	public int stateCompleteUpdate(String tableName, String stateName, String no, String userid) {
+		return dao.stateCompleteUpdate(tableName, stateName, no, userid);
+	}
 	
 	
 }
