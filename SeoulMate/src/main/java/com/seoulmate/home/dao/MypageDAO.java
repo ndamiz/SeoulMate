@@ -3,6 +3,7 @@ package com.seoulmate.home.dao;
 import java.util.List;
 
 import com.seoulmate.home.vo.ApplyInviteVO;
+import com.seoulmate.home.vo.ChatRoomVO;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.LikeMarkVO;
@@ -60,7 +61,7 @@ public interface MypageDAO {
 	// 승인 후 housename, userid 가져오기. 
 	public HouseWriteVO chatHouseSelect(int no); 
 	// 채팅 DB 데이터 확인. 
-	public int chatCheck(String name, String chatuser1, String chatuser2);
+	public ChatRoomVO chatCheck(String chatuser1, String chatuser2);
 	// 승인 후 채팅 insert 
 	public int chatInsert(String name, String chatuser1, String chatuser2);
 	

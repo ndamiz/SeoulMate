@@ -15,7 +15,7 @@
 			var msg = $('.myPage_HouseAndMate_Popup_Content').children().eq(0).val();
 			var no =0;
 			var userid = '';
-	console.log('초대승인');
+			
 			if(msg=='takeApply'){
 				//받은 신청  takeApply  (하우스입장에서 확인 )
 				//no = 하우스글번호(본인글) , userid = 신청한 사람 아이디 (유동적)
@@ -27,9 +27,6 @@
 				userid = $('.myPage_HouseAndMate_Popup_Content').children().eq(1).val();
 				no = $(this).parent().children().eq(0).val();
 			}
-			console.log('msg='+msg);
-			console.log('no='+no);
-			console.log('userid='+userid);
 			
 			var url = '/home/applyInviteApprove';
 			var data = {'no':no, 'msg':msg, 'userid':userid};
@@ -37,7 +34,6 @@
 				url : url,
 				data : data,
 				success : function(result){
-					console.log(result); 
 					userid='<c:out value="${logId }"/>';
 					if(result==1){
 						// 채팅방  insert완료 
@@ -52,7 +48,7 @@
 							$('#myPage_popup_FullScreen').removeClass('popup_hidden');
 							$('body').addClass('popup_Stop_Scroll');
 						}
-						location.reload();
+						
 					}else if(result==200){
 						// 이미 채팅방이있다. 
 						$('.alert_pop_Content').html('<p>이미 채팅이 활성화 되어있습니다.</p><p>채팅으로 약속을 잡아보세요!</p>');
@@ -89,9 +85,6 @@
 				userid = $('.myPage_HouseAndMate_Popup_Content').children().eq(1).val();
 				no = $(this).parent().children().eq(0).val();
 			}
-			console.log('msg='+msg);
-			console.log('no='+no);
-			console.log('userid='+userid);
 			// ajax로 지운 후, 지웟다고 확인되면, applyInviteList(no, msg, userid) 함수 실행. 
 			var url = '/home/mypageApplyInviteCancel';
 			var data = {'no':no, 'msg':msg, 'userid':userid};
@@ -99,7 +92,6 @@
 				url : url,
 				data : data,
 				success : function(result){
-					console.log(result); 
 					userid='<c:out value="${logId }"/>';
 					if(result>0){
 						applyInviteList(no, msg, userid);
@@ -123,7 +115,6 @@
 					$mwVOList = $(result.pop_mwVO);
 					$hwVOList = $(result.pop_hwVO);
 					$aiList = $(result.aiList);
-					console.log(result.aiList);
 					var tag = '';
 					var gender = '';
 					if(result.pop_mwVO!=null ){
@@ -147,12 +138,11 @@
 								$aiList.each(function(aIdx, aObj){
 									if(obj.userid == aObj.userid){
 										confirm = aObj.confirm;
-										console.log('var confirm = '+confirm);
 									}
 								});
 								tag+='<div class="myPage_HouseAndMate_Popup_OneBlock">';
 								tag+='<div class="myPage_HouseAndMate_Popup_Img">';
-								tag+='<a href=""><img alt="" src="/home/matePic/'+obj.matePic1+'"/></a></div>';
+								tag+='<a href=""><img alt="" src="/home/matePic/'+obj.matePic1+'" onerror="this.src=\'/home/img/comm/no_mate_pic.png\'"/></a></div>';
 								tag+='<ul class="myPage_HouseAndMate_Popup_Info">';
 								if(obj.gender==1){ gender = '여성'; }
 								else if(obj.gender==2){ gender = '남성';}
@@ -208,12 +198,11 @@
 								$aiList.each(function(aIdx, aObj){
 									if(obj.no == aObj.no){
 										confirm = aObj.confirm;
-										console.log('var confirm = '+confirm);
 									}
 								});
 								tag+='<div class="myPage_HouseAndMate_Popup_OneBlock">';
 								tag+='<div class="myPage_HouseAndMate_Popup_Img">';
-								tag+='<a href=""><img src="/home/housePic/'+obj.housepic1+'"/></a></div>';
+								tag+='<a href=""><img src="/home/housePic/'+obj.housepic1+'" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/></a></div>';
 								tag+='<ul class="myPage_HouseAndMate_Popup_Info">';
 								tag+='<li><span class="s_title">'+obj.housename+'</span></li>';
 								tag+='<li>'+obj.addr+'</li>';
@@ -278,7 +267,6 @@
 			var no = $(this).parent().children().eq(0).val(); //해당 글 번호
 			var msg = ''; 
 			var userid = '<c:out value="${logId }"/>';
-			console.log(userid);
 			// 하우스 기준.
 			if($(this).hasClass("takeApply")){ // 받은 신청을 누른 경우
 				msg = 'takeApply';
@@ -353,7 +341,7 @@
 							<div class="myPage_HouseAndMate_oneBlock" >
 								<div class="myPage_HouseAndMate_Img">
 									<!-- 글내용보기로 이동시켜야함. -->
-									<a href=""><img alt="" src="/home/housePic/${hwVO.housepic1 }"/></a>
+									<a href=""><img alt="" src="/home/housePic/${hwVO.housepic1 }" onerror="this.src='/home/img/comm/no_house_pic.png'"/></a>
 								</div>
 								<ul class="myPage_HouseAndMate_Info">
 									<li>${hwVO.housename }</li>

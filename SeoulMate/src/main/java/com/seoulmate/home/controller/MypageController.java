@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.seoulmate.home.service.MypageService;
 import com.seoulmate.home.vo.ApplyInviteVO;
+import com.seoulmate.home.vo.ChatRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.LikeMarkVO;
 import com.seoulmate.home.vo.MateWriteVO;
@@ -34,9 +35,6 @@ import com.seoulmate.home.vo.MateWriteVO;
 public class MypageController {
 	@Inject
 	MypageService service;
-	
-	@Autowired
-	private DataSourceTransactionManager transactionManager;
 	
 	//마이페이지 하우스&메이트 관리 
 	@RequestMapping("/myHouseAndMateList")
@@ -57,7 +55,7 @@ public class MypageController {
 			//1-1. 후 목록 가져오기 (모집중이 아닌것도 모두 가져온다,) 
 			hwList = service.myPageHouseWriteSelect(userid);
 			mav.addObject("hwList", hwList);
-	System.out.println(hwList.size());
+System.out.println(hwList.size());
 			if(msg==null || msg.equals("")) {
 				msg = "house";
 			}
@@ -165,7 +163,6 @@ public class MypageController {
 	}
 	//마이페이지 받은신청, 받은초대 승인
 	@RequestMapping(value="/applyInviteApprove", method = {RequestMethod.POST, RequestMethod.GET})
-	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
 	@ResponseBody
 	public int applyInviteApprove(int no, String userid, String msg, HttpSession session) {
 		ApplyInviteVO aiVO = new ApplyInviteVO();
@@ -173,46 +170,44 @@ public class MypageController {
 		aiVO.setMsg(msg);
 		aiVO.setUserid(userid);
 		
+		System.out.println("no = "+no);
+		System.out.println("msg = "+msg);
+		System.out.println("userid = "+userid);
+		ChatRoomVO crVO = new ChatRoomVO();
 		int inResult = 0;
 		String name = "";
 		int cnt = 0;
-		// 트랜잭션
-		DefaultTransactionDefinition def=new DefaultTransactionDefinition();
-		def.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED); // 트랜잭션 호출
-		TransactionStatus status=transactionManager.getTransaction(def);
 		try {
 			int result = service.applyInviteApproveUpdate(aiVO);
 			// 승인 완료 후 
 			if(result>0) {
 				//채팅방 insert 
 				HouseWriteVO hwVO = service.chatHouseSelect(no);
-				System.out.println("hwVO housename" + hwVO.getHousename());
 				name = hwVO.getHousename() +" ("+userid+")";
-		System.out.println("채팅방이름 = " + name);
 				if(msg.equals("takeApply")) {
 					//받은신청// 신청 승낙했다. 세션 에있는 아이디가 나 (=글쓴이) , 신청햇던사람은 현재userid
 					String chatuser1 = (String)session.getAttribute("logId");
 					// DB에 있는 정보인지 확인
-					cnt = service.chatCheck(name, chatuser1, userid);
-					if(cnt>0) {
+					crVO = service.chatCheck(chatuser1, userid);
+					if(crVO.getNo() != 0) {
 						//받은 신청에 이미 채팅방이 있다
+						
 						inResult = 200;
-						transactionManager.commit(status);
 					}else {
 						//채팅방이 없다 -> 개설한다. 
 						//1. name 받아오기,   2.chatuser1 = 수락한사람, 3.chatuser2 = 신청한사람 (나머지 디폴트 = 0)
 						//name 은 하우스글 이름
 						// no를 이용해서 해당유저아이디, 해당 하우스네임 가져오기 . 
 													//					 housewrite글쓴이,  신청자(메이트) 
+						
 						inResult = service.chatInsert(name, chatuser1, userid);
 					}
 				}else if(msg.equals("takeInvite")) {
-					cnt = service.chatCheck(name, hwVO.getUserid(), userid);
+					crVO = service.chatCheck(hwVO.getUserid(), userid);
 		System.out.println("cnt = "+cnt +"채팅방이 있는지 확인");
 					if(cnt>0) {
 						//받은 초대에 이미 채팅방이 있다
 						inResult = 200;
-						transactionManager.commit(status);
 					}else if(cnt==0){
 						//채팅방이 없다 -> 개설한다. 
 						//받은 초대// 초대를 승낙했다. 승낙한사람 = 현재 userid,  승낙한 글번호 = no -> no를 이용하여 해당유저아이디 셀렉트 
@@ -220,7 +215,9 @@ public class MypageController {
 						inResult = service.chatInsert(name, hwVO.getUserid(), userid);
 					}
 				}
-			}	
+			}else {
+				System.out.println("??? 왜 업데이트부터 오류납니까 ?");
+			}
 		}catch (Exception e) {
 			e.printStackTrace();
 			//초대, 신청 승낙 및 채팅방 insert 에러 발생 

@@ -157,19 +157,18 @@
 		
 	</delete>
 	<update id="applyInviteApproveUpdate"  parameterType="com.seoulmate.home.vo.ApplyInviteVO">
-		update applyInvite set confirm='승인'
+		update applyInvite set confirm='승인' 
 		where 
-			no=${no} and userid='${userid}' 
-		<if test="msg=='takeInvite'" > and state='초대'</if>
-		<if test="msg=='takeApply'"> and state='신청'</if>
+		<if test="msg=='takeInvite'" > no=${no} and userid='${userid}' and state='초대'</if>
+		<if test="msg=='takeApply'"> no=${no} and userid='${userid}' and state='신청'</if>
 	</update>
 	<select id="chatHouseSelect" parameterType="int" resultType="com.seoulmate.home.vo.HouseWriteVO">
 		SELECT userid, housename from houseWrite where no=${no }
 	</select>	
 	<select id="chatCheck" parameterType="String" resultType="int">
-		SELECT nvl(max(count(name)),0) 
+		SELECT no, name, chatuser1, chatuser2 
 		FROM CHATROOM 
-		WHERE name=#{param1} AND CHATUSER1=#{param2} AND CHATUSER2=#{param3} GROUP BY NAME
+		WHERE CHATUSER1=#{param1} AND CHATUSER2=#{param2} 
 	</select>
 	<insert id="chatInsert" parameterType="String" >
 		INSERT into chatroom(no, name, chatuser1, chatuser2, chatroomdate) 

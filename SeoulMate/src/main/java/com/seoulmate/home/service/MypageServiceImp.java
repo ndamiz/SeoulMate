@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.seoulmate.home.dao.MypageDAO;
 import com.seoulmate.home.vo.ApplyInviteVO;
+import com.seoulmate.home.vo.ChatRoomVO;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.LikeMarkVO;
@@ -124,8 +125,8 @@ public class MypageServiceImp implements MypageService {
 	}
 	// 채팅 DB 데이터 확인. 
 	@Override
-	public int chatCheck(String name, String chatuser1, String chatuser2) {
-		return dao.chatCheck(name, chatuser1, chatuser2);
+	public ChatRoomVO chatCheck(String chatuser1, String chatuser2) {
+		return dao.chatCheck(chatuser1, chatuser2);
 	}
 	// 승인 후 채팅 insert 
 	@Override
