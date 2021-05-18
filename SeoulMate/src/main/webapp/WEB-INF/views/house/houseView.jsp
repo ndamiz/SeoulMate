@@ -287,7 +287,7 @@
 	 	<input type="hidden" value="${logId }"/>
 	 	<div id="btnDiv"> <!-- 수정, 삭제는 본인의 글을 볼 경우에만 -->
 <%-- 	 	<c:if test="${logId==hVO.userid }"> --%>
- 		<button id="hEdit" class="white" >수정</button> <button class="white">삭제</button> 
+ 		<a id="hEdit" class="white" href="houseEdit?no=${hVO.no }" >수정</a> <button class="white">삭제</button> 
 <%--  		</c:if> --%>
  		<button class="white">찜</button> 
  		<button class="white" id="shareBtn" >공유하기</button> <button class="white" id="reportBtn">신고하기</button>
@@ -320,8 +320,8 @@
 	<div id="middle_Div">
 	
 		<div id="houseExplain">
-		<p class="s_title">서울특별시 마포구 백범로 </p> <br/> 
-		보증금 얼마 | 월세 얼마 | 0명 구해요 | 즉시 입주 가능 <br/>
+		<p class="s_title">${hVO.addr }</p> <br/> 
+		보증금 ${rVO.deposit } | 월세 ${rVO.rent } | ${hVO.searchpeople }명 구해요 | 즉시 입주 가능 <br/>
 		<p>방 몇개 | 현재 거주중인 인원 | 욕실 몇개 </p> <br/>
 		House 키워드 <br/>
 		<p>집 키워드 보여주기 ~ ~ </p> <br/>

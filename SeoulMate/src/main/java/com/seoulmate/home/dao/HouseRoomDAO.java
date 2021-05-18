@@ -14,4 +14,7 @@ public interface HouseRoomDAO {
 	
 	//방 삭제
 	public int roomDel(HouseRoomVO vo);
+	
+	//houseRoom 가져오기 (본인 작성글 아니여도 가능)
+	public HouseRoomVO roomSelect2(int no);
 }

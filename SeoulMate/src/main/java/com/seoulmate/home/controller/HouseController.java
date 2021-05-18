@@ -130,8 +130,17 @@ public class HouseController {
 	}
 	
 	@RequestMapping("/houseView")
-	public ModelAndView houseSearch(int no, HttpSession session) {
+	public ModelAndView houseView(int no, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+//		String userid = (String)session.getAttribute("logId");
+		
+		HouseWriteVO hVO = service.houseSelect2(no); //HouseWriteVO 값 가져오기
+		HouseRoomVO rVO = service.roomSelect2(no); //HouseRoomVO 값 가져오기
+		PropensityVO pVO = service.propHouseSelect2(hVO.getPno()); //PropensityVO 값 가져오기
+		
+		mav.addObject("hVO", hVO);
+		mav.addObject("rVO", rVO);
+		mav.addObject("pVO", pVO);
 		
 		mav.setViewName("house/houseView");
 		
@@ -296,7 +305,7 @@ public class HouseController {
 	
 	//하우스 등록 수정
 	@RequestMapping("/houseEdit")
-	public ModelAndView houseEdit( HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, HttpSession session, HttpServletRequest req) {
+	public ModelAndView houseEdit(int no, HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, HttpSession session, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
 		String userid = (String)session.getAttribute("logId");
 		
@@ -309,12 +318,12 @@ public class HouseController {
 		System.out.println("hVO id->"+hVO.getUserid());
 
 //		System.out.println("hVO->"+hVO.getNo());
-		hVO = service.houseSelect(3, userid);
+		hVO = service.houseSelect(no, userid);
 		//int no -> VO와 같이 넣어주기
 		//hVO = service.houseSelect(no, userid); 로 ?
 		
-		rVO = service.roomSelect(3, userid);
-		pVO = service.propHouseSelect(userid, 22);
+		rVO = service.roomSelect(no, userid);
+		pVO = service.propHouseSelect(userid, hVO.getPno());
 //		System.out.println("성향 타입-> "+pVO.getPcase());
 //		System.out.println("성향 pno-> "+pVO.getPno());
 		System.out.println("hVO Pno-> "+hVO.getPno());
@@ -501,7 +510,7 @@ public class HouseController {
 	}
 	
 	
-	//하우스 삭제 -> 글이 2개 이상일때는 하우스,룸,성향 모두 함께 삭제, 글이 1개 이하일때는 성향은 남겨둬야함
+	//하우스 삭제 -> 성향은 제외하고 houseWrite, houseRoom 만 삭제, Propensity 의 housename을 null 로 업데이트
 	@RequestMapping("/houseDel")
 	public ModelAndView houseDel(HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
@@ -510,7 +519,14 @@ public class HouseController {
 		rVO.setUserid(userid);
 		pVO.setUserid(userid);
 		
-		int result1;
+		int result1 = service.houseDel(hVO);
+		if(result1>0) {
+			System.out.println("하우스 삭제");
+			
+			rVO.setNo(hVO.getNo()); //HouseRoom 의 no을 HouseWrite의 no으로 설정
+		}else {
+			System.out.println("하우스 삭제 실패");
+		}
 		
 		return mav;
 	}

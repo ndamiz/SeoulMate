@@ -147,7 +147,7 @@
                   </c:if>
                 </c:if>
                   <button class="btn_star"></button>
-                  <a href="">
+                  <a href="houseView?no=${newHouseVO.no }">
                      <img alt="" src="<%=request.getContextPath()%>/housePic/${newHouseVO.housepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
                   </a>
                </div>

@@ -117,6 +117,22 @@ public class HouseServiceImp implements HouseService {
 		return hDAO.getNewIndexHouse();
 	}
 
+	@Override
+	public HouseWriteVO houseSelect2(int no) { //하우스 보기 (내가쓴글 아니여도 가능)
+		return hDAO.houseSelect2(no);
+	}
+
+	@Override
+	public HouseRoomVO roomSelect2(int no) { //HouseRoom 가져오기 (본인 작성글 아니여도 가능)
+		return dao.roomSelect2(no);
+	}
+
+	@Override
+	public PropensityVO propHouseSelect2(int pno) {
+		// TODO Auto-generated method stub
+		return pDAO.propHouseSelect2(pno);
+	}
+
 	
 
 

@@ -14,7 +14,7 @@
 					<div class="list_img">
 						<p><span>매칭</span>90<b>%</b></p>
 						<button class="btn_star"></button>
-						<a href="">
+						<a href="houseView?no=${hVO.no}">
 							<img alt="" src="<%=request.getContextPath()%>/img/comm/sample_house01.png">
 						</a>
 					</div>
