@@ -36,6 +36,10 @@
 		 select no, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, searchpeople, publicfacility, writedate, enddate, 
 		 housestate, houseprofile from housewrite where no=#{param1} and userid=#{param2}
 	</select>
+		<select id="houseSelect2"  resultType="com.seoulmate.home.vo.HouseWriteVO">
+		 select no, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, searchpeople, publicfacility, writedate, enddate, 
+		 housestate, houseprofile from housewrite where no=#{param1}
+	</select>
 	<delete id="houseDel" parameterType="com.seoulmate.home.vo.HouseWriteVO">
 		delete from housewrite where no=#{param1} and userid=#{param2}	
 	</delete>

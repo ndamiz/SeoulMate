@@ -173,7 +173,7 @@ $(function(){
 	$("#hNext9").click(function(){
 		location.href="<%=request.getContextPath()%>/houseIndex";
 	});
-	$("#hPrev9").click(function(){
+	$("#hPrve9").click(function(){
 		$("#houseWrite9").css("display", "none");
 		$("#houseWrite8").css("display", "block"); 
 	});
@@ -800,7 +800,7 @@ $(function(){
 			</ul>	
 				<div class="btnclass">
 					<a class="green" id="hPrve9" >이전</a>
-					<button class="green" id="hNext9" >다음</button> 
+					<button class="green" id="hNext9" >등록</button> 
 					<a class="green" id="hIndex9" >취소</a>
 				</div> <!-- 버튼div 종료 -->
 		</div> <!-- 등록form9 종료 -->	

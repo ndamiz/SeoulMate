@@ -42,4 +42,6 @@ public interface PropensityDAO {
 	public int proPnoCheck(String userid);
 	//가입할때 h 유형가입, pno 확인
 	public int proHouseCheck(String userid);
+	// 하우스 성향 가져오기(본인 작성 글 아니여도 가능)
+	public PropensityVO propHouseSelect2(int pno);
 }

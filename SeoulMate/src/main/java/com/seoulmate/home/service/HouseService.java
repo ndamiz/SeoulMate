@@ -59,4 +59,13 @@ public interface HouseService {
 	
 	//하우스 사진 가져오기
 	public String houseProfile(String housepic1, int no);
+	
+	//하우스 보기(내가 쓴 글 아니여도 가능)
+	public HouseWriteVO houseSelect2(int no);
+	
+	//houseRoom 가져오기 (본인 작성글 아니여도 가능)
+	public HouseRoomVO roomSelect2(int no);
+	
+	// 하우스 성향 가져오기(본인 작성 글 아니여도 가능)
+	public PropensityVO propHouseSelect2(int pno);
 }
