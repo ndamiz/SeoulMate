@@ -174,7 +174,6 @@
 		      <c:if test="${pmList!=null}">
 			      <ul class="list_content">
 			         <c:forEach var="pmList" items="${pmList}">
-			         	성별 : ${pmList.gender}, 희망 성별 : ${pmList.m_gender}
 			            <li>
 			               <div class="list_img">
 			                  <p><span>매칭</span>${pmList.score}<b>%</b></p>
