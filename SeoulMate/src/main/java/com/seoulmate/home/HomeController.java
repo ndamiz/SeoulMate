@@ -40,7 +40,7 @@ public class HomeController {
 	 */	
 	@SuppressWarnings("null")
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView home(HttpSession session) {
+	public ModelAndView home(HttpSession session, String addr, String area) {
 		ModelAndView mav = new ModelAndView();
 		String userid=(String)session.getAttribute("logId");
 		
@@ -85,16 +85,16 @@ public class HomeController {
 					int m_gender=listService.mate_m_gender(userid);
 					
 					// 쉐어하우스 매칭 리스트 구하기
-					List<ListVO> phList = listService.premiumHouseList(userid, m_gender); // PremiumHouseList
+					List<ListVO> phList = listService.premiumHouseList(userid, m_gender, addr); // PremiumHouseList
 					
 					if(phList.get(0)!=null){ // else if(phList!=null)
 						HouseRoomVO phhrVO = new HouseRoomVO();
 						for (ListVO phVO : phList) {
 							// 각 쉐어하우스의 제일 저렴한 월세 가져오기
-							phhrVO = service.getDesposit(phVO.getNo());
-							
-							phVO.setDeposit(phhrVO.getDeposit());
-							phVO.setRent(phhrVO.getRent());
+//							phhrVO = service.getDesposit(phVO.getNo());
+//							
+//							phVO.setDeposit(phhrVO.getDeposit());
+//							phVO.setRent(phhrVO.getRent());
 							int idx = phVO.getAddr().indexOf("동 ");
 							phVO.setAddr(phVO.getAddr().substring(0, idx+1));
 						}
@@ -141,8 +141,8 @@ public class HomeController {
 						int m_gender=listService.house_m_gender(userid, pno);
 						System.out.println("m_gender : "+m_gender);
 						// 메이트 매칭 리스트 구하기
-						List<ListVO> pmList = listService.premiumMateList(userid, pno, m_gender);
-						
+						List<ListVO> pmList = listService.premiumMateList(userid, pno, m_gender, area);
+
 						if(pmList.get(0)!=null) {
 							for(ListVO pmVO : pmList) {
 								MemberVO mVO=service.getDetail(pmVO.getUserid());
@@ -236,7 +236,6 @@ public class HomeController {
 		
 		// 하우스메이트 최신리스트 구하기
 		List<MateWriteVO> nmList = service.getNewMate();
-	    
 		for (MateWriteVO mwVO : nmList) {
 			// 각 하우스 메이트의 성별, 나이 구하기
 			MemberVO mVO = service.getDetail(mwVO.getUserid());

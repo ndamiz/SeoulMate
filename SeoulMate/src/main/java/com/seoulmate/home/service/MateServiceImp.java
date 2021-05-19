@@ -54,8 +54,8 @@ public class MateServiceImp implements MateService {
 	}
 
 	@Override
-	public List<MateWriteVO> getNewIndexMate() {
-		return dao.getNewIndexMate();
+	public List<MateWriteVO> getNewIndexMate(String area) {
+		return dao.getNewIndexMate(area);
 	}
 
 

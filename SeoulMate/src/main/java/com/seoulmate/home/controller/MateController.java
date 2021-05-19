@@ -46,7 +46,7 @@ public class MateController {
 	private DataSourceTransactionManager transactionManager;
 	
 	@RequestMapping("/mateIndex")
-	public ModelAndView mateIndex(HttpSession session) {
+	public ModelAndView mateIndex(HttpSession session, String area) {
 		ModelAndView mav=new ModelAndView();
 		String userid=(String)session.getAttribute("logId");
 		
@@ -84,7 +84,7 @@ public class MateController {
 						int m_gender=listService.house_m_gender(userid, pno);
 						System.out.println("m_gender : "+m_gender);
 						// 메이트 매칭 리스트 구하기
-						List<ListVO> pmList = listService.premiumMateList(userid, pno, m_gender);
+						List<ListVO> pmList = listService.premiumMateList(userid, pno, m_gender, area);
 						
 						if(pmList.get(0)!=null) {
 							for(ListVO pmVO : pmList) {
@@ -142,7 +142,7 @@ public class MateController {
 		}
 		
 		// 하우스메이트 최신리스트 구하기
-		List<MateWriteVO> nmList = service.getNewIndexMate(); // 1. homeService 함수는 row<=3이고, MateService는 row<=9
+		List<MateWriteVO> nmList = service.getNewIndexMate(area); // 1. homeService 함수는 row<=3이고, MateService는 row<=9
 	    
 		for (MateWriteVO mwVO : nmList) {
 			// 각 하우스 메이트의 성별, 나이 구하기
@@ -204,6 +204,7 @@ public class MateController {
 		}
 		
 		mav.addObject("newMateList", nmList);
+		mav.addObject("area", area); // 검색을 하고 페이지를 다시 띄워줄 때 입력한 값이 뭔지 알려주려고
 		
 		mav.setViewName("mate/mateIndex");
 	return mav;
@@ -373,7 +374,20 @@ public class MateController {
 		return mav;
 	}
 	
-
+	@RequestMapping(value = "/hpnoDefaultMateIndex", method = RequestMethod.GET)
+	public ModelAndView hpnoDefaultMateIndex(HttpSession session, int pno) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
+		
+		// 내 하우스 성향의 갯수를 구한다.(프리미엄인 하우스에게 메이트 매칭 목록을 띄워주기 위해)
+		int myHousePnoCnt=listService.myHousePnoCount(userid);
+		if(myHousePnoCnt>0) {
+			session.setAttribute("hPno", pno);
+		}
+		mav.setViewName("redirect:mateIndex");
+		
+		return mav;
+	}
 	
 	
 }

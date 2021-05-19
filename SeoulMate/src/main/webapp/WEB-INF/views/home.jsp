@@ -174,6 +174,7 @@
 		      <c:if test="${pmList!=null}">
 			      <ul class="list_content">
 			         <c:forEach var="pmList" items="${pmList}">
+			         	성별 : ${pmList.gender}, 희망 성별 : ${pmList.m_gender}
 			            <li>
 			               <div class="list_img">
 			                  <p><span>매칭</span>${pmList.score}<b>%</b></p>
@@ -183,14 +184,25 @@
 			                  </a>
 			               </div>
 			               <div class="list_title">
-			                  <span class="mate_id">USER1</span>
-			                  <span class="pay">￦ 100 / 25</span>
+			                  <span class="mate_id">${pmList.userid}</span>
+			                  <span class="pay">￦ ${pmList.deposit} / ${pmList.rent}</span>
 			               </div>
-			               <span class="address">서강동 | 합정동 | 당산동</span>
+			               <span class="address">
+			               		${pmList.area1}
+			               		<c:if test="${pmList.area2 != null }"> ${pmList.area2}</c:if>
+			               		<c:if test="${pmList.area3 != null }"> ${pmList.area3}</c:if>
+<%-- 			               		<c:if test="${pmList.area2!=null}">${pmList.area2}</c:if> --%>
+<%-- 			               		<c:if test="${pmList.area3!=null}">${pmList.area3}</c:if> --%>
+			               </span>
 			               <ol class="list_icon">
-			                  <li><p>여</p></li>
-			                  <li><p>27세</p></li>
-			                  <li><p>즉시</p></li>
+			                  <li>
+			                  	<p>
+				                  	<c:if test="${pmList.gender==1}">여</c:if>
+	                  				<c:if test="${pmList.gender==3}">남</c:if>
+                  				</p>
+							  </li>
+			                  <li><p>${pmList.birth}세</p></li>
+			                  <li><p>${pmList.enterdate}</p></li>
 			               </ol>
 			            </li>
 			         </c:forEach>

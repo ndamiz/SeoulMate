@@ -30,6 +30,8 @@ public class ListVO {
 	private String area2;
 	private String area3;
 	
+	private int m_gender;
+	
 	public int getNo() {
 		return no;
 	}
@@ -179,5 +181,11 @@ public class ListVO {
 	}
 	public void setArea3(String area3) {
 		this.area3 = area3;
+	}
+	public int getM_gender() {
+		return m_gender;
+	}
+	public void setM_gender(int m_gender) {
+		this.m_gender = m_gender;
 	}
 }

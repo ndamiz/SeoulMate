@@ -68,57 +68,80 @@ button{position: relative;}
 	margin-top: 30px;
 	margin-left:35px;
 }
+.searchClass .list_filter{
+	margin-right: 30px !important;
+}
 </style>
+<script>
+	$(function(){
+		$("#hPnoSelect>a").click(function(){
+			var hpno=$(this).attr("id");
+			location.href="hpnoDefaultMateIndex?pno="+hpno;
+		});
+	});
+</script>
 <div class="wrap mateSearch_wrap">
 <div class="content">
 	<div class="boxClass"> <!-- 상단부분 div -->
-
-	<ul class="searchClass">
-			<li> <img src='<%=request.getContextPath()%>/img/ico_filter.png'/> 조건검색 </li>
+		<ul class="searchClass">
+			<li><img src='<%=request.getContextPath()%>/img/ico_filter.png'/> 조건검색 </li>
 			<li>
-				
 				<ul>	
 					<li>
-						<ul>
-							<li><p>지역</p></li> 
-							<li><input type="text" id="searchBox" placeholder="지역명&지하철명을 입력하세요" /> 
-							<a id="iconPic1"> </a> </li>
-						</ul>
-						<ul>
-							<li> 입주예정일 </li>
-							<li> <input class="classDate" type="date"/> </li>
-						</ul>
-						<ul>
-							<li> 월세범위 </li>
-							<li> <input type="number" min="0" placeholder="0"/> - <input type="number" min="0" placeholder="0"/> 만원 </li>
-						</ul>
-						<ul>
-							<li> <label> 성별</label> </li>
-							<li class="checks_mate"> <div class="checks">
-								<input type="radio" id="radio1" name="character1"> 
-								 <label for="radio1">전체</label> 
-								 <input type="radio" id="radio2" name="character1"> 
-								 <label for="radio2">여성</label> 
-								 <input type="radio" id="radio3" name="character1"> 
-								 <label for="radio3">남성</label> 
-								 </div> </li>
-						</ul>
-						<ul>
-							<li> <button class="green search"></button> </li>
-							
-						</ul>
+						<form method="get" action="mateIndex">
+							<ul>
+								<li><p>지역</p></li> 
+								<li><input type="text" name="area" id="searchBox" placeholder="지역명을 입력하세요" /> 
+									<a id="iconPic1"></a></li>
+							</ul>
+<!-- 							<ul class="list_filter"> -->
+<!-- 								<li> 입주예정일 </li> -->
+<!-- 								<li> <input class="classDate" type="date"/></li> -->
+<!-- 							</ul> -->
+							<ul class="list_filter">
+								<li> 최대 월세 </li>
+								<li><input type="number" min="0" placeholder="0"/> 만원 </li>
+							</ul>
+							<ul class="list_filter">
+								<li>최대 보증금</li>
+<!-- 								<li><input type="number" name="" id="" min="10" placeholder="0"/> - <input type="number" min="0" placeholder="0"/> 만원 </li> -->
+								<li><input type="number" min="0" placeholder="0"/> 만원 </li>
+							</ul>
+							<ul>
+								<li><label> 성별</label></li>
+								<li class="checks_mate">
+									<div class="checks">
+										<input type="radio" id="radio1" name="character1" checked/> 
+										<label for="radio1">전체</label> 
+										<input type="radio" id="radio2" name="character1" value="1"/> 
+										<label for="radio2">여성</label> 
+										<input type="radio" id="radio3" name="character1" value="3"/> 
+										<label for="radio3">남성</label> 
+									</div>
+								</li>
+							</ul>
+							<ul>
+								<li><button class="green search"></button></li>
+							</ul>
+						</form>
+					</li>
 				</ul>
-		</ul>		
-		
-		<button class="green mate" onclick="location.href='<%=request.getContextPath()%>/mateWrite'">메이트 등록하기</button> <br/>
+			</ul>		
+			<button class="green mate" onclick="location.href='<%=request.getContextPath()%>/mateWrite'">메이트 등록하기</button><br/>
 		</div>
-		
 		<hr/>
-		
 	</div> <!-- content div 종료 -->
-
 	<c:if test="${myHousePnoCnt>0}">
 	   <c:if test="${logGrade==2}">
+			<div class="title_wrap" id="hPnoSelect">
+	   			<p class="s_title">어느 집의 메이트를 구하시나요?</p><br/>
+				<c:forEach var="housePno" items="${myHousePno}">
+					<a class="<c:if test='${hPno==housePno.pno}'>green</c:if>" id="${housePno.pno}">
+						<c:if test="${housePno.housename!=null}">${housePno.housename}</c:if>
+						<c:if test="${housePno.housename==null}">성향${housePno.pno}</c:if>
+					</a>
+				</c:forEach>
+			</div>
 		   <!-- 프리미엄 추천 하우스메이트 -->
 		   <section class="content recommend_list mate_list">
 		      <div class="list_head">
@@ -137,14 +160,19 @@ button{position: relative;}
 			                  </a>
 			               </div>
 			               <div class="list_title">
-			                  <span class="mate_id">USER1</span>
-			                  <span class="pay">￦ 100 / 25</span>
+			                  <span class="mate_id">${pmList.userid}</span>
+			                  <span class="pay">￦ ${pmList.deposit} / ${pmList.rent}</span>
 			               </div>
-			               <span class="address">서강동 | 합정동 | 당산동</span>
+			               <span class="address">${pmList.addr}</span>
 			               <ol class="list_icon">
-			                  <li><p>여</p></li>
-			                  <li><p>27세</p></li>
-			                  <li><p>즉시</p></li>
+			                  <li>
+			                  	<p>
+				                  	<c:if test="${pmList.gender==1}">여</c:if>
+	                  				<c:if test="${pmList.gender==3}">남</c:if>
+	                  			</p>
+							  </li>
+			                  <li><p>${pmList.birth}세</p></li>
+			                  <li><p>${pmList.enterdate}</p></li>
 			               </ol>
 			            </li>
 			         </c:forEach>
