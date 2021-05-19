@@ -131,8 +131,8 @@ button{position: relative;}
 			            <li>
 			               <div class="list_img">
 			                  <p><span>매칭</span>${pmList.score}<b>%</b></p>
-			                  <button class="btn_star"></button>
-			                  <a href="">
+			                  <button class="btn_star matelike" value="${pmList.no}"></button>
+			                  <a href="mateView?no=${pmList.no}">
 			                     <img alt="" src="<%=request.getContextPath()%>/matePic/${pmList.matepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
 			                  </a>
 			               </div>
@@ -174,8 +174,8 @@ button{position: relative;}
                   		<p><span>매칭</span>${newMateVO.score}<b>%</b></p>
                   	</c:if>
                  </c:if>
-                  <button class="btn_star"></button>
-                  <a href="">
+                  <button class="btn_star matelike" value="${newMateVO.no}"></button>
+                  <a href="mateView?no=${newMateVO.no}">
                      <img alt="" src="<%=request.getContextPath()%>/matePic/${newMateVO.matePic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'">
                   </a>
                </div>
