@@ -165,7 +165,7 @@ button {position: relative;}
 							<p><span>매칭</span>${newHouseVO.score}<b>%</b></p>
 						</c:if>
 					</c:if>
-					<button class="btn_star"></button>
+					<button class="btn_star houselike" value="${newHouseVO.no}"></button>
 					<a href="houseView?no=${newHouseVO.no}">
 						<img alt="" src="<%=request.getContextPath()%>/housePic/${newHouseVO.housepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
 					</a>

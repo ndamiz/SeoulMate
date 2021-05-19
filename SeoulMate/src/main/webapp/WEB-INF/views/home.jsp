@@ -79,7 +79,7 @@
 				<c:forEach var="housePno" items="${myHousePno}">
 					<a class="<c:if test='${hPno==housePno.pno}'>green</c:if>" id="${housePno.pno}">
 						<c:if test="${housePno.housename!=null}">${housePno.housename}</c:if>
-						<c:if test="${housePno.housename==null}">${housePno.pno}</c:if>
+						<c:if test="${housePno.housename==null}">성향${housePno.pno}</c:if>
 					</a>
 				</c:forEach>
 			</div>
@@ -102,8 +102,7 @@
 			                   <c:if test="${logId != null}">
 	                  				<button class="btn_star houselike" value="${phList.no}"></button>
 	                		  </c:if>
-			                  <a href="">
-			                  	<input type="hidden" value="${phList.no}"/>
+			                  <a href="houseView?no=${phList.no}">
 			                     <img alt="${phList.housename}" src="<%=request.getContextPath()%>/housePic/${phList.housepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
 			                  </a>
 			               </div>
@@ -140,14 +139,13 @@
          <c:forEach items="${newHouseList}" var="newHouseVO">
             <li>
                <div class="list_img">
-               <input type="hidden" value="${newHouseVO.no}"/> <!-- 글 번호 확인용 -->
                	<c:if test="${logGrade==2}">
                	  <c:if test="${matePnoCheck>0}"> <!-- 등록된 메이트 성향이 없으면 매칭을 안보여줌 -->
                   <p><span>매칭</span>${newHouseVO.score}<b>%</b></p>
                   </c:if>
                 </c:if>
-                  <button class="btn_star"></button>
-                  <a href="houseView?no=${newHouseVO.no }">
+                  <button class="btn_star houselike" value="${newHouseVO.no}"></button>
+                  <a href="houseView?no=${newHouseVO.no}">
                      <img alt="" src="<%=request.getContextPath()%>/housePic/${newHouseVO.housepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
                   </a>
                </div>
@@ -179,8 +177,8 @@
 			            <li>
 			               <div class="list_img">
 			                  <p><span>매칭</span>${pmList.score}<b>%</b></p>
-			                  <button class="btn_star"></button>
-			                  <a href="">
+			                  <button class="btn_star matelike" value="${pmList.no}"></button>
+			                  <a href="mateView?no=${pmList.no}">
 			                     <img alt="" src="<%=request.getContextPath()%>/matePic/${pmList.matepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
 			                  </a>
 			               </div>
@@ -222,8 +220,8 @@
                   		<p><span>매칭</span>${newMateVO.score}<b>%</b></p>
                   	</c:if>
                  </c:if>
-                  <button class="btn_star"></button>
-                  <a href="">
+                  <button class="btn_star matelike" value="${newMateVO.no}"></button>
+                  <a href="mateView?no=${newMateVO.no}">
                      <img alt="" src="<%=request.getContextPath()%>/matePic/${newMateVO.matePic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'">
                   </a>
                </div>
