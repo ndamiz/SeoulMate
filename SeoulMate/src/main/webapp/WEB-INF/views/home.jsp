@@ -79,7 +79,7 @@
 				<c:forEach var="housePno" items="${myHousePno}">
 					<a class="<c:if test='${hPno==housePno.pno}'>green</c:if>" id="${housePno.pno}">
 						<c:if test="${housePno.housename!=null}">${housePno.housename}</c:if>
-						<c:if test="${housePno.housename==null}">${housePno.pno}</c:if>
+						<c:if test="${housePno.housename==null}">성향${housePno.pno}</c:if>
 					</a>
 				</c:forEach>
 			</div>
