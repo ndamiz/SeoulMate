@@ -63,15 +63,5 @@ public class ListServiceImp implements ListService{
 	public ListVO premiumMateScore(String userid, int hpno, int mpno) {
 		return dao.premiumMateScore(userid, hpno, mpno);
 	}
-
-	@Override
-	public ListVO premiumHouseIndexScore(String userid, int pno) {
-		return dao.premiumHouseIndexScore(userid, pno);
-	}
-
-	@Override
-	public ListVO premiumMateIndexScore(String userid, int pno) {
-		return dao.premiumMateIndexScore(userid, pno);
-	}
 	
 }
