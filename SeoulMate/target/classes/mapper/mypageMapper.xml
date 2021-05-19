@@ -24,81 +24,81 @@
 	</select>
 	<select id="houseConfirm" parameterType="String" resultType="int" >
 		SELECT nvl(max(count(no)), 0) AS NO
-		FROM 
-			(SELECT h.NO, h.pno 
-			FROM 
+		FROM
+			(SELECT h.NO, h.pno
+			FROM
 				(SELECT pno FROM PROPENSITY WHERE userid='${userid }' AND PCASE ='h') p
-			JOIN 
-				HOUSEWRITE h 
+			JOIN
+				HOUSEWRITE h
 			ON
-				h.pno(+)=p.pno) 
+				h.pno=p.pno)
 		GROUP BY NO
 	</select>
 	<select id="myPageHouseWriteSelect" parameterType="String" resultType="com.seoulmate.home.vo.HouseWriteVO">
-		SELECT house.NO, house.PNO, house.USERID, house.HOUSENAME, room.deposit, room.rent, house.ADDR,  house.HOUSEPIC1, 
-			house.ROOM , house.BATHROOM, house.NOWPEOPLE, house.SEARCHPEOPLE, house.WRITEDATE, house.ENDDATE, house.HOUSESTATE 
-		FROM 
-			(SELECT NO, DEPOSIT, rent FROM HOUSEROOM) room 
-		JOIN 
-			(SELECT h.NO, h.PNO, h.USERID ,h.ADDR, h.HOUSENAME, h.HOUSEPIC1, 
-				h.ROOM , h.BATHROOM, h.NOWPEOPLE, h.SEARCHPEOPLE, h.WRITEDATE, h.ENDDATE, h.HOUSESTATE 
-			FROM 
-				HOUSEWRITE h 
-			JOIN 
-				(SELECT pno, userid FROM PROPENSITY WHERE userid= #{userid } AND PCASE ='h') p 
-			ON 
-				h.pno(+)=p.pno ) house 
-		ON 
-			house.NO=room.NO(+)
+		SELECT house.NO, house.PNO, house.USERID, house.HOUSENAME, room.deposit, room.rent, house.ADDR,  house.HOUSEPIC1,
+			house.ROOM , house.BATHROOM, house.NOWPEOPLE, house.SEARCHPEOPLE, house.WRITEDATE, house.ENDDATE, house.HOUSESTATE
+		FROM
+			(SELECT NO, min(DEPOSIT) AS DEPOSIT , min(rent) AS RENT  FROM HOUSEROOM GROUP BY no) room
+		JOIN
+			(SELECT h.NO, p.PNO, p.USERID ,h.ADDR, h.HOUSENAME, h.HOUSEPIC1,
+				h.ROOM , h.BATHROOM, h.NOWPEOPLE, h.SEARCHPEOPLE, h.WRITEDATE, h.ENDDATE, h.HOUSESTATE
+			FROM
+				HOUSEWRITE h
+			JOIN
+				(SELECT pno, userid FROM PROPENSITY WHERE userid= #{userid } AND PCASE ='h') p
+			ON
+				h.pno=p.pno ) house
+		ON
+			house.NO=room.NO
 	</select>
 	<select  id="oneHouseWriteSelect" parameterType="int" resultType="com.seoulmate.home.vo.HouseWriteVO">
-		SELECT house.NO, house.PNO, house.USERID, house.HOUSENAME, room.deposit, room.rent, house.ADDR,  house.HOUSEPIC1, 
-			house.ROOM , house.BATHROOM, house.NOWPEOPLE, house.SEARCHPEOPLE, house.WRITEDATE, house.ENDDATE, house.HOUSESTATE 
-		FROM 
-			(SELECT NO, DEPOSIT, rent FROM HOUSEROOM) room 
-		JOIN 
-			(SELECT h.NO, h.PNO, h.USERID ,h.ADDR, h.HOUSENAME, h.HOUSEPIC1, 
-				h.ROOM , h.BATHROOM, h.NOWPEOPLE, h.SEARCHPEOPLE, h.WRITEDATE, h.ENDDATE, h.HOUSESTATE 
-			FROM 
-				HOUSEWRITE h 
-			WHERE 
-				NO=${no } ) house 
-		ON 
-			house.NO=room.NO(+)
+		SELECT house.NO, house.PNO, house.USERID, house.HOUSENAME, room.deposit, room.rent, house.ADDR,  house.HOUSEPIC1,
+			house.ROOM , house.BATHROOM, house.NOWPEOPLE, house.SEARCHPEOPLE, house.WRITEDATE, house.ENDDATE, house.HOUSESTATE
+		FROM
+			(SELECT NO, min(DEPOSIT) AS DEPOSIT , min(rent) AS RENT  FROM HOUSEROOM GROUP BY no) room
+		JOIN
+			(SELECT h.NO, h.PNO, h.USERID ,h.ADDR, h.HOUSENAME, h.HOUSEPIC1,
+				h.ROOM , h.BATHROOM, h.NOWPEOPLE, h.SEARCHPEOPLE, h.WRITEDATE, h.ENDDATE, h.HOUSESTATE
+			FROM
+				HOUSEWRITE h
+			WHERE
+				NO=${no } ) house
+		ON
+			house.NO=room.NO
 	</select>
 	<select id="mateConfirm" parameterType="String" resultType="int" >
-		SELECT nvl(max(count(no)), 0) AS NO 
-		FROM 
+		SELECT nvl(max(count(no)), 0) AS NO
+		FROM
 			(SELECT m.NO, m.pno
-		FROM 
+		FROM
 			(SELECT pno FROM PROPENSITY WHERE userid='${username}' AND PCASE ='m') p
-		JOIN 
-			MATEWRITE m 
+		JOIN
+			MATEWRITE m
 		ON
-			m.pno(+)=p.pno) 
+			m.pno=p.pno)
 		GROUP BY NO
 	</select>
 	<select id="myPageMateWriteSelect" parameterType="String" resultType="com.seoulmate.home.vo.MateWriteVO">
 		SELECT m1.NO, m1.userid, m1.area, m1.matePic1, m1.deposit, m1.rent,  to_char(enterdate, 'mm/dd') as enterdate, m1.minstay, m1.maxstay,
 			to_char(writedate, 'YYYY-MM-DD') AS writedate, to_char(enddate, 'YYYY-MM-DD') AS enddate, m1.matestate, m1.m_now,
 			mem.gender, mem.age
-		FROM 
-			(SELECT m.NO, m.pno, p.USERID, m.area, m.matepic1, 
+		FROM
+			(SELECT m.NO, p.pno, p.USERID, m.area, m.matepic1,
 				m.deposit, m.rent, m.enterdate, m.minstay, m.maxstay, m.writedate, m.enddate, m.matestate,
 				p.m_now
 			FROM
-				(SELECT * FROM mateWrite WHERE userid='${userid }' ) m 
-			JOIN 
-				(SELECT pno, userid, m_now FROM PROPENSITY WHERE userid='${userid }' AND PCASE ='m') p 
-			ON 
-				m.pno(+)=p.pno) m1
-		JOIN 
-			(SELECT userid, gender, to_char(birth, 'YYYY-MM-DD') AS birth, 
-				MONTHS_BETWEEN(TRUNC(SYSDATE,'YEAR'), TRUNC(to_date(to_char(birth,'YYYYMMDD'),'YYYYMMDD'), 'Year')) /12 + 1 AS age 
-			FROM 
-				MEMBER WHERE userid='${userid }') mem 
-			ON 
-				m1.userid(+)=mem.userid
+				(SELECT * FROM mateWrite WHERE userid='${userid }' ) m
+			JOIN
+				(SELECT pno, userid, m_now FROM PROPENSITY WHERE userid='${userid }' AND PCASE ='m') p
+			ON
+				m.pno=p.pno) m1
+		JOIN
+			(SELECT userid, gender, to_char(birth, 'YYYY-MM-DD') AS birth,
+				MONTHS_BETWEEN(TRUNC(SYSDATE,'YEAR'), TRUNC(to_date(to_char(birth,'YYYYMMDD'),'YYYYMMDD'), 'Year')) /12 + 1 AS age
+			FROM
+				MEMBER WHERE userid='${userid }') mem
+			ON
+				m1.userid=mem.userid
 	</select>
 	<select id="likeMarkConfirm" parameterType="String" resultType="int" >
 		select nvl(max(count(lno)), 0) as no from LIKEMARK WHERE userid= #{param1} GROUP BY lno
@@ -107,41 +107,45 @@
 		SELECT lno, NO, CATEGORY FROM LIKEMARK WHERE userid= #{param1}
 	</select>
 	<select id="houseLikeSelect" parameterType="int" resultType="com.seoulmate.home.vo.HouseWriteVO">
-		SELECT house.NO, house.PNO, house.USERID, house.HOUSENAME, room.deposit, room.rent, house.ADDR,  house.HOUSEPIC1, 
-			house.ROOM , house.BATHROOM, house.NOWPEOPLE, house.SEARCHPEOPLE, house.WRITEDATE, house.ENDDATE, house.HOUSESTATE 
-		FROM 
-			(SELECT NO, DEPOSIT, rent FROM HOUSEROOM WHERE NO= ${no } ) room 
-		JOIN 
-			HOUSEWRITE house 
+		SELECT house.NO, house.PNO, house.USERID, house.HOUSENAME, room.deposit, room.rent, house.ADDR,  house.HOUSEPIC1,
+			house.ROOM , house.BATHROOM, house.NOWPEOPLE, house.SEARCHPEOPLE, house.WRITEDATE, house.ENDDATE, house.HOUSESTATE
+		FROM
+			(SELECT NO, min(DEPOSIT) AS DEPOSIT , min(rent) AS RENT
+			FROM
+				HOUSEROOM
+			WHERE
+				NO= ${no } GROUP BY no) room
+		JOIN
+			HOUSEWRITE house
 		ON
-			house.NO=room.NO(+)
+			house.NO=room.NO
 	</select>
 	<select id="mateLikeSelect" parameterType="int" resultType="com.seoulmate.home.vo.MateWriteVO">
 		SELECT m.NO, m.userid, m.area, m.matePic1, m.deposit, m.rent,  to_char(enterdate, 'mm/dd') as enterdate, m.minstay, m.maxstay,
 			to_char(writedate, 'YYYY-MM-DD') AS writedate, to_char(enddate, 'YYYY-MM-DD') AS enddate, m.matestate,
 			mem.gender, mem.age
-		FROM 
-			MATEWRITE m 
-		JOIN 
-			(SELECT mem2.userid, p.m_now, mem2.gender, mem2.birth, mem2.age 
-			FROM 
-				(SELECT userid, m_now FROM PROPENSITY) p 
-			JOIN 
-				(SELECT userid, gender, to_char(birth, 'YYYY-MM-DD') AS birth, 
-					MONTHS_BETWEEN(TRUNC(SYSDATE,'YEAR'), TRUNC(to_date(to_char(birth,'YYYYMMDD'),'YYYYMMDD'), 'Year')) /12 + 1 AS age 
-				FROM 
+		FROM
+			MATEWRITE m
+		JOIN
+			(SELECT p.userid, p.m_now, mem2.gender, mem2.birth, mem2.age
+			FROM
+				(SELECT userid, m_now FROM PROPENSITY) p
+			JOIN
+				(SELECT userid, gender, to_char(birth, 'YYYY-MM-DD') AS birth,
+					MONTHS_BETWEEN(TRUNC(SYSDATE,'YEAR'), TRUNC(to_date(to_char(birth,'YYYYMMDD'),'YYYYMMDD'), 'Year')) /12 + 1 AS age
+				FROM
 					MEMBER) mem2
-			ON 
-				mem2.userid =p.userid(+)) mem 
-		ON 
-			m.userid(+)=mem.userid 
-		WHERE 
+			ON
+				mem2.userid =p.userid) mem
+		ON
+			m.userid=mem.userid
+		WHERE
 			m.NO=${no }
 	</select>
 	<select id="applyInviteSelect" parameterType="com.seoulmate.home.vo.ApplyInviteVO" resultType="com.seoulmate.home.vo.ApplyInviteVO">
 		SELECT aino, no, userid, to_char(aidate, 'YYYY-MM-DD') as aidate, state, confirm
 		FROM
-			applyInvite 
+			applyInvite
 		WHERE
 		<if test="msg == 'takeApply'"> NO=${no } AND state='신청'</if>
 		<if test="msg == 'sendInvite'">NO=${no } AND state='초대'</if>
@@ -149,33 +153,54 @@
 		<if test="msg == 'sendApply'">userid='${userid }' AND state='신청'</if>
 	</select>
 	<delete id="mypageSendApplyInviteCancel" parameterType="com.seoulmate.home.vo.ApplyInviteVO">
-		delete from applyInvite 
-		where 
-			no=${no} and userid='${userid}' 
+		delete from applyInvite
+		where
+			no=${no} and userid='${userid}'
 		<if test="msg=='sendInvite' or msg=='takeInvite'" >and state='초대'</if>
 		<if test="msg=='sendApply' or msg=='takeApply'">and state='신청'</if>
-		
+
 	</delete>
 	<update id="applyInviteApproveUpdate"  parameterType="com.seoulmate.home.vo.ApplyInviteVO">
 		update applyInvite set confirm='승인'
-		where 
-			no=${no} and userid='${userid}' 
-		<if test="msg=='takeInvite'" > and state='초대'</if>
-		<if test="msg=='takeApply'"> and state='신청'</if>
+		where
+		<if test="msg=='takeInvite'" > no=${no} and userid='${userid}' and state='초대'</if>
+		<if test="msg=='takeApply'"> no=${no} and userid='${userid}' and state='신청'</if>
 	</update>
 	<select id="chatHouseSelect" parameterType="int" resultType="com.seoulmate.home.vo.HouseWriteVO">
 		SELECT userid, housename from houseWrite where no=${no }
-	</select>	
-	<select id="chatCheck" parameterType="String" resultType="int">
-		SELECT nvl(max(count(name)),0) 
-		FROM CHATROOM 
-		WHERE name=#{param1} AND CHATUSER1=#{param2} AND CHATUSER2=#{param3} GROUP BY NAME
+	</select>
+	<select id="chatCheck" parameterType="String" resultType="com.seoulmate.home.vo.ChatRoomVO">
+		SELECT no, name, chatuser1, chatuser2
+		FROM CHATROOM
+		WHERE CHATUSER1=#{param1} AND CHATUSER2=#{param2}
+	</select>
+	<select id="chatCheckName" parameterType="String" resultType="int">
+		SELECT nvl(max(count(name)),0)  FROM CHATROOM
+		WHERE CHATUSER1=#{param2} AND CHATUSER2=#{param3} AND name LIKE '%${param1}%' Group by name
 	</select>
 	<insert id="chatInsert" parameterType="String" >
-		INSERT into chatroom(no, name, chatuser1, chatuser2, chatroomdate) 
+		INSERT into chatroom(no, name, chatuser1, chatuser2, chatroomdate)
 		values(chatsq.nextval, #{param1}, #{param2}, #{param3}, sysdate)
 	</insert>
+	<update id="chatUpdate" parameterType="com.seoulmate.home.vo.ChatRoomVO">
+		UPDATE chatRoom set name=#{name} where chatuser1=#{chatUser1} and chatuser2=#{chatUser2}
+	</update>
 	<select id="getLikedNumber" resultType="String">
-		select no from likemark where userid=#{param1}
+		select no from likemark where  userid=#{param1}
+	</select>
+	<select id="noConfirmHouseOrMate" parameterType="String" resultType="int">
+		select nvl(max(count(no)), 0) as no from ${param2} WHERE no=${param1} GROUP BY no
+	</select>
+	<select id="pnoConfirm" parameterType="String" resultType="int">
+		select nvl(max(count(pno)), 0) as pno from PROPENSITY WHERE userid=#{param1} and pcase=#{param2} GROUP BY pno
+	</select>
+	<update id="stateCompleteUpdate" parameterType="String">
+		update ${param1 } set ${param2} = '매칭 완료' where no=${param3} and userid=#{param4}
+	</update>
+	<select id="getUsersHouseWriteNum" resultType="String">
+		select no from housewrite where userid=#{param1}
+	</select>
+	<select id="getUsersMateWriteNum" resultType="String">
+		select no from matewrite where userid=#{param1}
 	</select>
 </mapper>
