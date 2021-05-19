@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.seoulmate.home.service.MypageService;
 import com.seoulmate.home.vo.ApplyInviteVO;
+import com.seoulmate.home.vo.ChatRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.LikeMarkVO;
 import com.seoulmate.home.vo.MateWriteVO;

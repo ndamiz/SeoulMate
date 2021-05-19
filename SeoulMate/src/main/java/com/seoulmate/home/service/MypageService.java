@@ -3,6 +3,7 @@ package com.seoulmate.home.service;
 import java.util.List;
 
 import com.seoulmate.home.vo.ApplyInviteVO;
+import com.seoulmate.home.vo.ChatRoomVO;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.LikeMarkVO;
