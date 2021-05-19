@@ -26,7 +26,7 @@
 			   data : {'userid': '${logId}'},
 			   traditional : true,
 			   success : function(result){
-				   console.log(result)
+				   console.log(result.mateNum)
 				   likeButtonOn(result); // 찜한거 불 넣기 & 자기글 버튼 안보이게 하기
 			   },error : function(){
 				   alert('찜 목록 불러오기 실패')
@@ -51,21 +51,7 @@
 			}
 		});
 		//=====================================================================세트
-		//로그인 후 페이지가 로딩되면 찜한 글 불 들어오기
-		function likeButtonOn(result){
-			$('.btn_star').each(function(idx, item){
-				if(result.houseNum.indexOf($(item).val()) != -1){ //내 하우스글 별 없애기
-					$(item).css('display','none');
-				}else if(result.mateNum.indexOf$((item).val()) != -1){ //내 하우스글 별 없애기
-	   				$(item).css('display','none');
-				}
-				//찜한거 불 넣기
-				if(result.userLikeNum.indexOf($(item).val()) != -1){
-					$(item).addClass('on');
-				}
-			});
-		}
-   });
+});
 
 </script>
 <div class="main_wrap">
