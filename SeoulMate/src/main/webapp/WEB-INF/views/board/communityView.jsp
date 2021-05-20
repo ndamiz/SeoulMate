@@ -112,8 +112,6 @@
 		//댓글 목록 출력 함수
 		replyList();
 		
-		
-		
 		//댓글이 등록 삭제 되었을때 페이지에 댓글 수 변화시키는 함수
 		function replyCntChange(plusOrMinus){
 			if(plusOrMinus=='plus'){//댓글 추가됨
@@ -252,7 +250,7 @@
 			alert(replyidCnt+"!!");
 		}
 		
-		//글 신고하기
+		//글 신고하기=========================================
 		$(document).on('click','.reportBtn', function(){
 			var	reportid = '${vo.userid}';
 			var category = '커뮤니티';
@@ -305,7 +303,7 @@
 			}
 			var url = '/home/reportInsert'
 			var params = $(this).serialize();
-			
+
 			$.ajax({
 				url : url,
 				data : params,
@@ -319,8 +317,6 @@
 			return false;
 		});
 	});
-	
-	
 </script>
 <div class="wrap">
 	<div class="content">
@@ -335,10 +331,10 @@
 		</c:if>
 		<div style="text-align:right; border-bottom: 1px solid #13a89e; padding-bottom:10px; margin-bottom:10px;">
 			<c:if test="${pVO.prevNo != 0}">		
-				<a class="white aTagReset" href="communityView?no=${pVO.prevNo}">이전글</a>
+				<a class="white aTagReset" href="communityView?no=${pVO.prevNo}<c:if test="${pVO.category != null}">&category=${pVO.category}</c:if><c:if test="${category != null}">&category=${category}</c:if><c:if test="${pVO.searchKey != null}">&searchKey=${pVO.searchKey}&searchWord=${pVO.searchWord}</c:if>">이전글</a>
 			</c:if>
 			<c:if test="${pVO.nextNo != 0}">
-				<a class="white aTagReset" href="communityView?no=${pVO.nextNo}">다음글</a>
+				<a class="white aTagReset" href="communityView?no=${pVO.nextNo}<c:if test="${pVO.category != null}">&category=${pVO.category}</c:if><c:if test="${category != null}">&category=${category}</c:if><c:if test="${pVO.searchKey != null}">&searchKey=${pVO.searchKey}&searchWord=${pVO.searchWord}</c:if>">다음글</a>
 			</c:if>
 			<a class="white aTagReset" href="communityList">전체목록</a>
 		</div>

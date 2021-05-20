@@ -62,6 +62,10 @@
 .commentNum{
 	display: table-cell;
 }
+/* 페이징에 텍스트정렬 */
+.pagingTextAlign{
+	text-align:center;
+}
 /*/////////////////////////////글 내용 보기 스타일*/
 /* 제목에서 밑줄하이라이트 빼기 */
 .communityViewSubject{

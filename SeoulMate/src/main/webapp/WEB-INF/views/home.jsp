@@ -23,18 +23,20 @@
          alert("그동안 서울 메이트를 이용해주셔서 감사합니다.");
       }
    }
-	   
+
    exitCheck();
    console.log(${logGrade});
    $(function(){
-	   //내가 찜한 글은 별버튼에 불 들어오기==============================================세트
+	   //=============================================================세트
 	   if(${logId != null}){ // 로그인 했을때만 실행
+			//내가 찜한 글은 별버튼에 불 들어오기 & 내가 올린 글은 별 버튼 숨기기
 		   $.ajax({
 			   url : '/home/likemarkCheck',
 			   data : {'userid': '${logId}'},
 			   traditional : true,
 			   success : function(result){
-				   likeButtonOn(result);
+				   console.log(result.mateNum)
+				   likeButtonOn(result); // 찜한거 불 넣기 & 자기글 버튼 안보이게 하기
 			   },error : function(){
 				   alert('찜 목록 불러오기 실패')
 			   }
@@ -45,20 +47,21 @@
 			var obj = $(this);
 			var no = $(this).val();
 			var userid = '${logId}'
-			var category = ''; 
+			var category = '';
 			if($(obj).hasClass('on')){// 이미 등록한 버튼 눌리면 찜목록에서 삭제
 				likeDelete(no, userid, obj)
 			}else{
 				if($(this).hasClass('houselike')){ // 찜하는 글이 하우스 글일때
-					category = '하우스'; 
+					category = '하우스';
 				}else{ //메이트 글일때.
 					category = '메이트';
 				}
 				likeInsert(no, category, userid, obj); // 찜 등록 ajax함수.
 			}
-		});//=====================================================================세트
-   });
-   
+		});
+		//=====================================================================세트
+});
+
 </script>
 <div class="main_wrap">
    <div class="content">
@@ -66,13 +69,13 @@
          당신과 가장 잘 맞는<br>
          쉐어하우스 & 메이트
       </h2>
-      
       <form class="main_search_form" method="get" action="/home">
+
          <div class="checks">
-            <input type="radio" id="select_house" name="main_search" checked> 
+            <input type="radio" id="select_house" name="main_search" checked>
             <label for="select_house">쉐어하우스</label>
-            
-            <input type="radio" id="select_mate" name="main_search"> 
+
+            <input type="radio" id="select_mate" name="main_search">
             <label for="select_mate">하우스메이트</label>
          </div>
          <div class="search_box">
@@ -138,7 +141,7 @@
 		   </section>
 	   </c:if>
    </c:if>
-   
+
    <!-- 신규 쉐어하우스 -->
    <section class="content recommend_list">
       <div class="list_head">
@@ -172,7 +175,7 @@
          </c:forEach>
       </ul>
    </section>
-   
+
    <c:if test="${myHousePnoCnt>0}">
 	   <c:if test="${logGrade==2}">
 		   <!-- 프리미엄 추천 하우스메이트 -->
@@ -232,6 +235,7 @@
          <p class="m_title">NEW 하우스메이트</p>
          <a href="">더보기</a>
       </div>
+
       <c:if test="${newMateListCnt!=0}">
 	      <ul class="list_content">
 	         <c:forEach items="${newMateList}" var="newMateVO">
@@ -289,7 +293,7 @@
      	</div>
 	  </c:if>
    </section>
-   
+
    <!-- 지도 -->
    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6bad1d8e9a1449ac5fb2b238e99a32ed&libraries=clusterer,services"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -298,7 +302,7 @@
       	 <c:if test="${logId==null && logArea==null}">
       	 	<p class="m_title">서울메이트 둘러보기</p>
       	 </c:if>
-      	 
+
       	 <c:if test="${logId!=null && logArea!=null}">
       	 	<p class="m_title">나의 지역 둘러보기</p>
       	 </c:if>
@@ -307,53 +311,53 @@
    </section>
    <script>
       // =============== 지도생성  =============== //
-      var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+      var mapContainer = document.getElementById('map'), // 지도를 표시할 div
       mapOption = {
          center : new kakao.maps.LatLng(37.5640455, 126.834005), // 지도의 중심좌표
          //draggable: false,
          //level : 4
          level : 6
-      // 지도의 확대 레벨 
+      // 지도의 확대 레벨
       };
       var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-      
+
 	  <c:if test="${logId==null}">
       madeMap();
   	  </c:if>
       // =============== default 서울시 =============== //
       function madeMap() {
-         
+
          var lat, lon, locPosition;
          lat = 37.5662994, // 위도
-         lon = 126.9757564; // 경도 
+         lon = 126.9757564; // 경도
          locPosition = new kakao.maps.LatLng(37.5662994, 126.9757564); // 서울특별시
-         map.setCenter(locPosition);   
+         map.setCenter(locPosition);
          map.setLevel(9);
          getHouseMap();
       }
-      
+
       // =============== 쉐어하우스 마커 찍기 =============== //
       function getHouseMap() {
 	      <c:forEach items="${houseMapList}" var="item">
 	         // 주소-좌표 변환 객체를 생성합니다
 	         var geocoder = new kakao.maps.services.Geocoder();
-	         
+
 	         // 주소로 좌표를 검색합니다
 	         geocoder.addressSearch("${item}", function(result, status) {
-	             // 정상적으로 검색이 완료됐으면 
+	             // 정상적으로 검색이 완료됐으면
 	              if (status === kakao.maps.services.Status.OK) {
 	                 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-	                 
-	               var imageSrc = '<%=request.getContextPath()%>/img/comm/map_marker.png', // 마커이미지의 주소입니다    
+
+	               var imageSrc = '<%=request.getContextPath()%>/img/comm/map_marker.png', // 마커이미지의 주소입니다
 	               imageSize = new kakao.maps.Size(29, 41), // 마커이미지의 크기입니다
 	               imageOption = {
 	                  offset : new kakao.maps.Point(15, 30)
 	               }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-	      
+
 	               // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
 	               var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize,
 	               imageOption), markerPosition = coords; // 마커가 표시될 위치입니다
-	                 
+
 	                 // 결과값으로 받은 위치를 마커로 표시합니다
 	                 var marker = new kakao.maps.Marker({
 	                     map: map,
@@ -361,16 +365,16 @@
 	                     zIndex : 11,
 	                     position: coords
 	                 });
-	             } 
-	         });    
+	             }
+	         });
 	      </c:forEach>
 	      <c:if test="${logId==null}">
      	  	getMateAddr();
      	  </c:if>
       }
-      
-      
-      
+
+
+
       <c:if test="${logId!=null}">
      	var area = "${logArea}";
      	console.log("area : " + area);
@@ -388,7 +392,7 @@
              }
           });
   	}
-     
+
   	function setHopeArea(x, y) {
           var locPosition = new kakao.maps.LatLng(y, x);
           map.setCenter(locPosition);
@@ -399,7 +403,7 @@
          var mateArrList = ${mateMapList};
          // 메이트 리스트 JSON
          var data = {"positions": []}
-         
+
          //var xObject = {}; // 각 주소에 대한 x 좌표를 담을 객체
          //var yObject = {}; // 각 주소에 대한 x 좌표를 담을 객체
          var total = mateArrList.length;
@@ -422,16 +426,16 @@
            });
          });
       }
-      
+
       // =============== 하우스메이트 마커 찍기 =============== //
       function getMateMap(data) {
           var clusterer = new kakao.maps.MarkerClusterer({
-              map: map, 
-              averageCenter: true, 
+              map: map,
+              averageCenter: true,
               minLevel: 1,
               minClusterSize : 1,
-              texts: getTexts, 
-              styles: [{ 
+              texts: getTexts,
+              styles: [{
                       width : '150px', height : '150px',
                       background: 'rgba(19, 168, 158, .3)',
                       borderRadius: '150px',
@@ -454,15 +458,15 @@
           // 클러스터러에 마커들을 추가합니다
           clusterer.addMarkers(markers);
           clusterer.setMap(map);
-          // 클러스터 내부에 삽입할 문자열 생성 함수입니다 
+          // 클러스터 내부에 삽입할 문자열 생성 함수입니다
           function getTexts( count ) {
-            return count + "명";       
+            return count + "명";
           }
           <c:if test="${logId!=null}">
          	getHouseMap();
        	  </c:if>
       }
-	
+
    </script>
-   
+
 </div>

@@ -109,6 +109,7 @@ public class MypageController {
 			memberCheck = "houseMem";
 		}else{
 			memberCheck = "mateMem";
+
 		}
 		mav.addObject("memberCheck", memberCheck);
 		if(msg==null || msg.equals("")) {
@@ -353,11 +354,25 @@ public class MypageController {
 	// 인덱스 / 하우스 / 메이트에 들어가면 내가 찜한 글인지 확인 처리
 	@RequestMapping("/likemarkCheck")
 	@ResponseBody
-	public String likemarkCheck(String userid) {
-		//사용자가 찜한 글 번호 다 가져오기
+	public Object likemarkCheck(String userid) {
+		Map<String, String[]> likeMarkMap = new HashMap<String, String[]>();
+		
+		//로그인한 사용자의 글은 별 버튼 없애기 용
+		String[] housePosts = service.getUsersHouseWriteNum(userid);//하우스글번호 가져오기
+		if(housePosts != null) {
+			likeMarkMap.put("houseNum", housePosts);
+		}
+		String[] matePosts = service.getUsersMateWriteNum(userid);//메이트글번호 가져오기
+		if(matePosts != null) {
+			likeMarkMap.put("mateNum", matePosts);
+		}
+		//사용자가 찜한 글 번호 다 가져오기 -> 로그인후 찜한 글 별 on 만들기용
 		String[] userNum = service.getLikedNumber(userid);
-		Gson gson = new Gson();
-		return gson.toJson(userNum);
+		likeMarkMap.put("userLikeNum", userNum);
+		
+//		Gson gson = new Gson();
+//		return gson.toJson(userNum);
+		return likeMarkMap;
 	}
 	//마이페이지 결제내역 확인 페이지
 	@RequestMapping("/payDetailList")
