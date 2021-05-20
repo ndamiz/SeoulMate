@@ -48,15 +48,9 @@
 	JOIN (select NO, min(rent) FROM houseroom GROUP BY NO) r2 ON r1.NO=r2.no) hr ON hw.NO=hr.NO) h2
 	ON h.pno=h2.pno) h3 ON m.pdate=h3.pdate) h4) 
 	<if test='param3 !=null'> where addr like '%${param3}%'</if>)
-	<if test='param4 != null and param4>0'>
-	where <![CDATA[rent<=${param4}]]>
-	</if>)
-	<if test='param5 != null and param5>0'>
-	where <![CDATA[deposit<=${param5}]]>
-	</if>)
-	<if test='param6 != null and param6!=0'>
-	where <![CDATA[m_gender=${param6}]]>
-	</if>
+	<if test='param4 != null and param4>0'>where <![CDATA[rent<=${param4}]]></if>)
+	<if test='param5 != null and param5>0'>where <![CDATA[deposit<=${param5}]]></if>)
+	<if test='param6 != null and param6!=0'>where <![CDATA[m_gender=${param6}]]></if>
 	ORDER BY score desc) where <![CDATA[rownum<=3]]>
   	</select>
   	<select id="premiumHouseScore" resultType="com.seoulmate.home.vo.ListVO">
