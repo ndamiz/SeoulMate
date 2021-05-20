@@ -42,9 +42,9 @@ public interface MypageDAO {
 	//찜목록 목록 가져오기. (lno, no, category)
 	public List<LikeMarkVO> likeMarkSelect(String userid);
 	//카테고리가 하우스 일 경우
-	public HouseWriteVO houseLikeSelect(int no);
+	public HouseWriteVO houseLikeSelect(LikeMarkVO lmVO);
 	//카테고리가 메이트인 경우
-	public MateWriteVO mateLikeSelect(int no);
+	public MateWriteVO mateLikeSelect(LikeMarkVO lmVO);
 	
 	//팝업 
 	// 메이트확인. 받은초대, 보낸신청
@@ -53,11 +53,17 @@ public interface MypageDAO {
 	// 메이트 글 vo받아오는거는 myPageMateWriteSelect사용하여 받기, 
 	// 하우스 글 vo받아오기 
 	public HouseWriteVO oneHouseWriteSelect(int no);
-	
+	//pno확인
+	public int pno_Select(int no);
 	//보낸신청, 보낸초대 - 취소 . 받은신청, 받은초대 - 거절 
 	public int mypageApplyInviteCancel(ApplyInviteVO aiVO);
 	//받은신청, 받은초대 - 승인
 	public int applyInviteApproveUpdate(ApplyInviteVO aiVO);
+	//초대하기, 신청하기
+	public int applyInviteInsert(ApplyInviteVO aiVO);
+	// housename list 
+	public List<HouseWriteVO> houseListSelect(String userid, String selectMate);
+	public int housenameSelect(String housename);
 	// 승인 후 housename, userid 가져오기. 
 	public HouseWriteVO chatHouseSelect(int no); 
 	// 채팅 DB 데이터 확인. 

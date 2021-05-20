@@ -84,13 +84,13 @@ public class MypageServiceImp implements MypageService {
 		return dao.likeMarkSelect(userid);
 	}
 	@Override
-	public HouseWriteVO houseLikeSelect(int no) {
-		return dao.houseLikeSelect(no);
+	public HouseWriteVO houseLikeSelect(LikeMarkVO lmVO) {
+		return dao.houseLikeSelect(lmVO);
 	}
 
 	@Override
-	public MateWriteVO mateLikeSelect(int no) {
-		return dao.mateLikeSelect(no);
+	public MateWriteVO mateLikeSelect(LikeMarkVO lmVO) {
+		return dao.mateLikeSelect(lmVO);
 	}
 
 	
@@ -118,10 +118,20 @@ public class MypageServiceImp implements MypageService {
 	public int applyInviteApproveUpdate(ApplyInviteVO aiVO) {
 		return dao.applyInviteApproveUpdate(aiVO);
 	}
+	//초대하기, 신청하기
+	@Override
+	public int applyInviteInsert(ApplyInviteVO aiVO) {
+		return dao.applyInviteInsert(aiVO);
+	}
 	// 승인 후 housename, userid 가져오기. 
 	@Override
 	public HouseWriteVO chatHouseSelect(int no) {
 		return dao.chatHouseSelect(no);
+	}
+	// housename list 
+	@Override
+	public List<HouseWriteVO> houseListSelect(String userid, String selectMate) {
+		return dao.houseListSelect(userid, selectMate);
 	}
 	// 채팅 DB 데이터 확인. 
 	@Override
@@ -158,6 +168,20 @@ public class MypageServiceImp implements MypageService {
 	public int stateCompleteUpdate(String tableName, String stateName, String no, String userid) {
 		return dao.stateCompleteUpdate(tableName, stateName, no, userid);
 	}
+
+	@Override
+	public int pno_Select(int no) {
+		return dao.pno_Select(no);
+	}
+
+	@Override
+	public int housenameSelect(String housename) {
+		return dao.housenameSelect(housename);
+	}
+
+
+
+	
 	
 	
 }
