@@ -61,49 +61,57 @@ button {position: relative;}
 
 .houseSearch_wrap button.room{margin-top: 30px;}
 
+.searchClass .list_filter{
+	margin-right: 30px !important;
+}
 </style>
-
+<script>
+	$(function(){
+		$("#searchBox").click(function(){ // 해줘야하나 아직 모르겠음 뒤로가기했을 때 값이 그대로있는지 모름
+			$("#searchBox").val("");
+		});
+	});
+</script>
 <div class="wrap houseSearch_wrap">
 <div class="content">
-	
 	<div class="boxClass"> <!-- 상단부분 div -->
-
-	<ul class="searchClass">
-		<li> <img src='<%=request.getContextPath()%>/img/ico_filter.png'/> 조건검색 </li>
-		<li>
-			
-			<ul>	
-				<li>
-					<ul >
-						<li><p>지역</p></li> 
-						<li><input type="text" id="searchBox" placeholder="지역명&지하철명을 입력하세요" /> 
-						<a id="iconPic1"></a> </li>
-					</ul>
-					<ul>
-						<li> 입주예정일 </li>
-						<li> <input class="classDate" type="date"/> </li>
-					</ul>
-					<ul>
-						<li> 월세범위 </li>
-						<li> <input type="number" min="0" placeholder="0"/> - <input type="number" min="0" placeholder="0"/> 만원 </li>
-					</ul>
-				
-					<ul>
-						<li> 보증금범위 </li>
-						<li> <input type="number" name="" id="" min="10" placeholder="0"/> - <input type="number" min="0" placeholder="0"/> 만원 </li>
-					</ul>
-					<ul>
-						<li>
-							<button class="green search"></button>
-						</li>
-						
-					</ul>
-			</ul>
-	</ul>		
-		
-	<button class="green room" onclick="location.href='<%=request.getContextPath()%>/houseWrite'">방 등록하기</button> <br/>
+		<ul class="searchClass">
+			<li> <img src='<%=request.getContextPath()%>/img/ico_filter.png'/> 조건검색 </li>
+			<li>
+				<ul>	
+					<li>
+						<form method="get" action="houseIndex">
+							<ul>
+								<li> 지역 </li> 
+								<li><input type="text" name="addr" id="searchBox" value="${addr}" placeholder="지역명을 입력하세요"/> 
+									<a id="iconPic1"></a></li>
+							</ul>
+<!-- 							<ul> -->
+<!-- 								<li> 입주예정일 </li> -->
+<!-- 								<li><input class="classDate" type="date"/></li> -->
+<!-- 							</ul> -->
+							<ul class="list_filter">
+								<li>최대 월세</li>
+<!-- 								<li><input type="number" min="0" placeholder="0"/> - <input type="number" min="0" placeholder="0"/> 만원 </li> -->
+								<li><input type="number" min="0" placeholder="0"/> 만원 </li>
+							</ul>
+							<ul class="list_filter">
+								<li>최대 보증금</li>
+<!-- 								<li><input type="number" name="" id="" min="10" placeholder="0"/> - <input type="number" min="0" placeholder="0"/> 만원 </li> -->
+								<li><input type="number" min="0" placeholder="0"/> 만원 </li>
+							</ul>
+							<ul>
+								<li>
+									<button class="green search"></button>
+								</li>
+							</ul>
+						</form>
+					</li>
+				</ul>
+			</li>
+		</ul>		
+		<button class="green room" onclick="location.href='<%=request.getContextPath()%>/houseWrite'">방 등록하기</button> <br/>
 	</div>
-	
 	<hr/>
 </div> <!-- content 종료 -->
 <!-- 프리미엄 추천 쉐어하우스 -->
@@ -165,7 +173,7 @@ button {position: relative;}
 							<p><span>매칭</span>${newHouseVO.score}<b>%</b></p>
 						</c:if>
 					</c:if>
-					<button class="btn_star"></button>
+					<button class="btn_star houselike" value="${newHouseVO.no}"></button>
 					<a href="houseView?no=${newHouseVO.no}">
 						<img alt="" src="<%=request.getContextPath()%>/housePic/${newHouseVO.housepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
 					</a>

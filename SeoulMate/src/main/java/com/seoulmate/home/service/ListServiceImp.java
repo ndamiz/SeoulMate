@@ -16,8 +16,8 @@ public class ListServiceImp implements ListService{
 	ListDAO dao;
 
 	@Override
-	public List<ListVO> premiumHouseList(String userid, int m_gender) {
-		return dao.premiumHouseList(userid, m_gender);
+	public List<ListVO> premiumHouseList(String userid, int m_gender, String addr) {
+		return dao.premiumHouseList(userid, m_gender, addr);
 	}
 
 	@Override
@@ -55,18 +55,13 @@ public class ListServiceImp implements ListService{
 	}
 
 	@Override
-	public List<ListVO> premiumMateList(String userid, int pno, int m_gender) {
-		return dao.premiumMateList(userid, pno, m_gender);
+	public List<ListVO> premiumMateList(String userid, int pno, int m_gender, String area) {
+		return dao.premiumMateList(userid, pno, m_gender, area);
 	}
 
 	@Override
 	public ListVO premiumMateScore(String userid, int hpno, int mpno) {
 		return dao.premiumMateScore(userid, hpno, mpno);
-	}
-
-	@Override
-	public ListVO premiumHouseIndexScore(String userid, int pno) {
-		return dao.premiumHouseIndexScore(userid, pno);
 	}
 	
 }

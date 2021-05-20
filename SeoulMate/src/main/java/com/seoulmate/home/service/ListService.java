@@ -7,7 +7,7 @@ import com.seoulmate.home.vo.PropensityVO;
 
 public interface ListService {
 	// 매칭된 하우스 목록 가져오기
-	public List<ListVO> premiumHouseList(String userid, int m_gender);
+	public List<ListVO> premiumHouseList(String userid, int m_gender, String addr);
 	// 특정 하우스의 매칭 점수 가져오기
 	public ListVO premiumHouseScore(String userid, int pno);
 	// 나의 하우스 성향 번호 갯수 가져오기
@@ -21,12 +21,10 @@ public interface ListService {
 	// 메이트의 성별 가져오기
 	public int house_m_gender(String userid, int pno);
 	// 매칭된 메이트 목록 가져오기
-	public List<ListVO> premiumMateList(String userid, int pno, int m_gender);
+	public List<ListVO> premiumMateList(String userid, int pno, int m_gender, String area);
 	// 특정 메이트의 매칭 점수 가져오기
 	public ListVO premiumMateScore(String userid, int hpno, int mpno);
 	
 	// 내 최신 하우스 성향 번호 가져오기
 	public int newHpno(String userid);
-	// 하우스 index에서 9개의 매칭된 하우스 목록 가져오기
-	public ListVO premiumHouseIndexScore(String userid, int pno);
 }

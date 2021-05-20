@@ -12,6 +12,7 @@ import com.seoulmate.home.dao.MemberDAO;
 import com.seoulmate.home.dao.PropensityDAO;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
+import com.seoulmate.home.vo.ListVO;
 import com.seoulmate.home.vo.PropensityVO;
 @Service
 public class HouseServiceImp implements HouseService {
@@ -116,8 +117,8 @@ public class HouseServiceImp implements HouseService {
 	}
 
 	@Override
-	public List<HouseWriteVO> getNewIndexHouse() {
-		return hDAO.getNewIndexHouse();
+	public List<HouseWriteVO> getNewIndexHouse(String addr) {
+		return hDAO.getNewIndexHouse(addr);
 	}
 
 	@Override
@@ -135,6 +136,7 @@ public class HouseServiceImp implements HouseService {
 		// TODO Auto-generated method stub
 		return pDAO.propHouseSelect2(pno);
 	}
+
 
 	@Override
 	public String memberProfile(String userid) { //회원가입시 사진 가져오기

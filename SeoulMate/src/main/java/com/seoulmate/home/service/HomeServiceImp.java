@@ -32,8 +32,8 @@ public class HomeServiceImp implements HomeService {
 	}
 
 	@Override
-	public List<HouseWriteVO> getNewHouse() {
-		return dao.getNewHouse();
+	public List<HouseWriteVO> getNewHouse(String addr) {
+		return dao.getNewHouse(addr);
 	}
 
 	@Override
@@ -47,8 +47,8 @@ public class HomeServiceImp implements HomeService {
 	}
 
 	@Override
-	public List<MateWriteVO> getNewMate() {
-		return dao.getNewMate();
+	public List<MateWriteVO> getNewMate(String area) {
+		return dao.getNewMate(area);
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package com.seoulmate.home.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -50,6 +52,13 @@ public class MateServiceImp implements MateService {
 	public int mateDel(int no, String userid) { //메이트 삭제
 		return dao.mateDel(no, userid);
 	}
+
+	@Override
+	public List<MateWriteVO> getNewIndexMate(String area) {
+		return dao.getNewIndexMate(area);
+	}
+
+
 
 	@Override
 	public String MateProfilePic(String matePic1, int no) {

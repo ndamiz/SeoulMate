@@ -1,6 +1,9 @@
 package com.seoulmate.home.controller;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -41,8 +44,150 @@ public class MateController {
 	private DataSourceTransactionManager transactionManager;
 	
 	@RequestMapping("/mateIndex")
-	public String mateIndex() {
-	return "mate/mateIndex";
+	public ModelAndView mateIndex(HttpSession session, String area) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
+		
+		Calendar cal = Calendar.getInstance();
+        int y  = cal.get(Calendar.YEAR);
+        int m = cal.get(Calendar.MONTH) + 1;
+        int d   = cal.get(Calendar.DAY_OF_MONTH);
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        int today = Integer.parseInt(format.format(cal.getTime()));
+        
+        // 내 하우스 성향 가져오기
+		if(session.getAttribute("logId")!=null) {
+			int myHousePnoCnt=listService.myHousePnoCount(userid);
+			mav.addObject("myHousePnoCnt", myHousePnoCnt);
+			if(myHousePnoCnt>0) { // 하우스 성향이 있는 경우
+				List<PropensityVO> myHousePnoList=listService.myHousePno(userid);
+				mav.addObject("myHousePno", myHousePnoList);
+			}
+		}
+		
+		// 매칭
+		if(session.getAttribute("logId")!=null) {
+			int logGrade=(Integer)session.getAttribute("logGrade");
+			// 프리미엄일 때만
+			if(logGrade==2) {
+				// 메이트의 희망 성별 가져오기
+				int housePnoCheck=listService.myHousePnoCount(userid);
+				
+				mav.addObject("housePnoCheck", housePnoCheck); // 하우스 번호의 갯수를 반환한다.(하우스 성향이 없는 사람이 있기 때문에)
+				
+				if(session.getAttribute("hPno")!=null) {
+					int pno=(Integer)session.getAttribute("hPno"); // 로그인 후에 세션에 저장된 하우스 성향 번호를 가져온다.
+					
+					if(housePnoCheck>0) { // 메이트 성향이 있을 때만 매칭된 하우스 목록을 띄워준다.
+						int m_gender=listService.house_m_gender(userid, pno);
+						// 메이트 매칭 리스트 구하기
+						List<ListVO> pmList = listService.premiumMateList(userid, pno, m_gender, area);
+						
+						if(pmList.size()>0) {
+							if(pmList.get(0)!=null) {
+								for(ListVO pmVO : pmList) {
+									MemberVO mVO=HomeService.getDetail(pmVO.getUserid());
+									pmVO.setGender(mVO.getGender());
+									
+									// 생년월일을 받아서 만 나이로 처리
+									String b=mVO.getBirth();
+									int i=b.indexOf(" 00");
+									b=b.substring(0, i+1);
+									String birth[]= b.split("-");
+									int bYear=Integer.parseInt(birth[0]);
+									int bMonth=Integer.parseInt(birth[1]);
+									int bDay=Integer.parseInt(birth[2].replace(" ", ""));
+									int age=(y-bYear);
+									
+									// 생일이 안 지난 경우 -1
+									if(bMonth * 100 + bDay > m * 100 + d) {
+										age--;
+									}
+									String BrithAge=age+"";
+									pmVO.setBirth(BrithAge);
+									
+									// 입주 디데이 9일 때 즉시 문자열 처리
+									String e=pmVO.getEnterdate();
+									int ee=e.indexOf(" ");
+									e=e.substring(0, ee+1);
+									e=e.replace(" ", "");
+									int enterNum=Integer.parseInt(e.replace("-", ""));
+									String enterDay="";
+									if(enterNum - today > 0 && enterNum - today <= 7) {
+										enterDay="즉시";
+									}else {
+										enterDay=(enterNum-today) + "일";
+									}
+									pmVO.setEnterdate(enterDay);
+								}
+								mav.addObject("pmList", pmList);
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		// 하우스메이트 최신리스트 구하기
+		List<MateWriteVO> nmList = service.getNewIndexMate(area); // 1. homeService 함수는 row<=3이고, MateService는 row<=9
+	    
+		for (MateWriteVO mwVO : nmList) {
+			// 각 하우스 메이트의 성별, 나이 구하기
+			MemberVO mVO = HomeService.getDetail(mwVO.getUserid());
+			mwVO.setGender(mVO.getGender());
+			
+			if(session.getAttribute("hPno")!=null) {
+				if(session.getAttribute("logId")!=null) {
+					if((Integer)session.getAttribute("logGrade")==2) {
+						ListVO scoreVO=listService.premiumMateScore(userid, (Integer)session.getAttribute("hPno"), mwVO.getPno());
+						mwVO.setScore(scoreVO.getScore());
+					}
+				}
+			}	 
+			// 생년월일을 받아서 만 나이로 처리
+			String b = mVO.getBirth();
+			int i = b.indexOf(" 00");
+			b = b.substring(0, i+1);
+			String[] birth = b.split("-");
+			int bYear = Integer.parseInt(birth[0]); 
+			int bMonth = Integer.parseInt(birth[1]);
+			int bDay = Integer.parseInt(birth[2].replace(" ",""));
+			int age = (y - bYear); 
+	        // 생일 안 지난 경우 -1
+	        if (bMonth * 100 + bDay > m * 100 + d) {
+	        	age--;
+	        }
+	        String BirthAge = age+"";
+			mwVO.setBirth(BirthAge);
+			
+			// 입주 디데이 0일때 즉시 문자열 처리
+			String e = mwVO.getEnterdate();
+			System.out.println(e);
+			int ee = e.indexOf(" ");
+			e = e.substring(0, ee+1);
+			e = e.replace(" ", "");
+			int enterNum = Integer.parseInt(e.replace("-", ""));
+			System.out.println((enterNum - today) + "일");
+			String enterDay = "";
+			if (enterNum - today > 0 && enterNum - today <=7) {
+				enterDay = "즉시";
+			}else {
+				enterDay = (enterNum - today) + "일";
+			}
+			
+			mwVO.setEnterdate(enterDay);
+			
+			ListVO listVO=new ListVO();
+			listVO.setArea(mwVO.getArea());
+			mwVO.setListVO(listVO);
+		}
+		
+		mav.addObject("newMateListCnt", nmList.size()); // 필터에 맞는 최신 목록의 메이트가 없을 때
+		mav.addObject("newMateList", nmList);
+		mav.addObject("area", area); // 검색을 하고 페이지를 다시 띄워줄 때 입력한 값이 뭔지 알려주려고
+		
+		mav.setViewName("mate/mateIndex");
+	return mav;
 	}
 
 	@RequestMapping("/mateView")
