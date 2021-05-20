@@ -40,9 +40,14 @@ public class HomeController {
 	 */	
 	@SuppressWarnings("null")
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView home(HttpSession session, String addr, String area) {
+	public ModelAndView home(HttpSession session, String addr, String area, String rent) {
 		ModelAndView mav = new ModelAndView();
 		String userid=(String)session.getAttribute("logId");
+		
+		int rentInt=0;
+		if(rent!=null) {
+			rentInt=Integer.parseInt(rent);
+		}
 		
 		// 로그인전 하우스 맵 정보 구하기
 		String[] houseMapList = service.getHouseMap();
@@ -85,7 +90,7 @@ public class HomeController {
 					int m_gender=listService.mate_m_gender(userid);
 					
 					// 쉐어하우스 매칭 리스트 구하기
-					List<ListVO> phList = listService.premiumHouseList(userid, m_gender, addr); // PremiumHouseList
+					List<ListVO> phList = listService.premiumHouseList(userid, m_gender, addr, rentInt); // PremiumHouseList
 					System.out.println(phList);
 					System.out.println(phList.size());
 					if(phList.size()>0) {

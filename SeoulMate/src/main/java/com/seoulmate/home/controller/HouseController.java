@@ -48,9 +48,14 @@ public class HouseController {
 	private DataSourceTransactionManager transactionManager;
 	
 	@RequestMapping("/houseIndex")
-	public ModelAndView houseIndex(HttpSession session, String addr) {
+	public ModelAndView houseIndex(HttpSession session, String addr, String rent) {
 		ModelAndView mav=new ModelAndView();
 		String userid=(String)session.getAttribute("logId");
+		
+		int rentInt=0;
+		if(rent!=null) {
+			rentInt=Integer.parseInt(rent);
+		}
         
         if(session.getAttribute("logId")!=null) {
 			int logGrade=(Integer)session.getAttribute("logGrade");
@@ -65,20 +70,22 @@ public class HouseController {
 					int m_gender=listService.mate_m_gender(userid);
 					
 					// 쉐어하우스 매칭 리스트 구하기
-					List<ListVO> phList = listService.premiumHouseList(userid, m_gender, addr); // PremiumHouseList
+					List<ListVO> phList = listService.premiumHouseList(userid, m_gender, addr, rentInt); // PremiumHouseList
 					
-					if(phList.get(0)!=null){ // else if(phList!=null)
-						HouseRoomVO phhrVO = new HouseRoomVO();
-						for (ListVO phVO : phList) {
-//							// 각 쉐어하우스의 제일 저렴한 월세 가져오기
-//							phhrVO = HomeService.getDesposit(phVO.getNo());
-//							
-//							phVO.setDeposit(phhrVO.getDeposit());
-//							phVO.setRent(phhrVO.getRent());
-							int idx = phVO.getAddr().indexOf("동 ");
-							phVO.setAddr(phVO.getAddr().substring(0, idx+1));
+					if(phList.size()>0) {
+						if(phList.get(0)!=null){ // else if(phList!=null)
+							HouseRoomVO phhrVO = new HouseRoomVO();
+							for (ListVO phVO : phList) {
+	//							// 각 쉐어하우스의 제일 저렴한 월세 가져오기
+	//							phhrVO = HomeService.getDesposit(phVO.getNo());
+	//							
+	//							phVO.setDeposit(phhrVO.getDeposit());
+	//							phVO.setRent(phhrVO.getRent());
+								int idx = phVO.getAddr().indexOf("동 ");
+								phVO.setAddr(phVO.getAddr().substring(0, idx+1));
+							}
+							mav.addObject("phList", phList);
 						}
-						mav.addObject("phList", phList);
 					}
 				}
 				
@@ -93,7 +100,7 @@ public class HouseController {
 			}
 		}
 		
-		List<HouseWriteVO> nhList = service.getNewIndexHouse(addr); // 1. homeService 함수는 row<=3이고, HouseService는 row<=9
+		List<HouseWriteVO> nhList = service.getNewIndexHouse(addr, rentInt); // 1. homeService 함수는 row<=3이고, HouseService는 row<=9
 		HouseRoomVO hrVO = new HouseRoomVO();
 		for (HouseWriteVO hwVO : nhList) {
 			// 각 쉐어하우스의 제일 저렴한 월세 가져오기

@@ -63,7 +63,7 @@ public interface HouseService {
 	public String houseProfile(String housepic1, int no);
 	
 	//하우스 인덱스에서 New 하우스 리스트 9개 출력하기
-	public List<HouseWriteVO> getNewIndexHouse(String addr);
+	public List<HouseWriteVO> getNewIndexHouse(String addr, int rent);
 	
 	//하우스 보기(내가 쓴 글 아니여도 가능)
 	public HouseWriteVO houseSelect2(int no);
