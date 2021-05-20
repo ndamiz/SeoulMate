@@ -97,23 +97,23 @@ button {position: relative;}
 							</ul>
 							<ul class="list_filter">
 								<li>최대 월세</li>
-								<li><input type="number" name="rent" min="0" placeholder="0"/> 만원 </li>
+								<li><input type="number" name="rent" value="<c:if test='${rent!=0}'>${rent}</c:if>" min="0" placeholder="0"/> 만원 </li>
 							</ul>
 							<ul class="list_filter">
 								<li>최대 보증금</li>
-								<li><input type="number" name="deposit" min="0" placeholder="0"/> 만원 </li>
+								<li><input type="number" name="deposit" value="<c:if test='${deposit!=0}'>${deposit}</c:if>" min="0" placeholder="0"/> 만원 </li>
 							</ul>
 							<ul>
 								<li><label> 성별</label></li>
 								<li class="checks_mate">
 									<div class="checks">
-										<input type="radio" id="radio1" name="m_gen" value="0" checked/> 
+										<input type="radio" id="radio1" name="m_gen" value="0" <c:if test='${m_gen==0}'>checked</c:if>/> 
 										<label for="radio1">전체</label> 
-										<input type="radio" id="radio2" name="m_gen" value="1"/> 
+										<input type="radio" id="radio2" name="m_gen" value="1" <c:if test='${m_gen==1}'>checked</c:if>/> 
 										<label for="radio2">여성</label> 
-										<input type="radio" id="radio3" name="m_gen" value="3"/> 
+										<input type="radio" id="radio3" name="m_gen" value="3" <c:if test='${m_gen==3}'>checked</c:if>/> 
 										<label for="radio3">남성</label> 
-										<input type="radio" id="radio4" name="m_gen" value="2"/> 
+										<input type="radio" id="radio4" name="m_gen" value="2" <c:if test='${m_gen==2}'>checked</c:if>/> 
 										<label for="radio4">상관없음</label> 
 									</div>
 								</li>

@@ -57,9 +57,9 @@
 	JOIN (SELECT r1.NO, rent, deposit FROM (select no, rent, deposit from houseroom) r1 
 	JOIN (select NO, min(rent) from houseroom GROUP BY NO) r2 ON r1.NO=r2.no) hr ON hw2.NO=hr.NO 
 	<if test='param1 != null'>AND addr LIKE '%${param1}%'</if>) 
-	<if test='param2 != null and param2>0'>where <![CDATA[rent<=${param2}]]></if>)
-	<if test='param3 != null and param3>0'>where <![CDATA[deposit<=${param3}]]></if>)
-	<if test='param4 != null and param4!=0'>where <![CDATA[m_gender=${param4}]]></if>
+	<if test='param2 != null and param2>0'>where <![CDATA[rent<=#{param2}]]></if>)
+	<if test='param3 != null and param3>0'>where <![CDATA[deposit<=#{param3}]]></if>)
+	<if test='param4 != null and param4!=0'>where <![CDATA[m_gender=#{param4}]]></if>
 	ORDER BY writedate DESC
 	</select>
   </mapper>

@@ -40,7 +40,7 @@ public class HomeController {
 	 */	
 	@SuppressWarnings("null")
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView home(HttpSession session, String addr, String area, String rent, String deposit, String m_gen) {
+	public ModelAndView home(HttpSession session, String addr, String area, String rent, String deposit, String m_gen, String gender) {
 		ModelAndView mav = new ModelAndView();
 		String userid=(String)session.getAttribute("logId");
 		
@@ -58,6 +58,11 @@ public class HomeController {
 		int m_genInt=0;
 		if(m_gen!=null && !m_gen.equals("")) {
 			m_genInt=Integer.parseInt(m_gen);
+		}
+		
+		int genderInt=0;
+		if(gender!=null && !gender.equals("")) {
+			genderInt=Integer.parseInt(gender);
 		}
 		
 		// 로그인전 하우스 맵 정보 구하기
@@ -159,7 +164,7 @@ public class HomeController {
 					if(housePnoCheck>0) { // 메이트 성향이 있을 때만 매칭된 하우스 목록을 띄워준다.
 						int m_gender=listService.house_m_gender(userid, pno);
 						// 메이트 매칭 리스트 구하기
-						List<ListVO> pmList = listService.premiumMateList(userid, pno, m_gender, area);
+						List<ListVO> pmList = listService.premiumMateList(userid, pno, m_gender, area, rentInt, depositInt, genderInt);
 						if(pmList.size()>0) {
 							if(pmList.get(0)!=null) {
 								for(ListVO pmVO : pmList) {
@@ -240,6 +245,7 @@ public class HomeController {
 			hwVO.setAddr(hwVO.getAddr().substring(0, idx+1));
 		}
 		
+		mav.addObject("newHouseListCnt", nhList.size());
 		mav.addObject("newHouseList", nhList);
 		
 		// 하우스메이트 최신리스트 구하기

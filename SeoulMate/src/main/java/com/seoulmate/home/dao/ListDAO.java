@@ -21,7 +21,7 @@ public interface ListDAO {
 	// 메이트의 성별 가져오기
 	public int house_m_gender(String userid, int pno);
 	// 매칭된 메이트 목록 가져오기
-	public List<ListVO> premiumMateList(String userid, int pno, int m_gender, String area);
+	public List<ListVO> premiumMateList(String userid, int pno, int m_gender, String area, int rent, int deposit, int gender);
 	// 특정 메이트의 매칭 점수 가져오기
 	public ListVO premiumMateScore(String userid, int hpno, int mpno);
 	

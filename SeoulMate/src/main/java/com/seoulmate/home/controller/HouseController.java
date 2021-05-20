@@ -132,6 +132,9 @@ public class HouseController {
 			hwVO.setAddr(hwVO.getAddr().substring(0, idx+1));
 		}
 		
+		mav.addObject("rent", rentInt);
+		mav.addObject("deposit", depositInt);
+		mav.addObject("m_gen", m_genInt);
 		mav.addObject("newHouseListCnt", nhList.size());
 		mav.addObject("newHouseList", nhList);
 		mav.addObject("addr", addr); // 검색을 하고 페이지를 다시 띄워줄 때 입력한 값이 뭔지 알려주려고

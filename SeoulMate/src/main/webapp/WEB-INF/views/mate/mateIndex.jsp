@@ -77,6 +77,10 @@ button{position: relative;}
 		$("#searchBox").click(function(){ // 해줘야하나 아직 모르겠음 뒤로가기했을 때 값이 그대로있는지 모름
 			$("#searchBox").val("");
 		});
+		$("#hPnoSelect>a").click(function(){
+			var hpno=$(this).attr("id");
+			location.href="hpnoDefaultMateIndex?pno="+hpno;
+		});
 	});
 </script>
 <div class="wrap mateSearch_wrap">
@@ -95,21 +99,21 @@ button{position: relative;}
 							</ul>
 							<ul class="list_filter">
 								<li> 최대 월세 </li>
-								<li><input type="number" min="0" placeholder="0"/> 만원 </li>
+								<li><input type="number" name="rent" value="<c:if test='${rent!=0}'>${rent}</c:if>" min="0" placeholder="0"/> 만원 </li>
 							</ul>
 							<ul class="list_filter">
 								<li>최대 보증금</li>
-								<li><input type="number" min="0" placeholder="0"/> 만원 </li>
+								<li><input type="number" name="deposit" value="<c:if test='${deposit!=0}'>${deposit}</c:if>" min="0" placeholder="0"/> 만원 </li>
 							</ul>
 							<ul>
 								<li><label> 성별</label></li>
 								<li class="checks_mate">
 									<div class="checks">
-										<input type="radio" id="radio1" name="character1" checked/> 
+										<input type="radio" id="radio1" name="gender" value="0" <c:if test='${gender==0}'>checked</c:if>/> 
 										<label for="radio1">전체</label> 
-										<input type="radio" id="radio2" name="character1" value="1"/> 
+										<input type="radio" id="radio2" name="gender" value="1" <c:if test='${gender==1}'>checked</c:if>/> 
 										<label for="radio2">여성</label> 
-										<input type="radio" id="radio3" name="character1" value="3"/> 
+										<input type="radio" id="radio3" name="gender" value="3" <c:if test='${gender==3}'>checked</c:if>/> 
 										<label for="radio3">남성</label> 
 									</div>
 								</li>
