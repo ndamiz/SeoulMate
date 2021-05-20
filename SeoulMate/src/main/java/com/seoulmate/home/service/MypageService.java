@@ -16,7 +16,11 @@ public interface MypageService {
 	public int likemarkDelete(int no, String userid);
 	//사용자가 찜한 번호 가져오기
 	public String[] getLikedNumber(String userid);
-	
+	//로그인한 사용자 하우스 글 번호 받아오기
+	public String[] getUsersHouseWriteNum(String userid);
+	//로그인한 사용자 메이트 글 번호 받아오기
+	public String[] getUsersMateWriteNum(String userid);
+
 	//목록 불러오기
 	public List<LikeMarkVO> likemarkAllRecord(String category, String userid);
 	//하우스 글 정보 불러오기
