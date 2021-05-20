@@ -86,43 +86,45 @@ public class MateController {
 						// 메이트 매칭 리스트 구하기
 						List<ListVO> pmList = listService.premiumMateList(userid, pno, m_gender, area);
 						
-						if(pmList.get(0)!=null) {
-							for(ListVO pmVO : pmList) {
-								MemberVO mVO=HomeService.getDetail(pmVO.getUserid());
-								pmVO.setGender(mVO.getGender());
-								
-								// 생년월일을 받아서 만 나이로 처리
-								String b=mVO.getBirth();
-								int i=b.indexOf(" 00");
-								b=b.substring(0, i+1);
-								String birth[]= b.split("-");
-								int bYear=Integer.parseInt(birth[0]);
-								int bMonth=Integer.parseInt(birth[1]);
-								int bDay=Integer.parseInt(birth[2].replace(" ", ""));
-								int age=(y-bYear);
-								
-								// 생일이 안 지난 경우 -1
-								if(bMonth * 100 + bDay > m * 100 + d) {
-									age--;
+						if(pmList.size()>0) {
+							if(pmList.get(0)!=null) {
+								for(ListVO pmVO : pmList) {
+									MemberVO mVO=HomeService.getDetail(pmVO.getUserid());
+									pmVO.setGender(mVO.getGender());
+									
+									// 생년월일을 받아서 만 나이로 처리
+									String b=mVO.getBirth();
+									int i=b.indexOf(" 00");
+									b=b.substring(0, i+1);
+									String birth[]= b.split("-");
+									int bYear=Integer.parseInt(birth[0]);
+									int bMonth=Integer.parseInt(birth[1]);
+									int bDay=Integer.parseInt(birth[2].replace(" ", ""));
+									int age=(y-bYear);
+									
+									// 생일이 안 지난 경우 -1
+									if(bMonth * 100 + bDay > m * 100 + d) {
+										age--;
+									}
+									String BrithAge=age+"";
+									pmVO.setBirth(BrithAge);
+									
+									// 입주 디데이 9일 때 즉시 문자열 처리
+									String e=pmVO.getEnterdate();
+									int ee=e.indexOf(" ");
+									e=e.substring(0, ee+1);
+									e=e.replace(" ", "");
+									int enterNum=Integer.parseInt(e.replace("-", ""));
+									String enterDay="";
+									if(enterNum - today > 0 && enterNum - today <= 7) {
+										enterDay="즉시";
+									}else {
+										enterDay=(enterNum-today) + "일";
+									}
+									pmVO.setEnterdate(enterDay);
 								}
-								String BrithAge=age+"";
-								pmVO.setBirth(BrithAge);
-								
-								// 입주 디데이 9일 때 즉시 문자열 처리
-								String e=pmVO.getEnterdate();
-								int ee=e.indexOf(" ");
-								e=e.substring(0, ee+1);
-								e=e.replace(" ", "");
-								int enterNum=Integer.parseInt(e.replace("-", ""));
-								String enterDay="";
-								if(enterNum - today > 0 && enterNum - today <= 7) {
-									enterDay="즉시";
-								}else {
-									enterDay=(enterNum-today) + "일";
-								}
-								pmVO.setEnterdate(enterDay);
+								mav.addObject("pmList", pmList);
 							}
-							mav.addObject("pmList", pmList);
 						}
 					}
 				}
@@ -183,6 +185,7 @@ public class MateController {
 			mwVO.setListVO(listVO);
 		}
 		
+		mav.addObject("newMateListCnt", nmList.size()); // 필터에 맞는 최신 목록의 메이트가 없을 때
 		mav.addObject("newMateList", nmList);
 		mav.addObject("area", area); // 검색을 하고 페이지를 다시 띄워줄 때 입력한 값이 뭔지 알려주려고
 		

@@ -202,54 +202,62 @@ button{position: relative;}
          <p class="m_title">NEW 하우스메이트</p>
          <a href="">더보기</a>
       </div>
-      <ul class="list_content">
-         <c:forEach items="${newMateList}" var="newMateVO">
-            <li>
-               <div class="list_img">
-               	 <c:if test="${myHousePnoCnt>0}"> <!-- 등록된 하우스 성향이 없으면 매칭을 안보여줌 -->
-               	 	<c:if test="${logGrade==2}"> <!-- 프리미엄만 매칭을 보여줌 -->
-                  		<p><span>매칭</span>${newMateVO.score}<b>%</b></p>
-                  	</c:if>
-                 </c:if>
-                  <button class="btn_star matelike" value="${newMateVO.no}"></button>
-                  <a href="mateView?no=${newMateVO.no}">
-                     <img alt="" src="<%=request.getContextPath()%>/matePic/${newMateVO.matePic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'">
-                  </a>
-               </div>
-               <div class="list_title">
-                  <span class="mate_id">${newMateVO.userid}</span>
-                  <span class="pay">￦ ${newMateVO.deposit} / ${newMateVO.rent}</span>
-               </div>
-               <span class="address">
-               	${newMateVO.listVO.area1} 
-               	<c:if test="${newMateVO.listVO.area2 != null}">
-                	| ${newMateVO.listVO.area2} 
-               	</c:if>
-               	<c:if test="${newMateVO.area3 != null}">
-                	| ${newMateVO.listVO.area3}
-               	</c:if>
-               </span>
-               <ol class="list_icon">
-                  <li>
-                  	<p>
-                  		<c:if test="${newMateVO.gender==1}">여</c:if>
-                  		<c:if test="${newMateVO.gender==3}">남</c:if>
-                  	</p>
-                  </li>
-                  <li>
-                  	<p>
-                  		${newMateVO.birth}세
-                  	</p>
-                  </li>
-                  <li>
-                  	<p>
-                  		${newMateVO.enterdate}
-                  	</p>
-                  </li>
-               </ol>
-            </li>
-         </c:forEach>
-      </ul>
+      <c:if test="${newMateListCnt!=0}">
+	      <ul class="list_content">
+	         <c:forEach items="${newMateList}" var="newMateVO">
+	            <li>
+	               <div class="list_img">
+	               	 <c:if test="${myHousePnoCnt>0}"> <!-- 등록된 하우스 성향이 없으면 매칭을 안보여줌 -->
+	               	 	<c:if test="${logGrade==2}"> <!-- 프리미엄만 매칭을 보여줌 -->
+	                  		<p><span>매칭</span>${newMateVO.score}<b>%</b></p>
+	                  	</c:if>
+	                 </c:if>
+	                  <button class="btn_star matelike" value="${newMateVO.no}"></button>
+	                  <a href="mateView?no=${newMateVO.no}">
+	                     <img alt="" src="<%=request.getContextPath()%>/matePic/${newMateVO.matePic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'">
+	                  </a>
+	               </div>
+	               <div class="list_title">
+	                  <span class="mate_id">${newMateVO.userid}</span>
+	                  <span class="pay">￦ ${newMateVO.deposit} / ${newMateVO.rent}</span>
+	               </div>
+	               <span class="address">
+	               	${newMateVO.listVO.area1} 
+	               	<c:if test="${newMateVO.listVO.area2 != null}">
+	                	| ${newMateVO.listVO.area2} 
+	               	</c:if>
+	               	<c:if test="${newMateVO.area3 != null}">
+	                	| ${newMateVO.listVO.area3}
+	               	</c:if>
+	               </span>
+	               <ol class="list_icon">
+	                  <li>
+	                  	<p>
+	                  		<c:if test="${newMateVO.gender==1}">여</c:if>
+	                  		<c:if test="${newMateVO.gender==3}">남</c:if>
+	                  	</p>
+	                  </li>
+	                  <li>
+	                  	<p>
+	                  		${newMateVO.birth}세
+	                  	</p>
+	                  </li>
+	                  <li>
+	                  	<p>
+	                  		${newMateVO.enterdate}
+	                  	</p>
+	                  </li>
+	               </ol>
+	            </li>
+	         </c:forEach>
+	      </ul>
+	  </c:if>
+	  <c:if test="${newMateListCnt==0}">
+	  	<div class="empty_div">
+      		<img class="empty" src="<%=request.getContextPath()%>/img/empty.png" onerror="this.src='<%=request.getContextPath()%>/img/empty.png'"/>
+      		<p style="text-align:center;">필터에 맞는 결과가 없습니다.</p>
+     	</div>
+	  </c:if>
    </section>
 
 </div> <!-- 전체 div 종료 -->

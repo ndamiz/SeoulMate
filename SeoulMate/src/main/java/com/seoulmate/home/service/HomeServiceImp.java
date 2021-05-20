@@ -47,8 +47,8 @@ public class HomeServiceImp implements HomeService {
 	}
 
 	@Override
-	public List<MateWriteVO> getNewMate() {
-		return dao.getNewMate();
+	public List<MateWriteVO> getNewMate(String area) {
+		return dao.getNewMate(area);
 	}
 
 	@Override

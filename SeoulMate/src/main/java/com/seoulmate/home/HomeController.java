@@ -228,7 +228,7 @@ public class HomeController {
 		mav.addObject("newHouseList", nhList);
 		
 		// 하우스메이트 최신리스트 구하기
-		List<MateWriteVO> nmList = service.getNewMate();
+		List<MateWriteVO> nmList = service.getNewMate(area);
 		for (MateWriteVO mwVO : nmList) {
 			// 각 하우스 메이트의 성별, 나이 구하기
 			MemberVO mVO = service.getDetail(mwVO.getUserid());
@@ -279,7 +279,7 @@ public class HomeController {
 			listVO.setArea(mwVO.getArea());
 			mwVO.setListVO(listVO);
 		}
-		
+		mav.addObject("newMateListCnt", nmList.size()); // 필터에 맞는 최신 목록의 메이트가 없을 때
 		mav.addObject("newMateList", nmList);
 		
 		mav.setViewName("home");
