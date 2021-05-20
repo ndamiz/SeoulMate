@@ -217,12 +217,6 @@ public class MateController {
 	}
 	
 	
-//	@ResponseBody
-//	public String[] memberDong(String gu) {
-//		String[] dong=memService.dong(gu);
-//		
-//		return dong;
-//	}
 	
 	//메이트 수정 확인
 	@RequestMapping(value = "/mateEditOk", method = RequestMethod.POST)
