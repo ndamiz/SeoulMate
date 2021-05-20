@@ -62,7 +62,7 @@
 						tag +='<input type="hidden" name="selectUserid" value="'+selectMate+'"/>';
 					}
 					else {
-						tag += '<p id="invitetTitle">초대할 하우스가 없습니다.</p>';
+						tag += '<p id="invitetTitle">이미 초대한 메이트 입니다.</p>';
 					}
 					$('.alert_pop_Content').html(tag);
 					
@@ -439,7 +439,6 @@
 			$('#myPage_LikeMarkerList').removeClass('objectHidden');
 		}
 	}
-	
 	</script>
 	<div class="wrap">
 		<section class="content" > <!-- id="myPage_HouseAndMate_Content" -->
