@@ -179,17 +179,17 @@ public class HomeController {
 								}
 								pmVO.setEnterdate(enterDay);
 								
-								// 희망지역 1~3 서울시 자르기
-								int j = pmVO.getArea1().indexOf("구 ");
-								pmVO.setArea(pmVO.getArea1().substring(j+1));
-								if (pmVO.getArea2() != null) {
-									j = pmVO.getArea2().indexOf("구 ");
-									pmVO.setArea(pmVO.getArea2().substring(j+1));
-								}
-								if (pmVO.getArea3() != null) {
-									j = pmVO.getArea3().indexOf("구 ");
-									pmVO.setArea(pmVO.getArea3().substring(j+1));
-								}
+//								// 희망지역 1~3 서울시 자르기
+//								int j = pmVO.getArea1().indexOf("구 ");
+//								pmVO.setArea1(pmVO.getArea1().substring(j+1));
+//								if (pmVO.getArea2() != null) {
+//									j = pmVO.getArea2().indexOf("구 ");
+//									pmVO.setArea2(pmVO.getArea2().substring(j+1));
+//								}
+//								if (pmVO.getArea3() != null) {
+//									j = pmVO.getArea3().indexOf("구 ");
+//									pmVO.setArea3(pmVO.getArea3().substring(j+1));
+//								}
 							}
 							mav.addObject("pmList", pmList);
 						}
@@ -282,17 +282,17 @@ public class HomeController {
 			
 			mwVO.setEnterdate(enterDay);
 			
-			// 희망지역 1~3 서울시 자르기
-			int j = mwVO.getArea1().indexOf("구 ");
-			mwVO.setArea(mwVO.getArea1().substring(j+1));
-			if (mwVO.getArea2() != null) {
-				j = mwVO.getArea2().indexOf("구 ");
-				mwVO.setArea(mwVO.getArea2().substring(j+1));
-			}
-			if (mwVO.getArea3() != null) {
-				j = mwVO.getArea3().indexOf("구 ");
-				mwVO.setArea(mwVO.getArea3().substring(j+1));
-			}
+//			// 희망지역 1~3 서울시 자르기
+//			int j = mwVO.getArea1().indexOf("구 ");
+//			mwVO.setArea(mwVO.getArea1().substring(j+1));
+//			if (mwVO.getArea2() != null) {
+//				j = mwVO.getArea2().indexOf("구 ");
+//				mwVO.setArea(mwVO.getArea2().substring(j+1));
+//			}
+//			if (mwVO.getArea3() != null) {
+//				j = mwVO.getArea3().indexOf("구 ");
+//				mwVO.setArea(mwVO.getArea3().substring(j+1));
+//			}
 		}
 		
 		mav.addObject("newMateList", nmList);

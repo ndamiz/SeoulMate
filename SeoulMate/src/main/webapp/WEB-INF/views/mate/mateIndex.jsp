@@ -163,6 +163,15 @@ button{position: relative;}
 			                  <span class="mate_id">${pmList.userid}</span>
 			                  <span class="pay">￦ ${pmList.deposit} / ${pmList.rent}</span>
 			               </div>
+			               <span class="address">
+			               	${pmList.area1} 
+			               	<c:if test="${pmList.area2 != null}">
+			                	| ${pmList.area2} 
+			               	</c:if>
+			               	<c:if test="${pmList.area3 != null}">
+			                	| ${pmList.area3}
+			               	</c:if>
+			               </span>
 			               <span class="address">${pmList.addr}</span>
 			               <ol class="list_icon">
 			                  <li>

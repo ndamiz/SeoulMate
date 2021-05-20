@@ -14,7 +14,7 @@
          alert("그동안 서울 메이트를 이용해주셔서 감사합니다.");
       }
    }
-   
+	   
    exitCheck();
    console.log(${logGrade});
    $(function(){
@@ -188,8 +188,8 @@
 			               </div>
 			               <span class="address">
 			               		${pmList.area1}
-			               		<c:if test="${pmList.area2 != null }"> ${pmList.area2}</c:if>
-			               		<c:if test="${pmList.area3 != null }"> ${pmList.area3}</c:if>
+			               		<c:if test="${pmList.area2 != null }"> |  ${pmList.area2}</c:if>
+			               		<c:if test="${pmList.area3 != null }"> |  ${pmList.area3}</c:if>
 <%-- 			               		<c:if test="${pmList.area2!=null}">${pmList.area2}</c:if> --%>
 <%-- 			               		<c:if test="${pmList.area3!=null}">${pmList.area3}</c:if> --%>
 			               </span>
