@@ -101,8 +101,7 @@
 		h.h_party AS h_h_party, mw2.h_party AS m_h_party, h.h_enter AS h_h_enter, mw2.h_enter AS m_h_enter, h.m_pattern AS h_m_pattern, mw2.m_pattern AS m_m_pattern, 
 		h.m_personality AS h_m_personality, mw2.m_personality AS m_m_personality, h.m_pet AS h_m_pet, mw2.m_pet AS m_m_pet, h.m_smoke AS h_m_smoke, mw2.m_smoke AS m_m_smoke, 
 		h.m_age AS h_m_age, mw2.m_age AS m_m_age, h.m_global AS h_m_global, mw2.m_global AS m_m_global, h.m_now AS h_m_now, mw2.m_now AS m_m_now
-	FROM
-	(SELECT pno, m_gender, h_noise, h_pattern, h_pet, h_petwith, h_smoke, h_mood, h_communication, h_party, h_enter, m_pattern, 
+	FROM (SELECT pno, m_gender, h_noise, h_pattern, h_pet, h_petwith, h_smoke, h_mood, h_communication, h_party, h_enter, m_pattern, 
 		m_personality, m_pet, m_smoke, m_age, m_global, m_now, substr(to_char(pdate, 'YYYY'), 1,1) AS pdate 
 	FROM PROPENSITY WHERE userid=#{param1} AND pcase='h' AND pno=#{param2}) h -- userid와 pno가 매개변수로 들어가야 함
 	FULL OUTER JOIN 
@@ -152,8 +151,7 @@
 		h.h_party AS h_h_party, mw2.h_party AS m_h_party, h.h_enter AS h_h_enter, mw2.h_enter AS m_h_enter, h.m_pattern AS h_m_pattern, mw2.m_pattern AS m_m_pattern, 
 		h.m_personality AS h_m_personality, mw2.m_personality AS m_m_personality, h.m_pet AS h_m_pet, mw2.m_pet AS m_m_pet, h.m_smoke AS h_m_smoke, mw2.m_smoke AS m_m_smoke, 
 		h.m_age AS h_m_age, mw2.m_age AS m_m_age, h.m_global AS h_m_global, mw2.m_global AS m_m_global, h.m_now AS h_m_now, mw2.m_now AS m_m_now
-	FROM
-	(SELECT pno, m_gender, h_noise, h_pattern, h_pet, h_petwith, h_smoke, h_mood, h_communication, h_party, h_enter, m_pattern, 
+	FROM (SELECT pno, m_gender, h_noise, h_pattern, h_pet, h_petwith, h_smoke, h_mood, h_communication, h_party, h_enter, m_pattern, 
 		m_personality, m_pet, m_smoke, m_age, m_global, m_now, substr(to_char(pdate, 'YYYY'), 1,1) AS pdate 
 	FROM PROPENSITY WHERE userid=#{param1} AND pcase='h' AND pno=#{param2}) h 
 	FULL OUTER JOIN 
