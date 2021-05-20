@@ -30,5 +30,5 @@ public interface MateService {
 	public int mateDel(int no, String userid);
 	
 	// 메이트 index에서 9개의 메이트 목록 가져오기
-	public List<MateWriteVO> getNewIndexMate();
+	public List<MateWriteVO> getNewIndexMate(String area);
 }

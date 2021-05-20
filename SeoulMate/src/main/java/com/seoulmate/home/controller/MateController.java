@@ -46,7 +46,7 @@ public class MateController {
 	private DataSourceTransactionManager transactionManager;
 	
 	@RequestMapping("/mateIndex")
-	public ModelAndView mateIndex(HttpSession session) {
+	public ModelAndView mateIndex(HttpSession session, String area) {
 		ModelAndView mav=new ModelAndView();
 		String userid=(String)session.getAttribute("logId");
 		
@@ -82,59 +82,48 @@ public class MateController {
 					
 					if(housePnoCheck>0) { // 메이트 성향이 있을 때만 매칭된 하우스 목록을 띄워준다.
 						int m_gender=listService.house_m_gender(userid, pno);
-						System.out.println("m_gender : "+m_gender);
 						// 메이트 매칭 리스트 구하기
-						List<ListVO> pmList = listService.premiumMateList(userid, pno, m_gender);
+						List<ListVO> pmList = listService.premiumMateList(userid, pno, m_gender, area);
 						
-						if(pmList.get(0)!=null) {
-							for(ListVO pmVO : pmList) {
-								MemberVO mVO=HomeService.getDetail(pmVO.getUserid());
-								pmVO.setGender(mVO.getGender());
-								
-								// 생년월일을 받아서 만 나이로 처리
-								String b=mVO.getBirth();
-								int i=b.indexOf(" 00");
-								b=b.substring(0, i+1);
-								String birth[]= b.split("-");
-								int bYear=Integer.parseInt(birth[0]);
-								int bMonth=Integer.parseInt(birth[1]);
-								int bDay=Integer.parseInt(birth[2].replace(" ", ""));
-								int age=(y-bYear);
-								
-								// 생일이 안 지난 경우 -1
-								if(bMonth * 100 + bDay > m * 100 + d) {
-									age--;
+						if(pmList.size()>0) {
+							if(pmList.get(0)!=null) {
+								for(ListVO pmVO : pmList) {
+									MemberVO mVO=HomeService.getDetail(pmVO.getUserid());
+									pmVO.setGender(mVO.getGender());
+									
+									// 생년월일을 받아서 만 나이로 처리
+									String b=mVO.getBirth();
+									int i=b.indexOf(" 00");
+									b=b.substring(0, i+1);
+									String birth[]= b.split("-");
+									int bYear=Integer.parseInt(birth[0]);
+									int bMonth=Integer.parseInt(birth[1]);
+									int bDay=Integer.parseInt(birth[2].replace(" ", ""));
+									int age=(y-bYear);
+									
+									// 생일이 안 지난 경우 -1
+									if(bMonth * 100 + bDay > m * 100 + d) {
+										age--;
+									}
+									String BrithAge=age+"";
+									pmVO.setBirth(BrithAge);
+									
+									// 입주 디데이 9일 때 즉시 문자열 처리
+									String e=pmVO.getEnterdate();
+									int ee=e.indexOf(" ");
+									e=e.substring(0, ee+1);
+									e=e.replace(" ", "");
+									int enterNum=Integer.parseInt(e.replace("-", ""));
+									String enterDay="";
+									if(enterNum - today > 0 && enterNum - today <= 7) {
+										enterDay="즉시";
+									}else {
+										enterDay=(enterNum-today) + "일";
+									}
+									pmVO.setEnterdate(enterDay);
 								}
-								String BrithAge=age+"";
-								pmVO.setBirth(BrithAge);
-								
-								// 입주 디데이 9일 때 즉시 문자열 처리
-								String e=pmVO.getEnterdate();
-								int ee=e.indexOf(" ");
-								e=e.substring(0, ee+1);
-								e=e.replace(" ", "");
-								int enterNum=Integer.parseInt(e.replace("-", ""));
-								String enterDay="";
-								if(enterNum - today > 0 && enterNum - today <= 7) {
-									enterDay="즉시";
-								}else {
-									enterDay=(enterNum-today) + "일";
-								}
-								pmVO.setEnterdate(enterDay);
-								
-								// 희망지역 1~3 서울시 자르기
-								int j = pmVO.getArea1().indexOf("구 ");
-								pmVO.setArea(pmVO.getArea1().substring(j+1));
-								if (pmVO.getArea2() != null) {
-									j = pmVO.getArea2().indexOf("구 ");
-									pmVO.setArea(pmVO.getArea2().substring(j+1));
-								}
-								if (pmVO.getArea3() != null) {
-									j = pmVO.getArea3().indexOf("구 ");
-									pmVO.setArea(pmVO.getArea3().substring(j+1));
-								}
+								mav.addObject("pmList", pmList);
 							}
-							mav.addObject("pmList", pmList);
 						}
 					}
 				}
@@ -142,7 +131,7 @@ public class MateController {
 		}
 		
 		// 하우스메이트 최신리스트 구하기
-		List<MateWriteVO> nmList = service.getNewIndexMate(); // 1. homeService 함수는 row<=3이고, MateService는 row<=9
+		List<MateWriteVO> nmList = service.getNewIndexMate(area); // 1. homeService 함수는 row<=3이고, MateService는 row<=9
 	    
 		for (MateWriteVO mwVO : nmList) {
 			// 각 하우스 메이트의 성별, 나이 구하기
@@ -190,20 +179,14 @@ public class MateController {
 			
 			mwVO.setEnterdate(enterDay);
 			
-			// 희망지역 1~3 서울시 자르기
-			int j = mwVO.getArea1().indexOf("구 ");
-			mwVO.setArea(mwVO.getArea1().substring(j+1));
-			if (mwVO.getArea2() != null) {
-				j = mwVO.getArea2().indexOf("구 ");
-				mwVO.setArea(mwVO.getArea2().substring(j+1));
-			}
-			if (mwVO.getArea3() != null) {
-				j = mwVO.getArea3().indexOf("구 ");
-				mwVO.setArea(mwVO.getArea3().substring(j+1));
-			}
+			ListVO listVO=new ListVO();
+			listVO.setArea(mwVO.getArea());
+			mwVO.setListVO(listVO);
 		}
 		
+		mav.addObject("newMateListCnt", nmList.size()); // 필터에 맞는 최신 목록의 메이트가 없을 때
 		mav.addObject("newMateList", nmList);
+		mav.addObject("area", area); // 검색을 하고 페이지를 다시 띄워줄 때 입력한 값이 뭔지 알려주려고
 		
 		mav.setViewName("mate/mateIndex");
 	return mav;
@@ -373,7 +356,20 @@ public class MateController {
 		return mav;
 	}
 	
-
+	@RequestMapping(value = "/hpnoDefaultMateIndex", method = RequestMethod.GET)
+	public ModelAndView hpnoDefaultMateIndex(HttpSession session, int pno) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
+		
+		// 내 하우스 성향의 갯수를 구한다.(프리미엄인 하우스에게 메이트 매칭 목록을 띄워주기 위해)
+		int myHousePnoCnt=listService.myHousePnoCount(userid);
+		if(myHousePnoCnt>0) {
+			session.setAttribute("hPno", pno);
+		}
+		mav.setViewName("redirect:mateIndex");
+		
+		return mav;
+	}
 	
 	
 }
