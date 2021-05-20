@@ -349,13 +349,21 @@
 		</div> <!-- macthing 넣을 div 종료 -->
 	</div> <!-- middleFrm div 종료 -->
 	
-	<div id="map_Div">
-	지도 부분
+	<div id="map_Div" style="height:300px"></div> <!-- map_Div div종료 -->
 	
-	</div> <!-- map_Div div종료 -->
 </div> <!-- content div 종료 -->
 </div> <!-- 전체div 종료 -->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6bad1d8e9a1449ac5fb2b238e99a32ed&libraries=clusterer,services"></script>
+<script>
+	var mapContainer = document.getElementById('map_Div'), // 지도를 표시할 div 
+    mapOption = { 
+        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨
+    };
 
+	// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+	var map = new kakao.maps.Map(mapContainer, mapOption); 
+</script>
 <!-- 		<div class="pup_wrap" id="pup_wrap_report"> -->
 		
 <!-- 		<div class="pup_form"> -->
