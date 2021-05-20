@@ -11,6 +11,7 @@
   	</select>
   	<select id="premiumHouseList" resultType="com.seoulmate.home.vo.ListVO">
   	SELECT * 
+  	FROM (SELECT * 
   	FROM (SELECT no, pno, userid, m_gender, addr, housename, housepic1, room, bathroom, nowpeople, rent, deposit, h_noise, h_pattern, h_petwith, h_mood, h_communication, score
   	from (SELECT no, pno, userid, m_gender, addr, housename, housepic1, room, bathroom, nowpeople, rent, deposit, h_noise, h_pattern, h_petwith, h_mood, h_communication, 
 		round((100-((h_noise+h_pattern+h_pet+h_petwith+h_smoke+h_mood+h_communication+h_party+h_enter+m_pattern+m_personality+m_pet+m_smoke+m_age+m_global+m_now)*3.125)), 0) AS score 
@@ -48,6 +49,9 @@
 	<if test='param3 !=null'> where addr like '%${param3}%'</if>)
 	<if test='param4 != null and param4>0'>
 	where <![CDATA[rent<=${param4}]]>
+	</if>)
+	<if test='param5 != null and param5>0'>
+	where <![CDATA[deposit<=${param5}]]>
 	</if>
 	ORDER BY score desc) where <![CDATA[rownum<=3]]>
   	</select>

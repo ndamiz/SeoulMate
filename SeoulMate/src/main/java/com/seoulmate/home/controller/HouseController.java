@@ -48,13 +48,18 @@ public class HouseController {
 	private DataSourceTransactionManager transactionManager;
 	
 	@RequestMapping("/houseIndex")
-	public ModelAndView houseIndex(HttpSession session, String addr, String rent) {
+	public ModelAndView houseIndex(HttpSession session, String addr, String rent, String deposit) {
 		ModelAndView mav=new ModelAndView();
 		String userid=(String)session.getAttribute("logId");
 		
 		int rentInt=0;
-		if(rent!=null) {
+		if(rent!=null && !rent.equals("")) {
 			rentInt=Integer.parseInt(rent);
+		}
+		
+		int depositInt=0;
+		if(deposit!=null && !deposit.equals("")) {
+			depositInt=Integer.parseInt(deposit);
 		}
         
         if(session.getAttribute("logId")!=null) {
@@ -70,7 +75,7 @@ public class HouseController {
 					int m_gender=listService.mate_m_gender(userid);
 					
 					// 쉐어하우스 매칭 리스트 구하기
-					List<ListVO> phList = listService.premiumHouseList(userid, m_gender, addr, rentInt); // PremiumHouseList
+					List<ListVO> phList = listService.premiumHouseList(userid, m_gender, addr, rentInt, depositInt); // PremiumHouseList
 					
 					if(phList.size()>0) {
 						if(phList.get(0)!=null){ // else if(phList!=null)
@@ -100,7 +105,7 @@ public class HouseController {
 			}
 		}
 		
-		List<HouseWriteVO> nhList = service.getNewIndexHouse(addr, rentInt); // 1. homeService 함수는 row<=3이고, HouseService는 row<=9
+		List<HouseWriteVO> nhList = service.getNewIndexHouse(addr, rentInt, depositInt); // 1. homeService 함수는 row<=3이고, HouseService는 row<=9
 		HouseRoomVO hrVO = new HouseRoomVO();
 		for (HouseWriteVO hwVO : nhList) {
 			// 각 쉐어하우스의 제일 저렴한 월세 가져오기

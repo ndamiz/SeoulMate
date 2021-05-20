@@ -98,7 +98,7 @@ button {position: relative;}
 							<ul class="list_filter">
 								<li>최대 보증금</li>
 <!-- 								<li><input type="number" name="" id="" min="10" placeholder="0"/> - <input type="number" min="0" placeholder="0"/> 만원 </li> -->
-								<li><input type="number" min="0" placeholder="0"/> 만원 </li>
+								<li><input type="number" name="deposit" min="0" placeholder="0"/> 만원 </li>
 							</ul>
 							<ul>
 								<li>
