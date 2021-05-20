@@ -547,7 +547,7 @@
                      '        <div class="body">' + 
                      '            <div class="">' + 
                      '                <p>' + result[0].address.region_3depth_name + '에서 집을 구하고 있어요!</p>' + 
-                     '                <div><a href="houseIndex?addr=' + result[0].address.region_3depth_name + '" target="_blank" class="link">자세히보기</a></div>' + 
+                     '                <div><a href="mateIndex?area=' + result[0].address.region_3depth_name + '&character1=on" target="_blank" class="link">자세히보기</a></div>' + 
                      '            </div>' + 
                      '        </div>' + 
                      '    </div>' +    
