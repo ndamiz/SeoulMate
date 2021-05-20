@@ -206,6 +206,18 @@ public class MemberController {
 			e.printStackTrace();
 		}
 		
+		String a1=vo.getArea1()+"/";
+		String a2="";
+		String a3="";
+		if(vo.getArea2()!=null && !vo.getArea2().equals("")) {
+			a2=vo.getArea2()+"/";
+		}
+		if(vo.getArea3()!=null && !vo.getArea3().equals("")) {
+			a3=vo.getArea3()+"/";
+		}
+		vo.setArea(a1+a2+a3);
+		
+		
 		///////////////////////////////////////
 		// 트랜잭션
 		DefaultTransactionDefinition def=new DefaultTransactionDefinition();
@@ -385,6 +397,19 @@ public class MemberController {
 		ModelAndView mav=new ModelAndView();
 		
 		vo.setUserid((String)session.getAttribute("logId"));
+		
+		System.out.println(vo.getArea1());
+		System.out.println(vo.getArea2());
+		String a1=vo.getArea1()+"/";
+		String a2="";
+		String a3="";
+		if(vo.getArea2()!=null && !vo.getArea2().equals("")) {
+			a2=vo.getArea2()+"/";
+		}
+		if(vo.getArea3()!=null && !vo.getArea3().equals("")) {
+			a3=vo.getArea3()+"/";
+		}
+		vo.setArea(a1+a2+a3);
 		
 		String path=session.getServletContext().getRealPath("/profilePic");
 		String selFilename=service.memberProfile(vo.getUserid());
