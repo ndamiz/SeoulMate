@@ -45,9 +45,23 @@ public class HomeController {
 		String userid=(String)session.getAttribute("logId");
 		
 		// 로그인전 하우스 맵 정보 구하기
-		String[] houseMapList = service.getHouseMap();
-		mav.addObject("houseMapList",houseMapList);
+		List<ListVO> houseMapList = service.getHouseMap();
+		if(houseMapList.get(0)!=null){ // else if(phList!=null)
+			HouseRoomVO hrVO = new HouseRoomVO();
+			for (ListVO hwVO : houseMapList) {
+				// 각 쉐어하우스의 제일 저렴한 월세 가져오기
+				hrVO = service.getDesposit(hwVO.getNo());
+				
+				hwVO.setDeposit(hrVO.getDeposit());
+				hwVO.setRent(hrVO.getRent());
+				int idx = hwVO.getAddr().indexOf("동 ");
+				hwVO.setAddr(hwVO.getAddr().substring(0, idx+1));
+			}
+			mav.addObject("houseMapList", houseMapList);
+		}
 		
+		
+		//mav.addObject("houseMapList",houseMapList);
 		// 로그인전 메이트 맵 정보 구하기
 		String[] getMateList = service.getMateMap();
 		String[] mateListArr = null;
@@ -64,6 +78,8 @@ public class HomeController {
 		arr = Arrays.toString(mateMapList);
 		mav.addObject("mateMapList",arr);
 		
+		System.out.println("메이트맵리스트!");
+		System.out.println(Arrays.toString(mateMapList));
 		//////////////////////////////////////////////////
 		
 		if(session.getAttribute("logId")!=null) {

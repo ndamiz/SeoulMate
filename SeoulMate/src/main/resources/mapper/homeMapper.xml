@@ -3,8 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.seoulmate.home.dao.HomeDAO">
-  	<select id="getHouseMap" resultType="String">
-  		select addr from housewrite
+  	<select id="getHouseMap" resultType="com.seoulmate.home.vo.ListVO">
+  		select no, addr, housename, housepic1 from housewrite where housestate='모집중'
 	</select>
   	<select id="getMateMap" resultType="String">
   		select area from matewrite where matestate='모집중'
