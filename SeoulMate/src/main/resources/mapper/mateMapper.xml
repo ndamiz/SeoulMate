@@ -5,12 +5,14 @@
   <mapper namespace="com.seoulmate.home.dao.MateWriteDAO">
   	<insert id="mateInsert" parameterType="com.seoulmate.home.vo.MateWriteVO">
   		insert into matewrite(no, pno, userid, area, matePic1, deposit, rent, enterdate, minStay, maxStay,
-  		writedate, enddate, matestate, mateProfile) 
-		values (housematesq.nextval, #{pno}, #{userid}, '마포구 공덕동', #{matePic1},  #{deposit}, #{rent}, 
+  		to_char(writedate, 'YYYY-MM-DD')writedate, enddate, matestate, mateProfile) 
+		values (housematesq.nextval, #{pno}, #{userid}, #{area}, #{matePic1},  #{deposit}, #{rent}, 
 		#{enterdate}, #{minStay}, #{maxStay}, sysdate, sysdate+7, '모집중', #{mateProfile} )
   	</insert>
 	<update id="mateUpdate" parameterType="com.seoulmate.home.vo.MateWriteVO">
-		update matewrite set matePic1=#{matePic1}, deposit=#{deposit}, rent=#{rent}, enterdate=#{enterdate},
+		update matewrite set 
+		<if test="matePic1!=null and matePic1!=''">matePic1=#{matePic1}, </if>
+		deposit=#{deposit}, rent=#{rent}, enterdate=#{enterdate},
 		minStay=#{minStay}, maxStay=#{maxStay}, mateProfile=#{mateProfile} where userid=#{userid} and pno=#{pno}
 	</update>
 <!-- 	<select id="mateNoSelect" resultType="int"> -->
@@ -18,8 +20,12 @@
 <!-- 	</select> -->
 	<select id="mateSelect" resultType="com.seoulmate.home.vo.MateWriteVO">
 		select no, pno, userid, area, matePic1, deposit, rent, enterdate, minStay, maxStay, writedate, enddate, matestate, mateProfile 
-		from matewrite where userid=#{param1h}
+		from matewrite where userid=#{param1}
 	</select>
+	<select id="MateProfilePic" resultType="String">
+  		select matePic1 from matewrite where userid=#{param1} and no=#{param2}
+  	</select>
+	
 	<delete id="mateDel" parameterType="com.seoulmate.home.vo.MateWriteVO">
 		delete from matewrite where no=#{param1} and userid=#{param2}	
 	</delete>
@@ -38,5 +44,9 @@
 		JOIN (SELECT userid, m_gender, h_noise, h_pattern, h_pet, h_petwith, h_smoke, h_mood, h_communication, h_party, h_enter, m_pattern, m_personality, 
 			m_pet, m_smoke, m_age, m_global, m_now, substr(to_char(pdate, 'YYYY'),1,1) AS pdate
 		FROM PROPENSITY WHERE pcase='m') p ON m.userid=p.userid) g ON mw.userid=g.userid ORDER BY writedate DESC) <![CDATA[where rownum<= 9]]>
+	</select>
+	<select id="mateSelect2" resultType="com.seoulmate.home.vo.MateWriteVO">
+		select no, pno, userid, area, matePic1, matePic2, matePic3, deposit, rent, enterdate, minStay, maxStay,
+		writedate, enddate, matestate, mateProfile from matewrite where no=#{param1}
 	</select>
   </mapper>

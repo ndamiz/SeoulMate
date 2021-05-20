@@ -17,12 +17,14 @@
 	<insert id="houseInsert" parameterType="com.seoulmate.home.vo.HouseWriteVO">
 		insert into housewrite(no, userid, addr, housepic1, room, bathroom, nowpeople, searchpeople, publicfacility, 
 		writedate, enddate, housestate, pno, houseprofile, housename) 
-		values (housematesq.nextval, #{userid}, #{addr}, #{housepic1}, #{room}, #{bathroom}, #{nowpeople}, #{searchpeople}, 
+		values (housematesq.nextval, #{userid}, #{addr}, #{housepic1},  
+		#{room}, #{bathroom}, #{nowpeople}, #{searchpeople}, 
 		#{publicfacility}, sysdate, sysdate+7, '모집중', #{pno}, #{houseprofile}, #{housename} )
 	</insert>
 	<update id="houseUpdate" parameterType="com.seoulmate.home.vo.HouseWriteVO">
 		update housewrite set addr=#{addr}, 
 		<if test="housepic1!=null and housepic1!=''">housepic1=#{housepic1}, </if>
+		housepic2=#{housepic2}, housepic3=#{housepic3}, housepic4=#{housepic4}, housepic5=#{housepic5}, 
 		room=#{room}, bathroom=#{bathroom}, nowpeople=#{nowpeople}, searchpeople=#{searchpeople},
 		publicfacility=#{publicfacility}, houseprofile=#{houseprofile}, housename=#{housename} where userid=#{userid} and no=#{no}
 	</update>
@@ -43,7 +45,7 @@
 	<delete id="houseDel" parameterType="com.seoulmate.home.vo.HouseWriteVO">
 		delete from housewrite where no=#{param1} and userid=#{param2}	
 	</delete>
-  	<select id="houseProfile" resultType="String">
+  	<select id="houseProfilePic" resultType="String">
   		select housepic1 from housewrite where userid=#{param1} and no=#{param2}
   	</select>
   	<select id="getNewIndexHouse" resultType="com.seoulmate.home.vo.HouseWriteVO">
