@@ -49,17 +49,17 @@
   	<select id="getNewIndexHouse" resultType="com.seoulmate.home.vo.HouseWriteVO">
   	SELECT * 
   	FROM (SELECT * 
-  	FROM (SELECT hw.NO, hw.pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, hr.rent, hr.DEPOSIT, hw.writedate 
-	FROM (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, writedate FROM HOUSEWRITE WHERE housestate='모집중') hw
+	FROM (SELECT * 
+  	FROM (SELECT hw2.NO, hw2.pno, m_gender, userid, addr, housename, housepic1, room, bathroom, nowpeople, hr.rent, hr.DEPOSIT, hw2.writedate 
+	FROM (SELECT NO, hw.pno, hw.userid, m_gender, addr, hw.housename, housepic1, room, bathroom, nowpeople, writedate 
+	FROM (SELECT * FROM PROPENSITY WHERE pcase='h') p
+	JOIN (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, writedate FROM HOUSEWRITE WHERE housestate='모집중') hw ON p.pno=hw.pno) hw2
 	JOIN (SELECT r1.NO, rent, deposit FROM (select no, rent, deposit from houseroom) r1 
-	JOIN (select NO, min(rent) from houseroom GROUP BY NO) r2 ON r1.NO=r2.no) hr ON hw.NO=hr.NO 
+	JOIN (select NO, min(rent) from houseroom GROUP BY NO) r2 ON r1.NO=r2.no) hr ON hw2.NO=hr.NO 
 	<if test='param1 != null'>AND addr LIKE '%${param1}%'</if>) 
-	<if test='param2 != null and param2>0'>
-	where <![CDATA[rent<=${param2}]]>
-	</if>)
-	<if test='param3 != null and param3>0'>
-	where <![CDATA[deposit<=${param3}]]>
-	</if>
+	<if test='param2 != null and param2>0'>where <![CDATA[rent<=${param2}]]></if>)
+	<if test='param3 != null and param3>0'>where <![CDATA[deposit<=${param3}]]></if>)
+	<if test='param4 != null and param4!=0'>where <![CDATA[m_gender=${param4}]]></if>
 	ORDER BY writedate DESC
 	</select>
   </mapper>

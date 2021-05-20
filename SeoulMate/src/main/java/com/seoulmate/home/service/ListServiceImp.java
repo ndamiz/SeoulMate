@@ -16,8 +16,8 @@ public class ListServiceImp implements ListService{
 	ListDAO dao;
 
 	@Override
-	public List<ListVO> premiumHouseList(String userid, int m_gender, String addr, int rent, int deposit) {
-		return dao.premiumHouseList(userid, m_gender, addr, rent, deposit);
+	public List<ListVO> premiumHouseList(String userid, int m_gender, String addr, int rent, int deposit, int m_gen) {
+		return dao.premiumHouseList(userid, m_gender, addr, rent, deposit, m_gen);
 	}
 
 	@Override

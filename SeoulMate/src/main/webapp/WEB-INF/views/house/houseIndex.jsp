@@ -46,6 +46,15 @@ input[type="number"] {width: 100px;}
 	background: url(<%=request.getContextPath()%>/img/comm/ico_search_black.png) no-repeat;
 	background-size: cover;
 }
+.checks_mate{
+ 	height: 50px;
+    display: inline-block;
+    line-height: 50px;
+    position: relative;
+    
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;}
 
 button {position: relative;}
 
@@ -86,19 +95,28 @@ button {position: relative;}
 								<li><input type="text" name="addr" id="searchBox" value="${addr}" placeholder="지역명을 입력하세요"/> 
 									<a id="iconPic1"></a></li>
 							</ul>
-<!-- 							<ul> -->
-<!-- 								<li> 입주예정일 </li> -->
-<!-- 								<li><input class="classDate" type="date"/></li> -->
-<!-- 							</ul> -->
 							<ul class="list_filter">
 								<li>최대 월세</li>
-<!-- 								<li><input type="number" min="0" placeholder="0"/> - <input type="number" min="0" placeholder="0"/> 만원 </li> -->
 								<li><input type="number" name="rent" min="0" placeholder="0"/> 만원 </li>
 							</ul>
 							<ul class="list_filter">
 								<li>최대 보증금</li>
-<!-- 								<li><input type="number" name="" id="" min="10" placeholder="0"/> - <input type="number" min="0" placeholder="0"/> 만원 </li> -->
 								<li><input type="number" name="deposit" min="0" placeholder="0"/> 만원 </li>
+							</ul>
+							<ul>
+								<li><label> 성별</label></li>
+								<li class="checks_mate">
+									<div class="checks">
+										<input type="radio" id="radio1" name="m_gen" value="0" checked/> 
+										<label for="radio1">전체</label> 
+										<input type="radio" id="radio2" name="m_gen" value="1"/> 
+										<label for="radio2">여성</label> 
+										<input type="radio" id="radio3" name="m_gen" value="3"/> 
+										<label for="radio3">남성</label> 
+										<input type="radio" id="radio4" name="m_gen" value="2"/> 
+										<label for="radio4">상관없음</label> 
+									</div>
+								</li>
 							</ul>
 							<ul>
 								<li>
@@ -164,6 +182,7 @@ button {position: relative;}
 		<p class="m_title">NEW 쉐어하우스</p>
 		<a href="#">더보기</a>
 	</div>
+	<c:if test="${newHouseListCnt>0}">
 	<ul class="list_content">
 		<c:forEach items="${newHouseList}" var="newHouseVO">
 			<li>
@@ -190,5 +209,12 @@ button {position: relative;}
 			</li>
 		</c:forEach>
 	</ul>
+	</c:if>
+	<c:if test="${newHouseListCnt==0}">
+	  	<div class="empty_div">
+      		<img class="empty" src="<%=request.getContextPath()%>/img/empty.png" onerror="this.src='<%=request.getContextPath()%>/img/empty.png'"/>
+      		<p style="text-align:center;">필터에 맞는 결과가 없습니다.</p>
+     	</div>
+	</c:if>
 </section>
 </div>

@@ -10,7 +10,8 @@
   		select m_gender from propensity where pcase='h' and userid=#{param1} and pno=#{param2}
   	</select>
   	<select id="premiumHouseList" resultType="com.seoulmate.home.vo.ListVO">
-  	SELECT * 
+  	SELECT *
+  	FROM (SELECT * 
   	FROM (SELECT * 
   	FROM (SELECT no, pno, userid, m_gender, addr, housename, housepic1, room, bathroom, nowpeople, rent, deposit, h_noise, h_pattern, h_petwith, h_mood, h_communication, score
   	from (SELECT no, pno, userid, m_gender, addr, housename, housepic1, room, bathroom, nowpeople, rent, deposit, h_noise, h_pattern, h_petwith, h_mood, h_communication, 
@@ -52,6 +53,9 @@
 	</if>)
 	<if test='param5 != null and param5>0'>
 	where <![CDATA[deposit<=${param5}]]>
+	</if>)
+	<if test='param6 != null and param6!=0'>
+	where <![CDATA[m_gender=${param6}]]>
 	</if>
 	ORDER BY score desc) where <![CDATA[rownum<=3]]>
   	</select>

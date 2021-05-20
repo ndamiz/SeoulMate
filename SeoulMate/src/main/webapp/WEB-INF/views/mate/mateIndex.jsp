@@ -93,17 +93,12 @@ button{position: relative;}
 								<li><input type="text" name="area" id="searchBox" value="${area}" placeholder="지역명을 입력하세요" /> 
 									<a id="iconPic1"></a></li>
 							</ul>
-<!-- 							<ul class="list_filter"> -->
-<!-- 								<li> 입주예정일 </li> -->
-<!-- 								<li> <input class="classDate" type="date"/></li> -->
-<!-- 							</ul> -->
 							<ul class="list_filter">
 								<li> 최대 월세 </li>
 								<li><input type="number" min="0" placeholder="0"/> 만원 </li>
 							</ul>
 							<ul class="list_filter">
 								<li>최대 보증금</li>
-<!-- 								<li><input type="number" name="" id="" min="10" placeholder="0"/> - <input type="number" min="0" placeholder="0"/> 만원 </li> -->
 								<li><input type="number" min="0" placeholder="0"/> 만원 </li>
 							</ul>
 							<ul>
@@ -201,7 +196,7 @@ button{position: relative;}
          <p class="m_title">NEW 하우스메이트</p>
          <a href="">더보기</a>
       </div>
-      <c:if test="${newMateListCnt!=0}">
+      <c:if test="${newMateListCnt>0}">
 	      <ul class="list_content">
 	         <c:forEach items="${newMateList}" var="newMateVO">
 	            <li>
