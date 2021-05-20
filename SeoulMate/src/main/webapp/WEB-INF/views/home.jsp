@@ -8,6 +8,15 @@
 			var hpno=$(this).attr("id");
 			location.href="hpnoDefault?pno="+hpno;
 		});
+		
+		$("#select_house").click(function(){
+			$("#addr_search").attr("type","text");
+			$("#area_search").attr("type","hidden");
+		});
+		$("#select_mate").click(function(){
+			$("#area_search").attr("type","text");
+			$("#addr_search").attr("type","hidden");
+		});
 	});
    function exitCheck(){
       if(${pwdCheck=='일치'}){
@@ -58,7 +67,7 @@
          쉐어하우스 & 메이트
       </h2>
       
-      <form class="main_search_form" method="get" action="">
+      <form class="main_search_form" method="get" action="/home">
          <div class="checks">
             <input type="radio" id="select_house" name="main_search" checked> 
             <label for="select_house">쉐어하우스</label>
@@ -67,7 +76,8 @@
             <label for="select_mate">하우스메이트</label>
          </div>
          <div class="search_box">
-            <input class="search_text" type="text" placeholder="지역명or지하철역을 입력하세요.">
+            <input class="search_text" name="addr" id="addr_search" type="text" placeholder="지역명을 입력하세요.">
+            <input class="search_text" name="area" id="area_search" type="hidden" placeholder="지역명을 입력하세요.">
             <button type="submit" class="green"></button>
          </div>
       </form>
@@ -241,12 +251,12 @@
                   <span class="pay">￦ ${newMateVO.deposit} / ${newMateVO.rent}</span>
                </div>
                <span class="address">
-               	${newMateVO.area1} 
-               	<c:if test="${newMateVO.area2 != null}">
-                	| ${newMateVO.area2} 
+               	${newMateVO.listVO.area1} 
+               	<c:if test="${newMateVO.listVO.area2 != null}">
+                	| ${newMateVO.listVO.area2} 
                	</c:if>
-               	<c:if test="${newMateVO.area3 != null}">
-                	| ${newMateVO.area3}
+               	<c:if test="${newMateVO.listVO.area3 != null}">
+                	| ${newMateVO.listVO.area3}
                	</c:if>
                </span>
                <ol class="list_icon">

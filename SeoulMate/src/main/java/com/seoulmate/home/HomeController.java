@@ -86,19 +86,22 @@ public class HomeController {
 					
 					// 쉐어하우스 매칭 리스트 구하기
 					List<ListVO> phList = listService.premiumHouseList(userid, m_gender, addr); // PremiumHouseList
-					
-					if(phList.get(0)!=null){ // else if(phList!=null)
-						HouseRoomVO phhrVO = new HouseRoomVO();
-						for (ListVO phVO : phList) {
-							// 각 쉐어하우스의 제일 저렴한 월세 가져오기
-//							phhrVO = service.getDesposit(phVO.getNo());
-//							
-//							phVO.setDeposit(phhrVO.getDeposit());
-//							phVO.setRent(phhrVO.getRent());
-							int idx = phVO.getAddr().indexOf("동 ");
-							phVO.setAddr(phVO.getAddr().substring(0, idx+1));
+					System.out.println(phList);
+					System.out.println(phList.size());
+					if(phList.size()>0) {
+						if(phList.get(0)!=null){ // else if(phList!=null)
+	//						HouseRoomVO phhrVO = new HouseRoomVO();
+							for (ListVO phVO : phList) {
+								// 각 쉐어하우스의 제일 저렴한 월세 가져오기
+	//							phhrVO = service.getDesposit(phVO.getNo());
+	//							
+	//							phVO.setDeposit(phhrVO.getDeposit());
+	//							phVO.setRent(phhrVO.getRent());
+								int idx = phVO.getAddr().indexOf("동 ");
+								phVO.setAddr(phVO.getAddr().substring(0, idx+1));
+							}
+							mav.addObject("phList", phList);
 						}
-						mav.addObject("phList", phList);
 					}
 				}
 				
@@ -142,57 +145,47 @@ public class HomeController {
 						System.out.println("m_gender : "+m_gender);
 						// 메이트 매칭 리스트 구하기
 						List<ListVO> pmList = listService.premiumMateList(userid, pno, m_gender, area);
-
-						if(pmList.get(0)!=null) {
-							for(ListVO pmVO : pmList) {
-								MemberVO mVO=service.getDetail(pmVO.getUserid());
-								pmVO.setGender(mVO.getGender());
-								
-								// 생년월일을 받아서 만 나이로 처리
-								String b=mVO.getBirth();
-								int i=b.indexOf(" 00");
-								b=b.substring(0, i+1);
-								String birth[]= b.split("-");
-								int bYear=Integer.parseInt(birth[0]);
-								int bMonth=Integer.parseInt(birth[1]);
-								int bDay=Integer.parseInt(birth[2].replace(" ", ""));
-								int age=(y-bYear);
-								
-								// 생일이 안 지난 경우 -1
-								if(bMonth * 100 + bDay > m * 100 + d) {
-									age--;
+						if(pmList.size()>0) {
+							if(pmList.get(0)!=null) {
+								for(ListVO pmVO : pmList) {
+									MemberVO mVO=service.getDetail(pmVO.getUserid());
+									pmVO.setGender(mVO.getGender());
+									
+									// 생년월일을 받아서 만 나이로 처리
+									String b=mVO.getBirth();
+									int i=b.indexOf(" 00");
+									b=b.substring(0, i+1);
+									String birth[]= b.split("-");
+									int bYear=Integer.parseInt(birth[0]);
+									int bMonth=Integer.parseInt(birth[1]);
+									int bDay=Integer.parseInt(birth[2].replace(" ", ""));
+									int age=(y-bYear);
+									
+									// 생일이 안 지난 경우 -1
+									if(bMonth * 100 + bDay > m * 100 + d) {
+										age--;
+									}
+									String BrithAge=age+"";
+									pmVO.setBirth(BrithAge);
+									
+									// 입주 디데이 9일 때 즉시 문자열 처리
+									String e=pmVO.getEnterdate();
+									int ee=e.indexOf(" ");
+									e=e.substring(0, ee+1);
+									e=e.replace(" ", "");
+									int enterNum=Integer.parseInt(e.replace("-", ""));
+									String enterDay="";
+									if(enterNum - today > 0 && enterNum - today <= 7) {
+										enterDay="즉시";
+									}else {
+										enterDay=(enterNum-today) + "일";
+									}
+									pmVO.setEnterdate(enterDay);
 								}
-								String BrithAge=age+"";
-								pmVO.setBirth(BrithAge);
-								
-								// 입주 디데이 9일 때 즉시 문자열 처리
-								String e=pmVO.getEnterdate();
-								int ee=e.indexOf(" ");
-								e=e.substring(0, ee+1);
-								e=e.replace(" ", "");
-								int enterNum=Integer.parseInt(e.replace("-", ""));
-								String enterDay="";
-								if(enterNum - today > 0 && enterNum - today <= 7) {
-									enterDay="즉시";
-								}else {
-									enterDay=(enterNum-today) + "일";
-								}
-								pmVO.setEnterdate(enterDay);
-								
-//								// 희망지역 1~3 서울시 자르기
-//								int j = pmVO.getArea1().indexOf("구 ");
-//								pmVO.setArea1(pmVO.getArea1().substring(j+1));
-//								if (pmVO.getArea2() != null) {
-//									j = pmVO.getArea2().indexOf("구 ");
-//									pmVO.setArea2(pmVO.getArea2().substring(j+1));
-//								}
-//								if (pmVO.getArea3() != null) {
-//									j = pmVO.getArea3().indexOf("구 ");
-//									pmVO.setArea3(pmVO.getArea3().substring(j+1));
-//								}
+								mav.addObject("pmList", pmList);
 							}
-							mav.addObject("pmList", pmList);
 						}
+						
 					}
 				}
 			}
@@ -208,7 +201,7 @@ public class HomeController {
 		
 		
 //		int MyMpnoCnt=listService.myMatePnoCheck(userid); // 내 메이트 성향 갯수 가져오기
-		List<HouseWriteVO> nhList = service.getNewHouse();
+		List<HouseWriteVO> nhList = service.getNewHouse(addr);
 		HouseRoomVO hrVO = new HouseRoomVO();
 		for (HouseWriteVO hwVO : nhList) {
 			// 각 쉐어하우스의 제일 저렴한 월세 가져오기
@@ -240,7 +233,7 @@ public class HomeController {
 			// 각 하우스 메이트의 성별, 나이 구하기
 			MemberVO mVO = service.getDetail(mwVO.getUserid());
 			mwVO.setGender(mVO.getGender());
-			
+//			System.out.println("희망지역 : "+mwVO.getArea());
 			if(session.getAttribute("hPno")!=null) {
 				if(session.getAttribute("logId")!=null) {
 					if((Integer)session.getAttribute("logGrade")==2) {
@@ -282,17 +275,9 @@ public class HomeController {
 			
 			mwVO.setEnterdate(enterDay);
 			
-//			// 희망지역 1~3 서울시 자르기
-//			int j = mwVO.getArea1().indexOf("구 ");
-//			mwVO.setArea(mwVO.getArea1().substring(j+1));
-//			if (mwVO.getArea2() != null) {
-//				j = mwVO.getArea2().indexOf("구 ");
-//				mwVO.setArea(mwVO.getArea2().substring(j+1));
-//			}
-//			if (mwVO.getArea3() != null) {
-//				j = mwVO.getArea3().indexOf("구 ");
-//				mwVO.setArea(mwVO.getArea3().substring(j+1));
-//			}
+			ListVO listVO=new ListVO();
+			listVO.setArea(mwVO.getArea());
+			mwVO.setListVO(listVO);
 		}
 		
 		mav.addObject("newMateList", nmList);

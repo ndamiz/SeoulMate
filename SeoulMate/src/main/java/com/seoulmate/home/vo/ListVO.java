@@ -32,6 +32,8 @@ public class ListVO {
 	
 	private int m_gender;
 	
+	private MateWriteVO mw;
+	
 	public int getNo() {
 		return no;
 	}
@@ -153,34 +155,45 @@ public class ListVO {
 		this.area = area;
 		if(area!=null) {
 			aList=area.split("/");
+			for(int i=0; i<aList.length; i++) {
+				if(i==0) {
+					setArea1(aList[0]);
+				}else if(i==1) {
+					setArea2(aList[1]);
+				}else if(i==2){
+					setArea3(aList[2]);
+				}
+			}
 		}
 	}
 	public String getArea1() {
-		if(aList!=null && aList.length>=1) {
-			area1=aList[0];
-		}
+//		if(aList!=null && aList.length>=1) {
+//			area1=aList[0];
+//		}
 		return area1;
 	}
 	public void setArea1(String area1) {
-		this.area1 = area1;
+//		this.area1 = area1;
+		
+		this.area1=area1.split(" ")[1];
 	}
 	public String getArea2() {
-		if(aList!=null && aList.length>=2) {
-			area2=aList[1];
-		}
+//		if(aList!=null && aList.length>=2) {
+//			area2=aList[1];
+//		}
 		return area2;
 	}
 	public void setArea2(String area2) {
-		this.area2 = area2;
+		this.area2 = area2.split(" ")[1];
 	}
 	public String getArea3() {
-		if(aList!=null && aList.length>=3) {
-			area3=aList[2];
-		}
+//		if(aList!=null && aList.length>=3) {
+//			area3=aList[2];
+//		}
 		return area3;
 	}
 	public void setArea3(String area3) {
-		this.area3 = area3;
+		this.area3 = area3.split(" ")[1];
 	}
 	public int getM_gender() {
 		return m_gender;

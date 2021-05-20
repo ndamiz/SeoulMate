@@ -221,12 +221,12 @@ button{position: relative;}
                   <span class="pay">￦ ${newMateVO.deposit} / ${newMateVO.rent}</span>
                </div>
                <span class="address">
-               	${newMateVO.area1} 
-               	<c:if test="${newMateVO.area2 != null}">
-                	| ${newMateVO.area2} 
+               	${newMateVO.listVO.area1} 
+               	<c:if test="${newMateVO.listVO.area2 != null}">
+                	| ${newMateVO.listVO.area2} 
                	</c:if>
                	<c:if test="${newMateVO.area3 != null}">
-                	| ${newMateVO.area3}
+                	| ${newMateVO.listVO.area3}
                	</c:if>
                </span>
                <ol class="list_icon">

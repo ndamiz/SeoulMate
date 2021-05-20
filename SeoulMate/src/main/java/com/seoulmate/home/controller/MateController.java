@@ -121,18 +121,6 @@ public class MateController {
 									enterDay=(enterNum-today) + "일";
 								}
 								pmVO.setEnterdate(enterDay);
-								
-//								// 희망지역 1~3 서울시 자르기
-//								int j = pmVO.getArea1().indexOf("구 ");
-//								pmVO.setArea(pmVO.getArea1().substring(j+1));
-//								if (pmVO.getArea2() != null) {
-//									j = pmVO.getArea2().indexOf("구 ");
-//									pmVO.setArea(pmVO.getArea2().substring(j+1));
-//								}
-//								if (pmVO.getArea3() != null) {
-//									j = pmVO.getArea3().indexOf("구 ");
-//									pmVO.setArea(pmVO.getArea3().substring(j+1));
-//								}
 							}
 							mav.addObject("pmList", pmList);
 						}
@@ -190,17 +178,9 @@ public class MateController {
 			
 			mwVO.setEnterdate(enterDay);
 			
-//			// 희망지역 1~3 서울시 자르기
-//			int j = mwVO.getArea1().indexOf("구 ");
-//			mwVO.setArea(mwVO.getArea1().substring(j+1));
-//			if (mwVO.getArea2() != null) {
-//				j = mwVO.getArea2().indexOf("구 ");
-//				mwVO.setArea(mwVO.getArea2().substring(j+1));
-//			}
-//			if (mwVO.getArea3() != null) {
-//				j = mwVO.getArea3().indexOf("구 ");
-//				mwVO.setArea(mwVO.getArea3().substring(j+1));
-//			}
+			ListVO listVO=new ListVO();
+			listVO.setArea(mwVO.getArea());
+			mwVO.setListVO(listVO);
 		}
 		
 		mav.addObject("newMateList", nmList);
