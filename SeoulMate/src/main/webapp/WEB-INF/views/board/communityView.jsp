@@ -112,8 +112,6 @@
 		//댓글 목록 출력 함수
 		replyList();
 		
-		
-		
 		//댓글이 등록 삭제 되었을때 페이지에 댓글 수 변화시키는 함수
 		function replyCntChange(plusOrMinus){
 			if(plusOrMinus=='plus'){//댓글 추가됨
@@ -252,7 +250,7 @@
 			alert(replyidCnt+"!!");
 		}
 		
-		//글 신고하기
+		//글 신고하기=========================================
 		$(document).on('click','.reportBtn', function(){
 			var	reportid = '${vo.userid}';
 			var category = '커뮤니티';
@@ -318,10 +316,7 @@
 			});//ajax end
 			return false;
 		});
-		
 	});
-	
-	
 </script>
 <div class="wrap">
 	<div class="content">

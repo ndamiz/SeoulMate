@@ -181,65 +181,65 @@
      
    });
 
-	//신고하기
-		$(document).on('click','.replyReport', function(){
-			var	reportid = $(this).prev().prev().val();
-			var category = '하우스';
-			var no = $(this).prev().val();
-			report(reportid, category, no);
-		});
-		
-		//신고하기 창 띄우고 값 가져오는 함수
-		function report(reportid, category, no){
-			//값 가져오기
-			$(".userid").val(reportid);
-			$(".reportCategory").val(category);
-			$(".reportNum").val(no);
-			$('.reportpopup').css('postion','relative');
-			$('.reportpopup').css('z-index','999');
-			$('.reportpopup').css('display','block');
-			$('body').css('overflow','hidden');
-		}
-		//신고하기 팝업창 닫기
-		$('.popupClose').click(function(){
-			reportFormReset();
-		});
-		function reportFormReset(){
-			//값 초기화
-			$(".userid").val("");
-			$(".reportCategory").val("");
-			$(".reportNum").val("");
-			$("#reportcontent").val("");
-			$("#reportcategory option:eq(0)").prop('selected', true);
-			//$("#category").val('${list.category}').prop('selected', true);
-			$('.reportpopup').css('display','none');
-			$('body').css('overflow','auto');
-		}
-		//신고하기 서브밋
-		$('#reportForm').submit(function(){
-			if($("#reportcategory option").index($("#reportcategory option:selected"))==0){
-				alert("신고사유를 선택하세요.");
-				return false;
-			}
-			if($("#reportcontent").val()==''){
-				alert("상세내용을 입력해주세요.");
-				return false;
-			}
-			var url = '/home/reportInsert'
-			var params = $(this).serialize();
-			
-			$.ajax({
-				url : url,
-				data : params,
-				success : function(result){
-					alert("신고가 정상적으로 접수되었습니다.");
-					reportFormReset();
-				},error : function(){
-					alert("신고접수에 실패했습니다..");
-				}
-			});//ajax end
+	//신고하기=================================================
+	$(document).on('click','.replyReport', function(){
+		var	reportid = $(this).prev().prev().val();
+		var category = '하우스';
+		var no = $(this).prev().val();
+		report(reportid, category, no);
+	});
+	
+	//신고하기 창 띄우고 값 가져오는 함수
+	function report(reportid, category, no){
+		//값 가져오기
+		$(".userid").val(reportid);
+		$(".reportCategory").val(category);
+		$(".reportNum").val(no);
+		$('.reportpopup').css('postion','relative');
+		$('.reportpopup').css('z-index','999');
+		$('.reportpopup').css('display','block');
+		$('body').css('overflow','hidden');
+	}
+	//신고하기 팝업창 닫기
+	$('.popupClose').click(function(){
+		reportFormReset();
+	});
+	function reportFormReset(){
+		//값 초기화
+		$(".userid").val("");
+		$(".reportCategory").val("");
+		$(".reportNum").val("");
+		$("#reportcontent").val("");
+		$("#reportcategory option:eq(0)").prop('selected', true);
+		//$("#category").val('${list.category}').prop('selected', true);
+		$('.reportpopup').css('display','none');
+		$('body').css('overflow','auto');
+	}
+	//신고하기 서브밋
+	$('#reportForm').submit(function(){
+		if($("#reportcategory option").index($("#reportcategory option:selected"))==0){
+			alert("신고사유를 선택하세요.");
 			return false;
-		});
+		}
+		if($("#reportcontent").val()==''){
+			alert("상세내용을 입력해주세요.");
+			return false;
+		}
+		var url = '/home/reportInsert'
+		var params = $(this).serialize();
+		
+		$.ajax({
+			url : url,
+			data : params,
+			success : function(result){
+				alert("신고가 정상적으로 접수되었습니다.");
+				reportFormReset();
+			},error : function(){
+				alert("신고접수에 실패했습니다..");
+			}
+		});//ajax end
+		return false;
+	});
 
     
 
@@ -349,20 +349,49 @@
 		</div> <!-- macthing 넣을 div 종료 -->
 	</div> <!-- middleFrm div 종료 -->
 	
-	<div id="map_Div" style="height:300px"></div> <!-- map_Div div종료 -->
+	<div id="map_Div" style="height:350px"></div> <!-- map_Div div종료 -->
 	
 </div> <!-- content div 종료 -->
 </div> <!-- 전체div 종료 -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6bad1d8e9a1449ac5fb2b238e99a32ed&libraries=clusterer,services"></script>
 <script>
 	var mapContainer = document.getElementById('map_Div'), // 지도를 표시할 div 
-    mapOption = { 
-        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
-    };
-
+	mapOption = { 
+	    center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+	    level: 3 // 지도의 확대 레벨
+	};
 	// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-	var map = new kakao.maps.Map(mapContainer, mapOption); 
+	var map = new kakao.maps.Map(mapContainer, mapOption);
+	
+	var geocoder = new kakao.maps.services.Geocoder();
+	// 주소로 좌표를 검색합니다
+    geocoder.addressSearch('서울특별시 마포구 백범로', function(result, status) {
+        // 정상적으로 검색이 완료됐으면
+         if (status === kakao.maps.services.Status.OK) {
+          var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+          map.setCenter(coords);
+          
+          var imageSrc = '<%=request.getContextPath()%>/img/comm/map_marker.png', // 마커이미지의 주소입니다
+          imageSize = new kakao.maps.Size(29, 41), // 마커이미지의 크기입니다
+          imageOption = {
+             offset : new kakao.maps.Point(15, 30)
+          }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+          // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+          var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize,
+          imageOption), markerPosition = coords; // 마커가 표시될 위치입니다
+
+            // 결과값으로 받은 위치를 마커로 표시합니다
+            var marker = new kakao.maps.Marker({
+                map: map,
+                image: markerImage,
+                zIndex : 11,
+                position: coords
+            });
+        }
+    });
+    
+    
 </script>
 <!-- 		<div class="pup_wrap" id="pup_wrap_report"> -->
 		
