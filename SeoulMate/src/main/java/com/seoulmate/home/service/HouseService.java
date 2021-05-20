@@ -54,13 +54,13 @@ public interface HouseService {
 	public int roomUpdate(HouseRoomVO vo);
 	
 	//하우스 삭제
-	public int houseDel(HouseWriteVO vo);
+	public int houseDel(int no, String userid);
 	
 	//방 삭제
-	public int roomDel(HouseRoomVO vo);
+	public int roomDel(int no, String userid);
 	
 	//하우스 사진 가져오기
-	public String houseProfile(String housepic1, int no);
+	public String houseProfilePic(String housepic1, int no);
 	
 	//하우스 인덱스에서 New 하우스 리스트 9개 출력하기
 	public List<HouseWriteVO> getNewIndexHouse();
@@ -73,4 +73,11 @@ public interface HouseService {
 	
 	// 하우스 성향 가져오기(본인 작성 글 아니여도 가능)
 	public PropensityVO propHouseSelect2(int pno);
+	
+	// 회원 프로필 사진 가져오기
+	public String memberProfile(String userid);
+	
+	// 하우스+룸 삭제 -> 하우스네임 null 로 변경
+	public int ProHouseNameUpdate(PropensityVO vo);
+
 }

@@ -129,6 +129,15 @@ img{width:250px; height:250px; }
 }
 </style>
 <script>
+
+	$(()=>{
+		$("#mateDel").click(()=>{
+			if(confirm("삭제하시겠습니까?")){
+				location.href="mateDel?no=${mVO.no }" 
+			};
+		});
+	});
+
 	$(function(){
 		 $('#mEdit').click(function(){ //수정하기 버튼
 	        	location.href="mateEdit"; //메이트등록하기 form 으로 이동
@@ -167,12 +176,12 @@ img{width:250px; height:250px; }
 	     //버튼이벤트
 	     nextBtn.addEventListener('click',function(){
 	        console.log(currentIdx);
-	        if(currentIdx < slideCount - 3){
+	        if(currentIdx < slideCount - 1){
 	           moveSlide(currentIdx + 1);
 	           if(currentIdx>0){
 	              prevBtn.style.display = 'block';
 	           }
-	           if(currentIdx==slideCount-3){
+	           if(currentIdx==slideCount-5){
 	              nextBtn.style.display = 'none';
 	           }
 	        }
@@ -236,31 +245,34 @@ img{width:250px; height:250px; }
 <div class="content">
 	<div id="topDiv">
 	 	<div id="dateDiv">
-	 	등록날짜 2021-04-20 등록
+	 	${mVO.writedate } 등록
 	 	</div>
 	 	
 	 	<div id="btnDiv">
-	 
- 		<button id="mEdit" class="white">수정</button> <button class="white">삭제</button> <button class="white">찜</button>
+	 	<c:if test="${logId==mVO.userid }">
+ 		<a id="mEdit" class="white" href="mateEdit?no=${mVO.no }" >수정</a> 
+ 		<a class="white" id="mateDel" >삭제</a> 
+ 		</c:if>
+ 		<button class="white">찜</button>
  		<a  id="shareBtn" class="white" >공유하기</a> <button class="white" id="reportBtn" >신고하기</button>
  		
  		</div>
  				
  	<br/>
  	
-<!--  		<div class="controlls"> -->
-<!--          	<span class="prev">◀</span> -->
-<!--          	<span class="next">▶</span> -->
-<!--         </div> -->
+ 		<div class="controlls">
+         	<span class="prev">◀</span>
+         	<span class="next">▶</span>
+        </div>
     
       	<div class="slide_wraper">
          	<div class="slides">
             	<ul>
-	               <li><img src="<%=request.getContextPath()%>/img/house/mate01.jfif" title="메이트1"></li>
+	               <li><img src="/home/housePic/${mVO.matePic1}" title="메이트1"></li>
 	               <li><img src="<%=request.getContextPath()%>/img/house/mate02.jfif"></li>
-<%-- 	               <li><img src="<%=request.getContextPath()%>/img/house/mate03.jfif"></li> --%>
-<%-- 	               <li><img src="<%=request.getContextPath()%>/img/house/mate01.jfif"></li> --%>
-<%-- 	               <li><img src="<%=request.getContextPath()%>/img/house/mate02.jfif"></li> --%>
+	               <li><img src="<%=request.getContextPath()%>/img/house/mate03.jfif"></li>
+	               <li><img src="<%=request.getContextPath()%>/img/house/mate01.jfif"></li>
+	               <li><img src="<%=request.getContextPath()%>/img/house/mate02.jfif"></li>
 	            </ul>
 	         </div> <!-- "slides" -->
 	      </div> <!--slide_wraper -->
@@ -271,21 +283,21 @@ img{width:250px; height:250px; }
 	
 	<div id="middleDiv">
 		<div id="houseExplain">
-		<p class="s_title">이름 | 성별 | 나이</p> <br/>
-		원하는지역1 | 원하는지역2 | 원하는지역3 | 원하는지역4 | 원하는지역5 <br/>
-		<p> 월세 얼마 | 즉시입주가능 </p><br/>
+		<p class="s_title">${mVO.userid } | 성별 | 나이</p> <br/>
+		${mVO.area1 } | 원하는지역2 | 원하는지역3 <br/>
+		<p> 보증금 ₩ ${mVO.deposit } | 월세 ₩ ${mVO.rent } </p><br/>
 		원하는 House 키워드 <br/>
 		<p>원하는 집 키워드 보여주기 ~ ~ </p><br/>
 		나의 성향 키워드 <br/>
 		<p>나의 성향 키워드 보여주기 ~ ~</p> <br/>
-		내 소개 <br/>
-		소개글 불러오기 ~ ~ 
+		소개글 <br/>
+		${mVO.mateProfile }
 		
 		</div> <!-- 방소개 div 종료 -->
 		
 		<div  id="peopleExplain">
 		<ul>
-			<li><img src="<%=request.getContextPath()%>/img/house/mate02.jfif" id="profilePic1"/> </li>
+			<li><img src="/home/profilePic/${memProfilePic}" id="profilepic"/> </li>
 			<li>응답률 : ㅁㅁ% <br/>
 				최근접속 : 1일 전  <br/>
 				<button class="green">초대하기</button></li>

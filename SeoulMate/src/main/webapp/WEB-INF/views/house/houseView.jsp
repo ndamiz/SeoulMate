@@ -11,7 +11,7 @@
 
 #middle_Div{  width:100%; height:400px; }
 #middle_Div>div{float:left;}
-#houseExplain{width:65%; height:100%;  }
+#houseExplain{width:65%; }
 #peopleExplain{width:35%; margin:0 auto; text-align: center;  }
 /* #peopleExplain>ul{ text-align:center; align-items: center;} */
 #peopleExplain li{ /*display:inline-block;*/ text-align:center; align-items: center; height: 100%;}
@@ -123,6 +123,13 @@
 <script>
     $(function(){
 
+    	$("#houseDel").click(()=>{
+			if(confirm("삭제하시겠습니까?")){
+				location.href="houseDel?no=${hVO.no }" 
+			};
+		});
+
+
         
         $('#hEdit').click(function(){ //수정하기 버튼
         	location.href="houseEdit"; //방수정하기 form 으로 이동
@@ -162,7 +169,7 @@
            if(currentIdx>0){
               prevBtn.style.display = 'block';
            }
-           if(currentIdx==slideCount-1){
+           if(currentIdx==slideCount-5){
               nextBtn.style.display = 'none';
            }
         }
@@ -276,19 +283,28 @@
 		}
 
 
+	$(()=>{
+		$("#houseDel").click(()=>{
+			if(confirm("삭제하시겠습니까?")){
+				location.href="houseDel?no=${hVO.no}" //true일 경우 실행
+			};
+		});
+	});
+    
 </script>
 <div class="wrap">
  <div class="content">
  	<div id="topDiv">
 	 	<div id="dateDiv">
-	 	등록날짜 2021-04-20 등록
+	 	${hVO.writedate } 등록
 	 	</div>
 	 	<input type="hidden" value="${hVO.userid }"/>
 	 	<input type="hidden" value="${logId }"/>
 	 	<div id="btnDiv"> <!-- 수정, 삭제는 본인의 글을 볼 경우에만 -->
-<%-- 	 	<c:if test="${logId==hVO.userid }"> --%>
- 		<a id="hEdit" class="white" href="houseEdit?no=${hVO.no }" >수정</a> <button class="white">삭제</button> 
-<%--  		</c:if> --%>
+	 	<c:if test="${logId==hVO.userid }">
+ 		<a id="hEdit" class="white" href="houseEdit?no=${hVO.no }" >수정</a> 
+ 		<a class="white" id="houseDel" >삭제</a> 
+ 		</c:if>
  		<button class="white">찜</button> 
  		<button class="white" id="shareBtn" >공유하기</button> <button class="white" id="reportBtn">신고하기</button>
  		
@@ -304,7 +320,7 @@
       	<div class="slide_wraper">
          	<div class="slides">
             	<ul>
-	               <li><img src="<%=request.getContextPath()%>/img/house/house01.jfif" title="방1"></li>
+	               <li><img src="/home/housePic/${hVO.housepic1}" title="방1"></li>
 	               <li><img src="<%=request.getContextPath()%>/img/house/house02.jpg"></li>
 	               <li><img src="<%=request.getContextPath()%>/img/house/house03.jfif"></li>
 	               <li><img src="<%=request.getContextPath()%>/img/house/house04.jfif"></li>
@@ -321,21 +337,23 @@
 	
 		<div id="houseExplain">
 		<p class="s_title">${hVO.addr }</p> <br/> 
-		보증금 ${rVO.deposit } | 월세 ${rVO.rent } | ${hVO.searchpeople }명 구해요 | 즉시 입주 가능 <br/>
-		<p>방 몇개 | 현재 거주중인 인원 | 욕실 몇개 </p> <br/>
+		보증금 ₩ ${rVO.deposit } | 월세 ₩ ${rVO.rent } | 하우스 메이트 ${hVO.searchpeople }명 구해요  <br/>
 		House 키워드 <br/>
-		<p>집 키워드 보여주기 ~ ~ </p> <br/>
+		<p>Room ${hVO.room } | BathRoom ${hVO.bathroom } | 현재 ${hVO.nowpeople } 명 거주 중 </p> <br/>
+		<p>공용 시설 <br/> ${hVO.publicfacility }</p>
+		
 		Room 키워드 <br/>
-		<p>방 키워드 보여주기 ~ ~ </p> <br/>
+		<p>최소 거주 가능 기간 ${rVO.minStay } | 최대 거주 가능 기간 ${rVO.maxStay }</p> <br/>
+		<p>기본 포함 가구 ${rVO.incFurniture }</p> <br/>
 		우리집 소개 <br/>
-		소개글 불러오기 ~ ~ 
+		${hVO.houseprofile }
 		
 		</div> <!-- houseExplain div 종료 -->
 		
 		<div  id="peopleExplain">
 		
 		<ul>
-			<li ><img src="<%=request.getContextPath()%>/img/house/mate01.jfif" id="profilePic1"/> </li>
+			<li ><img src="/home/profilePic/${memProfilePic}" id="profilepic"/> </li>
 			<li>응답률 : ㅁㅁ% <br/>
 			최근접속 : 1일 전  <br/>
 			<button class="green">약속잡기</button></li>
@@ -349,10 +367,10 @@
 		</div> <!-- macthing 넣을 div 종료 -->
 	</div> <!-- middleFrm div 종료 -->
 	
-	<div id="map_Div">
-	지도 부분
+<!-- 	<div id="map_Div"> -->
+<!-- 	지도 부분 -->
 	
-	</div> <!-- map_Div div종료 -->
+<!-- 	</div> map_Div div종료 -->
 </div> <!-- content div 종료 -->
 </div> <!-- 전체div 종료 -->
 

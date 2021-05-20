@@ -25,4 +25,13 @@ public interface MateService {
 	
 	//메이트 삭제
 	public int mateDel(int no, String userid);
+	
+	//메이트 사진 가져오기
+	public String MateProfilePic(String matePic1, int no);
+	
+	//matewrite 가져오기 (본인 작성글 아니여도)
+	public MateWriteVO mateSelect2(int no);
+	
+	// 메이트 성향 가져오기(본인 작성 글 아니여도 가능)
+	public PropensityVO propMateSelect2(int pno);
 }

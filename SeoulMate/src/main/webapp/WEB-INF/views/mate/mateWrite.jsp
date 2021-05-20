@@ -34,6 +34,36 @@ function readURL(input) {
 $(function(){
 	
 	$("#mNext1").click(function(){
+		// 희망 지역1
+		var area1=$("#gu1").val();
+		// alert(area1);
+		if(area1=="구를 선택해주세요"){
+			area1="";
+		}else{
+			area1+=" "+$("#dong1").val();
+		}
+		document.getElementById("area1").value=area1;
+		
+		// 희망 지역2
+		var area2=$("#gu2").val();
+		// alert(area2);
+		if(area2=="구를 선택해주세요"){
+			area2="";
+		}else{
+			area2+=" "+$("#dong2").val();
+		}
+		document.getElementById("area2").value=area2;
+		
+		// 희망 지역3
+		var area3=$("#gu3").val();
+		// alert(area3);
+		if(area3=="구를 선택해주세요"){
+			area3="";
+		}else{
+			area3+=" "+$("#dong3").val();
+		}
+		document.getElementById("area3").value=area3;
+		
 		$("#mateWrite1").css("display", "none");
 		$("#mateWrite2").css("display", "block");
 	});
@@ -125,6 +155,34 @@ $(function(){
 		location.href="<%=request.getContextPath()%>/mateIndex";
 	});
 	
+	// 희망 지역 수정
+	$("select.selectGu").change(function(){
+		var temp=$(this);
+		var url="memberDong";
+		var params="gu="+$(this).val();
+		$.ajax({
+			url:url,
+			data:params,
+			success:function(result){
+				var $result=$(result);
+				
+				temp.next().text("");
+				$result.each(function(idx, dong){
+					temp.next().append("<option>"+dong+"</option>");
+				});
+			}, error:function(){
+				console.log("동 들고오기 에러 발생");
+			}
+		});
+	});
+	
+	
+	
+	
+	
+	
+	
+	
 	
 });
 </script>
@@ -137,7 +195,7 @@ $(function(){
 .form_box{width:800px; margin:0 auto; padding-left:100px;}
 .form_box li input, .form_box li select{margin:0px; width:230px;}
 .form_box.choice li > label {width: 240px;}
-.checks{width:800px;}
+.checks{width:850px;}
 .checks>label{width:120px;}
 .title_wrap div{min-height: 300px;}
 #ck{margin:0 auto; width: 60%;}
@@ -153,6 +211,10 @@ $(function(){
 .btnclass{padding-left:50px; padding-top:50px;}
 #mateWrite2, #mateWrite3, #mateWrite4, #mateWrite5, #mateWrite6, #mateWrite7 {display:none; }
 #mPic{height:125px;}
+#area1, #area2, #area3{width:120px;}
+#gu1Edit, #dong1Edit, #gu2Edit, #dong2Edit, #gu3Edit, #dong3Edit{width:200px; float:left;}
+#area1Edit, #area2Edit, #area3Edit{width:284px;}
+
 </style>
 <div class="wrap">
 <div class="content">
@@ -173,22 +235,48 @@ $(function(){
 		<input type="hidden" name="pno" value="${pVO.pno }"/>
 		
 		<ul class="form_box">
-			<li><label><span class="red_txt">*</span>월세(관리비)</label> <input type="number" name="rent"/> 
-					<div class="checks">
-						<input type="radio" id="rent1" name="rent">  <!-- 포함, 미포함 값 어떻게? -->
-						<label for="rent1">포함</label>
-						<input type="radio" id="rent2" name="rent"> 
-						<label for="rent2">미포함</label>
-					</div>	</li>	
-			<li><label><span class="red_txt">*</span>보증금(조율) </label><input type="number" name="deposit"/> 
-					<div class="checks">
-						<input type="radio" id="deposit1" name="">  <!-- 포함, 미포함 값 어떻게? -->
-						<label for="deposit1">조율 가능</label>
-						<input type="radio" id="deposit2" name=""> 
-						<label for="deposit2">조율 불가능</label>
-					</div>	</li>			
-			<li> <label><span class="red_txt">*</span> 희망 지역 </label>
-					<input type="text" name="area" id="area"/> <input type="text" name="area" id="area2"/> <input type="text" name="area" id="area3"/> </li>
+			<li><label><span class="red_txt">*</span>월세(관리비)</label> <input type="number" name="rent"/> </li>	
+			<li><label><span class="red_txt">*</span>보증금(조율) </label><input type="number" name="deposit"/> </li>			
+<!-- 			<li> <label><span class="red_txt">*</span> 희망 지역 </label> -->
+<!-- 					<input type="text" name="area" id="area"/>  -->
+<!-- 					<input type="text" name="area" id="area2"/> <input type="text" name="area" id="area3"/> </li> -->
+			<li id="a1"><label><span class="red_txt">*</span>희망 지역1</label>
+						<select class="selectGu" id="gu1">
+							<option>구를 선택해주세요</option>
+							<c:forEach var="gu" items="${guArr}">
+								<option value="${gu}">${gu}</option>
+							</c:forEach>
+						</select>
+						<select id="dong1">
+							<option>동을 선택해주세요</option>
+						</select>
+						<input type="hidden" name="area1" id="area1" placeholder=""/>
+					</li>
+					<li id="a2"><label>&nbsp;희망 지역2</label>
+						<select class="selectGu" id="gu2">
+							<option>구를 선택해주세요</option>
+							<c:forEach var="gu" items="${guArr}">
+								<option value="${gu}">${gu}</option>
+							</c:forEach>
+						</select>
+						<select id="dong2">
+							<option>동을 선택해주세요</option>
+						</select>
+						<input type="hidden" name="area2" id="area2" placeholder=""/>
+					</li>					
+					<li id="a3"><label>&nbsp;희망 지역3</label>
+						<select class="selectGu" id="gu3">
+							<option>구를 선택해주세요</option>
+							<c:forEach var="gu" items="${guArr}">
+								<option value="${gu}">${gu}</option>
+							</c:forEach>
+						</select>
+ 
+						<select id="dong3">
+							<option>동을 선택해주세요</option>
+						</select>
+						<input type="hidden" name="area3" id="area3" placeholder=""/>
+					</li>
 			<li> <label><span class="red_txt">*</span>입주가능일 </label><input type="date" name="enterdate" > </li>
 			<li> <label><span class="red_txt">*</span>최소 거주 기간</label>
 				 	<select name="minStay">
