@@ -365,7 +365,7 @@
 	
 	var geocoder = new kakao.maps.services.Geocoder();
 	// 주소로 좌표를 검색합니다
-    geocoder.addressSearch('서울특별시 마포구 백범로', function(result, status) {
+    geocoder.addressSearch('서울특별시 대흥동', function(result, status) {
         // 정상적으로 검색이 완료됐으면
          if (status === kakao.maps.services.Status.OK) {
           var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
