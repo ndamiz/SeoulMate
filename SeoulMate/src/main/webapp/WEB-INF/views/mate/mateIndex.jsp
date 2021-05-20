@@ -74,9 +74,8 @@ button{position: relative;}
 </style>
 <script>
 	$(function(){
-		$("#hPnoSelect>a").click(function(){
-			var hpno=$(this).attr("id");
-			location.href="hpnoDefaultMateIndex?pno="+hpno;
+		$("#searchBox").click(function(){ // 해줘야하나 아직 모르겠음 뒤로가기했을 때 값이 그대로있는지 모름
+			$("#searchBox").val("");
 		});
 	});
 </script>
@@ -91,7 +90,7 @@ button{position: relative;}
 						<form method="get" action="mateIndex">
 							<ul>
 								<li><p>지역</p></li> 
-								<li><input type="text" name="area" id="searchBox" placeholder="지역명을 입력하세요" /> 
+								<li><input type="text" name="area" id="searchBox" value="${area}" placeholder="지역명을 입력하세요" /> 
 									<a id="iconPic1"></a></li>
 							</ul>
 <!-- 							<ul class="list_filter"> -->

@@ -82,7 +82,6 @@ public class MateController {
 					
 					if(housePnoCheck>0) { // 메이트 성향이 있을 때만 매칭된 하우스 목록을 띄워준다.
 						int m_gender=listService.house_m_gender(userid, pno);
-						System.out.println("m_gender : "+m_gender);
 						// 메이트 매칭 리스트 구하기
 						List<ListVO> pmList = listService.premiumMateList(userid, pno, m_gender, area);
 						
