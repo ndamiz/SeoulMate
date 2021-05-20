@@ -1,4 +1,4 @@
-
+@charset "utf-8";
 
 @font-face {
 	font-family: "BlackHanSans";
@@ -85,7 +85,7 @@ header{
 	width: 75%;
 	float: right;
 }
-
+ 
 .header_wrap .main_menu li{
 	width: 25%;
 	height: 50px;
