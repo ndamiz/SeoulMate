@@ -48,7 +48,7 @@ public class HouseController {
 	private DataSourceTransactionManager transactionManager;
 	
 	@RequestMapping("/houseIndex")
-	public ModelAndView houseIndex(HttpSession session) {
+	public ModelAndView houseIndex(HttpSession session, String addr) {
 		ModelAndView mav=new ModelAndView();
 		String userid=(String)session.getAttribute("logId");
         
@@ -65,16 +65,16 @@ public class HouseController {
 					int m_gender=listService.mate_m_gender(userid);
 					
 					// 쉐어하우스 매칭 리스트 구하기
-					List<ListVO> phList = listService.premiumHouseList(userid, m_gender); // PremiumHouseList
+					List<ListVO> phList = listService.premiumHouseList(userid, m_gender, addr); // PremiumHouseList
 					
 					if(phList.get(0)!=null){ // else if(phList!=null)
 						HouseRoomVO phhrVO = new HouseRoomVO();
 						for (ListVO phVO : phList) {
-							// 각 쉐어하우스의 제일 저렴한 월세 가져오기
-							phhrVO = HomeService.getDesposit(phVO.getNo());
-							
-							phVO.setDeposit(phhrVO.getDeposit());
-							phVO.setRent(phhrVO.getRent());
+//							// 각 쉐어하우스의 제일 저렴한 월세 가져오기
+//							phhrVO = HomeService.getDesposit(phVO.getNo());
+//							
+//							phVO.setDeposit(phhrVO.getDeposit());
+//							phVO.setRent(phhrVO.getRent());
 							int idx = phVO.getAddr().indexOf("동 ");
 							phVO.setAddr(phVO.getAddr().substring(0, idx+1));
 						}
@@ -93,7 +93,7 @@ public class HouseController {
 			}
 		}
 		
-		List<HouseWriteVO> nhList = service.getNewIndexHouse(); // 1. homeService 함수는 row<=3이고, HouseService는 row<=9
+		List<HouseWriteVO> nhList = service.getNewIndexHouse(addr); // 1. homeService 함수는 row<=3이고, HouseService는 row<=9
 		HouseRoomVO hrVO = new HouseRoomVO();
 		for (HouseWriteVO hwVO : nhList) {
 			// 각 쉐어하우스의 제일 저렴한 월세 가져오기
@@ -116,7 +116,7 @@ public class HouseController {
 		}
 		
 		mav.addObject("newHouseList", nhList);
-	
+		mav.addObject("addr", addr); // 검색을 하고 페이지를 다시 띄워줄 때 입력한 값이 뭔지 알려주려고
 		
 		mav.setViewName("house/houseIndex");
 	return mav;
@@ -125,15 +125,16 @@ public class HouseController {
 	@RequestMapping("/houseView")
 	public ModelAndView houseView(int no, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-//		String userid = (String)session.getAttribute("logId");
+		//String userid = (String)session.getAttribute("logId");
 		
 		HouseWriteVO hVO = service.houseSelect2(no); //HouseWriteVO 값 가져오기
 		HouseRoomVO rVO = service.roomSelect2(no); //HouseRoomVO 값 가져오기
 		PropensityVO pVO = service.propHouseSelect2(hVO.getPno()); //PropensityVO 값 가져오기
-		
+		String memProfilePic = service.memberProfile(hVO.getUserid());
 		mav.addObject("hVO", hVO);
 		mav.addObject("rVO", rVO);
 		mav.addObject("pVO", pVO);
+		mav.addObject("memProfilePic", memProfilePic);
 		
 		mav.setViewName("house/houseView");
 		
@@ -170,7 +171,8 @@ public class HouseController {
 	//하우스 글 등록 확인
 	@RequestMapping(value="/houseWriteOk", method = RequestMethod.POST)
 	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
-	public ModelAndView houseWriteOk(HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, @RequestParam("filename") MultipartFile filename, HttpSession session ,HttpServletRequest req) {
+	public ModelAndView houseWriteOk(HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, @RequestParam("filename") MultipartFile filename,  HttpSession session ,HttpServletRequest req) {
+		
 		System.out.println(pVO.getPno());
 		String userid=(String)session.getAttribute("logId");
 		
@@ -357,7 +359,7 @@ public class HouseController {
 				
 		//사진 수정
 		String path = req.getSession().getServletContext().getRealPath("/housePic");
-		String selFilename = service.houseProfile(userid, hVO.getNo()); //아이디, no
+		String selFilename = service.houseProfilePic(userid, hVO.getNo()); //아이디, no
 		String delFilename = req.getParameter("delFile");
 		
 		MultipartHttpServletRequest mr=(MultipartHttpServletRequest)req;
@@ -399,8 +401,8 @@ public class HouseController {
 		
 		try {
 			System.out.println("하우스테이블 no 1확인:"+hVO.getNo());
-			hVO.setNo(3);
-			hVO.setPno(22);
+//			hVO.setNo(3);
+//			hVO.setPno(22);
 			System.out.println("하우스테이블 no 2확인:"+hVO.getNo());
 			System.out.println("하우스 테이블 pno 확인:"+hVO.getPno());
 			int result1 = service.houseUpdate(hVO);
@@ -505,22 +507,55 @@ public class HouseController {
 	
 	//하우스 삭제 -> 성향은 제외하고 houseWrite, houseRoom 만 삭제, Propensity 의 housename을 null 로 업데이트
 	@RequestMapping("/houseDel")
-	public ModelAndView houseDel(HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, HttpServletRequest req) {
+	public ModelAndView houseDel(int no, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
 		String userid = (String)req.getSession().getAttribute("logId");
-		hVO.setUserid(userid);
-		rVO.setUserid(userid);
-		pVO.setUserid(userid);
+//		hVO.setUserid(userid);
+//		rVO.setUserid(userid);
+//		pVO.setUserid(userid);
 		
-		int result1 = service.houseDel(hVO);
-		if(result1>0) {
-			System.out.println("하우스 삭제");
+		HouseWriteVO hVO = service.houseSelect(no, userid);
+		HouseRoomVO rVO = service.roomSelect(no, userid);
+		PropensityVO pVO = service.propHouseSelect(userid, hVO.getPno());
+		
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED); // 트랜잭션 호출
+		TransactionStatus status=transactionManager.getTransaction(def);
+		
+		try {
+			int result1 = service.houseDel(no, userid);
+			if(result1>0) {
+				System.out.println("하우스 삭제 성공");
+				
+				rVO.setNo(hVO.getNo());
+				int result2 = service.roomDel(no, userid);
+				if(result2>0) {
+					System.out.println("룸 삭제 성공");
+					
+					pVO.setPno(hVO.getPno());
+					int result3 = service.ProHouseNameUpdate(pVO);
+					if(result3>0) {
+						System.out.println("하우스네임 업데이트 성공");
+						transactionManager.commit(status);
+						mav.setViewName("redirect:houseIndex");
+						
+					}else {
+						System.out.println("하우스네임 업데이트 실패");
+						mav.addObject("no", no);
+						mav.setViewName("redirect:houseView");
+					}
+				}else {
+					System.out.println("룸 삭제 실패");
+				}
+			}else {
+				System.out.println("하우스 삭제 실패");
+			}
 			
-			rVO.setNo(hVO.getNo()); //HouseRoom 의 no을 HouseWrite의 no으로 설정
-		}else {
-			System.out.println("하우스 삭제 실패");
+		}catch(Exception e) {
+			System.out.println("하우스 + 룸 삭제 실패");
+			e.printStackTrace();
+			mav.setViewName("redirect:houseView");
 		}
-		
 		return mav;
 	}
 	

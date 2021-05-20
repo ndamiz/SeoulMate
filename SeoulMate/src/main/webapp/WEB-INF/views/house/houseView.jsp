@@ -11,7 +11,7 @@
 
 #middle_Div{  width:100%; height:400px; }
 #middle_Div>div{float:left;}
-#houseExplain{width:65%; height:100%;  }
+#houseExplain{width:65%; }
 #peopleExplain{width:35%; margin:0 auto; text-align: center;  }
 /* #peopleExplain>ul{ text-align:center; align-items: center;} */
 #peopleExplain li{ /*display:inline-block;*/ text-align:center; align-items: center; height: 100%;}
@@ -123,6 +123,13 @@
 <script>
     $(function(){
 
+    	$("#houseDel").click(()=>{
+			if(confirm("삭제하시겠습니까?")){
+				location.href="houseDel?no=${hVO.no }" 
+			};
+		});
+
+
         
         $('#hEdit').click(function(){ //수정하기 버튼
         	location.href="houseEdit"; //방수정하기 form 으로 이동
@@ -162,7 +169,7 @@
            if(currentIdx>0){
               prevBtn.style.display = 'block';
            }
-           if(currentIdx==slideCount-1){
+           if(currentIdx==slideCount-5){
               nextBtn.style.display = 'none';
            }
         }
@@ -181,65 +188,65 @@
      
    });
 
-	//신고하기
-		$(document).on('click','.replyReport', function(){
-			var	reportid = $(this).prev().prev().val();
-			var category = '하우스';
-			var no = $(this).prev().val();
-			report(reportid, category, no);
-		});
-		
-		//신고하기 창 띄우고 값 가져오는 함수
-		function report(reportid, category, no){
-			//값 가져오기
-			$(".userid").val(reportid);
-			$(".reportCategory").val(category);
-			$(".reportNum").val(no);
-			$('.reportpopup').css('postion','relative');
-			$('.reportpopup').css('z-index','999');
-			$('.reportpopup').css('display','block');
-			$('body').css('overflow','hidden');
-		}
-		//신고하기 팝업창 닫기
-		$('.popupClose').click(function(){
-			reportFormReset();
-		});
-		function reportFormReset(){
-			//값 초기화
-			$(".userid").val("");
-			$(".reportCategory").val("");
-			$(".reportNum").val("");
-			$("#reportcontent").val("");
-			$("#reportcategory option:eq(0)").prop('selected', true);
-			//$("#category").val('${list.category}').prop('selected', true);
-			$('.reportpopup').css('display','none');
-			$('body').css('overflow','auto');
-		}
-		//신고하기 서브밋
-		$('#reportForm').submit(function(){
-			if($("#reportcategory option").index($("#reportcategory option:selected"))==0){
-				alert("신고사유를 선택하세요.");
-				return false;
-			}
-			if($("#reportcontent").val()==''){
-				alert("상세내용을 입력해주세요.");
-				return false;
-			}
-			var url = '/home/reportInsert'
-			var params = $(this).serialize();
-			
-			$.ajax({
-				url : url,
-				data : params,
-				success : function(result){
-					alert("신고가 정상적으로 접수되었습니다.");
-					reportFormReset();
-				},error : function(){
-					alert("신고접수에 실패했습니다..");
-				}
-			});//ajax end
+	//신고하기=================================================
+	$(document).on('click','.replyReport', function(){
+		var	reportid = $(this).prev().prev().val();
+		var category = '하우스';
+		var no = $(this).prev().val();
+		report(reportid, category, no);
+	});
+	
+	//신고하기 창 띄우고 값 가져오는 함수
+	function report(reportid, category, no){
+		//값 가져오기
+		$(".userid").val(reportid);
+		$(".reportCategory").val(category);
+		$(".reportNum").val(no);
+		$('.reportpopup').css('postion','relative');
+		$('.reportpopup').css('z-index','999');
+		$('.reportpopup').css('display','block');
+		$('body').css('overflow','hidden');
+	}
+	//신고하기 팝업창 닫기
+	$('.popupClose').click(function(){
+		reportFormReset();
+	});
+	function reportFormReset(){
+		//값 초기화
+		$(".userid").val("");
+		$(".reportCategory").val("");
+		$(".reportNum").val("");
+		$("#reportcontent").val("");
+		$("#reportcategory option:eq(0)").prop('selected', true);
+		//$("#category").val('${list.category}').prop('selected', true);
+		$('.reportpopup').css('display','none');
+		$('body').css('overflow','auto');
+	}
+	//신고하기 서브밋
+	$('#reportForm').submit(function(){
+		if($("#reportcategory option").index($("#reportcategory option:selected"))==0){
+			alert("신고사유를 선택하세요.");
 			return false;
-		});
+		}
+		if($("#reportcontent").val()==''){
+			alert("상세내용을 입력해주세요.");
+			return false;
+		}
+		var url = '/home/reportInsert'
+		var params = $(this).serialize();
+		
+		$.ajax({
+			url : url,
+			data : params,
+			success : function(result){
+				alert("신고가 정상적으로 접수되었습니다.");
+				reportFormReset();
+			},error : function(){
+				alert("신고접수에 실패했습니다..");
+			}
+		});//ajax end
+		return false;
+	});
 
     
 
@@ -276,19 +283,28 @@
 		}
 
 
+	$(()=>{
+		$("#houseDel").click(()=>{
+			if(confirm("삭제하시겠습니까?")){
+				location.href="houseDel?no=${hVO.no}" //true일 경우 실행
+			};
+		});
+	});
+    
 </script>
 <div class="wrap">
  <div class="content">
  	<div id="topDiv">
 	 	<div id="dateDiv">
-	 	등록날짜 2021-04-20 등록
+	 	${hVO.writedate } 등록
 	 	</div>
 	 	<input type="hidden" value="${hVO.userid }"/>
 	 	<input type="hidden" value="${logId }"/>
 	 	<div id="btnDiv"> <!-- 수정, 삭제는 본인의 글을 볼 경우에만 -->
-<%-- 	 	<c:if test="${logId==hVO.userid }"> --%>
- 		<a id="hEdit" class="white" href="houseEdit?no=${hVO.no }" >수정</a> <button class="white">삭제</button> 
-<%--  		</c:if> --%>
+	 	<c:if test="${logId==hVO.userid }">
+ 		<a id="hEdit" class="white" href="houseEdit?no=${hVO.no }" >수정</a> 
+ 		<a class="white" id="houseDel" >삭제</a> 
+ 		</c:if>
  		<button class="white">찜</button> 
  		<button class="white" id="shareBtn" >공유하기</button> <button class="white" id="reportBtn">신고하기</button>
  		
@@ -304,7 +320,7 @@
       	<div class="slide_wraper">
          	<div class="slides">
             	<ul>
-	               <li><img src="<%=request.getContextPath()%>/img/house/house01.jfif" title="방1"></li>
+	               <li><img src="/home/housePic/${hVO.housepic1}" title="방1"></li>
 	               <li><img src="<%=request.getContextPath()%>/img/house/house02.jpg"></li>
 	               <li><img src="<%=request.getContextPath()%>/img/house/house03.jfif"></li>
 	               <li><img src="<%=request.getContextPath()%>/img/house/house04.jfif"></li>
@@ -321,21 +337,23 @@
 	
 		<div id="houseExplain">
 		<p class="s_title">${hVO.addr }</p> <br/> 
-		보증금 ${rVO.deposit } | 월세 ${rVO.rent } | ${hVO.searchpeople }명 구해요 | 즉시 입주 가능 <br/>
-		<p>방 몇개 | 현재 거주중인 인원 | 욕실 몇개 </p> <br/>
+		보증금 ₩ ${rVO.deposit } | 월세 ₩ ${rVO.rent } | 하우스 메이트 ${hVO.searchpeople }명 구해요  <br/>
 		House 키워드 <br/>
-		<p>집 키워드 보여주기 ~ ~ </p> <br/>
+		<p>Room ${hVO.room } | BathRoom ${hVO.bathroom } | 현재 ${hVO.nowpeople } 명 거주 중 </p> <br/>
+		<p>공용 시설 <br/> ${hVO.publicfacility }</p>
+		
 		Room 키워드 <br/>
-		<p>방 키워드 보여주기 ~ ~ </p> <br/>
+		<p>최소 거주 가능 기간 ${rVO.minStay } | 최대 거주 가능 기간 ${rVO.maxStay }</p> <br/>
+		<p>기본 포함 가구 ${rVO.incFurniture }</p> <br/>
 		우리집 소개 <br/>
-		소개글 불러오기 ~ ~ 
+		${hVO.houseprofile }
 		
 		</div> <!-- houseExplain div 종료 -->
 		
 		<div  id="peopleExplain">
 		
 		<ul>
-			<li ><img src="<%=request.getContextPath()%>/img/house/mate01.jfif" id="profilePic1"/> </li>
+			<li ><img src="/home/profilePic/${memProfilePic}" id="profilepic"/> </li>
 			<li>응답률 : ㅁㅁ% <br/>
 			최근접속 : 1일 전  <br/>
 			<button class="green">약속잡기</button></li>
@@ -348,14 +366,55 @@
 	
 		</div> <!-- macthing 넣을 div 종료 -->
 	</div> <!-- middleFrm div 종료 -->
-	
-	<div id="map_Div">
-	지도 부분
-	
-	</div> <!-- map_Div div종료 -->
+
+<!-- 	<div id="map_Div"> -->
+<!-- 	지도 부분 -->
+
+	<div id="map_Div" style="height:350px"></div> <!-- map_Div div종료 -->
+
+<!-- 	</div> map_Div div종료 -->
 </div> <!-- content div 종료 -->
 </div> <!-- 전체div 종료 -->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6bad1d8e9a1449ac5fb2b238e99a32ed&libraries=clusterer,services"></script>
+<script>
+	var mapContainer = document.getElementById('map_Div'), // 지도를 표시할 div 
+	mapOption = { 
+	    center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+	    level: 3 // 지도의 확대 레벨
+	};
+	// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+	var map = new kakao.maps.Map(mapContainer, mapOption);
+	
+	var geocoder = new kakao.maps.services.Geocoder();
+	// 주소로 좌표를 검색합니다
+    geocoder.addressSearch('서울특별시 대흥동', function(result, status) {
+        // 정상적으로 검색이 완료됐으면
+         if (status === kakao.maps.services.Status.OK) {
+          var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+          map.setCenter(coords);
+          
+          var imageSrc = '<%=request.getContextPath()%>/img/comm/map_marker.png', // 마커이미지의 주소입니다
+          imageSize = new kakao.maps.Size(29, 41), // 마커이미지의 크기입니다
+          imageOption = {
+             offset : new kakao.maps.Point(15, 30)
+          }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
+          // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+          var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize,
+          imageOption), markerPosition = coords; // 마커가 표시될 위치입니다
+
+            // 결과값으로 받은 위치를 마커로 표시합니다
+            var marker = new kakao.maps.Marker({
+                map: map,
+                image: markerImage,
+                zIndex : 11,
+                position: coords
+            });
+        }
+    });
+    
+    
+</script>
 <!-- 		<div class="pup_wrap" id="pup_wrap_report"> -->
 		
 <!-- 		<div class="pup_form"> -->

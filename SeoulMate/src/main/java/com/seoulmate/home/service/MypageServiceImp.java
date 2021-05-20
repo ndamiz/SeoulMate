@@ -23,13 +23,13 @@ public class MypageServiceImp implements MypageService {
 		// 찜 등록
 		return dao.likemarkInsert(no, userid, category);
 	}
-	
+
 	@Override
 	public int likemarkDelete(int no, String userid) {
 		// 찜 삭제하기
 		return dao.likemarkDelete(no, userid);
 	}
-	
+
 	@Override
 	public List<LikeMarkVO> likemarkAllRecord(String category, String userid) {
 		// 찜 목록 출력
@@ -41,7 +41,7 @@ public class MypageServiceImp implements MypageService {
 		// 사용자의 찜목록
 		return dao.getLikedNumber(userid);
 	}
-	
+
 	@Override
 	public HouseWriteVO getHousedetails(int no) {
 		// 하우스
@@ -53,13 +53,13 @@ public class MypageServiceImp implements MypageService {
 		// min rent, min deposit
 		return dao.getMinRentDeposit(no);
 	}
-	
+
 	@Override
 	public MateWriteVO getMatedetails(int no) {
 		// 메이트
 		return dao.getMatedetails(no);
 	}
-	
+
 	public int houseConfirm(String userid) {
 		return dao.houseConfirm(userid);
 	}
@@ -84,17 +84,17 @@ public class MypageServiceImp implements MypageService {
 		return dao.likeMarkSelect(userid);
 	}
 	@Override
-	public HouseWriteVO houseLikeSelect(int no) {
-		return dao.houseLikeSelect(no);
+	public HouseWriteVO houseLikeSelect(LikeMarkVO lmVO) {
+		return dao.houseLikeSelect(lmVO);
 	}
 
 	@Override
-	public MateWriteVO mateLikeSelect(int no) {
-		return dao.mateLikeSelect(no);
+	public MateWriteVO mateLikeSelect(LikeMarkVO lmVO) {
+		return dao.mateLikeSelect(lmVO);
 	}
 
-	
-	
+
+
 	//팝업
 	@Override
 	public List<ApplyInviteVO> applyInviteSelect(ApplyInviteVO aiVO) {
@@ -102,13 +102,13 @@ public class MypageServiceImp implements MypageService {
 		// 하우스확인. 받은신청, 보낸초대 (no)
 		return dao.applyInviteSelect(aiVO);
 	}
-	// 메이트 글 vo받아오는거는 myPageMateWriteSelect사용하여 받기, 
-	// 하우스 글 vo받아오기 
+	// 메이트 글 vo받아오는거는 myPageMateWriteSelect사용하여 받기,
+	// 하우스 글 vo받아오기
 	@Override
 	public HouseWriteVO oneHouseWriteSelect(int no) {
 		return dao.oneHouseWriteSelect(no);
 	}
-	//보낸신청, 보낸초대 삭제. 
+	//보낸신청, 보낸초대 삭제.
 	@Override
 	public int mypageApplyInviteCancel(ApplyInviteVO aiVO) {
 		return dao.mypageApplyInviteCancel(aiVO);
@@ -118,17 +118,27 @@ public class MypageServiceImp implements MypageService {
 	public int applyInviteApproveUpdate(ApplyInviteVO aiVO) {
 		return dao.applyInviteApproveUpdate(aiVO);
 	}
+	//초대하기, 신청하기
+	@Override
+	public int applyInviteInsert(ApplyInviteVO aiVO) {
+		return dao.applyInviteInsert(aiVO);
+	}
 	// 승인 후 housename, userid 가져오기. 
 	@Override
 	public HouseWriteVO chatHouseSelect(int no) {
 		return dao.chatHouseSelect(no);
+	}
+	// housename list 
+	@Override
+	public List<HouseWriteVO> houseListSelect(String userid, String selectMate) {
+		return dao.houseListSelect(userid, selectMate);
 	}
 	// 채팅 DB 데이터 확인. 
 	@Override
 	public ChatRoomVO chatCheck(String chatuser1, String chatuser2) {
 		return dao.chatCheck(chatuser1, chatuser2);
 	}
-	// 승인 후 채팅 insert 
+	// 승인 후 채팅 insert
 	@Override
 	public int chatInsert(String name, String chatuser1, String chatuser2) {
 		return dao.chatInsert(name, chatuser1, chatuser2);
@@ -158,6 +168,28 @@ public class MypageServiceImp implements MypageService {
 	public int stateCompleteUpdate(String tableName, String stateName, String no, String userid) {
 		return dao.stateCompleteUpdate(tableName, stateName, no, userid);
 	}
-	
-	
+
+	@Override
+	public int pno_Select(int no) {
+		return dao.pno_Select(no);
+	}
+
+	@Override
+	public int housenameSelect(String housename) {
+		return dao.housenameSelect(housename);
+	}
+
+
+	@Override
+	public String[] getUsersHouseWriteNum(String userid) {
+		// 로그인 사용자 하우스 글 번호 가져오기
+		return dao.getUsersHouseWriteNum(userid);
+	}
+
+	@Override
+	public String[] getUsersMateWriteNum(String userid) {
+		// 로그인 사용자 메이트 글 번호 가져오기
+		return null;
+	}
+
 }

@@ -37,27 +37,23 @@ public class MypageController {
 	MypageService service;
 	
 	//마이페이지 하우스&메이트 관리 
-	@RequestMapping("/myHouseAndMateList")
+	@RequestMapping(value="/myHouseAndMateList", method = {RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView myHouseAndMateList(HttpSession session, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
+		String msg = req.getParameter("msg");
 		
 		//기본 하우스로 세팅.
-		String msg = "";
-		msg = (String)req.getAttribute("msg");
-		
 		//1. 세션아이디, 등급(일반 /프리미엄) 
 		String userid = (String)session.getAttribute("logId");
 		List<HouseWriteVO> hwList = new ArrayList<HouseWriteVO>();
-		
+		//로그인한 사람이 (mate성향가입자인지, house성향 가입자인지 확인) 
+		String memberCheck = "";
 		//1. 하우스로 등록된 성향으로 작성된 글이 있는지 확인.
 		if( service.houseConfirm(userid)>0) {
 			//1개이상 작성된 글이 있는 경우. 
 			//1-1. 후 목록 가져오기 (모집중이 아닌것도 모두 가져온다,) 
 			hwList = service.myPageHouseWriteSelect(userid);
 			mav.addObject("hwList", hwList);
-			if(msg==null || msg.equals("")) {
-				msg = "house";
-			}
 		}
 		//2. 메이트로 등록된 성향+글이 있는지 확인. 
 		MateWriteVO mwVO = new MateWriteVO();
@@ -71,28 +67,51 @@ public class MypageController {
 		if(service.likeMarkConfirm(userid)>0) {
 			//3. likemark List 확인. (lno, no, category(하우스 or 메이트) 
 			 List<LikeMarkVO> lmConfirm = service.likeMarkSelect(userid);
+			 List<HouseWriteVO> houseLikeList = new ArrayList<HouseWriteVO>();
+			 List<MateWriteVO> mateLikeList = new ArrayList<MateWriteVO>();
+			 LikeMarkVO lmVO = new LikeMarkVO();
 			int no=0;
+			int pno=0;
 			String category = "";
 			if(lmConfirm.size()>0) {
+				System.out.println("lmConfirm = "+ lmConfirm.size());
 				for(int i=0; i<lmConfirm.size(); i++) {
 					no = lmConfirm.get(i).getNo();
+					lmVO.setNo(no);
+					lmVO.setUserid(userid);
 					category = lmConfirm.get(i).getCategory();
 					if(category.equals("하우스")){
 						// 하우스일경우엔 houseWriteVO 를 넣는다. 
-						List<HouseWriteVO> houseLikeList = new ArrayList<HouseWriteVO>();
 						//하우스를 찜 했을 경우. 
-						houseLikeList.add(service.houseLikeSelect(no));
+						pno = service.pno_Select(no);
+						lmVO.setPno(pno);
+						// 로그인한사람이 메이트, 글번호는 하우스의 글번호. 
+						houseLikeList.add(service.houseLikeSelect(lmVO));
 						mav.addObject("houseLikeList", houseLikeList);
-					}else if(category.equals("메이트")){
+					}
+					if(category.equals("메이트")){
 						// 메이트글 일경우엔 mateWriteVO를 넣는다.
-						List<MateWriteVO> mateLikeList = new ArrayList<MateWriteVO>();
 						//메이트를 찜 했을 경우
-						mateLikeList.add(service.mateLikeSelect(no));
+						if(session.getAttribute("hPno")!=null) {
+							pno = (Integer)session.getAttribute("hPno");
+							lmVO.setPno(pno);
+						}else {
+							pno=0;
+						}
+						// 로그인한 사람이 하우스. 
+						mateLikeList.add(service.mateLikeSelect(lmVO));
 						mav.addObject("mateLikeList", mateLikeList);
 					}
 				}
 			}	
 		}  
+		if(session.getAttribute("hPno")!=null) {
+			memberCheck = "houseMem";
+		}else{
+			memberCheck = "mateMem";
+
+		}
+		mav.addObject("memberCheck", memberCheck);
 		if(msg==null || msg.equals("")) {
 			if(service.pnoConfirm(userid, "h")>0) {
 				// house 로 등록된 pno가 있다면, 
@@ -102,7 +121,6 @@ public class MypageController {
 				msg = "mate";
 			}
 		}
-		System.out.println(msg);
 		mav.addObject("msg", msg);
 		mav.setViewName("mypage/myHouseAndMateList");
 		return mav;
@@ -142,6 +160,49 @@ public class MypageController {
 		}
 		return result;
 	}
+	// 하우스 리스트 받아오기 houseListSelect
+	//초대하기, 신청하기 
+	@RequestMapping(value="/houseListSelect", method = {RequestMethod.POST, RequestMethod.GET})
+	@ResponseBody
+	public List<HouseWriteVO> houseListSelect(HttpSession session, String selectMate) {
+		List<HouseWriteVO> hwList = new ArrayList<HouseWriteVO>();
+		
+		String userid = (String)session.getAttribute("logId");
+		hwList = service.houseListSelect(userid, selectMate);
+		return hwList;	
+	}
+	@RequestMapping(value="/applyInsert", method = {RequestMethod.POST, RequestMethod.GET})
+	@ResponseBody
+	public int applyInsert(int no, String msg, String userid) {
+		ApplyInviteVO aiVO = new ApplyInviteVO();
+		System.out.println("신청 = >하우스글번호="+no+"  신청msg="+msg + " 메이트자신userid="+userid);
+		// 메이트가 하우스한테 신청한거 
+		// no = 하우스글번호가 맞고 , userid=나자신ㅅ-세션아이디 맞고,  //msg=신청이 맞음 
+		aiVO.setNo(no);
+		aiVO.setUserid(userid);
+		aiVO.setMsg(msg);
+		//그대로 sql문을 실행하면된다. 
+		return service.applyInviteInsert(aiVO);
+	}
+	@RequestMapping(value="/inviteInsert", method = {RequestMethod.POST, RequestMethod.GET})
+	@ResponseBody
+	public int inviteInsert(String msg, String userid, String housename) {
+		ApplyInviteVO aiVO = new ApplyInviteVO();
+		System.out.println(" 신청msg="+msg + " 메이트자신userid="+userid);
+		
+		int no = service.housenameSelect(housename);
+		// 하우스가 메이트에게 초대한것
+		// 위에서 받아온 no는 메이트의 글번호임.. 
+		// 위에서 받아온 userid는 하우스의 유저아이디임.. 
+		// 세션에있는 no 를 받아오면된다.  
+		// no = 하우스글번호,  // userid = 내가 초대를한 메이트의 아이디,  // msg = 초대 
+		aiVO.setNo(no);
+		aiVO.setUserid(userid);
+		aiVO.setMsg(msg);
+		
+		return service.applyInviteInsert(aiVO);
+	}
+	
 	//마이페이지 보낸신청, 보낸초대 취소 ,  받은신청, 받은초대- 거절
 	@RequestMapping(value="/mypageApplyInviteCancel", method = {RequestMethod.POST, RequestMethod.GET})
 	@ResponseBody
@@ -293,11 +354,25 @@ public class MypageController {
 	// 인덱스 / 하우스 / 메이트에 들어가면 내가 찜한 글인지 확인 처리
 	@RequestMapping("/likemarkCheck")
 	@ResponseBody
-	public String likemarkCheck(String userid) {
-		//사용자가 찜한 글 번호 다 가져오기
+	public Object likemarkCheck(String userid) {
+		Map<String, String[]> likeMarkMap = new HashMap<String, String[]>();
+		
+		//로그인한 사용자의 글은 별 버튼 없애기 용
+		String[] housePosts = service.getUsersHouseWriteNum(userid);//하우스글번호 가져오기
+		if(housePosts != null) {
+			likeMarkMap.put("houseNum", housePosts);
+		}
+		String[] matePosts = service.getUsersMateWriteNum(userid);//메이트글번호 가져오기
+		if(matePosts != null) {
+			likeMarkMap.put("mateNum", matePosts);
+		}
+		//사용자가 찜한 글 번호 다 가져오기 -> 로그인후 찜한 글 별 on 만들기용
 		String[] userNum = service.getLikedNumber(userid);
-		Gson gson = new Gson();
-		return gson.toJson(userNum);
+		likeMarkMap.put("userLikeNum", userNum);
+		
+//		Gson gson = new Gson();
+//		return gson.toJson(userNum);
+		return likeMarkMap;
 	}
 	//마이페이지 결제내역 확인 페이지
 	@RequestMapping("/payDetailList")

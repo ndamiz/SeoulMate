@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.seoulmate.home.dao.HouseRoomDAO;
 import com.seoulmate.home.dao.HouseWriteDAO;
+import com.seoulmate.home.dao.MemberDAO;
 import com.seoulmate.home.dao.PropensityDAO;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
+import com.seoulmate.home.vo.ListVO;
 import com.seoulmate.home.vo.PropensityVO;
 @Service
 public class HouseServiceImp implements HouseService {
@@ -20,6 +22,8 @@ public class HouseServiceImp implements HouseService {
 	HouseWriteDAO hDAO; //하우스 등록
 	@Inject
 	PropensityDAO pDAO; //성향 등록
+	@Inject
+	MemberDAO mDAO; //회원가입시 사진 가져오기
 
 	@Override
 	public int roomInsert(HouseRoomVO vo) { //하우스(방) 등록
@@ -98,23 +102,23 @@ public class HouseServiceImp implements HouseService {
 	}
 
 	@Override
-	public int houseDel(HouseWriteVO vo) { //하우스 삭제
-		return hDAO.houseDel(vo);
+	public int houseDel(int no, String userid) { //하우스 삭제
+		return hDAO.houseDel(no, userid);
 	}
 
 	@Override
-	public int roomDel(HouseRoomVO vo) { //방 삭제
-		return dao.roomDel(vo);
+	public int roomDel(int no, String userid) { //방 삭제
+		return dao.roomDel(no, userid);
 	}
 
 	@Override
-	public String houseProfile(String housepic1,int no) { //하우스사진 가져오기
-		return hDAO.houseProfile(housepic1, no);
+	public String houseProfilePic(String housepic1,int no) { //하우스사진 가져오기
+		return hDAO.houseProfilePic(housepic1, no);
 	}
 
 	@Override
-	public List<HouseWriteVO> getNewIndexHouse() {
-		return hDAO.getNewIndexHouse();
+	public List<HouseWriteVO> getNewIndexHouse(String addr) {
+		return hDAO.getNewIndexHouse(addr);
 	}
 
 	@Override
@@ -128,12 +132,22 @@ public class HouseServiceImp implements HouseService {
 	}
 
 	@Override
-	public PropensityVO propHouseSelect2(int pno) {
+	public PropensityVO propHouseSelect2(int pno) { //Propensity 가져오기 (본인 작성글 아니여도 가능)
 		// TODO Auto-generated method stub
 		return pDAO.propHouseSelect2(pno);
 	}
 
-	
+
+	@Override
+	public String memberProfile(String userid) { //회원가입시 사진 가져오기
+		return mDAO.memberProfile(userid);
+	}
+
+	@Override
+	public int ProHouseNameUpdate(PropensityVO vo) { // 하우스+룸 삭제 -> 하우스네임 null 로 변경
+		return pDAO.ProHouseNameUpdate(vo);
+	}
+
 
 
 

@@ -12,9 +12,9 @@ public interface HomeService {
 	public List<ListVO> getHouseMap();
 	public String[] getMateMap();
 	public List<HouseWriteVO> getPreHouse();
-	public List<HouseWriteVO> getNewHouse();
+	public List<HouseWriteVO> getNewHouse(String addr);
 	public List<MateWriteVO> getPreMate();
-	public List<MateWriteVO> getNewMate();
+	public List<MateWriteVO> getNewMate(String area);
 	public HouseRoomVO getDesposit(int no);
 	public MemberVO getDetail(String userid);
 }

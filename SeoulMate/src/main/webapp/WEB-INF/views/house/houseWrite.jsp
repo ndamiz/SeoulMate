@@ -34,15 +34,45 @@ $(function(){
 // 	});
 	
 	function readURL(input) {
-	    if (input.files && input.files[0]) {
-	    var reader = new FileReader();
+// 	    if (input.files && input.files[0]) {
+// 	    var reader = new FileReader();
 	
-	    reader.onload = function (e) {
-	            $('#houseImg1').attr('src', e.target.result);
-	        }
+// 	    reader.onload = function (e) {
+// 	            $('#houseImg1').attr('src', e.target.result);
+// 	            $('#houseImg2').attr('src', e.target.result);
+// 	            $('#houseImg3').attr('src', e.target.result);
+// 	            $('#houseImg4').attr('src', e.target.result);
+// 	            $('#houseImg5').attr('src', e.target.result);
+// 	        }
 	
-	      reader.readAsDataURL(input.files[0]);
-	    }
+// 	      reader.readAsDataURL(input.files[0]);
+// 	    }
+
+// 		for (var image of event.target.files) { 
+// 			var reader = new FileReader(); 
+// 			reader.onload = function(event) { 
+// 				var img = document.createElement("img"); 
+// 				img.setAttribute("src", event.target.result); 
+// 				document.querySelector("#multiple-container").appendChild(img); 
+// 			}; 
+// 				console.log(image); 
+// 				reader.readAsDataURL(image); 
+// 		}
+
+		var reader = new FileReader(); 
+		reader.onload = function(event) { 
+			var img = document.createElement("img"); 
+			img.setAttribute("src", event.target.result); 
+			document.querySelector("#hPic").appendChild(img); 
+			}; 
+			reader.readAsDataURL(event.target.files[0]);
+			reader.readAsDataURL(event.target.files[1]);
+			reader.readAsDataURL(event.target.files[2]);
+			reader.readAsDataURL(event.target.files[3]);
+			reader.readAsDataURL(event.target.files[4]);
+
+
+
 	}
 
 	
@@ -262,7 +292,10 @@ $(function(){
 #houseWrite1 .checks { width: 560px;}
 #ck{margin:0 auto; width: 60%;}
 #houseImg1{width:250px; height:250px; position: relative; margin:0 auto; text-align: center;}
-#housepic1{width:250px; height: 250px; margin:0 auto;}
+#housepic1, #housepic2, #housepic3 {width:200px; height: 200px; margin:0 auto;}
+
+#multiple-container{width: 100%; margin:0 auto; float:left; position: relative;}
+#multiple-container img{width:250px; height: 250px; margin:0 auto; float:left;}
 #houseWrite2, #houseWrite3, #houseWrite4, #houseWrite5, 
 #houseWrite6, #houseWrite7, #houseWrite8, #houseWrite9 {display:none; margin: 0 auto;}
 
@@ -293,7 +326,7 @@ $(function(){
 		<form method="post" id="houseWriteFrm" action="houseWriteOk" enctype="multipart/form-data">
 		
 		<input type="hidden" name="pno" value="${housePno }"/>
-		<input type="hidden" name="no" value="${hVO.no }"/>
+<%-- 		<input type="hidden" name="no" value="${hVO.no }"/> --%>
 		
 		<div id="houseWrite1"> <!-- 등록form 1 -->
 		
@@ -437,13 +470,25 @@ $(function(){
 		</div>
 		
 			<ul class="form_box">
-				<li id="hPic"><img id="houseImg1" name="houseImg1" src="#" alt="upload image" /></li>
-				<li> <input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);"/>
-<!-- 					<input type="file" accept="image/*" name="filename2"  id="housepic2" onchange="readURL(this);"/> -->
-<!-- 					<input type="file" accept="image/*" name="filename3"  id="housepic3" onchange="readURL(this);"/> -->
-<!-- 					<input type="file" accept="image/*" name="filename4"  id="housepic4" onchange="readURL(this);"/> -->
-<!-- 					<input type="file" accept="image/*" name="filename5"  id="housepic5" onchange="readURL(this);"/>  -->
-					<br/> </li>
+				<li id="hPic">
+<!-- 					<img id="houseImg1" name="houseImg1" src="#" alt="upload image" /> -->
+<!-- 					<img id="houseImg2" name="houseImg2" src="#" alt="upload image" /> -->
+<!-- 					<img id="houseImg3" name="houseImg3" src="#" alt="upload image" /> -->
+<!-- 					<img id="houseImg4" name="houseImg4" src="#" alt="upload image" /> -->
+<!-- 					<img id="houseImg5" name="houseImg5" src="#" alt="upload image" /> -->
+					
+				
+				</li>
+				
+				<li> 
+<!-- 					<input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);" multiple/> -->
+					<input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);"/>
+					<input type="file" accept="image/*" name="filename2"  id="housepic2" onchange="readURL(this);"/>
+					<input type="file" accept="image/*" name="filename3"  id="housepic3" onchange="readURL(this);"/>
+					<input type="file" accept="image/*" name="filename4"  id="housepic4" onchange="readURL(this);"/>
+					<input type="file" accept="image/*" name="filename5"  id="housepic5" onchange="readURL(this);"/> 
+					<br/> 
+					</li>
 			</ul>
 				<div class="btnclass">
 					<a class="green" id="hPrev3">이전</a>

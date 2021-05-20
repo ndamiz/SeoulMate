@@ -12,8 +12,8 @@ function likeInsert(no, category, userid, obj){
 		}
 	});
 }
-		
-// 찜 삭제		
+
+// 찜 삭제
 function likeDelete(no, userid, obj){
 	$.ajax({
 		url : "/home/likemarkDelete",
@@ -30,9 +30,20 @@ function likeDelete(no, userid, obj){
 
 //로그인 후 페이지가 로딩되면 찜한 글 불 들어오기
 function likeButtonOn(result){
-	for(var i=0; i<result.length; i++){
-		if($('.btn_star').val()==result[i]){
-		$('.btn_star[value='+result[i]+']').addClass('on');
+	$('.btn_star').each(function(idx, item){
+		if(result.houseNum != null){
+			if(result.houseNum.indexOf($(item).val()) != -1){ //내 하우스글 별 없애기
+				$(item).css('display','none');
+			}
 		}
-	}   
+		if(result.mateNum != null){
+			if(result.mateNum.indexOf($(item).val()) != -1){ //내 하우스글 별 없애기
+				$(item).css('display','none');
+			}
+		}
+		//찜한거 불 넣기
+		if(result.userLikeNum.indexOf($(item).val()) != -1){
+			$(item).addClass('on');
+		}
+	});
 }

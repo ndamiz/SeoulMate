@@ -8,24 +8,35 @@
 			var hpno=$(this).attr("id");
 			location.href="hpnoDefault?pno="+hpno;
 		});
+		
+		$("#select_house").click(function(){
+			$("#addr_search").attr("type","text");
+			$("#area_search").attr("type","hidden");
+		});
+		$("#select_mate").click(function(){
+			$("#area_search").attr("type","text");
+			$("#addr_search").attr("type","hidden");
+		});
 	});
    function exitCheck(){
       if(${pwdCheck=='일치'}){
          alert("그동안 서울 메이트를 이용해주셔서 감사합니다.");
       }
    }
-   
+
    exitCheck();
    //console.log(${logGrade});
    $(function(){
-	   //내가 찜한 글은 별버튼에 불 들어오기==============================================세트
+	   //=============================================================세트
 	   if(${logId != null}){ // 로그인 했을때만 실행
+			//내가 찜한 글은 별버튼에 불 들어오기 & 내가 올린 글은 별 버튼 숨기기
 		   $.ajax({
 			   url : '/home/likemarkCheck',
 			   data : {'userid': '${logId}'},
 			   traditional : true,
 			   success : function(result){
-				   likeButtonOn(result);
+				   console.log(result.mateNum)
+				   likeButtonOn(result); // 찜한거 불 넣기 & 자기글 버튼 안보이게 하기
 			   },error : function(){
 				   alert('찜 목록 불러오기 실패')
 			   }
@@ -36,20 +47,21 @@
 			var obj = $(this);
 			var no = $(this).val();
 			var userid = '${logId}'
-			var category = ''; 
+			var category = '';
 			if($(obj).hasClass('on')){// 이미 등록한 버튼 눌리면 찜목록에서 삭제
 				likeDelete(no, userid, obj)
 			}else{
 				if($(this).hasClass('houselike')){ // 찜하는 글이 하우스 글일때
-					category = '하우스'; 
+					category = '하우스';
 				}else{ //메이트 글일때.
 					category = '메이트';
 				}
 				likeInsert(no, category, userid, obj); // 찜 등록 ajax함수.
 			}
-		});//=====================================================================세트
-   });
-   
+		});
+		//=====================================================================세트
+});
+
 </script>
 <div class="main_wrap">
    <div class="content">
@@ -57,17 +69,18 @@
          당신과 가장 잘 맞는<br>
          쉐어하우스 & 메이트
       </h2>
-      
-      <form class="main_search_form" method="get" action="">
+      <form class="main_search_form" method="get" action="/home">
+
          <div class="checks">
-            <input type="radio" id="select_house" name="main_search" checked> 
+            <input type="radio" id="select_house" name="main_search" checked>
             <label for="select_house">쉐어하우스</label>
-            
-            <input type="radio" id="select_mate" name="main_search"> 
+
+            <input type="radio" id="select_mate" name="main_search">
             <label for="select_mate">하우스메이트</label>
          </div>
          <div class="search_box">
-            <input class="search_text" type="text" placeholder="지역명or지하철역을 입력하세요.">
+            <input class="search_text" name="addr" id="addr_search" type="text" placeholder="지역명을 입력하세요.">
+            <input class="search_text" name="area" id="area_search" type="hidden" placeholder="지역명을 입력하세요.">
             <button type="submit" class="green"></button>
          </div>
       </form>
@@ -128,7 +141,7 @@
 		   </section>
 	   </c:if>
    </c:if>
-   
+
    <!-- 신규 쉐어하우스 -->
    <section class="content recommend_list">
       <div class="list_head">
@@ -162,7 +175,7 @@
          </c:forEach>
       </ul>
    </section>
-   
+
    <c:if test="${myHousePnoCnt>0}">
 	   <c:if test="${logGrade==2}">
 		   <!-- 프리미엄 추천 하우스메이트 -->
@@ -183,14 +196,25 @@
 			                  </a>
 			               </div>
 			               <div class="list_title">
-			                  <span class="mate_id">USER1</span>
-			                  <span class="pay">￦ 100 / 25</span>
+			                  <span class="mate_id">${pmList.userid}</span>
+			                  <span class="pay">￦ ${pmList.deposit} / ${pmList.rent}</span>
 			               </div>
-			               <span class="address">서강동 | 합정동 | 당산동</span>
+			               <span class="address">
+			               		${pmList.area1}
+			               		<c:if test="${pmList.area2 != null }"> |  ${pmList.area2}</c:if>
+			               		<c:if test="${pmList.area3 != null }"> |  ${pmList.area3}</c:if>
+<%-- 			               		<c:if test="${pmList.area2!=null}">${pmList.area2}</c:if> --%>
+<%-- 			               		<c:if test="${pmList.area3!=null}">${pmList.area3}</c:if> --%>
+			               </span>
 			               <ol class="list_icon">
-			                  <li><p>여</p></li>
-			                  <li><p>27세</p></li>
-			                  <li><p>즉시</p></li>
+			                  <li>
+			                  	<p>
+				                  	<c:if test="${pmList.gender==1}">여</c:if>
+	                  				<c:if test="${pmList.gender==3}">남</c:if>
+                  				</p>
+							  </li>
+			                  <li><p>${pmList.birth}세</p></li>
+			                  <li><p>${pmList.enterdate}</p></li>
 			               </ol>
 			            </li>
 			         </c:forEach>
@@ -211,54 +235,63 @@
          <p class="m_title">NEW 하우스메이트</p>
          <a href="">더보기</a>
       </div>
-      <ul class="list_content">
-         <c:forEach items="${newMateList}" var="newMateVO">
-            <li>
-               <div class="list_img">
-               	 <c:if test="${myHousePnoCnt>0}"> <!-- 등록된 하우스 성향이 없으면 매칭을 안보여줌 -->
-               	 	<c:if test="${logGrade==2}"> <!-- 프리미엄만 매칭을 보여줌 -->
-                  		<p><span>매칭</span>${newMateVO.score}<b>%</b></p>
-                  	</c:if>
-                 </c:if>
-                  <button class="btn_star matelike" value="${newMateVO.no}"></button>
-                  <a href="mateView?no=${newMateVO.no}">
-                     <img alt="" src="<%=request.getContextPath()%>/matePic/${newMateVO.matePic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'">
-                  </a>
-               </div>
-               <div class="list_title">
-                  <span class="mate_id">${newMateVO.userid}</span>
-                  <span class="pay">￦ ${newMateVO.deposit} / ${newMateVO.rent}</span>
-               </div>
-               <span class="address">
-               	${newMateVO.area1} 
-               	<c:if test="${newMateVO.area2 != null}">
-                	| ${newMateVO.area2} 
-               	</c:if>
-               	<c:if test="${newMateVO.area3 != null}">
-                	| ${newMateVO.area3}
-               	</c:if>
-               </span>
-               <ol class="list_icon">
-                  <li>
-                  	<p>
-                  		<c:if test="${newMateVO.gender==1}">여</c:if>
-                  		<c:if test="${newMateVO.gender==3}">남</c:if>
-                  	</p>
-                  </li>
-                  <li>
-                  	<p>
-                  		${newMateVO.birth}세
-                  	</p>
-                  </li>
-                  <li>
-                  	<p>
-                  		${newMateVO.enterdate}
-                  	</p>
-                  </li>
-               </ol>
-            </li>
-         </c:forEach>
-      </ul>
+
+      <c:if test="${newMateListCnt!=0}">
+	      <ul class="list_content">
+	         <c:forEach items="${newMateList}" var="newMateVO">
+	            <li>
+	               <div class="list_img">
+	               	 <c:if test="${myHousePnoCnt>0}"> <!-- 등록된 하우스 성향이 없으면 매칭을 안보여줌 -->
+	               	 	<c:if test="${logGrade==2}"> <!-- 프리미엄만 매칭을 보여줌 -->
+	                  		<p><span>매칭</span>${newMateVO.score}<b>%</b></p>
+	                  	</c:if>
+	                 </c:if>
+	                  <button class="btn_star matelike" value="${newMateVO.no}"></button>
+	                  <a href="mateView?no=${newMateVO.no}">
+	                     <img alt="" src="<%=request.getContextPath()%>/matePic/${newMateVO.matePic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'">
+	                  </a>
+	               </div>
+	               <div class="list_title">
+	                  <span class="mate_id">${newMateVO.userid}</span>
+	                  <span class="pay">￦ ${newMateVO.deposit} / ${newMateVO.rent}</span>
+	               </div>
+	               <span class="address">
+	               	${newMateVO.listVO.area1} 
+	               	<c:if test="${newMateVO.listVO.area2 != null}">
+	                	| ${newMateVO.listVO.area2} 
+	               	</c:if>
+	               	<c:if test="${newMateVO.listVO.area3 != null}">
+	                	| ${newMateVO.listVO.area3}
+	               	</c:if>
+	               </span>
+	               <ol class="list_icon">
+	                  <li>
+	                  	<p>
+	                  		<c:if test="${newMateVO.gender==1}">여</c:if>
+	                  		<c:if test="${newMateVO.gender==3}">남</c:if>
+	                  	</p>
+	                  </li>
+	                  <li>
+	                  	<p>
+	                  		${newMateVO.birth}세
+	                  	</p>
+	                  </li>
+	                  <li>
+	                  	<p>
+	                  		${newMateVO.enterdate}
+	                  	</p>
+	                  </li>
+	               </ol>
+	            </li>
+	         </c:forEach>
+	      </ul>
+	  </c:if>
+	  <c:if test="${newMateListCnt==0}">
+	  	<div class="empty_div">
+      		<img class="empty" src="<%=request.getContextPath()%>/img/empty.png" onerror="this.src='<%=request.getContextPath()%>/img/empty.png'"/>
+      		<p style="text-align:center;">필터에 맞는 결과가 없습니다.</p>
+     	</div>
+	  </c:if>
    </section>
    
    <!-- 지도 -->

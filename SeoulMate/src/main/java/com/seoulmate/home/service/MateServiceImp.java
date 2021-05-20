@@ -54,11 +54,26 @@ public class MateServiceImp implements MateService {
 	}
 
 	@Override
-	public List<MateWriteVO> getNewIndexMate() {
-		return dao.getNewIndexMate();
+	public List<MateWriteVO> getNewIndexMate(String area) {
+		return dao.getNewIndexMate(area);
 	}
 
 
+
+	@Override
+	public String MateProfilePic(String matePic1, int no) {
+		return dao.MateProfilePic(matePic1, no);
+	}
+
+	@Override
+	public MateWriteVO mateSelect2(int no) {
+		return dao.mateSelect2(no); //matewrite 가져오기 (본인 작성글 아니여도)
+	}
+
+	@Override
+	public PropensityVO propMateSelect2(int pno) { // 메이트 성향 가져오기(본인 작성 글 아니여도 가능)
+		return pDAO.propHouseSelect2(pno);
+	}
 
 
 }

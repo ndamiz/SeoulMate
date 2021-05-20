@@ -10,27 +10,134 @@
 			$(".alert_pop").addClass('popup_hidden');
 			$('body').removeClass('popup_Stop_Scroll');
 		});
+		// 신청하기
+		$(document).on('click', '.applyInsert', function(){
+			var userid = '<c:out value="${logId }"/>';
+			var msg = '신청';
+			var no =  $(this).parent().children().eq(0).val();
+			
+			var url = '/home/applyInsert';
+			var data = {"no":no, "msg":msg, "userid":userid};
+			$.ajax({
+				url : url,
+				data : data,
+				success : function(result){
+					console.log('신청 완료 되었습니다.');
+					alert('신청 완료 되었습니다.');
+					location.href="myHouseAndMateList?msg=likeMark";
+				},error : function(){
+					console.log('신청 insert 에러 ');
+				}
+			});
+		});
+		$(document).on('click','.inviteHouseSelect', function(){
+			var top = $(document).scrollTop();
+			console.log($(document).scrollTop());
+			var selectMate = $(this).parent().parent().children('ul').children().eq(0).text();
+			console.log(selectMate);
+			var data = {"selectMate" : selectMate};
+			var tag = "";
+			$.ajax({
+				url : "/home/houseListSelect",
+				data :data,
+				success : function(result){
+					console.log(result); 
+					$("#alert_pop").css({
+		                "top": (top+200)+"px"
+		             }); 
+					$(document).scrollTop(top);
+					$('.alert_pop').removeClass("popup_hidden");
+					$('#myPage_popup_FullScreen').removeClass('popup_hidden');
+					$('body').addClass('popup_Stop_Scroll');
+					
+					$hwVOList = $(result);
+					if(result.length!=0){
+						tag += '<p id="invitetTitle">초대할 하우스를 선택해 주세요</p>';
+						tag += '<select name="inviteHousename" id="inviteHousename">';
+						$hwVOList.each(function(idx,obj){
+							tag += '<option value="'+obj.housename+'" >'+obj.housename+'</option>';
+						});
+						tag +='</select>';
+						tag +='<a href="#" class="b_btn green inviteInsert" id="inviteInsertBtn">확인</a>';
+						tag +='<input type="hidden" name="selectUserid" value="'+selectMate+'"/>';
+					}
+					else {
+						tag += '<p id="invitetTitle">이미 초대한 메이트 입니다.</p>';
+					}
+					$('.alert_pop_Content').html(tag);
+					
+				}, error : function(){
+					console.log('하우스 이름 리스트 불러오기 실패');
+				}
+			});
+		});
+		$(document).on('click','.inviteInsert', function(){
+			var no = 0;
+			var userid = $(this).next().val();
+			var msg = '초대';
+			var housename =  $("select[name='inviteHousename']").val();
+			console.log(housename);
+			console.log(userid);
+			var url = '/home/inviteInsert';
+			var data = {"msg":msg, "userid":userid, "housename":housename};
+			$.ajax({
+				url : url,
+				data : data,
+				success : function(result){
+					console.log('초대 완료 되었습니다.');
+					alert('초대 완료 되었습니다.');
+					location.href="myHouseAndMateList?msg=likeMark";
+				},error : function(){
+					console.log('신청 insert 에러 ');
+				}
+			});
+		});
+		//찜목록 삭제
+		$(document).on('click', '.likeMarkDel', function(){
+			var no = $(this).parent().children().eq(0).val();
+			var userid='<c:out value="${logId }"/>';
+			var url = '/home/likemarkDelete';
+			var data = {"no":no, "userid":userid};
+			$.ajax({
+				url : url,
+				data : data,
+				success : function(result){
+					if(result==1){
+						console.log('찜 삭제 완료');
+						// 리스트를 다시보여줘야함.  
+						alert('찜 삭제 되었습니다.');
+						location.href="myHouseAndMateList?msg=likeMark";
+					}else{
+						console.log('찜 삭제 처리 에러');
+					}
+				}, error : function(){
+					console.log('마이페이지 찜 삭제 실패');
+				}
+			});
+			
+		});
 		// 매칭완료 상태 변경.  
 		$(document).on('click','.stateChange', function(){
 			var no = $(this).parent().children().eq(0).val();
-			var url = '/home/stateComplete'
-			var data = {"no":no}
+			var url = '/home/stateComplete';
+			var data = {"no":no};
 			console.log(no);
 			$.ajax({
 				url : url,
 				data : data,
 				success : function(result){
 					//1은 완료  //완료되면 매칭완료 처리되었다는 팝업 뜨게하구, 페이지 재실행, 
-					// 매칭완료 처리가 된 하우스는 버튼을 다르게 처리된다.. (재등록, 글삭제) 
-					
-					//200은 에러 . 
-					
+					if(result==1){
+						// 매칭완료 처리가 된 하우스는 버튼을 다르게 처리된다.. (재등록, 글삭제) 
+						location.href="/home/myHouseAndMateList";
+					}else if(result==200){
+						console.log('매칭완료 처리 에러');
+					}
 					console.log(result);
 				}, error : function(){
 					console.log('마이페이지 매칭완료 처리 실패');
 				}
 			});
-			
 		});
 		//받은신청 승인, 보낸초대 승인
 		$(document).on('click','.applyInviteApprove', function(){
@@ -71,21 +178,19 @@
 							$('#myPage_popup_FullScreen').removeClass('popup_hidden');
 							$('body').addClass('popup_Stop_Scroll');
 						}
-						
 					}else if(result==200){
 						// 이미 채팅방이있다. 
 						$('.alert_pop_Content').html('<p>이미 채팅이 활성화 되어있습니다.</p><p>채팅으로 약속을 잡아보세요!</p>');
 						$('.alert_pop').removeClass("popup_hidden");
 						$('#myPage_popup_FullScreen').removeClass('popup_hidden');
 						$('body').addClass('popup_Stop_Scroll');
-							
-						userid='<c:out value="${logId }"/>';
-						applyInviteList(no, msg, userid);
 					}else if(result== -1) {
-						console.log('리턴-1- 이미채팅방은있음. name update 실패.');
+						console.log('name update 실패.');
 					}else {
 						console.log('리턴0  에러실패');
 					}
+					userid='<c:out value="${logId }"/>';
+					applyInviteList(no, msg, userid);
 				}, error : function(){
 					console.log('마이페이지 받은신청, 받은초대 DB데이터 승인으로 업데이트 실패');
 				}
@@ -334,7 +439,6 @@
 			$('#myPage_LikeMarkerList').removeClass('objectHidden');
 		}
 	}
-	
 	</script>
 	<div class="wrap">
 		<section class="content" > <!-- id="myPage_HouseAndMate_Content" -->
@@ -356,45 +460,53 @@
 					<li><a href="javascript:viewMyHouseAndMateList('mate')" class="mypage_Mate">하우스메이트</a></li>
 				</c:otherwise>
 			</c:choose>
+			<c:choose>
+				<c:when test="${msg=='likeMark'}">
+				<li><a href="javascript:viewMyHouseAndMateList('likemark')" class="mypage_likeMarkList on">찜목록</a></li>
+				</c:when>
+				<c:otherwise>
 				<li><a href="javascript:viewMyHouseAndMateList('likemark')" class="mypage_likeMarkList">찜목록</a></li>
+				</c:otherwise>
+			</c:choose>
+				
 			</ul>
 			<!-- 쉐어 하우스 글을 작성했을 경우 및 클릭 시 -->
 			<c:choose>
 				<c:when test="${not empty hwList }">
 					<div class="myHouseMateList <c:if test="${msg!='house' }">objectHidden</c:if>" id="myPage_HouseList">
 					<c:forEach var="hwVO" items="${hwList }">
-							<div class="myPage_HouseAndMate_oneBlock" >
-								<div class="myPage_HouseAndMate_Img">
-									<!-- 글내용보기로 이동시켜야함. -->
-									<a href=""><img alt="" src="/home/housePic/${hwVO.housepic1 }" onerror="this.src='/home/img/comm/no_house_pic.png'"/></a>
-								</div>
-								<ul class="myPage_HouseAndMate_Info">
-									<li>${hwVO.housename }</li>
-									<li>보증금 : ${hwVO.deposit }만원 | 월세 : ${hwVO.rent }만원</li>
-									<li>${hwVO.addr }</li>
-									<li>
-										<ul class="myPage_HouseAndMate_House">
-											<li><p>${hwVO.room }</p></li>
-											<li><p>${hwVO.bathroom }</p></li>
-											<li><p>${hwVO.searchpeople }</p></li>
-										</ul>
-									</li>
-								</ul>
-								<div class="myPage_HouseAndMate_Btn">
-									<input type="hidden" name="no" value="${hwVO.no }" />
-									<c:if test="${hwVO.housestate =='모집중'}">
+						<div class="myPage_HouseAndMate_oneBlock" >
+							<div class="myPage_HouseAndMate_Img">
+								<!-- 글내용보기로 이동시켜야함. -->
+								<a href="houseView?no=${hwVO.no }"><img alt="" src="/home/housePic/${hwVO.housepic1 }" onerror="this.src='/home/img/comm/no_house_pic.png'"/></a>
+							</div>
+							<ul class="myPage_HouseAndMate_Info">
+								<li>${hwVO.housename }</li>
+								<li>보증금 : ${hwVO.deposit }만원 | 월세 : ${hwVO.rent }만원</li>
+								<li>${hwVO.addr }</li>
+								<li>
+									<ul class="myPage_HouseAndMate_House">
+										<li><p>${hwVO.room }</p></li>
+										<li><p>${hwVO.bathroom }</p></li>
+										<li><p>${hwVO.searchpeople }</p></li>
+									</ul>
+								</li>
+							</ul>
+							<div class="myPage_HouseAndMate_Btn">
+								<input type="hidden" name="no" value="${hwVO.no }" />
+								<c:if test="${hwVO.housestate =='모집중'}">
 									<a href="#" class="b_btn white takeApply mypage_Popup">받은신청</a>
 									<a href="#" class="b_btn white sendInvite mypage_Popup">보낸초대</a>
 									<a href="#" class="b_btn white">수정</a>
 									<a href="#" class="b_btn white">삭제</a>
 									<a href="#" class="b_btn green stateChange">매칭완료</a>
-									</c:if>
-									<c:if test="${hwVO.housestate =='매칭 완료' or hwVO.housestate =='기간 만료'}">
+								</c:if>
+								<c:if test="${hwVO.housestate =='매칭 완료' or hwVO.housestate =='기간 만료'}">
 									<a href="#" class="b_btn white">재등록</a>
 									<a href="#" class="b_btn white">삭제</a>
-									</c:if>
-								</div>
+								</c:if>
 							</div>
+						</div>
 					</c:forEach>
 					</div>
 				</c:when>
@@ -412,10 +524,10 @@
 			<!-- 하우스메이트 글을 작성했을 경우 및 클릭시  -->
 			<c:choose>
 				<c:when test="${mwVO.no!=null }">
-					<div class="myHouseMateList <c:if test="${msg=='house' }">objectHidden</c:if>" id="myPage_MateList">
+					<div class="myHouseMateList <c:if test="${msg!='mate' }">objectHidden</c:if>" id="myPage_MateList">
 						<div class="myPage_HouseAndMate_oneBlock" >
 							<div class="myPage_HouseAndMate_Img">
-								<a href=""><img alt="" src="/home/matePic/${mwVO.matePic1 }"/></a>
+								<a href="mateView?no=${mwVO.no }"><img alt="" src="/home/matePic/${mwVO.matePic1 }"/></a>
 							</div>
 							<ul class="myPage_HouseAndMate_Info">
 								<li>${mwVO.userid }</li>
@@ -445,11 +557,17 @@
 							</ul>
 							<div class="myPage_HouseAndMate_Btn">
 								<input type="hidden" name="no" value="${mwVO.no }" />
-								<a href="#" class="b_btn white takeInvite mypage_Popup">받은초대</a>
-								<a href="#" class="b_btn white sendApply mypage_Popup">보낸신청</a>
-								<a href="#" class="b_btn white">수정</a>
-								<a href="#" class="b_btn white">삭제</a>
-								<a href="#" class="b_btn green stateChange">매칭완료</a>
+								<c:if test="${mwVO.matestate =='모집중'}">
+									<a href="#" class="b_btn white takeInvite mypage_Popup">받은초대</a>
+									<a href="#" class="b_btn white sendApply mypage_Popup">보낸신청</a>
+									<a href="#" class="b_btn white">수정</a>
+									<a href="#" class="b_btn white">삭제</a>
+									<a href="#" class="b_btn green stateChange">매칭완료</a>
+								</c:if>
+								<c:if test="${hwVO.matestate =='매칭 완료' or hwVO.matestate =='기간 만료'}">
+									<a href="#" class="b_btn white">재등록</a>
+									<a href="#" class="b_btn white">삭제</a>
+								</c:if>
 							</div>
 						</div>
 					</div>
@@ -467,13 +585,16 @@
 			</c:choose>
 			
 			<!-- 찜목록  -->
-			<div class="myHouseMateList objectHidden " id="myPage_LikeMarkerList">
-				<c:if test="${not empty houseLikeList }">
+			<div class="myHouseMateList <c:if test="${msg!='likeMark' }">objectHidden</c:if>" id="myPage_LikeMarkerList">
+				<c:if test="${not empty houseLikeList}">
 					<c:forEach var="like_hwVO" items="${houseLikeList }">
+					<c:if test="${like_hwVO.no!=null}">
 					<div class="myPage_HouseAndMate_oneBlock" >
 						<div class="myPage_HouseAndMate_Img">
-							<div>매칭 <br /><span>89</span> %</div>
-							<a href=""><img alt="" src="/home/housePic/${like_hwVO.housepic1 }"/></a>
+							<c:if test="${logGrade==2 and memberCheck=='mateMem' }">
+							<div>매칭 <br /><span>${like_hwVO.score }</span> %</div>
+							</c:if>
+							<a href="houseView?no=${like_hwVO.no }"><img alt="" src="/home/housePic/${like_hwVO.housepic1 }"/></a>
 						</div>
 						<ul class="myPage_HouseAndMate_Info">
 							<li>${like_hwVO.housename }</li>
@@ -488,24 +609,31 @@
 							</li>
 						</ul>
 						<div class="myPage_HouseAndMate_LikeMarker_Btn">
-							<a href="" class="b_btn white">찜 삭제</a>
-							<a href="" class="b_btn white">신청하기</a>
+							<input type="hidden" name="no" value="${like_hwVO.no }" />
+							<a href="" class="b_btn white likeMarkDel">찜 삭제</a>
+							<c:if test="${memberCheck=='mateMem' }">
+							<a href="" class="b_btn white applyInsert">신청하기</a>
+							</c:if>
 						</div>
 					</div>
+					</c:if>
 					</c:forEach>
 				</c:if>
 				<c:if test="${not empty mateLikeList }">
-					<c:forEach var="like_mwVO" items="${mateLikeList }"></c:forEach>
+					<c:forEach var="like_mwVO" items="${mateLikeList }">
+					<c:if test="${like_mwVO.no!=null }">
 					<div class="myPage_HouseAndMate_oneBlock">
 						<div class="myPage_HouseAndMate_Img">
-							<div>매칭 <br /><span>90</span> %</div>
-							<a href=""><img alt="" src="/home/matePic/${like_mwVO.matePic1 }"/></a>
+							<c:if test="${logGrade==2  and memberCheck=='houseMem' }">
+							<div>매칭 <br /><span>${like_mwVO.score }</span> %</div>
+							</c:if>
+							<a href="mateView?no=${like_mwVO.no }"><img alt="" src="/home/matePic/${like_mwVO.matePic1 }"/></a>
 						</div>
 						<ul class="myPage_HouseAndMate_Info">
 							<li>${like_mwVO.userid }</li>
 							<li>보증금 : ${like_mwVO.deposit }만원 | 월세 : ${like_mwVO.rent }만원</li>
 							<li>
-								<c:if test="${like_mwVO.area1 != null && like_mwVO.area1 != ''}">${mwlike_mwVOVO.area1 } </c:if>
+								<c:if test="${like_mwVO.area1 != null && like_mwVO.area1 != ''}">${like_mwVO.area1 } </c:if>
 								<c:if test="${like_mwVO.area2 != null && like_mwVO.area2 != ''}">| ${like_mwVO.area2 } </c:if>
 								<c:if test="${like_mwVO.area3 != null && like_mwVO.area3 != ''}">| ${like_mwVO.area3 } </c:if>
 							</li>
@@ -521,20 +649,25 @@
 									<li><p>
 										<c:choose>
 											<c:when test="${like_mwVO.m_now == 1 }">즉시</c:when>
-											<c:when test="${like_mwVO.m_now == 2 }">${mwVO.enterdate }</c:when>
+											<c:when test="${like_mwVO.m_now != 1 }">${like_mwVO.enterdate }</c:when>
 										</c:choose>
 									</p></li>
 								</ul>
 							</li>
 						</ul>
 						<div class="myPage_HouseAndMate_LikeMarker_Btn">
-							<a href="" class="b_btn white">찜 삭제</a>
-							<a href="" class="b_btn white">초대하기</a>
+							<input type="hidden" name="no" value="${like_mwVO.no }" />
+							<a href="#" class="b_btn white likeMarkDel">찜 삭제</a>
+							<c:if test="${memberCheck=='houseMem' }">
+							<a href="#" class="b_btn white inviteHouseSelect">초대하기</a>
+							</c:if>
 						</div>
 					</div>
+					</c:if>
+					</c:forEach>
 				</c:if>
 				<c:if test="${empty houseLikeList && empty mateLikeList}">
-					<div class="myHouseMateList <c:if test="${msg=='likemark' }">objectHidden</c:if>" id="mypage_likeMarkList">
+					<div class="myHouseMateList " id="mypage_likeMarkList">
 						<div class="myPage_HouseAndMate_oneBlock" >
 							<ul class="myPage_HouseAndMate_empty">
 								<li>찜목록이 비어있습니다. </li>
@@ -546,9 +679,10 @@
 			</div>
 		</section>
 		<!-- alert 대신 사용할 팝업 -->
-		<div class="alert_pop popup_hidden">
+		<div class="alert_pop popup_hidden" id="alert_pop">
 			<div class="alert_pop_Title"><span class="popup_Close">✕</span></div>
 			<div class="alert_pop_Content">
+			
 			</div>
 			<div class="alert_pop_footer">
 				<p class="b_btn white popup_Close" >닫기</p>
