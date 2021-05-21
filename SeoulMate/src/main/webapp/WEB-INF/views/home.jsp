@@ -91,14 +91,14 @@
          </div>
       </form>
    </div>
-   <c:if test="${myHousePnoCnt>0}">
+   <c:if test="${myHousePnoCnt>1}">
 	   <c:if test="${logGrade==2}"> <!-- 프리미엄인 하우스의 성향 고르기 -->
 	   		<div class="title_wrap" id="hPnoSelect">
 	   			<p class="s_title">어느 집의 메이트를 구하시나요?</p><br/>
-				<c:forEach var="housePno" items="${myHousePno}">
+				<c:forEach var="housePno" items="${myHousePno}" varStatus="index">
 					<a class="<c:if test='${hPno==housePno.pno}'>green</c:if>" id="${housePno.pno}">
 						<c:if test="${housePno.housename!=null}">${housePno.housename}</c:if>
-						<c:if test="${housePno.housename==null}">성향${housePno.pno}</c:if>
+						<c:if test="${housePno.housename==null}">이름없는 집 ${index.count}</c:if>
 					</a>
 				</c:forEach>
 			</div>

@@ -639,6 +639,20 @@ public class MateController {
 		return mav;
 	}
 	
+	@RequestMapping(value = "/hpnoDefaultMateIndex", method = RequestMethod.GET)
+	public ModelAndView hpnoDefaultMateIndex(HttpSession session, int pno) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
+		
+		// 내 하우스 성향의 갯수를 구한다.(프리미엄인 하우스에게 메이트 매칭 목록을 띄워주기 위해)
+		int myHousePnoCnt=listService.myHousePnoCount(userid);
+		if(myHousePnoCnt>0) {
+			session.setAttribute("hPno", pno);
+		}
+		mav.setViewName("redirect:mateIndex");
+		
+		return mav;
+	}
 
 	
 	
