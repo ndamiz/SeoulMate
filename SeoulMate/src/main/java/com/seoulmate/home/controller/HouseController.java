@@ -147,12 +147,19 @@ public class HouseController {
 	@RequestMapping("/houseView")
 	public ModelAndView houseView(int no, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		//String userid = (String)session.getAttribute("logId");
+		String userid = (String)session.getAttribute("logId");
 		
 		HouseWriteVO hVO = service.houseSelect2(no); //HouseWriteVO 값 가져오기
 		List<HouseRoomVO> rVO_List = service.roomListSelect(no); //HouseRoomVO 값 가져오기
 		PropensityVO pVO = service.propHouseSelect2(hVO.getPno()); //PropensityVO 값 가져오기
 		String memProfilePic = service.memberProfile(hVO.getUserid());
+		if(userid!=null) {
+			PropensityVO pVO_log = memService.propMateSelect(userid); //로그인한 사용자의 PropensityVO값 가져오기. (매칭용) 
+			MemberVO mVO_log = memService.memberSelect(userid);//로그인한 사용자의 정보
+			mav.addObject("pVO_log", pVO_log);
+			mav.addObject("mVO_log", mVO_log);
+		}
+		
 		mav.addObject("hVO", hVO);
 		mav.addObject("rVO_List", rVO_List);
 		mav.addObject("pVO", pVO);

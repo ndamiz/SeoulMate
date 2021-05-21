@@ -1,6 +1,105 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js" integrity="sha512-VMsZqo0ar06BMtg0tPsdgRADvl0kDHpTbugCBBrL55KmucH6hP9zWdLIWY//OTfMnzz6xWQRxQqsUFefwHuHyg==" crossorigin="anonymous"></script>
+<script>
+/* 하우스 PropensityVO 정보 */
+var m_gender = '<c:out value="${pVO.m_gender}"/>';  //1:여성전용,  2:상관없음, 3:남성전용
+var logmem_gender = '<c:out value="${mVO_log.gender}"/>'; //로그인한 멤버의 아이디 (pcase가 h일경우 널값, 미로그인시 널값)
+var logmem_id = '<c:out value="${logId}"/>';
+var hh_noise = '<c:out value="${pVO.h_noise}"/>';
+var hh_pattern ='<c:out value="${pVO.h_pattern}"/>';
+var hh_pet = '<c:out value="${pVO.h_pet}"/>';
+var hh_petwith = '<c:out value="${pVO.h_petwith}"/>';
+var hh_smoke = '<c:out value="${pVO.h_smoke}"/>';
+var hh_mood = '<c:out value="${pVO.h_mood}"/>';
+var hh_communication = '<c:out value="${pVO.h_communication}"/>';
+var hh_party = '<c:out value="${pVO.h_party}"/>';
+var hh_enter = '<c:out value="${pVO.h_pet}"/>';
+var hm_pattern = '<c:out value="${pVO.m_pattern}"/>'; //생활시간대
+var hm_personality = '<c:out value="${pVO.m_personality}"/>'; //성격
+var hm_pet = '<c:out value="${pVO.m_pet}"/>'; //반려동물
+var hm_smoke = '<c:out value="${pVO.m_smoke}"/>'; // 흡연 
+var hm_global = '<c:out value="${pVO.m_global}"/>'; //외국인입주여부
+var hm_now = '<c:out value="${pVO.m_now}"/>'; //즉시입주여부
+
+var mh_noise = '<c:out value="${pVO_log.h_noise}"/>';
+var mh_pattern ='<c:out value="${pVO_log.h_pattern}"/>';
+var mh_pet = '<c:out value="${pVO_log.h_pet}"/>';
+var mh_petwith = '<c:out value="${pVO_log.h_petwith}"/>';
+var mh_smoke = '<c:out value="${pVO_log.h_smoke}"/>';
+var mh_mood = '<c:out value="${pVO_log.h_mood}"/>';
+var mh_communication = '<c:out value="${pVO_log.h_communication}"/>';
+var mh_party = '<c:out value="${pVO_log.h_party}"/>';
+var mh_enter = '<c:out value="${pVO_log.h_pet}"/>';
+var mm_pattern = '<c:out value="${pVO_log.m_pattern}"/>';
+var mm_personality = '<c:out value="${pVO_log.m_personality}"/>';
+var mm_pet = '<c:out value="${pVO_log.m_pet}"/>';
+var mm_smoke = '<c:out value="${pVO_log.m_smoke}"/>';
+var mm_global = '<c:out value="${pVO_log.m_global}"/>';
+var mm_now = '<c:out value="${pVO_log.m_now}"/>';
+
+var housePropensity = [ Number(hh_noise), (Number(hh_pattern)+Number(hm_pattern))/2, (Number(hh_pet)+Number(hh_petwith)+Number(hm_pet))/3,
+	(Number(hh_smoke)+Number(hm_smoke)), Number(hh_mood), Number(hh_communication), Number(hh_party), Number(hh_enter), 
+	Number(hm_personality), Number(hm_global), Number(hm_now)];
+console.log(housePropensity);
+var matePropensity = [Number(mh_noise), (Number(mh_pattern)+Number(mm_pattern))/2, (Number(mh_pet)+Number(mh_petwith)+Number(mm_pet))/3,
+	(Number(mh_smoke)+Number(mm_smoke))/2, Number(mh_mood), Number(mh_communication), Number(mh_party), Number(mh_enter), 
+	Number(mm_personality), Number(mm_global), Number(mm_now)];
+console.log(matePropensity);
+
+$(function(){
+	var ctx = document.getElementById('matchinChart'); 
+	var chartData = {
+		labels : ['생활소음', '생활시간', '반려동물', '흡연', '분위기', '소통방식', 
+				'모임빈도', '모임참가의무', '성격', '외국인입주여부', '즉시입주여부'],
+		datasets : [{
+			label : '하우스',
+			fill: true,
+		    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+		    borderColor: 'rgb(255, 99, 132)',
+		    pointBackgroundColor: 'rgb(255, 99, 132)',
+		    pointBorderColor: '#fff',
+		    pointHoverBackgroundColor: '#fff',
+		    pointHoverBorderColor: 'rgb(255, 99, 132)',
+			data : housePropensity
+		},{
+			label : logmem_id,
+			fill: true,
+		    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+		    borderColor: 'rgb(54, 162, 235)',
+		    pointBackgroundColor: 'rgb(54, 162, 235)',
+		    pointBorderColor: '#fff',
+		    pointHoverBackgroundColor: '#fff',
+		    pointHoverBorderColor: 'rgb(54, 162, 235)',
+			data : matePropensity
+		}]
+	};
+
+	var chartOptions = {
+		scale : {
+			gridLines : {
+				color : "black",
+				lineWidth : 1
+			},
+			r: {
+	            angleLines: {
+	                display: false
+	            },
+	            suggestedMin: 0,
+	            suggestedMax: 3
+	        }
+		},legend : {
+			position : 'left'
+		}	
+	};
+	var matchinChart = new Chart(ctx, {
+		type : 'radar',
+		data : chartData,
+		options : chartOptions
+	});
+});
+</script>
 <style>
 
 /* ul, li{float:left;} */
@@ -22,10 +121,12 @@
     height: 520px;
     border: 1px solid #ddd;
     border-radius: 3px; }
-#peopleExplain img{margin-top: 30px;}
+#peopleExplain img{width: 270px; height: 270px;}
 #peopleExplain li{width: 90%;
-    margin: 10px auto;
+    margin: 5px auto;
     text-align: center;}
+#peopleExplain li>button{height: 45px; line-height: 45px;}
+#peopleExplain li:first-of-type{ margin: 10px auto;}
 #peopleExplain li:nth-of-type(2){font-size: 1.5em;}
 #profilePic1{width:150px; height:150px; margin-top: 5px;}
 #map_Div{background-color:skyblue;}
@@ -36,21 +137,32 @@
     left: 0px;
     top: -420px;
     width: 100%;}
-.middle_houseInfo, #propensity_info{
+.middle_houseInfo, #propensity_info, .matchin_Graph{
     width: 80%;
     margin: 40px auto;
 }
-
+.matchin_Graph>div{
+	width: 300px; height: 300px;
+}
+#propensity_info{overflow: auto;}
 #propensity_info ul>li{
 	float: left;
     height: 40px;
     line-height: 40px;
-    padding: 0px 10px;
-    width: 23%;
+    padding: 0;
+    width: 22%;
+    text-align: center;
 }
-#propensity_info ul>li:first-of-type{width: 30%;}
-#propensity_info ul{width: 100%}
-.propensity_info_house, .propensity_info_mate{width: 50%; float: left;}
+#propensity_info ul>li:first-of-type{width: 34%; text-align: left; font-weight: bold;}
+/* #propensity_info ul>li:nth-of-type(4){width: 22%;} */
+#propensity_info p{margin: 40px 0px 10px 30px;}
+#propensity_info ul {width: 90%; margin: 0 auto; overflow: auto; padding: 0;}
+.propensity_info_house,  .propensity_info_mate{border: 1px solid #ddd; border-radius: 3px; }
+.propensity_info_house{width: 54%; float: left;}
+.propensity_info_mate{width: 45%; float: right;}
+.checkSvg{  width: 15px;
+    height: 15px;line-height:40px;
+	filter: invert(51%) sepia(100%) saturate(1626%) hue-rotate(137deg) brightness(88%) contrast(85%);}
 #facility_info img{width: 70px; height: 70px;}
 #facility_info div{width: 100%; overflow: auto;}
 #facility_info ul{float: left; margin: 10px 20px;}
@@ -315,94 +427,232 @@
 				<p class="s_title"> [${hVO.housename }] 하우스 성향</p>
 				<ul>
 					<li>생활 소음</li>
-						<li <c:if test="${pVO.h_noise=='1' }"></c:if>>매우 조용함</li>
-						<li <c:if test="${pVO.h_noise=='2' }"></c:if>>보통</li>
-						<li <c:if test="${pVO.h_noise=='3' }"></c:if>>조용하지 않음</li>
+					<li><c:if test="${pVO.h_noise=='1' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						매우 조용함</li>
+					<li><c:if test="${pVO.h_noise=='2' }"> <img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						보통</li>
+					<li><c:if test="${pVO.h_noise=='3' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						조용하지 않음</li>
 				</ul>
 				<ul>
 					<li>생활 시간</li>
-					<li <c:if test="${pVO.h_pattern=='1' }"></c:if>>주행성</li>
-					<li <c:if test="${pVO.h_pattern=='3' }"></c:if>>야행성</li>
+					<li><c:if test="${pVO.h_pattern=='1' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						주행성</li>
+					<li><c:if test="${pVO.h_pattern=='3' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						야행성</li>
 					<li></li>
 				</ul>
 				<ul>
 					<li>반려동물 여부</li>
-					<li <c:if test="${pVO.h_pet=='1' }"></c:if>>없음</li>
-					<li <c:if test="${pVO.h_pet=='3' }"></c:if>>있음</li>
+					<li><c:if test="${pVO.h_pet=='1' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						없음</li>
+					<li><c:if test="${pVO.h_pet=='3' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						있음</li>
 					<li></li>
 				</ul>
 				<ul>
 					<li>반려동물 동반 입실 여부</li>
-					<li <c:if test="${pVO.h_petwith=='1' }"></c:if>>불가능</li>
-					<li <c:if test="${pVO.h_petwith=='3' }"></c:if>>가능</li>
+					<li><c:if test="${pVO.h_petwith=='1' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						불가능</li>
+					<li><c:if test="${pVO.h_petwith=='3' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						가능</li>
 					<li></li>
 				</ul>
 				<ul>
 					<li>흡연 여부</li>
-					<li <c:if test="${pVO.h_smoke=='1' }"></c:if>>비흡연</li>
-					<li <c:if test="${pVO.h_smoke=='2' }"></c:if>>실외흡연</li>
-					<li <c:if test="${pVO.h_smoke=='3' }"></c:if>>실내흡연</li>
+					<li><c:if test="${pVO.h_smoke=='1' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						비흡연</li>
+					<li><c:if test="${pVO.h_smoke=='2' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						실외흡연</li>
+					<li><c:if test="${pVO.h_smoke=='3' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						실내흡연</li>
 				</ul>
 				<ul>
 					<li>분위기</li>
-					<li <c:if test="${pVO.h_mood=='1' }"></c:if>>화목함</li>
-					<li <c:if test="${pVO.h_mood=='2' }"></c:if>>보통</li>
-					<li <c:if test="${pVO.h_mood=='3' }"></c:if>>독립적</li>
+					<li><c:if test="${pVO.h_mood=='1' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						화목함</li>
+					<li><c:if test="${pVO.h_mood=='2' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						보통</li>
+					<li><c:if test="${pVO.h_mood=='3' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						독립적</li>
 				</ul>
 				<ul>
 					<li>소통방식</li>
-					<li <c:if test="${pVO.h_communication=='1' }"> </c:if>>메신저</li>
-					<li <c:if test="${pVO.h_communication=='2' }"> </c:if>>기타</li>
-					<li <c:if test="${pVO.h_communication=='3' }"> </c:if>>대화</li>
+					<li><c:if test="${pVO.h_communication=='1' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						메신저</li>
+					<li><c:if test="${pVO.h_communication=='2' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						기타</li>
+					<li><c:if test="${pVO.h_communication=='3' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						대화</li>
 				</ul>
 				<ul>
 					<li>모임빈도</li>
-					<li <c:if test="${pVO.h_party=='1' }"></c:if>>없음</li>
-					<li <c:if test="${pVO.h_party=='2' }"></c:if>>상관없음</li>
-					<li <c:if test="${pVO.h_party=='3' }"></c:if>>있음</li>
+					<li><c:if test="${pVO.h_party=='1' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						없음</li>
+					<li><c:if test="${pVO.h_party=='2' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						상관없음</li>
+					<li><c:if test="${pVO.h_party=='3' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						있음</li>
 				</ul>
 				<ul>
 					<li>모임참가 의무</li>
-					<li <c:if test="${pVO.h_enter=='1' }"></c:if>>없음</li>
-					<li <c:if test="${pVO.h_enter=='2' }"></c:if>>상관없음</li>
-					<li <c:if test="${pVO.h_enter=='3' }"></c:if>>있음</li>
-				</ul>
-				<ul>
-					<li>모임참가 의무</li>
-					<li <c:if test="${pVO.h_enter=='1' }"></c:if>>없음</li>
-					<li <c:if test="${pVO.h_enter=='2' }"></c:if>>상관없음</li>
-					<li <c:if test="${pVO.h_enter=='3' }"></c:if>>있음</li>
+					<li><c:if test="${pVO.h_enter=='1' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						없음</li>
+					<li><c:if test="${pVO.h_enter=='2' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						상관없음</li>
+					<li><c:if test="${pVO.h_enter=='3' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						있음</li>
 				</ul>
 				<ul>
 					<li>하우스 지원</li>
-					<c:forEach var="i" items="${pVO.h_support }">
-						<li <c:if test="${i == 1}"></c:if> ><c:if test="${i == 1}">공용공간청소</c:if></li>
-						<li <c:if test="${i == 2}"></c:if> ><c:if test="${i == 2}">공용생필품</c:if></li>
-						<li <c:if test="${i == 3}"></c:if> ><c:if test="${i == 3}">기본 식품</c:if></li>
-					</c:forEach>
+					<c:choose>
+						<c:when test="${pVO.h_support == null || pVO.h_support ==''}">
+							<li>공용공간청소</li>
+							<li>공용생필품</li>
+							<li>기본 식품</li>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="i" items="${pVO.h_support }">
+								<c:choose>
+									<c:when test="${i == 1}">
+										<li><img src="/home/img/comm/check-mark.svg" class="checkSvg"/>공용공간청소</li>
+									</c:when>
+									<c:otherwise>
+										<li>공용공간청소</li>
+									</c:otherwise>
+								</c:choose>
+								<c:choose>
+									<c:when test="${i == 2}">
+										<li ><img src="/home/img/comm/check-mark.svg" class="checkSvg"/>공용생필품</li>
+									</c:when>
+									<c:otherwise>
+										<li>공용생필품</li>
+									</c:otherwise>
+								</c:choose>
+								<c:choose>
+									<c:when test="${i == 3}">
+										<li><img src="/home/img/comm/check-mark.svg" class="checkSvg"/>기본 식품</li>
+									</c:when>
+									<c:otherwise>
+										<li>기본 식품</li>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
 				</ul>
 				<ul>
 					<li>기타 사항</li>
-					<c:forEach var="j" items="${pVO.h_etc }">
-						<li><c:if test="${j == 1}">공용공간청소 </c:if></li>
-						<li><c:if test="${j == 2}">공용생필품 </c:if></li>
-						<li><c:if test="${j == 3}">기본식품 </c:if></li>
-					</c:forEach>
+					<c:choose>
+						<c:when test="${pVO.h_etc == null || pVO.h_etc ==''}">
+							<li>보증금조절</li>
+							<li>즉시입주</li>
+							<li></li>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="j" items="${pVO.h_etc }">
+									<c:choose>
+										<c:when test="${j == 1}">
+											<li><img src="/home/img/comm/check-mark.svg" class="checkSvg"/>보증금조절</li>
+										</c:when>
+										<c:otherwise>
+											<li>보증금조절</li>
+										</c:otherwise>
+									</c:choose>
+									<c:choose>
+										<c:when test="${j == 3}">
+											<li><img src="/home/img/comm/check-mark.svg" class="checkSvg"/>즉시입주</li>
+										</c:when>
+										<c:otherwise>
+											<li>즉시입주</li>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+								<li></li>
+						</c:otherwise>
+					</c:choose>
+					
 				</ul>
 			</div>
 			<div class="propensity_info_mate">
 				<p class="s_title">희망 메이트</p>
 				<ul>
 					<li>생활 시간</li>
-					<li><c:if test="${pVO.m_pattern=='1' }">주행성</c:if>
-						<c:if test="${pVO.m_pattern=='2' }">야행성</c:if></li>
+					<li><c:if test="${pVO.m_pattern=='1' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						주행성</li>
+					<li><c:if test="${pVO.m_pattern=='2' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						야행성</li>
+					<li></li>
 				</ul>
 				<ul>
 					<li>성격</li>
-					<li><c:if test="${pVO.m_personality=='1' }">내향적</c:if>
-						<c:if test="${pVO.m_personality=='2' }">상관없음</c:if>
-						<c:if test="${pVO.m_personality=='3' }">외향적</c:if></li>
+					<li><c:if test="${pVO.m_personality=='1' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						내향적</li>
+					<li><c:if test="${pVO.m_personality=='2' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						상관없음</li>
+					<li><c:if test="${pVO.m_personality=='3' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						외향적</li>
 				</ul>
+				<ul>
+					<li>반려동물</li>
+					<li><c:if test="${pVO.m_pet=='1' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						긍정적</li>
+					<li><c:if test="${pVO.m_pet=='3' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						부정적</li>
+					<li></li>
+				</ul>
+				<ul>
+					<li>흡연여부</li>
+					<li><c:if test="${pVO.m_smoke=='1' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						비흡연</li>
+					<li><c:if test="${pVO.m_smoke=='2' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						상관없음</li>
+					<li><c:if test="${pVO.m_smoke=='3' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						흡연</li>
+				</ul>
+				<ul>
+					<li>나이대</li>
+					<li><c:if test="${pVO.m_age=='1' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						20~30대</li>
+					<li><c:if test="${pVO.m_age=='2' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						상관없음</li>
+					<li><c:if test="${pVO.m_age=='3' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						40대 이상</li>
+				</ul>
+				<ul>
+					<li>성별</li>
+					<li><c:if test="${pVO.m_gender=='1' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						여성전용</li>
+					<li><c:if test="${pVO.m_gender=='2' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						상관없음</li>
+					<li><c:if test="${pVO.m_gender=='3' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						남성전용</li>
+				</ul>
+				<ul>
+					<li>외국인 입주여부</li>
+					<li><c:if test="${pVO.m_global=='3' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						가능</li>
+					<li><c:if test="${pVO.m_global=='1' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						불가능</li>
+					<li></li>
+				</ul>
+				<ul>
+					<li>즉시입주여부</li>
+					<li><c:if test="${pVO.m_now=='1' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						가능</li>
+					<li><c:if test="${pVO.m_now=='3' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
+						불가능</li>
+					<li></li>
+				</ul>
+				<ul><li></li><li></li><li></li><li></li></ul>
+				<ul><li></li><li></li><li></li><li></li></ul>
+				<ul><li></li><li></li><li></li><li></li></ul>
+			</div>
+		</div>
+		<div class="matchin_Graph">
+			<p class="s_title">매칭 그래프</p>
+			<div>
+				<canvas id="matchinChart" height="300" width="300" ></canvas>
 			</div>
 		</div>
 	</div> <!-- middleFrm div 종료 -->
