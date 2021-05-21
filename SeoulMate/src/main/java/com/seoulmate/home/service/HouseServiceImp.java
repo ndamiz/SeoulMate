@@ -157,4 +157,8 @@ public class HouseServiceImp implements HouseService {
 	public List<HouseRoomVO> roomListSelect(int no) {
 		return dao.roomListSelect(no);
 	}
+	@Override
+	public int propPcaseM(String userid) { // 메이트 성향이 있는지 가져옴
+		return pDAO.propPcaseM(userid);
+	}
 }

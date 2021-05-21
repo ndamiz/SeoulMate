@@ -43,4 +43,6 @@ public interface MateWriteDAO {
 	// 페이징 토탈레코드수 구하기
 	public int mateTotalRecord(HouseMatePagingVO pVO);
 
+	//메이트 글 카운트
+	public int mateCount(String userid);
 }

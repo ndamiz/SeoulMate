@@ -87,4 +87,7 @@
 	<update id="mateAreaUpdate">
 		update member set area=#{param1} where userid=#{param2}
 	</update>
+	<select id="mateCount" resultType="int">
+		select count(pno) from matewrite where userid=#{param1}
+	</select>
   </mapper>

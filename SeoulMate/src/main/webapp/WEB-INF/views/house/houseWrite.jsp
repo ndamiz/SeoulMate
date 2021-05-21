@@ -359,6 +359,7 @@ $(function(){
 						<option value="4">4</option>
 					</select> </li>
 			<li><label><span class="red_txt">*</span>현재 인원</label> <select name="nowpeople">
+						<option value="0">0</option>
 						<option value="1">1</option>
 						<option value="2">2</option>
 						<option value="3">3</option>
@@ -479,7 +480,7 @@ $(function(){
 				
 				<li> 
 <!-- 					<input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);" multiple/> -->
-					<input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);" /> 
+					<input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);" required /> 
 					<input type="file" accept="image/*" name="filename2"  id="housepic2" onchange="readURL(this);"/>
 					<input type="file" accept="image/*" name="filename3"  id="housepic3" onchange="readURL(this);"/>
 					<input type="file" accept="image/*" name="filename4"  id="housepic4" onchange="readURL(this);"/>
@@ -585,7 +586,7 @@ $(function(){
 						<input type="radio" id="h_noise1" value="1" name="h_noise" <c:if test="${vo.h_noise==1}">checked</c:if> > 
 						<label for="h_noise1">매우 조용함</label>
 						
-						<input type="radio" id="h_noies2" value="2" name="h_noise" <c:if test="${vo.h_noise==2}">checked</c:if> > 
+						<input type="radio" id="h_noise2" value="2" name="h_noise" <c:if test="${vo.h_noise==2}">checked</c:if> > 
 						<label for="h_noise2">보통</label>
 						
 						<input type="radio" id="h_noise3" value="3" name="h_noise" <c:if test="${vo.h_noise==3}">checked</c:if> > 

@@ -24,9 +24,8 @@
 	<update id="houseUpdate" parameterType="com.seoulmate.home.vo.HouseWriteVO">
 		update housewrite set addr=#{addr}, 
 		<if test="housepic1!=null and housepic1!=''">housepic1=#{housepic1}, </if>
-		housepic2=#{housepic2}, housepic3=#{housepic3}, housepic4=#{housepic4}, housepic5=#{housepic5}, 
 		room=#{room}, bathroom=#{bathroom}, nowpeople=#{nowpeople}, searchpeople=#{searchpeople},
-		publicfacility=#{publicfacility}, houseprofile=#{houseprofile}, housename=#{housename} where userid=#{userid} and no=#{no}
+		publicfacility=#{publicfacility}, houseprofile=#{houseprofile}, housename=#{housename} where userid=#{userid} and no=${no}
 	</update>
 	<select id="housenameCheck" resultType="String">
 		select housename from housewrite where pno=#{param1}

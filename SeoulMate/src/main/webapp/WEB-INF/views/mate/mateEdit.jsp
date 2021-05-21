@@ -352,17 +352,17 @@ $(function(){
 			<li> <label><span class="red_txt">*</span>입주가능일 </label><input type="date" name="enterdate" value="date"  > </li>
 			<li> <label><span class="red_txt">*</span>최소 거주 기간</label>
 				 	<select name="minStay">
-						<option value="1-3개월">1~3 개월</option>
-						<option value="4-6개월">4~6 개월</option>
-						<option value="7-12개월">7~12 개월</option>
-						<option value="1년 이상">1년 이상</option> 
+						<option value="1-3개월" <c:if test="${mVO.minStay=='1-3개월' }">selected </c:if> >1~3 개월</option>
+						<option value="4-6개월" <c:if test="${mVO.minStay=='4-6개월' }">selected </c:if> >4~6 개월</option>
+						<option value="7-12개월" <c:if test="${mVO.minStay=='7-12개월' }">selected </c:if> >7~12 개월</option>
+						<option value="1년 이상" <c:if test="${mVO.minStay=='1년이상' }">selected </c:if> >1년 이상</option> 
 					</select> </li>
 			<li> <label><span class="red_txt">*</span>최대 거주 기간</label>
 					<select name="maxStay">
-						<option value="1-3개월">1~3 개월</option>
-						<option value="4-6개월">4~6 개월</option>
-						<option value="7-9개월">7~12 개월</option>
-						<option value="1년 이상">1년 이상</option>
+						<option value="1-3개월" <c:if test="${mVO.maxStay=='1-3개월' }">selected </c:if> >1~3 개월</option>
+						<option value="4-6개월" <c:if test="${mVO.maxStay=='4-6개월' }">selected </c:if> >4~6 개월</option>
+						<option value="7-12개월" <c:if test="${mVO.maxStay=='7-12개월' }">selected </c:if> >7~12 개월</option>
+						<option value="1년 이상" <c:if test="${mVO.maxStay=='1년이상' }">selected </c:if> >1년 이상</option>
 					</select> </li>
 		</ul>
 			<div class="btnclass">
@@ -381,24 +381,9 @@ $(function(){
 	</div>
 	
 		<ul class="form_box">
-				<li id="mPic"><img id="mateImg1" name="mateImg1" src="/home/housePic/${mVO.matePic1}" alt="upload image" style="width:150px; height:107px;"/></li>
+				<li id="mPic"><img id="mateImg1" name="mateImg1" src="/home/matePic/${mVO.matePic1}" alt="upload image" style="width:150px; height:107px;"/></li>
 				<li> <input type="file" accept="image/*" name="filename" id="matePic1" onchange="readURL(this);"/> <br/> </li>
-				<li> <img src="<%=request.getContextPath()%>/img/house/mate01.jfif" name="profilePic2" style="width:150px; height:150px;"/><br/>
-					<div class="checks">
-						<input type="radio" id="radio31" name="matePic2"> 
-						<label for="radio31">기본이미지1</label>
-					</div> 
-				<img src="<%=request.getContextPath()%>/img/house/mate02.jfif" name="profilePic3" style="width:150px; height:150px;"/>
-					<div class="checks">
-						<input type="radio" id="radio32" name="matePic3"> 
-						<label for="radio32">기본이미지2</label>
-					</div> 
-				<img src="<%=request.getContextPath()%>/img/house/mate03.jfif" name="" style="width:150px; height:150px;"/>
-					<div class="checks">
-						<input type="radio" id="radio33" name="matePic4"> 
-						<label for="radio33">기본이미지3</label>
-					</div> 
-			</li>
+			
 		</ul>
 		<p>&nbsp;</p> <p>&nbsp;</p> <p>&nbsp;</p> <br/> <br/>
 			<div class="btnclass">
@@ -580,10 +565,10 @@ $(function(){
 					<input type="checkbox" id="h_support1" value="1" name="h_support" <c:forEach var="i" items="${pVO.h_support}"><c:if test="${i=='1'}">checked</c:if></c:forEach> > 
 					<label for="h_support1">공용공간 청소지원</label>
 								
-					<input type="checkbox" id="h_support2" value="2" name="h_support" <c:forEach var="i" items="${pVO.h_support}"><c:if test="${i=='1'}">checked</c:if></c:forEach> > 
+					<input type="checkbox" id="h_support2" value="2" name="h_support" <c:forEach var="i" items="${pVO.h_support}"><c:if test="${i=='2'}">checked</c:if></c:forEach> > 
 					<label for="h_support2">공용생필품 지원</label> <br/>
 								
-					<input type="checkbox" id="h_support3" value="3" name="h_support" <c:forEach var="i" items="${pVO.h_support}"><c:if test="${i=='1'}">checked</c:if></c:forEach> > 
+					<input type="checkbox" id="h_support3" value="3" name="h_support" <c:forEach var="i" items="${pVO.h_support}"><c:if test="${i=='3'}">checked</c:if></c:forEach> > 
 					<label for="h_support3">기본 식품 지원</label>
 				</div>
 			</li> <br/><br/>
@@ -694,7 +679,7 @@ $(function(){
 	
 			<div class="btnclass">
 				<a id="mPrev7" class="green" >이전</a>
-				<a id="mNext7" class="green" >등록</a>
+				<a id="mNext7" class="green" >수정</a>
 			</div> <!-- 버튼div 종료 -->
 	</div> <!--  등록form7 종료 --> 
 	
