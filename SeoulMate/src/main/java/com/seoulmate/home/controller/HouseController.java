@@ -2,8 +2,12 @@ package com.seoulmate.home.controller;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -18,8 +22,10 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.seoulmate.home.dao.HouseWriteDAO;
@@ -27,6 +33,7 @@ import com.seoulmate.home.service.HomeService;
 import com.seoulmate.home.service.HouseService;
 import com.seoulmate.home.service.ListService;
 import com.seoulmate.home.service.MemberService;
+import com.seoulmate.home.vo.HouseMatePagingVO;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.ListVO;
@@ -48,9 +55,29 @@ public class HouseController {
 	private DataSourceTransactionManager transactionManager;
 	
 	@RequestMapping("/houseIndex")
-	public ModelAndView houseIndex(HttpSession session) {
+	public ModelAndView houseIndex(HttpSession session, String addr, String rent, String deposit, String m_gen, String pageNum) {
 		ModelAndView mav=new ModelAndView();
 		String userid=(String)session.getAttribute("logId");
+		
+		int rentInt=0;
+		if(rent!=null && !rent.equals("")) {
+			rentInt=Integer.parseInt(rent);
+		}
+		
+		int depositInt=0;
+		if(deposit!=null && !deposit.equals("")) {
+			depositInt=Integer.parseInt(deposit);
+		}
+		
+		int m_genInt=0;
+		if(m_gen!=null && !m_gen.equals("")) {
+			m_genInt=Integer.parseInt(m_gen);
+		}
+		
+		int pageNumInt=1;
+		if(pageNum!=null && !pageNum.equals("")) {
+			pageNumInt=Integer.parseInt(pageNum);
+		}
         
         if(session.getAttribute("logId")!=null) {
 			int logGrade=(Integer)session.getAttribute("logGrade");
@@ -65,25 +92,36 @@ public class HouseController {
 					int m_gender=listService.mate_m_gender(userid);
 					
 					// 쉐어하우스 매칭 리스트 구하기
-					List<ListVO> phList = listService.premiumHouseList(userid, m_gender); // PremiumHouseList
+					List<ListVO> phList = listService.premiumHouseList(userid, m_gender, addr, rentInt, depositInt, m_genInt); // PremiumHouseList
 					
-					if(phList.get(0)!=null){ // else if(phList!=null)
-						HouseRoomVO phhrVO = new HouseRoomVO();
-						for (ListVO phVO : phList) {
-							// 각 쉐어하우스의 제일 저렴한 월세 가져오기
-							phhrVO = HomeService.getDesposit(phVO.getNo());
-							
-							phVO.setDeposit(phhrVO.getDeposit());
-							phVO.setRent(phhrVO.getRent());
-							int idx = phVO.getAddr().indexOf("동 ");
-							phVO.setAddr(phVO.getAddr().substring(0, idx+1));
+					if(phList.size()>0) {
+						if(phList.get(0)!=null){ // else if(phList!=null)
+							HouseRoomVO phhrVO = new HouseRoomVO();
+							for (ListVO phVO : phList) {
+	//							// 각 쉐어하우스의 제일 저렴한 월세 가져오기
+	//							phhrVO = HomeService.getDesposit(phVO.getNo());
+	//							
+	//							phVO.setDeposit(phhrVO.getDeposit());
+	//							phVO.setRent(phhrVO.getRent());
+								int idx = phVO.getAddr().indexOf("동 ");
+								phVO.setAddr(phVO.getAddr().substring(0, idx+1));
+							}
+							mav.addObject("phList", phList);
 						}
-						mav.addObject("phList", phList);
 					}
 				}
 				
 			}
 		}
+        
+        HouseMatePagingVO pVO=new HouseMatePagingVO();
+        
+        pVO.setAddr(addr);
+        pVO.setRent(rentInt);
+        pVO.setDeposit(depositInt);
+        pVO.setM_gen(m_genInt);
+        pVO.setPageNum(pageNumInt);
+        pVO.setTotalRecode(service.HouseTotalRecode(pVO));
         
         // 쉐어하우스 최신리스트 구하기
 		int MyMpnoCnt=0;
@@ -93,7 +131,7 @@ public class HouseController {
 			}
 		}
 		
-		List<HouseWriteVO> nhList = service.getNewIndexHouse(); // 1. homeService 함수는 row<=3이고, HouseService는 row<=9
+		List<HouseWriteVO> nhList = service.getNewIndexHouse(pVO); // 1. homeService 함수는 row<=3이고, HouseService는 row<=9
 		HouseRoomVO hrVO = new HouseRoomVO();
 		for (HouseWriteVO hwVO : nhList) {
 			// 각 쉐어하우스의 제일 저렴한 월세 가져오기
@@ -115,9 +153,9 @@ public class HouseController {
 			hwVO.setAddr(hwVO.getAddr().substring(0, idx+1));
 		}
 		
+		mav.addObject("newHouseListCnt", nhList.size());
 		mav.addObject("newHouseList", nhList);
-	
-		
+		mav.addObject("pVO", pVO); // addr, rent, deposit, m_gen
 		mav.setViewName("house/houseIndex");
 	return mav;
 	}
@@ -125,15 +163,23 @@ public class HouseController {
 	@RequestMapping("/houseView")
 	public ModelAndView houseView(int no, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-//		String userid = (String)session.getAttribute("logId");
+		String userid = (String)session.getAttribute("logId");
 		
 		HouseWriteVO hVO = service.houseSelect2(no); //HouseWriteVO 값 가져오기
-		HouseRoomVO rVO = service.roomSelect2(no); //HouseRoomVO 값 가져오기
+		List<HouseRoomVO> rVO_List = service.roomListSelect(no); //HouseRoomVO 값 가져오기
 		PropensityVO pVO = service.propHouseSelect2(hVO.getPno()); //PropensityVO 값 가져오기
+		String memProfilePic = service.memberProfile(hVO.getUserid());
+		if(userid!=null) {
+			PropensityVO pVO_log = memService.propMateSelect(userid); //로그인한 사용자의 PropensityVO값 가져오기. (매칭용) 
+			MemberVO mVO_log = memService.memberSelect(userid);//로그인한 사용자의 정보
+			mav.addObject("pVO_log", pVO_log);
+			mav.addObject("mVO_log", mVO_log);
+		}
 		
 		mav.addObject("hVO", hVO);
-		mav.addObject("rVO", rVO);
+		mav.addObject("rVO_List", rVO_List);
 		mav.addObject("pVO", pVO);
+		mav.addObject("memProfilePic", memProfilePic);
 		
 		mav.setViewName("house/houseView");
 		
@@ -159,18 +205,28 @@ public class HouseController {
 			mav.addObject("housePno", 0); //하우스 글이 없을경우 pno 에 0 값을 넣어줌
 		}
 		if(pcaseH>0) {
-			mav.addObject("list", memService.houseList(userid));
+			//mav.addObject("list", memService.houseList(userid));
+			mav.addObject("list", service.getPropInfo(userid, "nodata"));
+			List<List<PropensityVO>> test = new  ArrayList<List<PropensityVO>>();
+			test.add(service.getPropInfo(userid, "nodata"));
+			System.out.println(test.get(0).get(0).getH_support()+"bbbbb");
 		}
-		
 		mav.setViewName("house/houseWrite");
-		
 		return mav;
 	}
-	
+	//하우스 등록시 선택한 성향 불러오기
+	@RequestMapping("/getPropensity")
+	@ResponseBody
+	public List<PropensityVO> getPropensity(String userid, String housename){
+		return service.getPropInfo(userid, housename);
+	}
 	//하우스 글 등록 확인
 	@RequestMapping(value="/houseWriteOk", method = RequestMethod.POST)
 	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
-	public ModelAndView houseWriteOk(HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, @RequestParam("filename") MultipartFile filename, HttpSession session ,HttpServletRequest req) {
+	public ModelAndView houseWriteOk(HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, 
+				@RequestParam("filename") MultipartFile filename, HttpSession session ,HttpServletRequest req,
+				 MultipartHttpServletRequest mhsr) {
+		
 		System.out.println(pVO.getPno());
 		String userid=(String)session.getAttribute("logId");
 		
@@ -188,7 +244,10 @@ public class HouseController {
 
 		String orgName=filename.getOriginalFilename(); // 기존 파일 명
 		String realName="";
-		
+	
+		 List<MultipartFile> list = mhsr.getFiles("filename");
+	
+
 		try {
 			if(orgName != null && !orgName.equals("")) {
 				File f=new File(path, orgName);
@@ -201,7 +260,9 @@ public class HouseController {
 					f=new File(path, name+"_"+ i++ +"."+extName);
 				}
 				filename.transferTo(f); // 업로드
+				
 				realName=f.getName();
+				
 				hVO.setHousepic1(f.getName());
 			}
 		}catch(Exception e) {
@@ -357,7 +418,7 @@ public class HouseController {
 				
 		//사진 수정
 		String path = req.getSession().getServletContext().getRealPath("/housePic");
-		String selFilename = service.houseProfile(userid, hVO.getNo()); //아이디, no
+		String selFilename = service.houseProfilePic(userid, hVO.getNo()); //아이디, no
 		String delFilename = req.getParameter("delFile");
 		
 		MultipartHttpServletRequest mr=(MultipartHttpServletRequest)req;
@@ -399,10 +460,12 @@ public class HouseController {
 		
 		try {
 			System.out.println("하우스테이블 no 1확인:"+hVO.getNo());
-			hVO.setNo(3);
-			hVO.setPno(22);
+//			hVO.setNo(3);
+//			hVO.setPno(22);
+			hVO.setPno(pVO.getPno());
 			System.out.println("하우스테이블 no 2확인:"+hVO.getNo());
 			System.out.println("하우스 테이블 pno 확인:"+hVO.getPno());
+			pVO.setPno(hVO.getPno());
 			int result1 = service.houseUpdate(hVO);
 			if(result1>0) {
 				System.out.println("하우스 업데이트 성공");
@@ -505,22 +568,55 @@ public class HouseController {
 	
 	//하우스 삭제 -> 성향은 제외하고 houseWrite, houseRoom 만 삭제, Propensity 의 housename을 null 로 업데이트
 	@RequestMapping("/houseDel")
-	public ModelAndView houseDel(HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, HttpServletRequest req) {
+	public ModelAndView houseDel(int no, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
 		String userid = (String)req.getSession().getAttribute("logId");
-		hVO.setUserid(userid);
-		rVO.setUserid(userid);
-		pVO.setUserid(userid);
+//		hVO.setUserid(userid);
+//		rVO.setUserid(userid);
+//		pVO.setUserid(userid);
 		
-		int result1 = service.houseDel(hVO);
-		if(result1>0) {
-			System.out.println("하우스 삭제");
+		HouseWriteVO hVO = service.houseSelect(no, userid);
+		HouseRoomVO rVO = service.roomSelect(no, userid);
+		PropensityVO pVO = service.propHouseSelect(userid, hVO.getPno());
+		
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED); // 트랜잭션 호출
+		TransactionStatus status=transactionManager.getTransaction(def);
+		
+		try {
+			int result1 = service.houseDel(no, userid);
+			if(result1>0) {
+				System.out.println("하우스 삭제 성공");
+				
+				rVO.setNo(hVO.getNo());
+				int result2 = service.roomDel(no, userid);
+				if(result2>0) {
+					System.out.println("룸 삭제 성공");
+					
+					pVO.setPno(hVO.getPno());
+					int result3 = service.ProHouseNameUpdate(pVO);
+					if(result3>0) {
+						System.out.println("하우스네임 업데이트 성공");
+						transactionManager.commit(status);
+						mav.setViewName("redirect:houseIndex");
+						
+					}else {
+						System.out.println("하우스네임 업데이트 실패");
+						mav.addObject("no", no);
+						mav.setViewName("redirect:houseView");
+					}
+				}else {
+					System.out.println("룸 삭제 실패");
+				}
+			}else {
+				System.out.println("하우스 삭제 실패");
+			}
 			
-			rVO.setNo(hVO.getNo()); //HouseRoom 의 no을 HouseWrite의 no으로 설정
-		}else {
-			System.out.println("하우스 삭제 실패");
+		}catch(Exception e) {
+			System.out.println("하우스 + 룸 삭제 실패");
+			e.printStackTrace();
+			mav.setViewName("redirect:houseView");
 		}
-		
 		return mav;
 	}
 	

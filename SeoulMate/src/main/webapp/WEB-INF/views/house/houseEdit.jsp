@@ -48,26 +48,6 @@ $(function(){
 	    }
 	}
 
-	$(function(){
-		CKEDITOR.replace("houseprofile"); //설명글 name 설정 필요
-		
-		$("#write").on('submit', function(){
-			if(CKEDITOR.instances.content.getData()==""){
-				alert("내용을 입력해주세요");
-				return false;
-			}return true;
-		});
-		
-	});
-	
-	
-	
-
-// $(document).ready(function() {
-//     $('#houseProfile').summernote();
-//   });
-
-
 $(function(){
 	
 
@@ -245,14 +225,16 @@ $(function(){
 </style>
 <div class="wrap">
 <div class="content">
-
+	<form method="post" id="houseWriteFrm" action="houseEditOk" enctype="multipart/form-data">
+	
 	<input type="hidden" name="no" value="${hVO. no }">
-	<input type="hidden" name="no" value="${rVO. no }">
+<%-- 	<input type="hidden" name="no" value="${rVO. hno }"> --%>
+	<input type="hidden" name="pno" value="${pVO. pno }">
 	<div class="title_wrap">
 	<p class="m_title">하우스 수정하기 </p> 
 	<p>&nbsp;</p>
 	</div>
-		<form method="post" id="houseWriteFrm" action="houseEditOk" enctype="multipart/form-data">
+		
 		
 		<div id="houseWrite1"> <!-- 등록form 1 -->
 		
@@ -277,6 +259,7 @@ $(function(){
 						<option value="4" <c:if test="${hVO.bathroom==4 }">selected </c:if> >4</option>
 					</select> </li>
 			<li><label><span class="red_txt">*</span>현재 인원</label> <select name="nowpeople">
+						<option value="0" <c:if test="${hVO.nowpeople==0 }">selected </c:if> >0</option>
 						<option value="1" <c:if test="${hVO.nowpeople==1 }">selected </c:if> >1</option>
 						<option value="2" <c:if test="${hVO.nowpeople==2 }">selected </c:if> >2</option>
 						<option value="3" <c:if test="${hVO.nowpeople==3 }">selected </c:if> >3</option>
@@ -483,7 +466,7 @@ $(function(){
 						<input type="radio" id="h_noise1" value="1" name="h_noise" <c:if test="${pVO.h_noise==1}">checked</c:if> > 
 						<label for="h_noise1">매우 조용함</label>
 						
-						<input type="radio" id="h_noies2" value="2" name="h_noise" <c:if test="${pVO.h_noise==2}">checked</c:if> > 
+						<input type="radio" id="h_noise2" value="2" name="h_noise" <c:if test="${pVO.h_noise==2}">checked</c:if> > 
 						<label for="h_noise2">보통</label>
 						
 						<input type="radio" id="h_noise3" value="3" name="h_noise" <c:if test="${pVO.h_noise==3}">checked</c:if> > 

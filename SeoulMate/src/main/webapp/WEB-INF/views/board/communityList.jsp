@@ -20,6 +20,22 @@
 				$(".content_menu>li>a").eq(4).addClass('on');
 			}
 		}
+		if($(".content_menu a").first().hasClass('on')){ //전체에서 글을 볼때는 카테고리를 들고다니지 않아야해서 필요한 조건문....
+			var recordNum = $('.commSubject').length; //게시판에 몇개의 글이 나오는지 
+			var url = $('.commSubject').attr('href'); // url을 담아준
+			var indexofQ = url.indexOf('?'); // url에서 ?의 위치를 구한다.
+			var indexofAnd = url.indexOf('&'); // 첫번째 & 위치를 구해서 category=...의 길이를 구한다
+			var list= new Array();
+			for(var i=0; i<recordNum; i++){
+				list.push($('.commSubject').eq(i).attr('href'));
+// 				console.log(list[i]+"/"+i+"=====")
+				var cateRemove1 = list[i].substring(0,indexofQ+1) //communityView? 까지를 담아준다.
+				var cateRemove2 = list[i].substring(indexofAnd)
+				var cateRemove3 = cateRemove1+cateRemove2;
+// 				console.log(cateRemove3+"///"+i)
+				$('.commSubject').eq(i).attr('href', cateRemove3);
+			}
+		}
 		//검색어 유효성 검사
 		$(".searchBtn").click(function(){
 			if($("#comSearch").val()==''){
@@ -76,7 +92,7 @@
 						<a class="searchBtn" href="">
 							<img alt="검색하기" src="</img/yun/ico_search_black.png">
 						</a>
-						검색버튼 == <button class="searchBtn">검색</button>
+						검색버튼 == <button class="searchBtn">검색</button>                                                   
 					</li> -->
 				<c:if test="${logId!=null}">
 					<li><a href="communityWrite" class="green" id="communityWrite">글쓰기</a></li>
@@ -108,6 +124,7 @@
 						<td>${vo.no}</td>
 						<td>${vo.category}</td>
 						<td class="t_title">
+							<input type="hidden" value="${vo}">
 							<a class="commSubject" href="communityView?category=${vo.category}&no=${vo.no}<c:if test="${pageVO.searchKey != null && pageVO.searchWord != null}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>">${vo.subject} </a>
 							<c:if test="${vo.replyCnt>0}">
 								<span class="commentNum" style="color: #13a89e">&nbsp;[ ${vo.replyCnt} ]</span>
@@ -120,13 +137,14 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		<div class="paging">
+		<div class="paging pagingTextAlign">
 			<c:if test="${pageVO.totalPage>1}">
-				<a class="first_page" href="communityList?pageNum=1<c:if test="${pageVO.category != null && pageVO.category != '' }">&category=${pageVO.category}</c:if><c:if test="${pageVO.searchWord != null && pageVO.searchWord != ''}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>""></a>
+				<a class="first_page" href="communityList?pageNum=1<c:if test="${pageVO.category != null && pageVO.category != '' }">&category=${pageVO.category}</c:if><c:if test="${pageVO.searchWord != null && pageVO.searchWord != ''}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>"></a>
 				<c:if test="${pageVO.pageNum != 1 }">
-					<a class="prev_page" href="communityList?pageNum=${pageVO.pageNum-1}<c:if test="${pageVO.category != null && pageVO.category != '' }">&category=${pageVO.category}</c:if><c:if test="${pageVO.searchWord != null && pageVO.searchWord != ''}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>""></a>
+					<a class="prev_page" href="communityList?pageNum=${pageVO.pageNum-1}<c:if test="${pageVO.category != null && pageVO.category != '' }">&category=${pageVO.category}</c:if><c:if test="${pageVO.searchWord != null && pageVO.searchWord != ''}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>"></a>
 				</c:if>
 			</c:if>
+
 			<c:forEach var="p" begin="${pageVO.startPageNum}" end="${pageVO.startPageNum+pageVO.onePageNum-1}">
 				<c:if test="${p<=pageVO.totalPage}">
 					<c:if test="${p==pageVO.pageNum}">
@@ -140,9 +158,9 @@
 				
 			<c:if test="${pageVO.totalPage>1}">
 				<c:if test="${pageVO.totalPage!=pageVO.pageNum}">
-					<a class="next_page" href="communityList?pageNum=${pageVO.pageNum+1}<c:if test="${pageVO.category != null && pageVO.category != '' }">&category=${pageVO.category}</c:if><c:if test="${pageVO.searchWord != null && pageVO.searchWord != ''}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>""></a>
+					<a class="next_page" href="communityList?pageNum=${pageVO.pageNum+1}<c:if test="${pageVO.category != null && pageVO.category != '' }">&category=${pageVO.category}</c:if><c:if test="${pageVO.searchWord != null && pageVO.searchWord != ''}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>"></a>
 				</c:if>
-				<a class="last_page" href="communityList?pageNum=${pageVO.totalPage}<c:if test="${pageVO.category != null && pageVO.category != '' }">&category=${pageVO.category}</c:if><c:if test="${pageVO.searchWord != null && pageVO.searchWord != ''}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>""></a>
+				<a class="last_page" href="communityList?pageNum=${pageVO.totalPage}<c:if test="${pageVO.category != null && pageVO.category != '' }">&category=${pageVO.category}</c:if><c:if test="${pageVO.searchWord != null && pageVO.searchWord != ''}">&searchKey=${pageVO.searchKey}&searchWord=${pageVO.searchWord}</c:if>"></a>
 			</c:if>	
 		</div>
 	</div>

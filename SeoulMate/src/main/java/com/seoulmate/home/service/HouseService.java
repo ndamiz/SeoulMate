@@ -2,6 +2,7 @@ package com.seoulmate.home.service;
 
 import java.util.List;
 
+import com.seoulmate.home.vo.HouseMatePagingVO;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.PropensityVO;
@@ -54,16 +55,19 @@ public interface HouseService {
 	public int roomUpdate(HouseRoomVO vo);
 	
 	//하우스 삭제
-	public int houseDel(HouseWriteVO vo);
+	public int houseDel(int no, String userid);
 	
 	//방 삭제
-	public int roomDel(HouseRoomVO vo);
+	public int roomDel(int no, String userid);
 	
 	//하우스 사진 가져오기
-	public String houseProfile(String housepic1, int no);
+	public String houseProfilePic(String housepic1, int no);
 	
 	//하우스 인덱스에서 New 하우스 리스트 9개 출력하기
-	public List<HouseWriteVO> getNewIndexHouse();
+	public List<HouseWriteVO> getNewIndexHouse(HouseMatePagingVO pVO);
+	
+	//최신 하우스 글 totalRecode 가져오기
+	public int HouseTotalRecode(HouseMatePagingVO pVO);
 	
 	//하우스 보기(내가 쓴 글 아니여도 가능)
 	public HouseWriteVO houseSelect2(int no);
@@ -73,4 +77,19 @@ public interface HouseService {
 	
 	// 하우스 성향 가져오기(본인 작성 글 아니여도 가능)
 	public PropensityVO propHouseSelect2(int pno);
+	
+	// 회원 프로필 사진 가져오기
+	public String memberProfile(String userid);
+	
+	// 하우스+룸 삭제 -> 하우스네임 null 로 변경
+	public int ProHouseNameUpdate(PropensityVO vo);
+
+	// 메이트 성향이 있는지 가져옴
+	public int propPcaseM(String userid);
+	
+	//사용자의 모든 성향 가져오기
+	public List<PropensityVO> getPropInfo(String userid, String housename);
+	
+	//houseRoom List로 가져오기 
+	public List<HouseRoomVO> roomListSelect(int no);
 }

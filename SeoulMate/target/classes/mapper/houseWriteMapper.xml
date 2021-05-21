@@ -3,6 +3,12 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.seoulmate.home.dao.HouseWriteDAO">
+  	<select id="getPropInfo" resultType="com.seoulmate.home.vo.PropensityVO">
+  		select * from propensity where userid=#{param1}
+  		<if test="param2 != 'nodata' ">
+  			and housename=#{param2}
+  		</if>
+  	</select>
 	<select id="houseList" resultType="com.seoulmate.home.vo.HouseWriteVO">
 		select * from housewrite where userid=#{param1}
 	</select>
@@ -17,14 +23,15 @@
 	<insert id="houseInsert" parameterType="com.seoulmate.home.vo.HouseWriteVO">
 		insert into housewrite(no, userid, addr, housepic1, room, bathroom, nowpeople, searchpeople, publicfacility, 
 		writedate, enddate, housestate, pno, houseprofile, housename) 
-		values (housematesq.nextval, #{userid}, #{addr}, #{housepic1}, #{room}, #{bathroom}, #{nowpeople}, #{searchpeople}, 
+		values (housematesq.nextval, #{userid}, #{addr}, #{housepic1}, 
+		#{room}, #{bathroom}, #{nowpeople}, #{searchpeople}, 
 		#{publicfacility}, sysdate, sysdate+7, '모집중', #{pno}, #{houseprofile}, #{housename} )
 	</insert>
 	<update id="houseUpdate" parameterType="com.seoulmate.home.vo.HouseWriteVO">
 		update housewrite set addr=#{addr}, 
 		<if test="housepic1!=null and housepic1!=''">housepic1=#{housepic1}, </if>
 		room=#{room}, bathroom=#{bathroom}, nowpeople=#{nowpeople}, searchpeople=#{searchpeople},
-		publicfacility=#{publicfacility}, houseprofile=#{houseprofile}, housename=#{housename} where userid=#{userid} and no=#{no}
+		publicfacility=#{publicfacility}, houseprofile=#{houseprofile}, housename=#{housename} where userid=#{userid} and no=${no}
 	</update>
 	<select id="housenameCheck" resultType="String">
 		select housename from housewrite where pno=#{param1}
@@ -43,10 +50,43 @@
 	<delete id="houseDel" parameterType="com.seoulmate.home.vo.HouseWriteVO">
 		delete from housewrite where no=#{param1} and userid=#{param2}	
 	</delete>
-  	<select id="houseProfile" resultType="String">
-  		select housepic1 from housewrite where userid=#{param1} and no=#{param2}
-  	</select>
-  	<select id="getNewIndexHouse" resultType="com.seoulmate.home.vo.HouseWriteVO">
-  		<![CDATA[select * from (select * from housewrite where housestate='모집중' order by no desc) where rownum<= 9]]>
+	<select id="houseProfile" resultType="String">
+	select housepic1 from housewrite where userid=#{param1} and no=#{param2}
 	</select>
+	<select id="getNewIndexHouse" parameterType="com.seoulmate.home.vo.HouseMatePagingVO" resultType="com.seoulmate.home.vo.HouseWriteVO">
+	SELECT * 
+	FROM (SELECT * 
+	FROM (SELECT * 
+	FROM (SELECT * 
+	FROM (SELECT * 
+	FROM (SELECT hw2.NO, hw2.pno, m_gender, userid, addr, housename, housepic1, room, bathroom, nowpeople, hr.rent, hr.DEPOSIT, hw2.writedate 
+	FROM (SELECT NO, hw.pno, hw.userid, m_gender, addr, hw.housename, housepic1, room, bathroom, nowpeople, writedate 
+	FROM (SELECT * FROM PROPENSITY WHERE pcase='h') p
+	JOIN (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, writedate FROM HOUSEWRITE WHERE housestate='모집중') hw ON p.pno=hw.pno) hw2
+	JOIN (SELECT r1.NO, rent, deposit FROM (select no, rent, deposit from houseroom) r1 
+	JOIN (select NO, min(rent) from houseroom GROUP BY NO) r2 ON r1.NO=r2.no) hr ON hw2.NO=hr.NO 
+	<if test='addr != null'>AND addr LIKE '%${addr}%'</if>) 
+	<if test='rent != null and rent>0'>where <![CDATA[rent<=#{rent}]]></if>)
+	<if test='deposit != null and deposit>0'>where <![CDATA[deposit<=#{deposit}]]></if>)
+	<if test='m_gen != null and m_gen!=0'>where <![CDATA[m_gender=#{m_gen}]]></if>
+	ORDER BY writedate DESC) 
+	where <![CDATA[rownum<=]]>${pageNum * onePageRecode} order by writedate asc)
+ 	where <![CDATA[rownum<=]]><if test="pageNum==totalPage">${lastPageRecode}</if> 
+ 	<if test="pageNum!=totalPage">${onePageRecode}</if> ORDER BY writedate DESC
+	</select>
+	<select id="HouseTotalRecode" parameterType="com.seoulmate.home.vo.HouseMatePagingVO" resultType="int">
+  		SELECT count(no)  
+		FROM (SELECT * 
+		FROM (SELECT * 
+		FROM (SELECT hw2.NO, hw2.pno, m_gender, userid, addr, housename, housepic1, room, bathroom, nowpeople, hr.rent, hr.DEPOSIT, hw2.writedate 
+		FROM (SELECT NO, hw.pno, hw.userid, m_gender, addr, hw.housename, housepic1, room, bathroom, nowpeople, writedate 
+		FROM (SELECT * FROM PROPENSITY WHERE pcase='h') p
+		JOIN (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, writedate FROM HOUSEWRITE WHERE housestate='모집중') hw ON p.pno=hw.pno) hw2
+		JOIN (SELECT r1.NO, rent, deposit FROM (select no, rent, deposit from houseroom) r1 
+		JOIN (select NO, min(rent) from houseroom GROUP BY NO) r2 ON r1.NO=r2.no) hr ON hw2.NO=hr.NO 
+		<if test='addr != null'>AND addr LIKE '%${addr}%'</if>) 
+		<if test='rent != null and rent>0'>where <![CDATA[rent<=#{rent}]]></if>)
+		<if test='deposit != null and deposit>0'>where <![CDATA[deposit<=#{deposit}]]></if>)
+		<if test='m_gen != null and m_gen!=0'>where <![CDATA[m_gender=#{m_gen}]]></if>
+  	</select>
   </mapper>

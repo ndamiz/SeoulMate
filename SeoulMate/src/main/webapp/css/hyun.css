@@ -54,19 +54,21 @@
 
 /* 하우스&메이트 관리 => 버튼 들어갈 박스 */
 .myPage_HouseAndMate_Btn>a , .myPage_HouseAndMate_LikeMarker_Btn>a{height: 40px; line-height: 40px; font-size: 1.2em; margin-top: 10px;}
-.myPage_HouseAndMate_Btn{position: relative; top:90px; right:0px; 
-	min-width: 810px; min-height: 100px;}
-.myPage_HouseAndMate_LikeMarker_Btn{height: 85px;  position: relative; top:90px; right:0px; 
-	min-width: 810px; min-height: 85px;}
+.myPage_HouseAndMate_Btn{
+	 float:left; min-width: 300px; margin-top: 100px;}
+.myPage_HouseAndMate_LikeMarker_Btn{float: left; margin-top: 100px; min-width: 300px;}
 @media screen and (max-width:1680px){
-	.myPage_HouseAndMate_Btn{top:70px;}
+	.myPage_HouseAndMate_Btn{width: 500px; margin-top: 75px;}
 }
-@media screen and (max-width:1331px){
-	.myPage_HouseAndMate_Btn{top:50px;}
+@media screen and (max-width:1549px){
+	.myPage_HouseAndMate_Btn{width: 400px; margin-top: 75px; }
 }
-
-
-
+@media screen and (max-width:1420px){
+	.myPage_HouseAndMate_Btn{width: 300px; margin-top: 50px; }
+}
+#inviteInsertBtn{height: 40px; line-height: 40px;}
+#invitetTitle{font-size: 1.2em; font-weight: bold; margin-bottom: 10px;}
+#inviteHousename{margin-right: 10px;}
 /*  하우스&메이트 관리 => 팝업 */
 .myPage_HouseAndMate_Popup_FullScreen{width: 100%; height: 100%; background-color: #ddd; opacity: 0.5;
 	position: fixed; top:0; left: 0; z-index: 10;}
@@ -74,7 +76,7 @@
 	top: 15%; box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%); background-color: #fff;
 	z-index: 11; }
 .alert_pop{width: 300px; height: 200px; background-color: #fff; border-radius: 20px;
-	position: fixed; left: 40%;  box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%); z-index: 12; top: 15%;	}
+	position: absolute; top:20%; left:40%; box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%); z-index: 12; }
 .alert_pop_Title{padding-left: 20px; width: 100%; height: 30px; line-height: 30px; 
 	background-color: #fff; border-radius: 20px 20px 0px 0px; font-size: 1.2em;
     box-shadow: 0px 6px 10px 0px rgb(0 0 0 / 10%);

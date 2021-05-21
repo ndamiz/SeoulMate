@@ -39,13 +39,39 @@ $(function(){
 	
 	    reader.onload = function (e) {
 	            $('#houseImg1').attr('src', e.target.result);
-	        }
-	
-	      reader.readAsDataURL(input.files[0]);
-	    }
-	}
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
 
-	
+// 		for (var image of event.target.files) { 
+// 			var reader = new FileReader(); 
+// 			reader.onload = function(event) { 
+// 				var img = document.createElement("img"); 
+// 				img.setAttribute("src", event.target.result); 
+// 				document.querySelector("#multiple-container").appendChild(img); 
+// 			}; 
+// 				console.log(image); 
+// 				reader.readAsDataURL(image); 
+// 		}
+
+// 		var reader = new FileReader(); 
+// 		reader.onload = function(event) { 
+// 			var img = document.createElement("img"); 
+// 			img.setAttribute("src", event.target.result); 
+// 			document.querySelector("#hPic").append(img); 
+// 			}; 
+// 			reader.readAsDataURL(event.target.files[0]);
+// 			reader.readAsDataURL(event.target.files[1]);
+// 			reader.readAsDataURL(event.target.files[2]);
+// 			reader.readAsDataURL(event.target.files[3]);
+// 			reader.readAsDataURL(event.target.files[4]);
+// 	}
+
+
+
+
+
+		}
 	
 
 // $(document).ready(function() {
@@ -189,6 +215,48 @@ $(function(){
        };
     });
 	
+	
+	//성향 버튼 눌렀을때 가져오기
+	$('.getPropinfo').click(function(){
+		var housename = $(this).text();
+		
+		$.ajax({
+			url : "/home/getPropensity",
+			data : "userid=${logId}&housename="+housename,
+			success : function(result){
+				console.log(result);
+				var $result = $(result);
+				
+				$result.each(function(idx, obj){
+					//성향 체크된거 해제
+					$('.houseWrtieProp input:radio').prop('checked', false);
+					//1. 생활소음 h_noise
+					$('input[name=h_noise]').val(obj.h_noise).prop('checked', true);
+					//2. 생활시간 h_pattern
+					$('input[name=h_pattern]').val(obj.h_pattern).prop('checked', true);
+					//3. 반려동물 여부 h_pet
+					$('input[name=h_pet]').val(obj.h_pet).prop('checked', true);
+					//4. 반려동물 동반 입주 여부 h_petwith
+					$('input[name=h_petwith]').val(obj.h_petwith).prop('checked', true);
+					//5. 흡연 h_smoke
+					$('input[name=h_smoke]').val(obj.h_smoke).prop('checked', true);
+					//6. 분위기 h_mood
+					$('input[name=h_mood]').val(obj.h_mood).prop('checked', true);
+					//7. 소통방식 h_communication
+					$('input[name=h_communication]').val(obj.h_communication).prop('checked', true);
+					//8. 모임빈도 h_party
+					$('input[name=h_party]').val(obj.h_party).prop('checked', true);
+					//9. 모임참가 의무 h_enter
+					$('input[name=h_enter]').val(obj.h_enter).prop('checked', true);
+				});
+				//10. 하우스내 지원서비스 h_support
+				var h_support = result.h
+				//$('input[name=h_supportStr]').val(result.h_support).prop('checked', true);
+			},error : function(){
+				alert("성향 불러오기 실패.")
+			}
+		});
+	})
 });
 // autocomplete="off" //자동완성 막아줌
 
@@ -261,8 +329,12 @@ $(function(){
 #roomPlus{margin-left:650px;}
 #houseWrite1 .checks { width: 560px;}
 #ck{margin:0 auto; width: 60%;}
+#hPic img{width: 250px; height: 250px; }
 #houseImg1{width:250px; height:250px; position: relative; margin:0 auto; text-align: center;}
-#housepic1{width:250px; height: 250px; margin:0 auto;}
+#housepic1, #housepic2, #housepic3 {width:200px; height: 200px; margin:0 auto;}
+
+#multiple-container{width: 100%; margin:0 auto; float:left; position: relative;}
+#multiple-container img{width:250px; height: 250px; margin:0 auto; float:left;}
 #houseWrite2, #houseWrite3, #houseWrite4, #houseWrite5, 
 #houseWrite6, #houseWrite7, #houseWrite8, #houseWrite9 {display:none; margin: 0 auto;}
 
@@ -293,7 +365,7 @@ $(function(){
 		<form method="post" id="houseWriteFrm" action="houseWriteOk" enctype="multipart/form-data">
 		
 		<input type="hidden" name="pno" value="${housePno }"/>
-		<input type="hidden" name="no" value="${hVO.no }"/>
+<%-- 		<input type="hidden" name="no" value="${hVO.no }"/> --%>
 		
 		<div id="houseWrite1"> <!-- 등록form 1 -->
 		
@@ -329,6 +401,7 @@ $(function(){
 						<option value="4">4</option>
 					</select> </li>
 			<li><label><span class="red_txt">*</span>현재 인원</label> <select name="nowpeople">
+						<option value="0">0</option>
 						<option value="1">1</option>
 						<option value="2">2</option>
 						<option value="3">3</option>
@@ -437,13 +510,27 @@ $(function(){
 		</div>
 		
 			<ul class="form_box">
-				<li id="hPic"><img id="houseImg1" name="houseImg1" src="#" alt="upload image" /></li>
-				<li> <input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);"/>
-<!-- 					<input type="file" accept="image/*" name="filename2"  id="housepic2" onchange="readURL(this);"/> -->
-<!-- 					<input type="file" accept="image/*" name="filename3"  id="housepic3" onchange="readURL(this);"/> -->
-<!-- 					<input type="file" accept="image/*" name="filename4"  id="housepic4" onchange="readURL(this);"/> -->
-<!-- 					<input type="file" accept="image/*" name="filename5"  id="housepic5" onchange="readURL(this);"/>  -->
-					<br/> </li>
+				<li id="hPic">
+					<img id="houseImg1" name="houseImg1" src="#" alt="upload image" />
+					<img id="houseImg2" name="houseImg2" src="#" alt="upload image" />
+					<img id="houseImg3" name="houseImg3" src="#" alt="upload image" />
+					<img id="houseImg4" name="houseImg4" src="#" alt="upload image" />
+					<img id="houseImg5" name="houseImg5" src="#" alt="upload image" />
+					
+				
+				</li>
+				
+				<li> 
+<!-- 					<input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);" multiple/> -->
+					<input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);" required /> 
+					<input type="file" accept="image/*" name="filename2"  id="housepic2" onchange="readURL(this);"/>
+					<input type="file" accept="image/*" name="filename3"  id="housepic3" onchange="readURL(this);"/>
+					<input type="file" accept="image/*" name="filename4"  id="housepic4" onchange="readURL(this);"/>
+					<input type="file" accept="image/*" name="filename5"  id="housepic5" onchange="readURL(this);"/> 
+					<br/> 
+
+					</li>
+					<li><span class="btn-delete">삭제</span></li>
 			</ul>
 				<div class="btnclass">
 					<a class="green" id="hPrev3">이전</a>
@@ -526,10 +613,15 @@ $(function(){
 		<div class="title_wrap">
 		<ul class="s_margin" id="HproUl">
 			<c:forEach var="vo" items="${list}">
-				<li><a href="#">${vo.housename}</a></li>
+				<li>
+					<a class="getPropinfo">
+						<c:if test="${vo.housename!=null}">${vo.housename}</c:if>
+						<c:if test="${vo.housename==null}">성향${vo.pno}</c:if>
+					</a>
+				</li>
 			</c:forEach>
 		</ul>
-		<p class="s_title">하우스 성향 등록 (생활정보)</p> <br/>
+		<p class="s_title">하우스 성향 등록 (생활정보)</p><br/>
 		
 		<p>&nbsp;</p>
 		</div>
@@ -537,21 +629,21 @@ $(function(){
 			<ul class="form_box choice">
 				<li>
 					<label><span class="red_txt">*</span>생활소음</label>
-					<div class="checks">
-						<input type="radio" id="h_noise1" value="1" name="h_noise" <c:if test="${vo.h_noise==1}">checked</c:if> > 
+					<div class="checks houseWrtieProp">
+						<input type="radio" id="h_noise1" value="1" name="h_noise"> 
 						<label for="h_noise1">매우 조용함</label>
-						
-						<input type="radio" id="h_noies2" value="2" name="h_noise" <c:if test="${vo.h_noise==2}">checked</c:if> > 
+
+						<input type="radio" id="h_noies2" value="2" name="h_noise"> 
 						<label for="h_noise2">보통</label>
 						
-						<input type="radio" id="h_noise3" value="3" name="h_noise" <c:if test="${vo.h_noise==3}">checked</c:if> > 
+						<input type="radio" id="h_noise3" value="3" name="h_noise"> 
 						<label for="h_noise3">조용하지 않음</label>
 					</div>
 				</li>
 				
 				<li>
 					<label><span class="red_txt">*</span>생활시간</label>
-					<div class="checks">
+					<div class="checks houseWrtieProp">
 						<input type="radio" id="h_pattern1" value="1" name="h_pattern"> 
 						<label for="h_pattern1">주행성</label>
 						
@@ -562,7 +654,7 @@ $(function(){
 				
 					<li>
 					<label><span class="red_txt">*</span>반려동물 여부</label>
-					<div class="checks">
+					<div class="checks houseWrtieProp">
 						<input type="radio" id="h_pet3" value="3" name="h_pet"> 
 						<label for="h_pet3">있음</label>	
 						
@@ -573,7 +665,7 @@ $(function(){
 				
 				<li>
 					<label><span class="red_txt">*</span>반려동물 동반 입주 여부</label>
-					<div class="checks">
+					<div class="checks houseWrtieProp">
 						<input type="radio" id="h_petwith3" value="3" name="h_petwith"> 
 						<label for="h_petwith3">가능</label>
 						
@@ -584,7 +676,7 @@ $(function(){
 				
 				<li>
 					<label><span class="red_txt">*</span>흡연</label>
-					<div class="checks">
+					<div class="checks houseWrtieProp">
 						<input type="radio" id="h_smoke1" value="1" name="h_smoke"> 
 						<label for="h_smoke1">비흡연</label>
 						
@@ -615,7 +707,7 @@ $(function(){
 			
 				<li>
 					<label><span class="red_txt">*</span>분위기</label>
-					<div class="checks">
+					<div class="checks houseWrtieProp">
 						<input type="radio" id="h_mood1" value="1" name="h_mood"> 
 						<label for="h_mood1">화목함</label>
 						
@@ -629,7 +721,7 @@ $(function(){
 				
 					<li>
 					<label><span class="red_txt">*</span>소통방식</label>
-					<div class="checks">
+					<div class="checks houseWrtieProp">
 						<input type="radio" id="h_communication3" value="3" name="h_communication"> 
 						<label for="h_communication3">대화</label>
 						<input type="radio" id="h_communication1" value="1" name="h_communication"> 
@@ -641,7 +733,7 @@ $(function(){
 				
 					<li>
 					<label><span class="red_txt">*</span>모임빈도</label>
-					<div class="checks">
+					<div class="checks houseWrtieProp">
 						<input type="radio" id="h_party3" value="3" name="h_party"> 
 						<label for="h_party3">자주</label>
 						<input type="radio" id="h_party2" value="2" name="h_party"> 
@@ -653,7 +745,7 @@ $(function(){
 				
 					<li>
 					<label><span class="red_txt">*</span>모임참가 의무</label>
-					<div class="checks">
+					<div class="checks houseWrtieProp">
 						<input type="radio" id="h_enter1" value="1" name="h_enter"> 
 						<label for="h_enter1">없음</label>
 						<input type="radio" id="h_enter2" value="2" name="h_enter"> 
@@ -681,7 +773,7 @@ $(function(){
 			
 				<li>
 					<label><span class="red_txt">*</span>하우스 내 지원서비스</label>
-					<div class="checks">
+					<div class="checks houseWrtieProp">
 						<input type="checkbox" id="h_support1" value="1" name="h_support"> 
 						<label for="h_support1">공용공간 청소지원</label>
 									

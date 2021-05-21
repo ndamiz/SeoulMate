@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.seoulmate.home.dao.HomeDAO;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
+import com.seoulmate.home.vo.ListVO;
 import com.seoulmate.home.vo.MateWriteVO;
 import com.seoulmate.home.vo.MemberVO;
 @Service
@@ -17,7 +18,7 @@ public class HomeServiceImp implements HomeService {
 	HomeDAO dao;
 	
 	@Override
-	public String[] getHouseMap() {
+	public List<ListVO> getHouseMap() {
 		return dao.getHouseMap();
 	}
 
@@ -32,8 +33,8 @@ public class HomeServiceImp implements HomeService {
 	}
 
 	@Override
-	public List<HouseWriteVO> getNewHouse() {
-		return dao.getNewHouse();
+	public List<HouseWriteVO> getNewHouse(String addr) {
+		return dao.getNewHouse(addr);
 	}
 
 	@Override
@@ -47,8 +48,8 @@ public class HomeServiceImp implements HomeService {
 	}
 
 	@Override
-	public List<MateWriteVO> getNewMate() {
-		return dao.getNewMate();
+	public List<MateWriteVO> getNewMate(String area) {
+		return dao.getNewMate(area);
 	}
 
 	@Override

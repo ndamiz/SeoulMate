@@ -15,6 +15,14 @@ public class PagingVO {
 	private int startPageNum = 1; //시작 페이지
 	private int lastPageRecode = 10; //마지막페이지의 남은 레코드 수
 	
+	// 하우스, 메이트 필터
+	private String addr;
+	private String area;
+	private String rent;
+	private String diposit;
+	private String m_gen;
+	private String gender;
+	
 	public String getSearchKey() {
 		return searchKey;
 	}
@@ -94,7 +102,41 @@ public class PagingVO {
 	public void setLastPageRecode(int lastPageRecode) {
 		this.lastPageRecode = lastPageRecode;
 	}
-	
-	
+	public String getAddr() {
+		return addr;
+	}
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
+	public String getArea() {
+		return area;
+	}
+	public void setArea(String area) {
+		this.area = area;
+	}
+	public String getRent() {
+		return rent;
+	}
+	public void setRent(String rent) {
+		this.rent = rent;
+	}
+	public String getDiposit() {
+		return diposit;
+	}
+	public void setDiposit(String diposit) {
+		this.diposit = diposit;
+	}
+	public String getM_gen() {
+		return m_gen;
+	}
+	public void setM_gen(String m_gen) {
+		this.m_gen = m_gen;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 	
 }

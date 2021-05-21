@@ -36,5 +36,4 @@ public class ChatRoomVO {
 	public void setChatRoomDate(String chatRoomDate) {
 		this.chatRoomDate = chatRoomDate;
 	}
-	
 }

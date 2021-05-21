@@ -115,4 +115,6 @@ public interface AdminService {
 	public int faqInsert(FaqVO fVO);
 	// 자주하는 질문 수정
 	public int faqUpdate(FaqVO fVO);
+	// 자주하는 질문 삭제
+	public int faqDel(FaqVO fVO);
 }

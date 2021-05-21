@@ -47,7 +47,7 @@ public class BoardController {
 		}
 		//검색어랑 카테고리필터에 따른 총 레코드 수 구하기
 		pVo.setTotalRecord(service.totalRecord(pVo));
-		System.out.println(pVo.getSearchKey()+"?????????????1");
+//		System.out.println(pVo.getSearchKey()+"?????????????1");
 //		//확인용
 //		System.out.println("================================category=>"+pVo.getCategory());
 //		System.out.println(pVo.getSearchKey()+"<----key+word------>"+pVo.getSearchWord());
@@ -70,7 +70,7 @@ public class BoardController {
 		if(session.getAttribute("logId") != null) {
 			 mav.setViewName("/board/communityWrite");
 		}else if(session.getAttribute("logId") == null) {
-			System.out.println(session.getAttribute("logId")+"--------------------------");
+//			System.out.println(session.getAttribute("logId")+"--------------------------");
 			mav.setViewName("redirect:communityList");
 		}
 		return mav;
@@ -99,11 +99,11 @@ public class BoardController {
 	
 	//글 내용보기
 	@RequestMapping("/communityView")
-	public ModelAndView boardView(int no, HttpServletRequest req, PageVO pVO) {
+	public ModelAndView boardView(int no, HttpServletRequest req, PageVO pVO, String searchKey, String searchWord, String category) {
 		ModelAndView mav = new ModelAndView();
 		
 		//get방식으로 타고올때 우연히 비공개 글인 경우
-		int numState = service.stateCheck(no, (String)req.getSession().getAttribute("logId"));
+		int numState = service.stateCheck(no);//, (String)req.getSession().getAttribute("logId")
 		if(numState>0) {
 			//조회수 올리기
 			service.hitUpdate(no);
@@ -119,9 +119,16 @@ public class BoardController {
 				mav.addObject("reply", "0");
 			}
 			mav.setViewName("/board/communityView");
-			
+			System.out.println(pVO.getCategory()+"11");
+			System.out.println(category+"22");
 			//다음글 이전글
 			pVO = service.nextPrevSelect(no, pVO.getCategory(), pVO.getSearchKey(), pVO.getSearchWord());
+			System.out.println(pVO.getNextNo());
+			if(pVO.getSearchKey()==null && pVO.getSearchWord() == null) {//nextPrevSelect가 실행되면 pVO에 검색키 검색어가 리셋되어서 다시 세팅
+				pVO.setSearchKey(searchKey);
+				pVO.setSearchWord(searchWord);
+				pVO.setCategory(category);
+			}
 			mav.addObject("pVO", pVO);
 		}else {
 			mav.setViewName("redirect:communityList");
@@ -135,7 +142,7 @@ public class BoardController {
 		
 		if((String)req.getSession().getAttribute("logId") != null) { //로그인했을때
 			//get방식으로 타고올때 우연히 비공개 글인 경우
-			int numState = service.stateCheck(no, (String)req.getSession().getAttribute("logId"));
+			int numState = service.stateCheck(no); //, (String)req.getSession().getAttribute("logId")
 			if(numState>0) {
 				mav.addObject("list", service.boardSelect(no));
 				mav.setViewName("/board/communityEdit");
@@ -173,7 +180,7 @@ public class BoardController {
 		
 		if((String)session.getAttribute("logId") != null) {
 			//get방식으로 타고올때 우연히 비공개 글인 경우
-			int numState = service.stateCheck(no, (String)session.getAttribute("logId"));
+			int numState = service.stateCheck(no); //, (String)session.getAttribute("logId")
 			System.out.println(numState+"=================");
 			if(numState>0) {
 				//트랜잭션

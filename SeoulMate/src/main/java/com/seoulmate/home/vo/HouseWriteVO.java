@@ -36,6 +36,7 @@ public class HouseWriteVO {
 	// 각 쉐어하우스의 제일 저렴한 보증금,월세 구할때
 	private int deposit;
 	private int rent;
+	private int m_gender;
 	
 	//admin page에서 사용하기 위함.  
 	private int grade;  // 1:일반, 2:프리미엄 
@@ -185,6 +186,12 @@ public class HouseWriteVO {
 	}
 	public void setRent(int rent) {
 		this.rent = rent;
+	}
+	public int getM_gender() {
+		return m_gender;
+	}
+	public void setM_gender(int m_gender) {
+		this.m_gender = m_gender;
 	}
 	public int getGrade() {
 		return grade;

@@ -1,8 +1,10 @@
 package com.seoulmate.home;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -40,13 +42,46 @@ public class HomeController {
 	 */	
 	@SuppressWarnings("null")
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView home(HttpSession session) {
+	public ModelAndView home(HttpSession session, String addr, String area, String rent, String deposit, String m_gen, String gender) {
 		ModelAndView mav = new ModelAndView();
 		String userid=(String)session.getAttribute("logId");
 		
+		// home에는 월세 필터가 없어서
+		int rentInt=0;
+		if(rent!=null && !rent.equals("")) {
+			rentInt=Integer.parseInt(rent);
+		}
+		
+		int depositInt=0;
+		if(deposit!=null && !deposit.equals("")) {
+			depositInt=Integer.parseInt(deposit);
+		}
+		
+		int m_genInt=0;
+		if(m_gen!=null && !m_gen.equals("")) {
+			m_genInt=Integer.parseInt(m_gen);
+		}
+		
+		int genderInt=0;
+		if(gender!=null && !gender.equals("")) {
+			genderInt=Integer.parseInt(gender);
+		}
+		
 		// 로그인전 하우스 맵 정보 구하기
-		String[] houseMapList = service.getHouseMap();
-		mav.addObject("houseMapList",houseMapList);
+	      List<ListVO> houseMapList = service.getHouseMap();
+	      if(houseMapList.get(0)!=null){ // else if(phList!=null)
+	         HouseRoomVO hrVO = new HouseRoomVO();
+	         for (ListVO hwVO : houseMapList) {
+	            // 각 쉐어하우스의 제일 저렴한 월세 가져오기
+	            hrVO = service.getDesposit(hwVO.getNo());
+	            
+	            hwVO.setDeposit(hrVO.getDeposit());
+	            hwVO.setRent(hrVO.getRent());
+	            int idx = hwVO.getAddr().indexOf("동 ");
+	            hwVO.setAddr(hwVO.getAddr().substring(0, idx+1));
+	         }
+	         mav.addObject("houseMapList", houseMapList);
+	      }
 		
 		// 로그인전 메이트 맵 정보 구하기
 		String[] getMateList = service.getMateMap();
@@ -85,20 +120,23 @@ public class HomeController {
 					int m_gender=listService.mate_m_gender(userid);
 					
 					// 쉐어하우스 매칭 리스트 구하기
-					List<ListVO> phList = listService.premiumHouseList(userid, m_gender); // PremiumHouseList
-					
-					if(phList.get(0)!=null){ // else if(phList!=null)
-						HouseRoomVO phhrVO = new HouseRoomVO();
-						for (ListVO phVO : phList) {
-							// 각 쉐어하우스의 제일 저렴한 월세 가져오기
-							phhrVO = service.getDesposit(phVO.getNo());
-							
-							phVO.setDeposit(phhrVO.getDeposit());
-							phVO.setRent(phhrVO.getRent());
-							int idx = phVO.getAddr().indexOf("동 ");
-							phVO.setAddr(phVO.getAddr().substring(0, idx+1));
+					List<ListVO> phList = listService.premiumHouseList(userid, m_gender, addr, rentInt, depositInt, m_genInt); // PremiumHouseList
+					System.out.println(phList);
+					System.out.println(phList.size());
+					if(phList.size()>0) {
+						if(phList.get(0)!=null){ // else if(phList!=null)
+	//						HouseRoomVO phhrVO = new HouseRoomVO();
+							for (ListVO phVO : phList) {
+								// 각 쉐어하우스의 제일 저렴한 월세 가져오기
+	//							phhrVO = service.getDesposit(phVO.getNo());
+	//							
+	//							phVO.setDeposit(phhrVO.getDeposit());
+	//							phVO.setRent(phhrVO.getRent());
+								int idx = phVO.getAddr().indexOf("동 ");
+								phVO.setAddr(phVO.getAddr().substring(0, idx+1));
+							}
+							mav.addObject("phList", phList);
 						}
-						mav.addObject("phList", phList);
 					}
 				}
 				
@@ -111,7 +149,7 @@ public class HomeController {
         int m = cal.get(Calendar.MONTH) + 1;
         int d   = cal.get(Calendar.DAY_OF_MONTH);
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-        int today = Integer.parseInt(format.format(cal.getTime()));
+        String today = format.format(cal.getTime());
         
 		// 내 하우스 성향 가져오기
 		if(session.getAttribute("logId")!=null) {
@@ -139,60 +177,62 @@ public class HomeController {
 					
 					if(housePnoCheck>0) { // 메이트 성향이 있을 때만 매칭된 하우스 목록을 띄워준다.
 						int m_gender=listService.house_m_gender(userid, pno);
-						System.out.println("m_gender : "+m_gender);
 						// 메이트 매칭 리스트 구하기
-						List<ListVO> pmList = listService.premiumMateList(userid, pno, m_gender);
-						
-						if(pmList.get(0)!=null) {
-							for(ListVO pmVO : pmList) {
-								MemberVO mVO=service.getDetail(pmVO.getUserid());
-								pmVO.setGender(mVO.getGender());
-								
-								// 생년월일을 받아서 만 나이로 처리
-								String b=mVO.getBirth();
-								int i=b.indexOf(" 00");
-								b=b.substring(0, i+1);
-								String birth[]= b.split("-");
-								int bYear=Integer.parseInt(birth[0]);
-								int bMonth=Integer.parseInt(birth[1]);
-								int bDay=Integer.parseInt(birth[2].replace(" ", ""));
-								int age=(y-bYear);
-								
-								// 생일이 안 지난 경우 -1
-								if(bMonth * 100 + bDay > m * 100 + d) {
-									age--;
+						List<ListVO> pmList = listService.premiumMateList(userid, pno, m_gender, area, rentInt, depositInt, genderInt);
+						if(pmList.size()>0) {
+							if(pmList.get(0)!=null) {
+								for(ListVO pmVO : pmList) {
+									MemberVO mVO=service.getDetail(pmVO.getUserid());
+									pmVO.setGender(mVO.getGender());
+									
+									// 생년월일을 받아서 만 나이로 처리
+									String b=mVO.getBirth();
+									int i=b.indexOf(" 00");
+									b=b.substring(0, i+1);
+									String birth[]= b.split("-");
+									int bYear=Integer.parseInt(birth[0]);
+									int bMonth=Integer.parseInt(birth[1]);
+									int bDay=Integer.parseInt(birth[2].replace(" ", ""));
+									int age=(y-bYear);
+									
+									// 생일이 안 지난 경우 -1
+									if(bMonth * 100 + bDay > m * 100 + d) {
+										age--;
+									}
+									String BrithAge=age+"";
+									pmVO.setBirth(BrithAge);
+									
+									// 입주 디데이 0일때 즉시 문자열 처리
+									String e =pmVO.getEnterdate();
+									int ee = e.indexOf(" ");
+									e = e.substring(0, ee+1);
+									e = e.replace(" ", "");
+									String enterNum = e.replace("-", "");
+									
+									Date enterDate = null;
+									Date todayDate = null;
+									try {
+										enterDate = format.parse(enterNum);
+										todayDate=format.parse(today);
+									} catch (ParseException e1) {
+										e1.printStackTrace();
+									}
+									
+									long calDate = enterDate.getTime() - todayDate.getTime();
+									int calDateDays = Math.round(calDate / (24*60*60*1000));
+									
+									String enterDay = "";
+									if (calDateDays > 0 && calDateDays <=7) {
+										enterDay = "즉시";
+									}else {
+										enterDay = (calDateDays) + "일";
+									}
+									pmVO.setEnterdate(enterDay);
 								}
-								String BrithAge=age+"";
-								pmVO.setBirth(BrithAge);
-								
-								// 입주 디데이 9일 때 즉시 문자열 처리
-								String e=pmVO.getEnterdate();
-								int ee=e.indexOf(" ");
-								e=e.substring(0, ee+1);
-								e=e.replace(" ", "");
-								int enterNum=Integer.parseInt(e.replace("-", ""));
-								String enterDay="";
-								if(enterNum - today > 0 && enterNum - today <= 7) {
-									enterDay="즉시";
-								}else {
-									enterDay=(enterNum-today) + "일";
-								}
-								pmVO.setEnterdate(enterDay);
-								
-								// 희망지역 1~3 서울시 자르기
-								int j = pmVO.getArea1().indexOf("구 ");
-								pmVO.setArea(pmVO.getArea1().substring(j+1));
-								if (pmVO.getArea2() != null) {
-									j = pmVO.getArea2().indexOf("구 ");
-									pmVO.setArea(pmVO.getArea2().substring(j+1));
-								}
-								if (pmVO.getArea3() != null) {
-									j = pmVO.getArea3().indexOf("구 ");
-									pmVO.setArea(pmVO.getArea3().substring(j+1));
-								}
+								mav.addObject("pmList", pmList);
 							}
-							mav.addObject("pmList", pmList);
 						}
+						
 					}
 				}
 			}
@@ -208,7 +248,7 @@ public class HomeController {
 		
 		
 //		int MyMpnoCnt=listService.myMatePnoCheck(userid); // 내 메이트 성향 갯수 가져오기
-		List<HouseWriteVO> nhList = service.getNewHouse();
+		List<HouseWriteVO> nhList = service.getNewHouse(addr);
 		HouseRoomVO hrVO = new HouseRoomVO();
 		for (HouseWriteVO hwVO : nhList) {
 			// 각 쉐어하우스의 제일 저렴한 월세 가져오기
@@ -232,16 +272,16 @@ public class HomeController {
 			hwVO.setAddr(hwVO.getAddr().substring(0, idx+1));
 		}
 		
+		mav.addObject("newHouseListCnt", nhList.size());
 		mav.addObject("newHouseList", nhList);
 		
 		// 하우스메이트 최신리스트 구하기
-		List<MateWriteVO> nmList = service.getNewMate();
-	    
+		List<MateWriteVO> nmList = service.getNewMate(area);
 		for (MateWriteVO mwVO : nmList) {
 			// 각 하우스 메이트의 성별, 나이 구하기
 			MemberVO mVO = service.getDetail(mwVO.getUserid());
 			mwVO.setGender(mVO.getGender());
-			
+//			System.out.println("희망지역 : "+mwVO.getArea());
 			if(session.getAttribute("hPno")!=null) {
 				if(session.getAttribute("logId")!=null) {
 					if((Integer)session.getAttribute("logGrade")==2) {
@@ -268,34 +308,37 @@ public class HomeController {
 			
 			// 입주 디데이 0일때 즉시 문자열 처리
 			String e = mwVO.getEnterdate();
-			System.out.println(e);
 			int ee = e.indexOf(" ");
 			e = e.substring(0, ee+1);
 			e = e.replace(" ", "");
-			int enterNum = Integer.parseInt(e.replace("-", ""));
-			System.out.println((enterNum - today) + "일");
+			String enterNum = e.replace("-", "");
+			
+			Date enterDate = null;
+			Date todayDate = null;
+			try {
+				enterDate = format.parse(enterNum);
+				todayDate=format.parse(today);
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+			
+			long calDate = enterDate.getTime() - todayDate.getTime();
+			int calDateDays = Math.round(calDate / (24*60*60*1000));
+			
 			String enterDay = "";
-			if (enterNum - today > 0 && enterNum - today <=7) {
+			if (calDateDays > 0 && calDateDays <=7) {
 				enterDay = "즉시";
 			}else {
-				enterDay = (enterNum - today) + "일";
+				enterDay = (calDateDays) + "일";
 			}
 			
 			mwVO.setEnterdate(enterDay);
 			
-			// 희망지역 1~3 서울시 자르기
-			int j = mwVO.getArea1().indexOf("구 ");
-			mwVO.setArea(mwVO.getArea1().substring(j+1));
-			if (mwVO.getArea2() != null) {
-				j = mwVO.getArea2().indexOf("구 ");
-				mwVO.setArea(mwVO.getArea2().substring(j+1));
-			}
-			if (mwVO.getArea3() != null) {
-				j = mwVO.getArea3().indexOf("구 ");
-				mwVO.setArea(mwVO.getArea3().substring(j+1));
-			}
+			ListVO listVO=new ListVO();
+			listVO.setArea(mwVO.getArea());
+			mwVO.setListVO(listVO);
 		}
-		
+		mav.addObject("newMateListCnt", nmList.size()); // 필터에 맞는 최신 목록의 메이트가 없을 때
 		mav.addObject("newMateList", nmList);
 		
 		mav.setViewName("home");
