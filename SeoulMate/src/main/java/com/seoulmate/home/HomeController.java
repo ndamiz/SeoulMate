@@ -1,8 +1,10 @@
 package com.seoulmate.home;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -40,9 +42,30 @@ public class HomeController {
 	 */	
 	@SuppressWarnings("null")
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView home(HttpSession session, String addr, String area) {
+	public ModelAndView home(HttpSession session, String addr, String area, String rent, String deposit, String m_gen, String gender) {
 		ModelAndView mav = new ModelAndView();
 		String userid=(String)session.getAttribute("logId");
+		
+		// home에는 월세 필터가 없어서
+		int rentInt=0;
+		if(rent!=null && !rent.equals("")) {
+			rentInt=Integer.parseInt(rent);
+		}
+		
+		int depositInt=0;
+		if(deposit!=null && !deposit.equals("")) {
+			depositInt=Integer.parseInt(deposit);
+		}
+		
+		int m_genInt=0;
+		if(m_gen!=null && !m_gen.equals("")) {
+			m_genInt=Integer.parseInt(m_gen);
+		}
+		
+		int genderInt=0;
+		if(gender!=null && !gender.equals("")) {
+			genderInt=Integer.parseInt(gender);
+		}
 		
 		// 로그인전 하우스 맵 정보 구하기
 		String[] houseMapList = service.getHouseMap();
@@ -85,7 +108,7 @@ public class HomeController {
 					int m_gender=listService.mate_m_gender(userid);
 					
 					// 쉐어하우스 매칭 리스트 구하기
-					List<ListVO> phList = listService.premiumHouseList(userid, m_gender, addr); // PremiumHouseList
+					List<ListVO> phList = listService.premiumHouseList(userid, m_gender, addr, rentInt, depositInt, m_genInt); // PremiumHouseList
 					System.out.println(phList);
 					System.out.println(phList.size());
 					if(phList.size()>0) {
@@ -114,7 +137,7 @@ public class HomeController {
         int m = cal.get(Calendar.MONTH) + 1;
         int d   = cal.get(Calendar.DAY_OF_MONTH);
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-        int today = Integer.parseInt(format.format(cal.getTime()));
+        String today = format.format(cal.getTime());
         
 		// 내 하우스 성향 가져오기
 		if(session.getAttribute("logId")!=null) {
@@ -143,7 +166,7 @@ public class HomeController {
 					if(housePnoCheck>0) { // 메이트 성향이 있을 때만 매칭된 하우스 목록을 띄워준다.
 						int m_gender=listService.house_m_gender(userid, pno);
 						// 메이트 매칭 리스트 구하기
-						List<ListVO> pmList = listService.premiumMateList(userid, pno, m_gender, area);
+						List<ListVO> pmList = listService.premiumMateList(userid, pno, m_gender, area, rentInt, depositInt, genderInt);
 						if(pmList.size()>0) {
 							if(pmList.get(0)!=null) {
 								for(ListVO pmVO : pmList) {
@@ -167,17 +190,30 @@ public class HomeController {
 									String BrithAge=age+"";
 									pmVO.setBirth(BrithAge);
 									
-									// 입주 디데이 9일 때 즉시 문자열 처리
-									String e=pmVO.getEnterdate();
-									int ee=e.indexOf(" ");
-									e=e.substring(0, ee+1);
-									e=e.replace(" ", "");
-									int enterNum=Integer.parseInt(e.replace("-", ""));
-									String enterDay="";
-									if(enterNum - today > 0 && enterNum - today <= 7) {
-										enterDay="즉시";
+									// 입주 디데이 0일때 즉시 문자열 처리
+									String e =pmVO.getEnterdate();
+									int ee = e.indexOf(" ");
+									e = e.substring(0, ee+1);
+									e = e.replace(" ", "");
+									String enterNum = e.replace("-", "");
+									
+									Date enterDate = null;
+									Date todayDate = null;
+									try {
+										enterDate = format.parse(enterNum);
+										todayDate=format.parse(today);
+									} catch (ParseException e1) {
+										e1.printStackTrace();
+									}
+									
+									long calDate = enterDate.getTime() - todayDate.getTime();
+									int calDateDays = Math.round(calDate / (24*60*60*1000));
+									
+									String enterDay = "";
+									if (calDateDays > 0 && calDateDays <=7) {
+										enterDay = "즉시";
 									}else {
-										enterDay=(enterNum-today) + "일";
+										enterDay = (calDateDays) + "일";
 									}
 									pmVO.setEnterdate(enterDay);
 								}
@@ -224,6 +260,7 @@ public class HomeController {
 			hwVO.setAddr(hwVO.getAddr().substring(0, idx+1));
 		}
 		
+		mav.addObject("newHouseListCnt", nhList.size());
 		mav.addObject("newHouseList", nhList);
 		
 		// 하우스메이트 최신리스트 구하기
@@ -259,17 +296,28 @@ public class HomeController {
 			
 			// 입주 디데이 0일때 즉시 문자열 처리
 			String e = mwVO.getEnterdate();
-			System.out.println(e);
 			int ee = e.indexOf(" ");
 			e = e.substring(0, ee+1);
 			e = e.replace(" ", "");
-			int enterNum = Integer.parseInt(e.replace("-", ""));
-			System.out.println((enterNum - today) + "일");
+			String enterNum = e.replace("-", "");
+			
+			Date enterDate = null;
+			Date todayDate = null;
+			try {
+				enterDate = format.parse(enterNum);
+				todayDate=format.parse(today);
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+			
+			long calDate = enterDate.getTime() - todayDate.getTime();
+			int calDateDays = Math.round(calDate / (24*60*60*1000));
+			
 			String enterDay = "";
-			if (enterNum - today > 0 && enterNum - today <=7) {
+			if (calDateDays > 0 && calDateDays <=7) {
 				enterDay = "즉시";
 			}else {
-				enterDay = (enterNum - today) + "일";
+				enterDay = (calDateDays) + "일";
 			}
 			
 			mwVO.setEnterdate(enterDay);

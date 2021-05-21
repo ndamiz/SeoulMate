@@ -208,4 +208,8 @@ public class AdminServiceImp implements AdminService {
 		// 신고관리 - 블랙리스트 제거
 		return dao.removeBlacklist(userid);
 	}
+	@Override
+	public int faqDel(FaqVO fVO) {
+		return dao.faqDel(fVO);
+	}
 }

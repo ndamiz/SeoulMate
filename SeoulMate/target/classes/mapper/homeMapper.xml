@@ -12,7 +12,7 @@
  	<select id="getNewHouse" resultType="com.seoulmate.home.vo.HouseWriteVO">
   		select * from (select * from housewrite where housestate='모집중' 
   		<if test="param1 != null">AND addr LIKE '%${param1}%'</if> 
-  		order by no desc) <![CDATA[where rownum<= 3]]>
+  		order by writedate desc) <![CDATA[where rownum<= 3]]>
 	</select>
  	<select id="getDesposit" resultType="com.seoulmate.home.vo.HouseRoomVO">
   		select rent, deposit from houseroom where no=${param1} and rent = (select min(rent) from houseroom where no=${param1})
