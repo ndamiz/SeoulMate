@@ -18,11 +18,20 @@
 			$("#addr_search").attr("type","hidden");
 		});
 	});
-   function exitCheck(){
-      if(${pwdCheck=='일치'}){
-         alert("그동안 서울 메이트를 이용해주셔서 감사합니다.");
-      }
-   }
+	
+	function pcase(){
+		var pcase = $('input[name="main_search"]:checked').val();
+		if(pcase=="h"){
+			$("#homeSearchForm").attr("action","houseIndex");
+		}else if(pcase=="m"){
+			$("#homeSearchForm").attr("action","mateIndex");
+		}
+	}
+	function exitCheck(){
+		if(${pwdCheck=='일치'}){
+			alert("그동안 서울 메이트를 이용해주셔서 감사합니다.");
+		}
+	}
 
    exitCheck();
    //console.log(${logGrade});
@@ -69,13 +78,12 @@
          당신과 가장 잘 맞는<br>
          쉐어하우스 & 메이트
       </h2>
-      <form class="main_search_form" method="get" action="/home">
-
+      <form class="main_search_form" id="homeSearchForm" method="get" action="/home" onsubmit="return pcase();">
          <div class="checks">
-            <input type="radio" id="select_house" name="main_search" checked>
-            <label for="select_house">쉐어하우스</label>
+            <input type="radio" id="select_house" name="main_search" value="h" checked> 
 
-            <input type="radio" id="select_mate" name="main_search">
+            <label for="select_house">쉐어하우스</label>
+            <input type="radio" id="select_mate" name="main_search" value="m"> 
             <label for="select_mate">하우스메이트</label>
          </div>
          <div class="search_box">
@@ -148,6 +156,7 @@
          <p class="m_title">NEW 쉐어하우스</p>
          <a href="#">더보기</a>
       </div>
+      <c:if test="${newHouseListCnt>0}">
       <ul class="list_content">
          <c:forEach items="${newHouseList}" var="newHouseVO">
             <li>
@@ -174,6 +183,13 @@
             </li>
          </c:forEach>
       </ul>
+      </c:if>
+      <c:if test="${newHouseListCnt==0}">
+	  	<div class="empty_div">
+      		<img class="empty" src="<%=request.getContextPath()%>/img/empty.png" onerror="this.src='<%=request.getContextPath()%>/img/empty.png'"/>
+      		<p style="text-align:center;">필터에 맞는 결과가 없습니다.</p>
+     	</div>
+	</c:if>
    </section>
 
    <c:if test="${myHousePnoCnt>0}">

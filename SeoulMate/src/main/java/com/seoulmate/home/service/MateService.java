@@ -29,9 +29,6 @@ public interface MateService {
 	//메이트 삭제
 	public int mateDel(int no, String userid);
 	
-	// 메이트 index에서 9개의 메이트 목록 가져오기
-	public List<MateWriteVO> getNewIndexMate(String area);
-	
 	//메이트 사진 가져오기
 	public String MateProfilePic(String matePic1, int no);
 	
@@ -40,4 +37,7 @@ public interface MateService {
 	
 	// 메이트 성향 가져오기(본인 작성 글 아니여도 가능)
 	public PropensityVO propMateSelect2(int pno);
+	// 메이트 index에서 9개의 메이트 목록 가져오기
+	public List<MateWriteVO> getNewIndexMate(String area, int rent, int deposit, int gender);
+
 }

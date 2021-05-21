@@ -36,6 +36,7 @@
 			$("#faqInfo").css("display", "block");
 			$("#faqEditBtn").css("display", "inline-block"); // 수정 버튼 보이기
 			$("#faqInsertBtn").css("display", "none"); // 추가 버튼 숨기기
+			$("#faqDelBtn").css("display", "inline-block"); // 삭제 버튼 보이기
 			$(document.body).css("overflow","hidden");
 			$('.pup_body').scrollTop(0);
 			var selectNo=select.children().eq(0).text(); // 선택한 행의 no
@@ -83,6 +84,7 @@
 			$("#faqInfo").css("display", "block");
 			$("#faqInsertBtn").css("display", "inline-block"); // 추가 버튼 보이기
 			$("#faqEditBtn").css("display", "none"); // 수정 버튼 숨기기
+			$("#faqDelBtn").css("display", "none"); // 삭제 버튼 숨기기
 			$(document.body).css("overflow","hidden");
 			$('.pup_body').scrollTop(0);
 			
@@ -114,6 +116,25 @@
 		// 팝업창을 닫는 이벤트
 		$("#faqClose, .pup_btn_close").click(function(){
 			close();
+		});
+		
+		// faq를 삭제하는 이벤트
+		$("#faqDelBtn").click(function(){
+			var url="/home/admin/faqDel";
+			var params=$("#faqInfoForm").serialize();
+			
+			$.ajax({
+				url:url,
+				data:params,
+				success:function(result){
+					if(result==1){
+						faqList();
+						close();
+					}
+				}, error:function(){
+					console.log("faq 수정 에러 발생...");	
+				}
+			});
 		});
 		
 		// 유효성 검사 함수
@@ -184,6 +205,7 @@
 						</div>
 					</div>
 					<div class="pup_bottom" id="pup_bottom">
+						<a class="btn btn-custom" id="faqDelBtn">삭제</a>
 						<a class="btn btn-custom" id="faqEditBtn">수정</a>
 						<a class="btn btn-custom" id="faqInsertBtn">등록</a>
 						<a class="btn btn-custom" id="faqClose">닫기</a>
