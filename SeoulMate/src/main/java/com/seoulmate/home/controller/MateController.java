@@ -23,9 +23,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.seoulmate.home.service.HomeService;
 import com.seoulmate.home.service.HouseService;
+import com.seoulmate.home.service.ListService;
 import com.seoulmate.home.service.MateService;
 import com.seoulmate.home.service.MemberService;
+import com.seoulmate.home.vo.ListVO;
 import com.seoulmate.home.vo.MateWriteVO;
 import com.seoulmate.home.vo.MemberVO;
 import com.seoulmate.home.vo.PropensityVO;
@@ -38,6 +41,10 @@ public class MateController {
 	MemberService memService;
 	@Inject
 	HouseService hService;
+	@Inject
+	ListService listService;
+	@Inject
+	HomeService HomeService;
 	
 	
 	@Autowired
@@ -214,14 +221,9 @@ public class MateController {
 		ModelAndView mav = new ModelAndView();
 //		PropensityVO pVO = service.mateSelect(userid); //메이트 성향
 		PropensityVO pVO=memService.propMateSelect(userid);
-		if(pVO==null) { //메이트 성향이 없을 경우?
-		mav.setViewName("redirect:memberProEdit"); //성향수정 페이지로 이동
-		}else { //메이트 성향이 있을 경우 id 기준으로 값 가져감
-		MemberVO mVO = memService.memberSelect(userid);
 		
 		// 구
 		String guArr[]=memService.gu();
-		
 		
 		MemberVO vo=memService.memberSelect(userid);
 		
@@ -240,7 +242,14 @@ public class MateController {
 		mav.addObject("guArr", guArr); // 구
 		mav.addObject("selDong1", memService.dong(area1[0]));
 		/* 구, 동 end */
+	
+		mav.addObject("vo", memService.memberSelect(userid));
 		
+		if(pVO==null) { //메이트 성향이 없을 경우?
+		mav.setViewName("redirect:memberProEdit"); //성향수정 페이지로 이동
+		}else { //메이트 성향이 있을 경우 id 기준으로 값 가져감
+		MemberVO mVO = memService.memberSelect(userid);
+				
 		mav.setViewName("mate/mateWrite");
 		mav.addObject("pVO",pVO);
 		mav.addObject("mVO", mVO);
@@ -285,12 +294,24 @@ public class MateController {
 			
 			ModelAndView mav = new ModelAndView();
 			
+			String a1=mVO.getArea1()+"/";
+		      String a2="";
+		      String a3="";
+		      if(mVO.getArea2()!=null && !mVO.getArea2().equals("")) {
+		         a2=mVO.getArea2()+"/";
+		      }
+		      if(mVO.getArea3()!=null && !mVO.getArea3().equals("")) {
+		         a3=mVO.getArea3()+"/";
+		      }
+		      mVO.setArea(a1+a2+a3);
+			
+			
 			DefaultTransactionDefinition def=new DefaultTransactionDefinition();
 			def.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED); // 트랜잭션 호출
 			TransactionStatus status=transactionManager.getTransaction(def);
 
 
-			try {
+//			try {
 				int result1 = service.mateInsert(mVO);
 				if(result1>0) {//메이트 등록 
 					System.out.println("메이트 등록 성공");
@@ -305,7 +326,7 @@ public class MateController {
 				}else {
 					System.out.println("메이트 등록 실패");
 				}
-			}catch(Exception e) {
+//			}catch(Exception e) {
 				System.out.println("메이트 글 등록 실패");
 				try { //파일업로드 트랜잭션
 					File dFileObj = new File(path, realName);
@@ -315,7 +336,7 @@ public class MateController {
 					ee.printStackTrace();
 				}
 				mav.setViewName("redirect:mateWrite");
-			}
+//			}
 		return mav;	
 	};
 	
@@ -327,6 +348,19 @@ public class MateController {
 		String userid = (String)session.getAttribute("logId");
 		mVO = service.mateSelect(userid);
 		System.out.println("mVO->"+mVO.getUserid());
+		
+		String a1=mVO.getArea1()+"/";
+	      String a2="";
+	      String a3="";
+	      if(mVO.getArea2()!=null && !mVO.getArea2().equals("")) {
+	         a2=mVO.getArea2()+"/";
+	      }
+	      if(mVO.getArea3()!=null && !mVO.getArea3().equals("")) {
+	         a3=mVO.getArea3()+"/";
+	      }
+	      mVO.setArea(a1+a2+a3);
+		
+	      
 		
 		pVO = memService.propMateSelect(userid);
 		System.out.println("pVO->"+pVO.getUserid());
@@ -375,7 +409,21 @@ public class MateController {
 		
 		System.out.println("mVO id->"+mVO.getUserid());
 		
+		System.out.println("지역확인1->"+mVO.getArea1());
+		System.out.println("지역확인2->"+mVO.getArea2());
+		System.out.println("지역확인3->"+mVO.getArea3());
 		
+		String a1=mVO.getArea1()+"/";
+	      String a2="";
+	      String a3="";
+	      if(mVO.getArea2()!=null && !mVO.getArea2().equals("")) {
+	         a2=mVO.getArea2()+"/";
+	      }
+	      if(mVO.getArea3()!=null && !mVO.getArea3().equals("")) {
+	         a3=mVO.getArea3()+"/";
+	      }
+	      mVO.setArea(a1+a2+a3);
+	      System.out.println("지역-->"+mVO.getArea());
 		
 		//사진 수정
 		String path = req.getSession().getServletContext().getRealPath("/housePic");
@@ -423,31 +471,41 @@ public class MateController {
 			int result1 = service.mateUpdate(mVO);
 			if(result1>0) {
 				System.out.println("메이트 글 수정 완료");
-				if(delFilename!=null) {
-					try {
-						File dFileObj=new File(path, delFilename);
-						dFileObj.delete();
-					}catch(Exception e) {
-						System.out.println("글 수정 중 삭제할 파일 삭제 에러 발생");
-						e.printStackTrace();
-					}
-				}
 				
 				pVO.setPno(mVO.getPno());
 				int result2 = memService.propMateUpdate(pVO);
 				if(result2>0) {
 					System.out.println("메이트성향 수정 성공");
-					if(delFilename!=null) {
-						try {
-							File dFileObj=new File(path, delFilename);
-							dFileObj.delete();
-						}catch(Exception e) {
-							System.out.println("글 수정 중 삭제할 파일 삭제 에러 발생");
-							e.printStackTrace();
+					
+					int result3 = service.mateAreaUpdate(mVO.getArea(), userid);
+					if(result3>0) {
+						System.err.println("회원정보 희망지역 수정 완료");
+						transactionManager.commit(status);
+						if(delFilename!=null) {
+							try {
+								File dFileObj=new File(path, delFilename);
+								dFileObj.delete();
+							}catch(Exception e) {
+								System.out.println("글 수정 중 삭제할 파일 삭제 에러 발생");
+								e.printStackTrace();
+							}
+						}
+						mav.setViewName("redirect:mateIndex");
+						
+					}else {
+						System.out.println("희망지역 수정 실패");
+						if(newUpload!=null && !newUpload.equals("")){ // 올리려는 새 이미지가 있을 때
+							try {
+								File dFileObj=new File(path, newUpload);
+								dFileObj.delete();
+							}catch(Exception e) {
+								System.out.println("새로 업로드된 파일 지우기 에러 발생");
+								e.printStackTrace();
+							}
 						}
 					}
-					transactionManager.commit(status);
-					mav.setViewName("redirect:mateIndex");
+					
+					
 				}else {
 					System.out.println("메이트성향 수정 실패");
 					if(newUpload!=null && !newUpload.equals("")){ // 올리려는 새 이미지가 있을 때
@@ -463,15 +521,7 @@ public class MateController {
 				}
 			}else {
 				System.out.println("메이트 글 수정 실패");
-				if(newUpload!=null && !newUpload.equals("")){ // 올리려는 새 이미지가 있을 때
-					try {
-						File dFileObj=new File(path, newUpload);
-						dFileObj.delete();
-					}catch(Exception e) {
-						System.out.println("새로 업로드된 파일 지우기 에러 발생");
-						e.printStackTrace();
-					}
-				}
+				
 			}
 		}catch(Exception e) {
 			System.out.println("메이트 글+성향 수정 실패");

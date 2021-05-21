@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.seoulmate.home.dao.MateWriteDAO;
 import com.seoulmate.home.dao.PropensityDAO;
 import com.seoulmate.home.vo.MateWriteVO;
+import com.seoulmate.home.vo.MemberVO;
 import com.seoulmate.home.vo.PropensityVO;
 @Service
 public class MateServiceImp implements MateService {
@@ -73,6 +74,11 @@ public class MateServiceImp implements MateService {
 	@Override
 	public PropensityVO propMateSelect2(int pno) { // 메이트 성향 가져오기(본인 작성 글 아니여도 가능)
 		return pDAO.propHouseSelect2(pno);
+	}
+
+	@Override
+	public int mateAreaUpdate(String area, String userid) {
+		return dao.mateAreaUpdate(area, userid);
 	}
 
 

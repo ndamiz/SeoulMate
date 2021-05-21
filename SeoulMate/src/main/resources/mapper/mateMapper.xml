@@ -5,14 +5,14 @@
   <mapper namespace="com.seoulmate.home.dao.MateWriteDAO">
   	<insert id="mateInsert" parameterType="com.seoulmate.home.vo.MateWriteVO">
   		insert into matewrite(no, pno, userid, area, matePic1, deposit, rent, enterdate, minStay, maxStay,
-  		to_char(writedate, 'YYYY-MM-DD')writedate, enddate, matestate, mateProfile) 
-		values (housematesq.nextval, #{pno}, #{userid}, #{area}, #{matePic1},  #{deposit}, #{rent}, 
+  		writedate, enddate, matestate, mateProfile) 
+		values (housematesq.nextval, #{pno}, #{userid}, #{area}, #{matePic1}, #{deposit}, #{rent}, 
 		#{enterdate}, #{minStay}, #{maxStay}, sysdate, sysdate+7, '모집중', #{mateProfile} )
   	</insert>
 	<update id="mateUpdate" parameterType="com.seoulmate.home.vo.MateWriteVO">
 		update matewrite set 
 		<if test="matePic1!=null and matePic1!=''">matePic1=#{matePic1}, </if>
-		deposit=#{deposit}, rent=#{rent}, enterdate=#{enterdate},
+		deposit=#{deposit}, rent=#{rent}, enterdate=#{enterdate}, area=#{area},
 		minStay=#{minStay}, maxStay=#{maxStay}, mateProfile=#{mateProfile} where userid=#{userid} and pno=#{pno}
 	</update>
 <!-- 	<select id="mateNoSelect" resultType="int"> -->
@@ -49,4 +49,7 @@
 		select no, pno, userid, area, matePic1, matePic2, matePic3, deposit, rent, enterdate, minStay, maxStay,
 		writedate, enddate, matestate, mateProfile from matewrite where no=#{param1}
 	</select>
+	<update id="mateAreaUpdate">
+		update member set area=#{param1} where userid=#{param2}
+	</update>
   </mapper>
