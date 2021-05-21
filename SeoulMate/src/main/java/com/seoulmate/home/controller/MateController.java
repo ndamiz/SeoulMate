@@ -20,16 +20,14 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.seoulmate.home.service.HomeService;
-import com.seoulmate.home.service.ListService;
 import com.seoulmate.home.service.HouseService;
 import com.seoulmate.home.service.MateService;
 import com.seoulmate.home.service.MemberService;
-import com.seoulmate.home.vo.ListVO;
 import com.seoulmate.home.vo.MateWriteVO;
 import com.seoulmate.home.vo.MemberVO;
 import com.seoulmate.home.vo.PropensityVO;
@@ -40,10 +38,6 @@ public class MateController {
 	MateService service;
 	@Inject
 	MemberService memService;
-	@Inject
-	ListService listService;
-	@Inject
-	HomeService HomeService;
 	@Inject
 	HouseService hService;
 	
@@ -426,6 +420,8 @@ public class MateController {
 		return mav;
 	}
 	
+	
+	
 	//메이트 수정 확인
 	@RequestMapping(value = "/mateEditOk", method = RequestMethod.POST)
 	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
@@ -579,20 +575,7 @@ public class MateController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/hpnoDefaultMateIndex", method = RequestMethod.GET)
-	public ModelAndView hpnoDefaultMateIndex(HttpSession session, int pno) {
-		ModelAndView mav=new ModelAndView();
-		String userid=(String)session.getAttribute("logId");
-		
-		// 내 하우스 성향의 갯수를 구한다.(프리미엄인 하우스에게 메이트 매칭 목록을 띄워주기 위해)
-		int myHousePnoCnt=listService.myHousePnoCount(userid);
-		if(myHousePnoCnt>0) {
-			session.setAttribute("hPno", pno);
-		}
-		mav.setViewName("redirect:mateIndex");
-		
-		return mav;
-	}
+
 	
 	
 }
