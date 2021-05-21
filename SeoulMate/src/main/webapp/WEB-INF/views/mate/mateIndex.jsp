@@ -40,48 +40,42 @@
 <div class="wrap mateSearch_wrap">
 	<div class="boxClass"> <!-- 상단부분 div -->
 		<p class="d_title">조건검색</p>
-		<ul class="searchClass">
-			<li>
-				<ul>	
-					<li>
-						<form method="get" action="mateIndex" id="mateIndexForm" onsubmit="return search();">
-							<input type="hidden" id="hiddenPageNum" name="pageNum" value="${pVO.pageNum}">
-							<ul>
-								<li><p>지역</p></li> 
-								<li><input type="text" name="area" id="searchBox" value="${pVO.area}" placeholder="지역명을 입력하세요" /> 
-									<a id="iconPic1"></a></li>
-							</ul>
-							<ul class="list_filter">
-								<li> 최대 월세 </li>
-								<li><input type="number" name="rent" id="searchRent" value="<c:if test='${pVO.rent!=0}'>${pVO.rent}</c:if>" min="0" placeholder="0"/> 만원 </li>
-							</ul>
-							<ul class="list_filter">
-								<li>최대 보증금</li>
-								<li><input type="number" name="deposit" id="searchDeposit" value="<c:if test='${pVO.deposit!=0}'>${pVO.deposit}</c:if>" min="0" placeholder="0"/> 만원 </li>
-							</ul>
-							<ul>
-								<li><label> 성별</label></li>
-								<li class="checks_mate">
-									<div class="checks">
-										<input type="radio" id="radio1" name="gender" value="0" <c:if test='${pVO.gender==0}'>checked</c:if>/> 
-										<label for="radio1">전체</label> 
-										<input type="radio" id="radio2" name="gender" value="1" <c:if test='${pVO.gender==1}'>checked</c:if>/> 
-										<label for="radio2">여성</label> 
-										<input type="radio" id="radio3" name="gender" value="3" <c:if test='${pVO.gender==3}'>checked</c:if>/> 
-										<label for="radio3">남성</label> 
-									</div>
-								</li>
-							</ul>
-							<ul>
-								<li><button class="green search"></button></li>
-							</ul>
-						</form>
-					</li>
-				</ul>
+		<form method="get" action="mateIndex" id="mateIndexForm" onsubmit="return search();">
+			<input type="hidden" id="hiddenPageNum" name="pageNum" value="${pVO.pageNum}">
+			<ul class="searchClass">
+				<li>
+					<p>지역</p>
+					<input type="text" name="area" id="searchBox" value="${pVO.area}" placeholder="지역명을 입력하세요" /> 
+					<!-- <a id="iconPic1"></a> -->
+					<label><button id="iconPic1"></button></label> 
+					
+				</li>
+				<li>
+					<p>최대 월세</p>
+					<input type="number" name="rent" id="searchRent" value="<c:if test='${pVO.rent!=0}'>${pVO.rent}</c:if>" min="0" placeholder="0"/>
+					<label>만원</label> 
+				</li>
+				<li>
+					<p>최대 보증금</p>
+					<input type="number" name="deposit" id="searchDeposit" value="<c:if test='${pVO.deposit!=0}'>${pVO.deposit}</c:if>" min="0" placeholder="0"/>
+					<label>만원</label> 
+				</li>
+				<li>
+					<p> 성별</p>
+					<div class="checks">
+						<input type="radio" id="radio1" name="gender" value="0" <c:if test='${pVO.gender==0}'>checked</c:if>/> 
+						<label for="radio1">전체</label> 
+						<input type="radio" id="radio2" name="gender" value="1" <c:if test='${pVO.gender==1}'>checked</c:if>/> 
+						<label for="radio2">여성</label> 
+						<input type="radio" id="radio3" name="gender" value="3" <c:if test='${pVO.gender==3}'>checked</c:if>/> 
+						<label for="radio3">남성</label> 
+					</div>
+				</li>
+				<li><button class="green search"></button></li>
 			</ul>		
-			<button class="green mate" onclick="location.href='<%=request.getContextPath()%>/mateWrite'">메이트 등록하기</button><br/>
-		</div>
-		<hr/>
+		</form>
+		<button class="green mate" onclick="location.href='<%=request.getContextPath()%>/mateWrite'">메이트 등록하기</button><br/>
+	</div>
 	<c:if test="${myHousePnoCnt>0}">
 	   <c:if test="${logGrade==2}">
 			<div class="title_wrap" id="hPnoSelect">

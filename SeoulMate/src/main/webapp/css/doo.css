@@ -26,12 +26,59 @@
 	background-size: cover;
 }
 
+.boxClass form{
+	border-bottom: 1px solid #eee;
+}
+
 
 input[type="date"] {width:200px;}
 input[type="text"] {width:100px;}
 input[type="number"] {width:100px;}
 #searchBox{width:300px; position:relative;}
-.searchClass ul{display:inline-block; padding-top:10px; }
+
+.searchClass{
+	display:flex;
+	margin: 1rem 0 3rem 0;
+}
+
+.searchClass .checks label:first-of-type{
+	margin-left: 0;
+}
+
+.searchClass li{
+	position: relative;
+	min-width:150px;
+	margin-right: 2%;
+}
+.searchClass li:first-child{
+	/* position: relative; */
+}
+.searchClass li:first-child > label{
+	position: absolute;
+	top:54px;
+	right: 0;
+}
+.searchClass li:last-child{
+	margin-right: 0;
+}
+.searchClass li > p{
+	line-height: 30px;
+}
+
+.searchClass li input{
+	margin-top: 20px;
+}
+
+.searchClass .checks{
+	margin-top: 20px;
+}
+
+.searchClass .checks label{
+	min-width:58px;
+	line-height: 2.8em;
+}
+
+
 
 #iconPic {
 	position: absolute;
@@ -40,9 +87,6 @@ input[type="number"] {width:100px;}
 }
 
 #iconPic1 {
-	position: relative;
-	right: 54px;
-	top: 14px;
 	box-shadow: none;
 	border: none;
 	border-radius: inherit;
@@ -52,6 +96,7 @@ input[type="number"] {width:100px;}
 	height: inherit;
 	width: 40px;
 	height: 40px;
+	background-color: #fff;
 }
 
 #iconPic1::before {
@@ -62,7 +107,7 @@ input[type="number"] {width:100px;}
 	height: 23px;
 	top:6px;
 	right: 9px;
-	background: url(<%=request.getContextPath()%>/img/comm/ico_search_black.png) no-repeat;
+	background: url(../img/comm/ico_search_black.png) no-repeat;
 	background-size: cover;
 }
 .checks_mate{
@@ -76,6 +121,17 @@ input[type="number"] {width:100px;}
     -moz-user-select: none;}
 button{position: relative;}
 
+.wrap.mateSearch_wrap{
+	padding: 3rem 0;
+}
+
+.mateSearch_wrap button.search{
+	width: 50px;
+	height: 50px;
+	margin-top: 45px;
+	box-shadow: 3px 2px 6px 1px #13a89e85;
+}
+
 .mateSearch_wrap button.search::before{
 	content:"";
 	display: block;
@@ -88,18 +144,9 @@ button{position: relative;}
 
 
 
-/* .mateSearch_wrap button.search::before{
- content:"";
-   display: block;
-   margin-left: -2px;
-   width: 25px;
-   height: 25px;
-   background: url(../img/main/ico_search_white.png) no-repeat;
-   background-size: cover;
-} */
 .mateSearch_wrap button.mate{
 	margin-top: 30px;
-	margin-left:35px;
+	float: right;
 }
 .searchClass .list_filter{
 	margin-right: 30px !important;
@@ -112,41 +159,12 @@ input[type="date"] {width: 200px;}
 input[type="text"] {width: 100px;}
 input[type="number"] {width: 100px;}
 
-#searchBox {width: 300px; position: relative;}
-.searchClass ul {display: inline-block;	padding-top: 10px;}
-
-#iconPic {
-	position: absolute;
-	right: 2px;
-	top: 8px;
-}
-
-#iconPic1 {
+#searchBox {
+	display:block;
+	width: 260px; 
 	position: relative;
-	right: 54px;
-	top: 14px;
-	box-shadow: none;
-	border: none;
-	border-radius: inherit;
-	margin: 0;
-	padding: 0;
-	line-height: inherit;
-	height: inherit;
-	width: 40px;
-	height: 40px;
 }
 
-#iconPic1::before {
-	content: "";
-	display: block;
-	position: absolute;
-	width: 22px;
-	height: 23px;
-	top:6px;
-	right: 9px;
-	background: url(<%=request.getContextPath()%>/img/comm/ico_search_black.png) no-repeat;
-	background-size: cover;
-}
 .checks_mate{
  	height: 50px;
     display: inline-block;
