@@ -25,9 +25,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.seoulmate.home.service.HomeService;
 import com.seoulmate.home.service.HouseService;
+import com.seoulmate.home.service.ListService;
 import com.seoulmate.home.service.MateService;
 import com.seoulmate.home.service.MemberService;
+import com.seoulmate.home.vo.ListVO;
 import com.seoulmate.home.vo.MateWriteVO;
 import com.seoulmate.home.vo.MemberVO;
 import com.seoulmate.home.vo.PropensityVO;
@@ -40,7 +43,10 @@ public class MateController {
 	MemberService memService;
 	@Inject
 	HouseService hService;
-	
+	@Inject
+	ListService listService;
+	@Inject
+	HomeService HomeService;
 	
 	@Autowired
 	private DataSourceTransactionManager transactionManager;
