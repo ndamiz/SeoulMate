@@ -337,6 +337,10 @@
       };
       var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
       
+      // min값만큼 확대
+      map.setMinLevel(3); // 50m
+      // max값만큼 확대
+      map.setMaxLevel(7); // 1km
 	  <c:if test="${logId==null}">
       madeMap();
   	  </c:if>
@@ -419,24 +423,27 @@
 		        	   
 		               // 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면
 		               // 오버레이를 표시합니다.
-		               if (!selectedMarker || selectedMarker !== marker) {
-						   if (cselectedMarker != null){
-							   coay.setMap(null);
-						   }
-		                   // 클릭된 마커 객체가 null이 아니면
-		                   // 이전에 표시된 오버레이를 표시하지 않습니다.
-		                   if(oay != null){
-		                	   oay.setMap(null);
-		                   }
-						   // 현재 오버레이를 표시합니다.
-			        	   overlay.setMap(map);
-						   // 현재 마커를 중심으로 맵을 이동합니다.
-			        	   map.setCenter(marker.getPosition());   
-						   // 이전 오버레이에 현재 오버레이를 대입합니다.
-			        	   oay = overlay;
-						   // 클릭된 마커를 변경합니다.
-			        	   selectedMarker = marker;
-		               }
+					   if (cselectedMarker != null){
+						   coay.setMap(null);
+					   }
+	                   // 클릭된 마커 객체가 null이 아니면
+	                   // 이전에 표시된 오버레이를 표시하지 않습니다.
+	                   if(oay != null){
+	                	   oay.setMap(null);
+	                   }
+	                   
+                       if(coay != null){
+                     	   coay.setMap(null);
+                       }
+					   // 현재 오버레이를 표시합니다.
+		        	   overlay.setMap(map);
+					   // 현재 마커를 중심으로 맵을 이동합니다.
+		        	   map.setCenter(marker.getPosition());   
+					   // 이전 오버레이에 현재 오버레이를 대입합니다.
+		        	   oay = overlay;
+					   // 클릭된 마커를 변경합니다.
+		        	   selectedMarker = marker;
+		        	   cselectedMarker = null;
 		           });
 	             } 
 	            });    
@@ -563,7 +570,7 @@
                      '        <div class="body">' + 
                      '            <div class="">' + 
                      '                <p>' + result[0].address.region_3depth_name + '에서 집을 구하고 있어요!</p>' + 
-                     '                <div><a href="mateIndex?area=' + result[0].address.region_3depth_name + '&character1=on" target="_blank" class="link">자세히보기</a></div>' + 
+                     '                <div><a href="mateIndex?area=' + result[0].address.region_3depth_name + '" target="_blank" class="link">자세히보기</a></div>' + 
                      '            </div>' + 
                      '        </div>' + 
                      '    </div>' +    
@@ -585,12 +592,9 @@
 						   oay.setMap(null);
 						   selectedMarker == null;
 					   }
-                       if(cselectedMarker == clusterer){
-                    	   coay.setMap(null);
-                       }
-                        if(coay != null){
+                       if(coay != null){
                      	   coay.setMap(null);
-                        }
+                       }
       				   // 현재 오버레이를 표시합니다.
       	        	   overlay.setMap(map);
       				   // 현재 마커를 중심으로 맵을 이동합니다.

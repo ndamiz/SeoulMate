@@ -802,7 +802,6 @@ table td{
 	line-height: 40px;
 	margin: 0 0 0 5px;
 }
-
 .first_page{
 	background: url(../img/comm/btn_page.gif) no-repeat 0 0;
 	background-position: 0px -40px;
@@ -1241,22 +1240,22 @@ footer .foot_btns{
 	min-height: 80px;
 	top: 25px;
 	left: 25px;
-	padding: 6% 0 0% 4%;
+	padding: 7% 0 0% 4%;
 	border-radius: 20px;
 	background-color: #13a89ec2;
 	color: #fff;
-	font-size: 3vw;
+	font-size: 2.5vw;
 	font-weight: 600;
 }
 
 .recommend_list .list_img p span{
 	display: block;
 	line-height:20px;
-	font-size: 1.5vw;
+	font-size: 1.3vw;
 }
 
 .recommend_list .list_img p b{
-	font-size: 2vw;
+	font-size: 1.5vw;
 }
 
 .recommend_list .list_title::after{

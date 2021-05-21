@@ -107,5 +107,4 @@ public class HouseMatePagingVO {
 	public void setGender(int gender) {
 		this.gender = gender;
 	}
-	
 }
