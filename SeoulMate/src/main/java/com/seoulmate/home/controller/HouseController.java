@@ -128,11 +128,11 @@ public class HouseController {
 		//String userid = (String)session.getAttribute("logId");
 		
 		HouseWriteVO hVO = service.houseSelect2(no); //HouseWriteVO 값 가져오기
-		HouseRoomVO rVO = service.roomSelect2(no); //HouseRoomVO 값 가져오기
+		List<HouseRoomVO> rVO_List = service.roomListSelect(no); //HouseRoomVO 값 가져오기
 		PropensityVO pVO = service.propHouseSelect2(hVO.getPno()); //PropensityVO 값 가져오기
 		String memProfilePic = service.memberProfile(hVO.getUserid());
 		mav.addObject("hVO", hVO);
-		mav.addObject("rVO", rVO);
+		mav.addObject("rVO_List", rVO_List);
 		mav.addObject("pVO", pVO);
 		mav.addObject("memProfilePic", memProfilePic);
 		

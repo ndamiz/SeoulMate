@@ -148,6 +148,11 @@ public class HouseServiceImp implements HouseService {
 		return pDAO.ProHouseNameUpdate(vo);
 	}
 
+	@Override
+	public List<HouseRoomVO> roomListSelect(int no) {
+		return dao.roomListSelect(no);
+	}
+
 
 
 
