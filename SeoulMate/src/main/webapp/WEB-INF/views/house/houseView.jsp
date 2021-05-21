@@ -41,12 +41,14 @@
     margin: 40px auto;
 }
 
-#propensity_info ul>li{float: left;
+#propensity_info ul>li{
+	float: left;
     height: 40px;
     line-height: 40px;
     padding: 0px 10px;
-    width: 50%;
+    width: 23%;
 }
+#propensity_info ul>li:first-of-type{width: 30%;}
 #propensity_info ul{width: 100%}
 .propensity_info_house, .propensity_info_mate{width: 50%; float: left;}
 #facility_info img{width: 70px; height: 70px;}
@@ -314,75 +316,78 @@
 				<ul>
 					<li>생활 소음</li>
 						<li <c:if test="${pVO.h_noise=='1' }"></c:if>>매우 조용함</li>
-						<li><c:if test="${pVO.h_noise=='2' }">보통</c:if></li>
-						<li><c:if test="${pVO.h_noise=='3' }">조용하지 않음</c:if></li>
+						<li <c:if test="${pVO.h_noise=='2' }"></c:if>>보통</li>
+						<li <c:if test="${pVO.h_noise=='3' }"></c:if>>조용하지 않음</li>
 				</ul>
 				<ul>
 					<li>생활 시간</li>
-					<li><c:if test="${pVO.h_pattern=='1' }">주행성</c:if>
-						<c:if test="${pVO.h_pattern=='3' }">야행성</c:if></li>
+					<li <c:if test="${pVO.h_pattern=='1' }"></c:if>>주행성</li>
+					<li <c:if test="${pVO.h_pattern=='3' }"></c:if>>야행성</li>
+					<li></li>
 				</ul>
 				<ul>
 					<li>반려동물 여부</li>
-					<li><c:if test="${pVO.h_pet=='1' }">없음</c:if>
-						<c:if test="${pVO.h_pet=='3' }">있음</c:if></li>
+					<li <c:if test="${pVO.h_pet=='1' }"></c:if>>없음</li>
+					<li <c:if test="${pVO.h_pet=='3' }"></c:if>>있음</li>
+					<li></li>
 				</ul>
 				<ul>
 					<li>반려동물 동반 입실 여부</li>
-					<li><c:if test="${pVO.h_petwith=='1' }">불가능</c:if>
-						<c:if test="${pVO.h_petwith=='3' }">가능</c:if></li>
+					<li <c:if test="${pVO.h_petwith=='1' }"></c:if>>불가능</li>
+					<li <c:if test="${pVO.h_petwith=='3' }"></c:if>>가능</li>
+					<li></li>
 				</ul>
 				<ul>
 					<li>흡연 여부</li>
-					<li><c:if test="${pVO.h_smoke=='1' }">비흡연</c:if>
-						<c:if test="${pVO.h_smoke=='2' }">실외흡연</c:if>
-						<c:if test="${pVO.h_smoke=='3' }">실내흡연</c:if></li>
+					<li <c:if test="${pVO.h_smoke=='1' }"></c:if>>비흡연</li>
+					<li <c:if test="${pVO.h_smoke=='2' }"></c:if>>실외흡연</li>
+					<li <c:if test="${pVO.h_smoke=='3' }"></c:if>>실내흡연</li>
 				</ul>
 				<ul>
 					<li>분위기</li>
-					<li><c:if test="${pVO.h_mood=='1' }">화목함</c:if>
-						<c:if test="${pVO.h_mood=='2' }">보통</c:if>
-						<c:if test="${pVO.h_mood=='3' }">독립적</c:if></li>
+					<li <c:if test="${pVO.h_mood=='1' }"></c:if>>화목함</li>
+					<li <c:if test="${pVO.h_mood=='2' }"></c:if>>보통</li>
+					<li <c:if test="${pVO.h_mood=='3' }"></c:if>>독립적</li>
 				</ul>
 				<ul>
 					<li>소통방식</li>
-					<li><c:if test="${pVO.h_communication=='1' }">메신저</c:if>
-						<c:if test="${pVO.h_communication=='2' }">기타</c:if>
-						<c:if test="${pVO.h_communication=='3' }">대화</c:if></li>
+					<li <c:if test="${pVO.h_communication=='1' }"> </c:if>>메신저</li>
+					<li <c:if test="${pVO.h_communication=='2' }"> </c:if>>기타</li>
+					<li <c:if test="${pVO.h_communication=='3' }"> </c:if>>대화</li>
 				</ul>
 				<ul>
 					<li>모임빈도</li>
-					<li><c:if test="${pVO.h_party=='1' }">없음</c:if>
-						<c:if test="${pVO.h_party=='2' }">상관없음</c:if>
-						<c:if test="${pVO.h_party=='3' }">있음</c:if></li>
+					<li <c:if test="${pVO.h_party=='1' }"></c:if>>없음</li>
+					<li <c:if test="${pVO.h_party=='2' }"></c:if>>상관없음</li>
+					<li <c:if test="${pVO.h_party=='3' }"></c:if>>있음</li>
 				</ul>
 				<ul>
 					<li>모임참가 의무</li>
-					<li><c:if test="${pVO.h_enter=='1' }">없음</c:if>
-						<c:if test="${pVO.h_enter=='2' }">상관없음</c:if>
-						<c:if test="${pVO.h_enter=='3' }">있음</c:if></li>
+					<li <c:if test="${pVO.h_enter=='1' }"></c:if>>없음</li>
+					<li <c:if test="${pVO.h_enter=='2' }"></c:if>>상관없음</li>
+					<li <c:if test="${pVO.h_enter=='3' }"></c:if>>있음</li>
 				</ul>
 				<ul>
 					<li>모임참가 의무</li>
-					<li><c:if test="${pVO.h_enter=='1' }">없음</c:if>
-						<c:if test="${pVO.h_enter=='2' }">상관없음</c:if>
-						<c:if test="${pVO.h_enter=='3' }">있음</c:if></li>
+					<li <c:if test="${pVO.h_enter=='1' }"></c:if>>없음</li>
+					<li <c:if test="${pVO.h_enter=='2' }"></c:if>>상관없음</li>
+					<li <c:if test="${pVO.h_enter=='3' }"></c:if>>있음</li>
 				</ul>
 				<ul>
 					<li>하우스 지원</li>
 					<c:forEach var="i" items="${pVO.h_support }">
-						<li>${i }</li>
+						<li <c:if test="${i == 1}"></c:if> ><c:if test="${i == 1}">공용공간청소</c:if></li>
+						<li <c:if test="${i == 2}"></c:if> ><c:if test="${i == 2}">공용생필품</c:if></li>
+						<li <c:if test="${i == 3}"></c:if> ><c:if test="${i == 3}">기본 식품</c:if></li>
 					</c:forEach>
 				</ul>
 				<ul>
 					<li>기타 사항</li>
-					<li>
 					<c:forEach var="j" items="${pVO.h_etc }">
-						<c:if test="${j == 1}">공용공간청소 </c:if>
-						<c:if test="${j == 2}">공용생필품 </c:if>
-						<c:if test="${j == 3}">기본식품 </c:if>
+						<li><c:if test="${j == 1}">공용공간청소 </c:if></li>
+						<li><c:if test="${j == 2}">공용생필품 </c:if></li>
+						<li><c:if test="${j == 3}">기본식품 </c:if></li>
 					</c:forEach>
-					</li>
 				</ul>
 			</div>
 			<div class="propensity_info_mate">
