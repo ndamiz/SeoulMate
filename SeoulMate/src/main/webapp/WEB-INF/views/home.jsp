@@ -20,14 +20,6 @@
 		
 		
 	});
-<<<<<<< HEAD
-   function exitCheck(){
-      if(${pwdCheck=='일치'}){
-         alert("그동안 서울 메이트를 이용해주셔서 감사합니다.");
-      }
-   }
-
-=======
 	
 	function pcase(){
 		var pcase = $('input[name="main_search"]:checked').val();
@@ -42,8 +34,6 @@
 			alert("그동안 서울 메이트를 이용해주셔서 감사합니다.");
 		}
 	}
-	   
->>>>>>> refs/remotes/origin/cjw
    exitCheck();
    console.log(${logGrade});
    $(function(){
