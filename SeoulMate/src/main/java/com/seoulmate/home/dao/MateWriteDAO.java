@@ -27,11 +27,11 @@ public interface MateWriteDAO {
 	public int mateDel(int no, String userid);
 	
 	//메이트 인덱스에서 New 메이트 리스트 9개 출력하기
-	public List<MateWriteVO> getNewIndexMate(String area);
-	
 	//메이트 사진 가져오기
 	public String MateProfilePic(String matePic1, int no);
 	
 	//matewrite 가져오기 (본인 작성글 아니여도)
 	public MateWriteVO mateSelect2(int no);
+
+	public List<MateWriteVO> getNewIndexMate(String area, int rent, int deposit, int gender);
 }

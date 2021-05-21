@@ -117,8 +117,8 @@ public class HouseServiceImp implements HouseService {
 	}
 
 	@Override
-	public List<HouseWriteVO> getNewIndexHouse(String addr) {
-		return hDAO.getNewIndexHouse(addr);
+	public List<HouseWriteVO> getNewIndexHouse(String addr, int rent, int deposit, int m_gen) {
+		return hDAO.getNewIndexHouse(addr, rent, deposit, m_gen);
 	}
 
 	@Override

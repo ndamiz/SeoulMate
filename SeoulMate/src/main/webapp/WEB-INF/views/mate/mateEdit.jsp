@@ -183,14 +183,19 @@ $(function(){
 	
 	// 희망 지역 1,2,3에 구,동 넣기
 	function areaInput(){
+		alert('${vo.area1}');
+		alert("123"+$("#area1Edit").val());
 		var a1=$("#area1Edit").val().indexOf(" "); // 희망 지역1의 띄어쓰기 위치 구하기
+		alert(a1);
 		var a2=$("#area2Edit").val().indexOf(" "); // 희망 지역2의 띄어쓰기 위치 구하기
 		var a3=$("#area3Edit").val().indexOf(" "); // 희망 지역3의 띄어쓰기 위치 구하기
 		
 		// alert(typeof a1); // 변수의 데이터 타입을 확인
 		
 		if(a1!=-1){ // 희망 지역 1이 있을 때
+			
 			var gu1=$("#area1Edit").val().substring(0,a1);
+// 			alert("gu1->"gu1)
 			var dong1=$("#area1Edit").val().substring(a1+1);
 			$("#gu1Edit>option[value='"+gu1+"']").attr('selected', true);
 // 			$("#dong1Edit").append("<option value='"+dong1+"' selected>"+dong1+"</option>");
@@ -309,7 +314,7 @@ $(function(){
 							</c:forEach>
 						</select>
 					</div>
-					<input type="hidden" name="area1" id="area1Edit" value="${mVO.area1}" readonly/>
+					<input type="hidden" name="area1" id="area1Edit" value="${vo.area1}" readonly/>
 					<a class="white" id="area1Btn">지역1 수정</a>
 				</li>
 				<li id="a2"><label>&nbsp;희망 지역2</label>

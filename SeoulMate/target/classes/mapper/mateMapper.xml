@@ -30,8 +30,11 @@
 		delete from matewrite where no=#{param1} and userid=#{param2}	
 	</delete>
 	<select id="getNewIndexMate" resultType="com.seoulmate.home.vo.MateWriteVO">
-		SELECT * 
-		FROM(SELECT mw.NO, mw.pno, mw.userid, mw.area, mw.matepic1, mw.matepic2, mw.matepic3, mw.deposit, mw.rent, mw.enterdate, mw.minstay, mw.maxstay, mw.writedate, 
+		SELECT *
+		FROM (SELECT * 
+		FROM (SELECT * 
+		FROM (SELECT * 
+		FROM (SELECT mw.NO, mw.pno, mw.userid, mw.area, mw.matepic1, mw.matepic2, mw.matepic3, mw.deposit, mw.rent, mw.enterdate, mw.minstay, mw.maxstay, mw.writedate, 
 			mw.enddate, mw.matestate, mw.mateprofile, g.gender, g.m_gender, g.h_noise, g.h_pattern, g.h_pet, g.h_petwith, g.h_smoke, g.h_mood, g.h_communication, g.h_party, 
 			g.h_enter, g.m_pattern, g.m_personality, g.m_pet, g.m_smoke, g.m_age, g.m_global, g.m_now, g.pdate 
 		FROM (SELECT * FROM MATEWRITE WHERE matestate='모집중' 
@@ -43,7 +46,11 @@
 		FROM (SELECT userid, gender FROM MEMBER) m 
 		JOIN (SELECT userid, m_gender, h_noise, h_pattern, h_pet, h_petwith, h_smoke, h_mood, h_communication, h_party, h_enter, m_pattern, m_personality, 
 			m_pet, m_smoke, m_age, m_global, m_now, substr(to_char(pdate, 'YYYY'),1,1) AS pdate
-		FROM PROPENSITY WHERE pcase='m') p ON m.userid=p.userid) g ON mw.userid=g.userid ORDER BY writedate DESC) <![CDATA[where rownum<= 9]]>
+		FROM PROPENSITY WHERE pcase='m') p ON m.userid=p.userid) g ON mw.userid=g.userid )
+		<if test='param2 != null and param2>0'>where <![CDATA[rent<=#{param2}]]></if>)
+		<if test='param3 != null and param3>0'>where <![CDATA[deposit<=#{param3}]]></if>)
+		<if test='param4 != null and param4!=0'>where <![CDATA[gender=#{param4}]]></if>
+		ORDER BY writedate DESC) <![CDATA[where rownum<= 9]]>
 	</select>
 	<select id="mateSelect2" resultType="com.seoulmate.home.vo.MateWriteVO">
 		select no, pno, userid, area, matePic1, matePic2, matePic3, deposit, rent, enterdate, minStay, maxStay,
