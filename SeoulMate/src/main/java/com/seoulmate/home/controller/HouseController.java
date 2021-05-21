@@ -166,10 +166,9 @@ public class HouseController {
 		}
 		if(pcaseH>0) {
 			//mav.addObject("list", memService.houseList(userid));
-			mav.addObject("list", service.getPropInfo(userid, "nodata"));
-			List<List<PropensityVO>> test = new  ArrayList<List<PropensityVO>>();
-			test.add(service.getPropInfo(userid, "nodata"));
-			System.out.println(test.get(0).get(0).getH_support()+"bbbbb");
+//			List<PropensityVO> propHousename = new  ArrayList<List<PropensityVO>();
+//			propHousename.add(service.getPropInfo(userid, "nodata"));
+			mav.addObject("list", service.getPropInfo(userid));
 		}
 		mav.setViewName("house/houseWrite");
 		return mav;
@@ -177,8 +176,9 @@ public class HouseController {
 	//하우스 등록시 선택한 성향 불러오기
 	@RequestMapping("/getPropensity")
 	@ResponseBody
-	public List<PropensityVO> getPropensity(String userid, String housename){
-		return service.getPropInfo(userid, housename);
+	public PropensityVO getPropensity(String userid, String housename){
+		System.out.println(housename);
+		return service.getFullPropensity(userid, housename);
 	}
 	//하우스 글 등록 확인
 	@RequestMapping(value="/houseWriteOk", method = RequestMethod.POST)

@@ -149,9 +149,15 @@ public class HouseServiceImp implements HouseService {
 	}
 
 	@Override
-	public List<PropensityVO> getPropInfo(String userid, String housename) {
-		// 사용자 모든 성향 가져오기
-		return hDAO.getPropInfo(userid, housename);
+	public List<PropensityVO> getPropInfo(String userid) {
+		//하우스 이름 있는 성향만 가져오기
+		return hDAO.getPropInfo(userid);
+	}
+
+	@Override
+	public PropensityVO getFullPropensity(String userid, String housename) {
+		//선택한 성향 정보 가져오기
+		return hDAO.getFullPropensity(userid, housename);
 	}
 
 

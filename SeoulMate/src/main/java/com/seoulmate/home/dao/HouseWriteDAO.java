@@ -56,7 +56,10 @@ public interface HouseWriteDAO {
 	//하우스 보기(내가 쓴 글 아니여도 가능)
 	public HouseWriteVO houseSelect2(int no);
 	
-	//사용자의 모든 성향 가져오기
-	public List<PropensityVO> getPropInfo(String userid, String housename);
+	//하우스 이름 있는 성향만 가져오기
+	public List<PropensityVO> getPropInfo(String userid);
+	
+	//선택한 성향 정보 가져오기
+	public PropensityVO getFullPropensity(String userid, String housename);
 	
 }

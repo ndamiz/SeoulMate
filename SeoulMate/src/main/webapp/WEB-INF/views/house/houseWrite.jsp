@@ -223,36 +223,33 @@ $(function(){
 	//성향 버튼 눌렀을때 가져오기
 	$('.getPropinfo').click(function(){
 		var housename = $(this).text();
-		
+		console.log(housename);
 		$.ajax({
 			url : "/home/getPropensity",
 			data : "userid=${logId}&housename="+housename,
 			success : function(result){
 				console.log(result);
-				var $result = $(result);
-				
-				$result.each(function(idx, obj){
-					//성향 체크된거 해제
-					$('.houseWrtieProp input:radio').prop('checked', false);
-					//1. 생활소음 h_noise
-					$('input[name=h_noise]').val(obj.h_noise).prop('checked', true);
-					//2. 생활시간 h_pattern
-					$('input[name=h_pattern]').val(obj.h_pattern).prop('checked', true);
-					//3. 반려동물 여부 h_pet
-					$('input[name=h_pet]').val(obj.h_pet).prop('checked', true);
-					//4. 반려동물 동반 입주 여부 h_petwith
-					$('input[name=h_petwith]').val(obj.h_petwith).prop('checked', true);
-					//5. 흡연 h_smoke
-					$('input[name=h_smoke]').val(obj.h_smoke).prop('checked', true);
-					//6. 분위기 h_mood
-					$('input[name=h_mood]').val(obj.h_mood).prop('checked', true);
-					//7. 소통방식 h_communication
-					$('input[name=h_communication]').val(obj.h_communication).prop('checked', true);
-					//8. 모임빈도 h_party
-					$('input[name=h_party]').val(obj.h_party).prop('checked', true);
-					//9. 모임참가 의무 h_enter
-					$('input[name=h_enter]').val(obj.h_enter).prop('checked', true);
-				});
+				alert(result.h_noise);
+				//성향 체크된거 해제
+				$('.houseWrtieProp input:radio').prop('checked', false);
+// 				//1. 생활소음 h_noise
+// 				$('.houseWrtieProp input:radio[name=h_noise]').val('result.h_noise').prop('checked', true);
+// 				//2. 생활시간 h_pattern
+// 				$('input[name=h_pattern]').val(result.h_pattern).prop('checked', true);
+// 				//3. 반려동물 여부 h_pet
+// 				$('input[name=h_pet]').val(result.h_pet).prop('checked', true);
+// 				//4. 반려동물 동반 입주 여부 h_petwith
+// 				$('input[name=h_petwith]').val(result.h_petwith).prop('checked', true);
+// 				//5. 흡연 h_smoke
+// 				$('input[name=h_smoke]').val(result.h_smoke).prop('checked', true);
+// 				//6. 분위기 h_mood
+// 				$('input[name=h_mood]').val(result.h_mood).prop('checked', true);
+// 				//7. 소통방식 h_communication
+// 				$('input[name=h_communication]').val(result.h_communication).prop('checked', true);
+// 				//8. 모임빈도 h_party
+// 				$('input[name=h_party]').val(result.h_party).prop('checked', true);
+// 				//9. 모임참가 의무 h_enter
+// 				$('input[name=h_enter]').val(result.h_enter).prop('checked', true);
 				//10. 하우스내 지원서비스 h_support
 				var h_support = result.h
 				//$('input[name=h_supportStr]').val(result.h_support).prop('checked', true);
