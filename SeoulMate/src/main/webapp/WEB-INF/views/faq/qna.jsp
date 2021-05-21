@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/yun.css">
-<style>
-	.qnaList{transition:.3s}
-</style>
 <script>
 	$(function(){
 		$('.qnaList').click(function(){
@@ -45,9 +42,8 @@
 </script>
 <div class="wrap">
 	<div class="member_wrap" id="faq_member_wrap">
-		<p class="d_title">FAQ</p>
 		<p class="s_title">자주하는 질문</p>
-	<br>
+		<br>
 		<ul>
 			<li id="faqSearch"><input type="text" placeholder="검색어을 입력해주세요"><br/></li>
 <!-- 			<li><button id="faqSearchBtn" class="q_btn green">검색</button></li> -->
@@ -58,7 +54,7 @@
 	<div class="content">
 		<ul id="qnaUl">
 			<c:forEach var="list" items="${faqList}">
-				<li class="qnaList">
+				<li class="qnaList cursor">
 					<span>Q. ${list.subject}</span>
 					<a class="faqATag1">
 						<img alt="질문숨기기" src="<%=request.getContextPath()%>/img/yun/fi-rr-cross-small.svg">
