@@ -222,6 +222,12 @@ public class MateController {
 //		PropensityVO pVO = service.mateSelect(userid); //메이트 성향
 		PropensityVO pVO=memService.propMateSelect(userid);
 		
+		int result1 = service.mateCount(userid); //메이트글 몇개인지 카운트
+		if(result1>0) {
+			mav.setViewName("redirect:mateIndex");
+			System.out.println("이미 메이트 글 존재");
+		}
+		else {
 		// 구
 		String guArr[]=memService.gu();
 		
@@ -254,7 +260,8 @@ public class MateController {
 		mav.addObject("pVO",pVO);
 		mav.addObject("mVO", mVO);
 		}
-		System.out.println(pVO.getH_supportStr());
+//		System.out.println(pVO.getH_supportStr());
+		}
 		return mav;
 	}
 	
@@ -262,12 +269,13 @@ public class MateController {
 	@RequestMapping(value = "/mateWriteOk", method = RequestMethod.POST)
 	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
 	public ModelAndView mateWriteOk(MateWriteVO mVO, PropensityVO pVO, @RequestParam("filename") MultipartFile filename, HttpSession session, HttpServletRequest req) {
-		mVO.setUserid((String)session.getAttribute("logId"));
-		pVO.setUserid((String)session.getAttribute("logId"));
+		String userid = (String)session.getAttribute("logId");
+		mVO.setUserid(userid);
+		pVO.setUserid(userid);
 		pVO.setPcase("m");
 		//사진 업로드
 		
-			String path = req.getSession().getServletContext().getRealPath("/housePic"); //파일 저장위치 절대경로 구하기
+			String path = req.getSession().getServletContext().getRealPath("/matePic"); //파일 저장위치 절대경로 구하기
 
 			String orgName=filename.getOriginalFilename(); // 기존 파일 명
 			String realName="";
@@ -311,33 +319,51 @@ public class MateController {
 			TransactionStatus status=transactionManager.getTransaction(def);
 
 
-//			try {
-				int result1 = service.mateInsert(mVO);
-				if(result1>0) {//메이트 등록 
-					System.out.println("메이트 등록 성공");
-					
-					int result2 = service.propMateUpdate(pVO);
-					if(result2>0) { //성향 수정 
-						System.out.println("메이트 성향 수정 성공");
+			try {
+//				
+//				int result1 = 0;
+//				System.out.println("pVO pno 확인1 -> "+pVO.getPno());
+//				if(pVO.getPno()==0) {
+//					System.out.println("pVO pno 확인2 -> "+pVO.getPno());
+//					result1 = service.propInsert(pVO); //성향등록
+//					pVO.setPno(service.proPnoCheck(userid));
+//					System.out.println("pVO pno 확인3 -> "+pVO.getPno());
+//					System.out.println("메이트 성향 등록");
+//					
+//				}else {
+//					System.out.println("pVO pno 확인4 -> "+pVO.getPno());
+//					result1 = service.propMateUpdate(pVO);
+//					System.out.println("메이트 성향 업데이트");
+//				}
+//					System.out.println("pVO pno 확인5 -> "+pVO.getPno());
+//				
+					int result2 = service.mateInsert(mVO);
+					if(result2>0) {//메이트 등록 
+						System.out.println("메이트 등록 성공");
 						
-						transactionManager.commit(status);
-						mav.setViewName("redirect:mateIndex");
-					}else {System.out.println("메이트 성향 수정 실패");}
-				}else {
-					System.out.println("메이트 등록 실패");
+						int result3 = service.propMateUpdate(pVO);
+						if(result3>0) { //성향 수정 
+							System.out.println("메이트 성향 수정 성공");
+							
+							transactionManager.commit(status);
+							mav.setViewName("redirect:mateIndex");
+						}else {System.out.println("메이트 성향 수정 실패");
+					}
+					}else {
+						System.out.println("메이트 등록 실패");
+					}
+				}catch(Exception e) {
+					System.out.println("메이트 글 등록 실패");
+					try { //파일업로드 트랜잭션
+						File dFileObj = new File(path, realName);
+						dFileObj.delete();
+					}catch(Exception ee) {
+						System.out.println("파일 업로드 실패 (트랜잭션) 실행");
+						ee.printStackTrace();
+					}
+					mav.setViewName("redirect:mateWrite");
 				}
-//			}catch(Exception e) {
-				System.out.println("메이트 글 등록 실패");
-				try { //파일업로드 트랜잭션
-					File dFileObj = new File(path, realName);
-					dFileObj.delete();
-				}catch(Exception ee) {
-					System.out.println("파일 업로드 실패 (트랜잭션) 실행");
-					ee.printStackTrace();
-				}
-				mav.setViewName("redirect:mateWrite");
-//			}
-		return mav;	
+			return mav;	
 	};
 	
 	//메이트 수정
@@ -426,7 +452,7 @@ public class MateController {
 	      System.out.println("지역-->"+mVO.getArea());
 		
 		//사진 수정
-		String path = req.getSession().getServletContext().getRealPath("/housePic");
+		String path = req.getSession().getServletContext().getRealPath("/matePic");
 		String selFilename = service.MateProfilePic(userid, mVO.getNo()); //아이디, no
 		String delFilename = req.getParameter("delFile");
 		
@@ -554,7 +580,7 @@ public class MateController {
 			int result1 = service.mateDel(mVO.getNo(), userid);
 			
 			if(result1>0) { 
-				System.out.println("메이트 삭제 성공");
+				System.out.println("메이트 삭제 성공"); // 사진 파일 삭제 어떻게?
 				
 				mav.setViewName("redirect:mateIndex");
 			}else { 

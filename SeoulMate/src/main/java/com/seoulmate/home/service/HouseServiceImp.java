@@ -148,6 +148,11 @@ public class HouseServiceImp implements HouseService {
 		return pDAO.ProHouseNameUpdate(vo);
 	}
 
+	@Override
+	public int propPcaseM(String userid) { // 메이트 성향이 있는지 가져옴
+		return pDAO.propPcaseM(userid);
+	}
+
 
 
 

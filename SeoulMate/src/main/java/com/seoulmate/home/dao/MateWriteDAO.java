@@ -38,4 +38,7 @@ public interface MateWriteDAO {
 	
 	//메이트 희망지역 == 회원정보 희망지역
 	public int mateAreaUpdate(String area, String userid);
+	
+	//메이트 글 카운트
+	public int mateCount(String userid);
 }

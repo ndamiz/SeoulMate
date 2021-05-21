@@ -15,18 +15,17 @@
 		select count(pno) from housewrite where userid=#{param1} and pno=#{param2}
 	</select>
 	<insert id="houseInsert" parameterType="com.seoulmate.home.vo.HouseWriteVO">
-		insert into housewrite(no, userid, addr, housepic1, housepic2, room, bathroom, nowpeople, searchpeople, publicfacility, 
+		insert into housewrite(no, userid, addr, housepic1,  room, bathroom, nowpeople, searchpeople, publicfacility, 
 		writedate, enddate, housestate, pno, houseprofile, housename) 
-		values (housematesq.nextval, #{userid}, #{addr}, #{housepic1}, #{housepic2},
+		values (housematesq.nextval, #{userid}, #{addr}, #{housepic1}, 
 		#{room}, #{bathroom}, #{nowpeople}, #{searchpeople}, 
 		#{publicfacility}, sysdate, sysdate+7, '모집중', #{pno}, #{houseprofile}, #{housename} )
 	</insert>
 	<update id="houseUpdate" parameterType="com.seoulmate.home.vo.HouseWriteVO">
 		update housewrite set addr=#{addr}, 
 		<if test="housepic1!=null and housepic1!=''">housepic1=#{housepic1}, </if>
-		housepic2=#{housepic2}, housepic3=#{housepic3}, housepic4=#{housepic4}, housepic5=#{housepic5}, 
 		room=#{room}, bathroom=#{bathroom}, nowpeople=#{nowpeople}, searchpeople=#{searchpeople},
-		publicfacility=#{publicfacility}, houseprofile=#{houseprofile}, housename=#{housename} where userid=#{userid} and no=#{no}
+		publicfacility=#{publicfacility}, houseprofile=#{houseprofile}, housename=#{housename} where userid=#{userid} and no=${no}
 	</update>
 	<select id="housenameCheck" resultType="String">
 		select housename from housewrite where pno=#{param1}

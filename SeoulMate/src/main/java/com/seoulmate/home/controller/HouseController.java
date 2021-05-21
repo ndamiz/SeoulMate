@@ -196,7 +196,7 @@ public class HouseController {
 	
 		 List<MultipartFile> list = mhsr.getFiles("filename");
 	
-			
+
 		try {
 			if(orgName != null && !orgName.equals("")) {
 				File f=new File(path, orgName);
@@ -411,8 +411,10 @@ public class HouseController {
 			System.out.println("하우스테이블 no 1확인:"+hVO.getNo());
 //			hVO.setNo(3);
 //			hVO.setPno(22);
+			hVO.setPno(pVO.getPno());
 			System.out.println("하우스테이블 no 2확인:"+hVO.getNo());
 			System.out.println("하우스 테이블 pno 확인:"+hVO.getPno());
+			pVO.setPno(hVO.getPno());
 			int result1 = service.houseUpdate(hVO);
 			if(result1>0) {
 				System.out.println("하우스 업데이트 성공");
