@@ -401,7 +401,6 @@
 			</div>
 		</div>
 	</div> <!-- middleFrm div 종료 -->
-
 <!-- 	<div id="map_Div"> -->
 <!-- 	지도 부분 -->
 	<div id="map_Div" style="height: 350px; width: 100%;  border-radius: 3px; border: 1px solid #ddd; position: relative; 
