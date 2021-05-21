@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.seoulmate.home.vo.ListVO;
 import com.seoulmate.home.vo.MateWriteVO;
+import com.seoulmate.home.vo.MemberVO;
 import com.seoulmate.home.vo.PropensityVO;
 
 public interface MateWriteDAO {
@@ -34,4 +35,8 @@ public interface MateWriteDAO {
 	public MateWriteVO mateSelect2(int no);
 
 	public List<MateWriteVO> getNewIndexMate(String area, int rent, int deposit, int gender);
+
+	//메이트 희망지역 == 회원정보 희망지역
+	public int mateAreaUpdate(String area, String userid);
+
 }

@@ -4,6 +4,7 @@ package com.seoulmate.home.service;
 import java.util.List;
 
 import com.seoulmate.home.vo.MateWriteVO;
+import com.seoulmate.home.vo.MemberVO;
 import com.seoulmate.home.vo.PropensityVO;
 
 public interface MateService {
@@ -37,7 +38,11 @@ public interface MateService {
 	
 	// 메이트 성향 가져오기(본인 작성 글 아니여도 가능)
 	public PropensityVO propMateSelect2(int pno);
+
 	// 메이트 index에서 9개의 메이트 목록 가져오기
 	public List<MateWriteVO> getNewIndexMate(String area, int rent, int deposit, int gender);
+
+	//메이트 희망지역 == 회원정보 희망지역
+	public int mateAreaUpdate(String area, String userid);
 
 }
