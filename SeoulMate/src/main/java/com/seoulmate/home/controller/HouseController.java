@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.seoulmate.home.dao.HouseWriteDAO;
@@ -192,7 +193,9 @@ public class HouseController {
 	//하우스 글 등록 확인
 	@RequestMapping(value="/houseWriteOk", method = RequestMethod.POST)
 	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
-	public ModelAndView houseWriteOk(HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, @RequestParam("filename") MultipartFile filename,  HttpSession session ,HttpServletRequest req) {
+	public ModelAndView houseWriteOk(HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, 
+				@RequestParam("filename") MultipartFile filename, HttpSession session ,HttpServletRequest req,
+				 MultipartHttpServletRequest mhsr) {
 		
 		System.out.println(pVO.getPno());
 		String userid=(String)session.getAttribute("logId");
@@ -211,7 +214,10 @@ public class HouseController {
 
 		String orgName=filename.getOriginalFilename(); // 기존 파일 명
 		String realName="";
-		
+	
+		 List<MultipartFile> list = mhsr.getFiles("filename");
+	
+			
 		try {
 			if(orgName != null && !orgName.equals("")) {
 				File f=new File(path, orgName);
@@ -224,7 +230,9 @@ public class HouseController {
 					f=new File(path, name+"_"+ i++ +"."+extName);
 				}
 				filename.transferTo(f); // 업로드
+				
 				realName=f.getName();
+				
 				hVO.setHousepic1(f.getName());
 			}
 		}catch(Exception e) {

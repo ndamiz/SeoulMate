@@ -3,21 +3,21 @@
 <script src="//cdn.ckeditor.com/4.16.0/basic/ckeditor.js"></script>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/housemate.css">
 <script>
-$(function(){
-	CKEDITOR.replace("mateProfile", {
-		height:300,
-		width:'100%'
+	$(function(){
+		CKEDITOR.replace("mateProfile", {
+			height:300,
+			width:'100%'
+			
+		}); //설명글 name 설정 필요
 		
-	}); //설명글 name 설정 필요
-	
-	$("#write").on('submit', function(){
-		if(CKEDITOR.instances.content.getData()==""){
-			alert("내용을 입력해주세요");
-			return false;
-		}return true;
+		$("#write").on('submit', function(){
+			if(CKEDITOR.instances.content.getData()==""){
+				alert("내용을 입력해주세요");
+				return false;
+			}return true;
+		});
+		
 	});
-	
-});
 
 function readURL(input) {
     if (input.files && input.files[0]) {
@@ -36,6 +36,38 @@ $(function(){
 	$("#mNext1").click(function(){
 		$("#mateWrite1").css("display", "none");
 		$("#mateWrite2").css("display", "block");
+		// 희망 지역1
+		var area1=$("#gu1Edit").val();
+		// alert(area1);
+		if(area1=="구를 선택해주세요"){
+			area1="";
+		}else{
+			area1+=" "+$("#dong1Edit").val();
+		}
+		document.getElementById("area1Edit").value=area1;
+		
+		// 희망 지역2
+		var area2=$("#gu2Edit").val();
+		// alert(area2);
+		if(area2=="구를 선택해주세요"){
+			area2="";
+		}else{
+			area2+=" "+$("#dong2Edit").val();
+		}
+		document.getElementById("area2Edit").value=area2;
+		
+		// 희망 지역3
+		var area3=$("#gu3Edit").val();
+		
+		// alert(area3);
+		if(area3=="구를 선택해주세요"){
+			area3="";
+		}else{
+			area3+=" "+$("#dong3Edit").val();
+		}
+		document.getElementById("area3Edit").value=area3;
+	
+		areaEdit(); // 희망 지역 수정을 위한 함수
 	});
 	$("#mPrev1").click(function(){
 		$("#mateWrite1").css("display", "none");
@@ -107,7 +139,7 @@ $(function(){
 	$("#mNext7").click(function(){
 		var hopeGender = document.mateFrm.m_gender.value;
 		if(hopeGender==${mVO.gender}||hopeGender==2){ //자신과 다른 성별 선택불가
-			if(confirm("메이트를 등록하시겠습니까?")){
+			if(confirm("메이트 등록 정보를 수정하시겠습니까?")){
 				$("#mateFrm").submit();
 				return true;
 			}
@@ -124,69 +156,33 @@ $(function(){
 	$("#mIndex7").click(function(){
 		location.href="<%=request.getContextPath()%>/mateIndex";
 	});
-	
 
-	// 희망 지역1
-	var area1=$("#gu1Edit").val();
-	// alert(area1);
-	if(area1=="구를 선택해주세요"){
-		area1="";
-	}else{
-		area1+=" "+$("#dong1Edit").val();
-	}
-	document.getElementById("area1Edit").value=area1;
-	
-	// 희망 지역2
-	var area2=$("#gu2Edit").val();
-	// alert(area2);
-	if(area2=="구를 선택해주세요"){
-		area2="";
-	}else{
-		area2+=" "+$("#dong2Edit").val();
-	}
-	document.getElementById("area2Edit").value=area2;
-	
-	// 희망 지역3
-	var area3=$("#gu3Edit").val();
-	
-	// alert(area3);
-	if(area3=="구를 선택해주세요"){
-		area3="";
-	}else{
-		area3+=" "+$("#dong3Edit").val();
-	}
-	document.getElementById("area3Edit").value=area3;
 
-	areaEdit(); // 희망 지역 수정을 위한 함수
-});
-
-	//희망 지역 수정
-	$("select.selectGu").change(function(){
-		var temp=$(this);
-		var url="memberDong";
-		var params="gu="+$(this).val();
-		$.ajax({
-			url:url,
-			data:params,
-			success:function(result){
-				var $result=$(result);
-				
-				temp.next().text("");
-				$result.each(function(idx, dong){
-					temp.next().append("<option>"+dong+"</option>");
-				});
-			}, error:function(){
-				console.log("동 들고오기 에러 발생");
-			}
+		//희망 지역 수정
+		$("select.selectGu").change(function(){
+			var temp=$(this);
+			var url="memberDong";
+			var params="gu="+$(this).val();
+			$.ajax({
+				url:url,
+				data:params,
+				success:function(result){
+					var $result=$(result);
+					
+					temp.next().text("");
+					$result.each(function(idx, dong){
+						temp.next().append("<option>"+dong+"</option>");
+					});
+				}, error:function(){
+					console.log("동 들고오기 에러 발생");
+				}
+			});
 		});
-	});
-	
+	});	
 	// 희망 지역 1,2,3에 구,동 넣기
 	function areaInput(){
-		alert('${vo.area1}');
-		alert("123"+$("#area1Edit").val());
+		
 		var a1=$("#area1Edit").val().indexOf(" "); // 희망 지역1의 띄어쓰기 위치 구하기
-		alert(a1);
 		var a2=$("#area2Edit").val().indexOf(" "); // 희망 지역2의 띄어쓰기 위치 구하기
 		var a3=$("#area3Edit").val().indexOf(" "); // 희망 지역3의 띄어쓰기 위치 구하기
 		
@@ -250,7 +246,7 @@ $(function(){
 .content ul li{word-break:keep-all;}
 .content label{width:150px; }
 /* #mate_date, #mate_area, #mate_rent{width:110px;} */
-.form_box{width:800px; margin:0 auto; padding-left:100px;}
+.form_box{width:850px; margin:0 auto; padding-left:100px;}
 .form_box li input, .form_box li select{margin:0px; width:230px;}
 .form_box.choice li > label {width: 240px;}
 .checks{width:850px;}
@@ -270,7 +266,7 @@ $(function(){
 #mateWrite2, #mateWrite3, #mateWrite4, #mateWrite5, #mateWrite6, #mateWrite7 {display:none; }
 #mPic{height:125px;}
 #area1, #area2, #area3{width:120px;}
-#gu1Edit, #dong1Edit, #gu2Edit, #dong2Edit, #gu3Edit, #dong3Edit{width:200px; float:left;}
+#gu1Edit, #dong1Edit, #gu2Edit, #dong2Edit, #gu3Edit, #dong3Edit{width:230px; float:left;}
 #area1Edit, #area2Edit, #area3Edit{width:284px;}
 
 </style>
@@ -314,8 +310,8 @@ $(function(){
 							</c:forEach>
 						</select>
 					</div>
-					<input type="hidden" name="area1" id="area1Edit" value="${vo.area1}" readonly/>
-					<a class="white" id="area1Btn">지역1 수정</a>
+					<input type="hidden" name="area1" id="area1Edit" value="${mVO.area1}" readonly/>
+					
 				</li>
 				<li id="a2"><label>&nbsp;희망 지역2</label>
 					<div id="area2Div">
@@ -333,7 +329,7 @@ $(function(){
 						</select>
 					</div>
 					<input type="hidden" name="area2" id="area2Edit" value="${mVO.area2}" readonly/>
-					<a class="white" id="area2Btn">지역2 수정</a>
+					
 				</li>					
 				<li id="a3"><label>&nbsp;희망 지역3</label>
 				<div id="area3Div">
@@ -351,9 +347,9 @@ $(function(){
 					</select>
 				</div>
 					<input type="hidden" name="area3" id="area3Edit" value="${mVO.area3}" readonly/>
-					<a class="white" id="area3Btn">지역3 수정</a>
+					
 				</li>	
-			<li> <label><span class="red_txt">*</span>입주가능일 </label><input type="date" name="enterdate" > </li>
+			<li> <label><span class="red_txt">*</span>입주가능일 </label><input type="date" name="enterdate" value="date"  > </li>
 			<li> <label><span class="red_txt">*</span>최소 거주 기간</label>
 				 	<select name="minStay">
 						<option value="1-3개월">1~3 개월</option>

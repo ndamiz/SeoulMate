@@ -34,19 +34,14 @@ $(function(){
 // 	});
 	
 	function readURL(input) {
-// 	    if (input.files && input.files[0]) {
-// 	    var reader = new FileReader();
+	    if (input.files && input.files[0]) {
+	    var reader = new FileReader();
 	
-// 	    reader.onload = function (e) {
-// 	            $('#houseImg1').attr('src', e.target.result);
-// 	            $('#houseImg2').attr('src', e.target.result);
-// 	            $('#houseImg3').attr('src', e.target.result);
-// 	            $('#houseImg4').attr('src', e.target.result);
-// 	            $('#houseImg5').attr('src', e.target.result);
-// 	        }
-	
-// 	      reader.readAsDataURL(input.files[0]);
-// 	    }
+	    reader.onload = function (e) {
+	            $('#houseImg1').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
 
 // 		for (var image of event.target.files) { 
 // 			var reader = new FileReader(); 
@@ -59,23 +54,24 @@ $(function(){
 // 				reader.readAsDataURL(image); 
 // 		}
 
-		var reader = new FileReader(); 
-		reader.onload = function(event) { 
-			var img = document.createElement("img"); 
-			img.setAttribute("src", event.target.result); 
-			document.querySelector("#hPic").appendChild(img); 
-			}; 
-			reader.readAsDataURL(event.target.files[0]);
-			reader.readAsDataURL(event.target.files[1]);
-			reader.readAsDataURL(event.target.files[2]);
-			reader.readAsDataURL(event.target.files[3]);
-			reader.readAsDataURL(event.target.files[4]);
+// 		var reader = new FileReader(); 
+// 		reader.onload = function(event) { 
+// 			var img = document.createElement("img"); 
+// 			img.setAttribute("src", event.target.result); 
+// 			document.querySelector("#hPic").append(img); 
+// 			}; 
+// 			reader.readAsDataURL(event.target.files[0]);
+// 			reader.readAsDataURL(event.target.files[1]);
+// 			reader.readAsDataURL(event.target.files[2]);
+// 			reader.readAsDataURL(event.target.files[3]);
+// 			reader.readAsDataURL(event.target.files[4]);
+// 	}
 
 
 
-	}
 
-	
+
+		}
 	
 
 // $(document).ready(function() {
@@ -291,6 +287,7 @@ $(function(){
 #roomPlus{margin-left:650px;}
 #houseWrite1 .checks { width: 560px;}
 #ck{margin:0 auto; width: 60%;}
+#hPic img{width: 250px; height: 250px; }
 #houseImg1{width:250px; height:250px; position: relative; margin:0 auto; text-align: center;}
 #housepic1, #housepic2, #housepic3 {width:200px; height: 200px; margin:0 auto;}
 
@@ -471,24 +468,26 @@ $(function(){
 		
 			<ul class="form_box">
 				<li id="hPic">
-<!-- 					<img id="houseImg1" name="houseImg1" src="#" alt="upload image" /> -->
-<!-- 					<img id="houseImg2" name="houseImg2" src="#" alt="upload image" /> -->
-<!-- 					<img id="houseImg3" name="houseImg3" src="#" alt="upload image" /> -->
-<!-- 					<img id="houseImg4" name="houseImg4" src="#" alt="upload image" /> -->
-<!-- 					<img id="houseImg5" name="houseImg5" src="#" alt="upload image" /> -->
+					<img id="houseImg1" name="houseImg1" src="#" alt="upload image" />
+					<img id="houseImg2" name="houseImg2" src="#" alt="upload image" />
+					<img id="houseImg3" name="houseImg3" src="#" alt="upload image" />
+					<img id="houseImg4" name="houseImg4" src="#" alt="upload image" />
+					<img id="houseImg5" name="houseImg5" src="#" alt="upload image" />
 					
 				
 				</li>
 				
 				<li> 
 <!-- 					<input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);" multiple/> -->
-					<input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);"/>
+					<input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);" /> 
 					<input type="file" accept="image/*" name="filename2"  id="housepic2" onchange="readURL(this);"/>
 					<input type="file" accept="image/*" name="filename3"  id="housepic3" onchange="readURL(this);"/>
 					<input type="file" accept="image/*" name="filename4"  id="housepic4" onchange="readURL(this);"/>
 					<input type="file" accept="image/*" name="filename5"  id="housepic5" onchange="readURL(this);"/> 
 					<br/> 
+
 					</li>
+					<li><span class="btn-delete">삭제</span></li>
 			</ul>
 				<div class="btnclass">
 					<a class="green" id="hPrev3">이전</a>
