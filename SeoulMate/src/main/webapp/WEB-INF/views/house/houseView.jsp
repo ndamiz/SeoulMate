@@ -142,7 +142,7 @@ $(function(){
     margin: 40px auto;
 }
 .matchin_Graph>div{
-	width: 300px; height: 300px;
+	width: 500px; height: 500px;
 }
 #propensity_info{overflow: auto;}
 #propensity_info ul>li{
