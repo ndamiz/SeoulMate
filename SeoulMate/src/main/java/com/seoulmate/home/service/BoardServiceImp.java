@@ -66,8 +66,8 @@ public class BoardServiceImp implements BoardService {
 	}
 
 	@Override
-	public int stateCheck(int no, String userid) {
-		return dao.stateCheck(no, userid);
+	public int stateCheck(int no) { //, String userid
+		return dao.stateCheck(no); //, userid
 	}
 
 	

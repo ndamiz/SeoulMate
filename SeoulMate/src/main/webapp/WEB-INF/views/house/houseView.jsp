@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/yun.css">
 <style>
 
 /* ul, li{float:left;} */
@@ -135,12 +136,6 @@
         	location.href="houseEdit"; //방수정하기 form 으로 이동
         });
         
-
-		$("#reportBtn").click(function(){ //신고하기 버튼 신고팝업창
-			$(".reportpopup").css("display", "block");
-		});
-		
-		
 		$("#shareBtn").click(function(){ //공유하기 버튼 공유하기팝업창
 			$("#pup_wrap_share").css("display", "block");
 		});
@@ -189,10 +184,10 @@
    });
 
 	//신고하기=================================================
-	$(document).on('click','.replyReport', function(){
-		var	reportid = $(this).prev().prev().val();
+	$(document).on('click','#reportBtn', function(){
+		var	reportid = '${hVO.userid}';
 		var category = '하우스';
-		var no = $(this).prev().val();
+		var no = '${hVO.no}';
 		report(reportid, category, no);
 	});
 	
@@ -208,7 +203,7 @@
 		$('body').css('overflow','hidden');
 	}
 	//신고하기 팝업창 닫기
-	$('.popupClose').click(function(){
+	$(document).on('click', '.popupClose', function(){
 		reportFormReset();
 	});
 	function reportFormReset(){
@@ -218,12 +213,11 @@
 		$(".reportNum").val("");
 		$("#reportcontent").val("");
 		$("#reportcategory option:eq(0)").prop('selected', true);
-		//$("#category").val('${list.category}').prop('selected', true);
 		$('.reportpopup').css('display','none');
 		$('body').css('overflow','auto');
 	}
 	//신고하기 서브밋
-	$('#reportForm').submit(function(){
+	$(document).on('submit','#reportForm',function(){
 		if($("#reportcategory option").index($("#reportcategory option:selected"))==0){
 			alert("신고사유를 선택하세요.");
 			return false;
@@ -296,16 +290,16 @@
  <div class="content">
  	<div id="topDiv">
 	 	<div id="dateDiv">
-	 	${hVO.writedate } 등록
+	 	${hVO.writedate} 등록
 	 	</div>
-	 	<input type="hidden" value="${hVO.userid }"/>
+	 	<input type="hidden" value="${hVO.userid}"/>
 	 	<input type="hidden" value="${logId }"/>
 	 	<div id="btnDiv"> <!-- 수정, 삭제는 본인의 글을 볼 경우에만 -->
 	 	<c:if test="${logId==hVO.userid }">
  		<a id="hEdit" class="white" href="houseEdit?no=${hVO.no }" >수정</a> 
  		<a class="white" id="houseDel" >삭제</a> 
  		</c:if>
- 		<button class="white">찜</button> 
+ 		<button class="white">찜</button>
  		<button class="white" id="shareBtn" >공유하기</button> <button class="white" id="reportBtn">신고하기</button>
  		
  		</div>
@@ -360,17 +354,17 @@
 		</ul>
 		</div> <!-- peopleExplain div 종료 -->
 	<hr/>
-		<div id="matching" >
-		매칭률 넣어서 
-		<!-- 프리미엄 추천 쉐어하우스 -->
+<!-- 		<div id="matching" > -->
+<!-- 		매칭률 넣어서  -->
+<!-- 		<!-- 프리미엄 추천 쉐어하우스 --> 
 	
-		</div> <!-- macthing 넣을 div 종료 -->
+<!-- 		</div> macthing 넣을 div 종료 -->
 	</div> <!-- middleFrm div 종료 -->
 
 <!-- 	<div id="map_Div"> -->
 <!-- 	지도 부분 -->
 
-	<div id="map_Div" style="height:350px"></div> <!-- map_Div div종료 -->
+	<div id="map_Div" style="height:350px; width:100%;"></div> <!-- map_Div div종료 -->
 
 <!-- 	</div> map_Div div종료 -->
 </div> <!-- content div 종료 -->
@@ -387,7 +381,7 @@
 	
 	var geocoder = new kakao.maps.services.Geocoder();
 	// 주소로 좌표를 검색합니다
-    geocoder.addressSearch('서울특별시 대흥동', function(result, status) {
+    geocoder.addressSearch('${hVO.addr}', function(result, status) {
         // 정상적으로 검색이 완료됐으면
          if (status === kakao.maps.services.Status.OK) {
           var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -449,41 +443,42 @@
 
 
 	<!--  팝업창///////////////////////////////////////////// -->
-	<div class="pup_wrap reportpopup">
-		<div class="pup_form">
-			<form id="reportForm" method="post">
-				<div class="pup_head">신고 정보</div>
-				<div class="pup_body">
-					<div class="pup_list">
-						<ul>
-							<li><div>신고 ID</div><input class="userid" type="text" name="userid" readonly></li>
-							<li><div>신고자 ID</div> <input type="text" name="reportid" value="${logId}" readonly> </li>
-							<li>
-								<div>분류</div> <input class="reportCategory" type="text" name="category" readonly>
-								<input type="hidden" class="reportNum" name="no"><!-- 글/댓글번호 -->
-							</li>
-							<li><div>신고 사유</div>
-								<select id="reportcategory" name="reportcategory">
-									<option disabled selected hidden>신고사유를 선택하세요</option>
-									<option>홍보,광고</option>
-									<option>음란</option>
-									<option>욕설</option>
-									<option>기타</option>
-								</select>
-							</li>
-							<li><div>상세내용</div> <textarea rows="5" id="reportcontent" name="reportcontent"></textarea></li>
-						</ul>
-					
-					</div>
+<div class="pup_wrap reportpopup">
+	<div class="pup_form">
+		<form id="reportForm" method="post">
+			<div class="pup_head">신고 정보</div>
+			<div class="pup_body">
+				<div class="pup_list">
+					<ul>
+						<li><div>신고 ID</div><input class="userid" type="text" name="userid" readonly></li>
+						<li><div>신고자 ID</div> <input type="text" name="reportid" value="${logId}" readonly> </li>
+						<li>
+							<div>분류</div> <input class="reportCategory" type="text" name="category" value="하우스" readonly>
+							<input type="hidden" class="reportNum" name="no"><!-- 글/댓글번호 -->
+						</li>
+						<li><div>신고 사유</div>
+							<select id="reportcategory" name="reportcategory">
+								<option disabled selected hidden>신고사유를 선택하세요</option>
+								<option>홍보,광고</option>
+								<option>음란</option>
+								<option>욕설</option>
+								<option>기타</option>
+							</select>
+						</li>
+						<li><div>상세내용</div> <textarea rows="5" id="reportcontent" name="reportcontent"></textarea></li>
+					</ul>
+				
 				</div>
-				<div class="pup_bottom">
-					<a class="btn_cancel popupClose">닫기</a>
-					<a href="javascript:$('#reportForm').submit()" id="reportBtn" class="btn_save">접수</a>
-				</div>
-				<a class="pup_btn_close popupClose">닫기</a>
-			</form>
-		</div>
+			</div>
+			<div class="pup_bottom">
+				<a class="btn_cancel popupClose">닫기</a>
+				<a href="javascript:$('#reportForm').submit()" id="reportSubmit" class="btn_save">접수</a>
+<!-- 				 -->
+			</div>
+			<a class="pup_btn_close popupClose">닫기</a>
+		</form>
 	</div>
+</div>
 
 
 		<div class="pup_wrap" id="pup_wrap_share">
@@ -501,9 +496,9 @@
 						</div>
 					</div>
 					<div class="pup_bottom">
-						<a href="" class="btn_cancel">닫기</a>
-						<a href="" class="btn_save">확인</a>
+						<a class="btn_cancel">닫기</a>
+						<a class="btn_save">확인</a>
 					</div>
-				<a href="" class="btn_close">닫기</a>
+				<a class="btn_close">닫기</a>
 			</div>
 		</div>

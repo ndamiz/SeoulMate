@@ -79,5 +79,9 @@ public interface HouseService {
 	
 	// 하우스+룸 삭제 -> 하우스네임 null 로 변경
 	public int ProHouseNameUpdate(PropensityVO vo);
+	
+	//사용자의 모든 성향 가져오기
+	public List<PropensityVO> getPropInfo(String userid, String housename);
+	
 
 }

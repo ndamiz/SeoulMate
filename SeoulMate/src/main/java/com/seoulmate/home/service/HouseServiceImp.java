@@ -148,6 +148,12 @@ public class HouseServiceImp implements HouseService {
 		return pDAO.ProHouseNameUpdate(vo);
 	}
 
+	@Override
+	public List<PropensityVO> getPropInfo(String userid, String housename) {
+		// 사용자 모든 성향 가져오기
+		return hDAO.getPropInfo(userid, housename);
+	}
+
 
 
 

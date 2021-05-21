@@ -15,7 +15,10 @@ public class PropensityVO {
 	private int h_party; //하우스 모임빈도 1:없음, 2:상관없음, 3:있음 
 	private int h_enter; // 하우스 모임참가 의무  1: 없음, 2: 상관없음, 3:있음 
 	private String h_support[];  // 1:공용공간청소, 2:공용생필품, 3:기본식품 
-	private String h_supportStr=""; 
+	private String h_supportStr="";
+	
+	//private String h_support;
+	
 	private String h_etc[]; // 1: 보증금 조절가능, 3:즉시입주가능 
 	private String h_etcStr="";
 	
@@ -127,6 +130,9 @@ public class PropensityVO {
 		
 		h_support=h_supportStr.split("/");
 	}
+	
+	
+	
 	////////////////////////////////////
 	// 기타 /////////////////////////////
 	public String[] getH_etc() {
@@ -202,4 +208,18 @@ public class PropensityVO {
 	public void setPdate(String pdate) {
 		this.pdate = pdate;
 	}
+	
+	
+	
+	////////////////////
+//	public String getH_support() {
+//		return h_support;
+//	}
+//	public void setH_support(String h_support) {
+//		this.h_support = h_support;
+//	}
+	
+	
+	
+	
 }

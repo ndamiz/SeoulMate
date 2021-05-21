@@ -2,8 +2,12 @@ package com.seoulmate.home.controller;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +22,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -160,14 +165,21 @@ public class HouseController {
 			mav.addObject("housePno", 0); //하우스 글이 없을경우 pno 에 0 값을 넣어줌
 		}
 		if(pcaseH>0) {
-			mav.addObject("list", memService.houseList(userid));
+			//mav.addObject("list", memService.houseList(userid));
+			mav.addObject("list", service.getPropInfo(userid, "nodata"));
+			List<List<PropensityVO>> test = new  ArrayList<List<PropensityVO>>();
+			test.add(service.getPropInfo(userid, "nodata"));
+			System.out.println(test.get(0).get(0).getH_support()+"bbbbb");
 		}
-		
 		mav.setViewName("house/houseWrite");
-		
 		return mav;
 	}
-	
+	//하우스 등록시 선택한 성향 불러오기
+	@RequestMapping("/getPropensity")
+	@ResponseBody
+	public List<PropensityVO> getPropensity(String userid, String housename){
+		return service.getPropInfo(userid, housename);
+	}
 	//하우스 글 등록 확인
 	@RequestMapping(value="/houseWriteOk", method = RequestMethod.POST)
 	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})

@@ -167,6 +167,7 @@ public class AdminController {
 	@RequestMapping("/reportInsert")
 	@ResponseBody
 	public String reportInsert(ReportVO reportVO) {
+		System.out.println("????????????????????????????"+reportVO.getCategory());
 		service.reportInsert(reportVO);
 		return "신고등록 성공";
 	}
