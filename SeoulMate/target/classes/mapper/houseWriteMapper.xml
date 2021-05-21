@@ -15,9 +15,9 @@
 		select count(pno) from housewrite where userid=#{param1} and pno=#{param2}
 	</select>
 	<insert id="houseInsert" parameterType="com.seoulmate.home.vo.HouseWriteVO">
-		insert into housewrite(no, userid, addr, housepic1, room, bathroom, nowpeople, searchpeople, publicfacility, 
+		insert into housewrite(no, userid, addr, housepic1, housepic2, room, bathroom, nowpeople, searchpeople, publicfacility, 
 		writedate, enddate, housestate, pno, houseprofile, housename) 
-		values (housematesq.nextval, #{userid}, #{addr}, #{housepic1},  
+		values (housematesq.nextval, #{userid}, #{addr}, #{housepic1}, #{housepic2},
 		#{room}, #{bathroom}, #{nowpeople}, #{searchpeople}, 
 		#{publicfacility}, sysdate, sysdate+7, '모집중', #{pno}, #{houseprofile}, #{housename} )
 	</insert>

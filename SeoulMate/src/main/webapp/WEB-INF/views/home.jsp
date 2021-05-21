@@ -206,7 +206,7 @@
 			                  <p><span>매칭</span>${pmList.score}<b>%</b></p>
 			                  <button class="btn_star matelike" value="${pmList.no}"></button>
 			                  <a href="mateView?no=${pmList.no}">
-			                     <img alt="" src="<%=request.getContextPath()%>/matePic/${pmList.matepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
+			                     <img alt="" src="<%=request.getContextPath()%>/matePic/${pmList.matepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'">
 			                  </a>
 			               </div>
 			               <div class="list_title">
