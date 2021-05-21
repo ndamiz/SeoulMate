@@ -18,14 +18,22 @@
 			$("#addr_search").attr("type","hidden");
 		});
 	});
-   function exitCheck(){
-      if(${pwdCheck=='일치'}){
-         alert("그동안 서울 메이트를 이용해주셔서 감사합니다.");
-      }
-   }
-
+	
+	function pcase(){
+		var pcase = $('input[name="main_search"]:checked').val();
+		if(pcase=="h"){
+			$("#homeSearchForm").attr("action","houseIndex");
+		}else if(pcase=="m"){
+			$("#homeSearchForm").attr("action","mateIndex");
+		}
+	}
+	function exitCheck(){
+		if(${pwdCheck=='일치'}){
+			alert("그동안 서울 메이트를 이용해주셔서 감사합니다.");
+		}
+	}
    exitCheck();
-   console.log(${logGrade});
+   //console.log(${logGrade});
    $(function(){
 	   //=============================================================세트
 	   if(${logId != null}){ // 로그인 했을때만 실행
@@ -69,13 +77,11 @@
          당신과 가장 잘 맞는<br>
          쉐어하우스 & 메이트
       </h2>
-      <form class="main_search_form" method="get" action="/home">
-
+      <form class="main_search_form" id="homeSearchForm" method="get" action="/home" onsubmit="return pcase();">
          <div class="checks">
-            <input type="radio" id="select_house" name="main_search" checked>
+            <input type="radio" id="select_house" name="main_search" value="h" checked> 
             <label for="select_house">쉐어하우스</label>
-
-            <input type="radio" id="select_mate" name="main_search">
+            <input type="radio" id="select_mate" name="main_search" value="m"> 
             <label for="select_mate">하우스메이트</label>
          </div>
          <div class="search_box">
@@ -148,6 +154,7 @@
          <p class="m_title">NEW 쉐어하우스</p>
          <a href="#">더보기</a>
       </div>
+      <c:if test="${newHouseListCnt>0}">
       <ul class="list_content">
          <c:forEach items="${newHouseList}" var="newHouseVO">
             <li>
@@ -157,7 +164,10 @@
                   <p><span>매칭</span>${newHouseVO.score}<b>%</b></p>
                   </c:if>
                 </c:if>
-                  <button class="btn_star houselike" value="${newHouseVO.no}"></button>
+                  <c:if test="${logId != null}">
+      				<button class="btn_star houselike" value="${newHouseVO.no}"></button>
+    		  	  </c:if>
+                  
                   <a href="houseView?no=${newHouseVO.no}">
                      <img alt="" src="<%=request.getContextPath()%>/housePic/${newHouseVO.housepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
                   </a>
@@ -174,6 +184,13 @@
             </li>
          </c:forEach>
       </ul>
+      </c:if>
+      <c:if test="${newHouseListCnt==0}">
+	  	<div class="empty_div">
+      		<img class="empty" src="<%=request.getContextPath()%>/img/empty.png" onerror="this.src='<%=request.getContextPath()%>/img/empty.png'"/>
+      		<p style="text-align:center;">필터에 맞는 결과가 없습니다.</p>
+     	</div>
+	</c:if>
    </section>
 
    <c:if test="${myHousePnoCnt>0}">
@@ -190,9 +207,13 @@
 			            <li>
 			               <div class="list_img">
 			                  <p><span>매칭</span>${pmList.score}<b>%</b></p>
-			                  <button class="btn_star matelike" value="${pmList.no}"></button>
+			                  
+			                  <c:if test="${logId != null}">
+			      				<button class="btn_star matelike" value="${pmList.no}"></button>
+			    		  	  </c:if>
+			                  
 			                  <a href="mateView?no=${pmList.no}">
-			                     <img alt="" src="<%=request.getContextPath()%>/matePic/${pmList.matepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
+			                     <img alt="" src="<%=request.getContextPath()%>/matePic/${pmList.matepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'">
 			                  </a>
 			               </div>
 			               <div class="list_title">
@@ -235,7 +256,6 @@
          <p class="m_title">NEW 하우스메이트</p>
          <a href="">더보기</a>
       </div>
-
       <c:if test="${newMateListCnt!=0}">
 	      <ul class="list_content">
 	         <c:forEach items="${newMateList}" var="newMateVO">
@@ -246,7 +266,11 @@
 	                  		<p><span>매칭</span>${newMateVO.score}<b>%</b></p>
 	                  	</c:if>
 	                 </c:if>
-	                  <button class="btn_star matelike" value="${newMateVO.no}"></button>
+	                 
+	                  <c:if test="${logId != null}">
+	      				<button class="btn_star matelike" value="${newMateVO.no}"></button>
+	    		  	  </c:if>
+	                 
 	                  <a href="mateView?no=${newMateVO.no}">
 	                     <img alt="" src="<%=request.getContextPath()%>/matePic/${newMateVO.matePic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'">
 	                  </a>
@@ -293,16 +317,16 @@
      	</div>
 	  </c:if>
    </section>
-
+   
    <!-- 지도 -->
    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6bad1d8e9a1449ac5fb2b238e99a32ed&libraries=clusterer,services"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
    <section class="content map_content">
       <div class="list_head">
       	 <c:if test="${logId==null && logArea==null}">
       	 	<p class="m_title">서울메이트 둘러보기</p>
       	 </c:if>
-
+      	 
       	 <c:if test="${logId!=null && logArea!=null}">
       	 	<p class="m_title">나의 지역 둘러보기</p>
       	 </c:if>
@@ -311,73 +335,139 @@
    </section>
    <script>
       // =============== 지도생성  =============== //
-      var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+      var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
       mapOption = {
          center : new kakao.maps.LatLng(37.5640455, 126.834005), // 지도의 중심좌표
          //draggable: false,
          //level : 4
          level : 6
-      // 지도의 확대 레벨
+      // 지도의 확대 레벨 
       };
       var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-
+      
+      // min값만큼 확대
+      map.setMinLevel(3); // 50m
+      // max값만큼 확대
+      map.setMaxLevel(7); // 1km
 	  <c:if test="${logId==null}">
       madeMap();
   	  </c:if>
       // =============== default 서울시 =============== //
       function madeMap() {
-
+         
          var lat, lon, locPosition;
          lat = 37.5662994, // 위도
-         lon = 126.9757564; // 경도
+         lon = 126.9757564; // 경도 
          locPosition = new kakao.maps.LatLng(37.5662994, 126.9757564); // 서울특별시
-         map.setCenter(locPosition);
+         map.setCenter(locPosition);   
          map.setLevel(9);
          getHouseMap();
       }
-
+      var oay = null;
+      var selectedMarker = null;
+      var coay = null;
+      var cselectedMarker = null;
       // =============== 쉐어하우스 마커 찍기 =============== //
       function getHouseMap() {
-	      <c:forEach items="${houseMapList}" var="item">
+	      <c:forEach items="${houseMapList}" var="hmVO">
 	         // 주소-좌표 변환 객체를 생성합니다
 	         var geocoder = new kakao.maps.services.Geocoder();
-
+	         
 	         // 주소로 좌표를 검색합니다
-	         geocoder.addressSearch("${item}", function(result, status) {
-	             // 정상적으로 검색이 완료됐으면
+	         geocoder.addressSearch('${hmVO.addr}', function(result, status) {
+	             // 정상적으로 검색이 완료됐으면 
 	              if (status === kakao.maps.services.Status.OK) {
 	                 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-	               var imageSrc = '<%=request.getContextPath()%>/img/comm/map_marker.png', // 마커이미지의 주소입니다
+	                 
+	               var imageSrc = '<%=request.getContextPath()%>/img/comm/map_marker.png', // 마커이미지의 주소입니다    
 	               imageSize = new kakao.maps.Size(29, 41), // 마커이미지의 크기입니다
 	               imageOption = {
 	                  offset : new kakao.maps.Point(15, 30)
 	               }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-
+	      
 	               // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
 	               var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize,
 	               imageOption), markerPosition = coords; // 마커가 표시될 위치입니다
-
+	                 
 	                 // 결과값으로 받은 위치를 마커로 표시합니다
 	                 var marker = new kakao.maps.Marker({
 	                     map: map,
 	                     image: markerImage,
 	                     zIndex : 11,
-	                     position: coords
+	                     position: coords,
+                         clickable: true // 마커를 클릭했을 때 지도의 클릭 이벤트
 	                 });
-	             }
-	         });
+		           // 커스텀 오버레이에 표시할 컨텐츠 입니다
+		           // 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
+		           // 별도의 이벤트 메소드를 제공하지 않습니다 
+		           var content = '<div class="map_wrap">' + 
+		                       '    <div class="info">' + 
+		                       '        <div class="title">' + 
+		                       '            ${hmVO.housename}' + 
+		                       '            <div class="close" onclick="closeOverlay(this)" title="닫기"></div>' + 
+		                       '        </div>' + 
+		                       '        <div class="body">' + 
+		                       '            <div class="img">' +
+		                       '                <img alt="" src="<%=request.getContextPath()%>/housePic/${hmVO.housepic1}" onerror="this.src=' + "'<%=request.getContextPath()%>/img/comm/no_house_pic.png'" + '" width="73" height="70">' +
+		                       '           </div>' + 
+		                       '            <div class="desc">' + 
+		                       '                <div class="ellipsis">${hmVO.addr}</div>' + 
+		                       '                <div class="jibun ellipsis">${hmVO.deposit} / ${hmVO.rent}</div>' + 
+		                       '                <div><a href="houseView?no=${hmVO.no}" target="_blank" class="link">자세히보기</a></div>' + 
+		                       '            </div>' + 
+		                       '        </div>' + 
+		                       '    </div>' +    
+		                       '</div>';
+	
+		           // 마커 위에 커스텀오버레이를 표시합니다
+		           // 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
+		           var overlay = new kakao.maps.CustomOverlay({
+		               content: content,
+	                   zIndex : 15,
+		               position: marker.getPosition()       
+		           });
+		           
+		           kakao.maps.event.addListener(marker, 'click', function() {
+		        	   
+		               // 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면
+		               // 오버레이를 표시합니다.
+					   if (cselectedMarker != null){
+						   coay.setMap(null);
+					   }
+	                   // 클릭된 마커 객체가 null이 아니면
+	                   // 이전에 표시된 오버레이를 표시하지 않습니다.
+	                   if(oay != null){
+	                	   oay.setMap(null);
+	                   }
+	                   
+                       if(coay != null){
+                     	   coay.setMap(null);
+                       }
+					   // 현재 오버레이를 표시합니다.
+		        	   overlay.setMap(map);
+					   // 현재 마커를 중심으로 맵을 이동합니다.
+		        	   map.setCenter(marker.getPosition());   
+					   // 이전 오버레이에 현재 오버레이를 대입합니다.
+		        	   oay = overlay;
+					   // 클릭된 마커를 변경합니다.
+		        	   selectedMarker = marker;
+		        	   cselectedMarker = null;
+		           });
+	             } 
+	            });    
 	      </c:forEach>
 	      <c:if test="${logId==null}">
      	  	getMateAddr();
      	  </c:if>
       }
-
-
-
+      
+      // 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+      function closeOverlay(a) {
+    	  oay.setMap(null);
+      }
+      
       <c:if test="${logId!=null}">
      	var area = "${logArea}";
-     	console.log("area : " + area);
      	if(area!=null){
      		getNowMap(area);
      	}else{
@@ -392,7 +482,7 @@
              }
           });
   	}
-
+     
   	function setHopeArea(x, y) {
           var locPosition = new kakao.maps.LatLng(y, x);
           map.setCenter(locPosition);
@@ -403,7 +493,7 @@
          var mateArrList = ${mateMapList};
          // 메이트 리스트 JSON
          var data = {"positions": []}
-
+         
          //var xObject = {}; // 각 주소에 대한 x 좌표를 담을 객체
          //var yObject = {}; // 각 주소에 대한 x 좌표를 담을 객체
          var total = mateArrList.length;
@@ -419,23 +509,25 @@
                  });
               }
              counter++; // 비동기 콜백이 수행되었으면 하나 업 카운트
-
+			
              if (total === counter) { // 모든 비동기 콜백이 수행되었다면
-                getMateMap(data); // 다음 로직으로 넘어갑니다.
+            	 getMateMap(data); // 다음 로직으로 넘어갑니다.
              }
            });
          });
+         
       }
-
       // =============== 하우스메이트 마커 찍기 =============== //
       function getMateMap(data) {
+    	  console.log(data);
           var clusterer = new kakao.maps.MarkerClusterer({
-              map: map,
-              averageCenter: true,
+              map: map, 
+              averageCenter: true, 
               minLevel: 1,
               minClusterSize : 1,
-              texts: getTexts,
-              styles: [{
+              texts: getTexts, 
+              disableClickZoom : true,
+              styles: [{ 
                       width : '150px', height : '150px',
                       background: 'rgba(19, 168, 158, .3)',
                       borderRadius: '150px',
@@ -458,15 +550,85 @@
           // 클러스터러에 마커들을 추가합니다
           clusterer.addMarkers(markers);
           clusterer.setMap(map);
-          // 클러스터 내부에 삽입할 문자열 생성 함수입니다
+          // 클러스터 내부에 삽입할 문자열 생성 함수입니다 
           function getTexts( count ) {
-            return count + "명";
+            return count + "명";       
           }
+          
+          // 마커 위에 커스텀오버레이를 표시합니다
+          // 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
+        
+          kakao.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
+       	   	  console.log('마커의 좌표 : ');
+       	   	  console.log(cluster.getMarkers());
+       	   	  //var b =  clusterer.getCenter();
+       	   	  console.log('클러스터의 좌표 : ');
+       	   	  console.log(cluster.getCenter());
+       	   	  searchDetailAddrFromCoords(cluster.getCenter(), function(result, status) {
+       	   		  	console.log(result);
+       	            //var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+       	            var detailAddr = ' ' +  result[0].address.region_1depth_name + ' ' + result[0].address.region_2depth_name + ' ' + result[0].address.region_3depth_name + ' ';
+       	            
+
+ 	                 var content = '<div class="map_wrap mate">' + 
+                     '    <div class="info">' + 
+                     '        <div class="title">' + detailAddr + 
+                     '            <div class="close" onclick="closeCoverlay(this)" title="닫기"></div>' + 
+                     '        </div>' + 
+                     '        <div class="body">' + 
+                     '            <div class="">' + 
+                     '                <p>' + result[0].address.region_3depth_name + '에서 집을 구하고 있어요!</p>' + 
+                     '                <div><a href="mateIndex?area=' + result[0].address.region_3depth_name + '" target="_blank" class="link">자세히보기</a></div>' + 
+                     '            </div>' + 
+                     '        </div>' + 
+                     '    </div>' +    
+                     '</div>';
+                     
+/*                      var content = '<div class="customoverlay">' +
+                     '  <a href="https://map.kakao.com/link/map/11394059" target="_blank">' +
+                     '    <span class="title">' + detailAddr + ' 메이트 보러가기 </span>' +
+                     '  </a>' +
+                     '</div>'; */
+                     var overlay = new kakao.maps.CustomOverlay({
+ 	                      content: content,
+ 	                      zIndex : 15,
+ 	                      position: cluster.getCenter()       
+ 	                  });
+                        // 클릭된 마커 객체가 null이 아니면
+                        // 이전에 표시된 오버레이를 표시하지 않습니다.
+					   if (selectedMarker != null){
+						   oay.setMap(null);
+						   selectedMarker == null;
+					   }
+                       if(coay != null){
+                     	   coay.setMap(null);
+                       }
+      				   // 현재 오버레이를 표시합니다.
+      	        	   overlay.setMap(map);
+      				   // 현재 마커를 중심으로 맵을 이동합니다.
+      	        	   map.setCenter(cluster.getCenter());   
+      				   // 이전 오버레이에 현재 오버레이를 대입합니다.
+      	        	   coay = overlay;
+      				   // 클릭된 마커를 변경합니다.
+      	        	   cselectedMarker = clusterer;
+			  });
+              //alert('클러스터 클릭');
+          });
+          function searchDetailAddrFromCoords(coords, callback) {
+        	    // 좌표로 법정동 상세 주소 정보를 요청합니다
+        	    // 주소-좌표 변환 객체를 생성합니다
+				var geocoder = new kakao.maps.services.Geocoder();
+        	    geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+       	  }
+          
           <c:if test="${logId!=null}">
          	getHouseMap();
        	  </c:if>
       }
-
+      // 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+      function closeCoverlay(a) {
+    	  coay.setMap(null);
+      }
    </script>
-
+   
 </div>

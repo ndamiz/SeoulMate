@@ -71,6 +71,12 @@ input[type=text]:readonly {background:#ddd;}
 /* memberProEdit */
 #proUl, #delUl{height:50px;}
 #proUl>li, #delUl>li{/* float:right; */ display:inline-block;}
+/* .priDiv1>div>.s_title, .priDiv2>div>.s_title, .priDiv3>div>.s_title{ */
+/* 	margin:40px 0; */
+/* } */
+#proId .s_title{
+	margin:40px 0;
+}
 
 /* #proTitle{margin-bottom:30px;} */
 #proId>#memDiv3{display:block;}
@@ -88,7 +94,7 @@ input[type=text]:readonly {background:#ddd;}
 #proDiv1>ul>li>label, #proDiv2>ul>li>label, #proDiv3>ul>li>label, #proDiv4>ul>li>label, #proDiv5>ul>li>label{width:170px;}
 #mateChoice{margin-bottom:10px;}
 #hopeChoice{margin-bottom:10px;}
-#Choice{margin-bottom:50px;}
+/* #Choice{margin-bottom:50px;} */
 
 
 /* memberManagement */

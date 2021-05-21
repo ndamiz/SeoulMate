@@ -70,7 +70,7 @@
   	</select>
   	<select id="stateCheck" resultType="int">
   		select count(no) from community where 
-		<if test="param2 != null and param2 != '' "> userid = #{param2} and</if>
+<!-- 		<if test="param2 != null and param2 != '' "> userid = #{param2} and</if> -->
 		 no = ${param1} and state='공개'
   	</select>
 </mapper>

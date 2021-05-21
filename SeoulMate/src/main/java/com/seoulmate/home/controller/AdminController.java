@@ -167,6 +167,7 @@ public class AdminController {
 	@RequestMapping("/reportInsert")
 	@ResponseBody
 	public String reportInsert(ReportVO reportVO) {
+		System.out.println("????????????????????????????"+reportVO.getCategory());
 		service.reportInsert(reportVO);
 		return "신고등록 성공";
 	}
@@ -732,6 +733,17 @@ public class AdminController {
 	public int faqEdit(FaqVO vo) {
 		int result=0;
 		int res=service.faqUpdate(vo);
+		if(res==1) {
+			result=res;
+		}
+		return result;
+	}
+	
+	@RequestMapping("/admin/faqDel")
+	@ResponseBody
+	public int faqDel(FaqVO vo) {
+		int result=0;
+		int res=service.faqDel(vo);
 		if(res==1) {
 			result=res;
 		}

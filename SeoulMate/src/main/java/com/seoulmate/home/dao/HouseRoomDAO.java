@@ -1,5 +1,7 @@
 package com.seoulmate.home.dao;
 
+import java.util.List;
+
 import com.seoulmate.home.vo.HouseRoomVO;
 
 public interface HouseRoomDAO {
@@ -17,4 +19,7 @@ public interface HouseRoomDAO {
 	
 	//houseRoom 가져오기 (본인 작성글 아니여도 가능)
 	public HouseRoomVO roomSelect2(int no);
+	
+	//houseRoom List로 가져오기 
+	public List<HouseRoomVO> roomListSelect(int no);
 }

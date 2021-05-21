@@ -10,6 +10,7 @@ import com.seoulmate.home.dao.HouseRoomDAO;
 import com.seoulmate.home.dao.HouseWriteDAO;
 import com.seoulmate.home.dao.MemberDAO;
 import com.seoulmate.home.dao.PropensityDAO;
+import com.seoulmate.home.vo.HouseMatePagingVO;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.ListVO;
@@ -117,8 +118,13 @@ public class HouseServiceImp implements HouseService {
 	}
 
 	@Override
-	public List<HouseWriteVO> getNewIndexHouse(String addr) {
-		return hDAO.getNewIndexHouse(addr);
+	public List<HouseWriteVO> getNewIndexHouse(HouseMatePagingVO pVO) {
+		return hDAO.getNewIndexHouse(pVO);
+	}
+	
+	@Override
+	public int HouseTotalRecode(HouseMatePagingVO pVO) {
+		return hDAO.HouseTotalRecode(pVO);
 	}
 
 	@Override
@@ -149,13 +155,17 @@ public class HouseServiceImp implements HouseService {
 	}
 
 	@Override
+	public List<HouseRoomVO> roomListSelect(int no) {
+		return dao.roomListSelect(no);
+	}
+	@Override
 	public int propPcaseM(String userid) { // 메이트 성향이 있는지 가져옴
 		return pDAO.propPcaseM(userid);
 	}
 
-
-
-
-	
-
+	@Override
+	public List<PropensityVO> getPropInfo(String userid, String housename) {
+		// 사용자 모든 성향 가져오기
+		return hDAO.getPropInfo(userid, housename);
+	}
 }

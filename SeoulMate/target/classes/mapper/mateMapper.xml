@@ -29,22 +29,57 @@
 	<delete id="mateDel" parameterType="com.seoulmate.home.vo.MateWriteVO">
 		delete from matewrite where no=#{param1} and userid=#{param2}	
 	</delete>
-	<select id="getNewIndexMate" resultType="com.seoulmate.home.vo.MateWriteVO">
-		SELECT * 
-		FROM(SELECT mw.NO, mw.pno, mw.userid, mw.area, mw.matepic1, mw.matepic2, mw.matepic3, mw.deposit, mw.rent, mw.enterdate, mw.minstay, mw.maxstay, mw.writedate, 
+	<select id="getNewIndexMate" parameterType="com.seoulmate.home.vo.HouseMatePagingVO" resultType="com.seoulmate.home.vo.MateWriteVO">
+		SELECT *
+		FROM (SELECT * 
+		FROM (SELECT * 
+		FROM (SELECT * 
+		FROM (SELECT * 
+		FROM (SELECT mw.NO, mw.pno, mw.userid, mw.area, mw.matepic1, mw.matepic2, mw.matepic3, mw.deposit, mw.rent, mw.enterdate, mw.minstay, mw.maxstay, mw.writedate, 
 			mw.enddate, mw.matestate, mw.mateprofile, g.gender, g.m_gender, g.h_noise, g.h_pattern, g.h_pet, g.h_petwith, g.h_smoke, g.h_mood, g.h_communication, g.h_party, 
 			g.h_enter, g.m_pattern, g.m_personality, g.m_pet, g.m_smoke, g.m_age, g.m_global, g.m_now, g.pdate 
 		FROM (SELECT * FROM MATEWRITE WHERE matestate='모집중' 
-		<if test="param1 != null">
-		AND area LIKE '%${param1}%'
+		<if test="area != null">
+		AND area LIKE '%${area}%'
 		</if>) mw 
 		JOIN (SELECT p.userid, m.gender, p.m_gender, p.h_noise, p.h_pattern, p.h_pet, p.h_petwith, p.h_smoke, p.h_mood, p.h_communication, p.h_party, 
 			p.h_enter, p.m_pattern, p.m_personality, p.m_pet, p.m_smoke, p.m_age, p.m_global, p.m_now, p.pdate 
 		FROM (SELECT userid, gender FROM MEMBER) m 
 		JOIN (SELECT userid, m_gender, h_noise, h_pattern, h_pet, h_petwith, h_smoke, h_mood, h_communication, h_party, h_enter, m_pattern, m_personality, 
 			m_pet, m_smoke, m_age, m_global, m_now, substr(to_char(pdate, 'YYYY'),1,1) AS pdate
-		FROM PROPENSITY WHERE pcase='m') p ON m.userid=p.userid) g ON mw.userid=g.userid ORDER BY writedate DESC) <![CDATA[where rownum<= 9]]>
+		FROM PROPENSITY WHERE pcase='m') p ON m.userid=p.userid) g ON mw.userid=g.userid )
+		<if test='rent != null and rent>0'>where <![CDATA[rent<=#{rent}]]></if>)
+		<if test='deposit != null and deposit>0'>where <![CDATA[deposit<=#{deposit}]]></if>)
+		<if test='gender != null and gender!=0'>where <![CDATA[gender=#{gender}]]></if>
+		ORDER BY writedate DESC)
+		
+  		where <![CDATA[rownum<=]]>${pageNum * onePageRecode} order by writedate asc)
+  		where <![CDATA[rownum<=]]><if test="pageNum==totalPage">${lastPageRecode}</if> 
+  		<if test="pageNum!=totalPage">${onePageRecode}</if> ORDER BY writedate DESC
 	</select>
+	
+  	<select id="mateTotalRecord" parameterType="com.seoulmate.home.vo.HouseMatePagingVO" resultType="int">
+  		SELECT count(no)
+		FROM (SELECT * 
+		FROM (SELECT * 
+		FROM (SELECT mw.NO, mw.pno, mw.userid, mw.area, mw.matepic1, mw.matepic2, mw.matepic3, mw.deposit, mw.rent, mw.enterdate, mw.minstay, mw.maxstay, mw.writedate, 
+			mw.enddate, mw.matestate, mw.mateprofile, g.gender, g.m_gender, g.h_noise, g.h_pattern, g.h_pet, g.h_petwith, g.h_smoke, g.h_mood, g.h_communication, g.h_party, 
+			g.h_enter, g.m_pattern, g.m_personality, g.m_pet, g.m_smoke, g.m_age, g.m_global, g.m_now, g.pdate 
+		FROM (SELECT * FROM MATEWRITE WHERE matestate='모집중' 
+		<if test="area != null">
+		AND area LIKE '%${area}%'
+		</if>) mw 
+		JOIN (SELECT p.userid, m.gender, p.m_gender, p.h_noise, p.h_pattern, p.h_pet, p.h_petwith, p.h_smoke, p.h_mood, p.h_communication, p.h_party, 
+			p.h_enter, p.m_pattern, p.m_personality, p.m_pet, p.m_smoke, p.m_age, p.m_global, p.m_now, p.pdate 
+		FROM (SELECT userid, gender FROM MEMBER) m 
+		JOIN (SELECT userid, m_gender, h_noise, h_pattern, h_pet, h_petwith, h_smoke, h_mood, h_communication, h_party, h_enter, m_pattern, m_personality, 
+			m_pet, m_smoke, m_age, m_global, m_now, substr(to_char(pdate, 'YYYY'),1,1) AS pdate
+		FROM PROPENSITY WHERE pcase='m') p ON m.userid=p.userid) g ON mw.userid=g.userid )
+		<if test='rent != null and rent>0'>where <![CDATA[rent<=#{rent}]]></if>)
+		<if test='deposit != null and deposit>0'>where <![CDATA[deposit<=#{deposit}]]></if>)
+		<if test='gender != null and gender!=0'>where <![CDATA[gender=#{gender}]]></if>
+  	</select>
+	
 	<select id="mateSelect2" resultType="com.seoulmate.home.vo.MateWriteVO">
 		select no, pno, userid, area, matePic1, matePic2, matePic3, deposit, rent, to_char(enterdate, 'yyyy-mm-dd')enterdate, minStay, maxStay,
 		writedate, enddate, matestate, mateProfile from matewrite where no=#{param1}

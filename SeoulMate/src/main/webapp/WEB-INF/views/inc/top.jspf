@@ -13,6 +13,7 @@
 		<script type="text/javascript" src="<%=request.getContextPath()%>/js/main/comm.js"></script>
 		<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath()%>/js/script.js"></script>
+		<link rel="shortcut icon" href="<%=request.getContextPath()%>/img/comm/favicon.ico" type="image/x-icon">
 	</head>
 	<body>
 	<div class="header_wrap">

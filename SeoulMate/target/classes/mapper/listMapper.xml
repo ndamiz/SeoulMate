@@ -10,7 +10,10 @@
   		select m_gender from propensity where pcase='h' and userid=#{param1} and pno=#{param2}
   	</select>
   	<select id="premiumHouseList" resultType="com.seoulmate.home.vo.ListVO">
-  	SELECT no, pno, userid, m_gender, addr, housename, housepic1, room, bathroom, nowpeople, rent, deposit, h_noise, h_pattern, h_petwith, h_mood, h_communication, score
+  	SELECT *
+  	FROM (SELECT * 
+  	FROM (SELECT * 
+  	FROM (SELECT no, pno, userid, m_gender, addr, housename, housepic1, room, bathroom, nowpeople, rent, deposit, h_noise, h_pattern, h_petwith, h_mood, h_communication, score
   	from (SELECT no, pno, userid, m_gender, addr, housename, housepic1, room, bathroom, nowpeople, rent, deposit, h_noise, h_pattern, h_petwith, h_mood, h_communication, 
 		round((100-((h_noise+h_pattern+h_pet+h_petwith+h_smoke+h_mood+h_communication+h_party+h_enter+m_pattern+m_personality+m_pet+m_smoke+m_age+m_global+m_now)*3.125)), 0) AS score 
 	from(SELECT no, pno, userid, m_gender, addr, housename, housepic1, room, bathroom, nowpeople, rent, deposit, abs(m_h_noise-h_h_noise) AS h_noise, abs(m_h_pattern-h_h_pattern) AS h_pattern,
@@ -44,7 +47,10 @@
 	JOIN (SELECT r1.NO, rent, deposit FROM (select no, rent, deposit from houseroom) r1 
 	JOIN (select NO, min(rent) FROM houseroom GROUP BY NO) r2 ON r1.NO=r2.no) hr ON hw.NO=hr.NO) h2
 	ON h.pno=h2.pno) h3 ON m.pdate=h3.pdate) h4) 
-	<if test='param3 !=null'> where addr like '%${param3}%'</if>
+	<if test='param3 !=null'> where addr like '%${param3}%'</if>)
+	<if test='param4 != null and param4>0'>where <![CDATA[rent<=${param4}]]></if>)
+	<if test='param5 != null and param5>0'>where <![CDATA[deposit<=${param5}]]></if>)
+	<if test='param6 != null and param6!=0'>where <![CDATA[m_gender=${param6}]]></if>
 	ORDER BY score desc) where <![CDATA[rownum<=3]]>
   	</select>
   	<select id="premiumHouseScore" resultType="com.seoulmate.home.vo.ListVO">
@@ -86,7 +92,10 @@
   		SELECT pno FROM (SELECT pno FROM PROPENSITY WHERE pcase='h' AND userid=#{param1} ORDER BY pno DESC) WHERE rownum=1
   	</select>
   	<select id="premiumMateList" resultType="com.seoulmate.home.vo.ListVO">
-	SELECT userid, NO, pno, gender, m_gender, deposit, rent, enterdate, area, matepic1, m_pattern, m_personality, m_pet, m_smoke, score 
+  	SELECT * 
+  	FROM (SELECT *
+  	FROM (SELECT * 
+	FROM (SELECT userid, NO, pno, gender, m_gender, deposit, rent, enterdate, area, matepic1, m_pattern, m_personality, m_pet, m_smoke, score 
 	FROM (SELECT userid, NO, pno, gender, m_gender, deposit, rent, enterdate, area, matepic1, m_pattern, m_personality, m_pet, m_smoke, 
 		round((100-((h_noise+h_pattern+h_pet+h_petwith+h_smoke+h_mood+h_communication+h_party+h_enter+m_pattern+m_personality+m_pet+m_smoke+m_age+m_global+m_now)*3.125)), 0) AS score 
 	from(SELECT mw3.NO, mw3.userid AS userid, mw3.pno AS pno, mw3.gender AS gender, mw3.m_gender AS m_gender, mw3.deposit AS deposit, mw3.rent AS rent, mw3.enterdate AS enterdate, mw3.area AS area, mw3.matepic1 AS matepic1, 
@@ -105,7 +114,6 @@
 		m_personality, m_pet, m_smoke, m_age, m_global, m_now, substr(to_char(pdate, 'YYYY'), 1,1) AS pdate 
 	FROM PROPENSITY WHERE userid=#{param1} AND pcase='h' AND pno=#{param2}) h 
 	FULL OUTER JOIN 
-	-- 조건 시작
 	(<if test='param3 == 1 || param3 == 3'>
 	SELECT mw.NO, mw.pno, mw.userid, mw.area, mw.matepic1, mw.matepic2, mw.matepic3, mw.deposit, mw.rent, mw.enterdate, mw.minstay, mw.maxstay, mw.writedate, 
 		mw.enddate, mw.matestate, mw.mateprofile, g.gender, g.m_gender, g.h_noise, g.h_pattern, g.h_pet, g.h_petwith, g.h_smoke, g.h_mood, g.h_communication, g.h_party, 
@@ -133,7 +141,10 @@
 	JOIN (SELECT NO, userid, pno, deposit, rent, enterdate, area, matepic1, matepic2, matepic3, minstay, maxstay, writedate, enddate, matestate, mateprofile 
 	FROM MATEWRITE WHERE matestate='모집중') mw ON p.pno=mw.pno) mw1 on m.userid=mw1.userid and mw1.m_gender=2
 	</if>) mw2 ON h.pdate=mw2.pdate) mw3)
-	<if test='param4 !=null'> where area like '%${param4}%'</if>
+	<if test='param4 !=null'> where area like '%${param4}%'</if>)
+	<if test='param5 != null and param5>0'> where <![CDATA[rent<=#{param5}]]></if>)
+	<if test='param6 != null and param6>0'> where <![CDATA[deposit<=#{param6}]]></if>)
+	<if test='param7 != null and param7!=0'> where <![CDATA[gender=#{param7}]]></if>
 	ORDER BY score DESC) WHERE <![CDATA[rownum<=3]]>
   	</select>
   	<select id="premiumMateScore" resultType="com.seoulmate.home.vo.ListVO">

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.seoulmate.home.dao.MateWriteDAO;
 import com.seoulmate.home.dao.PropensityDAO;
+import com.seoulmate.home.vo.HouseMatePagingVO;
 import com.seoulmate.home.vo.MateWriteVO;
 import com.seoulmate.home.vo.MemberVO;
 import com.seoulmate.home.vo.PropensityVO;
@@ -60,12 +61,9 @@ public class MateServiceImp implements MateService {
 	}
 
 	@Override
-	public List<MateWriteVO> getNewIndexMate(String area) {
-		return dao.getNewIndexMate(area);
+	public List<MateWriteVO> getNewIndexMate(HouseMatePagingVO pVO) {
+		return dao.getNewIndexMate(pVO);
 	}
-
-
-
 	@Override
 	public String MateProfilePic(String matePic1, int no) {
 		return dao.MateProfilePic(matePic1, no);
@@ -87,6 +85,9 @@ public class MateServiceImp implements MateService {
 	}
 
 	@Override
+	public int mateTotalRecord(HouseMatePagingVO pVO) { // 메이트 total 레코드 수
+		return dao.mateTotalRecord(pVO);
+	}
 	public int proPnoCheck(String userid) { //성향pno의 psq.currval 값 가져오
 		return pDAO.proPnoCheck(userid);
 	}
@@ -100,8 +101,6 @@ public class MateServiceImp implements MateService {
 	public int mateCount(String userid) { //메이트 글 카운트
 		return dao.mateCount(userid);
 	}
-
-
 
 
 }

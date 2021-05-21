@@ -23,4 +23,8 @@
 	<delete id="roomDel" parameterType="com.seoulmate.home.vo.HouseRoomVO">
 		delete from houseroom where no=#{param1} and userid=#{param2}	
 	</delete>
+	<select id="roomListSelect" parameterType="int" resultType="com.seoulmate.home.vo.HouseRoomVO" >
+		select no, hno, userid, roomName, deposit, rent, to_char(enterdate,'YYYY-MM-DD') as enterdate, minStay, maxStay, roomPeople, furniture, incFurniture 
+		from houseroom where no=#{param1 }
+	</select>
   </mapper>

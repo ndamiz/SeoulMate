@@ -124,16 +124,16 @@ public class MemberVO {
 		this.gender = gender;
 	}
 	public String getArea() {
-		area="";
-		if(area1!=null && !area1.equals("")) {
-			area+=area1+"/";
-		}
-		if(area2!=null && !area2.equals("")) {
-			area+=area2+"/";
-		}
-		if(area3!=null && !area3.equals("")) {
-			area+=area3;
-		}
+//		area="";
+//		if(area1!=null && !area1.equals("")) {
+//			area+=area1+"/";
+//		}
+//		if(area2!=null && !area2.equals("")) {
+//			area+=area2+"/";
+//		}
+//		if(area3!=null && !area3.equals("")) {
+//			area+=area3;
+//		}
 		return area;
 	}
 	public void setArea(String area) {

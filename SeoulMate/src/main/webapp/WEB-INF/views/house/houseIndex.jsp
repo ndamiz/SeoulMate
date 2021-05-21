@@ -1,104 +1,62 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<style>
-.boxClass {
-	width: 1110px;
-	margin : 0 auto;
-	height: 228px;
-}
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/doo.css">
 
-input[type="date"] {width: 200px;}
-input[type="text"] {width: 100px;}
-input[type="number"] {width: 100px;}
-
-#searchBox {width: 300px; position: relative;}
-.searchClass ul {display: inline-block;	padding-top: 10px;}
-
-#iconPic {
-	position: absolute;
-	right: 2px;
-	top: 8px;
-}
-
-#iconPic1 {
-	position: relative;
-	right: 54px;
-	top: 14px;
-	box-shadow: none;
-	border: none;
-	border-radius: inherit;
-	margin: 0;
-	padding: 0;
-	line-height: inherit;
-	height: inherit;
-	width: 40px;
-	height: 40px;
-}
-
-#iconPic1::before {
-	content: "";
-	display: block;
-	position: absolute;
-	width: 22px;
-	height: 23px;
-	top:6px;
-	right: 9px;
-	background: url(<%=request.getContextPath()%>/img/comm/ico_search_black.png) no-repeat;
-	background-size: cover;
-}
-
-button {position: relative;}
-
-.houseSearch_wrap button.search::before {
-   content:"";
-   display: block;
-   margin-left: -2px;
-   width: 25px;
-   height: 25px;
-   background: url(<%=request.getContextPath()%>/img/main/ico_search_white.png) no-repeat;
-   background-size: cover;
-}
-
-.houseSearch_wrap button.room{margin-top: 30px;}
-
-.searchClass .list_filter{
-	margin-right: 30px !important;
-}
-</style>
 <script>
 	$(function(){
 		$("#searchBox").click(function(){ // 해줘야하나 아직 모르겠음 뒤로가기했을 때 값이 그대로있는지 모름
 			$("#searchBox").val("");
 		});
 	});
+	function search(){
+		var addr='${pVO.addr}';
+		var rent=${pVO.rent};
+		var deposit=${pVO.deposit};
+		var m_gen=${pVO.m_gen};
+									
+		if(addr==$("#searchBox").val() && (rent==$("#searchRent").val() || $("#searchRent")==null) && (deposit==$("#searchDeposit").val() || $("#searchDeposit").val()==null) && (m_gen==$('input[name="m_gen"]:checked').val() || $('input[name="m_gen"]:checked').val()==null)){
+			
+		}else{
+			$("#hiddenPageNum").val("1");
+		}
+	}
 </script>
 <div class="wrap houseSearch_wrap">
-<div class="content">
 	<div class="boxClass"> <!-- 상단부분 div -->
 		<ul class="searchClass">
 			<li> <img src='<%=request.getContextPath()%>/img/ico_filter.png'/> 조건검색 </li>
 			<li>
 				<ul>	
 					<li>
-						<form method="get" action="houseIndex">
+						<form method="get" action="houseIndex" id="houseIndexForm" onsubmit="return search();">
+							<input type="hidden" name="pageNum" id="hiddenPageNum" value="${pVO.pageNum}"/>
 							<ul>
 								<li> 지역 </li> 
-								<li><input type="text" name="addr" id="searchBox" value="${addr}" placeholder="지역명을 입력하세요"/> 
+								<li><input type="text" name="addr" id="searchBox" value="${pVO.addr}" placeholder="지역명을 입력하세요"/> 
 									<a id="iconPic1"></a></li>
 							</ul>
-<!-- 							<ul> -->
-<!-- 								<li> 입주예정일 </li> -->
-<!-- 								<li><input class="classDate" type="date"/></li> -->
-<!-- 							</ul> -->
 							<ul class="list_filter">
 								<li>최대 월세</li>
-<!-- 								<li><input type="number" min="0" placeholder="0"/> - <input type="number" min="0" placeholder="0"/> 만원 </li> -->
-								<li><input type="number" min="0" placeholder="0"/> 만원 </li>
+								<li><input type="number" id="searchRent" name="rent" value="<c:if test='${pVO.rent!=0}'>${pVO.rent}</c:if>" min="0" placeholder="0"/> 만원 </li>
 							</ul>
 							<ul class="list_filter">
 								<li>최대 보증금</li>
-<!-- 								<li><input type="number" name="" id="" min="10" placeholder="0"/> - <input type="number" min="0" placeholder="0"/> 만원 </li> -->
-								<li><input type="number" min="0" placeholder="0"/> 만원 </li>
+								<li><input type="number" id="searchDeposit" name="deposit" value="<c:if test='${pVO.deposit!=0}'>${pVO.deposit}</c:if>" min="0" placeholder="0"/> 만원 </li>
+							</ul>
+							<ul>
+								<li><label> 성별</label></li>
+								<li class="checks_mate">
+									<div class="checks">
+										<input type="radio" id="radio1" name="m_gen" value="0" <c:if test='${pVO.m_gen==0}'>checked</c:if>/> 
+										<label for="radio1">전체</label> 
+										<input type="radio" id="radio2" name="m_gen" value="1" <c:if test='${pVO.m_gen==1}'>checked</c:if>/> 
+										<label for="radio2">여성</label> 
+										<input type="radio" id="radio3" name="m_gen" value="3" <c:if test='${pVO.m_gen==3}'>checked</c:if>/> 
+										<label for="radio3">남성</label> 
+										<input type="radio" id="radio4" name="m_gen" value="2" <c:if test='${pVO.m_gen==2}'>checked</c:if>/> 
+										<label for="radio4">상관없음</label> 
+									</div>
+								</li>
 							</ul>
 							<ul>
 								<li>
@@ -113,7 +71,6 @@ button {position: relative;}
 		<button class="green room" onclick="location.href='<%=request.getContextPath()%>/houseWrite'">방 등록하기</button> <br/>
 	</div>
 	<hr/>
-</div> <!-- content 종료 -->
 <!-- 프리미엄 추천 쉐어하우스 -->
 <c:if test="${logGrade==2}">
 	<c:if test="${matePnoCheck>0}">
@@ -131,7 +88,13 @@ button {position: relative;}
 								<c:if test="${logId != null}">
 									<button class="btn_star houselike" value="${phList.no}"></button>
 								</c:if>
-								<a href="houseView?no=${phList.no}">
+								<a href="houseView?no=${phList.no}
+									<c:if test='${pVO.pageNum!=null}'>&pageNum=${pVO.pageNum}</c:if>
+									<c:if test='${pVO.addr!=null}'>&addr=${pVO.addr}</c:if>
+									<c:if test='${pVO.rent!=null}'>&rent=${pVO.rent}</c:if>
+									<c:if test='${pVO.deposit!=null}'>&deposit=${pVO.deposit}</c:if>
+									<c:if test='${pVO.m_gen!=null}'>&m_gen=${pVO.m_gen}</c:if>
+								">
 									<img alt="${phList.housename}" src="<%=request.getContextPath()%>/housePic/${phList.housepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
 								</a>
 							</div>
@@ -164,6 +127,7 @@ button {position: relative;}
 		<p class="m_title">NEW 쉐어하우스</p>
 		<a href="#">더보기</a>
 	</div>
+	<c:if test="${newHouseListCnt>0}">
 	<ul class="list_content">
 		<c:forEach items="${newHouseList}" var="newHouseVO">
 			<li>
@@ -174,7 +138,13 @@ button {position: relative;}
 						</c:if>
 					</c:if>
 					<button class="btn_star houselike" value="${newHouseVO.no}"></button>
-					<a href="houseView?no=${newHouseVO.no}">
+					<a href="houseView?no=${newHouseVO.no}
+						<c:if test='${pVO.pageNum!=null && pVO.pageNum!=1}'>&pageNum=${pVO.pageNum}</c:if>
+						<c:if test='${pVO.addr!=null && pVO.addr!=""}'>&addr=${pVO.addr}</c:if>
+						<c:if test='${pVO.rent!=null && pVO.rent!=0}'>&rent=${pVO.rent}</c:if>
+						<c:if test='${pVO.deposit!=null && pVO.deposit!=0}'>&deposit=${pVO.deposit}</c:if>
+						<c:if test='${pVO.m_gen!=null && pVO.m_gen!=0}'>&m_gen=${pVO.m_gen}</c:if>
+					">
 						<img alt="" src="<%=request.getContextPath()%>/housePic/${newHouseVO.housepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
 					</a>
 				</div>
@@ -190,5 +160,66 @@ button {position: relative;}
 			</li>
 		</c:forEach>
 	</ul>
+	</c:if>
+	<c:if test="${newHouseListCnt==0}">
+	  	<div class="empty_div">
+      		<img class="empty" src="<%=request.getContextPath()%>/img/empty.png" onerror="this.src='<%=request.getContextPath()%>/img/empty.png'"/>
+      		<p style="text-align:center;">필터에 맞는 결과가 없습니다.</p>
+     	</div>
+	</c:if>
+	<div class="paging">
+		<c:if test="${pVO.pageNum>1}">
+			<a href="javascript:pageClick('first_page')" class="first_page"></a>
+			<a href="javascript:pageClick('prev_page')"  class="prev_page"></a>
+		</c:if>
+		<c:if test="${pVO.pageNum==1}">
+			<a href="#" class="first_page"></a>
+			<a href="#" class="prev_page"></a>
+		</c:if>
+		<c:forEach var="pageNum" begin="${pVO.startPageNum}" end="${pVO.startPageNum + pVO.onePageNum-1}">
+			<c:if test="${pageNum<=pVO.totalPage }">
+				<c:if test="${pageNum==pVO.pageNum }">
+					<a href="javascript:pageClick('${pageNum}')" class="on">${pageNum }</a>
+				</c:if>
+				<c:if test="${pageNum!=pVO.pageNum}">
+					<a href="javascript:pageClick('${pageNum}')">${pageNum}</a>
+				</c:if>
+			</c:if>
+		</c:forEach>
+		<c:if test="${pVO.pageNum < pVO.totalPage}">
+			<a href="javascript:pageClick('next_page')" class="next_page"></a>
+			<a href="javascript:pageClick('last_page')" class="last_page"></a>
+		</c:if>
+		<c:if test="${pVO.pageNum == pVO.totalPage}">
+			<a href="#" class="next_page"></a>
+			<a href="#" class="last_page"></a>
+		</c:if>
+	</div>
 </section>
 </div>
+
+<script>
+//페이징
+function pageClick(msg){
+	var pageNum = '<c:out value="${pVO.pageNum }"/>';  //현재 눌려있는 페이지
+	var startPageNum = '<c:out value="${pVO.startPageNum }"/>'; // 페이징 시작 페이지
+	var totalPage = '<c:out value="${pVO.totalPage }"/>'; //마지막 페이징
+	var changePageNum = 0;
+	if(msg=='next_page'){
+		changePageNum = Number(pageNum)+1;
+	}else if(msg=='last_page'){
+		changePageNum = Number(totalPage);
+	}else if(msg=='first_page'){
+		changePageNum = 1;
+	}else if(msg=='prev_page'){
+		changePageNum = Number(pageNum)-1;
+	}else{
+		changePageNum = Number(msg);
+	}
+	// 히든에 값넣고
+	$('#hiddenPageNum').val(changePageNum);
+	// 서브밋 실행 
+	$('#houseIndexForm').submit();
+}
+</script>
+
