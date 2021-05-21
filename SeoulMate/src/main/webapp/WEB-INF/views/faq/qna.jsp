@@ -1,36 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/yun.css">
+<style>
+	.qnaList{transition:.3s}
+</style>
 <script>
 	$(function(){
-		// 숨기기
-		$('.qnaList>.faqATag1').click(function(){
-// 			$(this).next().next().css("display","block"); // 답변 보이기 
-			$(this).next().css("display","block"); // 더보기 버튼 보이기
-			$(this).css("display","none"); // 숨기기 버튼 숨기기
-			
-			$(this).parent().animate({ // 답변을 숨겼을 때 원래 높이인 50px로 돌아감
-	 			height : "52px",
-	 		}, 100)
+		$('.qnaList').click(function(){
+			var i=$(this).children('.faqATag2').css('display');
+			if(i=='none'){ // 숨기기
+				$(this).children('.faqATag2').css("display","block"); // 더보기 버튼 보이기
+				$(this).children('.faqATag1').css("display","none"); // 숨기기 버튼 숨기기
+				
+				$(this).css('height','52px');
+			}else{ // 보이기
+				$(this).siblings().css('height','52px');
+				$(this).siblings().children('.faqATag1').css("display","none"); // 펼쳤던 다른 질문의 숨기기 버튼을 숨겨버림
+				$(this).siblings().children('.faqATag2').css("display","block"); // 펼쳤던 다른 질문의 보이기 버튼을 보이게 함 
+				
+				$(this).children('.faqATag2').css("display","none"); // 더보기 버튼 숨기기
+				$(this).children('.faqATag1').css("display","block"); // 숨기기 버튼 보이기 
+				
+				var textHeight=$(this).children().eq(3).height(); // 답변의 높이 구하기
+				
+				$(this).css('height',(textHeight+90)+"px")
+			}
 		});
-		// 더보기 이벤트 발생
-		$('.qnaList>.faqATag2').click(function(){
-			$(this).parent().siblings().animate({
-				height : "52px",
-			}, 100)
-			$(this).parent().siblings().children('.faqATag1').css("display","none"); // 펼쳤던 다른 질문의 숨기기 버튼을 숨겨버림
-			$(this).parent().siblings().children('.faqATag2').css("display","block"); // 펼쳤던 다른 질문의 보이기 버튼을 보이게 함 
-			
-// 			$(this).next().css("display","block"); // 답변 보이기
-			$(this).css("display","none"); // 더보기 버튼 숨기기
-			$(this).prev().css("display","block"); // 숨기기 버튼 보이기 
-			
-			var textHeight=$(this).next().children().eq(0).height(); // 답변의 높이 구하기
-			
-			$(this).parent().animate({ // li의 애니메이션
-	 			height : (textHeight+90)+"px",
-	 		}, 100)
-		});
+
 		
 		// 검색
 		$('#faqSearch>input').keyup(function(){ /* $('#faqSearch>input').keyup(function(){ */
