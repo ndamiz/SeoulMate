@@ -30,6 +30,7 @@ import com.seoulmate.home.service.HouseService;
 import com.seoulmate.home.service.ListService;
 import com.seoulmate.home.service.MateService;
 import com.seoulmate.home.service.MemberService;
+import com.seoulmate.home.vo.HouseMatePagingVO;
 import com.seoulmate.home.vo.ListVO;
 import com.seoulmate.home.vo.MateWriteVO;
 import com.seoulmate.home.vo.MemberVO;
@@ -52,7 +53,7 @@ public class MateController {
 	private DataSourceTransactionManager transactionManager;
 	
 	@RequestMapping("/mateIndex")
-	public ModelAndView mateIndex(HttpSession session, String area, String rent, String deposit, String gender) {
+	public ModelAndView mateIndex(HttpSession session, String area, String rent, String deposit, String gender, String pageNum) {
 		ModelAndView mav=new ModelAndView();
 		String userid=(String)session.getAttribute("logId");
 		
@@ -69,6 +70,11 @@ public class MateController {
 		int genderInt=0;
 		if(gender!=null && !gender.equals("")) {
 			genderInt=Integer.parseInt(gender);
+		}
+		
+		int pageNumInt=1;
+		if(pageNum!=null && !pageNum.equals("")) {
+			pageNumInt=Integer.parseInt(pageNum);
 		}
 		
 		Calendar cal = Calendar.getInstance();
@@ -180,8 +186,17 @@ public class MateController {
 			}
 		}
 		
+		HouseMatePagingVO pVO = new HouseMatePagingVO();
+		pVO.setArea(area);
+		pVO.setRent(rentInt);
+		pVO.setDeposit(depositInt);
+		pVO.setGender(genderInt);
+		pVO.setPageNum(pageNumInt);
+		pVO.setTotalRecode(service.mateTotalRecord(pVO));
+		
 		// 하우스메이트 최신리스트 구하기
-		List<MateWriteVO> nmList = service.getNewIndexMate(area, rentInt, depositInt, genderInt); // 1. homeService 함수는 row<=3이고, MateService는 row<=9
+		List<MateWriteVO> nmList = service.getNewIndexMate(pVO); // 1. homeService 함수는 row<=3이고, MateService는 row<=9
+		//List<MateWriteVO> nmList = service.getNewIndexMate(area, rentInt, depositInt, genderInt); // 1. homeService 함수는 row<=3이고, MateService는 row<=9
 	    
 		for (MateWriteVO mwVO : nmList) {
 			// 각 하우스 메이트의 성별, 나이 구하기
@@ -244,13 +259,13 @@ public class MateController {
 			mwVO.setListVO(listVO);
 		}
 		
-		mav.addObject("rent", rentInt);
-		mav.addObject("deposit", depositInt);
-		mav.addObject("gender", genderInt);
+		//mav.addObject("rent", rentInt);
+		//mav.addObject("deposit", depositInt);
+		//mav.addObject("gender", genderInt);
+		//mav.addObject("area", area); // 검색을 하고 페이지를 다시 띄워줄 때 입력한 값이 뭔지 알려주려고
 		mav.addObject("newMateListCnt", nmList.size()); // 필터에 맞는 최신 목록의 메이트가 없을 때
 		mav.addObject("newMateList", nmList);
-		mav.addObject("area", area); // 검색을 하고 페이지를 다시 띄워줄 때 입력한 값이 뭔지 알려주려고
-		
+		mav.addObject("pVO", pVO); // 페이징 vo
 		mav.setViewName("mate/mateIndex");
 	return mav;
 	}

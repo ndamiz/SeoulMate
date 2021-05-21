@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.seoulmate.home.dao.MateWriteDAO;
 import com.seoulmate.home.dao.PropensityDAO;
+import com.seoulmate.home.vo.HouseMatePagingVO;
 import com.seoulmate.home.vo.MateWriteVO;
 import com.seoulmate.home.vo.MemberVO;
 import com.seoulmate.home.vo.PropensityVO;
@@ -55,8 +56,8 @@ public class MateServiceImp implements MateService {
 	}
 
 	@Override
-	public List<MateWriteVO> getNewIndexMate(String area, int rent, int deposit, int gender) {
-		return dao.getNewIndexMate(area, rent, deposit, gender);
+	public List<MateWriteVO> getNewIndexMate(HouseMatePagingVO pVO) {
+		return dao.getNewIndexMate(pVO);
 	}
 	@Override
 	public String MateProfilePic(String matePic1, int no) {
@@ -76,6 +77,11 @@ public class MateServiceImp implements MateService {
 	@Override
 	public int mateAreaUpdate(String area, String userid) {
 		return dao.mateAreaUpdate(area, userid);
+	}
+
+	@Override
+	public int mateTotalRecord(HouseMatePagingVO pVO) { // 메이트 total 레코드 수
+		return dao.mateTotalRecord(pVO);
 	}
 
 

@@ -3,6 +3,7 @@ package com.seoulmate.home.service;
 
 import java.util.List;
 
+import com.seoulmate.home.vo.HouseMatePagingVO;
 import com.seoulmate.home.vo.MateWriteVO;
 import com.seoulmate.home.vo.MemberVO;
 import com.seoulmate.home.vo.PropensityVO;
@@ -40,9 +41,12 @@ public interface MateService {
 	public PropensityVO propMateSelect2(int pno);
 
 	// 메이트 index에서 9개의 메이트 목록 가져오기
-	public List<MateWriteVO> getNewIndexMate(String area, int rent, int deposit, int gender);
+	public List<MateWriteVO> getNewIndexMate(HouseMatePagingVO pVO);
 
 	//메이트 희망지역 == 회원정보 희망지역
 	public int mateAreaUpdate(String area, String userid);
+	
+	// 페이징 토탈레코드수 구하기
+	public int mateTotalRecord(HouseMatePagingVO pVO);
 
 }

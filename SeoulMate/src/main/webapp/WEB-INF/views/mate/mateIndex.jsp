@@ -82,6 +82,30 @@ button{position: relative;}
 			location.href="hpnoDefaultMateIndex?pno="+hpno;
 		});
 	});
+	
+ 	function search() {
+ 		var area = '${pVO.area}'
+ 		var rent = ${pVO.rent}
+ 		var deposit = ${pVO.deposit}
+ 		var gender = ${pVO.gender}
+ 		console.log(area);
+ 		console.log(rent);
+ 		console.log(deposit);
+ 		console.log(gender);
+ 		console.log('=================');
+ 		console.log($('#searchBox').val());
+ 		console.log($('#searchRent').val());
+ 		console.log($('#searchDeposit').val());
+ 		console.log($('input[name="gender"]:checked').val());
+ 		
+ 		
+ 		if(area==$("#searchBox").val() && (rent==$("#searchRent").val() || $("#searchRent")==null) && (deposit==$("#searchDeposit").val() || $("#searchDeposit").val()==null) && (gender ==$('input[name="gender"]:checked').val() || $('input[name="gender"]:checked').val()==null)){
+ 		
+ 		}else{
+			$('#hiddenPageNum').val('1');
+ 		}
+ 		
+	} 
 </script>
 <div class="wrap mateSearch_wrap">
 <div class="content">
@@ -91,29 +115,30 @@ button{position: relative;}
 			<li>
 				<ul>	
 					<li>
-						<form method="get" action="mateIndex">
+						<form method="get" action="mateIndex" id="mateIndexForm" onsubmit="return search();">
+							<input type="hidden" id="hiddenPageNum" name="pageNum" value="${pVO.pageNum}">
 							<ul>
 								<li><p>지역</p></li> 
-								<li><input type="text" name="area" id="searchBox" value="${area}" placeholder="지역명을 입력하세요" /> 
+								<li><input type="text" name="area" id="searchBox" value="${pVO.area}" placeholder="지역명을 입력하세요" /> 
 									<a id="iconPic1"></a></li>
 							</ul>
 							<ul class="list_filter">
 								<li> 최대 월세 </li>
-								<li><input type="number" name="rent" value="<c:if test='${rent!=0}'>${rent}</c:if>" min="0" placeholder="0"/> 만원 </li>
+								<li><input type="number" name="rent" id="searchRent" value="<c:if test='${pVO.rent!=0}'>${pVO.rent}</c:if>" min="0" placeholder="0"/> 만원 </li>
 							</ul>
 							<ul class="list_filter">
 								<li>최대 보증금</li>
-								<li><input type="number" name="deposit" value="<c:if test='${deposit!=0}'>${deposit}</c:if>" min="0" placeholder="0"/> 만원 </li>
+								<li><input type="number" name="deposit" id="searchDeposit" value="<c:if test='${pVO.deposit!=0}'>${pVO.deposit}</c:if>" min="0" placeholder="0"/> 만원 </li>
 							</ul>
 							<ul>
 								<li><label> 성별</label></li>
 								<li class="checks_mate">
 									<div class="checks">
-										<input type="radio" id="radio1" name="gender" value="0" <c:if test='${gender==0}'>checked</c:if>/> 
+										<input type="radio" id="radio1" name="gender" value="0" <c:if test='${pVO.gender==0}'>checked</c:if>/> 
 										<label for="radio1">전체</label> 
-										<input type="radio" id="radio2" name="gender" value="1" <c:if test='${gender==1}'>checked</c:if>/> 
+										<input type="radio" id="radio2" name="gender" value="1" <c:if test='${pVO.gender==1}'>checked</c:if>/> 
 										<label for="radio2">여성</label> 
-										<input type="radio" id="radio3" name="gender" value="3" <c:if test='${gender==3}'>checked</c:if>/> 
+										<input type="radio" id="radio3" name="gender" value="3" <c:if test='${pVO.gender==3}'>checked</c:if>/> 
 										<label for="radio3">남성</label> 
 									</div>
 								</li>
@@ -211,7 +236,14 @@ button{position: relative;}
 	                  	</c:if>
 	                 </c:if>
 	                  <button class="btn_star matelike" value="${newMateVO.no}"></button>
-	                  <a href="mateView?no=${newMateVO.no}">
+	                  <a href="mateView?no=${newMateVO.no}
+						<c:if test='${pVO.pageNum!=null && pVO.pageNum != 1}'>&pagenum=${pVO.pageNum}</c:if>
+						<c:if test='${pVO.area!=null && pVO.area!=""}'>&area=${pVO.area}</c:if>
+						<c:if test='${pVO.rent!=null && pVO.rent != 0}'>'&rent=${pVO.rent}</c:if>
+						<c:if test='${pVO.deposit!=null && pVO.deposit != 0}'>&deposit=${pVO.deposit}</c:if>
+						<c:if test='${pVO.gender!=null && pVO.gender != 0}'>&gender=${pVO.gender}</c:if>
+						">
+	                  	
 	                     <img alt="" src="<%=request.getContextPath()%>/matePic/${newMateVO.matePic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'">
 	                  </a>
 	               </div>
@@ -256,6 +288,58 @@ button{position: relative;}
       		<p style="text-align:center;">필터에 맞는 결과가 없습니다.</p>
      	</div>
 	  </c:if>
-   </section>
 
+	<div class="paging">
+		<c:if test="${pVO.pageNum>1 }">
+			<a href="javascript:pageClick('first_page')" class="first_page"></a>
+			<a href="javascript:pageClick('prev_page')"  class="prev_page"></a>
+		</c:if>
+		<c:if test="${pVO.pageNum==1 }">
+			<a href="#" class="first_page"></a>
+			<a href="#"  class="prev_page"></a>
+		</c:if>
+		<c:forEach var="pageNum" begin="${pVO.startPageNum }" end="${pVO.startPageNum + pVO.onePageNum-1 }">
+			<c:if test="${pageNum<=pVO.totalPage }">
+				<c:if test="${pageNum==pVO.pageNum }">
+					<a href="javascript:pageClick('${pageNum }')" class="nowPageNum on">${pageNum }</a>
+				</c:if>
+				<c:if test="${pageNum!=pVO.pageNum }">
+					<a href="javascript:pageClick('${pageNum }')">${pageNum }</a>
+				</c:if>
+			</c:if>
+		</c:forEach>
+		<c:if test="${pVO.pageNum < pVO.totalPage }">
+			<a href="javascript:pageClick('next_page')" class="next_page"></a>
+			<a href="javascript:pageClick('last_page')" class="last_page"></a>
+		</c:if>
+		<c:if test="${pVO.pageNum == pVO.totalPage }">
+			<a href="#" class="next_page"></a>
+			<a href="#" class="last_page"></a>
+		</c:if>
+	</div>
+   </section>
 </div> <!-- 전체 div 종료 -->
+<script>
+//페이징
+function pageClick(msg){
+	var pageNum = '<c:out value="${pVO.pageNum }"/>';  //현재 눌려있는 페이지
+	var startPageNum = '<c:out value="${pVO.startPageNum }"/>'; // 페이징 시작 페이지
+	var totalPage = '<c:out value="${pVO.totalPage }"/>'; //마지막 페이징
+	var changePageNum = 0;
+	if(msg=='next_page'){
+		changePageNum = Number(pageNum)+1;
+	}else if(msg=='last_page'){
+		changePageNum = Number(totalPage);
+	}else if(msg=='first_page'){
+		changePageNum = 1;
+	}else if(msg=='prev_page'){
+		changePageNum = Number(pageNum)-1;
+	}else{
+		changePageNum = Number(msg);
+	}
+	// 히든에 값넣고
+	$('#hiddenPageNum').val(changePageNum);
+	// 서브밋 실행 
+	$('#mateIndexForm').submit();
+}
+</script>
