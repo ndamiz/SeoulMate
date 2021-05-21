@@ -796,6 +796,13 @@ table td{
 	text-align: center;
 }
 
+.recommend_list .paging a {
+	margin-top: 0;
+	height: 40px;
+	line-height: 40px;
+	margin: 0 0 0 5px;
+}
+
 .first_page{
 	background: url(../img/comm/btn_page.gif) no-repeat 0 0;
 	background-position: 0px -40px;

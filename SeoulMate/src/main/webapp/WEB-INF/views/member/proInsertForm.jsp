@@ -67,7 +67,7 @@
 	<div class="member_wrap">
 		<form method="post" id="proId" action="proInsertOk">
 			<div id="mateChoice">
-				<p class="m_title">희망하는 하우스의 성향 수정</p>
+				<p class="m_title">희망하는 하우스의 성향 등록</p>
 				<p class="d_title">희망하는 하우스의 라이프 스타일을 선택해주세요.</p>
 			</div>
 			<div id="proDiv1">
@@ -182,7 +182,7 @@
 				</div>
 				<ul class="form_box choice">
 					<li><label><span class="red_txt">*</span>하우스 내 지원 서비스</label>
-						<div class="checks">
+						<div class="checks checkbox">
 							<input type="checkbox" name="h_support" id="h_support1" value="1"/>
 							<label for="h_support1">공용공간 청소 지원</label>
 							<input type="checkbox" name="h_support" id="h_support2" value="2"/>
@@ -193,7 +193,7 @@
 					</li>
 					<li><label></label></li>
 					<li><label><span class="red_txt">*</span>기타</label>
-						<div class="checks">
+						<div class="checks checkbox">
 							<input type="checkbox" name="h_etc" id="h_etc1" value="1"/>
 							<label for="h_etc1">보증금 조절 가능</label>
 							<input type="checkbox" name="h_etc" id="h_etc3" value="3"/>
@@ -207,7 +207,7 @@
 				</div>
 			</div>
 			<div id="Choice">
-				<p class="m_title">나의 성향 수정</p>
+				<p class="m_title">나의 성향 등록</p>
 				<p class="d_title">나의 라이프 스타일을 선택해주세요.</p>
 			</div>
 			<div id="proDiv4">
@@ -301,7 +301,7 @@
 				</ul>
 				<div class="btn_wrap">
 					<a class="h_btn white" id="proPrev5">이전</a>
-					<button class="h_btn green" id="proNext5">추가</button>
+					<button class="h_btn green" id="proNext5">등록</button>
 				</div>
 			</div>
 		</form>

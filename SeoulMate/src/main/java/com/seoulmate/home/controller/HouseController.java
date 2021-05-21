@@ -28,6 +28,7 @@ import com.seoulmate.home.service.HomeService;
 import com.seoulmate.home.service.HouseService;
 import com.seoulmate.home.service.ListService;
 import com.seoulmate.home.service.MemberService;
+import com.seoulmate.home.vo.HouseMatePagingVO;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.ListVO;
@@ -49,7 +50,7 @@ public class HouseController {
 	private DataSourceTransactionManager transactionManager;
 	
 	@RequestMapping("/houseIndex")
-	public ModelAndView houseIndex(HttpSession session, String addr, String rent, String deposit, String m_gen) {
+	public ModelAndView houseIndex(HttpSession session, String addr, String rent, String deposit, String m_gen, String pageNum) {
 		ModelAndView mav=new ModelAndView();
 		String userid=(String)session.getAttribute("logId");
 		
@@ -66,6 +67,11 @@ public class HouseController {
 		int m_genInt=0;
 		if(m_gen!=null && !m_gen.equals("")) {
 			m_genInt=Integer.parseInt(m_gen);
+		}
+		
+		int pageNumInt=1;
+		if(pageNum!=null && !pageNum.equals("")) {
+			pageNumInt=Integer.parseInt(pageNum);
 		}
         
         if(session.getAttribute("logId")!=null) {
@@ -103,6 +109,15 @@ public class HouseController {
 			}
 		}
         
+        HouseMatePagingVO pVO=new HouseMatePagingVO();
+        
+        pVO.setAddr(addr);
+        pVO.setRent(rentInt);
+        pVO.setDeposit(depositInt);
+        pVO.setM_gen(m_genInt);
+        pVO.setPageNum(pageNumInt);
+        pVO.setTotalRecode(service.HouseTotalRecode(pVO));
+        
         // 쉐어하우스 최신리스트 구하기
 		int MyMpnoCnt=0;
 		if(session.getAttribute("logId")!=null) {
@@ -111,7 +126,7 @@ public class HouseController {
 			}
 		}
 		
-		List<HouseWriteVO> nhList = service.getNewIndexHouse(addr, rentInt, depositInt, m_genInt); // 1. homeService 함수는 row<=3이고, HouseService는 row<=9
+		List<HouseWriteVO> nhList = service.getNewIndexHouse(pVO); // 1. homeService 함수는 row<=3이고, HouseService는 row<=9
 		HouseRoomVO hrVO = new HouseRoomVO();
 		for (HouseWriteVO hwVO : nhList) {
 			// 각 쉐어하우스의 제일 저렴한 월세 가져오기
@@ -133,13 +148,9 @@ public class HouseController {
 			hwVO.setAddr(hwVO.getAddr().substring(0, idx+1));
 		}
 		
-		mav.addObject("rent", rentInt);
-		mav.addObject("deposit", depositInt);
-		mav.addObject("m_gen", m_genInt);
 		mav.addObject("newHouseListCnt", nhList.size());
 		mav.addObject("newHouseList", nhList);
-		mav.addObject("addr", addr); // 검색을 하고 페이지를 다시 띄워줄 때 입력한 값이 뭔지 알려주려고
-		
+		mav.addObject("pVO", pVO); // addr, rent, deposit, m_gen
 		mav.setViewName("house/houseIndex");
 	return mav;
 	}

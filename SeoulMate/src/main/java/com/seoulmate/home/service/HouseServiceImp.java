@@ -10,6 +10,7 @@ import com.seoulmate.home.dao.HouseRoomDAO;
 import com.seoulmate.home.dao.HouseWriteDAO;
 import com.seoulmate.home.dao.MemberDAO;
 import com.seoulmate.home.dao.PropensityDAO;
+import com.seoulmate.home.vo.HouseMatePagingVO;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.ListVO;
@@ -117,8 +118,13 @@ public class HouseServiceImp implements HouseService {
 	}
 
 	@Override
-	public List<HouseWriteVO> getNewIndexHouse(String addr, int rent, int deposit, int m_gen) {
-		return hDAO.getNewIndexHouse(addr, rent, deposit, m_gen);
+	public List<HouseWriteVO> getNewIndexHouse(HouseMatePagingVO pVO) {
+		return hDAO.getNewIndexHouse(pVO);
+	}
+	
+	@Override
+	public int HouseTotalRecode(HouseMatePagingVO pVO) {
+		return hDAO.HouseTotalRecode(pVO);
 	}
 
 	@Override
@@ -147,10 +153,4 @@ public class HouseServiceImp implements HouseService {
 	public int ProHouseNameUpdate(PropensityVO vo) { // 하우스+룸 삭제 -> 하우스네임 null 로 변경
 		return pDAO.ProHouseNameUpdate(vo);
 	}
-
-
-
-
-	
-
 }

@@ -15,9 +15,9 @@
 		select count(pno) from housewrite where userid=#{param1} and pno=#{param2}
 	</select>
 	<insert id="houseInsert" parameterType="com.seoulmate.home.vo.HouseWriteVO">
-		insert into housewrite(no, userid, addr, housepic1, housepic2, room, bathroom, nowpeople, searchpeople, publicfacility, 
+		insert into housewrite(no, userid, addr, housepic1, room, bathroom, nowpeople, searchpeople, publicfacility, 
 		writedate, enddate, housestate, pno, houseprofile, housename) 
-		values (housematesq.nextval, #{userid}, #{addr}, #{housepic1}, #{housepic2},
+		values (housematesq.nextval, #{userid}, #{addr}, #{housepic1}, 
 		#{room}, #{bathroom}, #{nowpeople}, #{searchpeople}, 
 		#{publicfacility}, sysdate, sysdate+7, '모집중', #{pno}, #{houseprofile}, #{housename} )
 	</insert>
@@ -48,8 +48,9 @@
 	<select id="houseProfile" resultType="String">
 	select housepic1 from housewrite where userid=#{param1} and no=#{param2}
 	</select>
-	<select id="getNewIndexHouse" resultType="com.seoulmate.home.vo.HouseWriteVO">
+	<select id="getNewIndexHouse" parameterType="com.seoulmate.home.vo.HouseMatePagingVO" resultType="com.seoulmate.home.vo.HouseWriteVO">
 	SELECT * 
+	FROM (SELECT * 
 	FROM (SELECT * 
 	FROM (SELECT * 
 	FROM (SELECT * 
@@ -59,10 +60,28 @@
 	JOIN (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, writedate FROM HOUSEWRITE WHERE housestate='모집중') hw ON p.pno=hw.pno) hw2
 	JOIN (SELECT r1.NO, rent, deposit FROM (select no, rent, deposit from houseroom) r1 
 	JOIN (select NO, min(rent) from houseroom GROUP BY NO) r2 ON r1.NO=r2.no) hr ON hw2.NO=hr.NO 
-	<if test='param1 != null'>AND addr LIKE '%${param1}%'</if>) 
-	<if test='param2 != null and param2>0'>where <![CDATA[rent<=#{param2}]]></if>)
-	<if test='param3 != null and param3>0'>where <![CDATA[deposit<=#{param3}]]></if>)
-	<if test='param4 != null and param4!=0'>where <![CDATA[m_gender=#{param4}]]></if>
-	ORDER BY writedate DESC) where <![CDATA[rownum<=9]]>
+	<if test='addr != null'>AND addr LIKE '%${addr}%'</if>) 
+	<if test='rent != null and rent>0'>where <![CDATA[rent<=#{rent}]]></if>)
+	<if test='deposit != null and deposit>0'>where <![CDATA[deposit<=#{deposit}]]></if>)
+	<if test='m_gen != null and m_gen!=0'>where <![CDATA[m_gender=#{m_gen}]]></if>
+	ORDER BY writedate DESC) 
+	where <![CDATA[rownum<=]]>${pageNum * onePageRecode} order by writedate asc)
+ 	where <![CDATA[rownum<=]]><if test="pageNum==totalPage">${lastPageRecode}</if> 
+ 	<if test="pageNum!=totalPage">${onePageRecode}</if> ORDER BY writedate DESC
 	</select>
+	<select id="HouseTotalRecode" parameterType="com.seoulmate.home.vo.HouseMatePagingVO" resultType="int">
+  		SELECT count(no)  
+		FROM (SELECT * 
+		FROM (SELECT * 
+		FROM (SELECT hw2.NO, hw2.pno, m_gender, userid, addr, housename, housepic1, room, bathroom, nowpeople, hr.rent, hr.DEPOSIT, hw2.writedate 
+		FROM (SELECT NO, hw.pno, hw.userid, m_gender, addr, hw.housename, housepic1, room, bathroom, nowpeople, writedate 
+		FROM (SELECT * FROM PROPENSITY WHERE pcase='h') p
+		JOIN (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, writedate FROM HOUSEWRITE WHERE housestate='모집중') hw ON p.pno=hw.pno) hw2
+		JOIN (SELECT r1.NO, rent, deposit FROM (select no, rent, deposit from houseroom) r1 
+		JOIN (select NO, min(rent) from houseroom GROUP BY NO) r2 ON r1.NO=r2.no) hr ON hw2.NO=hr.NO 
+		<if test='addr != null'>AND addr LIKE '%${addr}%'</if>) 
+		<if test='rent != null and rent>0'>where <![CDATA[rent<=#{rent}]]></if>)
+		<if test='deposit != null and deposit>0'>where <![CDATA[deposit<=#{deposit}]]></if>)
+		<if test='m_gen != null and m_gen!=0'>where <![CDATA[m_gender=#{m_gen}]]></if>
+  	</select>
   </mapper>
