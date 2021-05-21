@@ -32,7 +32,6 @@
 			alert("그동안 서울 메이트를 이용해주셔서 감사합니다.");
 		}
 	}
-
    exitCheck();
    //console.log(${logGrade});
    $(function(){
@@ -81,7 +80,6 @@
       <form class="main_search_form" id="homeSearchForm" method="get" action="/home" onsubmit="return pcase();">
          <div class="checks">
             <input type="radio" id="select_house" name="main_search" value="h" checked> 
-
             <label for="select_house">쉐어하우스</label>
             <input type="radio" id="select_mate" name="main_search" value="m"> 
             <label for="select_mate">하우스메이트</label>
@@ -251,7 +249,6 @@
          <p class="m_title">NEW 하우스메이트</p>
          <a href="">더보기</a>
       </div>
-
       <c:if test="${newMateListCnt!=0}">
 	      <ul class="list_content">
 	         <c:forEach items="${newMateList}" var="newMateVO">

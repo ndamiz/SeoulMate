@@ -84,4 +84,6 @@ public interface HouseService {
 	// 하우스+룸 삭제 -> 하우스네임 null 로 변경
 	public int ProHouseNameUpdate(PropensityVO vo);
 
+	//houseRoom List로 가져오기 
+	public List<HouseRoomVO> roomListSelect(int no);
 }
