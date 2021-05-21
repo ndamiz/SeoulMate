@@ -408,7 +408,7 @@ $(function(){
 				<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" name="rent" value="${rVO.rent }"/> 
 				<li><label><span class="red_txt">*</span>보증금(조율) </label><input type="number" name="deposit" value="${rVO.deposit }"/> </li>
 				<li><label><span class="red_txt">*</span>방 인원</label> <input type="number" name="roomPeople" value="${rVO.roomPeople }" /> </li>
-				<li><label><span class="red_txt">*</span>입주 가능일 </label> <input type="date" name="enterdate" min="${now}" value="${rVO.enterdate }" /> </li>
+				<li><label><span class="red_txt">*</span>입주 가능일 </label> <input type="date" name="enterdate" min="${now}" value="${rVO.enterdate}" /> </li>
 				<li><label><span class="red_txt">*</span>최소 거주 기간</label>
 					<select name="minStay" >
 						<option value="1-3개월" <c:if test="${rVO.minStay=='1-3개월' }">selected </c:if> >1~3 개월</option>
