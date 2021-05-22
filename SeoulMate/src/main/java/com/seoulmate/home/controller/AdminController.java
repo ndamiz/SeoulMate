@@ -738,4 +738,15 @@ public class AdminController {
 		}
 		return result;
 	}
+	
+	@RequestMapping("/admin/faqDel")
+	@ResponseBody
+	public int faqDel(FaqVO vo) {
+		int result=0;
+		int res=service.faqDel(vo);
+		if(res==1) {
+			result=res;
+		}
+		return result;
+	}
 }

@@ -52,6 +52,7 @@
 			house.NO=room.NO
 	</select>
 	<select  id="oneHouseWriteSelect" parameterType="int" resultType="com.seoulmate.home.vo.HouseWriteVO">
+
 		SELECT house.NO, house.PNO, house.USERID, house.HOUSENAME, room.deposit, room.rent, house.ADDR,  house.HOUSEPIC1, 
 			house.ROOM , house.BATHROOM, house.NOWPEOPLE, house.SEARCHPEOPLE, house.WRITEDATE, house.ENDDATE, house.HOUSESTATE 
 		FROM 
@@ -206,7 +207,7 @@
 	<select id="applyInviteSelect" parameterType="com.seoulmate.home.vo.ApplyInviteVO" resultType="com.seoulmate.home.vo.ApplyInviteVO">
 		SELECT aino, no, userid, to_char(aidate, 'YYYY-MM-DD') as aidate, state, confirm
 		FROM
-			applyInvite
+			applyInvite 
 		WHERE
 		<if test="msg == 'takeApply'"> NO=${no } AND state='신청'</if>
 		<if test="msg == 'sendInvite'">NO=${no } AND state='초대'</if>
@@ -214,12 +215,12 @@
 		<if test="msg == 'sendApply'">userid='${userid }' AND state='신청'</if>
 	</select>
 	<delete id="mypageSendApplyInviteCancel" parameterType="com.seoulmate.home.vo.ApplyInviteVO">
-		delete from applyInvite
-		where
-			no=${no} and userid='${userid}'
+		delete from applyInvite 
+		where 
+			no=${no} and userid='${userid}' 
 		<if test="msg=='sendInvite' or msg=='takeInvite'" >and state='초대'</if>
 		<if test="msg=='sendApply' or msg=='takeApply'">and state='신청'</if>
-
+		
 	</delete>
 	<update id="applyInviteApproveUpdate"  parameterType="com.seoulmate.home.vo.ApplyInviteVO">
 		update applyInvite set confirm='승인' 
@@ -240,7 +241,7 @@
 		WHERE CHATUSER1=#{param2} AND CHATUSER2=#{param3} AND name LIKE '%${param1}%' Group by name
 	</select>
 	<insert id="chatInsert" parameterType="String" >
-		INSERT into chatroom(no, name, chatuser1, chatuser2, chatroomdate)
+		INSERT into chatroom(no, name, chatuser1, chatuser2, chatroomdate) 
 		values(chatsq.nextval, #{param1}, #{param2}, #{param3}, sysdate)
 	</insert>
 	<update id="chatUpdate" parameterType="com.seoulmate.home.vo.ChatRoomVO">
@@ -283,3 +284,4 @@
 		select no from matewrite where userid=#{param1}
 	</select>
 </mapper>
+

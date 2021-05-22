@@ -328,7 +328,7 @@ img{width:250px; height:250px; }
       	<div class="slide_wraper">
          	<div class="slides">
             	<ul>
-	               <li><img src="/home/housePic/${mVO.matePic1}" title="메이트1"></li>
+	               <li><img src="/home/matePic/${mVO.matePic1}" title="메이트1"></li>
 	               <li><img src="<%=request.getContextPath()%>/img/house/mate02.jfif"></li>
 	               <li><img src="<%=request.getContextPath()%>/img/house/mate03.jfif"></li>
 	               <li><img src="<%=request.getContextPath()%>/img/house/mate01.jfif"></li>

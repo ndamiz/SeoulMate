@@ -368,6 +368,9 @@
    	<select id="salesAmount" resultType="String">
    		select to_char(sum(amount), '999,999,999') from pay where to_char(paystart, 'YYYY-MM-DD')= to_char(sysdate, 'YYYY-MM-DD')
    	</select>
+   	<update id="faqDel" parameterType="com.seoulmate.home.vo.FaqVO">
+   		delete from faq where no=#{no}
+   	</update>
 </mapper>
 
 

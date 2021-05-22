@@ -58,6 +58,18 @@
 			}
 			document.getElementById("area3Edit").value=area3;
 			
+			// 희망 지역 유효성 검사
+			if($("#area1Edit").val()==null || $("#area1Edit").val()==""){
+				alert("희망 지역1을 선택하세요.\r\n(하우스인 경우 등록할 하우스의 지역을 선택해주세요.)");
+				return false;
+			}
+			if($("#area3Edit").val()!=null && $("#area3Edit").val()!=""){
+				if($("#area2Edit").val()==null || $("#area2Edit").val()==""){
+					alert("희망 지역2를 선택하세요.");
+					return false;
+				}
+			}
+			
 			if(emailExp()==false){ // 이메일 인증 통과를 위한 함수
 				return false;
 			}

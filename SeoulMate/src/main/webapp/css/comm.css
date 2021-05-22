@@ -1,4 +1,4 @@
-
+@charset "utf-8";
 
 @font-face {
 	font-family: "BlackHanSans";
@@ -27,7 +27,8 @@ header button,
 nav a,
 .chat_wrap a,
 footer a,
-.chat_window button
+.chat_window button,
+.info .link
 {
 	box-shadow: none;
 	border:none;
@@ -38,8 +39,192 @@ footer a,
 	height: inherit;
 }
 
-/* header style */
 
+/* Map info style  */
+.customoverlay {
+	position: relative;
+	bottom: 113px;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+	border-bottom: 2px solid #ddd;
+	float: left;
+}
+
+.customoverlay:nth-of-type(n) {
+	border: 0;
+}
+
+.customoverlay a {
+	display: block;
+	padding: 0;
+	text-decoration: none;
+	color: #000;
+	text-align: center;
+	border-radius: 6px;
+	font-size: 14px;
+	font-weight: bold;
+	overflow: hidden;
+	background: #34a9a1;
+	background: #34a9a1
+		url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png)
+		no-repeat right 14px center;
+}
+
+.customoverlay .title {
+	display: block;
+	text-align: center;
+	background: #fff;
+	margin-right: 35px;
+	padding: 0px 15px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.customoverlay:after {
+	content: '';
+	position: absolute;
+	margin-left: -12px;
+	left: 50%;
+	bottom: -7px;
+	width: 22px;
+	height: 12px;
+	background:
+		url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
+}
+
+
+.map_wrap.mate{
+	bottom:59px;
+	width: 263px;
+	left: 16px;
+}
+.map_wrap.mate .info:nth-child(1){
+	height: auto;
+	width: 263px;
+}
+.map_wrap.mate .info .body{
+	padding:10px;
+}
+.map_wrap.mate .info:after{
+	bottom:21px;
+}
+
+
+.map_wrap {
+	position: absolute;
+	left: 0;
+	bottom: 33px;
+	width: 288px;
+	height: 132px;
+	margin-left: -144px;
+	text-align: left;
+	overflow: hidden;
+	font-size: 12px;
+	line-height: 1.5;
+}
+
+.map_wrap * {
+	padding: 0;
+	margin: 0;
+}
+
+.map_wrap .info {
+	width: 286px;
+	height: 120px;
+	border-radius: 5px;
+	border-bottom: 2px solid #ccc;
+	border-right: 1px solid #ccc;
+	overflow: hidden;
+	background: #fff;
+}
+
+.map_wrap .info:nth-child(1) {
+	border: 0;
+	box-shadow: 0px 1px 2px #888;
+}
+
+.info .title {
+	/* padding: 5px 0 5px 10px; */
+	/* height: 30px; */
+	line-height: 30px;
+	padding: 0 0 0 10px;
+	background: #13a89e;
+	border-bottom: 1px solid #ddd;
+	font-size: 1rem;
+	/* font-weight: 600; */
+	color: #fff;
+}
+
+.info .close {
+	position: absolute;
+	top: 7px;
+	right: 10px;
+	color: #fff;
+	width: 17px;
+	height: 17px;
+	background: url(../img/comm/ico_chat_close.png) no-repeat;
+}
+
+.info .close:hover {
+	cursor: pointer;
+}
+
+.info .body {
+	position: relative;
+	overflow: hidden;
+	/* height: 70px; */
+}
+
+.info .desc {
+	position: relative;
+	margin: 9px 0 0 93px;
+	height: 75px;
+}
+
+.desc .ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.desc .jibun {
+	font-size: .9rem;
+	color: #888;
+	margin-top: -2px;
+}
+
+.info .img {
+	position: absolute;
+	top: 8px;
+	left: 9px;
+	width: 73px;
+	height: 71px;
+	border: 1px solid #ddd;
+	color: #888;
+	overflow: hidden;
+}
+
+.info:after {
+	content: '';
+	position: absolute;
+	margin-left: -12px;
+	left: 50%;
+	bottom: 0;
+	width: 22px;
+	height: 12px;
+	background:
+		url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
+}
+
+.info .link {
+	font-size:.9rem;
+	color: #5085BB;
+}
+
+
+
+
+/* header style */
 .header_wrap:hover .nav_wrap{
 	top:0;
 }
@@ -85,7 +270,7 @@ header{
 	width: 75%;
 	float: right;
 }
-
+ 
 .header_wrap .main_menu li{
 	width: 25%;
 	height: 50px;
@@ -611,6 +796,12 @@ table td{
 	text-align: center;
 }
 
+.recommend_list .paging a {
+	margin-top: 0;
+	height: 40px;
+	line-height: 40px;
+	margin: 0 0 0 5px;
+}
 .first_page{
 	background: url(../img/comm/btn_page.gif) no-repeat 0 0;
 	background-position: 0px -40px;
@@ -1049,22 +1240,22 @@ footer .foot_btns{
 	min-height: 80px;
 	top: 25px;
 	left: 25px;
-	padding: 6% 0 0% 4%;
+	padding: 7% 0 0% 4%;
 	border-radius: 20px;
 	background-color: #13a89ec2;
 	color: #fff;
-	font-size: 3vw;
+	font-size: 2.5vw;
 	font-weight: 600;
 }
 
 .recommend_list .list_img p span{
 	display: block;
 	line-height:20px;
-	font-size: 1.5vw;
+	font-size: 1.3vw;
 }
 
 .recommend_list .list_img p b{
-	font-size: 2vw;
+	font-size: 1.5vw;
 }
 
 .recommend_list .list_title::after{

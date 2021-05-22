@@ -17,7 +17,7 @@ $(function(){
 		}return true;
 	});
 	
-});
+// });
 
 function readURL(input) {
     if (input.files && input.files[0]) {
@@ -34,36 +34,6 @@ function readURL(input) {
 $(function(){
 	
 	$("#mNext1").click(function(){
-		// 희망 지역1
-		var area1=$("#gu1").val();
-		// alert(area1);
-		if(area1=="구를 선택해주세요"){
-			area1="";
-		}else{
-			area1+=" "+$("#dong1").val();
-		}
-		document.getElementById("area1").value=area1;
-		
-		// 희망 지역2
-		var area2=$("#gu2").val();
-		// alert(area2);
-		if(area2=="구를 선택해주세요"){
-			area2="";
-		}else{
-			area2+=" "+$("#dong2").val();
-		}
-		document.getElementById("area2").value=area2;
-		
-		// 희망 지역3
-		var area3=$("#gu3").val();
-		// alert(area3);
-		if(area3=="구를 선택해주세요"){
-			area3="";
-		}else{
-			area3+=" "+$("#dong3").val();
-		}
-		document.getElementById("area3").value=area3;
-		
 		$("#mateWrite1").css("display", "none");
 		$("#mateWrite2").css("display", "block");
 	});
@@ -137,7 +107,7 @@ $(function(){
 	$("#mNext7").click(function(){
 		var hopeGender = document.mateFrm.m_gender.value;
 		if(hopeGender==${mVO.gender}||hopeGender==2){ //자신과 다른 성별 선택불가
-			if(confirm("메이트를 등록하시겠습니까?")){
+			if(confirm("메이트 정보를 등록하시겠습니까?")){
 				$("#mateFrm").submit();
 				return true;
 			}
@@ -155,27 +125,118 @@ $(function(){
 		location.href="<%=request.getContextPath()%>/mateIndex";
 	});
 	
-	// 희망 지역 수정
-	$("select.selectGu").change(function(){
-		var temp=$(this);
-		var url="memberDong";
-		var params="gu="+$(this).val();
-		$.ajax({
-			url:url,
-			data:params,
-			success:function(result){
-				var $result=$(result);
-				
-				temp.next().text("");
-				$result.each(function(idx, dong){
-					temp.next().append("<option>"+dong+"</option>");
-				});
-			}, error:function(){
-				console.log("동 들고오기 에러 발생");
-			}
+		// 희망 지역1
+		var area1=$("#gu1Edit").val();
+		// alert(area1);
+		if(area1=="구를 선택해주세요"){
+			area1="";
+		}else{
+			area1+=" "+$("#dong1Edit").val();
+		}
+		document.getElementById("area1Edit").value=area1;
+		
+		// 희망 지역2
+		var area2=$("#gu2Edit").val();
+		// alert(area2);
+		if(area2=="구를 선택해주세요"){
+			area2="";
+		}else{
+			area2+=" "+$("#dong2Edit").val();
+		}
+		document.getElementById("area2Edit").value=area2;
+		
+		// 희망 지역3
+		var area3=$("#gu3Edit").val();
+		
+		// alert(area3);
+		if(area3=="구를 선택해주세요"){
+			area3="";
+		}else{
+			area3+=" "+$("#dong3Edit").val();
+		}
+		document.getElementById("area3Edit").value=area3;
+	
+		areaEdit(); // 희망 지역 수정을 위한 함수
+	});
+		//희망 지역 수정
+		$("select.selectGu").change(function(){
+			var temp=$(this);
+			var url="memberDong";
+			var params="gu="+$(this).val();
+			$.ajax({
+				url:url,
+				data:params,
+				success:function(result){
+					var $result=$(result);
+					
+					temp.next().text("");
+					$result.each(function(idx, dong){
+						temp.next().append("<option>"+dong+"</option>");
+					});
+				}, error:function(){
+					console.log("동 들고오기 에러 발생");
+				}
+			});
 		});
+	});	
+	// 희망 지역 1,2,3에 구,동 넣기
+	function areaInput(){
+		
+		var a1=$("#area1Edit").val().indexOf(" "); // 희망 지역1의 띄어쓰기 위치 구하기
+		var a2=$("#area2Edit").val().indexOf(" "); // 희망 지역2의 띄어쓰기 위치 구하기
+		var a3=$("#area3Edit").val().indexOf(" "); // 희망 지역3의 띄어쓰기 위치 구하기
+		
+		// alert(typeof a1); // 변수의 데이터 타입을 확인
+		
+		if(a1!=-1){ // 희망 지역 1이 있을 때
+			
+			var gu1=$("#area1Edit").val().substring(0,a1);
+// 			alert("gu1->"gu1)
+			var dong1=$("#area1Edit").val().substring(a1+1);
+			$("#gu1Edit>option[value='"+gu1+"']").attr('selected', true);
+// 			$("#dong1Edit").append("<option value='"+dong1+"' selected>"+dong1+"</option>");
+			$("#dong1Edit>option[value='"+dong1+"']").attr('selected', true);
+		}
+		if(a2!=-1){ // 희망 지역 2가 있을 때
+			var gu2=$("#area2Edit").val().substring(0,a2);
+			var dong2=$("#area2Edit").val().substring(a2+1);
+			$("#gu2Edit>option[value='"+gu2+"']").attr('selected', true);
+// 			$("#dong2Edit").append("<option value='"+dong2+"' selected>"+dong2+"</option>");
+			$("#dong2Edit>option[value='"+dong2+"']").attr('selected', true);
+		}
+		if(a3!=-1){ // 희망 지역 3이 있을 때
+			var gu3=$("#area3Edit").val().substring(0,a3);
+			var dong3=$("#area3Edit").val().substring(a3+1);
+			$("#gu3Edit>option[value='"+gu3+"']").attr('selected', true);
+// 			$("#dong3Edit").append("<option value='"+dong3+"' selected>"+dong3+"</option>");
+			$("#dong3Edit>option[value='"+dong3+"']").attr('selected', true);
+		}
+	}
+	
+	$(window).ready(function(){
+		areaInput();
+		
 	});
 	
+	function areaEdit(){
+		var gu1=$("#gu1Edit").val();
+		var dong1=$("#dong1Edit").val();
+		var gu2=$("#gu2Edit").val();
+		var dong2=$("#dong2Edit").val();
+		var gu3=$("#gu3Edit").val();
+		var dong3=$("#dong3Edit").val();
+		
+		if(dong1!="동을 선택해주세요"){
+			document.getElementById("area1Edit").value=gu1+" "+dong1;
+		}
+		if(dong2!="동을 선택해주세요"){
+			document.getElementById("area2Edit").value=gu2+" "+dong2;
+		}
+		if(dong3!="동을 선택해주세요"){
+			document.getElementById("area3Edit").value=gu3+" "+dong3;
+		}
+		
+	}
 	
 	
 	
@@ -183,8 +244,7 @@ $(function(){
 	
 	
 	
-	
-});
+
 </script>
 <style>
 /* input[type="date"] {width:200px;} */
@@ -192,7 +252,7 @@ $(function(){
 .content ul li{word-break:keep-all;}
 .content label{width:150px; }
 /* #mate_date, #mate_area, #mate_rent{width:110px;} */
-.form_box{width:800px; margin:0 auto; padding-left:100px;}
+.form_box{width:850px; margin:0 auto; padding-left:100px;}
 .form_box li input, .form_box li select{margin:0px; width:230px;}
 .form_box.choice li > label {width: 240px;}
 .checks{width:850px;}
@@ -212,7 +272,7 @@ $(function(){
 #mateWrite2, #mateWrite3, #mateWrite4, #mateWrite5, #mateWrite6, #mateWrite7 {display:none; }
 #mPic{height:125px;}
 #area1, #area2, #area3{width:120px;}
-#gu1Edit, #dong1Edit, #gu2Edit, #dong2Edit, #gu3Edit, #dong3Edit{width:200px; float:left;}
+#gu1Edit, #dong1Edit, #gu2Edit, #dong2Edit, #gu3Edit, #dong3Edit{width:230px; float:left;}
 #area1Edit, #area2Edit, #area3Edit{width:284px;}
 
 </style>
@@ -240,43 +300,60 @@ $(function(){
 <!-- 			<li> <label><span class="red_txt">*</span> 희망 지역 </label> -->
 <!-- 					<input type="text" name="area" id="area"/>  -->
 <!-- 					<input type="text" name="area" id="area2"/> <input type="text" name="area" id="area3"/> </li> -->
-			<li id="a1"><label><span class="red_txt">*</span>희망 지역1</label>
-						<select class="selectGu" id="gu1">
-							<option>구를 선택해주세요</option>
+			<li id="a1"><label>&nbsp;희망 지역1</label>
+					<div id="area1Div">
+						<select class="selectGu" id="gu1Edit">
+							<option hidden>구를 선택해주세요</option>
 							<c:forEach var="gu" items="${guArr}">
 								<option value="${gu}">${gu}</option>
 							</c:forEach>
 						</select>
-						<select id="dong1">
-							<option>동을 선택해주세요</option>
+						<select id="dong1Edit">
+							<option hidden>동을 선택해주세요</option>
+							<c:forEach var="dong" items="${selDong1}">
+								<option value="${dong}">${dong}</option>
+							</c:forEach>
 						</select>
-						<input type="hidden" name="area1" id="area1" placeholder=""/>
-					</li>
-					<li id="a2"><label>&nbsp;희망 지역2</label>
-						<select class="selectGu" id="gu2">
-							<option>구를 선택해주세요</option>
+					</div>
+					<input type="hidden" name="area1" id="area1Edit" value="${mVO.area1}" readonly/>
+					
+				</li>
+				<li id="a2"><label>&nbsp;희망 지역2</label>
+					<div id="area2Div">
+						<select class="selectGu" id="gu2Edit">
+							<option hidden>구를 선택해주세요</option>
 							<c:forEach var="gu" items="${guArr}">
 								<option value="${gu}">${gu}</option>
 							</c:forEach>
 						</select>
-						<select id="dong2">
-							<option>동을 선택해주세요</option>
-						</select>
-						<input type="hidden" name="area2" id="area2" placeholder=""/>
-					</li>					
-					<li id="a3"><label>&nbsp;희망 지역3</label>
-						<select class="selectGu" id="gu3">
-							<option>구를 선택해주세요</option>
-							<c:forEach var="gu" items="${guArr}">
-								<option value="${gu}">${gu}</option>
+						<select id="dong2Edit">
+							<option hidden>동을 선택해주세요</option>
+							<c:forEach var="dong" items="${selDong2}">
+								<option value="${dong}">${dong}</option>
 							</c:forEach>
 						</select>
- 
-						<select id="dong3">
-							<option>동을 선택해주세요</option>
-						</select>
-						<input type="hidden" name="area3" id="area3" placeholder=""/>
-					</li>
+					</div>
+					<input type="hidden" name="area2" id="area2Edit" value="${mVO.area2}" readonly/>
+					
+				</li>					
+				<li id="a3"><label>&nbsp;희망 지역3</label>
+				<div id="area3Div">
+					<select class="selectGu" id="gu3Edit">
+						<option hidden>구를 선택해주세요</option>
+						<c:forEach var="gu" items="${guArr}">
+							<option value="${gu}">${gu}</option>
+						</c:forEach>
+					</select>
+					<select id="dong3Edit">
+						<option hidden>동을 선택해주세요</option>
+							<c:forEach var="dong" items="${selDong3}">
+								<option value="${dong}">${dong}</option>
+							</c:forEach>
+					</select>
+				</div>
+					<input type="hidden" name="area3" id="area3Edit" value="${mVO.area3}" readonly/>
+					
+				</li>
 			<li> <label><span class="red_txt">*</span>입주가능일 </label><input type="date" name="enterdate" > </li>
 			<li> <label><span class="red_txt">*</span>최소 거주 기간</label>
 				 	<select name="minStay">
@@ -311,22 +388,7 @@ $(function(){
 		<ul class="form_box">
 				<li id="mPic"><img id="mateImg1" name="mateImg1" src="#" alt="upload image" style="width:150px; height:107px;"/></li>
 				<li> <input type="file" accept="image/*" name="filename" id="matePic1" onchange="readURL(this);"/> <br/> </li>
-				<li> <img src="<%=request.getContextPath()%>/img/house/mate01.jfif" name="profilePic2" style="width:150px; height:150px;"/><br/>
-					<div class="checks">
-						<input type="radio" id="radio31" name="matePic2"> 
-						<label for="radio31">기본이미지1</label>
-					</div> 
-				<img src="<%=request.getContextPath()%>/img/house/mate02.jfif" name="profilePic3" style="width:150px; height:150px;"/>
-					<div class="checks">
-						<input type="radio" id="radio32" name="matePic3"> 
-						<label for="radio32">기본이미지2</label>
-					</div> 
-				<img src="<%=request.getContextPath()%>/img/house/mate03.jfif" name="" style="width:150px; height:150px;"/>
-					<div class="checks">
-						<input type="radio" id="radio33" name="matePic4"> 
-						<label for="radio33">기본이미지3</label>
-					</div> 
-			</li>
+				
 		</ul>
 		<p>&nbsp;</p> <p>&nbsp;</p> <p>&nbsp;</p> <br/> <br/>
 			<div class="btnclass">

@@ -2,6 +2,7 @@ package com.seoulmate.home.service;
 
 import java.util.List;
 
+import com.seoulmate.home.vo.HouseMatePagingVO;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.PropensityVO;
@@ -63,7 +64,10 @@ public interface HouseService {
 	public String houseProfilePic(String housepic1, int no);
 	
 	//하우스 인덱스에서 New 하우스 리스트 9개 출력하기
-	public List<HouseWriteVO> getNewIndexHouse(String addr);
+	public List<HouseWriteVO> getNewIndexHouse(HouseMatePagingVO pVO);
+	
+	//최신 하우스 글 totalRecode 가져오기
+	public int HouseTotalRecode(HouseMatePagingVO pVO);
 	
 	//하우스 보기(내가 쓴 글 아니여도 가능)
 	public HouseWriteVO houseSelect2(int no);
@@ -79,6 +83,9 @@ public interface HouseService {
 	
 	// 하우스+룸 삭제 -> 하우스네임 null 로 변경
 	public int ProHouseNameUpdate(PropensityVO vo);
+
+	// 메이트 성향이 있는지 가져옴
+	public int propPcaseM(String userid);
 	
 	//사용자의 모든 성향 가져오기
 	public List<PropensityVO> getPropInfo(String userid);
@@ -86,5 +93,6 @@ public interface HouseService {
 	//선택한 성향 정보 가져오기
 	public PropensityVO getFullPropensity(String userid, String housename);
 	
-
+	//houseRoom List로 가져오기 
+	public List<HouseRoomVO> roomListSelect(int no);
 }
