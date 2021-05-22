@@ -48,4 +48,7 @@ public interface PropensityDAO {
 	public PropensityVO propMateSelect2(int pno);
 	// 하우스+룸 삭제 -> 하우스네임 null 로 변경
 	public int ProHouseNameUpdate(PropensityVO pVO);
+	
+	//성향 매칭 점수 가져오기. 
+	public PropensityVO getMatchingSelect(PropensityVO hpuse_pvo, PropensityVO mate_pvo);
 }

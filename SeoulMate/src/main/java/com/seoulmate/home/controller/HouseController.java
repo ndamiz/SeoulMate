@@ -175,7 +175,7 @@ public class HouseController {
 			mav.addObject("pVO_log", pVO_log);
 			mav.addObject("mVO_log", mVO_log);
 		}
-		
+		// 하우스 pno, housename ,  메이트 pno  => 계산된 vo로 받아오기 . 
 		mav.addObject("hVO", hVO);
 		mav.addObject("rVO_List", rVO_List);
 		mav.addObject("pVO", pVO);

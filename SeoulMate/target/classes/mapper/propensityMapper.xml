@@ -92,4 +92,7 @@
 <!-- 	<select id="ProHouseNameCheck" resultType="com.seoulmate.home.vo.PropensityVO"> -->
 <!-- 		select select -->
 <!-- 	</select> -->
+	<select id="getMatchingSelect">
+	
+	</select>
   </mapper>

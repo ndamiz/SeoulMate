@@ -92,4 +92,6 @@ public interface HouseService {
 	
 	//houseRoom List로 가져오기 
 	public List<HouseRoomVO> roomListSelect(int no);
+	//성향 매칭 점수 가져오기. 
+	public PropensityVO getMatchingSelect(PropensityVO hpuse_pvo, PropensityVO mate_pvo);
 }

@@ -168,4 +168,9 @@ public class HouseServiceImp implements HouseService {
 		// 사용자 모든 성향 가져오기
 		return hDAO.getPropInfo(userid, housename);
 	}
+	//성향 매칭 점수 가져오기. 
+	@Override
+	public PropensityVO getMatchingSelect(PropensityVO hpuse_pvo, PropensityVO mate_pvo) {
+		return pDAO.getMatchingSelect(hpuse_pvo, mate_pvo);
+	}
 }
