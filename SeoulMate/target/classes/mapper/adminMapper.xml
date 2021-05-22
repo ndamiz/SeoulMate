@@ -346,7 +346,7 @@
    		from qna q join member m on q.userid=m.userid )where no=${param1}
    	</select>
    	<update id="contactUpdate" parameterType="com.seoulmate.home.vo.ContactVO">
-   		update qna set aContent=#{aContent}, state='답변완료' where no=${no}
+   		update qna set aContent=#{aContent}, state='답변완료', adate=sysdate where no=${no}
    	</update>
    	<!-- Dashboard -->
    	<select id="todayReportNum" resultType="int">

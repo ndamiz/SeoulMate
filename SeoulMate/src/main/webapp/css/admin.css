@@ -760,7 +760,7 @@ input.cmn_toggle_round:checked + label:after {margin-left:30px;}
 .qnaSearch>select[name=searchKey]{width: 150px; float: left;}
 .qnaSearch input[type=text]{width: 200px; float: left;}
 .qnaSearch input[type=submit]{width: 80px; float: left;}
-
+#contactUserid, #contactMState
 /* contactInfo*/
 .contact_wrap{
 	display: none;
@@ -794,7 +794,7 @@ input.cmn_toggle_round:checked + label:after {margin-left:30px;}
 }
 .contact_pup_body{
 	padding: 30px;
-	height: 700px;
+	height: 576px;
 	overflow: hidden;
 	overflow-y: auto;	
 }
@@ -821,7 +821,7 @@ input.cmn_toggle_round:checked + label:after {margin-left:30px;}
 }
 .contact_list li textarea{
 	width: 500px;
-	height: 300px;
+/* 	height: 300px; */
 }
 #contactTitle{
 	width: 500px;

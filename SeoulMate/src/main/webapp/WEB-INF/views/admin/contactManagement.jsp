@@ -249,17 +249,20 @@
 							<ul>
 								<li><div>아이디</div><input id="contactUserid" type="text" name="userid" readonly></li>
 								<li><div>회원등급</div><input id="contactMState" type="text" name="mState" readonly></li>
-							</ul>
-							<ul>	
+								<li><div id="divGap">문의 분류</div> <input id="contactCategory" type="text" name="category" readonly></li>
 								<li><div>답변상태</div>
 									<input id="contactState" type="text" name="state" readonly>
 								</li>
 								<li><div>이메일</div><input id="contactEmail" type="text" name="email" readonly></li>
-							</ul>
-							<ul>	
-								<li><div id="divGap">문의 분류</div> <input id="contactCategory" type="text" name="category" readonly></li>
 								<li><div>문의 날짜</div> <input id="qDate" type="text" name="qdate" readonly> </li>
 							</ul>
+<!-- 							<ul>	 -->
+								
+<!-- 							</ul> -->
+<!-- 							<ul>	 -->
+								
+								
+<!-- 							</ul> -->
 	<!-- 						<ul>	 -->
 	<!-- 							<li><div>제목</div><input type="text" name="" id="contactTitle"></li> -->
 	<!-- 						</ul>	 -->

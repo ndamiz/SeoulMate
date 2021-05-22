@@ -121,6 +121,7 @@ public class AdminController {
 	@ResponseBody
 	public ContactVO contactDetailInfo(int no) {
 		ContactVO cVO = service.contactInfo(no);
+		System.out.println(cVO.getAdate());
 		return cVO;
 	}
 	//문의 처리하기
