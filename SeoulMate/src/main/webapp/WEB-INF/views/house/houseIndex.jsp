@@ -13,12 +13,48 @@
 		var rent=${pVO.rent};
 		var deposit=${pVO.deposit};
 		var m_gen=${pVO.m_gen};
-									
+		
 		if(addr==$("#searchBox").val() && (rent==$("#searchRent").val() || $("#searchRent")==null) && (deposit==$("#searchDeposit").val() || $("#searchDeposit").val()==null) && (m_gen==$('input[name="m_gen"]:checked').val() || $('input[name="m_gen"]:checked').val()==null)){
 			
 		}else{
 			$("#hiddenPageNum").val("1");
 		}
+	}
+	//페이징
+	function pageClick(msg){
+		var addr='${pVO.addr}';
+		var rent=${pVO.rent};
+		var deposit=${pVO.deposit};
+		var m_gen=${pVO.m_gen};
+		
+		var pageNum = '<c:out value="${pVO.pageNum }"/>';  //현재 눌려있는 페이지
+		var startPageNum = '<c:out value="${pVO.startPageNum }"/>'; // 페이징 시작 페이지
+		var totalPage = '<c:out value="${pVO.totalPage }"/>'; //마지막 페이징
+		var changePageNum = 0;
+		if(msg=='next_page'){
+			changePageNum = Number(pageNum)+1;
+		}else if(msg=='last_page'){
+			changePageNum = Number(totalPage);
+		}else if(msg=='first_page'){
+			changePageNum = 1;
+		}else if(msg=='prev_page'){
+			changePageNum = Number(pageNum)-1;
+		}else{
+			changePageNum = Number(msg);
+		}
+		
+		// 페이징을 할 때 바뀐 검색값을 들고가는 것을 방지
+		if(pageNum != changePageNum){
+			$('#searchBox').val(addr);
+			$('#searchRent').val(rent);
+			$('#searchDeposit').val(deposit);
+			
+			$('input:radio[name=m_gen]:input[value='+m_gen+']').prop("checked", true);
+		}
+		// 히든에 값넣고
+		$('#hiddenPageNum').val(changePageNum);
+		// 서브밋 실행 
+		$('#houseIndexForm').submit();
 	}
 </script>
 <div class="wrap houseSearch_wrap">
@@ -114,7 +150,6 @@
 <section class="content recommend_list">
 	<div class="list_head">
 		<p class="m_title">NEW 쉐어하우스</p>
-		<a href="#">더보기</a>
 	</div>
 	<c:if test="${newHouseListCnt>0}">
 	<ul class="list_content">
@@ -186,29 +221,3 @@
 	</div>
 </section>
 </div>
-
-<script>
-//페이징
-function pageClick(msg){
-	var pageNum = '<c:out value="${pVO.pageNum }"/>';  //현재 눌려있는 페이지
-	var startPageNum = '<c:out value="${pVO.startPageNum }"/>'; // 페이징 시작 페이지
-	var totalPage = '<c:out value="${pVO.totalPage }"/>'; //마지막 페이징
-	var changePageNum = 0;
-	if(msg=='next_page'){
-		changePageNum = Number(pageNum)+1;
-	}else if(msg=='last_page'){
-		changePageNum = Number(totalPage);
-	}else if(msg=='first_page'){
-		changePageNum = 1;
-	}else if(msg=='prev_page'){
-		changePageNum = Number(pageNum)-1;
-	}else{
-		changePageNum = Number(msg);
-	}
-	// 히든에 값넣고
-	$('#hiddenPageNum').val(changePageNum);
-	// 서브밋 실행 
-	$('#houseIndexForm').submit();
-}
-</script>
-
