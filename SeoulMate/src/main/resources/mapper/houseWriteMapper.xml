@@ -4,7 +4,9 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.seoulmate.home.dao.HouseWriteDAO">
   	<select id="getFullPropensity" resultType="com.seoulmate.home.vo.PropensityVO">
-  		select * from propensity where userid=#{param1} and housename=#{param2}
+  		select pno, userid, pcase, housename, h_noise, h_pattern, h_pet, h_petwith, h_smoke, h_mood,
+  		h_communication, h_party, h_enter, h_support as h_supportStr, h_etc, m_pattern, m_personality, m_pet, m_smoke, m_age, m_gender, m_global, m_now, pdate
+  		 from propensity where userid=#{param1} and housename=#{param2}
   	</select>
   	<select id="getPropInfo" resultType="com.seoulmate.home.vo.PropensityVO">
   		select * from propensity where userid=#{param1} and housename is not null

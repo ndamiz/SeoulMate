@@ -176,7 +176,7 @@ public class HouseController {
 	//하우스 등록시 선택한 성향 불러오기
 	@RequestMapping("/getPropensity")
 	@ResponseBody
-	public PropensityVO getPropensity(String userid, String housename){
+	public PropensityVO getPropensity(PropensityVO pVO, String userid, String housename){
 		System.out.println(housename);
 		return service.getFullPropensity(userid, housename);
 	}
