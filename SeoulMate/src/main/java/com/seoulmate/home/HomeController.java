@@ -121,8 +121,6 @@ public class HomeController {
 					
 					// 쉐어하우스 매칭 리스트 구하기
 					List<ListVO> phList = listService.premiumHouseList(userid, m_gender, addr, rentInt, depositInt, m_genInt); // PremiumHouseList
-					System.out.println(phList);
-					System.out.println(phList.size());
 					if(phList.size()>0) {
 						if(phList.get(0)!=null){ // else if(phList!=null)
 	//						HouseRoomVO phhrVO = new HouseRoomVO();

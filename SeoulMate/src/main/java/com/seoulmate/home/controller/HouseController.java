@@ -673,8 +673,11 @@ public class HouseController {
 						if(phList.get(0)!=null){ // else if(phList!=null)
 							HouseRoomVO phhrVO = new HouseRoomVO();
 							for (ListVO phVO : phList) {
-								int idx = phVO.getAddr().indexOf("동 ");
-								phVO.setAddr(phVO.getAddr().substring(0, idx+1));
+								int guIdx=phVO.getAddr().indexOf("구 ");
+								String gu=phVO.getAddr().substring(guIdx+2);
+								int dongIdx=gu.indexOf(" ");
+								String dong=gu.substring(0, dongIdx);
+								phVO.setAddr(dong);
 							}
 							mav.addObject("phList", phList);
 						}

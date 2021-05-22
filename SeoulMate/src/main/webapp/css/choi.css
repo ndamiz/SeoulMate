@@ -42,19 +42,19 @@ span{line-height: 47px;}
 #userpwdCheck{width:250px;}
 #memberEditForm, #memberFindId, #memberFindPwd, #memberExitForm{width:400px; margin:0 auto;}
 #memberEditForm>label, #memberFindId>label, #memberFindPwd>label , #memberExitForm>label{width: 19%;display: inline-block;}
-#memberEditForm>input, #memberFindId>input, #memberExitForm>input, #useridCheck{width: 75%;margin-left:5%;}
+#memberEditForm>input, #memberFindId>input, #memberExitForm>input, #useridCheck, #memberFindPwd>input{width: 75%;margin-left:5%;}
 #area1Edit, #area2Edit, #area3Edit{width:284.2px;}
 #area1Btn, #area2Btn, #area3Btn{width:122.8px; text-align:center; display:none;} /* display */
 /* #area1Div, #area2Div, #area3Div{display:none;} */
 #gu1Edit, #dong1Edit, #gu2Edit, #dong2Edit, #gu3Edit, #dong3Edit{width:200px; float:left;}
 
 /* memberFind */
-#idEmailCheck{margin-top:40px;}
-#pwdEmailCheck, #pwdEmailCode{margin-top:40px; margin-left:5%; width:229px;}
+#idEmailCheck, #pwdEmailCheck{margin-top:40px;}
 #idFindBtn{height:50px;}
 #FindIdBtn{margin-bottom:40px;}
 .title_wrap>.s_title.margin-bottom50.margin-top50{margin:50px 0;}
 .wrap>.member_wrap>hr{margin:80px 0 0 0;}
+#pwdEmailCheckBtn{width:100%; margin-top:40px;}
 
 /* memberEditForm */
 #mem>li>#Edituserid{width:420px;}
