@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/doo.css">
-
 <script>
 	$(function(){
 		$("#searchBox").click(function(){ // 해줘야하나 아직 모르겠음 뒤로가기했을 때 값이 그대로있는지 모름
@@ -61,7 +60,7 @@
 					<label>만원</label> 
 				</li>
 				<li>
-					<p> 성별</p>
+					<p>성별</p>
 					<div class="checks">
 						<input type="radio" id="radio1" name="gender" value="0" <c:if test='${pVO.gender==0}'>checked</c:if>/> 
 						<label for="radio1">전체</label> 
@@ -78,15 +77,17 @@
 	</div>
 	<c:if test="${myHousePnoCnt>0}">
 	   <c:if test="${logGrade==2}">
-			<div class="title_wrap" id="hPnoSelect">
-	   			<p class="s_title">어느 집의 메이트를 구하시나요?</p><br/>
-				<c:forEach var="housePno" items="${myHousePno}">
-					<a class="<c:if test='${hPno==housePno.pno}'>green</c:if>" id="${housePno.pno}">
-						<c:if test="${housePno.housename!=null}">${housePno.housename}</c:if>
-						<c:if test="${housePno.housename==null}">성향${housePno.pno}</c:if>
-					</a>
-				</c:forEach>
-			</div>
+	   		<c:if test="${myHousePnoCnt>1}">
+				<div class="title_wrap" id="hPnoSelect">
+		   			<p class="s_title">어느 집의 메이트를 구하시나요?</p><br/>
+					<c:forEach var="housePno" items="${myHousePno}" varStatus="index">
+						<a class="<c:if test='${hPno==housePno.pno}'>green</c:if>" id="${housePno.pno}">
+							<c:if test="${housePno.housename!=null}">${housePno.housename}</c:if>
+							<c:if test="${housePno.housename==null}">이름없는 집 ${index.count}</c:if>
+						</a>
+					</c:forEach>
+				</div>
+			</c:if>
 		   <!-- 프리미엄 추천 하우스메이트 -->
 		   <section class="content recommend_list mate_list">
 		      <div class="list_head">
