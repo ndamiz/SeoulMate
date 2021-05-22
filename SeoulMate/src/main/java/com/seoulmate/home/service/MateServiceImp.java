@@ -10,7 +10,6 @@ import com.seoulmate.home.dao.MateWriteDAO;
 import com.seoulmate.home.dao.PropensityDAO;
 import com.seoulmate.home.vo.HouseMatePagingVO;
 import com.seoulmate.home.vo.MateWriteVO;
-import com.seoulmate.home.vo.MemberVO;
 import com.seoulmate.home.vo.PropensityVO;
 @Service
 public class MateServiceImp implements MateService {
