@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.seoulmate.home.dao.MateWriteDAO;
 import com.seoulmate.home.dao.PropensityDAO;
 import com.seoulmate.home.vo.HouseMatePagingVO;
+import com.seoulmate.home.vo.ListVO;
 import com.seoulmate.home.vo.MateWriteVO;
 import com.seoulmate.home.vo.PropensityVO;
 @Service
@@ -99,6 +100,16 @@ public class MateServiceImp implements MateService {
 	@Override
 	public int mateCount(String userid) { //메이트 글 카운트
 		return dao.mateCount(userid);
+	}
+
+	@Override
+	public List<ListVO> mateMatchList(HouseMatePagingVO pVO) {
+		return dao.mateMatchList(pVO);
+	}
+
+	@Override
+	public int mateMatchTotal(HouseMatePagingVO pVO) {
+		return dao.mateMatchTotal(pVO);
 	}
 
 
