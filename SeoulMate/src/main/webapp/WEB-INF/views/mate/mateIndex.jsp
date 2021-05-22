@@ -60,7 +60,7 @@
 					<label>만원</label> 
 				</li>
 				<li>
-					<p> 성별</p>
+					<p>성별</p>
 					<div class="checks">
 						<input type="radio" id="radio1" name="gender" value="0" <c:if test='${pVO.gender==0}'>checked</c:if>/> 
 						<label for="radio1">전체</label> 
@@ -243,7 +243,6 @@
    </section>
  </div>
 <script>
-	</div> <!-- content div 종료 -->
 //페이징
 function pageClick(msg){
 	var pageNum = '<c:out value="${pVO.pageNum }"/>';  //현재 눌려있는 페이지

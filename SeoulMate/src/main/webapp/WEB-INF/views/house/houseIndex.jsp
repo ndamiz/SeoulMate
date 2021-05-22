@@ -23,54 +23,43 @@
 </script>
 <div class="wrap houseSearch_wrap">
 	<div class="boxClass"> <!-- 상단부분 div -->
-		<ul class="searchClass">
-			<li> <img src='<%=request.getContextPath()%>/img/ico_filter.png'/> 조건검색 </li>
-			<li>
-				<ul>	
-					<li>
-						<form method="get" action="houseIndex" id="houseIndexForm" onsubmit="return search();">
-							<input type="hidden" name="pageNum" id="hiddenPageNum" value="${pVO.pageNum}"/>
-							<ul>
-								<li> 지역 </li> 
-								<li><input type="text" name="addr" id="searchBox" value="${pVO.addr}" placeholder="지역명을 입력하세요"/> 
-									<a id="iconPic1"></a></li>
-							</ul>
-							<ul class="list_filter">
-								<li>최대 월세</li>
-								<li><input type="number" id="searchRent" name="rent" value="<c:if test='${pVO.rent!=0}'>${pVO.rent}</c:if>" min="0" placeholder="0"/> 만원 </li>
-							</ul>
-							<ul class="list_filter">
-								<li>최대 보증금</li>
-								<li><input type="number" id="searchDeposit" name="deposit" value="<c:if test='${pVO.deposit!=0}'>${pVO.deposit}</c:if>" min="0" placeholder="0"/> 만원 </li>
-							</ul>
-							<ul>
-								<li><label> 성별</label></li>
-								<li class="checks_mate">
-									<div class="checks">
-										<input type="radio" id="radio1" name="m_gen" value="0" <c:if test='${pVO.m_gen==0}'>checked</c:if>/> 
-										<label for="radio1">전체</label> 
-										<input type="radio" id="radio2" name="m_gen" value="1" <c:if test='${pVO.m_gen==1}'>checked</c:if>/> 
-										<label for="radio2">여성</label> 
-										<input type="radio" id="radio3" name="m_gen" value="3" <c:if test='${pVO.m_gen==3}'>checked</c:if>/> 
-										<label for="radio3">남성</label> 
-										<input type="radio" id="radio4" name="m_gen" value="2" <c:if test='${pVO.m_gen==2}'>checked</c:if>/> 
-										<label for="radio4">상관없음</label> 
-									</div>
-								</li>
-							</ul>
-							<ul>
-								<li>
-									<button class="green search"></button>
-								</li>
-							</ul>
-						</form>
-					</li>
-				</ul>
-			</li>
-		</ul>		
+		<p class="d_title">조건검색</p>
+		<form method="get" action="houseIndex" id="houseIndexForm" onsubmit="return search();">
+			<input type="hidden" name="pageNum" id="hiddenPageNum" value="${pVO.pageNum}"/>
+			<ul class="searchClass">
+				<li>
+					<p>지역</p>
+					<input type="text" name="addr" id="searchBox" value="${pVO.addr}" placeholder="지역명을 입력하세요"/> 
+					<label><button id="iconPic1"></button></label> 
+				</li> 
+				<li>
+					<p>최대 월세</p>
+					<input type="number" id="searchRent" name="rent" value="<c:if test='${pVO.rent!=0}'>${pVO.rent}</c:if>" min="0" placeholder="0"/>
+					<label>만원</label> 
+				</li>
+				<li>
+					<p>최대 보증금</p>
+					<input type="number" id="searchDeposit" name="deposit" value="<c:if test='${pVO.deposit!=0}'>${pVO.deposit}</c:if>" min="0" placeholder="0"/>
+					<label>만원</label> 
+				</li>
+				<li>
+					<p>성별</p>
+					<div class="checks">
+						<input type="radio" id="radio1" name="m_gen" value="0" <c:if test='${pVO.m_gen==0}'>checked</c:if>/> 
+						<label for="radio1">전체</label> 
+						<input type="radio" id="radio2" name="m_gen" value="1" <c:if test='${pVO.m_gen==1}'>checked</c:if>/> 
+						<label for="radio2">여성</label> 
+						<input type="radio" id="radio3" name="m_gen" value="3" <c:if test='${pVO.m_gen==3}'>checked</c:if>/> 
+						<label for="radio3">남성</label> 
+						<input type="radio" id="radio4" name="m_gen" value="2" <c:if test='${pVO.m_gen==2}'>checked</c:if>/> 
+						<label for="radio4">상관없음</label> 
+					</div>
+				</li>
+				<li><button class="green search"></button></li>
+			</ul>
+		</form>
 		<button class="green room" onclick="location.href='<%=request.getContextPath()%>/houseWrite'">방 등록하기</button> <br/>
 	</div>
-	<hr/>
 <!-- 프리미엄 추천 쉐어하우스 -->
 <c:if test="${logGrade==2}">
 	<c:if test="${matePnoCheck>0}">

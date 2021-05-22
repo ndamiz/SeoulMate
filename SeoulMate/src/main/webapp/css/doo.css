@@ -1,5 +1,14 @@
 @charset "UTF-8";
 
+/* 하우스 인덱스 */
+
+.houseSearch_wrap button.room{
+	float: right;
+}
+
+
+/* 메이트 인덱스 */
+
 .boxClass {
 	width: 80%;
 	margin : 0 auto;
@@ -121,11 +130,13 @@ input[type="number"] {width:100px;}
     -moz-user-select: none;}
 button{position: relative;}
 
-.wrap.mateSearch_wrap{
+.wrap.mateSearch_wrap,
+.wrap.houseSearch_wrap{
 	padding: 3rem 0;
 }
 
-.mateSearch_wrap button.search{
+.mateSearch_wrap button.search, 
+.houseSearch_wrap button.search{
 	width: 50px;
 	height: 50px;
 	margin-top: 45px;
