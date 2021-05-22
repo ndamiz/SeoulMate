@@ -243,7 +243,6 @@
    </section>
  </div>
 <script>
-	</div> <!-- content div 종료 -->
 //페이징
 function pageClick(msg){
 	var pageNum = '<c:out value="${pVO.pageNum }"/>';  //현재 눌려있는 페이지
