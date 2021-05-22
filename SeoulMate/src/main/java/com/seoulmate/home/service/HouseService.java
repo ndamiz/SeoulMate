@@ -84,6 +84,12 @@ public interface HouseService {
 	// 하우스+룸 삭제 -> 하우스네임 null 로 변경
 	public int ProHouseNameUpdate(PropensityVO vo);
 
+	// 메이트 성향이 있는지 가져옴
+	public int propPcaseM(String userid);
+	
+	//사용자의 모든 성향 가져오기
+	public List<PropensityVO> getPropInfo(String userid, String housename);
+	
 	//houseRoom List로 가져오기 
 	public List<HouseRoomVO> roomListSelect(int no);
 }

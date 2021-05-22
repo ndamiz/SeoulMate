@@ -13,6 +13,9 @@ public interface MateService {
 	//메이트 등록
 	public int mateInsert(MateWriteVO vo);
 	
+	// 성향 추가
+	public int propInsert(PropensityVO vo);
+	
 	//성향 수정
 	public int propMateUpdate(PropensityVO vo);
 	
@@ -45,8 +48,17 @@ public interface MateService {
 
 	//메이트 희망지역 == 회원정보 희망지역
 	public int mateAreaUpdate(String area, String userid);
-	
+
 	// 페이징 토탈레코드수 구하기
 	public int mateTotalRecord(HouseMatePagingVO pVO);
+
+	//성향pno의 psq.currval 값 가져오기
+	public int proPnoCheck(String userid);
+	
+	// 메이트 성향이 있는지 가져옴
+	public int propPcaseM(String userid);
+	
+	//메이트 글 카운트
+	public int mateCount(String userid);
 
 }

@@ -153,8 +153,19 @@ public class HouseServiceImp implements HouseService {
 	public int ProHouseNameUpdate(PropensityVO vo) { // 하우스+룸 삭제 -> 하우스네임 null 로 변경
 		return pDAO.ProHouseNameUpdate(vo);
 	}
+
 	@Override
 	public List<HouseRoomVO> roomListSelect(int no) {
 		return dao.roomListSelect(no);
+	}
+	@Override
+	public int propPcaseM(String userid) { // 메이트 성향이 있는지 가져옴
+		return pDAO.propPcaseM(userid);
+	}
+
+	@Override
+	public List<PropensityVO> getPropInfo(String userid, String housename) {
+		// 사용자 모든 성향 가져오기
+		return hDAO.getPropInfo(userid, housename);
 	}
 }

@@ -1,77 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<style>
-.boxClass {
-	width: 1200px;
-	margin : 0 auto;
-	height: 228px;
-}
-input[type="date"] {width:200px;}
-input[type="text"] {width:100px;}
-input[type="number"] {width:100px;}
-#searchBox{width:300px; position:relative;}
-.searchClass ul{display:inline-block; padding-top:10px; }
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/doo.css">
 
-#iconPic {
-	position: absolute;
-	right: 2px;
-	top: 8px;
-}
-
-#iconPic1 {
-	position: relative;
-	right: 54px;
-	top: 14px;
-	box-shadow: none;
-	border: none;
-	border-radius: inherit;
-	margin: 0;
-	padding: 0;
-	line-height: inherit;
-	height: inherit;
-	width: 40px;
-	height: 40px;
-}
-
-#iconPic1::before {
-	content: "";
-	display: block;
-	position: absolute;
-	width: 22px;
-	height: 23px;
-	top:6px;
-	right: 9px;
-	background: url(<%=request.getContextPath()%>/img/comm/ico_search_black.png) no-repeat;
-	background-size: cover;
-}
-.checks_mate{
- 	height: 50px;
-    display: inline-block;
-    line-height: 50px;
-    position: relative;
-    
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;}
-button{position: relative;}
-
-.mateSearch_wrap button.search::before{
- content:"";
-   display: block;
-   margin-left: -2px;
-   width: 25px;
-   height: 25px;
-   background: url(<%=request.getContextPath()%>/img/main/ico_search_white.png) no-repeat;
-   background-size: cover;
-}
-.mateSearch_wrap button.mate{
-	margin-top: 30px;
-	margin-left:35px;
-}
-.searchClass .list_filter{
-	margin-right: 30px !important;
-}
-</style>
 <script>
 	$(function(){
 		$("#searchBox").click(function(){ // 해줘야하나 아직 모르겠음 뒤로가기했을 때 값이 그대로있는지 모름
@@ -108,52 +38,44 @@ button{position: relative;}
 	} 
 </script>
 <div class="wrap mateSearch_wrap">
-<div class="content">
 	<div class="boxClass"> <!-- 상단부분 div -->
-		<ul class="searchClass">
-			<li><img src='<%=request.getContextPath()%>/img/ico_filter.png'/> 조건검색 </li>
-			<li>
-				<ul>	
-					<li>
-						<form method="get" action="mateIndex" id="mateIndexForm" onsubmit="return search();">
-							<input type="hidden" id="hiddenPageNum" name="pageNum" value="${pVO.pageNum}">
-							<ul>
-								<li><p>지역</p></li> 
-								<li><input type="text" name="area" id="searchBox" value="${pVO.area}" placeholder="지역명을 입력하세요" /> 
-									<a id="iconPic1"></a></li>
-							</ul>
-							<ul class="list_filter">
-								<li> 최대 월세 </li>
-								<li><input type="number" name="rent" id="searchRent" value="<c:if test='${pVO.rent!=0}'>${pVO.rent}</c:if>" min="0" placeholder="0"/> 만원 </li>
-							</ul>
-							<ul class="list_filter">
-								<li>최대 보증금</li>
-								<li><input type="number" name="deposit" id="searchDeposit" value="<c:if test='${pVO.deposit!=0}'>${pVO.deposit}</c:if>" min="0" placeholder="0"/> 만원 </li>
-							</ul>
-							<ul>
-								<li><label> 성별</label></li>
-								<li class="checks_mate">
-									<div class="checks">
-										<input type="radio" id="radio1" name="gender" value="0" <c:if test='${pVO.gender==0}'>checked</c:if>/> 
-										<label for="radio1">전체</label> 
-										<input type="radio" id="radio2" name="gender" value="1" <c:if test='${pVO.gender==1}'>checked</c:if>/> 
-										<label for="radio2">여성</label> 
-										<input type="radio" id="radio3" name="gender" value="3" <c:if test='${pVO.gender==3}'>checked</c:if>/> 
-										<label for="radio3">남성</label> 
-									</div>
-								</li>
-							</ul>
-							<ul>
-								<li><button class="green search"></button></li>
-							</ul>
-						</form>
-					</li>
-				</ul>
+		<p class="d_title">조건검색</p>
+		<form method="get" action="mateIndex" id="mateIndexForm" onsubmit="return search();">
+			<input type="hidden" id="hiddenPageNum" name="pageNum" value="${pVO.pageNum}">
+			<ul class="searchClass">
+				<li>
+					<p>지역</p>
+					<input type="text" name="area" id="searchBox" value="${pVO.area}" placeholder="지역명을 입력하세요" /> 
+					<!-- <a id="iconPic1"></a> -->
+					<label><button id="iconPic1"></button></label> 
+					
+				</li>
+				<li>
+					<p>최대 월세</p>
+					<input type="number" name="rent" id="searchRent" value="<c:if test='${pVO.rent!=0}'>${pVO.rent}</c:if>" min="0" placeholder="0"/>
+					<label>만원</label> 
+				</li>
+				<li>
+					<p>최대 보증금</p>
+					<input type="number" name="deposit" id="searchDeposit" value="<c:if test='${pVO.deposit!=0}'>${pVO.deposit}</c:if>" min="0" placeholder="0"/>
+					<label>만원</label> 
+				</li>
+				<li>
+					<p> 성별</p>
+					<div class="checks">
+						<input type="radio" id="radio1" name="gender" value="0" <c:if test='${pVO.gender==0}'>checked</c:if>/> 
+						<label for="radio1">전체</label> 
+						<input type="radio" id="radio2" name="gender" value="1" <c:if test='${pVO.gender==1}'>checked</c:if>/> 
+						<label for="radio2">여성</label> 
+						<input type="radio" id="radio3" name="gender" value="3" <c:if test='${pVO.gender==3}'>checked</c:if>/> 
+						<label for="radio3">남성</label> 
+					</div>
+				</li>
+				<li><button class="green search"></button></li>
 			</ul>		
-			<button class="green mate" onclick="location.href='<%=request.getContextPath()%>/mateWrite'">메이트 등록하기</button><br/>
-		</div>
-		<hr/>
-	</div> <!-- content div 종료 -->
+		</form>
+		<button class="green mate" onclick="location.href='<%=request.getContextPath()%>/mateWrite'">메이트 등록하기</button><br/>
+	</div>
 	<c:if test="${myHousePnoCnt>0}">
 	   <c:if test="${logGrade==2}">
 	   		<c:if test="${myHousePnoCnt>1}">
@@ -320,8 +242,9 @@ button{position: relative;}
 		</c:if>
 	</div>
    </section>
-</div> <!-- 전체 div 종료 -->
+ </div>
 <script>
+	</div> <!-- content div 종료 -->
 //페이징
 function pageClick(msg){
 	var pageNum = '<c:out value="${pVO.pageNum }"/>';  //현재 눌려있는 페이지

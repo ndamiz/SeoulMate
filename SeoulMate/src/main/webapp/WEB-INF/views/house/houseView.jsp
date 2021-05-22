@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js" integrity="sha512-VMsZqo0ar06BMtg0tPsdgRADvl0kDHpTbugCBBrL55KmucH6hP9zWdLIWY//OTfMnzz6xWQRxQqsUFefwHuHyg==" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/yun.css">
 <script>
 /* 하우스 PropensityVO 정보 */
 var m_gender = '<c:out value="${pVO.m_gender}"/>';  //1:여성전용,  2:상관없음, 3:남성전용
@@ -100,6 +101,7 @@ $(function(){
 	});
 });
 </script>
+
 <style>
 
 /* ul, li{float:left;} */
@@ -142,7 +144,7 @@ $(function(){
     margin: 40px auto;
 }
 .matchin_Graph>div{
-	width: 300px; height: 300px;
+	width: 500px; height: 500px;
 }
 #propensity_info{overflow: auto;}
 #propensity_info ul>li{
@@ -217,9 +219,7 @@ $(function(){
 #vIconTg::before { background: url(/home/img/house/telegram.png) no-repeat; background-size: cover; }
 #vIconFb::before { background: url(/home/img/house/facebook.png) no-repeat; background-size: cover; }
 #vIconKs::before { background: url(/home/img/house/kakaostory.jpg) no-repeat; background-size: cover; }
-
-</style>
-
+</style>    	
 <div class="wrap">
  <div class="houseViewContent">
  	<div id="topDiv">
@@ -675,7 +675,7 @@ $(function(){
 	
 	var geocoder = new kakao.maps.services.Geocoder();
 	// 주소로 좌표를 검색합니다
-    geocoder.addressSearch('서울특별시 대흥동', function(result, status) {
+    geocoder.addressSearch('${hVO.addr}', function(result, status) {
         // 정상적으로 검색이 완료됐으면
          if (status === kakao.maps.services.Status.OK) {
           var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -737,41 +737,42 @@ $(function(){
 
 
 	<!--  팝업창///////////////////////////////////////////// -->
-	<div class="pup_wrap reportpopup">
-		<div class="pup_form">
-			<form id="reportForm" method="post">
-				<div class="pup_head">신고 정보</div>
-				<div class="pup_body">
-					<div class="pup_list">
-						<ul>
-							<li><div>신고 ID</div><input class="userid" type="text" name="userid" readonly></li>
-							<li><div>신고자 ID</div> <input type="text" name="reportid" value="${logId}" readonly> </li>
-							<li>
-								<div>분류</div> <input class="reportCategory" type="text" name="category" readonly>
-								<input type="hidden" class="reportNum" name="no"><!-- 글/댓글번호 -->
-							</li>
-							<li><div>신고 사유</div>
-								<select id="reportcategory" name="reportcategory">
-									<option disabled selected hidden>신고사유를 선택하세요</option>
-									<option>홍보,광고</option>
-									<option>음란</option>
-									<option>욕설</option>
-									<option>기타</option>
-								</select>
-							</li>
-							<li><div>상세내용</div> <textarea rows="5" id="reportcontent" name="reportcontent"></textarea></li>
-						</ul>
-					
-					</div>
+<div class="pup_wrap reportpopup">
+	<div class="pup_form">
+		<form id="reportForm" method="post">
+			<div class="pup_head">신고 정보</div>
+			<div class="pup_body">
+				<div class="pup_list">
+					<ul>
+						<li><div>신고 ID</div><input class="userid" type="text" name="userid" readonly></li>
+						<li><div>신고자 ID</div> <input type="text" name="reportid" value="${logId}" readonly> </li>
+						<li>
+							<div>분류</div> <input class="reportCategory" type="text" name="category" value="하우스" readonly>
+							<input type="hidden" class="reportNum" name="no"><!-- 글/댓글번호 -->
+						</li>
+						<li><div>신고 사유</div>
+							<select id="reportcategory" name="reportcategory">
+								<option disabled selected hidden>신고사유를 선택하세요</option>
+								<option>홍보,광고</option>
+								<option>음란</option>
+								<option>욕설</option>
+								<option>기타</option>
+							</select>
+						</li>
+						<li><div>상세내용</div> <textarea rows="5" id="reportcontent" name="reportcontent"></textarea></li>
+					</ul>
+				
 				</div>
-				<div class="pup_bottom">
-					<a class="btn_cancel popupClose">닫기</a>
-					<a href="javascript:$('#reportForm').submit()" id="reportBtn" class="btn_save">접수</a>
-				</div>
-				<a class="pup_btn_close popupClose">닫기</a>
-			</form>
-		</div>
+			</div>
+			<div class="pup_bottom">
+				<a class="btn_cancel popupClose">닫기</a>
+				<a href="javascript:$('#reportForm').submit()" id="reportSubmit" class="btn_save">접수</a>
+<!-- 				 -->
+			</div>
+			<a class="pup_btn_close popupClose">닫기</a>
+		</form>
 	</div>
+</div>
 
 
 		<div class="pup_wrap" id="pup_wrap_share">
@@ -789,10 +790,10 @@ $(function(){
 						</div>
 					</div>
 					<div class="pup_bottom">
-						<a href="" class="btn_cancel">닫기</a>
-						<a href="" class="btn_save">확인</a>
+						<a class="btn_cancel">닫기</a>
+						<a class="btn_save">확인</a>
 					</div>
-				<a href="" class="btn_close">닫기</a>
+				<a class="btn_close">닫기</a>
 			</div>
 		</div>
 <script>
@@ -803,16 +804,13 @@ $(function(){
 				location.href="houseDel?no=${hVO.no }" 
 			};
 		});
+
+
+        
         $('#hEdit').click(function(){ //수정하기 버튼
         	location.href="houseEdit"; //방수정하기 form 으로 이동
         });
         
-
-		$("#reportBtn").click(function(){ //신고하기 버튼 신고팝업창
-			$(".reportpopup").css("display", "block");
-		});
-		
-		
 		$("#shareBtn").click(function(){ //공유하기 버튼 공유하기팝업창
 			$("#pup_wrap_share").css("display", "block");
 		});
@@ -821,37 +819,50 @@ $(function(){
         slide = document.querySelectorAll('.slides li'),
         currentIdx =0,   //현재인덱스
         slideCount = slide.length, //슬라이드의 갯수
-        prevBtn = document.querySelector('.controlls_prev'),
-        nextBtn = document.querySelector('.controlls_next');
-        slideWidth = 840,
+        prevBtn = document.querySelector('.prev'),
+        nextBtn = document.querySelector('.next');
+        slideWidth = 250,
         slideMargin = 0,
      
      slides.style.width = (slideWidth + slideMargin)*slideCount - slideMargin +'px'; //슬라이드의 넓이
      
      function moveSlide(num){
-        slides.style.left = -num * 840 +'px';
+        slides.style.left = -num * 250 +'px';
         currentIdx = num;
      }
      
      //이미지 슬라이드 버튼이벤트
      nextBtn.addEventListener('click',function(){
+        console.log(currentIdx);
         if(currentIdx < slideCount - 1){
            moveSlide(currentIdx + 1);
+           if(currentIdx>0){
+              prevBtn.style.display = 'block';
+           }
+           if(currentIdx==slideCount-5){
+              nextBtn.style.display = 'none';
+           }
         }
      });
      prevBtn.addEventListener('click',function(){
         if(currentIdx >0){
            moveSlide(currentIdx - 1);
+           if(currentIdx==0){
+              prevBtn.style.display = 'none';
+           }
+           if(currentIdx==slideCount-5){
+              nextBtn.style.display = 'block';
+           }
         }
      });
      
    });
 
 	//신고하기=================================================
-	$(document).on('click','.replyReport', function(){
-		var	reportid = $(this).prev().prev().val();
+	$(document).on('click','#reportBtn', function(){
+		var	reportid = '${hVO.userid}';
 		var category = '하우스';
-		var no = $(this).prev().val();
+		var no = '${hVO.no}';
 		report(reportid, category, no);
 	});
 	
@@ -867,7 +878,7 @@ $(function(){
 		$('body').css('overflow','hidden');
 	}
 	//신고하기 팝업창 닫기
-	$('.popupClose').click(function(){
+	$(document).on('click', '.popupClose', function(){
 		reportFormReset();
 	});
 	function reportFormReset(){
@@ -877,12 +888,11 @@ $(function(){
 		$(".reportNum").val("");
 		$("#reportcontent").val("");
 		$("#reportcategory option:eq(0)").prop('selected', true);
-		//$("#category").val('${list.category}').prop('selected', true);
 		$('.reportpopup').css('display','none');
 		$('body').css('overflow','auto');
 	}
 	//신고하기 서브밋
-	$('#reportForm').submit(function(){
+	$(document).on('submit','#reportForm',function(){
 		if($("#reportcategory option").index($("#reportcategory option:selected"))==0){
 			alert("신고사유를 선택하세요.");
 			return false;
@@ -949,5 +959,4 @@ $(function(){
 			};
 		});
 	});
-    
 </script>

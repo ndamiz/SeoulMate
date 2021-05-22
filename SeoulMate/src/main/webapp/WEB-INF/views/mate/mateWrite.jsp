@@ -388,22 +388,7 @@ $(function(){
 		<ul class="form_box">
 				<li id="mPic"><img id="mateImg1" name="mateImg1" src="#" alt="upload image" style="width:150px; height:107px;"/></li>
 				<li> <input type="file" accept="image/*" name="filename" id="matePic1" onchange="readURL(this);"/> <br/> </li>
-				<li> <img src="<%=request.getContextPath()%>/img/house/mate01.jfif" name="profilePic2" style="width:150px; height:150px;"/><br/>
-					<div class="checks">
-						<input type="radio" id="radio31" name="matePic2"> 
-						<label for="radio31">기본이미지1</label>
-					</div> 
-				<img src="<%=request.getContextPath()%>/img/house/mate02.jfif" name="profilePic3" style="width:150px; height:150px;"/>
-					<div class="checks">
-						<input type="radio" id="radio32" name="matePic3"> 
-						<label for="radio32">기본이미지2</label>
-					</div> 
-				<img src="<%=request.getContextPath()%>/img/house/mate03.jfif" name="" style="width:150px; height:150px;"/>
-					<div class="checks">
-						<input type="radio" id="radio33" name="matePic4"> 
-						<label for="radio33">기본이미지3</label>
-					</div> 
-			</li>
+				
 		</ul>
 		<p>&nbsp;</p> <p>&nbsp;</p> <p>&nbsp;</p> <br/> <br/>
 			<div class="btnclass">

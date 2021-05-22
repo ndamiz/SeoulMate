@@ -103,7 +103,7 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView();
 		
 		//get방식으로 타고올때 우연히 비공개 글인 경우
-		int numState = service.stateCheck(no, (String)req.getSession().getAttribute("logId"));
+		int numState = service.stateCheck(no);//, (String)req.getSession().getAttribute("logId")
 		if(numState>0) {
 			//조회수 올리기
 			service.hitUpdate(no);
@@ -142,7 +142,7 @@ public class BoardController {
 		
 		if((String)req.getSession().getAttribute("logId") != null) { //로그인했을때
 			//get방식으로 타고올때 우연히 비공개 글인 경우
-			int numState = service.stateCheck(no, (String)req.getSession().getAttribute("logId"));
+			int numState = service.stateCheck(no); //, (String)req.getSession().getAttribute("logId")
 			if(numState>0) {
 				mav.addObject("list", service.boardSelect(no));
 				mav.setViewName("/board/communityEdit");
@@ -180,7 +180,7 @@ public class BoardController {
 		
 		if((String)session.getAttribute("logId") != null) {
 			//get방식으로 타고올때 우연히 비공개 글인 경우
-			int numState = service.stateCheck(no, (String)session.getAttribute("logId"));
+			int numState = service.stateCheck(no); //, (String)session.getAttribute("logId")
 			System.out.println(numState+"=================");
 			if(numState>0) {
 				//트랜잭션

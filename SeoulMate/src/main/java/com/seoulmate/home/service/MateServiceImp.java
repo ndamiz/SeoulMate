@@ -10,7 +10,6 @@ import com.seoulmate.home.dao.MateWriteDAO;
 import com.seoulmate.home.dao.PropensityDAO;
 import com.seoulmate.home.vo.HouseMatePagingVO;
 import com.seoulmate.home.vo.MateWriteVO;
-import com.seoulmate.home.vo.MemberVO;
 import com.seoulmate.home.vo.PropensityVO;
 @Service
 public class MateServiceImp implements MateService {
@@ -24,6 +23,11 @@ public class MateServiceImp implements MateService {
 		return dao.mateInsert(vo);
 	}
 
+	@Override
+	public int propInsert(PropensityVO vo) { // 성향 추가
+		return pDAO.propInsert(vo);
+	}
+	
 	@Override
 	public int propMateUpdate(PropensityVO vo) { //메이트성향 수정
 		return pDAO.propMateUpdate(vo);
@@ -82,6 +86,19 @@ public class MateServiceImp implements MateService {
 	@Override
 	public int mateTotalRecord(HouseMatePagingVO pVO) { // 메이트 total 레코드 수
 		return dao.mateTotalRecord(pVO);
+	}
+	public int proPnoCheck(String userid) { //성향pno의 psq.currval 값 가져오
+		return pDAO.proPnoCheck(userid);
+	}
+
+	@Override
+	public int propPcaseM(String userid) {
+		return pDAO.propPcaseM(userid);
+	}
+
+	@Override
+	public int mateCount(String userid) { //메이트 글 카운트
+		return dao.mateCount(userid);
 	}
 
 
