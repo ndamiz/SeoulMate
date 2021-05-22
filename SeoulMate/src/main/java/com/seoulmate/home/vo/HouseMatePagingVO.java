@@ -18,6 +18,10 @@ public class HouseMatePagingVO {
 	private int m_gen;
 	private int gender;
 	
+	// 하우스 매칭 목록 추가
+	private int m_gender;
+	private String userid;
+	
 	public int getPageNum() {
 		return pageNum;
 	}
@@ -107,4 +111,17 @@ public class HouseMatePagingVO {
 	public void setGender(int gender) {
 		this.gender = gender;
 	}
+	public String getUserid() {
+		return userid;
+	}
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+	public int getM_gender() {
+		return m_gender;
+	}
+	public void setM_gender(int m_gender) {
+		this.m_gender = m_gender;
+	}
+	
 }

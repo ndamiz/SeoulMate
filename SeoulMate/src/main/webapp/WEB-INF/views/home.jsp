@@ -110,7 +110,7 @@
 		   <section class="content recommend_list">
 		      <div class="list_head">
 			       <p class="m_title">${logName}님과 잘 어울리는 집이예요!</p>
-			       <a href="">더보기</a>
+			       <a href="houseMatching">더보기</a>
 		      </div>
 		      <c:if test="${phList!=null}">
 			      <ul class="list_content">
@@ -152,7 +152,7 @@
    <section class="content recommend_list">
       <div class="list_head">
          <p class="m_title">NEW 쉐어하우스</p>
-         <a href="#">더보기</a>
+         <a href="houseIndex">더보기</a>
       </div>
       <c:if test="${newHouseListCnt>0}">
       <ul class="list_content">
