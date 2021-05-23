@@ -87,7 +87,7 @@ public class AdminController {
 			sortGu.put(allGu[i], service.getHouseAddr(allGu[i])); 
 		}
 //		System.out.println("===================================");
-		//별도의 스태틱 함수로 구현
+		//별도의 스태틱 함수로 구현???
 		Iterator iterator = sortByValue(sortGu).iterator();
 		for(int i=0; i<5; i++) {
 //		while(iterator.hasNext()) {
