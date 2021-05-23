@@ -33,10 +33,10 @@
 			$('#qnaUl>li>div>span').filter(function(){
 				// 없으면 -1
 				var idx=$(this).text().indexOf(value); // 질문 제목의 값 구하기
-				var idx2=$(this).next().next().next().children('p').text().indexOf(value); // 질문 답변의 값 구하기
+				var idx2=$(this).parent().next().children('p').text().indexOf(value); // 질문 답변의 값 구하기
 				
 				//	true : 그냥 둠, false : 숨김
-				$(this).parent().toggle(idx+idx2>-2); // 둘다 없으면 -2 
+				$(this).parent().parent().toggle(idx+idx2>-2); // 둘다 없으면 -2 
 			});
 		});
 	})
