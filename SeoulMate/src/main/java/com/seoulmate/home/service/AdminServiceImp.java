@@ -212,4 +212,14 @@ public class AdminServiceImp implements AdminService {
 	public int faqDel(FaqVO fVO) {
 		return dao.faqDel(fVO);
 	}
+	@Override
+	public int getHouseAddr(String Gu) {
+		// 하우스 지역 가져오기
+		return dao.getHouseAddr(Gu);
+	}
+	@Override
+	public int getMemberGrade(int grade) {
+		// 일반 프리미엄
+		return dao.getMemberGrade(grade);
+	}
 }

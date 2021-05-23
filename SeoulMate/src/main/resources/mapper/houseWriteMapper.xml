@@ -52,7 +52,7 @@
 	<delete id="houseDel" parameterType="com.seoulmate.home.vo.HouseWriteVO">
 		delete from housewrite where no=#{param1} and userid=#{param2}	
 	</delete>
-	<select id="houseProfile" resultType="String">
+	<select id="houseProfilePic" resultType="String">
 	select housepic1 from housewrite where userid=#{param1} and no=#{param2}
 	</select>
 	<select id="getNewIndexHouse" parameterType="com.seoulmate.home.vo.HouseMatePagingVO" resultType="com.seoulmate.home.vo.HouseWriteVO">

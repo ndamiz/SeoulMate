@@ -359,7 +359,7 @@ public class HouseController {
 	public ModelAndView houseEdit(int no, HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, HttpSession session, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
 		String userid = (String)session.getAttribute("logId");
-		
+		System.out.println(no+"?????????????????");
 		// <a href="boardEdit?no=${vo.no }">수정</a> 수정할때 글의 번호 가져오기
 		
 		hVO.setUserid(userid);

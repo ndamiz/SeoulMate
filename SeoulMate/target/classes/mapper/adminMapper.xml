@@ -371,6 +371,12 @@
    	<update id="faqDel" parameterType="com.seoulmate.home.vo.FaqVO">
    		delete from faq where no=#{no}
    	</update>
+   	<select id="getHouseAddr" resultType="int">
+   		select count(addr) from houseWrite where addr like '%${param1}%'
+   	</select>
+   	<select id="getMemberGrade" parameterType="int" resultType="int">
+   		select count(no) from member where grade=${param1}
+   	</select>
 </mapper>
 
 

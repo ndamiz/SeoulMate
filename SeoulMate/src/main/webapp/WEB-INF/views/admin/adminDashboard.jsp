@@ -39,7 +39,9 @@
 			}
 			
 			var date = getToday(new Date());
-			$('.managementTitle').text('당일 요약 정보 - '+date);
+			$('.todayDiv').text('당일 요약 정보 - '+date);
+			var findMonth = date.split('-');
+			$('.chartDiv').text(findMonth[1]+'월 요약 정보');
 			
 			
 			function getToday(date){
@@ -53,7 +55,7 @@
 	</script>
 	<section class="admin_Section">
 		<div class="admin_Content">
-				<div class="m_title managementTitle"></div>
+				<div class="m_title managementTitle todayDiv"></div>
 				<div id="dashUl">
 					<ul>
 						<li>
@@ -92,26 +94,31 @@
 						</li>	
 					</ul>
 				</div>
-					
+				<div class="m_title managementTitle chartDiv"></div>	
 				<div style="margin-top:50px;">
 					<table>
 						<tr style="width:100%">
-							<td id="chartTd"><canvas id="myChart" width="300" height="300"></canvas></td>
-		        			<td><canvas id="chart1" width="300" height="300"></canvas></td>
-		        			<td><canvas id="chart2" width="300" height="300"></canvas></td>
+							<td id="chartTd"><canvas id="myChart" width="400" height="400"></canvas></td>
+		        			<td><canvas id="chart1" width="200" height="200"></canvas></td>
+		        			<td><canvas id="chart2" width="400" height="400"></canvas></td>
 						</tr>
 					</table>
 				</div>
 					
 				<script>
+				var test = '${guName}'
+				var str = test.indexOf('[');
+				var str1 = test.indexOf(']');
+				var str2 = test.slice(str+1, str1);
+				var str3 = str2.split(',');
 				var ctx = document.getElementById('myChart').getContext('2d');
 				var myChart = new Chart(ctx, {
 				    type: 'bar',
 				    data: {
-				        labels: ['강남구', '마포구', '양천구', '영등포구', '서대문구'], //구이름
+				        labels: str3, //구이름
 				        datasets: [{
 				            label: '지역별 하우스 분포 TOP5',
-				            data: [12, 19, 3, 5, 2, 3], // 구에 맞는 데이터
+				            data: ${guNum}, // 구에 맞는 데이터
 				            backgroundColor: [
 				                'rgba(54, 162, 235, 0.2)',
 				                'rgba(255, 99, 132, 0.2)',
@@ -139,39 +146,39 @@
 				});
 				
 				////
-				var ctx2 = document.getElementById('chart1').getContext('2d');
-				var myChart2 = new Chart(ctx2, {
-				    type: 'bar',
-				    data: {
-				        labels: ['강남구', '마포구', '양천구', '영등포구', '서대문구'], //구이름
-				        datasets: [{
-				            label: '지역별 하우스 분포 TOP5',
-				            data: [12, 19, 3, 5, 2, 3], // 구에 맞는 데이터
-				            backgroundColor: [
-				                'rgba(54, 162, 235, 0.2)',
-				                'rgba(255, 99, 132, 0.2)',
-				                'rgba(255, 206, 86, 0.2)',
-				                'rgba(75, 192, 192, 0.2)',
-				                'rgba(153, 102, 255, 0.2)',
-				            ],
-				            borderColor: [
-				                'rgba(54, 162, 235, 1)',
-				                'rgba(255, 99, 132, 1)',
-				                'rgba(255, 206, 86, 1)',
-				                'rgba(75, 192, 192, 1)',
-				                'rgba(153, 102, 255, 1)',
-				            ],
-				            borderWidth: 1
-				        }]
-				    },
-				    options: {
-				        scales: {
-				            y: {
-				                beginAtZero: true
-				            }
-				        }
-				    }
-				});
+// 				var ctx2 = document.getElementById('chart1').getContext('2d');
+// 				var myChart2 = new Chart(ctx2, {
+// 				    type: 'bar',
+// 				    data: {
+// 				        labels: ['강남구', '마포구', '양천구', '영등포구', '서대문구'], //구이름
+// 				        datasets: [{
+// 				            label: '지역별 하우스 분포 TOP5',
+// 				            data: [12, 19, 3, 5, 2, 3], // 구에 맞는 데이터
+// 				            backgroundColor: [
+// 				                'rgba(54, 162, 235, 0.2)',
+// 				                'rgba(255, 99, 132, 0.2)',
+// 				                'rgba(255, 206, 86, 0.2)',
+// 				                'rgba(75, 192, 192, 0.2)',
+// 				                'rgba(153, 102, 255, 0.2)',
+// 				            ],
+// 				            borderColor: [
+// 				                'rgba(54, 162, 235, 1)',
+// 				                'rgba(255, 99, 132, 1)',
+// 				                'rgba(255, 206, 86, 1)',
+// 				                'rgba(75, 192, 192, 1)',
+// 				                'rgba(153, 102, 255, 1)',
+// 				            ],
+// 				            borderWidth: 1
+// 				        }]
+// 				    },
+// 				    options: {
+// 				        scales: {
+// 				            y: {
+// 				                beginAtZero: true
+// 				            }
+// 				        }
+// 				    }
+// 				});
 				//파이차트//////////////////////////////////////////////////////////
 				const data = {
 					  labels: [
@@ -180,7 +187,7 @@
 					  ],
 					  datasets: [{
 					    label: '회원 비율',
-					    data: [300, 100],
+					    data: ${grade},
 					    backgroundColor: [
 					      'rgb(255, 99, 132)',
 					      'rgb(54, 162, 235)',

@@ -24,6 +24,10 @@ public interface AdminService {
 	public int todayNum(String tablename);
 	//오늘 매출
 	public String salesAmount();
+	//하우스 지역
+	public int getHouseAddr(String Gu);
+	//일반 프리미엄
+	public int getMemberGrade(int grade);
 //Member Management ///////////////////////////////////////	
 	// 회원 목록 출력
 	public List<String> memberSelect(PagingVO pVO);
