@@ -381,6 +381,9 @@ input.cmn_toggle_round:checked + label:after {margin-left:30px;}
 .cursor{
 	cursor: pointer;
 }
+.default{
+	cursor: auto;
+}
 /*////////////////////////////////////////////  문의하기 스타일 ///////////*/
 #contactForm>*{/* 폼 안에 모든 객체 넓이 100% */
 	width: 100%;

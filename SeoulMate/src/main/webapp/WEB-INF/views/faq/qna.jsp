@@ -3,24 +3,25 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/yun.css">
 <script>
 	$(function(){
-		$('.qnaList').click(function(){
+		$('.qnaList>div').click(function(){
+			var th=$(this);			
 			var i=$(this).children('.faqATag2').css('display');
 			if(i=='none'){ // 숨기기
 				$(this).children('.faqATag2').css("display","block"); // 더보기 버튼 보이기
 				$(this).children('.faqATag1').css("display","none"); // 숨기기 버튼 숨기기
 				
-				$(this).css('height','52px');
+				$(this).parent().css('height','52px');
 			}else{ // 보이기
-				$(this).siblings().css('height','52px');
-				$(this).siblings().children('.faqATag1').css("display","none"); // 펼쳤던 다른 질문의 숨기기 버튼을 숨겨버림
-				$(this).siblings().children('.faqATag2').css("display","block"); // 펼쳤던 다른 질문의 보이기 버튼을 보이게 함 
+				$(this).parent().siblings().css('height','52px');
+				$(this).parent().siblings().children().children('.faqATag1').css("display","none"); // 펼쳤던 다른 질문의 숨기기 버튼을 숨겨버림
+				$(this).parent().siblings().children().children('.faqATag2').css("display","block"); // 펼쳤던 다른 질문의 보이기 버튼을 보이게 함 
 				
 				$(this).children('.faqATag2').css("display","none"); // 더보기 버튼 숨기기
 				$(this).children('.faqATag1').css("display","block"); // 숨기기 버튼 보이기 
 				
-				var textHeight=$(this).children().eq(3).height(); // 답변의 높이 구하기
+				var textHeight=$(this).next().height(); // 답변의 높이 구하기
 				
-				$(this).css('height',(textHeight+90)+"px")
+				$(this).parent().css('height',(textHeight+90)+"px")
 			}
 		});
 
@@ -29,7 +30,7 @@
 		$('#faqSearch>input').keyup(function(){ /* $('#faqSearch>input').keyup(function(){ */
 			var value=$(this).val().toLowerCase(); // 검색어로 입력한 문자열
 
-			$('#qnaUl>li>span').filter(function(){
+			$('#qnaUl>li>div>span').filter(function(){
 				// 없으면 -1
 				var idx=$(this).text().indexOf(value); // 질문 제목의 값 구하기
 				var idx2=$(this).next().next().next().children('p').text().indexOf(value); // 질문 답변의 값 구하기
@@ -54,14 +55,16 @@
 	<div class="content">
 		<ul id="qnaUl">
 			<c:forEach var="list" items="${faqList}">
-				<li class="qnaList cursor">
-					<span>Q. ${list.subject}</span>
-					<a class="faqATag1">
-						<img alt="질문숨기기" src="<%=request.getContextPath()%>/img/yun/fi-rr-cross-small.svg">
-					</a>
-					<a class="faqATag2">
-						<img alt="질문더보기" src="<%=request.getContextPath()%>/img/yun/fi-rr-plus-small.svg">
-					</a>
+				<li class="qnaList">
+					<div class="cursor">
+						<span>Q. ${list.subject}</span>
+						<a class="faqATag1">
+							<img alt="질문숨기기" src="<%=request.getContextPath()%>/img/yun/fi-rr-cross-small.svg">
+						</a>
+						<a class="faqATag2">
+							<img alt="질문더보기" src="<%=request.getContextPath()%>/img/yun/fi-rr-plus-small.svg">
+						</a>
+					</div>
 					<div class="faqDiv">
 						<p>${list.content}</p>
 					</div>
