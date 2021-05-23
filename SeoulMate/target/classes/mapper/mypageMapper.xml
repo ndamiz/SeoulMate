@@ -52,7 +52,6 @@
 			house.NO=room.NO
 	</select>
 	<select  id="oneHouseWriteSelect" parameterType="int" resultType="com.seoulmate.home.vo.HouseWriteVO">
-
 		SELECT house.NO, house.PNO, house.USERID, house.HOUSENAME, room.deposit, room.rent, house.ADDR,  house.HOUSEPIC1, 
 			house.ROOM , house.BATHROOM, house.NOWPEOPLE, house.SEARCHPEOPLE, house.WRITEDATE, house.ENDDATE, house.HOUSESTATE 
 		FROM 
@@ -214,13 +213,14 @@
 		<if test="msg == 'takeInvite'">userid='${userid }' AND state='초대'</if>
 		<if test="msg == 'sendApply'">userid='${userid }' AND state='신청'</if>
 	</select>
-	<delete id="mypageSendApplyInviteCancel" parameterType="com.seoulmate.home.vo.ApplyInviteVO">
+	<delete id="mypageApplyInviteCancel" parameterType="com.seoulmate.home.vo.ApplyInviteVO">
 		delete from applyInvite 
 		where 
 			no=${no} and userid='${userid}' 
-		<if test="msg=='sendInvite' or msg=='takeInvite'" >and state='초대'</if>
-		<if test="msg=='sendApply' or msg=='takeApply'">and state='신청'</if>
-		
+		<if test="msg=='sendInvite'"> and state='초대'</if>
+		<if test="msg=='takeInvite'"> and state='초대'</if>
+		<if test="msg=='sendApply'"> and state='신청'</if>
+		<if test="msg=='takeApply'"> and state='신청'</if>
 	</delete>
 	<update id="applyInviteApproveUpdate"  parameterType="com.seoulmate.home.vo.ApplyInviteVO">
 		update applyInvite set confirm='승인' 
@@ -263,7 +263,7 @@
 		update ${param1 } set ${param2} = '매칭 완료' where no=${param3} and userid=#{param4}
 	</update>
 	<insert id="applyInviteInsert" parameterType="com.seoulmate.home.vo.ApplyInviteVO">
-		INSERT INTO APPLYINVITE(aino, NO, userid, state, confirm) values(aisq.nextval, ${no}, #{userid}, #{msg}, '미승인');
+		INSERT INTO APPLYINVITE(aino, NO, userid, state, confirm) values(aisq.nextval, ${no}, #{userid}, #{msg}, '미승인')
 	</insert>
 	<select id="houseListSelect" parameterType="String" resultType="com.seoulmate.home.vo.HouseWriteVO" >
 		SELECT h.NO, h.housename
@@ -282,6 +282,15 @@
 	</select>
 	<select id="getUsersMateWriteNum" resultType="String">
 		select no from matewrite where userid=#{param1}
+	</select>
+	<select  id="checkApplyInvite" parameterType="com.seoulmate.home.vo.ApplyInviteVO" resultType="int">
+		select nvl(max(NO),0) AS NO from applyInvite where no=${no} and userid='${userid}' and state='${msg}'
+	</select>
+	<select id="applyInviteList" parameterType="String" resultType="com.seoulmate.home.vo.ApplyInviteVO">
+		select aino, no, userid, aidate, state, confirm from applyInvite where userid=#{param1}
+	</select>
+	<select id="likemarkerSelect" resultType="int">
+		select nvl(max(NO),0) AS NO FROM LIKEMARK WHERE no=${param1} and userid='${param2}' AND CATEGORY='${param3}'
 	</select>
 </mapper>
 

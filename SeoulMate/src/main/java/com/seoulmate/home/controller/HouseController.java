@@ -174,6 +174,11 @@ public class HouseController {
 			MemberVO mVO_log = memService.memberSelect(userid);//로그인한 사용자의 정보
 			mav.addObject("pVO_log", pVO_log);
 			mav.addObject("mVO_log", mVO_log);
+			
+			PropensityVO graph_matching = service.getMatchingSelect(pVO.getPno(), pVO_log.getPno());
+			PropensityVO scoreVO = service.getMatchingScore(pVO.getPno(), pVO_log.getPno());
+			graph_matching.setScore(scoreVO.getScore());
+			mav.addObject("graph_matching", graph_matching);
 		}
 		// 하우스 pno, housename ,  메이트 pno  => 계산된 vo로 받아오기 . 
 		mav.addObject("hVO", hVO);

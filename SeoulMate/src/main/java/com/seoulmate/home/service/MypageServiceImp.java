@@ -187,4 +187,19 @@ public class MypageServiceImp implements MypageService {
 	public String[] getUsersMateWriteNum(String userid) {
 		return dao.getUsersMateWriteNum(userid);
 	}
+	//초대,신청 내역 중복확인 
+	@Override
+	public int checkApplyInvite(ApplyInviteVO aiVO) {
+		return dao.checkApplyInvite(aiVO);
+	}
+	// 초대신청 리스트 (로그인유저아이디로)
+	@Override
+	public List<ApplyInviteVO> applyInviteList(String userid) {
+		return dao.applyInviteList(userid);
+	}
+	// 글번호, 유저아이디, 카테고리로 찜한 내역이 있는지 확인
+	@Override
+	public int likemarkerSelect(int no, String userid, String msg) {
+		return dao.likemarkerSelect(no, userid, msg);
+	}
 }

@@ -50,6 +50,8 @@ public interface MypageService {
 	public HouseWriteVO houseLikeSelect(LikeMarkVO lmVO);
 	//카테고리가 메이트인 경우
 	public MateWriteVO mateLikeSelect(LikeMarkVO lmVO);
+	// 글번호, 유저아이디, 카테고리로 찜한 내역이 있는지 확인
+	public int likemarkerSelect(int no, String userid, String msg);
 	//팝업 
 	// 메이트확인. 받은초대, 보낸신청
 	// 하우스확인. 받은신청, 보낸초대
@@ -63,6 +65,10 @@ public interface MypageService {
 	public int applyInviteApproveUpdate(ApplyInviteVO aiVO);
 	//초대하기, 신청하기
 	public int applyInviteInsert(ApplyInviteVO aiVO);
+	//초대,신청 내역 중복확인 
+	public int checkApplyInvite(ApplyInviteVO aiVO);
+	// 초대신청 리스트 (로그인유저아이디로)
+	public List<ApplyInviteVO> applyInviteList(String userid);
 	// 승인 후 housename, userid 가져오기. 
 	public HouseWriteVO chatHouseSelect(int no); 
 	// housename list 

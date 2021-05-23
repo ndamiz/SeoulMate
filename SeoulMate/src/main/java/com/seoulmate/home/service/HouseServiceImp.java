@@ -170,7 +170,12 @@ public class HouseServiceImp implements HouseService {
 	}
 	//성향 매칭 점수 가져오기. 
 	@Override
-	public PropensityVO getMatchingSelect(PropensityVO hpuse_pvo, PropensityVO mate_pvo) {
-		return pDAO.getMatchingSelect(hpuse_pvo, mate_pvo);
+	public PropensityVO getMatchingSelect(int house_pno, int mate_pno) {
+		return pDAO.getMatchingSelect(house_pno, mate_pno);
+	}
+	// 1:1 성향매칭 스코어 가져오기
+	@Override
+	public PropensityVO getMatchingScore(int house_pno, int mate_pno) {
+		return pDAO.getMatchingScore(house_pno, mate_pno);
 	}
 }

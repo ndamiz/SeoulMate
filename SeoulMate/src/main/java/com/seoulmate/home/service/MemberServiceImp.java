@@ -150,4 +150,9 @@ public class MemberServiceImp implements MemberService {
 	public int housestateCheck(int pno) {
 		return pDAO.housestateCheck(pno);
 	}
+	// userid 로 등록된 성향 전체필드 리스트 가져오기
+	@Override
+	public List<PropensityVO> housePropensityList(String userid) {
+		return pDAO.housePropensityList(userid);
+	}
 }
