@@ -819,8 +819,8 @@ $(function(){
         slide = document.querySelectorAll('.slides li'),
         currentIdx =0,   //현재인덱스
         slideCount = slide.length, //슬라이드의 갯수
-        prevBtn = document.querySelector('.prev'),
-        nextBtn = document.querySelector('.next');
+        prevBtn = document.querySelector('.controlls_prev'),
+        nextBtn = document.querySelector('.controlls_next');
         slideWidth = 250,
         slideMargin = 0,
      

@@ -150,7 +150,7 @@ public class AdminServiceImp implements AdminService {
 		return dao.addBlacklist(userid);
 	}
 	@Override
-	public String getNumFromReport(int no) {
+	public String[] getNumFromReport(int no) {
 		return dao.getNumFromReport(no);
 	}
 	@Override

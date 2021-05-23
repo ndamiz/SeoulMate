@@ -4,7 +4,7 @@ public class HouseRoomVO {
 	private int no; //houseWrite 테이블에 no (일련번호)
 	private int hno; // 룸 일련번호  
 	private String userid;
-	private String roomName; // 룸 이름 
+	private String roomName; // 룸 이름
 	private int deposit;  //보증금 
 	private int rent;  //월세 
 	private String enterdate; //입주 가능일 

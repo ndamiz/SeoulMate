@@ -205,10 +205,7 @@ public class HouseController {
 			mav.addObject("housePno", 0); //하우스 글이 없을경우 pno 에 0 값을 넣어줌
 		}
 		if(pcaseH>0) {
-			//mav.addObject("list", memService.houseList(userid));
-//			List<PropensityVO> propHousename = new  ArrayList<List<PropensityVO>();
-//			propHousename.add(service.getPropInfo(userid, "nodata"));
-			mav.addObject("list", service.getPropInfo(userid));
+			mav.addObject("list", service.getPropInfo(userid)); //사용자가 등록해 놓은 성향 이름 불러오기
 		}
 		mav.setViewName("house/houseWrite");
 		return mav;
@@ -218,7 +215,7 @@ public class HouseController {
 	@ResponseBody
 	public PropensityVO getPropensity(PropensityVO pVO, String userid, String housename){
 		System.out.println(housename);
-		return service.getFullPropensity(userid, housename);
+		return service.getFullPropensity(userid, housename); //불러온 이름중에서 선택한 성향 값 가져오기
 	}
 	//하우스 글 등록 확인
 	@RequestMapping(value="/houseWriteOk", method = RequestMethod.POST)

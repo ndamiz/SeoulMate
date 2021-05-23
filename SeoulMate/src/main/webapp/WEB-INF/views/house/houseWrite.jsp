@@ -22,7 +22,40 @@ $(function(){
 			return false;
 		}return true;
 	});
-	
+		var roomPlus = $('.room_box').html(); //방 등록 받는 부분을 변수에 담는다.
+		var roomNum = 1; // 새로운 방 등록 누르면 방 번호 변수
+	//방 여러개 등록하기========================================================
+	$('#roomPlus').click(function(){
+		var maxRoomNum = $('select[name=room] option:selected').val()// 하우스내 방 개수 받아오기
+		var roomAppend = '<ul class="form_box room_box">' + '<li><label><span class="red_txt">*</span>방'+(roomNum+1)+' 이름 </label> <input type="text" name="roomName"/></li>'
+							+ '<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" name="rent"/> </li> ' 
+							+ '<li><label><span class="red_txt">*</span>보증금 </label><input type="number" name="deposit"/></li>'
+							+ '<li><label><span class="red_txt">*</span>방 인원</label> <input type="number" name="roomPeople"/> </li>'
+							+ '<li><label><span class="red_txt">*</span>입주 가능일 </label> <input type="date" name="enterdate"  min="${now}"/> </li>'
+							+ '<li><label><span class="red_txt">*</span>최소 거주 기간</label><select name="minStay" id="minStay"><option value="1-3개월">1~3 개월</option>'
+							+ '<option value="4-6개월">4~6 개월</option><option value="7-12개월">7~12 개월</option><option value="1년이상">1년 이상</option>'
+							+ '</select><li><label ><span class="red_txt">*</span>최대 거주 기간</label><select name="maxStay" id="maxStay">'
+							+ '<option value="1-3개월">1~3 개월</option><option value="4-6개월">4~6 개월</option><option value="7-12개월">7~12 개월</option>'
+							+ '<option value="1년이상">1년 이상</option></select></li>'
+							+ '<li><label><span class="red_txt">*</span>가구 여부</label><div class="checks">'
+							+ '<input type="radio" id="furniture"'+(roomNum+2)+'""' 
+							+ 'value="1" name="furniture">'
+							+ '<label for="furniture"'+(roomNum+2)+'"">있음</label>'
+							+ '<input type="radio" id="furniture"'+(roomNum+3)+'""' 
+							+ 'value="2" name="furniture">'
+							+ '<label for="furniture"'+(roomNum+3)+'"">없음</label>'
+							+ '</div></li>'
+							+ '<li><label>포함된 가구</label><input type="text" name="incFurniture"/> </li></ul>'
+		
+		if(roomNum==maxRoomNum){
+			alert("최대 방 개수보다 방을 추가할 수 없습니다.");
+		}else{
+			$('.room_box').append('<p class="s_title">'+(roomNum+1)+'번 방 정보 등록</p>');
+			$('.room_box').append(roomAppend)
+			roomNum++;
+		}
+	});
+	//방 여러개 등록하기========================================================끝
 });
 
 
@@ -575,7 +608,7 @@ $(function(){
 			<p>&nbsp;</p>
 		</div>
 		
-			<ul class="form_box">
+			<ul class="form_box room_box">
 				<li><label><span class="red_txt">*</span>방 이름 </label> <input type="text" name="roomName"/></li>
 				<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" name="rent"/> </li> 
 					
