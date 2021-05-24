@@ -54,6 +54,7 @@ public class MypageController {
 		if(service.mateConfirm(userid)>0) {
 			//2-1. 후 목록 가져오기
 			mwVO= service.myPageMateWriteSelect(userid);
+			
 			mav.addObject("mwVO", mwVO);
 			// 하우스 글이 없을 경우엔 mate로 메세지 변경.
 		}
