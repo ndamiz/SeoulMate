@@ -150,7 +150,6 @@ public class HouseController {
 					}
 				}
 			}
-			
 			hwVO.setDeposit(hrVO.getDeposit());
 			hwVO.setRent(hrVO.getRent());
 			

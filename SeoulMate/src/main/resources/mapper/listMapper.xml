@@ -44,8 +44,8 @@
 	JOIN (SELECT hw.NO, hw.pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, hr.rent, hr.deposit 
 	FROM (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople 
 	FROM HOUSEWRITE WHERE housestate='모집중' and userid!=#{param1} and houseshow='공개') hw 
-	JOIN (SELECT r1.NO, rent, deposit FROM (select no, rent, deposit from houseroom) r1 
-	JOIN (select NO, min(rent) FROM houseroom GROUP BY NO) r2 ON r1.NO=r2.no) hr ON hw.NO=hr.NO) h2
+	JOIN (SELECT z1.NO, z1.rent, deposit FROM (SELECT NO, min(rent) AS rent FROM houseroom GROUP BY NO)z1 
+	JOIN (SELECT NO, rent, deposit FROM houseroom)z2 ON z1.NO=z2.NO AND z1.rent=z2.rent) hr ON hw.NO=hr.NO) h2
 	ON h.pno=h2.pno) h3 ON m.pdate=h3.pdate) h4) 
 	<if test='param3 !=null'> where addr like '%${param3}%'</if>)
 	<if test='param4 != null and param4>0'>where <![CDATA[rent<=${param4}]]></if>)
@@ -73,10 +73,8 @@
 	full outer JOIN (select h2.NO as no, h2.pno, h2.userid, h.m_gender, h2.addr, h2.housename, h2.housepic1, h2.room, h2.bathroom, h2.nowpeople, h_noise, h_pattern, h_pet, h_petwith, h_smoke, 
 		h_mood, h_communication, h_party, h_enter, m_pattern, m_personality, m_pet, m_smoke, m_age, m_global, m_now, substr(to_char(pdate, 'YYYY'), 1,1) AS pdate 
 	FROM (SELECT * FROM PROPENSITY WHERE housename IS NOT NULL) h 
-	JOIN (SELECT hw.NO, hw.pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, hr.rent, hr.deposit  
-	FROM (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople FROM HOUSEWRITE WHERE housestate='모집중') hw 
-	JOIN (SELECT r1.NO, rent, deposit FROM (select no, rent, deposit from houseroom) r1 
-	JOIN (select NO, min(rent) from houseroom GROUP BY NO) r2 ON r1.NO=r2.no) hr ON hw.NO=hr.NO) h2 
+	JOIN (SELECT hw.NO, hw.pno, userid, addr, housename, housepic1, room, bathroom, nowpeople 
+	FROM (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople FROM HOUSEWRITE WHERE housestate='모집중') hw) h2 
 	ON h.pno=h2.pno) h3 ON m.pdate=h3.pdate) h4) where pno=#{param2} ORDER BY score desc
   	</select>
   	<select id="myMatePnoCheck" resultType="int">

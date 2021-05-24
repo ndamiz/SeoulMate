@@ -62,9 +62,10 @@
 	FROM (SELECT hw2.NO, hw2.pno, m_gender, userid, addr, housename, housepic1, room, bathroom, nowpeople, hr.rent, hr.DEPOSIT, hw2.writedate 
 	FROM (SELECT NO, hw.pno, hw.userid, m_gender, addr, hw.housename, housepic1, room, bathroom, nowpeople, writedate 
 	FROM (SELECT * FROM PROPENSITY WHERE pcase='h') p
-	JOIN (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, writedate FROM HOUSEWRITE WHERE housestate='모집중' and houseshow='공개') hw ON p.pno=hw.pno) hw2
-	JOIN (SELECT r1.NO, rent, deposit FROM (select no, rent, deposit from houseroom) r1 
-	JOIN (select NO, min(rent) from houseroom GROUP BY NO) r2 ON r1.NO=r2.no) hr ON hw2.NO=hr.NO 
+	JOIN (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, writedate FROM HOUSEWRITE 
+	WHERE housestate='모집중' and houseshow='공개') hw ON p.pno=hw.pno) hw2
+	JOIN (SELECT z1.NO, z1.rent, deposit FROM (SELECT NO, min(rent) AS rent FROM houseroom GROUP BY NO)z1 
+	JOIN (SELECT NO, rent, deposit FROM houseroom)z2 ON z1.NO=z2.NO AND z1.rent=z2.rent) hr ON hw2.NO=hr.NO 
 	<if test='addr != null'>AND addr LIKE '%${addr}%'</if>) 
 	<if test='rent != null and rent>0'>where <![CDATA[rent<=#{rent}]]></if>)
 	<if test='deposit != null and deposit>0'>where <![CDATA[deposit<=#{deposit}]]></if>)
@@ -82,8 +83,8 @@
 		FROM (SELECT NO, hw.pno, hw.userid, m_gender, addr, hw.housename, housepic1, room, bathroom, nowpeople, writedate 
 		FROM (SELECT * FROM PROPENSITY WHERE pcase='h') p
 		JOIN (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, writedate FROM HOUSEWRITE WHERE housestate='모집중' and houseshow='공개') hw ON p.pno=hw.pno) hw2
-		JOIN (SELECT r1.NO, rent, deposit FROM (select no, rent, deposit from houseroom) r1 
-		JOIN (select NO, min(rent) from houseroom GROUP BY NO) r2 ON r1.NO=r2.no) hr ON hw2.NO=hr.NO 
+		JOIN (SELECT z1.NO, z1.rent, deposit FROM (SELECT NO, min(rent) AS rent FROM houseroom GROUP BY NO)z1 
+		JOIN (SELECT NO, rent, deposit FROM houseroom)z2 ON z1.NO=z2.NO AND z1.rent=z2.rent) hr ON hw2.NO=hr.NO 
 		<if test='addr != null'>AND addr LIKE '%${addr}%'</if>) 
 		<if test='rent != null and rent>0'>where <![CDATA[rent<=#{rent}]]></if>)
 		<if test='deposit != null and deposit>0'>where <![CDATA[deposit<=#{deposit}]]></if>)
@@ -125,8 +126,8 @@
 		JOIN (SELECT hw.NO, hw.pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, hr.rent, hr.deposit 
 		FROM (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople 
 		FROM HOUSEWRITE WHERE housestate='모집중' and userid!=#{userid} and houseshow='공개') hw 
-		JOIN (SELECT r1.NO, rent, deposit FROM (select no, rent, deposit from houseroom) r1 
-		JOIN (select NO, min(rent) FROM houseroom GROUP BY NO) r2 ON r1.NO=r2.no) hr ON hw.NO=hr.NO) h2
+		JOIN (SELECT z1.NO, z1.rent, deposit FROM (SELECT NO, min(rent) AS rent FROM houseroom GROUP BY NO)z1 
+		JOIN (SELECT NO, rent, deposit FROM houseroom)z2 ON z1.NO=z2.NO AND z1.rent=z2.rent) hr ON hw.NO=hr.NO) h2
 		ON h.pno=h2.pno) h3 ON m.pdate=h3.pdate) h4) 
 		<if test='addr !=null'> where addr like '%${addr}%'</if>)
 		<if test='rent != null and rent>0'>where <![CDATA[rent<=${rent}]]></if>)
@@ -172,8 +173,8 @@
 		JOIN (SELECT hw.NO, hw.pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, hr.rent, hr.deposit -- 여기서부터 
 		FROM (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople 
 		FROM HOUSEWRITE WHERE housestate='모집중' and userid!=#{userid} and houseshow='공개') hw 
-		JOIN (SELECT r1.NO, rent, deposit FROM (select no, rent, deposit from houseroom) r1 
-		JOIN (select NO, min(rent) FROM houseroom GROUP BY NO) r2 ON r1.NO=r2.no) hr ON hw.NO=hr.NO) h2
+		JOIN (SELECT z1.NO, z1.rent, deposit FROM (SELECT NO, min(rent) AS rent FROM houseroom GROUP BY NO)z1 
+		JOIN (SELECT NO, rent, deposit FROM houseroom)z2 ON z1.NO=z2.NO AND z1.rent=z2.rent) hr ON hw.NO=hr.NO) h2
 		ON h.pno=h2.pno) h3 ON m.pdate=h3.pdate) h4) 
 		<if test='addr !=null'> where addr like '%${addr}%'</if>)
 		<if test='rent != null and rent>0'>where <![CDATA[rent<=${rent}]]></if>)
