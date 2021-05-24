@@ -48,4 +48,12 @@ public interface PropensityDAO {
 	public PropensityVO propMateSelect2(int pno);
 	// 하우스+룸 삭제 -> 하우스네임 null 로 변경
 	public int ProHouseNameUpdate(PropensityVO pVO);
+	
+	//성향 매칭 점수 가져오기.
+	public PropensityVO getMatchingSelect(int house_pno, int mate_pno);
+	// 1:1 성향매칭 스코어 가져오기
+	public PropensityVO getMatchingScore(int house_pno, int mate_pno);
+	
+	// userid 로 등록된 성향 전체필드 리스트 가져오기
+	public List<PropensityVO> housePropensityList(String userid);
 }

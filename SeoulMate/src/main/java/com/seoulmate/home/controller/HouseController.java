@@ -97,13 +97,18 @@ public class HouseController {
 						if(phList.get(0)!=null){ // else if(phList!=null)
 							HouseRoomVO phhrVO = new HouseRoomVO();
 							for (ListVO phVO : phList) {
-	//							// 각 쉐어하우스의 제일 저렴한 월세 가져오기
-	//							phhrVO = HomeService.getDesposit(phVO.getNo());
-	//							
-	//							phVO.setDeposit(phhrVO.getDeposit());
-	//							phVO.setRent(phhrVO.getRent());
-								int idx = phVO.getAddr().indexOf("동 ");
-								phVO.setAddr(phVO.getAddr().substring(0, idx+1));
+								int index=phVO.getAddr().indexOf(" ");
+								String ad=phVO.getAddr().substring(index+1); // XX구 XX동 XX-XX XX
+								
+								int guIdx=ad.indexOf("구 ");
+								
+								String gu=ad.substring(0, guIdx+2); // 'XX구 ' 
+								String gu1=ad.substring(guIdx+2); // 'XX동 XX-XX XX'
+								
+								int dongIdx=gu1.indexOf(" ");
+								
+								String dong=gu1.substring(0, dongIdx); // 'XX동'
+								phVO.setAddr(gu+dong);
 							}
 							mav.addObject("phList", phList);
 						}
@@ -144,12 +149,22 @@ public class HouseController {
 					}
 				}
 			}
-			
 			hwVO.setDeposit(hrVO.getDeposit());
 			hwVO.setRent(hrVO.getRent());
 			
-			int idx = hwVO.getAddr().indexOf("동 ");
-			hwVO.setAddr(hwVO.getAddr().substring(0, idx+1));
+			// 하우스 구, 동 띄우기
+			int index=hwVO.getAddr().indexOf(" ");
+			String ad=hwVO.getAddr().substring(index+1); // XX구 XX동 XX-XX XX
+			
+			int guIdx=ad.indexOf("구 ");
+			
+			String gu=ad.substring(0, guIdx+2); // 'XX구 ' 
+			String gu1=ad.substring(guIdx+2); // 'XX동 XX-XX XX'
+			
+			int dongIdx=gu1.indexOf(" ");
+			
+			String dong=gu1.substring(0, dongIdx); // 'XX동'
+			hwVO.setAddr(gu+dong);
 		}
 		
 		mav.addObject("newHouseListCnt", nhList.size());
@@ -169,12 +184,18 @@ public class HouseController {
 		PropensityVO pVO = service.propHouseSelect2(hVO.getPno()); //PropensityVO 값 가져오기
 		String memProfilePic = service.memberProfile(hVO.getUserid());
 		if(userid!=null) {
+			// pcase 가 m 인건 1개뿐. 
 			PropensityVO pVO_log = memService.propMateSelect(userid); //로그인한 사용자의 PropensityVO값 가져오기. (매칭용) 
 			MemberVO mVO_log = memService.memberSelect(userid);//로그인한 사용자의 정보
 			mav.addObject("pVO_log", pVO_log);
 			mav.addObject("mVO_log", mVO_log);
+			
+			PropensityVO graph_matching = service.getMatchingSelect(pVO.getPno(), pVO_log.getPno());
+			PropensityVO scoreVO = service.getMatchingScore(pVO.getPno(), pVO_log.getPno());
+			graph_matching.setScore(scoreVO.getScore());
+			mav.addObject("graph_matching", graph_matching);
 		}
-		
+		// 하우스 pno, housename ,  메이트 pno  => 계산된 vo로 받아오기 . 
 		mav.addObject("hVO", hVO);
 		mav.addObject("rVO_List", rVO_List);
 		mav.addObject("pVO", pVO);
@@ -214,11 +235,7 @@ public class HouseController {
 			mav.addObject("housePno", 0); //하우스 글이 없을경우 pno 에 0 값을 넣어줌
 		}
 		if(pcaseH>0) {
-			//mav.addObject("list", memService.houseList(userid));
-			mav.addObject("list", service.getPropInfo(userid, "nodata"));
-			List<List<PropensityVO>> test = new  ArrayList<List<PropensityVO>>();
-			test.add(service.getPropInfo(userid, "nodata"));
-			System.out.println(test.get(0).get(0).getH_support()+"bbbbb");
+			mav.addObject("list", service.getPropInfo(userid)); //사용자가 등록해 놓은 성향 이름 불러오기
 		}
 		mav.setViewName("house/houseWrite");
 		return mav;
@@ -226,8 +243,9 @@ public class HouseController {
 	//하우스 등록시 선택한 성향 불러오기
 	@RequestMapping("/getPropensity")
 	@ResponseBody
-	public List<PropensityVO> getPropensity(String userid, String housename){
-		return service.getPropInfo(userid, housename);
+	public PropensityVO getPropensity(PropensityVO pVO, String userid, int pno){
+		System.out.println(pno);
+		return service.getFullPropensity(userid, pno); //불러온 이름중에서 선택한 성향 값 가져오기
 	}
 	//하우스 글 등록 확인
 	@RequestMapping(value="/houseWriteOk", method = RequestMethod.POST)
@@ -240,9 +258,10 @@ public class HouseController {
 		System.out.println(pVO.getPno());
 		String userid=(String)session.getAttribute("logId");
 		
+		System.out.println(rVO.getRoomVOList().get(0).getDeposit()+"?????????????");
 		
 		hVO.setUserid(userid);
-		rVO.setUserid(userid);
+//		rVO.setUserid(userid);
 		pVO.setUserid(userid);
 		pVO.setPcase("h");
 		
@@ -418,7 +437,15 @@ public class HouseController {
 					
 					if(houseUpdate>0) {
 						System.out.println("하우스네임 업데이트 성공");
-						int result3 = service.roomInsert(rVO);
+						//===test
+						int result3 = 0;
+						for(int i=0; i<rVO.getRoomVOList().size(); i++) {
+							if(rVO.getRoomVOList().get(i).getRoomName() != null) {
+								rVO.getRoomVOList().get(i).setUserid(userid);
+								result3 = service.roomInsert(rVO.getRoomVOList().get(i));
+							}
+						}
+						//===test
 						if(result3>0) {
 							System.out.println("방 등록 성공");
 							
@@ -469,6 +496,7 @@ public class HouseController {
 	public ModelAndView houseEdit(@RequestParam(value="no") int no, HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, HttpSession session, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
 		String userid = (String)session.getAttribute("logId");
+
 		System.out.println(rVO.getEnterdate());
 		// <a href="boardEdit?no=${vo.no }">수정</a> 수정할때 글의 번호 가져오기
 		
@@ -524,7 +552,6 @@ public class HouseController {
 		hVO.setUserid(userid);
 		rVO.setUserid(userid);
 		pVO.setUserid(userid);
-	
 		//사진 수정
 		String path = req.getSession().getServletContext().getRealPath("/housePic");
 		String selFilename = service.houseProfilePic(userid, hVO.getNo()); //아이디, no
@@ -842,6 +869,86 @@ public class HouseController {
 			mav.setViewName("redirect:houseView");
 		}
 		return mav;
+	}
+	
+	@RequestMapping("/houseMatching")
+	public ModelAndView houseMatching(HttpSession session, String addr, String rent, String deposit, String m_gen, String pageNum) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
+		HouseMatePagingVO pVO=new HouseMatePagingVO();
+		
+		int rentInt=0;
+		if(rent!=null && !rent.equals("")) {
+			rentInt=Integer.parseInt(rent);
+		}
+		
+		int depositInt=0;
+		if(deposit!=null && !deposit.equals("")) {
+			depositInt=Integer.parseInt(deposit);
+		}
+		
+		int m_genInt=0;
+		if(m_gen!=null && !m_gen.equals("")) {
+			m_genInt=Integer.parseInt(m_gen);
+		}
+		
+		int pageNumInt=1;
+		if(pageNum!=null && !pageNum.equals("")) {
+			pageNumInt=Integer.parseInt(pageNum);
+		}
+        
+        if(session.getAttribute("logId")!=null) {
+			int logGrade=(Integer)session.getAttribute("logGrade");
+			// 프리미엄일 때만
+			if(logGrade==2) {
+				// 메이트의 희망 성별 가져오기
+				int matePnoCheck=listService.myMatePnoCheck(userid);
+				
+				mav.addObject("matePnoCheck", matePnoCheck); // 메이트 번호의 갯수를 반환한다.
+				
+				if(matePnoCheck>0) { // 메이트 성향이 있을 때만 매칭된 하우스 목록을 띄워준다.
+					int m_gender=listService.mate_m_gender(userid);
+					
+					pVO.setUserid(userid);
+			        pVO.setAddr(addr);
+			        pVO.setRent(rentInt);
+			        pVO.setDeposit(depositInt);
+			        pVO.setM_gen(m_genInt);
+			        pVO.setM_gender(m_gender);
+			        pVO.setPageNum(pageNumInt);
+			        pVO.setTotalRecode(service.houseMatchTotal(pVO));
+					// 쉐어하우스 매칭 리스트 구하기
+					List<ListVO> phList = service.HouseMatchList(pVO); // PremiumHouseList
+					
+					if(phList.size()>0) {
+						if(phList.get(0)!=null){ // else if(phList!=null)
+							HouseRoomVO phhrVO = new HouseRoomVO();
+							for (ListVO phVO : phList) {
+								// 하우스 구, 동 띄우기
+								int index=phVO.getAddr().indexOf(" ");
+								String ad=phVO.getAddr().substring(index+1); // XX구 XX동 XX-XX XX
+								
+								int guIdx=ad.indexOf("구 ");
+								
+								String gu=ad.substring(0, guIdx+2); // 'XX구 ' 
+								String gu1=ad.substring(guIdx+2); // 'XX동 XX-XX XX'
+								
+								int dongIdx=gu1.indexOf(" ");
+								
+								String dong=gu1.substring(0, dongIdx); // 'XX동'
+								phVO.setAddr(gu+dong);
+							}
+							mav.addObject("phList", phList);
+						}
+					}
+				}
+			}
+        }
+        
+        mav.addObject("pVO", pVO);
+        mav.setViewName("house/houseMatching");
+        
+        return mav;
 	}
 	
 	

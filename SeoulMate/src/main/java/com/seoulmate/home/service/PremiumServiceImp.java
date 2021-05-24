@@ -4,13 +4,10 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
-import com.seoulmate.home.dao.PayDAO;
 import com.seoulmate.home.dao.PremiumDAO;
 import com.seoulmate.home.vo.PayVO;
 @Service
 public class PremiumServiceImp implements PremiumService {
-	@Inject
-	PayDAO dao;
 	@Inject
 	PremiumDAO pDAO;
 

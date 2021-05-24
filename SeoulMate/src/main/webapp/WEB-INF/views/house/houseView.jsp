@@ -4,79 +4,32 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js" integrity="sha512-VMsZqo0ar06BMtg0tPsdgRADvl0kDHpTbugCBBrL55KmucH6hP9zWdLIWY//OTfMnzz6xWQRxQqsUFefwHuHyg==" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/yun.css">
 <script>
-/* 하우스 PropensityVO 정보 */
-var m_gender = '<c:out value="${pVO.m_gender}"/>';  //1:여성전용,  2:상관없음, 3:남성전용
-var logmem_gender = '<c:out value="${mVO_log.gender}"/>'; //로그인한 멤버의 아이디 (pcase가 h일경우 널값, 미로그인시 널값)
-var logmem_id = '<c:out value="${logId}"/>';
-var hh_noise = '<c:out value="${pVO.h_noise}"/>';
-var hh_pattern ='<c:out value="${pVO.h_pattern}"/>';
-var hh_pet = '<c:out value="${pVO.h_pet}"/>';
-var hh_petwith = '<c:out value="${pVO.h_petwith}"/>';
-var hh_smoke = '<c:out value="${pVO.h_smoke}"/>';
-var hh_mood = '<c:out value="${pVO.h_mood}"/>';
-var hh_communication = '<c:out value="${pVO.h_communication}"/>';
-var hh_party = '<c:out value="${pVO.h_party}"/>';
-var hh_enter = '<c:out value="${pVO.h_pet}"/>';
-var hm_pattern = '<c:out value="${pVO.m_pattern}"/>'; //생활시간대
-var hm_personality = '<c:out value="${pVO.m_personality}"/>'; //성격
-var hm_pet = '<c:out value="${pVO.m_pet}"/>'; //반려동물
-var hm_smoke = '<c:out value="${pVO.m_smoke}"/>'; // 흡연 
-var hm_global = '<c:out value="${pVO.m_global}"/>'; //외국인입주여부
-var hm_now = '<c:out value="${pVO.m_now}"/>'; //즉시입주여부
-
-var mh_noise = '<c:out value="${pVO_log.h_noise}"/>';
-var mh_pattern ='<c:out value="${pVO_log.h_pattern}"/>';
-var mh_pet = '<c:out value="${pVO_log.h_pet}"/>';
-var mh_petwith = '<c:out value="${pVO_log.h_petwith}"/>';
-var mh_smoke = '<c:out value="${pVO_log.h_smoke}"/>';
-var mh_mood = '<c:out value="${pVO_log.h_mood}"/>';
-var mh_communication = '<c:out value="${pVO_log.h_communication}"/>';
-var mh_party = '<c:out value="${pVO_log.h_party}"/>';
-var mh_enter = '<c:out value="${pVO_log.h_pet}"/>';
-var mm_pattern = '<c:out value="${pVO_log.m_pattern}"/>';
-var mm_personality = '<c:out value="${pVO_log.m_personality}"/>';
-var mm_pet = '<c:out value="${pVO_log.m_pet}"/>';
-var mm_smoke = '<c:out value="${pVO_log.m_smoke}"/>';
-var mm_global = '<c:out value="${pVO_log.m_global}"/>';
-var mm_now = '<c:out value="${pVO_log.m_now}"/>';
-
-var housePropensity = [ Number(hh_noise), (Number(hh_pattern)+Number(hm_pattern))/2, (Number(hh_pet)+Number(hh_petwith)+Number(hm_pet))/3,
-	(Number(hh_smoke)+Number(hm_smoke)), Number(hh_mood), Number(hh_communication), Number(hh_party), Number(hh_enter), 
-	Number(hm_personality), Number(hm_global), Number(hm_now)];
-console.log(housePropensity);
-var matePropensity = [Number(mh_noise), (Number(mh_pattern)+Number(mm_pattern))/2, (Number(mh_pet)+Number(mh_petwith)+Number(mm_pet))/3,
-	(Number(mh_smoke)+Number(mm_smoke))/2, Number(mh_mood), Number(mh_communication), Number(mh_party), Number(mh_enter), 
-	Number(mm_personality), Number(mm_global), Number(mm_now)];
-console.log(matePropensity);
-
 $(function(){
-	var ctx = document.getElementById('matchinChart'); 
+	var logId = '<c:out value="${logId}"/>';
+	var logGrade = '<c:out value="${logGrade}"/>';
+	
+	var life = '<c:out value="${graph_matching.life}"/>';
+	var pet = '<c:out value="${graph_matching.pet}"/>';
+	var communicate= '<c:out value="${graph_matching.communicate}"/>';
+	var smoke= '<c:out value="${graph_matching.smoke}"/>';
+	var personality= '<c:out value="${graph_matching.personality}"/>';
+	var now = '<c:out value="${graph_matching.now}"/>';
+
+	var ctx = document.getElementById('matchingChart'); 
 	var chartData = {
-		labels : ['생활소음', '생활시간', '반려동물', '흡연', '분위기', '소통방식', 
-				'모임빈도', '모임참가의무', '성격', '외국인입주여부', '즉시입주여부'],
+		labels : ['생활', '반려동물', '소통,모임', '흡연', '성격', '입주'],
 		datasets : [{
-			label : '하우스',
+			label : 'matching',
 			fill: true,
-		    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-		    borderColor: 'rgb(255, 99, 132)',
-		    pointBackgroundColor: 'rgb(255, 99, 132)',
+		    backgroundColor: 'rgba(19, 168, 158, 0.2)',
+		    borderColor: 'rgb(19, 168, 158)',
+		    pointBackgroundColor: 'rgb(19, 168, 158)',
 		    pointBorderColor: '#fff',
 		    pointHoverBackgroundColor: '#fff',
-		    pointHoverBorderColor: 'rgb(255, 99, 132)',
-			data : housePropensity
-		},{
-			label : logmem_id,
-			fill: true,
-		    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-		    borderColor: 'rgb(54, 162, 235)',
-		    pointBackgroundColor: 'rgb(54, 162, 235)',
-		    pointBorderColor: '#fff',
-		    pointHoverBackgroundColor: '#fff',
-		    pointHoverBorderColor: 'rgb(54, 162, 235)',
-			data : matePropensity
+		    pointHoverBorderColor: 'rgb(19, 168, 158)',
+			data : [life, pet, communicate, smoke, personality, now]
 		}]
 	};
-
 	var chartOptions = {
 		scale : {
 			gridLines : {
@@ -88,34 +41,96 @@ $(function(){
 	                display: false
 	            },
 	            suggestedMin: 0,
-	            suggestedMax: 3
+	            suggestedMax: 2
 	        }
 		},legend : {
 			position : 'left'
 		}	
 	};
-	var matchinChart = new Chart(ctx, {
+	var matchingChart = new Chart(ctx, {
 		type : 'radar',
 		data : chartData,
 		options : chartOptions
 	});
+	//신청하기.
+	$(document).on('click', '.applyInsert', function(){
+		
+		var userid = '<c:out value="${logId }"/>';
+		var checkId = '<c:out value="${pVO.userid}"/>';
+		var msg = '신청';
+		var no =  '<c:out value="${hVO.no }"/>';
+		
+		if(userid==checkId){
+			alert('본인이 작성한 글입니다.\n신청이 불가합니다.');
+		}else{
+			var url = '/home/applyInsert';
+			var data = {"no":no, "msg":msg, "userid":userid};
+			$.ajax({
+				url : url,
+				data : data,
+				success : function(result){
+					if(result==-1){
+						alert('로그인 후 이용해 주세요');
+						location.href="login";
+					}else if(result>0){
+						console.log('신청 완료 되었습니다.');
+						alert('신청 완료 되었습니다.');
+					}else if(result==0){
+						console.log('이미 신청한 하우스입니다.');
+						alert('이미 신청한 하우스입니다.');
+					}
+				},error : function(){
+					console.log('신청 insert 에러 ');
+				}
+			});
+		}
+	});
+	
+	$(document).on('click','.likeInsert', function(){
+		// 하우스no , 로그인한 유저아이디를 사용하여 찜목록에 내역이 있는지 확인하기. 
+		var no = '<c:out value="${hVO.no }"/>';
+		var userid = '<c:out value="${logId }"/>';
+		var checkId = '<c:out value="${pVO.userid}"/>';
+		var msg = '하우스';
+		// 로그인한 경우에만 실행한다. 
+		if(userid ==null || userid==''){
+			alert('찜하기는 로그인 후 이용이 가능합니다.');
+			location.href='/home/login';
+		}else if(userid == checkid ){
+			alert('본인이 작성한 글입니다.\n찜하기가 불가합니다.');
+		}else {
+			var url = '/home/likemarkerInsert';
+			var data = {"no":no, "userid":userid, "msg":msg};
+			$.ajax({
+				url : url,
+				data : data,
+				success : function(result){
+					console.log(2);
+					if(result == 0){
+						alert('이미 찜등록이 되어있는 하우스입니다.');
+					}else if(result == 1){
+						alert('찜등록이 되었습니다. ');
+					}else if(result==2){
+						console.log('찜등록 insert 실패함');
+					}
+				},error : function(){
+					console.log('찜하기 insert 에러 ');
+				}
+			});
+		}
+	});
 });
+
 </script>
-
 <style>
-
-/* ul, li{float:left;} */
 #topDiv{ width: 1229px; margin-bottom: 30px; height: 620px; position: relative;}
 #topDiv>img{height: 200px; width: 200px;}
-/* #img4, #img5, #img6{display: none;} */
 .houseViewContent{width: 1230px; margin: 40px auto; overflow: hidden;}
 #dateDiv{float: left; height: 50px; line-height: 50px; }
 #btnDiv{float: right;
     height: 90px;
     overflow: auto;
     line-height: 90px;}
-
-#houseExplain{width:65%; }
 #peopleExplain{    position: relative;
     float: right;
     top: -430px;
@@ -143,9 +158,19 @@ $(function(){
     width: 80%;
     margin: 40px auto;
 }
-.matchin_Graph>div{
-	width: 500px; height: 500px;
-}
+#house_profile {margin: 40px auto;}
+.matchin_Graph{overflow: auto;}
+.matchin_Graph>div:first-of-type{width: 54%; height: 560px; float: left; border:1px solid #ddd; border-radius: 5px;}
+.matchin_Graph>div:first-of-type>div:last-of-type{width: 430px; height: 430px; margin: auto;}
+.matchin_Graph>div>div:first-of-type{margin-left: 30px;}
+.matching_result{width: 45%;height: 560px; float: right; border:1px solid #ddd; border-radius: 5px;}
+.matching_result>ul{margin-left: 30px;}
+.matching_result>ul>li{height: 40px; line-height: 40px; width: 80%; margin: 0px auto; }
+.matching_result>ul>li>span:first-of-type{display: inline-block; width: 80px; text-align: justify; text-align-last: justify;
+	font-weight: bold; font-weight: bold; font-size: 1.1em;}
+.matching_result>ul>li>span:nth-of-type(2){display: inline-block; width: 20px; text-align: center;}
+.matching_result>ul>li:last-of-type{ width: 60%; border:1px solid #13a89e; border-radius: 10px; margin: 30px auto;
+height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight:bold; color:#fff;  background-color: #13a89e;}
 #propensity_info{overflow: auto;}
 #propensity_info ul>li{
 	float: left;
@@ -200,7 +225,7 @@ $(function(){
 .controlls_next{
         float: left;
     left: 878px;
-    top: -500px;
+    top: -520px;
     line-height: 520px;
     height: 518px;}
 .reportpopup{display: none;}
@@ -241,10 +266,18 @@ $(function(){
 	         	<div class="slides">
 	            	<ul>
 		               <li><img src="/home/housePic/${hVO.housepic1}"></li>
+		               <c:if test="${hVO.housepic2 != null}">
 		               <li><img src="/home/housePic/${hVO.housepic2}"></li>
+		               </c:if>
+		                <c:if test="${hVO.housepic3 != null}">
 		               <li><img src="/home/housePic/${hVO.housepic3}"></li>
+		               </c:if>
+		                <c:if test="${hVO.housepic4 != null}">
 		               <li><img src="/home/housePic/${hVO.housepic4}"></li>
+		               </c:if>
+		                <c:if test="${hVO.housepic5 != null}">
 		               <li><img src="/home/housePic/${hVO.housepic5}"></li>
+		               </c:if>
 	           		</ul>
 	         	</div> <!-- "slides" -->
 			</div> <!--slide_wraper -->
@@ -254,14 +287,22 @@ $(function(){
 			<ul>
 				<li ><img src="/home/profilePic/${memProfilePic}" id="profilepic"/> </li>
 				<li>${hVO.userid }</li>
-				<li><button class="q_btn green">약속잡기</button></li>
-				<li><button class="q_btn white">찜하기</button> </li>
+				<c:if test="${pVO_log.pcase == 'm' }">
+				<li><button class="q_btn green applyInsert" >신청하기</button></li>
+				</c:if>
+				<li><button class="q_btn white likeInsert">찜하기</button> </li>
 				<li><button class="q_btn white" id="shareBtn" >공유하기</button></li>
 			</ul>
 		</div> <!-- peopleExplain div 종료 -->
  	</div> <!-- topDiv 종료 -->
 	
 	<div id="middle_Div">
+		<div class="middle_houseInfo" id="house_profile">
+			<p class="s_title">하우스 소개</p>
+			<div>
+				${hVO.houseprofile }
+			</div>
+		</div>
 		<div class="middle_houseInfo" id="room_info">
 			<p class="s_title">룸 정보</p>
 			<table class="tb">
@@ -504,74 +545,49 @@ $(function(){
 						있음</li>
 				</ul>
 				<ul>
+				<c:forEach var="i" items="${pVO.h_support }">
+					<c:if test="${i == 1}"><c:set var='support1' value="${i }"></c:set></c:if>
+					<c:if test="${i == 2}"><c:set var='support2' value="${i }"></c:set></c:if>
+					<c:if test="${i == 3}"><c:set var='support3' value="${i }"></c:set></c:if>
+				</c:forEach>
 					<li>하우스 지원</li>
-					<c:choose>
-						<c:when test="${pVO.h_support == null || pVO.h_support ==''}">
-							<li>공용공간청소</li>
-							<li>공용생필품</li>
-							<li>기본 식품</li>
-						</c:when>
-						<c:otherwise>
-							<c:forEach var="i" items="${pVO.h_support }">
-								<c:choose>
-									<c:when test="${i == 1}">
-										<li><img src="/home/img/comm/check-mark.svg" class="checkSvg"/>공용공간청소</li>
-									</c:when>
-									<c:otherwise>
-										<li>공용공간청소</li>
-									</c:otherwise>
-								</c:choose>
-								<c:choose>
-									<c:when test="${i == 2}">
-										<li ><img src="/home/img/comm/check-mark.svg" class="checkSvg"/>공용생필품</li>
-									</c:when>
-									<c:otherwise>
-										<li>공용생필품</li>
-									</c:otherwise>
-								</c:choose>
-								<c:choose>
-									<c:when test="${i == 3}">
-										<li><img src="/home/img/comm/check-mark.svg" class="checkSvg"/>기본 식품</li>
-									</c:when>
-									<c:otherwise>
-										<li>기본 식품</li>
-									</c:otherwise>
-								</c:choose>
-							</c:forEach>
-						</c:otherwise>
-					</c:choose>
+					<c:if test="${support1!=null }">
+						<li><img src="/home/img/comm/check-mark.svg" class="checkSvg"/>공용공간청소</li>
+					</c:if>
+					<c:if test="${support1==null }">
+						<li>공용공간청소</li>
+					</c:if>
+					<c:if test="${support2!=null }">
+						<li><img src="/home/img/comm/check-mark.svg" class="checkSvg"/>공용생필품</li>
+					</c:if>
+					<c:if test="${support2==null }">
+						<li>공용생필품</li>
+					</c:if>
+					<c:if test="${support3!=null }">
+						<li><img src="/home/img/comm/check-mark.svg" class="checkSvg"/>기본 식품</li>
+					</c:if>
+					<c:if test="${support3==null }">
+						<li>기본 식품</li>
+					</c:if>
 				</ul>
 				<ul>
+					<c:forEach var="j" items="${pVO.h_etc }">
+					<c:if test="${j == 1}"><c:set var='etc1' value="${j }"></c:set></c:if>
+					<c:if test="${j == 3}"><c:set var='etc3' value="${j }"></c:set></c:if>
+				</c:forEach>
 					<li>기타 사항</li>
-					<c:choose>
-						<c:when test="${pVO.h_etc == null || pVO.h_etc ==''}">
-							<li>보증금조절</li>
-							<li>즉시입주</li>
-							<li></li>
-						</c:when>
-						<c:otherwise>
-							<c:forEach var="j" items="${pVO.h_etc }">
-									<c:choose>
-										<c:when test="${j == 1}">
-											<li><img src="/home/img/comm/check-mark.svg" class="checkSvg"/>보증금조절</li>
-										</c:when>
-										<c:otherwise>
-											<li>보증금조절</li>
-										</c:otherwise>
-									</c:choose>
-									<c:choose>
-										<c:when test="${j == 3}">
-											<li><img src="/home/img/comm/check-mark.svg" class="checkSvg"/>즉시입주</li>
-										</c:when>
-										<c:otherwise>
-											<li>즉시입주</li>
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
-								<li></li>
-						</c:otherwise>
-					</c:choose>
-					
+					<c:if test="${etc1!=null }">
+						<li><img src="/home/img/comm/check-mark.svg" class="checkSvg"/>보증금조절</li>
+					</c:if>
+					<c:if test="${etc1==null }">
+						<li>보증금조절</li>
+					</c:if>
+					<c:if test="${etc3!=null }">
+						<li><img src="/home/img/comm/check-mark.svg" class="checkSvg"/>즉시입주</li>
+					</c:if>
+					<c:if test="${etc3==null }">
+						<li>즉시입주</li>
+					</c:if>					
 				</ul>
 			</div>
 			<div class="propensity_info_mate">
@@ -622,11 +638,11 @@ $(function(){
 				<ul>
 					<li>성별</li>
 					<li><c:if test="${pVO.m_gender=='1' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
-						여성전용</li>
+						여성</li>
 					<li><c:if test="${pVO.m_gender=='2' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
 						상관없음</li>
 					<li><c:if test="${pVO.m_gender=='3' }"><img src="/home/img/comm/check-mark.svg" class="checkSvg"/></c:if>
-						남성전용</li>
+						남성</li>
 				</ul>
 				<ul>
 					<li>외국인 입주여부</li>
@@ -649,12 +665,61 @@ $(function(){
 				<ul><li></li><li></li><li></li><li></li></ul>
 			</div>
 		</div>
-		<div class="matchin_Graph">
-			<p class="s_title">매칭 그래프</p>
-			<div>
-				<canvas id="matchinChart" height="300" width="300" ></canvas>
+		<!--1.본인 글이 아닐것 (pVO.userid != logId)  ,  -->
+		<!-- 2.로그인한 사람이 grade-2 일것( mVO_log.grade ) , -->
+		<!-- 3.로그인한 사람이 mate로 pno가 있을 것. (pVO_log.pno != null ) -->
+		<c:if test="${pVO.userid != logId}">
+			<c:if test="${mVO_log.grade==2 }">
+			<c:if test="${pVO_log.pno != null }">
+			<div class="matchin_Graph">
+				<div>
+					<div>
+						<p class="s_title">[ ${logId }  -  ${hVO.housename } ] 매칭</p>
+					</div>
+					<div>
+						<canvas id="matchingChart" height="300" width="300" ></canvas>
+					</div>
+				</div>
+				<div class="matching_result">
+					<div><p class="s_title">매칭 결과</p></div>
+					<ul>
+						<li>
+							<span>생 활</span> <span> : </span><c:if test="${graph_matching.life == 0}">맞지 않음</c:if>
+								<c:if test="${graph_matching.life == 1}">보통</c:if>
+								<c:if test="${graph_matching.life == 2}">잘 맞음</c:if>
+						</li>
+						<li>
+							<span>반 려 동 물</span> <span> : </span> <c:if test="${graph_matching.pet == 0}">맞지 않음</c:if>
+								<c:if test="${graph_matching.pet == 1}">보통</c:if>
+								<c:if test="${graph_matching.pet == 2}">잘 맞음</c:if>
+						</li>
+						<li>
+							<span>소 통, 모 임</span> <span> : </span> <c:if test="${graph_matching.communicate == 0}">맞지 않음</c:if>
+								<c:if test="${graph_matching.communicate == 1}">보통</c:if>
+								<c:if test="${graph_matching.communicate == 2}">잘 맞음</c:if>
+						</li>
+						<li>
+							<span>흡 연</span> <span> : </span> <c:if test="${graph_matching.smoke == 0}">맞지 않음</c:if>
+								<c:if test="${graph_matching.smoke == 1}">보통</c:if>
+								<c:if test="${graph_matching.smoke == 2}">잘 맞음</c:if>
+						</li>
+						<li>
+							<span>성 격</span> <span> : </span> <c:if test="${graph_matching.personality == 0}">맞지 않음</c:if>
+								<c:if test="${graph_matching.personality == 1}">보통</c:if>
+								<c:if test="${graph_matching.personality == 2}">잘 맞음</c:if>
+						</li>
+						<li>
+							<span>입 주</span> <span> : </span> <c:if test="${graph_matching.now == 0}">입주일 조정 필요</c:if>
+								<c:if test="${graph_matching.now == 1}">보통</c:if>
+								<c:if test="${graph_matching.now == 2}">잘 맞음</c:if>
+						</li>
+						<li>${graph_matching.score } %</li>
+					</ul>
+				</div>
 			</div>
-		</div>
+			</c:if>
+			</c:if>
+		</c:if>
 	</div> <!-- middleFrm div 종료 -->
 <!-- 	<div id="map_Div"> -->
 <!-- 	지도 부분 -->
@@ -699,6 +764,10 @@ $(function(){
                 position: coords
             });
         }
+      	// min값만큼 확대
+         map.setMinLevel(3); // 50m
+         // max값만큼 확대
+         map.setMaxLevel(7); // 1km
     });
     
     
@@ -807,8 +876,6 @@ $(function(){
 				alert("삭제가 취소되었습니다.");
 			};
 		});
-
-   
         $('#hEdit').click(function(){ //수정하기 버튼
         	location.href="houseEdit"; //방수정하기 form 으로 이동
         });
@@ -816,15 +883,15 @@ $(function(){
 		$("#shareBtn").click(function(){ //공유하기 버튼 공유하기팝업창
 			$("#pup_wrap_share").css("display", "block");
 		});
-      
-        var slides = document.querySelector('.slides'),
-        slide = document.querySelectorAll('.slides li'),
-        currentIdx =0,   //현재인덱스
-        slideCount = slide.length, //슬라이드의 갯수
-        prevBtn = document.querySelector('.controlls_prev'),
-        nextBtn = document.querySelector('.controlls_next');
-        slideWidth = 840,
-        slideMargin = 0,
+     var slides = document.querySelector('.slides'),
+     slide = document.querySelectorAll('.slides li'),
+     currentIdx =0,   //현재인덱스
+     slideCount = slide.length, //슬라이드의 갯수
+     prevBtn = document.querySelector('.controlls_prev'),
+     nextBtn = document.querySelector('.controlls_next');
+     slideWidth = 840,
+     slideMargin = 0,
+
      
      slides.style.width = (slideWidth + slideMargin)*slideCount - slideMargin +'px'; //슬라이드의 넓이
      

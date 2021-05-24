@@ -794,7 +794,7 @@ input.cmn_toggle_round:checked + label:after {margin-left:30px;}
 }
 .contact_pup_body{
 	padding: 30px;
-	height: 700px;
+	height: 576px;
 	overflow: hidden;
 	overflow-y: auto;	
 }
@@ -816,12 +816,18 @@ input.cmn_toggle_round:checked + label:after {margin-left:30px;}
 .contact_list ul:nth-child(3) li:nth-child(1){
 	float: left;
 }
+.contactDetails li:nth-child(odd){
+	float: left;
+}
 .contact_list li input[type=text]{
 	width: 200px;	
 }
 .contact_list li textarea{
 	width: 500px;
-	height: 300px;
+/* 	height: 300px; */
+}
+.readonlyDiv li input{
+	background-color: #eee;
 }
 #contactTitle{
 	width: 500px;

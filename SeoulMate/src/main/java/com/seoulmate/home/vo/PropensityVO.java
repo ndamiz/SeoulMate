@@ -32,6 +32,23 @@ public class PropensityVO {
 	private int m_now; //메이트 즉시입주 가능여부 1: 가능, 3:불가능 
 	private String pdate;  //성향 등록일 
 	
+	//그래프용 데이터
+	// 생활 : noise(생활소음), h_pattern(생활방식), m_pattern,m_age,  m_global
+	// 반려동물 : h_pet, h_petwith, m_pet
+	// 소통,모임 : h_mood, h_communication, h_party, h_enter, 
+	// 흡연 : h_smoke, m_smoke, 
+	// 성격 : m_personality, 
+	// 입주 : m_now
+	private int life;
+	private int pet;
+	private int communicate;
+	private int smoke;
+	private int personality;
+	private int etc;
+	private int now;
+	
+	private int score;
+	
 	public int getPno() {
 		return pno;
 	}
@@ -207,6 +224,54 @@ public class PropensityVO {
 	}
 	public void setPdate(String pdate) {
 		this.pdate = pdate;
+	}
+	public int getLife() {
+		return life;
+	}
+	public void setLife(int life) {
+		this.life = life;
+	}
+	public int getPet() {
+		return pet;
+	}
+	public void setPet(int pet) {
+		this.pet = pet;
+	}
+	public int getCommunicate() {
+		return communicate;
+	}
+	public void setCommunicate(int communicate) {
+		this.communicate = communicate;
+	}
+	public int getSmoke() {
+		return smoke;
+	}
+	public void setSmoke(int smoke) {
+		this.smoke = smoke;
+	}
+	public int getPersonality() {
+		return personality;
+	}
+	public void setPersonality(int personality) {
+		this.personality = personality;
+	}
+	public int getEtc() {
+		return etc;
+	}
+	public void setEtc(int etc) {
+		this.etc = etc;
+	}
+	public int getNow() {
+		return now;
+	}
+	public void setNow(int now) {
+		this.now = now;
+	}
+	public int getScore() {
+		return score;
+	}
+	public void setScore(int score) {
+		this.score = score;
 	}
 	
 	

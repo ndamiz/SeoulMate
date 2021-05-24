@@ -4,6 +4,7 @@ package com.seoulmate.home.service;
 import java.util.List;
 
 import com.seoulmate.home.vo.HouseMatePagingVO;
+import com.seoulmate.home.vo.ListVO;
 import com.seoulmate.home.vo.MateWriteVO;
 import com.seoulmate.home.vo.MemberVO;
 import com.seoulmate.home.vo.PropensityVO;
@@ -60,5 +61,11 @@ public interface MateService {
 	
 	//메이트 글 카운트
 	public int mateCount(String userid);
+	
+	// 메이트 매칭리스트 구하기
+	public List<ListVO> mateMatchList(HouseMatePagingVO pVO);
+	
+	// 메이트 매칭리스트 페이징 토탈레코드수 구하기
+	public int mateMatchTotal(HouseMatePagingVO pVO);
 
 }

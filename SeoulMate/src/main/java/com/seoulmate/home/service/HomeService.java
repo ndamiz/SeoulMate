@@ -17,4 +17,5 @@ public interface HomeService {
 	public List<MateWriteVO> getNewMate(String area);
 	public HouseRoomVO getDesposit(int no);
 	public MemberVO getDetail(String userid);
+	
 }

@@ -121,19 +121,23 @@ public class HomeController {
 					
 					// 쉐어하우스 매칭 리스트 구하기
 					List<ListVO> phList = listService.premiumHouseList(userid, m_gender, addr, rentInt, depositInt, m_genInt); // PremiumHouseList
-					System.out.println(phList);
-					System.out.println(phList.size());
 					if(phList.size()>0) {
 						if(phList.get(0)!=null){ // else if(phList!=null)
 	//						HouseRoomVO phhrVO = new HouseRoomVO();
 							for (ListVO phVO : phList) {
-								// 각 쉐어하우스의 제일 저렴한 월세 가져오기
-	//							phhrVO = service.getDesposit(phVO.getNo());
-	//							
-	//							phVO.setDeposit(phhrVO.getDeposit());
-	//							phVO.setRent(phhrVO.getRent());
-								int idx = phVO.getAddr().indexOf("동 ");
-								phVO.setAddr(phVO.getAddr().substring(0, idx+1));
+								// 하우스 구, 동 띄우기
+					            int index=phVO.getAddr().indexOf(" ");
+								String ad=phVO.getAddr().substring(index+1); // XX구 XX동 XX-XX XX
+								
+								int guIdx=ad.indexOf("구 ");
+								
+								String gu=ad.substring(0, guIdx+2); // 'XX구 ' 
+								String gu1=ad.substring(guIdx+2); // 'XX동 XX-XX XX'
+								
+								int dongIdx=gu1.indexOf(" ");
+								
+								String dong=gu1.substring(0, dongIdx); // 'XX동'
+								phVO.setAddr(gu+dong);
 							}
 							mav.addObject("phList", phList);
 						}
@@ -268,8 +272,19 @@ public class HomeController {
 			hwVO.setDeposit(hrVO.getDeposit());
 			hwVO.setRent(hrVO.getRent());
 			
-			int idx = hwVO.getAddr().indexOf("동 ");
-			hwVO.setAddr(hwVO.getAddr().substring(0, idx+1));
+			// 하우스 구, 동 띄우기
+            int index=hwVO.getAddr().indexOf(" ");
+			String ad=hwVO.getAddr().substring(index+1); // XX구 XX동 XX-XX XX
+			
+			int guIdx=ad.indexOf("구 ");
+			
+			String gu=ad.substring(0, guIdx+2); // 'XX구 ' 
+			String gu1=ad.substring(guIdx+2); // 'XX동 XX-XX XX'
+			
+			int dongIdx=gu1.indexOf(" ");
+			
+			String dong=gu1.substring(0, dongIdx); // 'XX동'
+			hwVO.setAddr(gu+dong);
 		}
 		
 		mav.addObject("newHouseListCnt", nhList.size());

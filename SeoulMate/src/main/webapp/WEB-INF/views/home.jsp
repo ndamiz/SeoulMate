@@ -91,14 +91,14 @@
          </div>
       </form>
    </div>
-   <c:if test="${myHousePnoCnt>0}">
+   <c:if test="${myHousePnoCnt>1}">
 	   <c:if test="${logGrade==2}"> <!-- 프리미엄인 하우스의 성향 고르기 -->
 	   		<div class="title_wrap" id="hPnoSelect">
 	   			<p class="s_title">어느 집의 메이트를 구하시나요?</p><br/>
-				<c:forEach var="housePno" items="${myHousePno}">
+				<c:forEach var="housePno" items="${myHousePno}" varStatus="index">
 					<a class="<c:if test='${hPno==housePno.pno}'>green</c:if>" id="${housePno.pno}">
 						<c:if test="${housePno.housename!=null}">${housePno.housename}</c:if>
-						<c:if test="${housePno.housename==null}">성향${housePno.pno}</c:if>
+						<c:if test="${housePno.housename==null}">이름없는 집 ${index.count}</c:if>
 					</a>
 				</c:forEach>
 			</div>
@@ -110,7 +110,7 @@
 		   <section class="content recommend_list">
 		      <div class="list_head">
 			       <p class="m_title">${logName}님과 잘 어울리는 집이예요!</p>
-			       <a href="">더보기</a>
+			       <a href="houseMatching">더보기</a>
 		      </div>
 		      <c:if test="${phList!=null}">
 			      <ul class="list_content">
@@ -152,7 +152,7 @@
    <section class="content recommend_list">
       <div class="list_head">
          <p class="m_title">NEW 쉐어하우스</p>
-         <a href="#">더보기</a>
+         <a href="houseIndex">더보기</a>
       </div>
       <c:if test="${newHouseListCnt>0}">
       <ul class="list_content">
@@ -199,7 +199,7 @@
 		   <section class="content recommend_list mate_list">
 		      <div class="list_head">
 		         <p class="m_title">${logName}님과 잘 어울리는 메이트예요!</p>
-		         <a href="">더보기</a>
+		         <a href="mateMatching">더보기</a>
 		      </div>
 		      <c:if test="${pmList!=null}">
 			      <ul class="list_content">
@@ -254,7 +254,7 @@
    <section class="content recommend_list mate_list">
       <div class="list_head">
          <p class="m_title">NEW 하우스메이트</p>
-         <a href="">더보기</a>
+         <a href="mateIndex">더보기</a>
       </div>
       <c:if test="${newMateListCnt!=0}">
 	      <ul class="list_content">

@@ -22,7 +22,6 @@ $(function(){
 			return false;
 		}return true;
 	});
-	
 });
 
 
@@ -212,47 +211,61 @@ $(function(){
     });
 	
 	
-	//성향 버튼 눌렀을때 가져오기
+	//성향 버튼 눌렀을때 가져오기========================================================================
 	$('.getPropinfo').click(function(){
 		var housename = $(this).text();
-		
+		var pno = $(this).attr('id');
+		console.log(housename);
 		$.ajax({
 			url : "/home/getPropensity",
-			data : "userid=${logId}&housename="+housename,
+			data : 'userid=${logId}&pno='+pno,
 			success : function(result){
 				console.log(result);
-				var $result = $(result);
-				
-				$result.each(function(idx, obj){
-					//성향 체크된거 해제
-					$('.houseWrtieProp input:radio').prop('checked', false);
-					//1. 생활소음 h_noise
-					$('input[name=h_noise]').val(obj.h_noise).prop('checked', true);
-					//2. 생활시간 h_pattern
-					$('input[name=h_pattern]').val(obj.h_pattern).prop('checked', true);
-					//3. 반려동물 여부 h_pet
-					$('input[name=h_pet]').val(obj.h_pet).prop('checked', true);
-					//4. 반려동물 동반 입주 여부 h_petwith
-					$('input[name=h_petwith]').val(obj.h_petwith).prop('checked', true);
-					//5. 흡연 h_smoke
-					$('input[name=h_smoke]').val(obj.h_smoke).prop('checked', true);
-					//6. 분위기 h_mood
-					$('input[name=h_mood]').val(obj.h_mood).prop('checked', true);
-					//7. 소통방식 h_communication
-					$('input[name=h_communication]').val(obj.h_communication).prop('checked', true);
-					//8. 모임빈도 h_party
-					$('input[name=h_party]').val(obj.h_party).prop('checked', true);
-					//9. 모임참가 의무 h_enter
-					$('input[name=h_enter]').val(obj.h_enter).prop('checked', true);
-				});
-				//10. 하우스내 지원서비스 h_support
-				var h_support = result.h
-				//$('input[name=h_supportStr]').val(result.h_support).prop('checked', true);
+// 				//1. 생활소음 h_noise
+				$('input:radio[name=h_noise]:radio[value='+result.h_noise+']').prop('checked', true);
+// 				//2. 생활시간 h_pattern
+				$('input:radio[name=h_pattern]:radio[value='+result.h_pattern+']').prop('checked', true);
+// 				//3. 반려동물 여부 h_pet
+				$('input[name=h_pet]:radio[value='+result.h_pet+']').prop('checked', true);
+// 				//4. 반려동물 동반 입주 여부 h_petwith
+				$('input[name=h_petwith]:radio[value='+result.h_petwith+']').prop('checked', true);
+// 				//5. 흡연 h_smoke
+				$('input[name=h_smoke]:radio[value='+result.h_smoke+']').prop('checked', true);
+// 				//6. 분위기 h_mood
+				$('input[name=h_mood]:radio[value='+result.h_mood+']').prop('checked', true);
+// 				//7. 소통방식 h_communication
+				$('input[name=h_communication]:radio[value='+result.h_communication+']').prop('checked', true);
+// 				//8. 모임빈도 h_party
+				$('input[name=h_party]:radio[value='+result.h_party+']').prop('checked', true);
+// 				//9. 모임참가 의무 h_enter
+				$('input[name=h_enter]:radio[value='+result.h_enter+']').prop('checked', true);
+// 				//10. 하우스내 지원서비스 h_support
+				if(result.h_support != null){
+					for(var i=0; i<result.h_support.length; i++){
+						$('input[name=h_support]:checkbox[value='+result.h_support[i]+']').prop('checked', true);
+					}
+				}
+				//11. 메이트 생활시간
+				$('input[name=m_pattern]:radio[value='+result.m_pattern+']').prop('checked', true);
+				//12. 메이트 성격 m_personality m_personality
+				$('input[name=m_personality]:radio[value='+result.m_personality+']').prop('checked', true);
+				//13. 메이트 반려동물 선호도 m_pet
+				$('input[name=m_pet]:radio[value='+result.m_pet+']').prop('checked', true);
+				//14. 메이트 흡연 m_smoke
+				$('input[name=m_smoke]:radio[value='+result.m_smoke+']').prop('checked', true);
+				//15. 메이트 연령대 m_age
+				$('input[name=m_age]:radio[value='+result.m_age+']').prop('checked', true);
+				//16. 메이트 성별 m_gender
+				$('input[name=m_gender]:radio[value='+result.m_gender+']').prop('checked', true);
+				//17. 메이트 외국인입주 가능여부 m_global
+				$('input[name=m_global]:radio[value='+result.m_global+']').prop('checked', true);
+				//18. 메이트 즉시입주 여부 m_now
+				$('input[name=m_now]:radio[value='+result.m_now+']').prop('checked', true);
 			},error : function(){
 				alert("성향 불러오기 실패.")
 			}
 		});
-	})
+	})//성향 버튼 눌렀을때 가져오기========================================================================끝
 });
 // autocomplete="off" //자동완성 막아줌
 
@@ -556,22 +569,22 @@ $(function(){
 			<p>&nbsp;</p>
 		</div>
 		
-			<ul class="form_box">
-				<li><label><span class="red_txt">*</span>방 이름 </label> <input type="text" name="roomName"/></li>
-				<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" name="rent"/> </li> 
+			<ul class="form_box room_box">
+				<li><label><span class="red_txt">*</span>방 이름 </label> <input type="text" name="roomVOList[0].roomName"/></li>
+				<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" name="roomVOList[0].rent"/> </li> 
 					
-				<li><label><span class="red_txt">*</span>보증금 </label><input type="number" name="deposit"/> 	</li>
-				<li><label><span class="red_txt">*</span>방 인원</label> <input type="number" name="roomPeople"/> </li>
-				<li><label><span class="red_txt">*</span>입주 가능일 </label> <input type="date" name="enterdate"  min="${now}"/> </li>
+				<li><label><span class="red_txt">*</span>보증금 </label><input type="number" name="roomVOList[0].deposit"/> 	</li>
+				<li><label><span class="red_txt">*</span>방 인원</label> <input type="number" name="roomVOList[0].roomPeople"/> </li>
+				<li><label><span class="red_txt">*</span>입주 가능일 </label> <input type="date" name="roomVOList[0].enterdate"  min="${now}"/> </li>
 				<li><label><span class="red_txt">*</span>최소 거주 기간</label>
-					<select name="minStay" id="minStay">
+					<select name="roomVOList[0].minStay" id="minStay">
 						<option value="1-3개월">1~3 개월</option>
 						<option value="4-6개월">4~6 개월</option>
 						<option value="7-12개월">7~12 개월</option>
 						<option value="1년이상">1년 이상</option>
 					</select> 
 				<li><label ><span class="red_txt">*</span>최대 거주 기간</label>
-					<select name="maxStay" id="maxStay">
+					<select name="roomVOList[0].maxStay" id="maxStay">
 						<option value="1-3개월">1~3 개월</option>
 						<option value="4-6개월">4~6 개월</option>
 						<option value="7-12개월">7~12 개월</option>
@@ -580,17 +593,51 @@ $(function(){
 					
 				<li><label><span class="red_txt">*</span>가구 여부</label> 
 					<div class="checks">
-							<input type="radio" id="furniture1" value="1" name="furniture"> 
+							<input type="radio" id="furniture1" value="1" name="roomVOList[0].furniture"> 
 							<label for="furniture1">있음</label>
 							
-							<input type="radio" id="furniture2" value="2" name="furniture"> 
+							<input type="radio" id="furniture2" value="2" name="roomVOList[0].furniture"> 
 							<label for="furniture2">없음</label>
 						</div>	</li>
-				<li><label>포함된 가구</label><input type="text" name="incFurniture"/> </li>
+				<li><label>포함된 가구</label><input type="text" name="roomVOList[0].incFurniture"/> </li>
 			</ul>
+			<div class="title_wrap">
+				<p class="s_title">임대료 및 입주정보 </p> <br/>
+				<p>&nbsp;</p>
+			</div>
 			
-			<a id="roomPlus" class="green"  >방 추가등록 </a> <br/> 
+			<ul class="form_box room_box">
+				<li><label><span class="red_txt">*</span>방 이름 </label> <input type="text" name="roomVOList[1].roomName"/></li>
+				<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" name="roomVOList[1].rent"/> </li> 
 					
+				<li><label><span class="red_txt">*</span>보증금 </label><input type="number" name="roomVOList[1].deposit"/> 	</li>
+				<li><label><span class="red_txt">*</span>방 인원</label> <input type="number" name="roomVOList[1].roomPeople"/> </li>
+				<li><label><span class="red_txt">*</span>입주 가능일 </label> <input type="date" name="roomVOList[1].enterdate"  min="${now}"/> </li>
+				<li><label><span class="red_txt">*</span>최소 거주 기간</label>
+					<select name="roomVOList[1].minStay" id="minStay">
+						<option value="1-3개월">1~3 개월</option>
+						<option value="4-6개월">4~6 개월</option>
+						<option value="7-12개월">7~12 개월</option>
+						<option value="1년이상">1년 이상</option>
+					</select> 
+				<li><label ><span class="red_txt">*</span>최대 거주 기간</label>
+					<select name="roomVOList[1].maxStay" id="maxStay">
+						<option value="1-3개월">1~3 개월</option>
+						<option value="4-6개월">4~6 개월</option>
+						<option value="7-12개월">7~12 개월</option>
+						<option value="1년이상">1년 이상</option>
+					</select> </li>
+					
+				<li><label><span class="red_txt">*</span>가구 여부</label> 
+					<div class="checks">
+							<input type="radio" id="furniture3" value="1" name="roomVOList[1].furniture"> 
+							<label for="furniture3">있음</label>
+							
+							<input type="radio" id="furniture4" value="2" name="roomVOList[1].furniture"> 
+							<label for="furniture4">없음</label>
+						</div>	</li>
+				<li><label>포함된 가구</label><input type="text" name="roomVOList[1].incFurniture"/> </li>
+			</ul>
 				<div class="btnclass">
 					<a class="green" id="hPrev5">이전</a>
 					<a class="green" id="hNext5" >다음</a> 
@@ -604,11 +651,11 @@ $(function(){
 		
 		<div class="title_wrap">
 		<ul class="s_margin" id="HproUl">
-			<c:forEach var="vo" items="${list}">
+			<c:forEach var="vo" items="${list}" varStatus="index">
 				<li>
-					<a class="getPropinfo">
+					<a id="${vo.pno}" class="getPropinfo">
 						<c:if test="${vo.housename!=null}">${vo.housename}</c:if>
-						<c:if test="${vo.housename==null}">성향${vo.pno}</c:if>
+						<c:if test="${vo.housename==null}">이름없는 집 ${index.count} </c:if>
 					</a>
 				</li>
 			</c:forEach>

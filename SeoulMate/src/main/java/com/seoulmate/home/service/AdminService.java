@@ -24,6 +24,10 @@ public interface AdminService {
 	public int todayNum(String tablename);
 	//오늘 매출
 	public String salesAmount();
+	//하우스 지역
+	public int getHouseAddr(String Gu);
+	//일반 프리미엄
+	public int getMemberGrade(int grade);
 //Member Management ///////////////////////////////////////	
 	// 회원 목록 출력
 	public List<String> memberSelect(PagingVO pVO);
@@ -91,7 +95,7 @@ public interface AdminService {
 	// 신고 처리 - 블랙리스트 등록
 	public int addBlacklist(String userid);
 	// 글이 삭제될때 신고테이블에 있는지 확인하는 메소드
-	public String getNumFromReport(int no);
+	public String[] getNumFromReport(int no);
 	// 페이징을 위한 총 레코드 수 구하기
 	public int reportRecordCnt(PagingVO pVO);
 	// 블랙리스트에서 제거
@@ -117,4 +121,13 @@ public interface AdminService {
 	public int faqUpdate(FaqVO fVO);
 	// 자주하는 질문 삭제
 	public int faqDel(FaqVO fVO);
+	
+	// 기간 만료인 하우스 목록 가져오기
+	public String[] endHouseList();
+	// 기간 만료인 메이트 목록 가져오기
+	public String[] endMateList();
+	// 모집중인 하우스를 기간 만료로 변경하기
+	public int endHouse(String no);
+	// 모집중인 메이트를 기간 만료로 변경하기
+	public int endMate(String no);
 }

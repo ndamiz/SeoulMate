@@ -74,4 +74,6 @@ public interface MemberService {
 	public int proDelNoHouse(String userid, int pno);
 	// 모집중이 아닌 성향 가져오기
 	public int housestateCheck(int pno);
+	// userid 로 등록된 성향 전체필드 리스트 가져오기
+	public List<PropensityVO> housePropensityList(String userid);
 }

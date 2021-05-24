@@ -33,8 +33,8 @@
 				<p class="s_title s_margin">하우스 성향 수정</p><br/>
 				<ul class="s_margin" id="proUl">
 					<c:if test="${noHouse>0}">
-						<c:forEach var="pno" items="${noList}">
-							<li><a href="proEditNoHouseForm?pno=${pno}">성향${pno} 수정</a></li>
+						<c:forEach var="pno" items="${noList}" varStatus="index">
+							<li><a href="proEditNoHouseForm?pno=${pno}">이름없는 집 ${index.count} 수정</a></li>
 						</c:forEach>
 					</c:if>
 					<c:forEach var="vo" items="${list}">
@@ -45,8 +45,8 @@
 				<p class="s_title s_margin">하우스 성향 삭제</p><br/>
 				<ul class="s_margin" id="delUl">
 					<%-- <c:if test="${noHouse>0}"> --%>
-						<c:forEach var="pno" items="${noList}">
-							<li class="no"><a class="${pno}">성향${pno} 삭제</a></li>
+						<c:forEach var="pno" items="${noList}" varStatus="index">
+							<li class="no"><a class="${pno}">이름없는 집 ${index.count} 삭제</a></li>
 						</c:forEach>
 					<%-- </c:if> --%>
 					<c:if test="${fn:length(list)>0}">

@@ -165,9 +165,33 @@ public class HouseServiceImp implements HouseService {
 	}
 
 	@Override
-	public List<PropensityVO> getPropInfo(String userid, String housename) {
-		// 사용자 모든 성향 가져오기
-		return hDAO.getPropInfo(userid, housename);
+	public List<PropensityVO> getPropInfo(String userid) {
+		//하우스 이름 있는 성향만 가져오기
+		return hDAO.getPropInfo(userid);
+	}
+
+	@Override
+	public List<ListVO> HouseMatchList(HouseMatePagingVO pVO) {
+		return hDAO.HouseMatchList(pVO);
+	}
+
+	@Override
+	public int houseMatchTotal(HouseMatePagingVO pVO) {
+		return hDAO.houseMatchTotal(pVO);
+	}	
+	//성향 매칭 점수 가져오기. 
+	@Override
+	public PropensityVO getMatchingSelect(int house_pno, int mate_pno) {
+		return pDAO.getMatchingSelect(house_pno, mate_pno);
+	}
+	// 1:1 성향매칭 스코어 가져오기
+	@Override
+	public PropensityVO getMatchingScore(int house_pno, int mate_pno) {
+		return pDAO.getMatchingScore(house_pno, mate_pno);
+	}
+	public PropensityVO getFullPropensity(String userid, int pno) {
+		//선택한 성향 정보 가져오기
+		return hDAO.getFullPropensity(userid, pno);
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.List;
 import com.seoulmate.home.vo.HouseMatePagingVO;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
+import com.seoulmate.home.vo.ListVO;
 import com.seoulmate.home.vo.PropensityVO;
 
 public interface HouseService {
@@ -91,11 +92,25 @@ public interface HouseService {
 	public int propPcaseM(String userid);
 	
 	//사용자의 모든 성향 가져오기
-	public List<PropensityVO> getPropInfo(String userid, String housename);
+	public List<PropensityVO> getPropInfo(String userid);
+	
+	//선택한 성향 정보 가져오기
+	public PropensityVO getFullPropensity(String userid, int pno);
 	
 	//houseRoom List로 가져오기 
 	public List<HouseRoomVO> roomListSelect(int no);
+
+	// 하우스 매칭 리스트 구하기(9개)
+	public List<ListVO> HouseMatchList(HouseMatePagingVO pVO);
 	
+	// 하우스 매칭 리스트 count 가져오기
+	public int houseMatchTotal(HouseMatePagingVO pVO);
+
+	//성향 매칭 점수 가져오기. 
+	public PropensityVO getMatchingSelect(int house_pno, int mate_pno);
+	//성향매칭 스코어 가져오기
+	public PropensityVO getMatchingScore(int house_pno, int mate_pno);
+
 	//회원 등급 확인
 	public int gradeCheck(String userid);
 }

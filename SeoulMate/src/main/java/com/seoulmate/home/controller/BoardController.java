@@ -190,13 +190,16 @@ public class BoardController {
 				
 				try {
 					if(service.communityDelete(no,(String)session.getAttribute("logId"))>0) {
-						//신고테이블에 있는 먼저 조회한다
-						String reportNum = aService.getNumFromReport(no);
-						System.out.println(reportNum+"????????????????????");
+						// 하우스 / 메이트 / 채팅에도 들어가야하는 부분====================================================
+						// 삭제하기 전에 신고테이블에 있는 먼저 조회한다
+						String reportNum[] = aService.getNumFromReport(no); //신고를 여러번 당했을 수 있어서 배열로 세팅
 						if(reportNum!=null) {
 							//글이 삭제되면 신고 테이블에서 상태 '삭제됨'으로 업데이트
-							aService.reportStateUpdate(Integer.parseInt(reportNum), "삭제됨");
+							for(int i=0; i<reportNum.length; i++) {
+								aService.reportStateUpdate(Integer.parseInt(reportNum[i]), "삭제됨");
+							}
 						}
+						//==============================================================================
 						transactionManager.commit(status);
 						mav.setViewName("redirect:communityList");
 					}else {

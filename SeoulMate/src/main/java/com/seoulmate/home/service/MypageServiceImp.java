@@ -1,6 +1,7 @@
 package com.seoulmate.home.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -13,6 +14,8 @@ import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.LikeMarkVO;
 import com.seoulmate.home.vo.MateWriteVO;
+import com.seoulmate.home.vo.PagingVO;
+import com.seoulmate.home.vo.PayVO;
 @Service
 public class MypageServiceImp implements MypageService {
 	@Inject
@@ -186,5 +189,30 @@ public class MypageServiceImp implements MypageService {
 	@Override
 	public String[] getUsersMateWriteNum(String userid) {
 		return dao.getUsersMateWriteNum(userid);
+	}
+	//초대,신청 내역 중복확인 
+	@Override
+	public int checkApplyInvite(ApplyInviteVO aiVO) {
+		return dao.checkApplyInvite(aiVO);
+	}
+	// 초대신청 리스트 (로그인유저아이디로)
+	@Override
+	public List<ApplyInviteVO> applyInviteList(String userid) {
+		return dao.applyInviteList(userid);
+	}
+	// 글번호, 유저아이디, 카테고리로 찜한 내역이 있는지 확인
+	@Override
+	public int likemarkerSelect(int no, String userid, String msg) {
+		return dao.likemarkerSelect(no, userid, msg);
+	}	
+	//결제내역 목록 레코드 수 구하기
+	@Override
+	public int payRecordCnt(String userid) {
+		return dao.payRecordCnt(userid);
+	}
+	// 결제내역 목록리스트
+	@Override
+	public List<PayVO> payList(Map<String, Object> map) {
+		return dao.payList(map);
 	}
 }
