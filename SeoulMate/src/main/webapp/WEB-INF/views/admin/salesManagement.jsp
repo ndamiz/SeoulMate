@@ -5,6 +5,27 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js" integrity="sha512-VMsZqo0ar06BMtg0tPsdgRADvl0kDHpTbugCBBrL55KmucH6hP9zWdLIWY//OTfMnzz6xWQRxQqsUFefwHuHyg==" crossorigin="anonymous"></script>
+<style>
+	.sales_Management_List ul, .sales_Management_List li{list-style-type: none; margin: 0; padding: 0;}
+	.sales_Management_List{    width: 95%;  margin: 10px auto; overflow: auto;}
+	.sales_Management_List ul{width: 100%; overflow: auto;}
+	.sales_Management_List li{float: left;}
+	.sales_Management_List>ul:first-of-type>li{height: 50px; line-height: 50px; background-color: #576e9485; color:#495057; 
+		border-top: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; font-size: 1.2em; font-weight: bold;}
+	.sales_Management_List>ul:first-of-type>li:first-of-type{font-size: 1em;}
+	.sales_Management_List ul>li{text-align: center; height: 40px; line-height: 40px;}
+	.sales_Management_List li:first-of-type { width: 6%;}
+	.sales_Management_List li:nth-of-type(2) { width: 0%;}
+	.sales_Management_List li:nth-of-type(3) { width: 20%;}
+	.sales_Management_List li:nth-of-type(4) { width: 20%;}
+	.sales_Management_List li:nth-of-type(5) { width: 20%;}
+	.sales_Management_List li:nth-of-type(6) { width: 20%;}
+	.sales_Management_List li:last-of-type { width: 14%;}
+	#total_Sales_List{border-bottom: 1px solid #dee2e6; background-color: #fff; color: #2d4364;
+  			 font-weight: bold; font-size: 1.3em; }
+ 	.bgc_1{background-color: #d4d4d4;}
+  	.bgc_2{background-color: #eee;}
+</style>
 		<section class="admin_Section">
 			<div class="admin_Content">
 				<div class="m_title managementTitle">매출 관리</div>
@@ -63,27 +84,7 @@
 						</div>
 					</div>
 				</form>
-	<style>
-		.sales_Management_List ul, .sales_Management_List li{list-style-type: none; margin: 0; padding: 0;}
-		.sales_Management_List{    width: 95%;  margin: 10px auto; overflow: auto;}
-		.sales_Management_List ul{width: 100%; overflow: auto;}
-		.sales_Management_List li{float: left;}
-		.sales_Management_List>ul:first-of-type>li{height: 50px; line-height: 50px; background-color: #576e9485; color:#495057; 
-			border-top: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; font-size: 1.2em; font-weight: bold;}
-		.sales_Management_List>ul:first-of-type>li:first-of-type{font-size: 1em;}
-		.sales_Management_List ul>li{text-align: center; height: 40px; line-height: 40px;}
-		.sales_Management_List li:first-of-type { width: 6%;}
-		.sales_Management_List li:nth-of-type(2) { width: 0%;}
-		.sales_Management_List li:nth-of-type(3) { width: 20%;}
-		.sales_Management_List li:nth-of-type(4) { width: 20%;}
-		.sales_Management_List li:nth-of-type(5) { width: 20%;}
-		.sales_Management_List li:nth-of-type(6) { width: 20%;}
-		.sales_Management_List li:last-of-type { width: 14%;}
-		#total_Sales_List{border-bottom: 1px solid #dee2e6; background-color: #fff; color: #2d4364;
-   			 font-weight: bold; font-size: 1.3em; }
-   		.bgc_1{background-color: #d4d4d4;}
-   		.bgc_2{background-color: #eee;}
-	</style>
+	
 				<div class="sales_Management_List managementList">
 					<ul id="sales_List_Header">
 						<c:if test="${payVO.selectYearMonthDate!='일별' }"><li>펼치기</li></c:if>
