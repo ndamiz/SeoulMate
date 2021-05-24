@@ -41,10 +41,10 @@
 	<update id="houseUpdate" parameterType="com.seoulmate.home.vo.HouseWriteVO">
 		update housewrite set addr=#{addr}, 
 		<if test="housepic1!=null and housepic1!=''">housepic1=#{housepic1}, </if>
-		<if test="housepic2!=null and housepic2!=''">housepic2=#{housepic2}, </if>
-		<if test="housepic3!=null and housepic3!=''">housepic3=#{housepic3}, </if>
-		<if test="housepic4!=null and housepic4!=''">housepic4=#{housepic4}, </if>
-		<if test="housepic5!=null and housepic5!=''">housepic5=#{housepic5}, </if>
+		<if test="housepic2!=null and housepic2!=''">housepic2=#{housepic2, jdbcType=VARCHAR}, </if>
+		<if test="housepic3!=null and housepic3!=''">housepic3=#{housepic3, jdbcType=VARCHAR}, </if>
+		<if test="housepic4!=null and housepic4!=''">housepic4=#{housepic4, jdbcType=VARCHAR}, </if>
+		<if test="housepic5!=null and housepic5!=''">housepic5=#{housepic5, jdbcType=VARCHAR}, </if>
 		room=#{room}, bathroom=#{bathroom}, nowpeople=#{nowpeople}, searchpeople=#{searchpeople},
 		publicfacility=#{publicfacilityStr}, houseprofile=#{houseprofile}, housename=#{housename} where userid=#{userid} and no=${no}
 	</update>

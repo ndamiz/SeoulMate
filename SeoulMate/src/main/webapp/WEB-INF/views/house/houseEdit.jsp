@@ -65,6 +65,12 @@ $(function(){
 // 	    alert("선택해주세요");
 // 	}
 
+	$("#file b").click(function(){
+		$(this).parent().css("display", "none");
+		$(this).parent().next().attr("name", "delFile");
+		$(this).parent().next().next().attr('type', 'file');
+	});
+
 
 	$("#roomPlus").click(function(){
 		$("#houseWrite1_ul2").css("display", "block");
@@ -379,11 +385,11 @@ $(function(){
 					<img id="houseImg4" name="houseImg4" src="/home/housePic/${hVO.housepic4}" alt="upload image" />
 					<img id="houseImg5" name="houseImg5" src="/home/housePic/${hVO.housepic5}" alt="upload image" />
 				</li>
-				<li>
+				<li id="file">
 					<div>${hVO.housepic1 } <b>X</b> </div>
-					<input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);" /> 
-					<input type="hidden" value=${hVO.housepic1 }/>
-<!-- 					<input type="file" accept="image/*" name="filename2"  id="housepic2" onchange="readURL(this);"/> -->
+<!-- 					<input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);" />  -->
+					<input type="hidden" name="" value=${hVO.housepic1 }/>
+					<input type="hidden" name="filename"/>
 					
 					<c:if test="${hVO.housepic2!=null && hVO.housepic2!='' }"> <!-- 두번째 첨부파일이 있을 경우 -->
 					<div>${hVO.housepic2 } <b>X</b> </div>
@@ -392,9 +398,7 @@ $(function(){
 					</c:if>
 					
 					<c:if test="${hVO.housepic2==null || hVO.housepic2=='' }"> <!-- 두번째 첨부파일이 없을 경우 -->
-					<div>${hVO.housepic2 } <b>X</b> </div>
-					<input type="hidden" name="" value=${hVO.housepic2 }/>
-					<input type="hidden" name="filename2"/>
+					<input type="file" name="filename2"/>
 					</c:if>
 					
 					<c:if test="${hVO.housepic3!=null && hVO.housepic3!='' }"> <!-- 세번째 첨부파일이 있을 경우 -->
@@ -404,9 +408,7 @@ $(function(){
 					</c:if>
 					
 					<c:if test="${hVO.housepic3==null || hVO.housepic3=='' }"> <!-- 세번째 첨부파일이 없을 경우 -->
-					<div>${hVO.housepic3 } <b>X</b> </div>
-					<input type="hidden" name="" value=${hVO.housepic3 }/>
-					<input type="hidden" name="filename3"/>
+					<input type="file" name="filename3"/>
 					</c:if>
 					
 					<c:if test="${hVO.housepic4!=null && hVO.housepic4!='' }"> <!-- 네번째 첨부파일이 있을 경우 -->
@@ -416,9 +418,7 @@ $(function(){
 					</c:if>
 					
 					<c:if test="${hVO.housepic4==null || hVO.housepic4=='' }"> <!-- 네번째 첨부파일이 없을 경우 -->
-					<div>${hVO.housepic4 } <b>X</b> </div>
-					<input type="hidden" name="" value=${hVO.housepic4 }/>
-					<input type="hidden" name="filename4"/>
+					<input type="file" name="filename4"/>
 					</c:if>
 					
 					<c:if test="${hVO.housepic5!=null && hVO.housepic5!='' }"> <!-- 다섯번째 첨부파일이 있을 경우 -->
@@ -428,9 +428,7 @@ $(function(){
 					</c:if>
 					
 					<c:if test="${hVO.housepic5==null || hVO.housepic5=='' }"> <!-- 다섯번째 첨부파일이 없을 경우 -->
-					<div>${hVO.housepic5 } <b>X</b> </div>
-					<input type="hidden" name="" value=${hVO.housepic5 }/>
-					<input type="hidden" name="filename5"/>
+					<input type="file" name="filename5"/>
 					</c:if>
 					
 				<br/> 

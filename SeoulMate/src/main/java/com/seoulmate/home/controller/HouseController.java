@@ -271,130 +271,178 @@ public class HouseController {
 		//사진 업로드		
 		String path = req.getSession().getServletContext().getRealPath("/housePic"); //파일 저장위치 절대경로 구하기
 
-		String filename1 = img1.getOriginalFilename(); // 기존 파일 명
-		String realName = "";
-	
-		 
-		try {
-			if(filename1 != null && !filename1.equals("")) {
-				File f=new File(path, filename1);
+//		String filename1 = img1.getOriginalFilename(); // 기존 파일 명
+//		String realName = "";
+//	
+//		 
+//		try {
+//			if(filename1 != null && !filename1.equals("")) {
+//				File f=new File(path, filename1);
+//				int i = 1;
+//				while(f.exists()) {
+//					int point = filename1.lastIndexOf(".");
+//					String name = filename1.substring(0, point);
+//					String extName = filename1.substring(point+1);
+//					
+//					f = new File(path, name+"_"+ i++ +"."+extName);
+//				}
+//				img1.transferTo(f); // 업로드
+//				
+//				realName = f.getName();
+//				
+//				hVO.setHousepic1(f.getName());
+//			}
+//		}catch(Exception e) {
+//			System.out.println("하우스 사진 업로드 에러 발생");
+//			e.printStackTrace();
+//		}
+//		
+//		String filename2 = img2.getOriginalFilename();
+//		int j = 1;
+//		if(filename2!=null && !filename2.equals("")) {
+//			File f2 = new File(path, filename2);
+//			while(f2.exists()) {
+//				
+//				int point2 = filename2.lastIndexOf(".");
+//				String name2 = filename2.substring(0, point2);
+//				String extName2 = filename2.substring(point2+1);
+//				
+//				f2 = new File(path, name2+"_"+(j++)+"."+extName2);
+//			}
+//			try {
+//				if(filename2!=null && !filename2.equals("")) {
+//					img2.transferTo(f2);
+//				}
+//			} catch(Exception e) {
+//				System.out.println("filename2 업로드 에러 발생");
+//			}
+//			
+//			realName = f2.getName();
+//			hVO.setHousepic2(f2.getName());
+//		}
+//		
+//		String filename3 = img3.getOriginalFilename();
+//		int k = 1;
+//		if(filename2!=null && !filename3.equals("")) {
+//			File f3 = new File(path, filename3);
+//			while(f3.exists()) {
+//				
+//				int point3 = filename3.lastIndexOf(".");
+//				String name3 = filename3.substring(0, point3);
+//				String extName3 = filename3.substring(point3+1);
+//				
+//				f3 = new File(path, name3+"_"+(k++)+"."+extName3);
+//			}
+//			try {
+//				if(filename3!=null && !filename3.equals("")) {
+//					img3.transferTo(f3);
+//				}
+//			} catch(Exception e) {
+//				System.out.println("filename3 업로드 에러 발생");
+//			}
+//			
+//			realName = f3.getName();
+//			hVO.setHousepic3(f3.getName());
+//		}
+//		
+//		String filename4 = img4.getOriginalFilename();
+//		int l = 1;
+//		if(filename4!=null && !filename4.equals("")) {
+//			File f4 = new File(path, filename4);
+//			while(f4.exists()) {
+//				
+//				int point4 = filename4.lastIndexOf(".");
+//				String name4 = filename4.substring(0, point4);
+//				String extName4 = filename4.substring(point4+1);
+//				
+//				f4 = new File(path, name4+"_"+(j++)+"."+extName4);
+//			}
+//			try {
+//				if(filename4!=null && !filename4.equals("")) {
+//					img4.transferTo(f4);
+//				}
+//			} catch(Exception e) {
+//				System.out.println("filename4 업로드 에러 발생");
+//			}
+//			
+//			realName = f4.getName();
+//			hVO.setHousepic4(f4.getName());
+//		}
+//		
+//		String filename5 = img5.getOriginalFilename();
+//		int m = 1;
+//		if(filename5!=null && !filename5.equals("")) {
+//			File f5 = new File(path, filename5);
+//			while(f5.exists()) {
+//				
+//				int point5 = filename5.lastIndexOf(".");
+//				String name5 = filename5.substring(0, point5);
+//				String extName5 = filename5.substring(point5+1);
+//				
+//				f5 = new File(path, name5+"_"+(m++)+"."+extName5);
+//			}
+//			try {
+//				if(filename5!=null && !filename5.equals("")) {
+//					img5.transferTo(f5);
+//				}
+//			} catch(Exception e) {
+//				System.out.println("filename5 업로드 에러 발생");
+//			}
+//			
+//			realName = f5.getName();
+//			hVO.setHousepic5(f5.getName());
+//		}
+		
+		MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
+		
+		//mr객체에서 업로드파일 목록을 구한다
+		List<MultipartFile> files = mr.getFiles("filename"); //
+		
+		List<String> uploadFilename = new ArrayList<String>();
+		if(files.size()>0) { //첨부파일의 갯수가 0보다 클 경우 -> 첨부파일이 있을 경우
+			
+			for (MultipartFile mf : files){//첨부파일 갯수만큼 반복
+				String orgFilename = mf.getOriginalFilename(); //원 파일명 구하기
+				
+				if(!orgFilename.equals("")) { //filename1,2의 name이 둘다 filename이기 때문에 if를 두번 해줘야함
+				File f = new File(path, orgFilename);
 				int i = 1;
-				while(f.exists()) {
-					int point = filename1.lastIndexOf(".");
-					String name = filename1.substring(0, point);
-					String extName = filename1.substring(point+1);
+				while(f.exists()) { //파일이 존재하면 true / 존재하지 않으면 false
+					int point = orgFilename.lastIndexOf("."); // 마지막 . 의 위치
+					String name = orgFilename.substring(0, point); //파일명 -> 첫 글자부터 마지막 . 의 위치 앞까지 문자열 구하기 (확장자 전의 글자까지 구하기)
+					String extName = orgFilename.substring(point+1); //확장자 -> 마지막 . 의 위치 다음부터 문자열 구하기
 					
-					f = new File(path, name+"_"+ i++ +"."+extName);
+					f = new File(path, name+"_"+ i++ +"."+ extName); // 반복되는 파일명이 있을경우 파일1, 파일2, 파일3... 으로 변경하여 저장해줌
+					
+				} //while문 종료
+				
+				//업로드하기
+				try { 
+					mf.transferTo(f); //업로드
+				}catch(Exception e) {
+					System.out.println("파일업로드 실패");
+					e.printStackTrace();
 				}
-				img1.transferTo(f); // 업로드
+				uploadFilename.add(f.getName()); //변경된 파일명 -> 위쪽에 설정한 f 의 이름 얻어오기
 				
-				realName = f.getName();
-				
-				hVO.setHousepic1(f.getName());
-			}
-		}catch(Exception e) {
-			System.out.println("하우스 사진 업로드 에러 발생");
-			e.printStackTrace();
+				}//if문 종료
+			}//for문 종료
+		}//if문 종료
+		
+		hVO.setHousepic1(uploadFilename.get(0)); //uploadFilename 에서 0번째 -> filename1
+		
+		if(uploadFilename.size()==2) {
+			hVO.setHousepic2(uploadFilename.get(1));
 		}
-		
-		String filename2 = img2.getOriginalFilename();
-		int j = 1;
-		if(filename2!=null && !filename2.equals("")) {
-			File f2 = new File(path, filename2);
-			while(f2.exists()) {
-				
-				int point2 = filename2.lastIndexOf(".");
-				String name2 = filename2.substring(0, point2);
-				String extName2 = filename2.substring(point2+1);
-				
-				f2 = new File(path, name2+"_"+(j++)+"."+extName2);
-			}
-			try {
-				if(filename2!=null && !filename2.equals("")) {
-					img2.transferTo(f2);
-				}
-			} catch(Exception e) {
-				System.out.println("filename2 업로드 에러 발생");
-			}
-			
-			realName = f2.getName();
-			hVO.setHousepic2(f2.getName());
+		if(uploadFilename.size()==3) {
+			hVO.setHousepic3(uploadFilename.get(2));
 		}
-		
-		String filename3 = img3.getOriginalFilename();
-		int k = 1;
-		if(filename2!=null && !filename3.equals("")) {
-			File f3 = new File(path, filename3);
-			while(f3.exists()) {
-				
-				int point3 = filename3.lastIndexOf(".");
-				String name3 = filename3.substring(0, point3);
-				String extName3 = filename3.substring(point3+1);
-				
-				f3 = new File(path, name3+"_"+(k++)+"."+extName3);
-			}
-			try {
-				if(filename3!=null && !filename3.equals("")) {
-					img3.transferTo(f3);
-				}
-			} catch(Exception e) {
-				System.out.println("filename3 업로드 에러 발생");
-			}
-			
-			realName = f3.getName();
-			hVO.setHousepic3(f3.getName());
+		if(uploadFilename.size()==4) {
+			hVO.setHousepic4(uploadFilename.get(3));
 		}
-		
-		String filename4 = img4.getOriginalFilename();
-		int l = 1;
-		if(filename4!=null && !filename4.equals("")) {
-			File f4 = new File(path, filename4);
-			while(f4.exists()) {
-				
-				int point4 = filename4.lastIndexOf(".");
-				String name4 = filename4.substring(0, point4);
-				String extName4 = filename4.substring(point4+1);
-				
-				f4 = new File(path, name4+"_"+(j++)+"."+extName4);
-			}
-			try {
-				if(filename4!=null && !filename4.equals("")) {
-					img4.transferTo(f4);
-				}
-			} catch(Exception e) {
-				System.out.println("filename4 업로드 에러 발생");
-			}
-			
-			realName = f4.getName();
-			hVO.setHousepic4(f4.getName());
+		if(uploadFilename.size()==5) {
+			hVO.setHousepic5(uploadFilename.get(4));
 		}
-		
-		String filename5 = img5.getOriginalFilename();
-		int m = 1;
-		if(filename5!=null && !filename5.equals("")) {
-			File f5 = new File(path, filename5);
-			while(f5.exists()) {
-				
-				int point5 = filename5.lastIndexOf(".");
-				String name5 = filename5.substring(0, point5);
-				String extName5 = filename5.substring(point5+1);
-				
-				f5 = new File(path, name5+"_"+(m++)+"."+extName5);
-			}
-			try {
-				if(filename5!=null && !filename5.equals("")) {
-					img5.transferTo(f5);
-				}
-			} catch(Exception e) {
-				System.out.println("filename5 업로드 에러 발생");
-			}
-			
-			realName = f5.getName();
-			hVO.setHousepic5(f5.getName());
-		}
-		
-		
-		
 		
 		ModelAndView mav = new ModelAndView();
 		
@@ -467,9 +515,13 @@ public class HouseController {
 					System.out.println("하우스 등록 실패");
 				}
 			}else {
-				if(realName!=null) {
-					File f = new File(path, realName);
-					f.delete();
+//				if(realName!=null) {
+//					File f = new File(path, realName);
+//					f.delete();
+//				}
+				for(String delFile : uploadFilename) {//파일삭제
+					File del = new File(path, delFile);
+					del.delete();
 				}
 				System.out.println("성향 등록 실패");
 				mav.setViewName("redirect:houseWrite");
@@ -478,8 +530,12 @@ public class HouseController {
 			System.out.println("쉐어하우스 글 등록 에러 발생 (트랜잭션)");
 			e.printStackTrace();
 			try { //파일업로드 트랜잭션
-				File dFileObj = new File(path, realName);
-				dFileObj.delete();
+//				File dFileObj = new File(path, realName);
+//				dFileObj.delete();
+				for(String delFile : uploadFilename) {//파일삭제
+					File del = new File(path, delFile);
+					del.delete();
+				}
 			}catch(Exception ee) {
 				System.out.println("파일업로드 실패 (트랜잭션) 실행");
 				ee.printStackTrace();				
@@ -587,6 +643,8 @@ public class HouseController {
 		
 		MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
 	    List<MultipartFile> list = mr.getFiles("filename");//업로드된 파일목록을가져온다
+	    
+		System.out.println("리스트 확인-> "+list.size());
 		
 	    List<String> newUpload = new ArrayList<String>();
 		if(newUpload!=null && list.size()>0) { //새로 수정되어 업로드 된 파일이 있는 경우
@@ -646,43 +704,11 @@ public class HouseController {
 			hVO.setHousepic5(selFile.get(4));
 		}
 
-		
-		
-		
-//		
-//		MultipartHttpServletRequest mr=(MultipartHttpServletRequest)req;
-//		if(mr.getFile("filename")!=null) {
-//			MultipartFile newName=mr.getFile("filename");
-//
-//			String newUpload="";
-//			
-//			if(newUpload!=null && newName!=null) {
-//				String orgname=newName.getOriginalFilename();
-//				
-//				if(orgname!=null && !orgname.equals("")) {
-//					File ff=new File(path, orgname);
-//					int i=1;
-//					while(ff.exists()) {
-//						int pnt=orgname.lastIndexOf(".");
-//						String firstName=orgname.substring(0, pnt);
-//						String extName=orgname.substring(pnt+1);
-//						
-//						ff=new File(path, firstName+"_"+ i++ +"."+extName);
-//					}
-//					try {
-//						newName.transferTo(ff);
-//					}catch(Exception e) {
-//						System.out.println("새로운 파일 추가 수정 에러 발생");
-//						e.printStackTrace();
-//					}
-//					newUpload=ff.getName();
-//					System.out.println("리네임된 새로운 파일명 : "+newUpload);
-//				}
-//			}
-//			
-		
-//		hVO.setHousepic1(newUpload);
-		
+		System.out.println(hVO.getHousepic1());
+		System.out.println(hVO.getHousepic2());
+		System.out.println(hVO.getHousepic3());
+		System.out.println(hVO.getHousepic4());
+		System.out.println(hVO.getHousepic5());
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED); // 트랜잭션 호출
 		TransactionStatus status=transactionManager.getTransaction(def);
