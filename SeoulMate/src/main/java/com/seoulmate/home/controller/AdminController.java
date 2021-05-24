@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -94,6 +95,22 @@ public class AdminController {
 			System.out.println("어드민 로그인 실패");
 			mav.setViewName("redirect:/admin/login");
 		}
+		
+		String endHouseList[]=service.endHouseList(); // 현재 기간 만료될 하우스 목록
+		String endMateList[]=service.endMateList(); // 현재 기간 만료될 메이트 목록
+		
+		if(endHouseList.length>0) { // 기간 만료될 하우스가 1개 이상일 때
+			for(int i=0; i<endHouseList.length; i++) {
+				service.endHouse(endHouseList[i]); // 모집중 -> 기간 만료
+			}
+		}
+		
+		if(endMateList.length>0) { // 기간 만료될 메이트가 1개 이상일 때
+			for(int i=0; i<endMateList.length; i++) {
+				service.endMate(endMateList[i]); // 모집중 -> 기간 만료
+			}
+		}
+		
 		return mav;
 	}
 	@RequestMapping("/admin/logoutOk")

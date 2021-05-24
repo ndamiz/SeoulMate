@@ -168,4 +168,14 @@ public class HouseServiceImp implements HouseService {
 		// 사용자 모든 성향 가져오기
 		return hDAO.getPropInfo(userid, housename);
 	}
+
+	@Override
+	public List<ListVO> HouseMatchList(HouseMatePagingVO pVO) {
+		return hDAO.HouseMatchList(pVO);
+	}
+
+	@Override
+	public int houseMatchTotal(HouseMatePagingVO pVO) {
+		return hDAO.houseMatchTotal(pVO);
+	}
 }

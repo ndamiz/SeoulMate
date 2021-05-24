@@ -5,6 +5,7 @@ import java.util.List;
 import com.seoulmate.home.vo.HouseMatePagingVO;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
+import com.seoulmate.home.vo.ListVO;
 import com.seoulmate.home.vo.PropensityVO;
 
 public interface HouseService {
@@ -92,4 +93,10 @@ public interface HouseService {
 	
 	//houseRoom List로 가져오기 
 	public List<HouseRoomVO> roomListSelect(int no);
+	
+	// 하우스 매칭 리스트 구하기(9개)
+	public List<ListVO> HouseMatchList(HouseMatePagingVO pVO);
+	
+	// 하우스 매칭 리스트 count 가져오기
+	public int houseMatchTotal(HouseMatePagingVO pVO);
 }

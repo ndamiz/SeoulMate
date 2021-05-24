@@ -98,13 +98,18 @@ public class HouseController {
 						if(phList.get(0)!=null){ // else if(phList!=null)
 							HouseRoomVO phhrVO = new HouseRoomVO();
 							for (ListVO phVO : phList) {
-	//							// 각 쉐어하우스의 제일 저렴한 월세 가져오기
-	//							phhrVO = HomeService.getDesposit(phVO.getNo());
-	//							
-	//							phVO.setDeposit(phhrVO.getDeposit());
-	//							phVO.setRent(phhrVO.getRent());
-								int idx = phVO.getAddr().indexOf("동 ");
-								phVO.setAddr(phVO.getAddr().substring(0, idx+1));
+								int index=phVO.getAddr().indexOf(" ");
+								String ad=phVO.getAddr().substring(index+1); // XX구 XX동 XX-XX XX
+								
+								int guIdx=ad.indexOf("구 ");
+								
+								String gu=ad.substring(0, guIdx+2); // 'XX구 ' 
+								String gu1=ad.substring(guIdx+2); // 'XX동 XX-XX XX'
+								
+								int dongIdx=gu1.indexOf(" ");
+								
+								String dong=gu1.substring(0, dongIdx); // 'XX동'
+								phVO.setAddr(gu+dong);
 							}
 							mav.addObject("phList", phList);
 						}
@@ -145,12 +150,22 @@ public class HouseController {
 					}
 				}
 			}
-			
 			hwVO.setDeposit(hrVO.getDeposit());
 			hwVO.setRent(hrVO.getRent());
 			
-			int idx = hwVO.getAddr().indexOf("동 ");
-			hwVO.setAddr(hwVO.getAddr().substring(0, idx+1));
+			// 하우스 구, 동 띄우기
+			int index=hwVO.getAddr().indexOf(" ");
+			String ad=hwVO.getAddr().substring(index+1); // XX구 XX동 XX-XX XX
+			
+			int guIdx=ad.indexOf("구 ");
+			
+			String gu=ad.substring(0, guIdx+2); // 'XX구 ' 
+			String gu1=ad.substring(guIdx+2); // 'XX동 XX-XX XX'
+			
+			int dongIdx=gu1.indexOf(" ");
+			
+			String dong=gu1.substring(0, dongIdx); // 'XX동'
+			hwVO.setAddr(gu+dong);
 		}
 		
 		mav.addObject("newHouseListCnt", nhList.size());
@@ -618,6 +633,86 @@ public class HouseController {
 			mav.setViewName("redirect:houseView");
 		}
 		return mav;
+	}
+	
+	@RequestMapping("/houseMatching")
+	public ModelAndView houseMatching(HttpSession session, String addr, String rent, String deposit, String m_gen, String pageNum) {
+		ModelAndView mav=new ModelAndView();
+		String userid=(String)session.getAttribute("logId");
+		HouseMatePagingVO pVO=new HouseMatePagingVO();
+		
+		int rentInt=0;
+		if(rent!=null && !rent.equals("")) {
+			rentInt=Integer.parseInt(rent);
+		}
+		
+		int depositInt=0;
+		if(deposit!=null && !deposit.equals("")) {
+			depositInt=Integer.parseInt(deposit);
+		}
+		
+		int m_genInt=0;
+		if(m_gen!=null && !m_gen.equals("")) {
+			m_genInt=Integer.parseInt(m_gen);
+		}
+		
+		int pageNumInt=1;
+		if(pageNum!=null && !pageNum.equals("")) {
+			pageNumInt=Integer.parseInt(pageNum);
+		}
+        
+        if(session.getAttribute("logId")!=null) {
+			int logGrade=(Integer)session.getAttribute("logGrade");
+			// 프리미엄일 때만
+			if(logGrade==2) {
+				// 메이트의 희망 성별 가져오기
+				int matePnoCheck=listService.myMatePnoCheck(userid);
+				
+				mav.addObject("matePnoCheck", matePnoCheck); // 메이트 번호의 갯수를 반환한다.
+				
+				if(matePnoCheck>0) { // 메이트 성향이 있을 때만 매칭된 하우스 목록을 띄워준다.
+					int m_gender=listService.mate_m_gender(userid);
+					
+					pVO.setUserid(userid);
+			        pVO.setAddr(addr);
+			        pVO.setRent(rentInt);
+			        pVO.setDeposit(depositInt);
+			        pVO.setM_gen(m_genInt);
+			        pVO.setM_gender(m_gender);
+			        pVO.setPageNum(pageNumInt);
+			        pVO.setTotalRecode(service.houseMatchTotal(pVO));
+					// 쉐어하우스 매칭 리스트 구하기
+					List<ListVO> phList = service.HouseMatchList(pVO); // PremiumHouseList
+					
+					if(phList.size()>0) {
+						if(phList.get(0)!=null){ // else if(phList!=null)
+							HouseRoomVO phhrVO = new HouseRoomVO();
+							for (ListVO phVO : phList) {
+								// 하우스 구, 동 띄우기
+								int index=phVO.getAddr().indexOf(" ");
+								String ad=phVO.getAddr().substring(index+1); // XX구 XX동 XX-XX XX
+								
+								int guIdx=ad.indexOf("구 ");
+								
+								String gu=ad.substring(0, guIdx+2); // 'XX구 ' 
+								String gu1=ad.substring(guIdx+2); // 'XX동 XX-XX XX'
+								
+								int dongIdx=gu1.indexOf(" ");
+								
+								String dong=gu1.substring(0, dongIdx); // 'XX동'
+								phVO.setAddr(gu+dong);
+							}
+							mav.addObject("phList", phList);
+						}
+					}
+				}
+			}
+        }
+        
+        mav.addObject("pVO", pVO);
+        mav.setViewName("house/houseMatching");
+        
+        return mav;
 	}
 	
 	

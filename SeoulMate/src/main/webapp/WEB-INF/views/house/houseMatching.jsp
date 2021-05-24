@@ -67,7 +67,7 @@
 <div class="wrap houseSearch_wrap">
 	<div class="boxClass"> <!-- 상단부분 div -->
 		<p class="d_title">조건검색</p>
-		<form method="get" action="houseIndex" id="houseIndexForm" onsubmit="return search();">
+		<form method="get" action="houseMatching" id="houseIndexForm" onsubmit="return search();">
 			<input type="hidden" name="pageNum" id="hiddenPageNum" value="${pVO.pageNum}"/>
 			<ul class="searchClass">
 				<li>
@@ -109,7 +109,6 @@
 		<section class="content recommend_list">
 			<div class="list_head">
 				<p class="m_title">${logName}님과 잘 어울리는 집이예요!</p>
-				<a href="houseMatching">더보기</a>
 			</div>
 			<c:if test="${phList!=null}">
 				<ul class="list_content">
@@ -149,82 +148,35 @@
 					<p style="text-align:center;">매칭에 맞는 결과가 없습니다.</p>
 				</div>
 			</c:if>
+			<div class="paging">
+				<c:if test="${pVO.pageNum>1  && pVO.totalPage>0}">
+					<a href="javascript:pageClick('first_page')" class="first_page"></a>
+					<a href="javascript:pageClick('prev_page')"  class="prev_page"></a>
+				</c:if>
+				<c:if test="${pVO.pageNum==1 && pVO.totalPage>0}">
+					<a href="#" class="first_page"></a>
+					<a href="#" class="prev_page"></a>
+				</c:if>
+				<c:forEach var="pageNum" begin="${pVO.startPageNum}" end="${pVO.startPageNum + pVO.onePageNum-1}">
+					<c:if test="${pageNum<=pVO.totalPage }">
+						<c:if test="${pageNum==pVO.pageNum }">
+							<a href="javascript:pageClick('${pageNum}')" class="on">${pageNum }</a>
+						</c:if>
+						<c:if test="${pageNum!=pVO.pageNum}">
+							<a href="javascript:pageClick('${pageNum}')">${pageNum}</a>
+						</c:if>
+					</c:if>
+				</c:forEach>
+				<c:if test="${pVO.pageNum < pVO.totalPage}">
+					<a href="javascript:pageClick('next_page')" class="next_page"></a>
+					<a href="javascript:pageClick('last_page')" class="last_page"></a>
+				</c:if>
+				<c:if test="${pVO.pageNum == pVO.totalPage}">
+					<a href="#" class="next_page"></a>
+					<a href="#" class="last_page"></a>
+				</c:if>
+			</div>
 		</section>
 	</c:if>
 </c:if>
-	
-<!-- 신규 쉐어하우스 -->
-<section class="content recommend_list">
-	<div class="list_head">
-		<p class="m_title">NEW 쉐어하우스</p>
-	</div>
-	<c:if test="${newHouseListCnt>0}">
-	<ul class="list_content">
-		<c:forEach items="${newHouseList}" var="newHouseVO">
-			<li>
-				<div class="list_img">
-					<c:if test="${logGrade==2}">
-						<c:if test="${matePnoCheck>0}"> <!-- 등록된 메이트 성향이 없으면 매칭을 안보여줌 -->
-							<p><span>매칭</span>${newHouseVO.score}<b>%</b></p>
-						</c:if>
-					</c:if>
-					<button class="btn_star houselike" value="${newHouseVO.no}"></button>
-					<a href="houseView?no=${newHouseVO.no}
-						<c:if test='${pVO.pageNum!=null && pVO.pageNum!=1}'>&pageNum=${pVO.pageNum}</c:if>
-						<c:if test='${pVO.addr!=null && pVO.addr!=""}'>&addr=${pVO.addr}</c:if>
-						<c:if test='${pVO.rent!=null && pVO.rent!=0}'>&rent=${pVO.rent}</c:if>
-						<c:if test='${pVO.deposit!=null && pVO.deposit!=0}'>&deposit=${pVO.deposit}</c:if>
-						<c:if test='${pVO.m_gen!=null && pVO.m_gen!=0}'>&m_gen=${pVO.m_gen}</c:if>
-					">
-						<img alt="" src="<%=request.getContextPath()%>/housePic/${newHouseVO.housepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'">
-					</a>
-				</div>
-				<div class="list_title">
-					<span class="address">${newHouseVO.addr}</span>
-					<span class="pay">￦ ${newHouseVO.deposit} / ${newHouseVO.rent}</span>
-				</div>
-				<ol class="list_icon">
-					<li><p>${newHouseVO.room}</p></li>
-					<li><p>${newHouseVO.bathroom}</p></li>
-					<li><p>${newHouseVO.nowpeople}</p></li>
-				</ol>
-			</li>
-		</c:forEach>
-	</ul>
-	</c:if>
-	<c:if test="${newHouseListCnt==0}">
-	  	<div class="empty_div">
-      		<img class="empty" src="<%=request.getContextPath()%>/img/empty.png" onerror="this.src='<%=request.getContextPath()%>/img/empty.png'"/>
-      		<p style="text-align:center;">필터에 맞는 결과가 없습니다.</p>
-     	</div>
-	</c:if>
-	<div class="paging">
-		<c:if test="${pVO.pageNum>1  && pVO.totalPage>0}">
-			<a href="javascript:pageClick('first_page')" class="first_page"></a>
-			<a href="javascript:pageClick('prev_page')"  class="prev_page"></a>
-		</c:if>
-		<c:if test="${pVO.pageNum==1 && pVO.totalPage>0}">
-			<a href="#" class="first_page"></a>
-			<a href="#" class="prev_page"></a>
-		</c:if>
-		<c:forEach var="pageNum" begin="${pVO.startPageNum}" end="${pVO.startPageNum + pVO.onePageNum-1}">
-			<c:if test="${pageNum<=pVO.totalPage }">
-				<c:if test="${pageNum==pVO.pageNum }">
-					<a href="javascript:pageClick('${pageNum}')" class="on">${pageNum }</a>
-				</c:if>
-				<c:if test="${pageNum!=pVO.pageNum}">
-					<a href="javascript:pageClick('${pageNum}')">${pageNum}</a>
-				</c:if>
-			</c:if>
-		</c:forEach>
-		<c:if test="${pVO.pageNum < pVO.totalPage}">
-			<a href="javascript:pageClick('next_page')" class="next_page"></a>
-			<a href="javascript:pageClick('last_page')" class="last_page"></a>
-		</c:if>
-		<c:if test="${pVO.pageNum == pVO.totalPage}">
-			<a href="#" class="next_page"></a>
-			<a href="#" class="last_page"></a>
-		</c:if>
-	</div>
-</section>
 </div>

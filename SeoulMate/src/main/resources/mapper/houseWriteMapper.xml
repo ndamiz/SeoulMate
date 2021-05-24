@@ -62,9 +62,10 @@
 	FROM (SELECT hw2.NO, hw2.pno, m_gender, userid, addr, housename, housepic1, room, bathroom, nowpeople, hr.rent, hr.DEPOSIT, hw2.writedate 
 	FROM (SELECT NO, hw.pno, hw.userid, m_gender, addr, hw.housename, housepic1, room, bathroom, nowpeople, writedate 
 	FROM (SELECT * FROM PROPENSITY WHERE pcase='h') p
-	JOIN (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, writedate FROM HOUSEWRITE WHERE housestate='모집중') hw ON p.pno=hw.pno) hw2
-	JOIN (SELECT r1.NO, rent, deposit FROM (select no, rent, deposit from houseroom) r1 
-	JOIN (select NO, min(rent) from houseroom GROUP BY NO) r2 ON r1.NO=r2.no) hr ON hw2.NO=hr.NO 
+	JOIN (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, writedate FROM HOUSEWRITE 
+	WHERE housestate='모집중' and houseshow='공개') hw ON p.pno=hw.pno) hw2
+	JOIN (SELECT z1.NO, z1.rent, deposit FROM (SELECT NO, min(rent) AS rent FROM houseroom GROUP BY NO)z1 
+	JOIN (SELECT NO, rent, deposit FROM houseroom)z2 ON z1.NO=z2.NO AND z1.rent=z2.rent) hr ON hw2.NO=hr.NO 
 	<if test='addr != null'>AND addr LIKE '%${addr}%'</if>) 
 	<if test='rent != null and rent>0'>where <![CDATA[rent<=#{rent}]]></if>)
 	<if test='deposit != null and deposit>0'>where <![CDATA[deposit<=#{deposit}]]></if>)
@@ -81,12 +82,103 @@
 		FROM (SELECT hw2.NO, hw2.pno, m_gender, userid, addr, housename, housepic1, room, bathroom, nowpeople, hr.rent, hr.DEPOSIT, hw2.writedate 
 		FROM (SELECT NO, hw.pno, hw.userid, m_gender, addr, hw.housename, housepic1, room, bathroom, nowpeople, writedate 
 		FROM (SELECT * FROM PROPENSITY WHERE pcase='h') p
-		JOIN (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, writedate FROM HOUSEWRITE WHERE housestate='모집중') hw ON p.pno=hw.pno) hw2
-		JOIN (SELECT r1.NO, rent, deposit FROM (select no, rent, deposit from houseroom) r1 
-		JOIN (select NO, min(rent) from houseroom GROUP BY NO) r2 ON r1.NO=r2.no) hr ON hw2.NO=hr.NO 
+		JOIN (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, writedate FROM HOUSEWRITE WHERE housestate='모집중' and houseshow='공개') hw ON p.pno=hw.pno) hw2
+		JOIN (SELECT z1.NO, z1.rent, deposit FROM (SELECT NO, min(rent) AS rent FROM houseroom GROUP BY NO)z1 
+		JOIN (SELECT NO, rent, deposit FROM houseroom)z2 ON z1.NO=z2.NO AND z1.rent=z2.rent) hr ON hw2.NO=hr.NO 
 		<if test='addr != null'>AND addr LIKE '%${addr}%'</if>) 
 		<if test='rent != null and rent>0'>where <![CDATA[rent<=#{rent}]]></if>)
 		<if test='deposit != null and deposit>0'>where <![CDATA[deposit<=#{deposit}]]></if>)
 		<if test='m_gen != null and m_gen!=0'>where <![CDATA[m_gender=#{m_gen}]]></if>
+  	</select>
+  	<select id="HouseMatchList" parameterType="com.seoulmate.home.vo.HouseMatePagingVO" resultType="com.seoulmate.home.vo.ListVO">
+  		SELECT *
+  		FROM (SELECT *
+		FROM (SELECT * 
+		FROM (SELECT * 
+		FROM (SELECT no, pno, userid, m_gender, addr, housename, housepic1, room, bathroom, nowpeople, rent, deposit, h_noise, h_pattern, h_petwith, h_mood, h_communication, score
+		from (SELECT no, pno, userid, m_gender, addr, housename, housepic1, room, bathroom, nowpeople, rent, deposit, h_noise, h_pattern, h_petwith, h_mood, h_communication, 
+			round((100-((h_noise+h_pattern+h_pet+h_petwith+h_smoke+h_mood+h_communication+h_party+h_enter+m_pattern+m_personality+m_pet+m_smoke+m_age+m_global+m_now)*3.125)), 0) AS score 
+		from(SELECT no, pno, userid, m_gender, addr, housename, housepic1, room, bathroom, nowpeople, rent, deposit, abs(m_h_noise-h_h_noise) AS h_noise, abs(m_h_pattern-h_h_pattern) AS h_pattern,
+			abs(m_h_pet-h_h_pet) AS h_pet, abs(m_h_petwith-h_h_petwith) AS h_petwith, abs(m_h_smoke-h_h_smoke) AS h_smoke, abs(m_h_mood-h_h_mood) AS h_mood,
+			abs(m_h_communication-h_h_communication) AS h_communication, abs(m_h_party-h_h_party) AS h_party, abs(m_h_enter-h_h_enter) AS h_enter, 
+			abs(m_m_pattern-h_m_pattern) AS m_pattern, abs(m_m_personality-h_m_personality) AS m_personality, abs(m_m_pet-h_m_pet) AS m_pet, 
+			abs(m_m_smoke-h_m_smoke) AS m_smoke, abs(m_m_age-h_m_age) AS m_age, abs(m_m_global-h_m_global) AS m_global, abs(m_m_now-h_m_now) AS m_now
+		FROM (select  h3.no as no, h3.pno, h3.userid, h3.m_gender, h3.addr, h3.housename AS housename, h3.housepic1, h3.room, h3.bathroom, h3.nowpeople, h3.rent, h3.deposit, m.h_noise AS m_h_noise, h3.h_noise AS h_h_noise, 
+			m.h_pattern AS m_h_pattern, h3.h_pattern AS h_h_pattern, m.h_pet AS m_h_pet, h3.h_pet AS h_h_pet, m.h_petwith AS m_h_petwith, h3.h_petwith AS h_h_petwith, m.h_smoke AS m_h_smoke, 
+			h3.h_smoke AS h_h_smoke, m.h_mood AS m_h_mood, h3.h_mood AS h_h_mood, m.h_communication AS m_h_communication, h3.h_communication AS h_h_communication, m.h_party AS m_h_party, 
+			h3.h_party AS h_h_party, m.h_enter AS m_h_enter, h3.h_enter AS h_h_enter, m.m_pattern AS m_m_pattern, h3.m_pattern AS h_m_pattern, m.m_personality AS m_m_personality, 
+			h3.m_personality AS h_m_personality, m.m_pet AS m_m_pet, h3.m_pet AS h_m_pet, m.m_smoke AS m_m_smoke, h3.m_smoke AS h_m_smoke, m.m_age AS m_m_age, 
+			h3.m_age AS h_m_age, m.m_global AS m_m_global, h3.m_global AS h_m_global, m.m_now AS m_m_now, h3.m_now AS h_m_now
+		from (SELECT h_noise, h_pattern, h_pet, h_petwith, h_smoke, h_mood, h_communication, h_party, h_enter, m_pattern, 
+			m_personality, m_pet, m_smoke, m_age, m_global, m_now, substr(to_char(pdate, 'YYYY'), 1,1) AS pdate 
+		FROM PROPENSITY WHERE userid=#{userid} AND pcase='m') m
+		full outer JOIN (select h2.NO as no, h2.pno, h2.userid, h.m_gender, h2.addr, h2.housename, h2.housepic1, h2.room, h2.bathroom, h2.nowpeople, h2.rent, h2.deposit, h_noise, h_pattern, h_pet, h_petwith, h_smoke, 
+			h_mood, h_communication, h_party, h_enter, m_pattern, m_personality, m_pet, m_smoke, m_age, m_global, m_now, substr(to_char(pdate, 'YYYY'), 1,1) AS pdate 
+		FROM (
+		<if test='m_gender == 1 || m_gender == 3'>
+			select * from propensity where pcase='h' and housename is not null and m_gender=(select  pm.gender from member pm 
+			join (select userid, m_gender, pcase from propensity) p on pm.userid=p.userid and pm.gender=p.m_gender and pcase='m' and pm.userid=#{userid})
+		</if>
+		<if test='m_gender == 2'>
+			select * from propensity where pcase='h' and housename is not null and m_gender=(select pm.gender from member pm 
+			JOIN (select userid, m_gender, pcase from propensity) p on pm.userid=p.userid and m_gender=2 and pcase='m' and pm.userid=#{userid}) or (m_gender=2 and housename is not null)
+		</if>) h 
+		JOIN (SELECT hw.NO, hw.pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, hr.rent, hr.deposit 
+		FROM (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople 
+		FROM HOUSEWRITE WHERE housestate='모집중' and userid!=#{userid} and houseshow='공개') hw 
+		JOIN (SELECT z1.NO, z1.rent, deposit FROM (SELECT NO, min(rent) AS rent FROM houseroom GROUP BY NO)z1 
+		JOIN (SELECT NO, rent, deposit FROM houseroom)z2 ON z1.NO=z2.NO AND z1.rent=z2.rent) hr ON hw.NO=hr.NO) h2
+		ON h.pno=h2.pno) h3 ON m.pdate=h3.pdate) h4) 
+		<if test='addr !=null'> where addr like '%${addr}%'</if>)
+		<if test='rent != null and rent>0'>where <![CDATA[rent<=${rent}]]></if>)
+		<if test='deposit != null and deposit>0'>where <![CDATA[deposit<=${deposit}]]></if>)
+		<if test='m_gen != null and m_gen!=0'>where <![CDATA[m_gender=${m_gen}]]></if>
+		ORDER BY score desc, NO desc) 
+		where <![CDATA[rownum<=]]>${pageNum * onePageRecode} order by score asc, NO asc)
+	 	where <![CDATA[rownum<=]]><if test="pageNum==totalPage">${lastPageRecode}</if> 
+	 	<if test="pageNum!=totalPage">${onePageRecode}</if> ORDER BY score DESC, no desc
+  	</select>
+  	<select id="houseMatchTotal" parameterType="com.seoulmate.home.vo.HouseMatePagingVO" resultType="int">
+  		SELECT count(no) 
+		FROM (SELECT * 
+		FROM (SELECT * 
+		FROM (SELECT no, pno, userid, m_gender, addr, housename, housepic1, room, bathroom, nowpeople, rent, deposit, h_noise, h_pattern, h_petwith, h_mood, h_communication, score
+		from (SELECT no, pno, userid, m_gender, addr, housename, housepic1, room, bathroom, nowpeople, rent, deposit, h_noise, h_pattern, h_petwith, h_mood, h_communication, 
+			round((100-((h_noise+h_pattern+h_pet+h_petwith+h_smoke+h_mood+h_communication+h_party+h_enter+m_pattern+m_personality+m_pet+m_smoke+m_age+m_global+m_now)*3.125)), 0) AS score 
+		from(SELECT no, pno, userid, m_gender, addr, housename, housepic1, room, bathroom, nowpeople, rent, deposit, abs(m_h_noise-h_h_noise) AS h_noise, abs(m_h_pattern-h_h_pattern) AS h_pattern,
+			abs(m_h_pet-h_h_pet) AS h_pet, abs(m_h_petwith-h_h_petwith) AS h_petwith, abs(m_h_smoke-h_h_smoke) AS h_smoke, abs(m_h_mood-h_h_mood) AS h_mood,
+			abs(m_h_communication-h_h_communication) AS h_communication, abs(m_h_party-h_h_party) AS h_party, abs(m_h_enter-h_h_enter) AS h_enter, 
+			abs(m_m_pattern-h_m_pattern) AS m_pattern, abs(m_m_personality-h_m_personality) AS m_personality, abs(m_m_pet-h_m_pet) AS m_pet, 
+			abs(m_m_smoke-h_m_smoke) AS m_smoke, abs(m_m_age-h_m_age) AS m_age, abs(m_m_global-h_m_global) AS m_global, abs(m_m_now-h_m_now) AS m_now
+		FROM (select  h3.no as no, h3.pno, h3.userid, h3.m_gender, h3.addr, h3.housename AS housename, h3.housepic1, h3.room, h3.bathroom, h3.nowpeople, h3.rent, h3.deposit, m.h_noise AS m_h_noise, h3.h_noise AS h_h_noise, 
+			m.h_pattern AS m_h_pattern, h3.h_pattern AS h_h_pattern, m.h_pet AS m_h_pet, h3.h_pet AS h_h_pet, m.h_petwith AS m_h_petwith, h3.h_petwith AS h_h_petwith, m.h_smoke AS m_h_smoke, 
+			h3.h_smoke AS h_h_smoke, m.h_mood AS m_h_mood, h3.h_mood AS h_h_mood, m.h_communication AS m_h_communication, h3.h_communication AS h_h_communication, m.h_party AS m_h_party, 
+			h3.h_party AS h_h_party, m.h_enter AS m_h_enter, h3.h_enter AS h_h_enter, m.m_pattern AS m_m_pattern, h3.m_pattern AS h_m_pattern, m.m_personality AS m_m_personality, 
+			h3.m_personality AS h_m_personality, m.m_pet AS m_m_pet, h3.m_pet AS h_m_pet, m.m_smoke AS m_m_smoke, h3.m_smoke AS h_m_smoke, m.m_age AS m_m_age, 
+			h3.m_age AS h_m_age, m.m_global AS m_m_global, h3.m_global AS h_m_global, m.m_now AS m_m_now, h3.m_now AS h_m_now
+		from (SELECT h_noise, h_pattern, h_pet, h_petwith, h_smoke, h_mood, h_communication, h_party, h_enter, m_pattern, 
+			m_personality, m_pet, m_smoke, m_age, m_global, m_now, substr(to_char(pdate, 'YYYY'), 1,1) AS pdate 
+		FROM PROPENSITY WHERE userid=#{userid} AND pcase='m') m
+		full outer JOIN (select h2.NO as no, h2.pno, h2.userid, h.m_gender, h2.addr, h2.housename, h2.housepic1, h2.room, h2.bathroom, h2.nowpeople, h2.rent, h2.deposit, h_noise, h_pattern, h_pet, h_petwith, h_smoke, 
+			h_mood, h_communication, h_party, h_enter, m_pattern, m_personality, m_pet, m_smoke, m_age, m_global, m_now, substr(to_char(pdate, 'YYYY'), 1,1) AS pdate 
+		FROM (
+		<if test='m_gender == 1 || m_gender == 3'>
+			select * from propensity where pcase='h' and housename is not null and m_gender=(select  pm.gender from member pm 
+			join (select userid, m_gender, pcase from propensity) p on pm.userid=p.userid and pm.gender=p.m_gender and pcase='m' and pm.userid=#{userid})
+		</if>
+		<if test='m_gender == 2'>
+			select * from propensity where pcase='h' and housename is not null and m_gender=(select pm.gender from member pm 
+			JOIN (select userid, m_gender, pcase from propensity) p on pm.userid=p.userid and m_gender=2 and pcase='m' and pm.userid=#{userid}) or (m_gender=2 and housename is not null)
+		</if>) h 
+		JOIN (SELECT hw.NO, hw.pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, hr.rent, hr.deposit -- 여기서부터 
+		FROM (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople 
+		FROM HOUSEWRITE WHERE housestate='모집중' and userid!=#{userid} and houseshow='공개') hw 
+		JOIN (SELECT z1.NO, z1.rent, deposit FROM (SELECT NO, min(rent) AS rent FROM houseroom GROUP BY NO)z1 
+		JOIN (SELECT NO, rent, deposit FROM houseroom)z2 ON z1.NO=z2.NO AND z1.rent=z2.rent) hr ON hw.NO=hr.NO) h2
+		ON h.pno=h2.pno) h3 ON m.pdate=h3.pdate) h4) 
+		<if test='addr !=null'> where addr like '%${addr}%'</if>)
+		<if test='rent != null and rent>0'>where <![CDATA[rent<=${rent}]]></if>)
+		<if test='deposit != null and deposit>0'>where <![CDATA[deposit<=${deposit}]]></if>)
+		<if test='m_gen != null and m_gen!=0'>where <![CDATA[m_gender=${m_gen}]]></if>)
   	</select>
   </mapper>

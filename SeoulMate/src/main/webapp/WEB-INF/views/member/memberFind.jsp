@@ -116,9 +116,8 @@
 				<input type="text" name="userid" id="useridCheck" placeholder="아이디를 입력해주세요"/><br/>
 				<label>이메일</label>
 				<input type="text" name="email" id="pwdEmailCheck" placeholder="이메일을 입력해주세요"/>
-				<a class="green" id="pwdEmailCheckBtn">전송</a>
 				<div class="center">
-					<button class="h_btn green" id="FindPwdBtn">비밀번호 찾기</button>
+					<a class="h_btn green" id="pwdEmailCheckBtn">전송</a>
 				</div>
 			</form>
 		</div>
