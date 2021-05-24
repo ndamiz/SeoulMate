@@ -17,10 +17,12 @@ public class HouseMatePagingVO {
 	private int deposit;
 	private int m_gen;
 	private int gender;
-	
-	// 하우스 매칭 목록 추가
-	private int m_gender;
+
+	// 메이트 매칭리스트
+	private int pno;
 	private String userid;
+	private int m_gender; // 하우스의 희망성별
+	
 	
 	public int getPageNum() {
 		return pageNum;
@@ -111,6 +113,13 @@ public class HouseMatePagingVO {
 	public void setGender(int gender) {
 		this.gender = gender;
 	}
+	public int getPno() {
+		return pno;
+	}
+	public void setPno(int pno) {
+		this.pno = pno;
+	}
+
 	public String getUserid() {
 		return userid;
 	}

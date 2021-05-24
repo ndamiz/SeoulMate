@@ -199,7 +199,7 @@
 		   <section class="content recommend_list mate_list">
 		      <div class="list_head">
 		         <p class="m_title">${logName}님과 잘 어울리는 메이트예요!</p>
-		         <a href="">더보기</a>
+		         <a href="mateMatching">더보기</a>
 		      </div>
 		      <c:if test="${pmList!=null}">
 			      <ul class="list_content">
@@ -254,7 +254,7 @@
    <section class="content recommend_list mate_list">
       <div class="list_head">
          <p class="m_title">NEW 하우스메이트</p>
-         <a href="">더보기</a>
+         <a href="mateIndex">더보기</a>
       </div>
       <c:if test="${newMateListCnt!=0}">
 	      <ul class="list_content">
