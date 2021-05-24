@@ -451,7 +451,7 @@ public class HouseController {
 								rVO.getRoomVOList().get(i).setUserid(userid);
 								result3 = service.roomInsert(rVO.getRoomVOList().get(i));
 								if(result3>0) {
-									System.out.println("방 등록 성공");
+									System.out.println("방"+i+"번째 등록 성공");
 									
 //									 int myHousePnoCnt=listService.myHousePnoCount(userid);
 //							         if(myHousePnoCnt>0) {

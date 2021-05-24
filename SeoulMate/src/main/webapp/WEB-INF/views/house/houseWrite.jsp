@@ -599,7 +599,7 @@ $(function(){
 							<input type="radio" id="furniture2" value="2" name="roomVOList[0].furniture"> 
 							<label for="furniture2">없음</label>
 						</div>	</li>
-				<li><label>포함된 가구</label><input type="text" name="roomVOList[0].incFurniture"/> </li>
+				<li><label>포함된 가구</label><input type="text" name="roomVOList[0].incFurniture"/></li>
 			</ul>
 			<div class="title_wrap">
 				<p class="s_title">임대료 및 입주정보 </p> <br/>
