@@ -77,8 +77,19 @@ public class HomeController {
 	            
 	            hwVO.setDeposit(hrVO.getDeposit());
 	            hwVO.setRent(hrVO.getRent());
-	            int idx = hwVO.getAddr().indexOf("동 ");
-	            hwVO.setAddr(hwVO.getAddr().substring(0, idx+1));
+	            
+	            int index=hwVO.getAddr().indexOf(" ");
+				String ad=hwVO.getAddr().substring(index+1); // XX구 XX동 XX-XX XX
+				
+				int guIdx=ad.indexOf("구 ");
+				
+				String gu=ad.substring(0, guIdx+2); // 'XX구 ' 
+				String gu1=ad.substring(guIdx+2); // 'XX동 XX-XX XX'
+				
+				int dongIdx=gu1.indexOf(" ");
+				
+				String dong=gu1.substring(0, dongIdx); // 'XX동'
+				hwVO.setAddr(gu+dong);
 	         }
 	         mav.addObject("houseMapList", houseMapList);
 	      }
@@ -126,7 +137,7 @@ public class HomeController {
 	//						HouseRoomVO phhrVO = new HouseRoomVO();
 							for (ListVO phVO : phList) {
 								// 하우스 구, 동 띄우기
-					            int index=phVO.getAddr().indexOf(" ");
+								int index=phVO.getAddr().indexOf(" ");
 								String ad=phVO.getAddr().substring(index+1); // XX구 XX동 XX-XX XX
 								
 								int guIdx=ad.indexOf("구 ");
