@@ -213,9 +213,9 @@ public class HouseController {
 	//하우스 등록시 선택한 성향 불러오기
 	@RequestMapping("/getPropensity")
 	@ResponseBody
-	public PropensityVO getPropensity(PropensityVO pVO, String userid, String housename){
-		System.out.println(housename);
-		return service.getFullPropensity(userid, housename); //불러온 이름중에서 선택한 성향 값 가져오기
+	public PropensityVO getPropensity(PropensityVO pVO, String userid, int pno){
+		System.out.println(pno);
+		return service.getFullPropensity(userid, pno); //불러온 이름중에서 선택한 성향 값 가져오기
 	}
 	//하우스 글 등록 확인
 	@RequestMapping(value="/houseWriteOk", method = RequestMethod.POST)

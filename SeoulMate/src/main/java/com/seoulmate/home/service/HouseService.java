@@ -91,7 +91,7 @@ public interface HouseService {
 	public List<PropensityVO> getPropInfo(String userid);
 	
 	//선택한 성향 정보 가져오기
-	public PropensityVO getFullPropensity(String userid, String housename);
+	public PropensityVO getFullPropensity(String userid, int pno);
 	
 	//houseRoom List로 가져오기 
 	public List<HouseRoomVO> roomListSelect(int no);

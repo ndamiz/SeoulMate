@@ -218,10 +218,11 @@ $(function(){
 	//성향 버튼 눌렀을때 가져오기========================================================================
 	$('.getPropinfo').click(function(){
 		var housename = $(this).text();
+		var pno = $(this).attr('id');
 		console.log(housename);
 		$.ajax({
 			url : "/home/getPropensity",
-			data : "userid=${logId}&housename="+housename,
+			data : 'userid=${logId}&pno='+pno,
 			success : function(result){
 				console.log(result);
 // 				//1. 생활소음 h_noise
@@ -243,8 +244,10 @@ $(function(){
 // 				//9. 모임참가 의무 h_enter
 				$('input[name=h_enter]:radio[value='+result.h_enter+']').prop('checked', true);
 // 				//10. 하우스내 지원서비스 h_support
-				for(var i=0; i<result.h_support.length; i++){
-					$('input[name=h_support]:checkbox[value='+result.h_support[i]+']').prop('checked', true);
+				if(result.h_support != null){
+					for(var i=0; i<result.h_support.length; i++){
+						$('input[name=h_support]:checkbox[value='+result.h_support[i]+']').prop('checked', true);
+					}
 				}
 				//11. 메이트 생활시간
 				$('input[name=m_pattern]:radio[value='+result.m_pattern+']').prop('checked', true);
@@ -620,11 +623,11 @@ $(function(){
 		
 		<div class="title_wrap">
 		<ul class="s_margin" id="HproUl">
-			<c:forEach var="vo" items="${list}">
+			<c:forEach var="vo" items="${list}" varStatus="index">
 				<li>
-					<a class="getPropinfo">
+					<a id="${vo.pno}" class="getPropinfo">
 						<c:if test="${vo.housename!=null}">${vo.housename}</c:if>
-						<c:if test="${vo.housename==null}">성향${vo.pno}</c:if>
+						<c:if test="${vo.housename==null}">이름없는 집 ${index.count} </c:if>
 					</a>
 				</li>
 			</c:forEach>
