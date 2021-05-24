@@ -14,6 +14,7 @@ public class ReportVO {
 	private String vState;  // 해당 게시글 공개 상태 여부
 	private String bState;	// 해당 멤버 블랙리스트 등록 여부
 	
+	
 	public int getNum() {
 		return num;
 	}

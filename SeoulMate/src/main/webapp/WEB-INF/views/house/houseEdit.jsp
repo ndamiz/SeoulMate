@@ -227,9 +227,9 @@ $(function(){
 <div class="content">
 	<form method="post" id="houseWriteFrm" action="houseEditOk" enctype="multipart/form-data">
 	
-	<input type="hidden" name="no" value="${hVO. no }">
+	<input type="hidden" name="no" value="${hVO.no}">
 <%-- 	<input type="hidden" name="no" value="${rVO. hno }"> --%>
-	<input type="hidden" name="pno" value="${pVO. pno }">
+	<input type="hidden" name="pno" value="${pVO.pno}">
 	<div class="title_wrap">
 	<p class="m_title">하우스 수정하기 </p> 
 	<p>&nbsp;</p>

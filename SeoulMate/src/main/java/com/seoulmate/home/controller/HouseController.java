@@ -227,9 +227,10 @@ public class HouseController {
 		System.out.println(pVO.getPno());
 		String userid=(String)session.getAttribute("logId");
 		
+		System.out.println(rVO.getRoomVOList().get(0).getDeposit()+"?????????????");
 		
 		hVO.setUserid(userid);
-		rVO.setUserid(userid);
+//		rVO.setUserid(userid);
 		pVO.setUserid(userid);
 		pVO.setPcase("h");
 		
@@ -308,7 +309,15 @@ public class HouseController {
 					
 					if(houseUpdate>0) {
 						System.out.println("하우스네임 업데이트 성공");
-						int result3 = service.roomInsert(rVO);
+						//===test
+						int result3 = 0;
+						for(int i=0; i<rVO.getRoomVOList().size(); i++) {
+							if(rVO.getRoomVOList().get(i).getRoomName() != null) {
+								rVO.getRoomVOList().get(i).setUserid(userid);
+								result3 = service.roomInsert(rVO.getRoomVOList().get(i));
+							}
+						}
+						//===test
 						if(result3>0) {
 							System.out.println("방 등록 성공");
 							
@@ -359,7 +368,6 @@ public class HouseController {
 	public ModelAndView houseEdit(int no, HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, HttpSession session, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
 		String userid = (String)session.getAttribute("logId");
-		System.out.println(no+"?????????????????");
 		// <a href="boardEdit?no=${vo.no }">수정</a> 수정할때 글의 번호 가져오기
 		
 		hVO.setUserid(userid);
@@ -412,7 +420,7 @@ public class HouseController {
 		hVO.setUserid(userid);
 		rVO.setUserid(userid);
 		pVO.setUserid(userid);
-				
+		
 		//사진 수정
 		String path = req.getSession().getServletContext().getRealPath("/housePic");
 		String selFilename = service.houseProfilePic(userid, hVO.getNo()); //아이디, no

@@ -253,13 +253,13 @@
   	<update id="allStateUdate">
   		update 
   		<if test="param3 == '하우스'">housewrite set 
-  			<if test="param4 == '처리완료'">housestate='비공개' </if>
-  			<if test="param4 == '허위신고'">housestate='공개' </if>
+  			<if test="param4 == '처리완료'">houseshow='비공개' </if>
+  			<if test="param4 == '허위신고'">househow ='공개' </if>
   			where no=#{param1} and userid=#{param2}	
   		</if>
   		<if test="param3 == '메이트'">matewrite set 
-			<if test="param4 == '처리완료'">matestate='비공개' </if>
-  			<if test="param4 == '허위신고'">matestate='공개' </if>
+			<if test="param4 == '처리완료'">mateshow='비공개' </if>
+  			<if test="param4 == '허위신고'">mateshow='공개' </if>
   			where no=#{param1} and userid=#{param2}	
   		</if>
   		<if test="param3 == '커뮤니티'">
