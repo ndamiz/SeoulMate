@@ -77,7 +77,7 @@
   		SELECT * FROM propensity WHERE pno=${param1}
   	</select>
   	<select id="houseRoomInfoSelect" parameterType="com.seoulmate.home.vo.HouseWriteVO" resultType="com.seoulmate.home.vo.HouseRoomVO">
-  		SELECT * FROM HOUSEROOM WHERE NO=${no} AND userid='${userid}'
+  		SELECT * FROM HOUSEROOM WHERE NO=${no} AND userid='${userid}
   	</select>
   	<select id="houseListSelect" parameterType="java.util.HashMap" resultType="com.seoulmate.home.vo.HouseWriteVO">
   		SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM
@@ -223,17 +223,25 @@
   		(select * from 
   		(select r.num, r.userid, r.reportid, r.category, r.no, r.reportdate, r.state, m.state bState from report r join member m on r.userid = m.userid 
   		<if test='searchKey !=null and searchWord != null and searchKey != "" and searchWord !=""'>where r.${searchKey} like '%${searchWord}%'</if>)
-  		<if test="grade != null and grade != ''"> where category=#{grade} </if>)
-  		<if test='state != null and state !=""'> where state=#{state}</if>)  
+  		<if test="grade != null and grade !='' ">where category=#{grade} </if>)
+  		<if test='state != null and state !="" '>where state=#{state}</if>)
   		order by num desc)
   		where <![CDATA[rownum<=]]>${pageNum * onePageRecode} order by num asc)
-  		where <![CDATA[rownum<=]]><if test="pageNum==totalPage">${lastPageRecode}</if> 
+  		where <![CDATA[rownum<=]]><if test="pageNum==totalPage">${lastPageRecode}</if>
   		<if test="pageNum!=totalPage">${onePageRecode}</if> ORDER BY num DESC
   	</select>
   	<select id="reportInfo" resultType="com.seoulmate.home.vo.ReportVO">
   		select r.num, r.no, r.category, r.userid, reportid, reportcategory, reportcontent, reportdate, r.state, 
   		<if test="param2 != '채팅' ">
-  			c.state vState, 
+  			<if test="param2 != '하우스' and param2 != '메이트'">
+  				c.state vState,
+  			</if>
+  			<if test="param2 == '메이트'">
+  				c.matestate vState,
+  			</if>
+  			<if test="param2 == '하우스'">
+  				c.housestate vState,
+  			</if>
   		</if>
   		m.state bState
   		from report r join 
@@ -250,13 +258,13 @@
   	<update id="allStateUdate">
   		update 
   		<if test="param3 == '하우스'">housewrite set 
-  			<if test="param4 == '처리완료'">housestate='비공개' </if>
-  			<if test="param4 == '허위신고'">housestate='공개' </if>
+  			<if test="param4 == '처리완료'">houseshow='비공개' </if>
+  			<if test="param4 == '허위신고'">househow ='공개' </if>
   			where no=#{param1} and userid=#{param2}	
   		</if>
   		<if test="param3 == '메이트'">matewrite set 
-			<if test="param4 == '처리완료'">matestate='비공개' </if>
-  			<if test="param4 == '허위신고'">matestate='공개' </if>
+			<if test="param4 == '처리완료'">mateshow='비공개' </if>
+  			<if test="param4 == '허위신고'">mateshow='공개' </if>
   			where no=#{param1} and userid=#{param2}	
   		</if>
   		<if test="param3 == '커뮤니티'">
@@ -343,7 +351,7 @@
    		from qna q join member m on q.userid=m.userid )where no=${param1}
    	</select>
    	<update id="contactUpdate" parameterType="com.seoulmate.home.vo.ContactVO">
-   		update qna set aContent=#{aContent}, state='답변완료' where no=${no}
+   		update qna set aContent=#{aContent}, state='답변완료', adate=sysdate where no=${no}
    	</update>
    	<!-- Dashboard -->
    	<select id="todayReportNum" resultType="int">
@@ -380,6 +388,12 @@
    	<update id="endMate">
    		UPDATE matewrite SET matestate='기간 만료' WHERE NO=#{param1}
    	</update>
+   	<select id="getHouseAddr" resultType="int">
+   		select count(addr) from houseWrite where addr like '%${param1}%'
+   	</select>
+   	<select id="getMemberGrade" parameterType="int" resultType="int">
+   		select count(no) from member where grade=${param1}
+   	</select>
 </mapper>
 
 

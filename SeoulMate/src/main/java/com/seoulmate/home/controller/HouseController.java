@@ -226,11 +226,7 @@ public class HouseController {
 			mav.addObject("housePno", 0); //하우스 글이 없을경우 pno 에 0 값을 넣어줌
 		}
 		if(pcaseH>0) {
-			//mav.addObject("list", memService.houseList(userid));
-			mav.addObject("list", service.getPropInfo(userid, "nodata"));
-			List<List<PropensityVO>> test = new  ArrayList<List<PropensityVO>>();
-			test.add(service.getPropInfo(userid, "nodata"));
-			System.out.println(test.get(0).get(0).getH_support()+"bbbbb");
+			mav.addObject("list", service.getPropInfo(userid)); //사용자가 등록해 놓은 성향 이름 불러오기
 		}
 		mav.setViewName("house/houseWrite");
 		return mav;
@@ -238,8 +234,9 @@ public class HouseController {
 	//하우스 등록시 선택한 성향 불러오기
 	@RequestMapping("/getPropensity")
 	@ResponseBody
-	public List<PropensityVO> getPropensity(String userid, String housename){
-		return service.getPropInfo(userid, housename);
+	public PropensityVO getPropensity(PropensityVO pVO, String userid, int pno){
+		System.out.println(pno);
+		return service.getFullPropensity(userid, pno); //불러온 이름중에서 선택한 성향 값 가져오기
 	}
 	//하우스 글 등록 확인
 	@RequestMapping(value="/houseWriteOk", method = RequestMethod.POST)
@@ -251,9 +248,10 @@ public class HouseController {
 		System.out.println(pVO.getPno());
 		String userid=(String)session.getAttribute("logId");
 		
+		System.out.println(rVO.getRoomVOList().get(0).getDeposit()+"?????????????");
 		
 		hVO.setUserid(userid);
-		rVO.setUserid(userid);
+//		rVO.setUserid(userid);
 		pVO.setUserid(userid);
 		pVO.setPcase("h");
 		
@@ -332,7 +330,15 @@ public class HouseController {
 					
 					if(houseUpdate>0) {
 						System.out.println("하우스네임 업데이트 성공");
-						int result3 = service.roomInsert(rVO);
+						//===test
+						int result3 = 0;
+						for(int i=0; i<rVO.getRoomVOList().size(); i++) {
+							if(rVO.getRoomVOList().get(i).getRoomName() != null) {
+								rVO.getRoomVOList().get(i).setUserid(userid);
+								result3 = service.roomInsert(rVO.getRoomVOList().get(i));
+							}
+						}
+						//===test
 						if(result3>0) {
 							System.out.println("방 등록 성공");
 							
@@ -383,7 +389,6 @@ public class HouseController {
 	public ModelAndView houseEdit(int no, HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, HttpSession session, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
 		String userid = (String)session.getAttribute("logId");
-		
 		// <a href="boardEdit?no=${vo.no }">수정</a> 수정할때 글의 번호 가져오기
 		
 		hVO.setUserid(userid);
@@ -436,7 +441,7 @@ public class HouseController {
 		hVO.setUserid(userid);
 		rVO.setUserid(userid);
 		pVO.setUserid(userid);
-				
+		
 		//사진 수정
 		String path = req.getSession().getServletContext().getRealPath("/housePic");
 		String selFilename = service.houseProfilePic(userid, hVO.getNo()); //아이디, no

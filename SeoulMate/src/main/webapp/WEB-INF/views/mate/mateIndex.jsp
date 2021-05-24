@@ -1,8 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script src = "<%=request.getContextPath()%>/js/like.js"></script>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/doo.css">
 <script>
 	$(function(){
+		//=============================================================세트
+	   if(${logId != null}){ // 로그인 했을때만 실행
+			//내가 찜한 글은 별버튼에 불 들어오기 & 내가 올린 글은 별 버튼 숨기기
+		   $.ajax({
+			   url : '/home/likemarkCheck',
+			   data : {'userid': '${logId}'},
+			   traditional : true,
+			   success : function(result){
+				   console.log(result)
+				   likeButtonOn(result); // 찜한거 불 넣기 & 자기글 버튼 안보이게 하기
+			   },error : function(){
+				   alert('찜 목록 불러오기 실패')
+			   }
+		   });
+	   }
+		// 찜하기 등록 + 삭제
+		$('.btn_star').click(function(){
+			var obj = $(this);
+			var no = $(this).val();
+			var userid = '${logId}'
+			var category = '';
+			if($(obj).hasClass('on')){// 이미 등록한 버튼 눌리면 찜목록에서 삭제
+				likeDelete(no, userid, obj)
+			}else{
+				if($(this).hasClass('houselike')){ // 찜하는 글이 하우스 글일때
+					category = '하우스';
+				}else{ //메이트 글일때.
+					category = '메이트';
+				}
+				likeInsert(no, category, userid, obj); // 찜 등록 ajax함수.
+			}
+		});
+		//=====================================================================세트
 		$("#searchBox").click(function(){ // 해줘야하나 아직 모르겠음 뒤로가기했을 때 값이 그대로있는지 모름
 			$("#searchBox").val("");
 		});

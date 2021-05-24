@@ -1,10 +1,12 @@
 package com.seoulmate.home.vo;
 
+import java.util.List;
+
 public class HouseRoomVO {
 	private int no; //houseWrite 테이블에 no (일련번호)
-	private int hno; // 룸 일련번호  
+	private int hno; // 룸 일련번호 
 	private String userid;
-	private String roomName; // 룸 이름 
+	private String roomName; // 룸 이름
 	private int deposit;  //보증금 
 	private int rent;  //월세 
 	private String enterdate; //입주 가능일 
@@ -13,6 +15,9 @@ public class HouseRoomVO {
 	private int roomPeople; // 방 인원 
 	private int furniture;  // 가구 여부 (있음, 없음) 
 	private String incFurniture;  //포함된 가구 
+	
+	//방 여러개 테스트
+	private List<HouseRoomVO> roomVOList;
 	
 	public int getNo() {
 		return no;
@@ -86,6 +91,11 @@ public class HouseRoomVO {
 	public void setIncFurniture(String incFurniture) {
 		this.incFurniture = incFurniture;
 	}
-	
-	
+	///////
+	public List<HouseRoomVO> getRoomVOList() {
+		return roomVOList;
+	}
+	public void setRoomVOList(List<HouseRoomVO> roomVOList) {
+		this.roomVOList = roomVOList;
+	}
 }

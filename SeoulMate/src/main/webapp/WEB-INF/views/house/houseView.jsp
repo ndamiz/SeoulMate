@@ -881,7 +881,7 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
 		$("#shareBtn").click(function(){ //공유하기 버튼 공유하기팝업창
 			$("#pup_wrap_share").css("display", "block");
 		});
-      
+
      var slides = document.querySelector('.slides'),
      slide = document.querySelectorAll('.slides li'),
      currentIdx =0,   //현재인덱스
@@ -890,6 +890,7 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
      nextBtn = document.querySelector('.controlls_next');
      slideWidth = 840,
      slideMargin = 0,
+
      
      slides.style.width = (slideWidth + slideMargin)*slideCount - slideMargin +'px'; //슬라이드의 넓이
      

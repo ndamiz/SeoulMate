@@ -91,7 +91,8 @@
 			}else if(result.category=='채팅'){
 				$('#reportLink').attr('href', 'http://192.168.0.118:9091/chatView?no='+result.no+'&userid='+result.reportid+'&otherid='+result.userid+'&admin=true');
 				$('#toggle_1').prop('checked',true);
-// 				$('#showOrNOt').css('display','none');
+				$('#showOrNOt').css('display','none');
+				$('.pup_body').css('height','510px');
 			}
 
 			//팝업 열기
@@ -346,6 +347,7 @@
 				<div class="pup_list">
 					<form id="reportAdmin" method="post">	
 						<input id="numR" type="hidden" name="num">
+						<input id="enddate" type="hidden" name="enddate">
 						<ul>
 							<li><div>회원ID</div><input id="useridR" type="text" name="userid" readonly></li>
 							<li><div>신고자ID</div> <input id="reportidR" type="text" name="reportid" readonly> </li>

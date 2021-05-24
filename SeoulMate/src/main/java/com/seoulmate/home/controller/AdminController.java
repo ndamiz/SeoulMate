@@ -3,9 +3,12 @@ package com.seoulmate.home.controller;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -35,6 +38,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.seoulmate.home.service.AdminService;
+import com.seoulmate.home.service.MemberService;
 import com.seoulmate.home.vo.FaqVO;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
@@ -50,6 +54,9 @@ import com.seoulmate.home.vo.ContactVO;
 public class AdminController {
 	@Inject
 	AdminService service;
+	
+	@Inject
+	MemberService mService;
 	
 	@Inject
 	JavaMailSenderImpl mailSender;
@@ -74,10 +81,66 @@ public class AdminController {
 		mav.addObject("contactCnt", service.todayNum("문의"));
 		mav.addObject("premiumCnt", service.todayNum("프리미엄"));
 		mav.addObject("salesAmount", service.salesAmount());
+		
+		//chart
+		String allGu[] = mService.gu();
+//		String allGu[] = {"강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","은평구","종로구","중구","중랑구"};
+		HashMap<String, Integer> sortGu = new HashMap<String, Integer>();
+		List<String> guName = new ArrayList<String>();
+		List<Integer> guNum = new ArrayList<Integer>();
+		//하우스
+		for(int i=0;i <allGu.length; i++) {
+			sortGu.put(allGu[i], service.getHouseAddr(allGu[i])); 
+		}
+//		System.out.println("===================================");
+		//별도의 스태틱 함수로 구현???
+		Iterator iterator = sortByValue(sortGu).iterator();
+		for(int i=0; i<5; i++) {
+//		while(iterator.hasNext()) {
+			String temp = (String)iterator.next();
+//			System.out.println(temp + " = " + sortGu.get(temp));
+			guName.add(temp);
+			guNum.add(sortGu.get(temp));
+		}
+//		System.out.println("===================================");
+//		System.out.println(guName.toString());
+//		System.out.println(guNum.toString());
+		
+//		//메이트
+//		String allarea[] = service.getMateArea();
+//		System.out.println("===================================");
+//		for(int i=0; i<allarea.length; i++) {
+//			System.out.println(allarea[i].toString());
+//		}
+		
+		// 일반 프리미엄 비율
+		List<Integer> grade = new ArrayList<Integer>();
+		for(int i=1; i<=2; i++) {
+			grade.add(service.getMemberGrade(i));
+		}
+		mav.addObject("grade", grade);
+		mav.addObject("guName", guName);
+		mav.addObject("guNum", guNum);
 		mav.setViewName("admin/adminDashboard");
 		return mav;
 	}
 	
+	@SuppressWarnings("unchecked")
+	private List<String> sortByValue(final HashMap<String, Integer> sortGu) {
+		// TODO Auto-generated method stub
+		List<String> list = new ArrayList();
+        list.addAll(sortGu.keySet());
+        Collections.sort(list,new Comparator() {
+            public int compare(Object o1,Object o2) {
+                Object v1 = sortGu.get(o1);
+                Object v2 = sortGu.get(o2);
+                return ((Comparable) v2).compareTo(v1);
+            }
+        });
+//        Collections.reverse(list); // 주석시 오름차순
+        return list;
+	}
+
 	@RequestMapping(value="/admin/loginOk", method = RequestMethod.POST)
 	public ModelAndView adminLoginOk(String userid, String userpwd, HttpSession session) {
 		ModelAndView mav=new ModelAndView();
@@ -139,6 +202,7 @@ public class AdminController {
 	@ResponseBody
 	public ContactVO contactDetailInfo(int no) {
 		ContactVO cVO = service.contactInfo(no);
+		System.out.println(cVO.getAdate());
 		return cVO;
 	}
 	//문의 처리하기

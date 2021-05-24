@@ -23,6 +23,10 @@ public interface AdminDAO {
 	public int todayNum(String tablename);
 	//오늘 매출
 	public String salesAmount();
+	//하우스 지역
+	public int getHouseAddr(String Gu);
+	//일반 프리미엄
+	public int getMemberGrade(int grade);
 //Member Management ///////////////////////////////////////	
 	// 회원 목록 출력
 	public List<String> memberSelect(PagingVO pVO);
@@ -92,7 +96,7 @@ public interface AdminDAO {
 	// 신고 처리 - 블랙리스트 등록
 	public int addBlacklist(String userid);
 	// 글이 삭제될때 신고테이블에 있는지 확인하는 메소드
-	public String getNumFromReport(int no);
+	public String[] getNumFromReport(int no);
 	// 페이징을 위한 총 레코드 수 구하기
 	public int reportRecordCnt(PagingVO pVO);
 	// 블랙리스트에서 제거

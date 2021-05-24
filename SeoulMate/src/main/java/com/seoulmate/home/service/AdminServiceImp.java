@@ -150,7 +150,7 @@ public class AdminServiceImp implements AdminService {
 		return dao.addBlacklist(userid);
 	}
 	@Override
-	public String getNumFromReport(int no) {
+	public String[] getNumFromReport(int no) {
 		return dao.getNumFromReport(no);
 	}
 	@Override
@@ -227,5 +227,15 @@ public class AdminServiceImp implements AdminService {
 	@Override
 	public int endMate(String no) {
 		return dao.endMate(no);
+	}
+	@Override	
+	public int getHouseAddr(String Gu) {
+		// 하우스 지역 가져오기
+		return dao.getHouseAddr(Gu);
+	}
+	@Override
+	public int getMemberGrade(int grade) {
+		// 일반 프리미엄
+		return dao.getMemberGrade(grade);
 	}
 }

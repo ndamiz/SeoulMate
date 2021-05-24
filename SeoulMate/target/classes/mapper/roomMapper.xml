@@ -5,7 +5,7 @@
   <mapper namespace="com.seoulmate.home.dao.HouseRoomDAO">
   	<insert id="roomInsert" parameterType="com.seoulmate.home.vo.HouseRoomVO">
   		insert into houseroom(hno, no, roomName, deposit, rent, enterdate, minStay, maxStay, roomPeople, furniture, incFurniture, userid) 
-		values (roomsq.nextval, housematesq.currval, #{roomName}, #{deposit}, #{rent}, #{enterdate}, #{minStay}, #{maxStay}, 
+		values (roomsq.nextval, housematesq.currval, #{roomName}, #{deposit}, #{rent}, to_date(#{enterdate}, 'YYYY-MM-DD'), #{minStay}, #{maxStay}, 
 				#{roomPeople}, #{furniture}, #{incFurniture}, #{userid} )
   	</insert>
 	<select id="roomSelect" resultType="com.seoulmate.home.vo.HouseRoomVO">
@@ -17,8 +17,8 @@
 		from houseroom where no=#{param1}
 	</select>
 	<update id="roomUpdate" parameterType="com.seoulmate.home.vo.HouseRoomVO">
-		update houseroom set roomName=#{roomName}, deposit=#{deposit}, rent=#{rent}, enterdate=#{enterdate}, minStay=#{minStay},
-		maxStay=#{maxStay}, roomPeople=#{roomPeople}, furniture=#{furniture}, incFurniture=#{incFurniture} where userid=#{userid} and no=#{no}
+		update houseroom set roomName=#{roomName}, deposit=#{deposit}, rent=#{rent}, enterdate=to_date(#{enterdate}, 'YYYY-MM-DD'), minStay=#{minStay},
+		maxStay=#{maxStay}, roomPeople=#{roomPeople}, furniture=${furniture}, incFurniture=#{incFurniture} where userid=#{userid} and no=${no}
 	</update>
 	<delete id="roomDel" parameterType="com.seoulmate.home.vo.HouseRoomVO">
 		delete from houseroom where no=#{param1} and userid=#{param2}	

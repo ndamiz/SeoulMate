@@ -24,7 +24,8 @@
 				$result.each(function(idx, obj){
 						//댓글 사진 div
 						tag += "<li><div class='communityView_user_porfile'>";
-							tag += '<img src="/home/profilePic/'+obj.profilePic+'"/>';
+							tag += '<img src="/home/profilePic/'+obj.profilePic+'"';
+							tag += 'onerror="this.src=\'<%=request.getContextPath()%>/profilePic/basic.jpg\'"/>';
 						tag += '</div>'
 						
 						//아이디랑 등록시간 div
@@ -326,7 +327,7 @@
 		</ul>
 		<c:if test="${vo.userid != logId && logId != null}">
 			<a class="reportBtn" style="float:left;">
-				<img title="신고" alt="신고" src="<%=request.getContextPath()%>/img/comm/ico_report.png">
+				<img title="신고" alt="신고" src="<%=request.getContextPath()%>/img/comm/ico_report.png" >
 			</a>
 		</c:if>
 		<div style="text-align:right; border-bottom: 1px solid #13a89e; padding-bottom:10px; margin-bottom:10px;">
@@ -348,7 +349,7 @@
 			</li>
 			<li>
 				<div class="communityView_user_porfile">
-					<img src="/home/profilePic/${vo.profilePic}"/>
+					<img src="/home/profilePic/${vo.profilePic}" onerror="this.src='<%=request.getContextPath()%>/profilePic/basic.jpg'"/>
 				</div>
 				<div class="communityView_user_detail">
 					${vo.userid}<br>
