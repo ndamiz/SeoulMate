@@ -212,4 +212,20 @@ public class AdminServiceImp implements AdminService {
 	public int faqDel(FaqVO fVO) {
 		return dao.faqDel(fVO);
 	}
+	@Override
+	public String[] endHouseList() {
+		return dao.endHouseList();
+	}
+	@Override
+	public String[] endMateList() {
+		return dao.endMateList();
+	}
+	@Override
+	public int endHouse(String no) {
+		return dao.endHouse(no);
+	}
+	@Override
+	public int endMate(String no) {
+		return dao.endMate(no);
+	}
 }

@@ -10,7 +10,7 @@
   		select area from matewrite where matestate='모집중'
 	</select>
  	<select id="getNewHouse" resultType="com.seoulmate.home.vo.HouseWriteVO">
-  		select * from (select * from housewrite where housestate='모집중' 
+  		select * from (select * from housewrite where housestate='모집중' and houseshow='공개'  
   		<if test="param1 != null">AND addr LIKE '%${param1}%'</if> 
   		order by writedate desc) <![CDATA[where rownum<= 3]]>
 	</select>
@@ -18,7 +18,7 @@
   		select rent, deposit from houseroom where no=${param1} and rent = (select min(rent) from houseroom where no=${param1})
 	</select>
  	<select id="getNewMate" resultType="com.seoulmate.home.vo.MateWriteVO">
-  		select * from (select * from matewrite where matestate='모집중' 
+  		select * from (select * from matewrite where matestate='모집중' and mateshow='공개' 
   		<if test='param1 != null'>AND area LIKE '%${param1}%'</if>
   		order by no desc) <![CDATA[where rownum<= 3]]>
 	</select>

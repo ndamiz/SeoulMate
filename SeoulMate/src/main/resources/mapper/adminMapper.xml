@@ -363,6 +363,18 @@
    	<update id="faqDel" parameterType="com.seoulmate.home.vo.FaqVO">
    		delete from faq where no=#{no}
    	</update>
+   	<select id="endHouseList" resultType="String">
+   		SELECT NO FROM housewrite WHERE housestate='모집중' AND <![CDATA[enddate-sysdate<0]]>
+   	</select>
+   	<select id="endMateList" resultType="String">
+   		SELECT NO FROM matewrite WHERE matestate='모집중' AND <![CDATA[enddate-sysdate<0]]>
+   	</select>
+   	<update id="endHouse">
+   		UPDATE housewrite SET housestate='기간 만료' WHERE NO=#{param1}
+   	</update>
+   	<update id="endMate">
+   		UPDATE matewrite SET matestate='기간 만료' WHERE NO=#{param1}
+   	</update>
 </mapper>
 
 

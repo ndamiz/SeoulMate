@@ -118,4 +118,14 @@ public interface AdminDAO {
 	public int faqUpdate(FaqVO fVO);
 	// 자주하는 질문 삭제
 	public int faqDel(FaqVO fVO);
+	
+	// 기간 만료인 하우스 목록 가져오기
+	public String[] endHouseList();
+	// 기간 만료인 메이트 목록 가져오기
+	public String[] endMateList();
+	// 모집중인 하우스를 기간 만료로 변경하기
+	public int endHouse(String no);
+	// 모집중인 메이트를 기간 만료로 변경하기
+	public int endMate(String no);
+	
 }
