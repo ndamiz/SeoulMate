@@ -62,11 +62,12 @@ public interface HouseWriteDAO {
 	
 	//사용자의 모든 성향 가져오기
 	public List<PropensityVO> getPropInfo(String userid, String housename);
-	
+
 	// 하우스 매칭 리스트 구하기(9개)
 	public List<ListVO> HouseMatchList(HouseMatePagingVO pVO);
 	
 	// 하우스 매칭 리스트 count 가져오기
 	public int houseMatchTotal(HouseMatePagingVO pVO);
+
 	
 }

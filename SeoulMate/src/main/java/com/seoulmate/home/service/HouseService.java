@@ -93,10 +93,16 @@ public interface HouseService {
 	
 	//houseRoom List로 가져오기 
 	public List<HouseRoomVO> roomListSelect(int no);
-	
+
 	// 하우스 매칭 리스트 구하기(9개)
 	public List<ListVO> HouseMatchList(HouseMatePagingVO pVO);
 	
 	// 하우스 매칭 리스트 count 가져오기
 	public int houseMatchTotal(HouseMatePagingVO pVO);
+
+	//성향 매칭 점수 가져오기. 
+	public PropensityVO getMatchingSelect(int house_pno, int mate_pno);
+	//성향매칭 스코어 가져오기
+	public PropensityVO getMatchingScore(int house_pno, int mate_pno);
+
 }

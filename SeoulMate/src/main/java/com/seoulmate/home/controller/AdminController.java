@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.seoulmate.home.service.AdminService;
 import com.seoulmate.home.vo.FaqVO;
 import com.seoulmate.home.vo.HouseRoomVO;
@@ -556,13 +557,23 @@ public class AdminController {
 		String selectEndDate = "";
 		if(payVO.getSelectYearMonthDate()!=null){
 			if(payVO.getSelectYearMonthDate().equals("년별")) {
+				System.out.println("payVO.getSelectStartDate()"+payVO.getSelectStartDate());
 				if(payVO.getSelectStartDate()!=null) {
+					try {
 					selectStartDate = (String)(payVO.getSelectStartDate()).substring(0, 4);
 					payVO.setSelectStartDate(selectStartDate);
+					} catch (StringIndexOutOfBoundsException e) {
+						selectStartDate = "";
+					}
 				}
+				System.out.println("payVO.getSelectEndDate()"+payVO.getSelectEndDate());
 				if(payVO.getSelectEndDate()!=null) {
+					try {
 					selectEndDate = (String)(payVO.getSelectEndDate()).substring(0, 4);
 					payVO.setSelectEndDate(selectEndDate);
+					} catch (StringIndexOutOfBoundsException e) {
+						selectEndDate = "";
+					}
 				}
 			}
 		}
@@ -765,5 +776,18 @@ public class AdminController {
 			result=res;
 		}
 		return result;
+	}
+	
+	@RequestMapping("/admin/cancelPay")
+	@ResponseBody
+	public String cancelPay(Model model, String merchant_uid, String cancel_request_amount) {
+		JsonObject cancelData = new  JsonObject();
+		cancelData.addProperty("merchant_uid", merchant_uid);
+		cancelData.addProperty("cancel_request_amount", cancel_request_amount);
+		
+		URLConn conn = new URLConn("http://192.168.0.20", 9092);
+		conn.urlPost(cancelData);
+		
+		return "a";
 	}
 }

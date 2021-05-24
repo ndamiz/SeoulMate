@@ -66,16 +66,16 @@
 @media screen and (max-width:1420px){
 	.myPage_HouseAndMate_Btn{width: 300px; margin-top: 50px; }
 }
-#inviteInsertBtn{height: 40px; line-height: 40px;}
+#inviteInsertBtn{height: 40px; line-height: 40px; margin-left: 10px; position: absolute;}
 #invitetTitle{font-size: 1.2em; font-weight: bold; margin-bottom: 10px;}
-#inviteHousename{margin-right: 10px;}
+#inviteHousename{margin-right: 10px; width: 200px;}
 /*  하우스&메이트 관리 => 팝업 */
 .myPage_HouseAndMate_Popup_FullScreen{width: 100%; height: 100%; background-color: #ddd; opacity: 0.5;
 	position: fixed; top:0; left: 0; z-index: 10;}
 .myPage_HouseAndMate_Popup {width: 610px; height: 600px; border-radius: 20px; position: fixed; left: 30%; 
 	top: 15%; box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%); background-color: #fff;
 	z-index: 11; }
-.alert_pop{width: 300px; height: 200px; background-color: #fff; border-radius: 20px;
+.alert_pop{width: 350px; height: 200px; background-color: #fff; border-radius: 20px;
 	position: absolute; top:20%; left:40%; box-shadow: 4px 3px 10px 0px rgb(0 0 0 / 15%); z-index: 12; }
 .alert_pop_Title{padding-left: 20px; width: 100%; height: 30px; line-height: 30px; 
 	background-color: #fff; border-radius: 20px 20px 0px 0px; font-size: 1.2em;

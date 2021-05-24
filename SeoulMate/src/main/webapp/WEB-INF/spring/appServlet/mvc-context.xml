@@ -20,7 +20,6 @@
 			<mvc:mapping path="/replyDel"/>
 			<mvc:mapping path="/replyEditOk"/>
 			<mvc:mapping path="/myHouseAndMateList"/>
-			
 			<bean class="com.seoulmate.home.interceptor.LoginInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>

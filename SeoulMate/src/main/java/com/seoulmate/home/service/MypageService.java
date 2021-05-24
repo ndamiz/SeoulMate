@@ -1,6 +1,7 @@
 package com.seoulmate.home.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.seoulmate.home.vo.ApplyInviteVO;
 import com.seoulmate.home.vo.ChatRoomVO;
@@ -8,6 +9,8 @@ import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.LikeMarkVO;
 import com.seoulmate.home.vo.MateWriteVO;
+import com.seoulmate.home.vo.PagingVO;
+import com.seoulmate.home.vo.PayVO;
 
 public interface MypageService {
 	// 찜 등록하기
@@ -50,6 +53,8 @@ public interface MypageService {
 	public HouseWriteVO houseLikeSelect(LikeMarkVO lmVO);
 	//카테고리가 메이트인 경우
 	public MateWriteVO mateLikeSelect(LikeMarkVO lmVO);
+	// 글번호, 유저아이디, 카테고리로 찜한 내역이 있는지 확인
+	public int likemarkerSelect(int no, String userid, String msg);
 	//팝업 
 	// 메이트확인. 받은초대, 보낸신청
 	// 하우스확인. 받은신청, 보낸초대
@@ -63,6 +68,10 @@ public interface MypageService {
 	public int applyInviteApproveUpdate(ApplyInviteVO aiVO);
 	//초대하기, 신청하기
 	public int applyInviteInsert(ApplyInviteVO aiVO);
+	//초대,신청 내역 중복확인 
+	public int checkApplyInvite(ApplyInviteVO aiVO);
+	// 초대신청 리스트 (로그인유저아이디로)
+	public List<ApplyInviteVO> applyInviteList(String userid);
 	// 승인 후 housename, userid 가져오기. 
 	public HouseWriteVO chatHouseSelect(int no); 
 	// housename list 
@@ -82,4 +91,8 @@ public interface MypageService {
 	public int pnoConfirm(String userid, String pcase);
 	//매칭완료로 변경
 	public int stateCompleteUpdate(String tableName, String stateName, String no, String userid);
+	//결제내역 목록 레코드 수 구하기
+	public int payRecordCnt(String userid);
+	// 결제내역 목록리스트
+	public List<PayVO> payList(Map<String, Object> map);
 }

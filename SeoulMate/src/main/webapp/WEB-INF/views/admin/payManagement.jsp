@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- jQuery CDN --->
+
 <style>
 .nowPageNum{background-color: #ddd;}
 </style>
@@ -85,7 +90,13 @@
 								<td>${vo.payEnd }</td>
 								<td>${vo.payMethod }</td>
 								<td><c:if test="${vo.grade==1}">일반</c:if><c:if test="${vo.grade==2}">프리미엄</c:if></td>
-								<td><input type="button" value="환불" class="btn btn-outline-secondary btn-sm"/></td>
+								<td>
+									<c:if test="${vo.refund==null }">
+									<input type="button" value="환불" name="cancelPay" class="btn btn-outline-secondary btn-sm cancelPay"/>
+									</c:if>
+									<input type="hidden" name="merchant_uid" value="${vo.merchant_uid }"/>
+									<input type="hidden" name="amount" value="${vo.amount }" />
+								</td>
 							</tr>
 							</c:forEach>
 						</tbody>
@@ -124,6 +135,25 @@
 	</body>
 	<script>
 		$(function(){
+			//환불 요청 .. 
+			$(document).on('click','.cancelPay', function(){
+				var merchant_uid = $(this).parent().children().eq(1).val();
+				var userAmount = $(this).parent().children().eq(2).val();
+				var amount = Number(userAmount)/100;
+				console.log(merchant_uid);
+				console.log(amount);
+				
+				$.ajax({
+					url : "/home/admin/cancelPay",
+					data : {"merchant_uid":merchant_uid, "cancel_request_amount":150},
+					success : function(result){
+						console.log("cancelPay =====>> "+result);
+					},error : function(){
+						console.log('환불 - nodejs - 에러 ');
+					}
+				});
+			});
+			
 			// searchWord에 마우스클릭하면 value 지워주기 
 			$(document).on('click','input[name=searchWord]', function(){
 				$(this).val('');

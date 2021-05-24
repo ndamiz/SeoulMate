@@ -5,32 +5,25 @@ import java.util.HashMap;
 
 import java.util.List;
 import java.util.Map;
-
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Controller;
 
-
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.Gson;
 import com.seoulmate.home.service.MypageService;
 import com.seoulmate.home.vo.ApplyInviteVO;
 import com.seoulmate.home.vo.ChatRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.LikeMarkVO;
 import com.seoulmate.home.vo.MateWriteVO;
+import com.seoulmate.home.vo.PagingVO;
+import com.seoulmate.home.vo.PayVO;
 @Controller
 public class MypageController {
 	@Inject
@@ -40,6 +33,7 @@ public class MypageController {
 	@RequestMapping(value="/myHouseAndMateList", method = {RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView myHouseAndMateList(HttpSession session, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
+		try {
 		String msg = req.getParameter("msg");
 		
 		//기본 하우스로 세팅.
@@ -105,6 +99,10 @@ public class MypageController {
 				}
 			}	
 		}  
+		List<ApplyInviteVO> aiVO_List = new ArrayList<ApplyInviteVO>();
+		aiVO_List= service.applyInviteList(userid);
+		mav.addObject("aiVO_List", aiVO_List);
+		
 		if(session.getAttribute("hPno")!=null) {
 			memberCheck = "houseMem";
 		}else{
@@ -123,6 +121,9 @@ public class MypageController {
 		}
 		mav.addObject("msg", msg);
 		mav.setViewName("mypage/myHouseAndMateList");
+		} catch (Exception e) {
+			mav.setViewName("/login");
+		}
 		return mav;
 	}
 	//마이페이지 팝업 
@@ -153,6 +154,7 @@ public class MypageController {
 				//받은초대  or 보낸 신청
 				// list값 중에서 no를 사용하여 리스트를 가져온다.  
 				for(int i=0; i<aiList.size(); i++) {
+					System.out.println("aiList.get(i).getNo())=="+aiList.get(i).getNo());
 					pop_hwVO.add(service.oneHouseWriteSelect(aiList.get(i).getNo()));
 				}
 				result.put("pop_hwVO", pop_hwVO);
@@ -181,8 +183,19 @@ public class MypageController {
 		aiVO.setNo(no);
 		aiVO.setUserid(userid);
 		aiVO.setMsg(msg);
-		//그대로 sql문을 실행하면된다. 
-		return service.applyInviteInsert(aiVO);
+		int result=0;
+		if(userid==null || userid.equals("")) {
+			result = -1;
+		}else {
+			int r = service.checkApplyInvite(aiVO);
+			System.out.println("r? = "+ r);
+			if(r>0) {
+				result = 0;
+			}else {
+				result = service.applyInviteInsert(aiVO);
+			}
+		}
+		return result;
 	}
 	@RequestMapping(value="/inviteInsert", method = {RequestMethod.POST, RequestMethod.GET})
 	@ResponseBody
@@ -200,7 +213,16 @@ public class MypageController {
 		aiVO.setUserid(userid);
 		aiVO.setMsg(msg);
 		
-		return service.applyInviteInsert(aiVO);
+		int result=0;
+		
+		int r = service.checkApplyInvite(aiVO);
+		System.out.println("r? = "+ r);
+		if(r>0) {
+			result = 0;
+		}else {
+			result = service.applyInviteInsert(aiVO);
+		}
+		return result;
 	}
 	
 	//마이페이지 보낸신청, 보낸초대 취소 ,  받은신청, 받은초대- 거절
@@ -220,8 +242,10 @@ public class MypageController {
 		// takeInvite 받은초대 거절 (house->mate 초대를 거절함) 
 			// no=날초대한 하우스글, userid=본인아이디, state='초대'
 		
-		// 신청자 본인 아이디와 글번호를 확인하여 삭제. 
-		return service.mypageApplyInviteCancel(aiVO);
+		// 신청자 본인 아이디와 글번호를 확인하여 삭제. mypageSendApplyInviteCancel
+		int result =0;
+		result = service.mypageApplyInviteCancel(aiVO);
+		return result;
 	}
 	//마이페이지 받은신청, 받은초대 승인
 	@RequestMapping(value="/applyInviteApprove", method = {RequestMethod.POST, RequestMethod.GET})
@@ -238,7 +262,6 @@ public class MypageController {
 		ChatRoomVO crVO = new ChatRoomVO();
 		int inResult = 0;
 		String name = "";
-		int cnt = 0;
 		try {
 			int result = service.applyInviteApproveUpdate(aiVO);
 			// 승인 완료 후 
@@ -251,27 +274,29 @@ public class MypageController {
 					String chatuser1 = (String)session.getAttribute("logId");
 					// DB에 있는 정보인지 확인
 					crVO = service.chatCheck(chatuser1, userid);
-					if(crVO.getNo() != 0) {
-						//받은 신청에 이미 채팅방이 있다
-						service.chatCheckName(hwVO.getHousename(), chatuser1, userid);
-						if(service.chatCheckName(hwVO.getHousename(), chatuser1, userid)>0) {
-							//이미 들어가있는 이름. 
-							inResult = 200;
-						}else {
-							//없다 이름 합쳐서 업데이트 
-							String crVO_name = crVO.getName();
-							String chatName = crVO_name.substring(0, crVO_name.indexOf("("+userid+")")-1);
-							name = chatName+", "+hwVO.getHousename() +" ("+userid+")";
-							crVO.setName(name);
-							int up = service.chatUpdate(crVO);
-							if(up>0) {
+					try {
+						if(crVO.getNo() != 0) {
+							//받은 신청에 이미 채팅방이 있다
+							service.chatCheckName(hwVO.getHousename(), chatuser1, userid);
+							if(service.chatCheckName(hwVO.getHousename(), chatuser1, userid)>0) {
+								//이미 들어가있는 이름. 
 								inResult = 200;
 							}else {
-								System.out.println("name update 에러");
-								inResult = -1; 
+								//없다 이름 합쳐서 업데이트 
+								String crVO_name = crVO.getName();
+								String chatName = crVO_name.substring(0, crVO_name.indexOf("("+userid+")")-1);
+								name = chatName+", "+hwVO.getHousename() +" ("+userid+")";
+								crVO.setName(name);
+								int up = service.chatUpdate(crVO);
+								if(up>0) {
+									inResult = 200;
+								}else {
+									System.out.println("name update 에러");
+									inResult = -1; 
+								}
 							}
 						}
-					}else {
+					} catch (NullPointerException e) {
 						//채팅방이 없다 -> 개설한다. 
 						//1. name 받아오기,   2.chatuser1 = 수락한사람, 3.chatuser2 = 신청한사람 (나머지 디폴트 = 0)
 						//name 은 하우스글 이름
@@ -281,34 +306,37 @@ public class MypageController {
 					}
 				}else if(msg.equals("takeInvite")) {
 					crVO = service.chatCheck(hwVO.getUserid(), userid);
-					System.out.println("crVO.getNo = " + crVO.getNo());
-					if(crVO.getNo() != 0) {
-						//받은 초대에 이미 채팅방이 있다
-						service.chatCheckName(hwVO.getHousename(), hwVO.getUserid(), userid);
-						if(service.chatCheckName(hwVO.getHousename(), hwVO.getUserid(), userid)>0) {
-							//이미 들어가있는 이름. 
-							inResult = 200;
-						}else {
-							//없다 이름 합쳐서 업데이트 
-							String crVO_name = crVO.getName();
-							String chatName = crVO_name.substring(0, crVO_name.indexOf("("+userid+")")-1);
-							name = chatName+", "+hwVO.getHousename() +" ("+userid+")";
-							crVO.setName(name);
-							int up = service.chatUpdate(crVO);
-							if(up>0) {
+					try {
+						if(crVO.getNo() != 0) {
+							System.out.println("crVO.getNo = " + crVO.getNo());
+							//받은 초대에 이미 채팅방이 있다
+							service.chatCheckName(hwVO.getHousename(), hwVO.getUserid(), userid);
+							if(service.chatCheckName(hwVO.getHousename(), hwVO.getUserid(), userid)>0) {
+								//이미 들어가있는 이름. 
 								inResult = 200;
 							}else {
-								System.out.println("name update 에러");
-								inResult = -1; 
+								//없다 이름 합쳐서 업데이트 
+								String crVO_name = crVO.getName();
+								String chatName = crVO_name.substring(0, crVO_name.indexOf("("+userid+")")-1);
+								name = chatName+", "+hwVO.getHousename() +" ("+userid+")";
+								crVO.setName(name);
+								int up = service.chatUpdate(crVO);
+								if(up>0) {
+									inResult = 200;
+								}else {
+									System.out.println("name update 에러");
+									inResult = -1; 
+								}
 							}
 						}
-					}else if(cnt==0){
+					} catch (NullPointerException e) {
+						// 널값일경우 (채팅방이 없는 경우) 
 						//채팅방이 없다 -> 개설한다. 
 						//받은 초대// 초대를 승낙했다. 승낙한사람 = 현재 userid,  승낙한 글번호 = no -> no를 이용하여 해당유저아이디 셀렉트 
 						//1. 글번호의 userid 가져오기     //본인 초대한하우스   	 //하우스글쓴이      메이트본인 	
 						inResult = service.chatInsert(name, hwVO.getUserid(), userid);
 					}
-				}
+				}//end else if(msg.equals("takeInvite")) {
 			}else {
 				System.out.println("??? 왜 업데이트부터 오류납니까 ?");
 			}
@@ -349,7 +377,8 @@ public class MypageController {
 	@RequestMapping("/likemarkDelete")
 	@ResponseBody
 	public int likemarkDelete(int no, String userid) {
-		return service.likemarkDelete(no, userid);
+		int result =  service.likemarkDelete(no, userid);
+		return result;
 	}
 	// 인덱스 / 하우스 / 메이트에 들어가면 내가 찜한 글인지 확인 처리
 	@RequestMapping("/likemarkCheck")
@@ -375,10 +404,62 @@ public class MypageController {
 		return likeMarkMap;
 	}
 	//마이페이지 결제내역 확인 페이지
-	@RequestMapping("/payDetailList")
-	public ModelAndView payDetailList() {
+	@RequestMapping(value="/payDetailList", method={RequestMethod.POST, RequestMethod.GET})
+	public ModelAndView payDetailList(HttpSession session, PagingVO pagingVO, PayVO pVO) {
 		ModelAndView mav = new ModelAndView();
+		
+		String userid = (String)session.getAttribute("logId");
+		pVO.setUserid(userid);
+		
+		pagingVO.setTotalPage(service.payRecordCnt(userid));
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("pVO", pVO);
+		map.put("pagingVO", pagingVO);
+		mav.addObject("payList", service.payList(map));
+		if(pagingVO.getPageNum()>pagingVO.getTotalPage()) {
+			pagingVO.setPageNum(pagingVO.getTotalPage());
+		}
+		if(pagingVO.getPageNum()==0) {
+			pagingVO.setPageNum(1);
+		}
+		if(pagingVO.getTotalPage()==0) {
+			pagingVO.setTotalPage(1);
+		}
+		mav.addObject("pVO", pVO);
+		mav.addObject("pagingVO", pagingVO);
+		
 		mav.setViewName("mypage/payDetailList");
 		return mav;
+	}
+	//houseView, mateView에서 찜하기 등록. 
+	@RequestMapping("/likemarkerInsert")
+	@ResponseBody
+	public int likemarkerInsert(int no, String userid, String msg) {
+		// 1.house넘버, mate의 유저아이디 select 해서 있는지 확인. 
+		int check = 0;
+		int result = 0;
+		check = service.likemarkerSelect(no, userid, msg);
+		System.out.println("check ?"+check);
+		if(check > 0) {
+			// 찜한내역이 있음
+			result = 0; 
+		}else if(check==0){
+			//찜한내역이 없음 insert 한다. 
+			try {
+				result=service.likemarkInsert(no, userid, msg);
+				System.out.println("result ?"+result);
+				if(result > 0) {
+					//찜등록 완료
+					result = 1;
+				}else {
+					//찜 등록실패 
+					result=-1;
+				}
+			} catch (Exception e) {
+				result= 2;
+			}
+		}
+		return result;
 	}
 }

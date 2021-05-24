@@ -22,9 +22,19 @@
 				url : url,
 				data : data,
 				success : function(result){
-					console.log('신청 완료 되었습니다.');
-					alert('신청 완료 되었습니다.');
-					location.href="myHouseAndMateList?msg=likeMark";
+					if(result==-1){
+						alert('로그인 후 이용해 주세요');
+						location.href="login";
+					}else if(result>0){
+						console.log('신청 완료 되었습니다.');
+						alert('신청 완료 되었습니다.');
+						location.href="myHouseAndMateList?msg=likeMark";
+					}else if(result==0){
+						console.log('이미 신청한 하우스입니다.');
+						alert('이미 신청한 하우스입니다.');
+						location.href="myHouseAndMateList?msg=likeMark";
+					}
+					
 				},error : function(){
 					console.log('신청 insert 에러 ');
 				}
@@ -71,6 +81,7 @@
 				}
 			});
 		});
+		//초대하기
 		$(document).on('click','.inviteInsert', function(){
 			var no = 0;
 			var userid = $(this).next().val();
@@ -84,11 +95,17 @@
 				url : url,
 				data : data,
 				success : function(result){
-					console.log('초대 완료 되었습니다.');
-					alert('초대 완료 되었습니다.');
-					location.href="myHouseAndMateList?msg=likeMark";
+					if(result>0){
+						console.log('초대 완료 되었습니다.');
+						alert('[ '+housename+' ]으로 초대 완료 되었습니다.');
+						location.href="myHouseAndMateList?msg=likeMark";
+					}else if(result==0){
+						console.log('이미 신청한 메이트입니다.');
+						alert('이미 초대한 메이트입니다.');
+						location.href="myHouseAndMateList?msg=likeMark";
+					}
 				},error : function(){
-					console.log('신청 insert 에러 ');
+					console.log('초대 insert 에러 ');
 				}
 			});
 		});
@@ -98,17 +115,19 @@
 			var userid='<c:out value="${logId }"/>';
 			var url = '/home/likemarkDelete';
 			var data = {"no":no, "userid":userid};
+			console.log("no "+no+ 'userid  '+userid);
 			$.ajax({
 				url : url,
 				data : data,
 				success : function(result){
-					if(result==1){
+					console.log(result);
+					if(result>0){
 						console.log('찜 삭제 완료');
 						// 리스트를 다시보여줘야함.  
-						alert('찜 삭제 되었습니다.');
+						alert('찜목록에서 삭제 되었습니다.');
 						location.href="myHouseAndMateList?msg=likeMark";
 					}else{
-						console.log('찜 삭제 처리 에러');
+						console.log('찜삭제 에러. ');
 					}
 				}, error : function(){
 					console.log('마이페이지 찜 삭제 실패');
@@ -141,7 +160,7 @@
 		});
 		//받은신청 승인, 보낸초대 승인
 		$(document).on('click','.applyInviteApprove', function(){
-			var msg = $('.myPage_HouseAndMate_Popup_Content').children().eq(0).val();
+			var msg = $(this).parent().parent().parent().children().eq(0).val();
 			var no =0;
 			var userid = '';
 			
@@ -196,17 +215,19 @@
 				}
 			});
 		});
+		
 		//보낸 신청, 보낸 초대 취소 클릭 시에 실행.
 		$(document).on('click', '.applyInviteCancel', function(){
-			var msg = $('.myPage_HouseAndMate_Popup_Content').children().eq(0).val();
+			var msg = $(this).parent().parent().parent().children().eq(0).val();
 			var no =0;
 			var userid = '';
-			if(msg='takeApply' || msg == 'sendInvite'){
+			if(msg=='takeApply' || msg == 'sendInvite'){
 				// 받은 신청 (userid 변동됨 /no=로그인한사람이 쓴 하우스글번호)
 				// 보낸초대 (userid변동됨(mate) / no= 로그인한사람=하우스글쓴이)
 				// 글번호는 1개고, 받은신청은 여러개/ 보낸초대 여러개 
 				no = $('.myPage_HouseAndMate_Popup_Content').children().eq(1).val();
-				userid =$(this).parent().children().eq(0).val();
+				userid = $(this).parent().children().eq(0).val();
+				console.log('받은신청, 보낸초대 msg=' + msg +' no='+no+' userid ='+userid);
 			}
 			if(msg == 'sendApply' || msg == 'takeInvite'){
 				// 보낸신청 (userid = 본인  / no = 신청을 한 글번호들)
@@ -214,6 +235,7 @@
 				// 글번호여러개, 보낸신청 / 받은초대 userid 본인 혼자.  
 				userid = $('.myPage_HouseAndMate_Popup_Content').children().eq(1).val();
 				no = $(this).parent().children().eq(0).val();
+				console.log('보낸신청, 받은초대 msg=' + msg +' no='+no+' userid ='+userid);
 			}
 			// ajax로 지운 후, 지웟다고 확인되면, applyInviteList(no, msg, userid) 함수 실행. 
 			var url = '/home/mypageApplyInviteCancel';
@@ -223,10 +245,20 @@
 				data : data,
 				success : function(result){
 					userid='<c:out value="${logId }"/>';
+					console.log(result);
 					if(result>0){
 						applyInviteList(no, msg, userid);
+						if(msg=='takeApply'){
+							alert('받은 신청을 거절하였습니다.');
+						}else if(msg == 'sendInvite'){
+							alert('보낸 초대를 취소하였습니다.');
+						}else if(msg == 'sendApply'){
+							alert('보낸 신청을 취소하였습니다.');
+						}else if(msg == 'sendInvite'){
+							alert('받은 초대를 거절하였습니다.');
+						}
 					}else{
-						console.log('리턴0 삭제실패.');
+						console.log('삭제실패.');
 					}
 				}, error : function(){
 					console.log('마이페이지 보낸신청, 보낸초대 DB데이터 삭제 실패');
@@ -237,7 +269,7 @@
 		function applyInviteList(no, msg, userid){
 			var url = '/home/mypagePopup'
 			var data = {'no':no, 'msg':msg};
-			
+			console.log(msg);
 			$.ajax({
 				url:url,
 				data : data,
@@ -245,6 +277,8 @@
 					$mwVOList = $(result.pop_mwVO);
 					$hwVOList = $(result.pop_hwVO);
 					$aiList = $(result.aiList);
+					console.log($(result.aiList));
+					console.log($(result.pop_hwVO));
 					var tag = '';
 					var gender = '';
 					if(result.pop_mwVO!=null ){
@@ -285,6 +319,7 @@
 								tag+='<li>보증금 : '+obj.deposit+'만원 | 월세 : '+obj.rent+'만원</li></ul>';
 								tag+='<div class="myPage_HouseAndMate_Popup_Btn">';
 								tag+='<input type="hidden" name="userid" value="'+obj.userid+'" />';
+								//받은 신청 (하우스로 로그인한사람이 확인.)
 								if(msg == 'takeApply'){
 									if(confirm=='미승인'){
 										tag+='<a href="#" class="b_btn green applyInviteApprove">신청승인</a>';
@@ -293,6 +328,7 @@
 										tag +='<p>수락 완료</p>'
 										tag +='<p>채팅방이 활성화 되었습니다</p>';
 									}
+								// 보낸 초대 (하우스로 로그인한 사람이 확인)
 								}else if(msg=='sendInvite'){	
 									if(confirm=='미승인'){
 										tag+='<a href="#" class="b_btn green applyInviteCancel">초대취소</a>';
@@ -310,11 +346,14 @@
 							$('body').addClass('popup_Stop_Scroll');
 						}
 					}else if(result.pop_hwVO!=null){
+						
 						if(msg=='takeInvite' || msg=='sendApply'){
 							//받은 초대 (리턴값 house정보 리스트)  //보낸 신청 (리턴값 house정보 리스트)
 							//1. 팝업 내용 초기화 
 							$('.myPage_HouseAndMate_Popup').children().eq(1).empty();
 							//2. 타이틀 내용 변경. 
+							
+							//받은 초대(메이트로 로그인한 사람이 확인)
 							if(msg == 'takeInvite'){
 								$('.myPage_HouseAndMate_Popup_Title').html('받은 초대<span class="popup_Close">✕</span>');
 							}else if(msg=='sendApply'){
@@ -323,10 +362,14 @@
 							tag+='<input type="hidden" name="msg" value="'+msg+'" />';	
 							tag+='<input type="hidden" name="userid" value="'+userid+'" />';	
 							//3. 반복문돌려서 tag 만들어 넣기. 
+							var confirm = '';
+							var objNo = 0;
+							var aObjNo= 0;
 							$hwVOList.each(function(idx,obj){
-								var confirm = '';
+								objNo = obj.no;
 								$aiList.each(function(aIdx, aObj){
-									if(obj.no == aObj.no){
+									aObjNo = aObj.no;
+									if(objNo == aObjNo){
 										confirm = aObj.confirm;
 									}
 								});
@@ -410,6 +453,9 @@
 			}
 			applyInviteList(no, msg, userid);
 		});
+		 $('#mEdit').click(function(){ //수정하기 버튼
+	        location.href="mateEdit"; //메이트등록하기 form 으로 이동
+        });
 	});
 	function viewMyHouseAndMateList(msg){
 		// msg = house, mate, likemark
@@ -497,12 +543,12 @@
 								<c:if test="${hwVO.housestate =='모집중'}">
 									<a href="#" class="b_btn white takeApply mypage_Popup">받은신청</a>
 									<a href="#" class="b_btn white sendInvite mypage_Popup">보낸초대</a>
-									<a href="#" class="b_btn white">수정</a>
+									<a id="hEdit" class="b_btn white" href="houseEdit?no=${hwVO.no }" >수정</a> 
 									<a href="#" class="b_btn white">삭제</a>
 									<a href="#" class="b_btn green stateChange">매칭완료</a>
 								</c:if>
 								<c:if test="${hwVO.housestate =='매칭 완료' or hwVO.housestate =='기간 만료'}">
-									<a href="#" class="b_btn white">재등록</a>
+									<a id="hEdit" class="b_btn white" href="houseEdit?no=${hwVO.no }">재등록</a>
 									<a href="#" class="b_btn white">삭제</a>
 								</c:if>
 							</div>
@@ -540,10 +586,8 @@
 								<li>
 									<ul class="myPage_HouseAndMate_Mate">
 										<li><p>
-											<c:choose>
-												<c:when test="${mwVO.gender == 1 }">여</c:when>
-												<c:when test="${mwVO.gender == 2 }">남</c:when>
-											</c:choose>
+											<c:if test="${mwVO.gender == 1 }">여</c:if>
+											<c:if test="${mwVO.gender == 3 }">남</c:if>
 										</p></li>
 										<li><p>${mwVO.age }세</p></li>
 										<li><p>
@@ -560,7 +604,7 @@
 								<c:if test="${mwVO.matestate =='모집중'}">
 									<a href="#" class="b_btn white takeInvite mypage_Popup">받은초대</a>
 									<a href="#" class="b_btn white sendApply mypage_Popup">보낸신청</a>
-									<a href="#" class="b_btn white">수정</a>
+									<a id="mEdit" class="b_btn white" href="mateEdit?no=${mwVO.no }" >수정</a> 
 									<a href="#" class="b_btn white">삭제</a>
 									<a href="#" class="b_btn green stateChange">매칭완료</a>
 								</c:if>
@@ -610,10 +654,8 @@
 						</ul>
 						<div class="myPage_HouseAndMate_LikeMarker_Btn">
 							<input type="hidden" name="no" value="${like_hwVO.no }" />
-							<a href="" class="b_btn white likeMarkDel">찜 삭제</a>
-							<c:if test="${memberCheck=='mateMem' }">
-							<a href="" class="b_btn white applyInsert">신청하기</a>
-							</c:if>
+							<a href="#" class="b_btn white likeMarkDel">찜 삭제</a>
+							<a href="#" class="b_btn white applyInsert">신청하기</a>
 						</div>
 					</div>
 					</c:if>
@@ -642,7 +684,7 @@
 									<li><p>
 										<c:choose>
 											<c:when test="${like_mwVO.gender == 1 }">여</c:when>
-											<c:when test="${like_mwVO.gender == 2 }">남</c:when>
+											<c:when test="${like_mwVO.gender == 3 }">남</c:when>
 										</c:choose>
 									</p></li>
 									<li><p>${like_mwVO.age }세</p></li>
