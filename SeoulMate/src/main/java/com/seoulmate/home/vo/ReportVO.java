@@ -14,6 +14,9 @@ public class ReportVO {
 	private String vState;  // 해당 게시글 공개 상태 여부
 	private String bState;	// 해당 멤버 블랙리스트 등록 여부
 	
+	//채팅방용 프로필 사진
+	private String profilepic1;
+	private String profilepic2;
 	
 	public int getNum() {
 		return num;
@@ -80,5 +83,17 @@ public class ReportVO {
 	}
 	public void setbState(String bState) {
 		this.bState = bState;
+	}
+	public String getProfilepic1() {
+		return profilepic1;
+	}
+	public void setProfilepic1(String profilepic1) {
+		this.profilepic1 = profilepic1;
+	}
+	public String getProfilepic2() {
+		return profilepic2;
+	}
+	public void setProfilepic2(String profilepic2) {
+		this.profilepic2 = profilepic2;
 	}
 }

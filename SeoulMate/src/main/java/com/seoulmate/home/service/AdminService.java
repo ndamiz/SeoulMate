@@ -100,6 +100,8 @@ public interface AdminService {
 	public int reportRecordCnt(PagingVO pVO);
 	// 블랙리스트에서 제거
 	public int removeBlacklist(String userid);
+	// 신고자 프로필 사진 가져오기
+	public String getProfilePic2(String reportid);
 //contact management ///////////////////////////////////////
 	//문의 목록 출력
 	public List<ContactVO> contactAllRecord(PagingVO pVO);
