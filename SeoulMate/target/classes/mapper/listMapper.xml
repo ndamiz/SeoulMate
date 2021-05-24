@@ -41,9 +41,9 @@
 		select * from propensity where pcase='h' and housename is not null and m_gender=(select pm.gender from member pm 
 		JOIN (select userid, m_gender, pcase from propensity) p on pm.userid=p.userid and m_gender=2 and pcase='m' and pm.userid=#{param1}) or (m_gender=2 and housename is not null)
 	</if>) h 
-	JOIN (SELECT hw.NO, hw.pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, hr.rent, hr.deposit -- 여기서부터 
+	JOIN (SELECT hw.NO, hw.pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, hr.rent, hr.deposit 
 	FROM (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople 
-	FROM HOUSEWRITE WHERE housestate='모집중') hw 
+	FROM HOUSEWRITE WHERE housestate='모집중' and userid!=#{param1}) hw 
 	JOIN (SELECT r1.NO, rent, deposit FROM (select no, rent, deposit from houseroom) r1 
 	JOIN (select NO, min(rent) FROM houseroom GROUP BY NO) r2 ON r1.NO=r2.no) hr ON hw.NO=hr.NO) h2
 	ON h.pno=h2.pno) h3 ON m.pdate=h3.pdate) h4) 
@@ -118,7 +118,7 @@
 	SELECT mw.NO, mw.pno, mw.userid, mw.area, mw.matepic1, mw.matepic2, mw.matepic3, mw.deposit, mw.rent, mw.enterdate, mw.minstay, mw.maxstay, mw.writedate, 
 		mw.enddate, mw.matestate, mw.mateprofile, g.gender, g.m_gender, g.h_noise, g.h_pattern, g.h_pet, g.h_petwith, g.h_smoke, g.h_mood, g.h_communication, g.h_party, 
 		g.h_enter, g.m_pattern, g.m_personality, g.m_pet, g.m_smoke, g.m_age, g.m_global, g.m_now, g.pdate 
-	FROM (SELECT * FROM MATEWRITE WHERE matestate='모집중') mw 
+	FROM (SELECT * FROM MATEWRITE WHERE matestate='모집중' and userid!=#{param1}) mw 
 	JOIN (SELECT p.userid, m.gender, p.m_gender, p.h_noise, p.h_pattern, p.h_pet, p.h_petwith, p.h_smoke, p.h_mood, p.h_communication, p.h_party, 
 		p.h_enter, p.m_pattern, p.m_personality, p.m_pet, p.m_smoke, p.m_age, p.m_global, p.m_now, p.pdate 
 	FROM (SELECT userid, gender FROM MEMBER) m 

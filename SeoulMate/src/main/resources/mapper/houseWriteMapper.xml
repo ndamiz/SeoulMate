@@ -122,9 +122,9 @@
 			select * from propensity where pcase='h' and housename is not null and m_gender=(select pm.gender from member pm 
 			JOIN (select userid, m_gender, pcase from propensity) p on pm.userid=p.userid and m_gender=2 and pcase='m' and pm.userid=#{userid}) or (m_gender=2 and housename is not null)
 		</if>) h 
-		JOIN (SELECT hw.NO, hw.pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, hr.rent, hr.deposit -- 여기서부터 
+		JOIN (SELECT hw.NO, hw.pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, hr.rent, hr.deposit 
 		FROM (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople 
-		FROM HOUSEWRITE WHERE housestate='모집중') hw 
+		FROM HOUSEWRITE WHERE housestate='모집중' and userid!=#{userid}) hw 
 		JOIN (SELECT r1.NO, rent, deposit FROM (select no, rent, deposit from houseroom) r1 
 		JOIN (select NO, min(rent) FROM houseroom GROUP BY NO) r2 ON r1.NO=r2.no) hr ON hw.NO=hr.NO) h2
 		ON h.pno=h2.pno) h3 ON m.pdate=h3.pdate) h4) 
