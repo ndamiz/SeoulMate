@@ -255,9 +255,6 @@ public class HouseController {
 				@RequestParam("filename") MultipartFile img1, HttpSession session ,HttpServletRequest req,
 				 @RequestParam("filename2") MultipartFile img2, @RequestParam("filename3") MultipartFile img3,
 				 @RequestParam("filename4") MultipartFile img4,  @RequestParam("filename5") MultipartFile img5) {
-		System.out.println("방 : "+rVO.getRoomVOList().size());
-		System.out.println("방 : "+rVO.getRoomVOList().get(0).getRent());
-		System.out.println("방 : "+rVO.getRoomVOList().get(1).getRent());
 		System.out.println(pVO.getPno());
 		String userid=(String)session.getAttribute("logId");
 		
@@ -444,29 +441,27 @@ public class HouseController {
 						int result3 = 0;
 						System.out.println("방 갯수 : "+rVO.getRoomVOList().size());
 						System.out.println("방 1 : "+rVO.getRoomVOList().get(0).getRent());
-						System.out.println("방 2 : "+rVO.getRoomVOList().get(1).getRent());
 						for(int i=0; i<rVO.getRoomVOList().size(); i++) {
 							System.out.println(i+"여기야");
 							if(rVO.getRoomVOList().get(i).getRoomName() != null && !rVO.getRoomVOList().get(i).getRoomName().equals("")) {
 								rVO.getRoomVOList().get(i).setUserid(userid);
 								result3 = service.roomInsert(rVO.getRoomVOList().get(i));
-								if(result3>0) {
-									System.out.println("방"+i+"번째 등록 성공");
-									
+							}
+						}
+						//===test	
+							if(result3>0) {
+								System.out.println("방 등록 성공");
+								
 //									 int myHousePnoCnt=listService.myHousePnoCount(userid);
 //							         if(myHousePnoCnt>0) {
 //							            int newHpno=listService.newHpno(userid); // 내 최신 하우스 성향을 세션에 저장한다.
 //							            session.setAttribute("hPno", newHpno);
 //							         }
-									
-									transactionManager.commit(status);
-								}else {
-									System.out.println("방 등록 실패");
-								}
+								transactionManager.commit(status);
+								mav.setViewName("redirect:houseIndex");
+							}else {
+								System.out.println("방 등록 실패");
 							}
-							mav.setViewName("redirect:houseIndex");
-						}
-						//===test
 					}else {
 						System.out.println("하우스네임 업데이트 실패");
 					}
