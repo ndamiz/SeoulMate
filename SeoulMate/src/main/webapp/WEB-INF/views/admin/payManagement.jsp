@@ -143,10 +143,37 @@
 					var amount = Number(userAmount)/100;
 					console.log(merchant_uid);
 					console.log(amount);
+					//1.selectYearMonthDate
+					var selectYearMonthDate = $("select[name=selectYearMonthDate]").val();
+					console.log("1. selectYearMonthDate = "+selectYearMonthDate);
+					//2. selectStartDate
+					var selectStartDate = $("input[name=selectStartDate]").val();
+					console.log("2. selectStartDate = "+selectStartDate);
+					//3. selectEndDate
+					var selectEndDate = $("input[name=selectEndDate]").val();
+					console.log("3. selectEndDate = "+selectEndDate);
+					//4. orderCondition
+					var orderCondition = $("input[name=orderCondition]").val();
+					console.log("4. orderCondition = "+orderCondition);
+					//5. orderUpDown
+					var orderUpDown = $("input[name=orderUpDown]").val();
+					console.log("5. orderUpDown = "+orderUpDown);
+					//6.searchKey
+					var searchKey = $("select[name=searchKey]").val();
+					console.log("6. searchKey = "+searchKey);
+					//7. searchWord
+					var searchWord = $("input[name=searchWord]").val();
+					console.log("7. searchWord = "+searchWord);
+					//8. pageNum
+					var pageNum = $("input[name=pageNum]").val();
+					console.log("8. pageNum = "+pageNum);
 					
+					var data = {"merchant_uid":merchant_uid, "cancel_request_amount":150, "selectYearMonthDate":selectYearMonthDate,
+							"selectStartDate":selectStartDate, "selectEndDate":selectEndDate, "orderCondition":orderCondition,
+							"orderUpDown":orderUpDown, "searchKey":searchKey, "searchWord":searchWord, "pageNum":pageNum};
 					$.ajax({
 						url : "/home/admin/cancelPay",
-						data : {"merchant_uid":merchant_uid, "cancel_request_amount":150},
+						data : data,
 						success : function(result){
 							console.log("cancelPay =====>> "+result);
 						},error : function(){

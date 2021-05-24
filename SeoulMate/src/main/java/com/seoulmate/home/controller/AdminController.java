@@ -18,6 +18,7 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -28,15 +29,19 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.seoulmate.home.service.AdminService;
 import com.seoulmate.home.service.MemberService;
 import com.seoulmate.home.vo.FaqVO;
@@ -48,6 +53,9 @@ import com.seoulmate.home.vo.PagingVO;
 import com.seoulmate.home.vo.PayVO;
 import com.seoulmate.home.vo.PropensityVO;
 import com.seoulmate.home.vo.ReportVO;
+
+import jdk.nashorn.internal.parser.JSONParser;
+
 import com.seoulmate.home.vo.ContactVO;
 
 @Controller
@@ -551,7 +559,7 @@ public class AdminController {
 		return mav;
 	}
 	
-	@RequestMapping(value="admin/mateDetailInfo", method= {RequestMethod.POST, RequestMethod.GET})
+	@RequestMapping(value="/admin/mateDetailInfo", method= {RequestMethod.POST, RequestMethod.GET})
 	@ResponseBody
 	public Map<String, Object> mateDetailInfo(HttpServletRequest req){
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -577,7 +585,7 @@ public class AdminController {
 	
 	//관리자 - 결제 
 	@RequestMapping(value="/admin/payManagement", method={RequestMethod.POST, RequestMethod.GET})
-	public ModelAndView payManagement(PayVO payVO, PagingVO pagingVO) {
+	public ModelAndView payManagement(PayVO payVO, PagingVO pagingVO, String nodeResult) {
 		ModelAndView mav = new ModelAndView();
 		// 1.총 레코드 
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -603,8 +611,12 @@ public class AdminController {
 		if(pagingVO.getPageNum()>pagingVO.getTotalPage()) {
 			pagingVO.setPageNum(pagingVO.getTotalPage());
 		}
+		if(nodeResult == null || nodeResult.equals("")) {
+			nodeResult = "0";
+		}
 		mav.addObject("payVO", payVO);
 		mav.addObject("pagingVO", pagingVO);
+		mav.addObject("nodeResult", nodeResult);
 		mav.setViewName("admin/payManagement");
 		return mav;
 	}		
@@ -844,14 +856,69 @@ public class AdminController {
 	
 	@RequestMapping("/admin/cancelPay")
 	@ResponseBody
-	public String cancelPay(Model model, String merchant_uid, String cancel_request_amount) {
+	public void cancelPay(Model model, String merchant_uid, String cancel_request_amount, String selectYearMonthDate,
+				String selectStartDate, String selectEndDate, String orderCondition, String orderUpDown,
+				String searchKey, String searchWord, int pageNum) {
 		JsonObject cancelData = new  JsonObject();
 		cancelData.addProperty("merchant_uid", merchant_uid);
 		cancelData.addProperty("cancel_request_amount", cancel_request_amount);
-		
+		cancelData.addProperty("selectYearMonthDate",selectYearMonthDate);
+		cancelData.addProperty("selectStartDate",selectStartDate);
+		cancelData.addProperty("selectEndDate",selectEndDate);
+		cancelData.addProperty("orderCondition",orderCondition);
+		cancelData.addProperty("orderUpDown",orderUpDown);
+		cancelData.addProperty("searchKey",searchKey);
+		cancelData.addProperty("searchWord",searchWord);
+		cancelData.addProperty("pageNum",Integer.toString(pageNum));
 		URLConn conn = new URLConn("http://192.168.0.20", 9092);
 		conn.urlPost(cancelData);
+	}
+	@RequestMapping(value="/admin/resultCancelPay", method=RequestMethod.POST, consumes = "application/json")
+	public ModelAndView resultCancelPay(@RequestBody String body) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println(body);
+		PayVO payVO = new PayVO();
+		PagingVO pagingVO = new PagingVO();
+		String result = "";
+		try {
+			JSONObject jObj = new JSONObject(body);
+			result = jObj.getString("result");
+			if(result == null) {
+				result = "0";
+			}
+			payVO.setSelectYearMonthDate(jObj.getString("selectYearMonthDate"));
+			String selectStartDate = jObj.getString("selectStartDate");
+			if(selectStartDate!=null) {
+				payVO.setSelectStartDate(selectStartDate);
+			}
+			String selectEndDate = jObj.getString("selectEndDate");
+			if(selectEndDate!=null) {
+				payVO.setSelectEndDate(selectEndDate);
+			}
+			payVO.setOrderCondition(jObj.getString("orderCondition"));
+			payVO.setOrderUpDown(jObj.getString("orderUpDown"));
+			String searchKey = jObj.getString("searchKey");
+			if(searchKey != null) {
+				pagingVO.setSearchKey(searchKey);
+			}
+			String searchWord = jObj.getString("searchWord");
+			if(searchWord!=null) {
+				pagingVO.setSearchWord(searchWord);
+			}
+			String pageNum = jObj.getString("pageNum");
+			if(pageNum!=null) {
+				pagingVO.setPageNum(Integer.parseInt(pageNum));
+			}else if(pageNum == null) {
+				pagingVO.setPageNum(1);
+			}
+		} catch (NumberFormatException e) {
+			pagingVO.setPageNum(1);
+		}
+		mav.addObject("payVO", payVO);
+		mav.addObject("pagingVO", pagingVO);
+		mav.addObject("nodeResult", result);
+		mav.setView(new RedirectView("home/admin/payManagement"));
 		
-		return "a";
+		return mav;
 	}
 }
