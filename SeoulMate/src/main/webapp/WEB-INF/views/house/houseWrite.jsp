@@ -66,11 +66,7 @@ $(function(){
 // 			reader.readAsDataURL(event.target.files[4]);
 // 	}
 
-
-
-
-
-		}
+	}
 	
 
 // $(document).ready(function() {
@@ -79,8 +75,6 @@ $(function(){
 
 
 $(function(){
-	
-
 	
 //     $('select').change(function(){
 //         var option = $(this).val(); //옵션의 value
@@ -101,8 +95,10 @@ $(function(){
 	});
 
 	$("#hNext1").click(function(){
+
 		$("#houseWrite1").css("display", "none");
 		$("#houseWrite2").css("display", "block");
+		
 	});
 	$("#hPrev1").click(function(){
 		location.href="<%=request.getContextPath()%>/houseIndex"; //등록form1에서 이전 어디로?
@@ -451,60 +447,60 @@ $(function(){
 						<label for="냉장고">냉장고</label>
 						<input type="checkbox" id="정수기" name="publicfacility" value="정수기"> 
 						<label for="정수기">정수기</label>
-						<input type="checkbox" id="check3" name="publicfacility" value="가스레인지"> 
-						<label for="check3">가스레인지</label>
-						<input type="checkbox" id="check4" name="publicfacility" value="밥솥"> 
-						<label for="check4">밥솥</label> 
-						<input type="checkbox" id="check5" name="publicfacility" value="식기세척기">  
-						<label for="check5">식기세척기</label>
-						<input type="checkbox" id="check6" name="publicfacility" value="냄비"> 
-						<label for="check6">냄비</label>
-						<input type="checkbox" id="check7" name="publicfacility" value="프라이팬"> 
-						<label for="check7">프라이팬</label>
-						<input type="checkbox" id="check8" name="publicfacility" value="토스트기"> 
-						<label for="check8">토스트기</label> 
+						<input type="checkbox" id="가스레인지" name="publicfacility" value="가스레인지"> 
+						<label for="가스레인지">가스레인지</label>
+						<input type="checkbox" id="밥솥" name="publicfacility" value="밥솥"> 
+						<label for="밥솥">밥솥</label> 
+						<input type="checkbox" id="식기세척기" name="publicfacility" value="식기세척기">  
+						<label for="식기세척기">식기세척기</label>
+						<input type="checkbox" id="냄비" name="publicfacility" value="냄비"> 
+						<label for="냄비">냄비</label>
+						<input type="checkbox" id="프라이팬" name="publicfacility" value="프라이팬"> 
+						<label for="프라이팬">프라이팬</label>
+						<input type="checkbox" id="토스트기" name="publicfacility" value="토스트기"> 
+						<label for="토스트기">토스트기</label> 
 					</div>
 				</li> 
 				<p>&nbsp;</p>
 				<li>
 					<label>거실</label>
 					<div class="checks">
-						<input type="checkbox" id="check9" name="publicfactility" value="소파"> 
-						<label for="check9">소파</label>
-						<input type="checkbox" id="check10" name="publicfactility" value="티비"> 
-						<label for="check10">티비</label>
-						<input type="checkbox" id="check11" name="publicfactility" value="탁자"> 
-						<label for="check11">탁자</label>
-						<input type="checkbox" id="check12" name="publicfactility" value="카펫"> 
-						<label for="check12">카펫</label> <br/>
+						<input type="checkbox" id="소파" name="publicfactility" value="소파"> 
+						<label for="소파">소파</label>
+						<input type="checkbox" id="티비" name="publicfactility" value="티비"> 
+						<label for="티비">티비</label>
+						<input type="checkbox" id="탁자" name="publicfactility" value="탁자"> 
+						<label for="탁자">탁자</label>
+						<input type="checkbox" id="카펫" name="publicfactility" value="카펫"> 
+						<label for="카펫">카펫</label> <br/>
 					</div>
 				</li>
 		
 				<li>
 					<label>욕실</label>
 					<div class="checks">
-						<input type="checkbox" id="check13" name="publicfactility" value="욕조"> 
-						<label for="check13">욕조</label>
-						<input type="checkbox" id="check14" name="publicfactility" value="비데"> 
-						<label for="check14">비데</label>
-						<input type="checkbox" id="check15" name="publicfactility" value="샴푸"> 
-						<label for="check15">샴푸</label>
-						<input type="checkbox" id="check16" name="publicfactility" value="린스"> 
-						<label for="check16">린스</label> <br/>
+						<input type="checkbox" id="욕조" name="publicfactility" value="욕조"> 
+						<label for="욕조">욕조</label>
+						<input type="checkbox" id="비데" name="publicfactility" value="비데"> 
+						<label for="비데">비데</label>
+						<input type="checkbox" id="샴푸" name="publicfactility" value="샴푸"> 
+						<label for="샴푸">샴푸</label>
+						<input type="checkbox" id="린스" name="publicfactility" value="린스"> 
+						<label for="린스">린스</label> <br/>
 					</div>
 				</li>
 				
 				<li>
 					<label>기타</label>
 					<div class="checks">
-						<input type="checkbox" id="check17" name="publicfactility" value="세탁기"> 
-						<label for="check17">세탁기</label>
-						<input type="checkbox" id="check18" name="publicfactility" value="건조기"> 
-						<label for="check18">건조기</label>
-						<input type="checkbox" id="check19" name="publicfactility" value="베란다"> 
-						<label for="check19">베란다</label>
-						<input type="checkbox" id="check20" name="publicfactility" value="WIFI"> 
-						<label for="check20">WIFI</label> 
+						<input type="checkbox" id="세탁기" name="publicfactility" value="세탁기"> 
+						<label for="세탁기">세탁기</label>
+						<input type="checkbox" id="건조기" name="publicfactility" value="건조기"> 
+						<label for="건조기">건조기</label>
+						<input type="checkbox" id="베란다" name="publicfactility" value="베란다"> 
+						<label for="베란다">베란다</label>
+						<input type="checkbox" id="WIFI" name="publicfactility" value="WIFI"> 
+						<label for="WIFI">WIFI</label> 
 					</div>
 				</li>
 			</ul>	
@@ -529,20 +525,16 @@ $(function(){
 					<img id="houseImg3" name="houseImg3" src="#" alt="upload image" />
 					<img id="houseImg4" name="houseImg4" src="#" alt="upload image" />
 					<img id="houseImg5" name="houseImg5" src="#" alt="upload image" />
-					
-				
 				</li>
 				
 				<li> 
-<!-- 					<input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);" multiple/> -->
 					<input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);" required /> 
 					<input type="file" accept="image/*" name="filename2"  id="housepic2" onchange="readURL(this);"/>
 					<input type="file" accept="image/*" name="filename3"  id="housepic3" onchange="readURL(this);"/>
 					<input type="file" accept="image/*" name="filename4"  id="housepic4" onchange="readURL(this);"/>
 					<input type="file" accept="image/*" name="filename5"  id="housepic5" onchange="readURL(this);"/> 
 					<br/> 
-
-					</li>
+				</li>
 					<li><span class="btn-delete">삭제</span></li>
 			</ul>
 				<div class="btnclass">
@@ -564,7 +556,7 @@ $(function(){
 		</div>	
 				<div class="btnclass">
 					<a class="green" id="hPrev4" >이전</a>
-					<a class="green" id="hNext4" >등록</a> 
+					<a class="green" id="hNext4" >다음</a> 
 					<a class="green" id="hIndex4" >취소</a>
 				</div> <!-- 버튼div 종료 -->
 		
@@ -680,7 +672,7 @@ $(function(){
 						<input type="radio" id="h_noise1" value="1" name="h_noise"> 
 						<label for="h_noise1">매우 조용함</label>
 
-						<input type="radio" id="h_noies2" value="2" name="h_noise"> 
+						<input type="radio" id="h_noise2" value="2" name="h_noise"> 
 						<label for="h_noise2">보통</label>
 						
 						<input type="radio" id="h_noise3" value="3" name="h_noise"> 
@@ -831,6 +823,14 @@ $(function(){
 						<label for="h_support3">기본 식품 지원</label>
 					</div>
 				</li> <br/><br/>
+				<li><label><span class="red_txt">*</span>기타</label>
+						<div class="checks checkbox">
+							<input type="checkbox" name="h_etc" id="h_etc1" value="1"/>
+							<label for="h_etc1">보증금 조절 가능</label>
+							<input type="checkbox" name="h_etc" id="h_etc3" value="3"/>
+							<label for="h_etc3">즉시 입주 가능</label>
+						</div>
+					</li>
 			</ul>
 				<div class="btnclass">
 					<a class="green" id="hPrev8" >이전</a>

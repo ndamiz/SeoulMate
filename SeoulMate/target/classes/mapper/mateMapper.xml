@@ -4,7 +4,10 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.seoulmate.home.dao.MateWriteDAO">
   	<insert id="mateInsert" parameterType="com.seoulmate.home.vo.MateWriteVO">
-  		insert into matewrite(no, pno, userid, area, matePic1, deposit, rent, enterdate, minStay, maxStay,
+  		insert into matewrite(no, pno, userid, area, matePic1, 
+		<if test="matePic2!=null and matePic2!=''">matePic2, </if>
+		<if test="matePic3!=null and matePic3!=''">matePic3, </if>
+  		deposit, rent, enterdate, minStay, maxStay,
   		writedate, enddate, matestate, mateProfile) 
 		values (housematesq.nextval, #{pno}, #{userid}, #{area}, #{matePic1}, #{deposit}, #{rent}, 
 		#{enterdate}, #{minStay}, #{maxStay}, sysdate, sysdate+7, '모집중', #{mateProfile} )
@@ -12,6 +15,8 @@
 	<update id="mateUpdate" parameterType="com.seoulmate.home.vo.MateWriteVO">
 		update matewrite set 
 		<if test="matePic1!=null and matePic1!=''">matePic1=#{matePic1}, </if>
+		<if test="matePic2!=null and matePic2!=''">matePic2=#{matePic2}, </if>
+		<if test="matePic3!=null and matePic3!=''">matePic3=#{matePic3}, </if>
 		deposit=#{deposit}, rent=#{rent}, enterdate=#{enterdate}, area=#{area},
 		minStay=#{minStay}, maxStay=#{maxStay}, mateProfile=#{mateProfile} where userid=#{userid} and pno=#{pno}
 	</update>
@@ -19,7 +24,7 @@
 <!-- 		select no from matewrite where userid=#{param1} -->
 <!-- 	</select> -->
 	<select id="mateSelect" resultType="com.seoulmate.home.vo.MateWriteVO">
-		select no, pno, userid, area, matePic1, deposit, rent, enterdate, minStay, maxStay, writedate, enddate, matestate, mateProfile 
+		select no, pno, userid, area, matePic1, deposit, rent, to_char(enterdate, 'yyyy-mm-dd')enterdate, minStay, maxStay, writedate, enddate, matestate, mateProfile 
 		from matewrite where userid=#{param1}
 	</select>
 	<select id="MateProfilePic" resultType="String">
@@ -81,7 +86,7 @@
   	</select>
 	
 	<select id="mateSelect2" resultType="com.seoulmate.home.vo.MateWriteVO">
-		select no, pno, userid, area, matePic1, matePic2, matePic3, deposit, rent, enterdate, minStay, maxStay,
+		select no, pno, userid, area, matePic1, matePic2, matePic3, deposit, rent, to_char(enterdate, 'yyyy-mm-dd')enterdate, minStay, maxStay,
 		writedate, enddate, matestate, mateProfile from matewrite where no=#{param1}
 	</select>
 	<update id="mateAreaUpdate">

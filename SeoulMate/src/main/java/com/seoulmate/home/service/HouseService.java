@@ -62,7 +62,10 @@ public interface HouseService {
 	public int roomDel(int no, String userid);
 	
 	//하우스 사진 가져오기
-	public String houseProfilePic(String housepic1, int no);
+	public String houseProfilePic(String userid, int no);
+	
+	//하우스 사진2 가져오기
+	public String houseProfilePic2(String userid, int no);
 	
 	//하우스 인덱스에서 New 하우스 리스트 9개 출력하기
 	public List<HouseWriteVO> getNewIndexHouse(HouseMatePagingVO pVO);
@@ -108,4 +111,6 @@ public interface HouseService {
 	//성향매칭 스코어 가져오기
 	public PropensityVO getMatchingScore(int house_pno, int mate_pno);
 
+	//회원 등급 확인
+	public int gradeCheck(String userid);
 }

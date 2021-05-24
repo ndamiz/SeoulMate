@@ -34,4 +34,6 @@ public interface MemberDAO {
 	
 	//회원 프리미엄 결제 후 grade 2(프리미엄)으로 변경
 	public int gradePremiumUpdate(String userid);
+	//회원 등급 확인
+	public int gradeCheck(String userid);
 }

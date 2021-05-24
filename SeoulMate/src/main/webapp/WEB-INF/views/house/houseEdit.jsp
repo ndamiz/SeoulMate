@@ -166,6 +166,10 @@ $(function(){
 	});
 	
 	$("#hNext9").click(function(){
+		if(confirm("하우스 정보를 수정하시겠습니까?")){
+			$('#houseEditFrm').submit();
+			alert("하우스 정보가 수정되었습니다.");
+		}
 		location.href="<%=request.getContextPath()%>/houseIndex";
 	});
 	$("#hPrve9").click(function(){
@@ -214,7 +218,7 @@ $(function(){
 #houseWrite5 .checks {width: 295px;}
 #houseWrite8{width: 800px;}
 #houseWrite8 .checks>label{width:200px;}
-#hPic{height:250px; width:250px; margin: 0 auto; text-align: center;}
+#hPic{height:250px; width:250px; text-align: center;}
 #HproUl>li{float: right;}
 
 .title_wrap div{min-height:300px;}
@@ -225,7 +229,7 @@ $(function(){
 </style>
 <div class="wrap">
 <div class="content">
-	<form method="post" id="houseWriteFrm" action="houseEditOk" enctype="multipart/form-data">
+	<form method="post" id="houseEditFrm" name="houseEditFrm" action="houseEditOk" enctype="multipart/form-data">
 	
 	<input type="hidden" name="no" value="${hVO.no}">
 <%-- 	<input type="hidden" name="no" value="${rVO. hno }"> --%>
@@ -296,60 +300,60 @@ $(function(){
 						<label for="냉장고">냉장고</label>
 						<input type="checkbox" id="정수기" name="publicfacility" value="정수기" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='정수기' }">checked</c:if> </c:forEach> > 
 						<label for="정수기">정수기</label>
-						<input type="checkbox" id="check3" name="publicfacility" value="가스레인지" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='가스레인지' }">checked</c:if> </c:forEach> > 
-						<label for="check3">가스레인지</label>
-						<input type="checkbox" id="check4" name="publicfacility" value="밥솥" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='밥솥' }">checked</c:if> </c:forEach> > 
-						<label for="check4">밥솥</label> 
-						<input type="checkbox" id="check5" name="publicfacility" value="식기세척기" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='식기세척기' }">checked</c:if> </c:forEach> >  
-						<label for="check5">식기세척기</label>
-						<input type="checkbox" id="check6" name="publicfacility" value="냄비" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='냄비' }">checked</c:if> </c:forEach> > 
-						<label for="check6">냄비</label>
-						<input type="checkbox" id="check7" name="publicfacility" value="프라이팬" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='프라이팬' }">checked</c:if> </c:forEach> > 
-						<label for="check7">프라이팬</label>
-						<input type="checkbox" id="check8" name="publicfacility" value="토스트기" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='토스트기' }">checked</c:if> </c:forEach> > 
-						<label for="check8">토스트기</label> 
+						<input type="checkbox" id="가스레인지" name="publicfacility" value="가스레인지" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='가스레인지' }">checked</c:if> </c:forEach> > 
+						<label for="가스레인지">가스레인지</label>
+						<input type="checkbox" id="밥솥" name="publicfacility" value="밥솥" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='밥솥' }">checked</c:if> </c:forEach> > 
+						<label for="밥솥">밥솥</label> 
+						<input type="checkbox" id="식기세척기" name="publicfacility" value="식기세척기" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='식기세척기' }">checked</c:if> </c:forEach> >  
+						<label for="식기세척기">식기세척기</label>
+						<input type="checkbox" id="냄비" name="publicfacility" value="냄비" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='냄비' }">checked</c:if> </c:forEach> > 
+						<label for="냄비">냄비</label>
+						<input type="checkbox" id="프라이팬" name="publicfacility" value="프라이팬" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='프라이팬' }">checked</c:if> </c:forEach> > 
+						<label for="프라이팬">프라이팬</label>
+						<input type="checkbox" id="토스트기" name="publicfacility" value="토스트기" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='토스트기' }">checked</c:if> </c:forEach> > 
+						<label for="토스트기">토스트기</label> 
 					</div>
 				</li> 
 				<p>&nbsp;</p>
 				<li>
 					<label>거실</label>
 					<div class="checks">
-						<input type="checkbox" id="check9" name="publicfactility" value="소파" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='소파' }">checked</c:if> </c:forEach> > 
-						<label for="check9">소파</label>
-						<input type="checkbox" id="check10" name="publicfactility" value="티비" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='티비' }">checked</c:if> </c:forEach> > 
-						<label for="check10">티비</label>
-						<input type="checkbox" id="check11" name="publicfactility" value="탁자" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='탁자' }">checked</c:if> </c:forEach> > 
-						<label for="check11">탁자</label>
-						<input type="checkbox" id="check12" name="publicfactility" value="카펫" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='카펫' }">checked</c:if> </c:forEach> > 
-						<label for="check12">카펫</label> <br/>
+						<input type="checkbox" id="소파" name="publicfacility" value="소파" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='소파' }">checked</c:if> </c:forEach> > 
+						<label for="소파">소파</label>
+						<input type="checkbox" id="티비" name="publicfacility" value="티비" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='티비' }">checked</c:if> </c:forEach> > 
+						<label for="티비">티비</label>
+						<input type="checkbox" id="탁자" name="publicfacility" value="탁자" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='탁자' }">checked</c:if> </c:forEach> > 
+						<label for="탁자">탁자</label>
+						<input type="checkbox" id="카펫" name="publicfacility" value="카펫" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='카펫' }">checked</c:if> </c:forEach> > 
+						<label for="카펫">카펫</label> <br/>
 					</div>
 				</li>
 		
 				<li>
 					<label>욕실</label>
 					<div class="checks">
-						<input type="checkbox" id="check13" name="publicfactility" value="욕조" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='욕조' }">checked</c:if> </c:forEach> > 
-						<label for="check13">욕조</label>
-						<input type="checkbox" id="check14" name="publicfactility" value="비데" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='비데' }">checked</c:if> </c:forEach> > 
-						<label for="check14">비데</label>
-						<input type="checkbox" id="check15" name="publicfactility" value="샴푸" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='샴푸' }">checked</c:if> </c:forEach> > 
-						<label for="check15">샴푸</label>
-						<input type="checkbox" id="check16" name="publicfactility" value="린스" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='린스' }">checked</c:if> </c:forEach> > 
-						<label for="check16">린스</label> <br/>
+						<input type="checkbox" id="욕조" name="publicfacility" value="욕조" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='욕조' }">checked</c:if> </c:forEach> > 
+						<label for="욕조">욕조</label>
+						<input type="checkbox" id="비데" name="publicfacility" value="비데" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='비데' }">checked</c:if> </c:forEach> > 
+						<label for="비데">비데</label>
+						<input type="checkbox" id="샴푸" name="publicfacility" value="샴푸" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='샴푸' }">checked</c:if> </c:forEach> > 
+						<label for="샴푸">샴푸</label>
+						<input type="checkbox" id="린스" name="publicfacility" value="린스" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='린스' }">checked</c:if> </c:forEach> > 
+						<label for="린스">린스</label> <br/>
 					</div>
 				</li>
 				
 				<li>
 					<label>기타</label>
 					<div class="checks">
-						<input type="checkbox" id="check17" name="publicfactility" value="세탁기" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='세탁기' }">checked</c:if> </c:forEach> > 
-						<label for="check17">세탁기</label>
-						<input type="checkbox" id="check18" name="publicfactility" value="건조기" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='건조기' }">checked</c:if> </c:forEach> > 
-						<label for="check18">건조기</label>
-						<input type="checkbox" id="check19" name="publicfactility" value="베란다" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='베란다' }">checked</c:if> </c:forEach> > 
-						<label for="check19">베란다</label>
-						<input type="checkbox" id="check20" name="publicfactility" value="WIFI" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='WIFI' }">checked</c:if> </c:forEach> > 
-						<label for="check20">WIFI</label> 
+						<input type="checkbox" id="세탁기" name="publicfacility" value="세탁기" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='세탁기' }">checked</c:if> </c:forEach> > 
+						<label for="세탁기">세탁기</label>
+						<input type="checkbox" id="건조기" name="publicfacility" value="건조기" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='건조기' }">checked</c:if> </c:forEach> > 
+						<label for="건조기">건조기</label>
+						<input type="checkbox" id="베란다" name="publicfacility" value="베란다" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='베란다' }">checked</c:if> </c:forEach> > 
+						<label for="베란다">베란다</label>
+						<input type="checkbox" id="WIFI" name="publicfacility" value="WIFI" <c:forEach var="i" items="${hVO.publicfacility }"> <c:if test="${i=='WIFI' }">checked</c:if> </c:forEach> > 
+						<label for="WIFI">WIFI</label> 
 					</div>
 				</li>
 			</ul>	
@@ -368,8 +372,21 @@ $(function(){
 		</div>
 		
 			<ul class="form_box">
-				<li id="hPic"><img id="houseImg1" name="houseImg1" src="/home/housePic/${hVO.housepic1}" alt="upload image" /></li>
-				<li> <input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);" /> <br/> </li>
+				<li id="hPic">
+					<img id="houseImg1" name="houseImg1" src="/home/housePic/${hVO.housepic1}" alt="upload image" />
+					<img id="houseImg2" name="houseImg2" src="/home/housePic/${hVO.housepic2}" alt="upload image" />
+					<img id="houseImg3" name="houseImg3" src="/home/housePic/${hVO.housepic3}" alt="upload image" />
+					<img id="houseImg4" name="houseImg4" src="/home/housePic/${hVO.housepic4}" alt="upload image" />
+					<img id="houseImg5" name="houseImg5" src="/home/housePic/${hVO.housepic5}" alt="upload image" />
+				</li>
+				<li>
+					<input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);" /> 
+					<input type="file" accept="image/*" name="filename2"  id="housepic2" onchange="readURL(this);"/>
+					<input type="file" accept="image/*" name="filename3"  id="housepic3" onchange="readURL(this);"/>
+					<input type="file" accept="image/*" name="filename4"  id="housepic4" onchange="readURL(this);"/>
+					<input type="file" accept="image/*" name="filename5"  id="housepic5" onchange="readURL(this);"/>
+				<br/> 
+				</li>
 			</ul>
 				<div class="btnclass">
 					<a class="green" id="hPrev3">이전</a>
@@ -408,7 +425,7 @@ $(function(){
 				<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" name="rent" value="${rVO.rent }"/> 
 				<li><label><span class="red_txt">*</span>보증금(조율) </label><input type="number" name="deposit" value="${rVO.deposit }"/> </li>
 				<li><label><span class="red_txt">*</span>방 인원</label> <input type="number" name="roomPeople" value="${rVO.roomPeople }" /> </li>
-				<li><label><span class="red_txt">*</span>입주 가능일 </label> <input type="date" name="enterdate" min="${now}" value="${rVO.enterdate }" /> </li>
+				<li><label><span class="red_txt">*</span>입주 가능일 </label> <input type="date" name="enterdate" min="${now}" value="${rVO.enterdate}" /> </li>
 				<li><label><span class="red_txt">*</span>최소 거주 기간</label>
 					<select name="minStay" >
 						<option value="1-3개월" <c:if test="${rVO.minStay=='1-3개월' }">selected </c:if> >1~3 개월</option>
@@ -617,6 +634,14 @@ $(function(){
 						<label for="h_support3">기본 식품 지원</label>
 					</div>
 				</li> <br/><br/>
+				<li><label><span class="red_txt">*</span>기타</label>
+						<div class="checks checkbox">
+							<input type="checkbox" name="h_etc" id="h_etc1" value="1" <c:forEach var="i" items="${pVO.h_etc}"><c:if test="${i=='1'}">checked</c:if></c:forEach> >
+							<label for="h_etc1">보증금 조절 가능</label>
+							<input type="checkbox" name="h_etc" id="h_etc3" value="3" <c:forEach var="i" items="${pVO.h_etc}"><c:if test="${i=='3'}">checked</c:if></c:forEach> >
+							<label for="h_etc3">즉시 입주 가능</label>
+						</div>
+					</li>
 			</ul>
 				<div class="btnclass">
 					<a class="green" id="hPrev8" >이전</a>
@@ -725,7 +750,7 @@ $(function(){
 			</ul>	
 				<div class="btnclass">
 					<a class="green" id="hPrve9" >이전</a>
-					<button class="green" id="hNext9" >다음</button> 
+					<button class="green" id="hNext9" >수정</button> 
 					<a class="green" id="hIndex9" >취소</a>
 				</div> <!-- 버튼div 종료 -->
 		</div> <!-- 등록form9 종료 -->	

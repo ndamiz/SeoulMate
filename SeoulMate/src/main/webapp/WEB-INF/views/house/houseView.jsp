@@ -202,7 +202,7 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
     width: 920px;
     height: 520px; border-radius: 3px; border: 1px solid #ddd;}
 .slide_wraper{height: 500px;
-    width: 840px;
+    width: 4200px;
     overflow: hidden;
     top: 10px;
     left: 40px;
@@ -869,11 +869,13 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
     $(function(){
 
     	$("#houseDel").click(()=>{
-			if(confirm("삭제하시겠습니까?")){
+			if(confirm("하우스를 삭제하시겠습니까?")){
 				location.href="houseDel?no=${hVO.no }" 
+				alert("하우스가 삭제되었습니다.");
+			}else{
+				alert("삭제가 취소되었습니다.");
 			};
 		});
-
         $('#hEdit').click(function(){ //수정하기 버튼
         	location.href="houseEdit"; //방수정하기 form 으로 이동
         });
@@ -881,7 +883,6 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
 		$("#shareBtn").click(function(){ //공유하기 버튼 공유하기팝업창
 			$("#pup_wrap_share").css("display", "block");
 		});
-
      var slides = document.querySelector('.slides'),
      slide = document.querySelectorAll('.slides li'),
      currentIdx =0,   //현재인덱스
@@ -1018,13 +1019,6 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
   			}
   		window.open(cUrl,'','width=700,height=500,top=300,left=450,scrollbars=yes');
 		}
+    
 
-
-	$(()=>{
-		$("#houseDel").click(()=>{
-			if(confirm("삭제하시겠습니까?")){
-				location.href="houseDel?no=${hVO.no}" //true일 경우 실행
-			};
-		});
-	});
 </script>

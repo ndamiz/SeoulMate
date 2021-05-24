@@ -349,7 +349,7 @@ $(function(){
 					<input type="hidden" name="area3" id="area3Edit" value="${mVO.area3}" readonly/>
 					
 				</li>	
-			<li> <label><span class="red_txt">*</span>입주가능일 </label><input type="date" name="enterdate" value="date"  > </li>
+			<li> <label><span class="red_txt">*</span>입주가능일 </label><input type="date" name="enterdate" value="${mVO.enterdate }"  > </li>
 			<li> <label><span class="red_txt">*</span>최소 거주 기간</label>
 				 	<select name="minStay">
 						<option value="1-3개월" <c:if test="${mVO.minStay=='1-3개월' }">selected </c:if> >1~3 개월</option>

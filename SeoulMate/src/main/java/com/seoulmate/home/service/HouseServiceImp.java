@@ -84,6 +84,7 @@ public class HouseServiceImp implements HouseService {
 
 	@Override
 	public HouseWriteVO houseSelect(int no, String userid) { //housewrite 가져오기
+		System.out.println(no);
 		return hDAO.houseSelect(no, userid);
 	}
 
@@ -113,8 +114,8 @@ public class HouseServiceImp implements HouseService {
 	}
 
 	@Override
-	public String houseProfilePic(String housepic1,int no) { //하우스사진 가져오기
-		return hDAO.houseProfilePic(housepic1, no);
+	public String houseProfilePic(String userid ,int no) { //하우스사진 가져오기
+		return hDAO.houseProfilePic(userid, no);
 	}
 
 	@Override
@@ -191,5 +192,15 @@ public class HouseServiceImp implements HouseService {
 	public PropensityVO getFullPropensity(String userid, int pno) {
 		//선택한 성향 정보 가져오기
 		return hDAO.getFullPropensity(userid, pno);
+	}
+
+	@Override
+	public String houseProfilePic2(String userid, int no) { //하우스 사진2 가져오기
+		return hDAO.houseProfilePic2(userid, no);
+	}
+
+	@Override
+	public int gradeCheck(String userid) { //회원 등급 확인
+		return mDAO.gradeCheck(userid);
 	}
 }

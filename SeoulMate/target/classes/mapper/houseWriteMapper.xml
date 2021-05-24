@@ -23,17 +23,30 @@
 		select count(pno) from housewrite where userid=#{param1} and pno=#{param2}
 	</select>
 	<insert id="houseInsert" parameterType="com.seoulmate.home.vo.HouseWriteVO">
-		insert into housewrite(no, userid, addr, housepic1, room, bathroom, nowpeople, searchpeople, publicfacility, 
+		insert into housewrite(no, userid, addr, housepic1, 
+		<if test="housepic2!=null and housepic2!=''">housepic2, </if>
+		<if test="housepic3!=null and housepic3!=''">housepic3, </if>
+		<if test="housepic4!=null and housepic4!=''">housepic4, </if>
+		<if test="housepic5!=null and housepic5!=''">housepic5, </if>
+		room, bathroom, nowpeople, searchpeople, publicfacility, 
 		writedate, enddate, housestate, pno, houseprofile, housename, houseshow) 
 		values (housematesq.nextval, #{userid}, #{addr}, #{housepic1}, 
+		<if test="housepic2!=null and housepic2!=''">#{housepic2}, </if> 
+		<if test="housepic3!=null and housepic3!=''">#{housepic3}, </if>
+		<if test="housepic4!=null and housepic4!=''">#{housepic4}, </if>
+		<if test="housepic5!=null and housepic5!=''">#{housepic5}, </if>
 		#{room}, #{bathroom}, #{nowpeople}, #{searchpeople}, 
-		#{publicfacility}, sysdate, sysdate+7, '모집중', #{pno}, #{houseprofile}, #{housename}, '공개')
+		#{publicfacilityStr}, sysdate, sysdate+7, '모집중', #{pno}, #{houseprofile}, #{housename}, '공개' )
 	</insert>
 	<update id="houseUpdate" parameterType="com.seoulmate.home.vo.HouseWriteVO">
 		update housewrite set addr=#{addr}, 
 		<if test="housepic1!=null and housepic1!=''">housepic1=#{housepic1}, </if>
+		<if test="housepic2!=null and housepic2!=''">housepic2=#{housepic2}, </if>
+		<if test="housepic3!=null and housepic3!=''">housepic3=#{housepic3}, </if>
+		<if test="housepic4!=null and housepic4!=''">housepic4=#{housepic4}, </if>
+		<if test="housepic5!=null and housepic5!=''">housepic5=#{housepic5}, </if>
 		room=#{room}, bathroom=#{bathroom}, nowpeople=#{nowpeople}, searchpeople=#{searchpeople},
-		publicfacility=#{publicfacility}, houseprofile=#{houseprofile}, housename=#{housename} where userid=#{userid} and no=${no}
+		publicfacility=#{publicfacilityStr}, houseprofile=#{houseprofile}, housename=#{housename} where userid=#{userid} and no=${no}
 	</update>
 	<select id="housenameCheck" resultType="String">
 		select housename from housewrite where pno=#{param1}
@@ -42,18 +55,21 @@
 		update propensity set housename= #{param1} where pno=#{param2}
 	</update>
 	<select id="houseSelect"  resultType="com.seoulmate.home.vo.HouseWriteVO">
-		 select no, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, searchpeople, publicfacility, writedate, enddate, 
+		 select no, pno, userid, addr, housename, housepic1, housepic2, housepic3, housepic4, housepic5, room, bathroom, nowpeople, searchpeople, publicfacility as publicfacilityStr, writedate, enddate, 
 		 housestate, houseprofile from housewrite where no=#{param1} and userid=#{param2}
 	</select>
 		<select id="houseSelect2"  resultType="com.seoulmate.home.vo.HouseWriteVO">
-		 select no, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, searchpeople, publicfacility, writedate, enddate, 
+		 select no, pno, userid, addr, housename, housepic1, housepic2, housepic3, housepic4, housepic5, room, bathroom, nowpeople, searchpeople, publicfacility, writedate, enddate, 
 		 housestate, houseprofile from housewrite where no=#{param1}
 	</select>
 	<delete id="houseDel" parameterType="com.seoulmate.home.vo.HouseWriteVO">
 		delete from housewrite where no=#{param1} and userid=#{param2}	
 	</delete>
 	<select id="houseProfilePic" resultType="String">
-	select housepic1 from housewrite where userid=#{param1} and no=#{param2}
+	select housepic1, housepic2, housepic3, housepic4, housepic5 from housewrite where userid=#{param1} and no=#{param2}
+	</select>
+	<select id="houseProfilePic2" resultType="String">
+	select housepic2 from housewrite where userid=#{param1} and no=#{param2}
 	</select>
 	<select id="getNewIndexHouse" parameterType="com.seoulmate.home.vo.HouseMatePagingVO" resultType="com.seoulmate.home.vo.HouseWriteVO">
 	SELECT * 
