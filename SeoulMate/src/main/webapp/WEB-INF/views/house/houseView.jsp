@@ -208,7 +208,7 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
     left: 40px;
     position: absolute;}
 .slides{
-   position:relative; top:0; left:0; width:100%; height:100%;
+   position: absolute; top:0; left:0; width:100%; height:100%;
    transition: left 0.5s ease-out; margin:0 auto;
 }
 .slides>ul>li:not(:last-child){ float:left; }
