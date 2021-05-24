@@ -37,6 +37,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.seoulmate.home.service.AdminService;
+import com.seoulmate.home.service.MemberService;
 import com.seoulmate.home.vo.FaqVO;
 import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
@@ -52,6 +53,9 @@ import com.seoulmate.home.vo.ContactVO;
 public class AdminController {
 	@Inject
 	AdminService service;
+	
+	@Inject
+	MemberService mService;
 	
 	@Inject
 	JavaMailSenderImpl mailSender;
@@ -78,7 +82,8 @@ public class AdminController {
 		mav.addObject("salesAmount", service.salesAmount());
 		
 		//chart
-		String allGu[] = {"강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","은평구","종로구","중구","중랑구"};
+		String allGu[] = mService.gu();
+//		String allGu[] = {"강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","은평구","종로구","중구","중랑구"};
 		HashMap<String, Integer> sortGu = new HashMap<String, Integer>();
 		List<String> guName = new ArrayList<String>();
 		List<Integer> guNum = new ArrayList<Integer>();
