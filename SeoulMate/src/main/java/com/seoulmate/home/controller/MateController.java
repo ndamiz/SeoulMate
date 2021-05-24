@@ -275,32 +275,40 @@ public class MateController {
 	public ModelAndView houseSearch(int no, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		String userid = (String)session.getAttribute("logId");
+		
 		MateWriteVO mVO = service.mateSelect2(no);
 		PropensityVO pVO = service.propMateSelect2(mVO.getPno());
 		String memProfilePic = hService.memberProfile(mVO.getUserid());
+		
 		if(userid!=null) {
 			List<PropensityVO> pVO_log = memService.housePropensityList(userid);
+			
 	System.out.println(pVO_log.size() +"pVO_log 사이즈");
+	
 			MemberVO mVO_log = memService.memberSelect(userid);
-			mav.addObject("pVO_log", pVO_log);
-			mav.addObject("mVO_log", mVO_log);
+			
 			List<PropensityVO> graph_matching_List = new ArrayList<PropensityVO>();
 			List<PropensityVO> score_List = new ArrayList<PropensityVO>();
 			PropensityVO matchingCheckPvo = new PropensityVO();
 			for (int i = 0; i < pVO_log.size(); i++) {
 				try {
 					matchingCheckPvo = hService.getMatchingSelect(pVO_log.get(i).getPno(), pVO.getPno());
-					if(matchingCheckPvo.getHousename()!=null && !matchingCheckPvo.getHousename().equals("")) {
-						graph_matching_List.add(matchingCheckPvo);
+					if(matchingCheckPvo.getHousename()==null) {
+						matchingCheckPvo.setHousename(pVO_log.get(i).getPdate()+"등록 성향");
+						pVO_log.get(i).setHousename(pVO_log.get(i).getPdate()+"등록 성향");
+			
 					}
+					graph_matching_List.add(matchingCheckPvo);
 				} catch (Exception e) {
 					//널이당 .. 
 				}
+				System.out.println(pVO_log.get(i).getHousename());
 				score_List.add(hService.getMatchingScore(pVO_log.get(i).getPno(), pVO.getPno()));
-				
 			}
 			mav.addObject("graph_matching_List", graph_matching_List);
 			mav.addObject("score_List", score_List);
+			mav.addObject("pVO_log", pVO_log);
+			mav.addObject("mVO_log", mVO_log);
 		}
 		mav.addObject("mVO", mVO);
 		mav.addObject("pVO", pVO);

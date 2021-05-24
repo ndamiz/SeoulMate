@@ -292,5 +292,17 @@
 	<select id="likemarkerSelect" resultType="int">
 		select nvl(max(NO),0) AS NO FROM LIKEMARK WHERE no=${param1} and userid='${param2}' AND CATEGORY='${param3}'
 	</select>
+	<select id="payRecordCnt" parameterType="String" resultType="int">
+		select count(no) as no from pay where userid=#{param1} 
+	</select>
+	<select id="payList" parameterType="java.util.HashMap" resultType="com.seoulmate.home.vo.PayVO">
+		select * from (select * from 
+		(select * from  pay where userid='${pVO.userid}' 
+			<if test="pVO.payStart!='' and pVO.payStart!=null"> and payStart like '%${payStart}%'</if>
+		 ORDER BY payStart DESC )
+		where <![CDATA[rownum<=]]>${pagingVO.pageNum * pagingVO.onePageRecode} order by payStart asc)
+			where <![CDATA[rownum<=]]><if test="pagingVO.pageNum==pagingVO.totalPage">${pagingVO.lastPageRecode}</if> 
+	  					<if test="pagingVO.pageNum!=pagingVO.totalPage">${pagingVO.onePageRecode}</if> ORDER BY payStart DESC
+	</select>
 </mapper>
 

@@ -63,87 +63,108 @@
 						</div>
 					</div>
 				</form>
-				<div class="table-responsive, managementList" id="salesManagementTable">
-					<table class="table table-hover table-sm table-bordered, managementTable" id="adminManagementTable">
-						<thead class="thead-light">
-							<tr class="orderConditionTable">
-								<c:if test="${payVO.selectYearMonthDate!='일별' }"><th>펼쳐보기</th></c:if>
-								<th>날짜</th>
-								<th>총매출액</th>
-								<th>카드</th>
-								<th>그외</th>
-								<th>결제건수</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<c:if test="${payVO.selectYearMonthDate!='일별' }"><td></td></c:if>
-								<td>총 계</td>
-								<fmt:formatNumber var="totalAmount" value="${totalVO.amount}" />
-								<td>${totalAmount }</td>
-								<fmt:formatNumber var="totalAmountCard" value="${totalVO.amountCard}" />
-								<td>${totalAmountCard }</td>
-								<fmt:formatNumber var="totalAmountCash" value="${totalVO.amountCash}" />
-								<td>${totalAmountCash }</td>
-								<fmt:formatNumber var="totalAmountNum" value="${totalVO.amount/15000 }" />
-								<td>${totalAmountNum }</td>
-							</tr>
-							<c:if test="${payVO.selectYearMonthDate==null || payVO.selectYearMonthDate=='년별'  || payVO.selectYearMonthDate==''}">
-								<c:forEach var="year" items="${yearList }">
-									<tr class="adminSalesManagementList cuser_Pointer list_year">
-										<td>
-												<input type="checkbox" name="openList_year"/>
-										</td>
-										<td>${year.payStart }년<span class="objectHidden">${year.payStart }</span></td>
-										<fmt:formatNumber var="amount" value="${year.amount }" />
-										<td class="salesPopup">${amount}</td>
-										<fmt:formatNumber var="amountCard" value="${year.amountCard }" />
-										<td class="salesPopup">${amountCard}</td>
-										<fmt:formatNumber var="amountCash" value="${year.amountCash }" />
-										<td class="salesPopup">${amountCash }</td>
-										<fmt:formatNumber var="amountNum" type="number" value="${year.amount/15000 }" />
-										<td class="salesPopup">${amountNum }</td>
-									</tr>
-								</c:forEach>
-							</c:if>
-							<c:if test="${payVO.selectYearMonthDate=='월별'}">
-								<c:forEach var="month" items="${monthList }">
-									<tr class="adminSalesManagementList cuser_Pointer list_month">
-										<td>
-											<input type="checkbox" name="openList_month"/>
-										</td>
-										<td class="salesPopup">${month.payStart }<span class="objectHidden">${month.payStart }</span></td>
-										<fmt:formatNumber var="amount" value="${month.amount }" />
-										<td class="salesPopup">${amount}</td>
-										<fmt:formatNumber var="amountCard" value="${month.amountCard }" />
-										<td class="salesPopup">${amountCard}</td>
-										<fmt:formatNumber var="amountCash" value="${month.amountCash }" />
-										<td class="salesPopup">${amountCash }</td>
-										<fmt:formatNumber var="amountNum" type="number" value="${month.amount/15000 }" />
-										<td class="salesPopup">${amountNum }</td>
-									</tr>
-									
-								</c:forEach>
-							</c:if>
-							<c:if test="${payVO.selectYearMonthDate=='일별' }">
-								<c:if test="${fn:length(dateList) < 31 }">
-								<c:forEach var="date" items="${dateList }">
-									<tr class="adminSalesManagementList salesManagement_date cuser_Pointer list_date">
-										<td class="salesPopup">${date.payStart }<span class="objectHidden">${date.payStart }</span></td>
-										<fmt:formatNumber var="amount" value="${date.amount }" />
-										<td class="salesPopup">${amount}</td>
-										<fmt:formatNumber var="amountCard" value="${date.amountCard }" />
-										<td class="salesPopup">${amountCard}</td>
-										<fmt:formatNumber var="amountCash" value="${date.amountCash }" />
-										<td class="salesPopup">${amountCash }</td>
-										<fmt:formatNumber var="amountNum" type="number" value="${date.amount/15000 }" />
-										<td class="salesPopup">${amountNum }</td>
-									</tr>
-								</c:forEach>
-								</c:if>
-							</c:if>
-						</tbody>
-					</table>
+	<style>
+		.sales_Management_List ul, .sales_Management_List li{list-style-type: none; margin: 0; padding: 0;}
+		.sales_Management_List{    width: 95%;  margin: 10px auto; overflow: auto;}
+		.sales_Management_List ul{width: 100%; overflow: auto;}
+		.sales_Management_List li{float: left;}
+		.sales_Management_List>ul:first-of-type>li{height: 50px; line-height: 50px; background-color: #576e9485; color:#495057; 
+			border-top: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; font-size: 1.2em; font-weight: bold;}
+		.sales_Management_List>ul:first-of-type>li:first-of-type{font-size: 1em;}
+		.sales_Management_List ul>li{text-align: center; height: 40px; line-height: 40px;}
+		.sales_Management_List li:first-of-type { width: 6%;}
+		.sales_Management_List li:nth-of-type(2) { width: 0%;}
+		.sales_Management_List li:nth-of-type(3) { width: 20%;}
+		.sales_Management_List li:nth-of-type(4) { width: 20%;}
+		.sales_Management_List li:nth-of-type(5) { width: 20%;}
+		.sales_Management_List li:nth-of-type(6) { width: 20%;}
+		.sales_Management_List li:last-of-type { width: 14%;}
+		#total_Sales_List{border-bottom: 1px solid #dee2e6; background-color: #fff; color: #2d4364;
+   			 font-weight: bold; font-size: 1.3em; }
+   		.bgc_1{background-color: #d4d4d4;}
+   		.bgc_2{background-color: #eee;}
+	</style>
+				<div class="sales_Management_List managementList">
+					<ul id="sales_List_Header">
+						<c:if test="${payVO.selectYearMonthDate!='일별' }"><li>펼치기</li></c:if>
+						<c:if test="${payVO.selectYearMonthDate=='일별' }"><li></li></c:if>
+						<li></li>
+						<li>날짜</li>
+						<li>총 매출액</li>
+						<li>카드</li>
+						<li>그 외</li>
+						<li>결제 건수</li>
+					</ul>
+					<ul id='total_Sales_List'>
+						<li></li>
+						<li></li>
+						<li>총  계</li>
+						<fmt:formatNumber var="totalAmount" value="${totalVO.amount}" />
+						<li>${totalAmount }</li>
+						<fmt:formatNumber var="totalAmountCard" value="${totalVO.amountCard}" />
+						<li>${totalAmountCard }</li>
+						<fmt:formatNumber var="totalAmountCash" value="${totalVO.amountCash}" />
+						<li>${totalAmountCash }</li>
+						<fmt:formatNumber var="totalAmountNum" value="${totalVO.amount/15000 }" />
+						<li>${totalAmountNum }</li>
+					</ul>
+					<c:if test="${payVO.selectYearMonthDate==null || payVO.selectYearMonthDate=='년별'  || payVO.selectYearMonthDate==''}">
+					<c:forEach var="year" items="${yearList }">
+						<ul class="adminSalesManagementList cuser_Pointer list_year">
+							<li>
+								<input type="checkbox" name="openList_year"/>
+							</li>
+							<li></li>
+							<li style="border-bottom: 1px solid #dee2e6;">${year.payStart }년<span class="objectHidden">${year.payStart }</span></li>
+							<fmt:formatNumber var="amount" value="${year.amount }" />
+							<li style="border-bottom: 1px solid #dee2e6;" class="salesPopup">${amount}</li>
+							<fmt:formatNumber var="amountCard" value="${year.amountCard }" />
+							<li style="border-bottom: 1px solid #dee2e6;" class="salesPopup">${amountCard}</li>
+							<fmt:formatNumber var="amountCash" value="${year.amountCash }" />
+							<li style="border-bottom: 1px solid #dee2e6;" class="salesPopup">${amountCash }</li>
+							<fmt:formatNumber var="amountNum" type="number" value="${year.amount/15000 }" />
+							<li style="border-bottom: 1px solid #dee2e6;" class="salesPopup">${amountNum }</li>
+						</ul>
+					</c:forEach>
+					</c:if>
+					<c:if test="${payVO.selectYearMonthDate=='월별'}">
+						<c:forEach var="month" items="${monthList }">
+							<ul class="adminSalesManagementList cuser_Pointer list_month">
+								<li>
+									<input type="checkbox" name="openList_month"/>
+								</li>
+								<li></li>
+								<li class="salesPopup">${month.payStart }<span class="objectHidden">${month.payStart }</span></li>
+								<fmt:formatNumber var="amount" value="${month.amount }" />
+								<li class="salesPopup">${amount}</li>
+								<fmt:formatNumber var="amountCard" value="${month.amountCard }" />
+								<li class="salesPopup">${amountCard}</li>
+								<fmt:formatNumber var="amountCash" value="${month.amountCash }" />
+								<li class="salesPopup">${amountCash }</li>
+								<fmt:formatNumber var="amountNum" type="number" value="${month.amount/15000 }" />
+								<li class="salesPopup">${amountNum }</li>
+							</ul>
+						</c:forEach>
+					</c:if>
+					<c:if test="${payVO.selectYearMonthDate=='일별' }">
+						<c:if test="${fn:length(dateList) < 31 }">
+						<c:forEach var="date" items="${dateList }">
+							<ul class="adminSalesManagementList salesManagement_date cuser_Pointer list_date">
+								<li></li>
+								<li></li>
+								<li class="salesPopup">${date.payStart }<span class="objectHidden">${date.payStart }</span></li>
+								<fmt:formatNumber var="amount" value="${date.amount }" />
+								<li class="salesPopup">${amount}</li>
+								<fmt:formatNumber var="amountCard" value="${date.amountCard }" />
+								<li class="salesPopup">${amountCard}</li>
+								<fmt:formatNumber var="amountCash" value="${date.amountCash }" />
+								<li class="salesPopup">${amountCash }</li>
+								<fmt:formatNumber var="amountNum" type="number" value="${date.amount/15000 }" />
+								<li class="salesPopup">${amountNum }</li>
+							</ul>
+						</c:forEach>
+						</c:if>
+					</c:if>
 				</div>
 			</div>
 			<div class="admin_Management_popup popup_hidden">
@@ -254,11 +275,9 @@
 		
 		$(document).on('click','.salesPopup' ,function(){
 			var selectYearMonthDate ='<c:out value="${payVO.selectYearMonthDate}"/>';
-			if(selectYearMonthDate=='일별' || selectYearMonthDate=='' || selectYearMonthDate==null){
-				var checkDate = $(this).parent().children().eq(0).children().text();
-			}else{
-				var checkDate = $(this).parent().children().eq(1).children().text();
-			}
+			var checkDate = $(this).parent().children().eq(2).children().text();
+			console.log('checkDate' + checkDate);
+			
 			
 			
 			var excelTag = '';
@@ -320,7 +339,7 @@
 		//년도 선택하여 펼쳐보기 할 경우
 		$(document).on('click', "input[name='openList_year']", function(){
 			console.log('adasd');
-			var checkDate = $(this).parent().next().children().text();
+			var checkDate = $(this).parent().next().next().children().text();
 			// 2021   년도 숫자를 가져옴. 
 			var payStart = []; var amount =[]; var amountCard = []; var amountCash = [];
 			// jstl 사용가능하도록 처리.. 
@@ -330,12 +349,14 @@
 				amountCard.push("${item.amountCard}");
 				amountCash.push("${item.amountCash}");
 			</c:forEach>
-			
+			console.log(payStart);
 			if($(this).context.checked==true){
 				//체크 상태일경우  (이번에 눌렸다, 데이터가 보여야한다. )
 				// 다른곳에있는 모든 정보들 지우기.. (초기화)
 				$('.list_month').remove(); 
 				$('.list_date').remove();
+				$('.list_year').removeClass('bgc_1');
+				$(this).parent().parent().addClass('bgc_1');
 				//반복문을 통해서 태그 추가하기. 
 				
 				//체크상태 지우기
@@ -346,13 +367,14 @@
 				var tag = '';
 				for(var i=0; i<payStart.length; i++){
  					if(checkDate.substr(0,4) == payStart[i].substr(0,4)){
-						tag += '<tr class="adminSalesManagementList cuser_Pointer list_month">';
-						tag += '<td style="padding-left:20px;"><input type="checkbox" name="openList_month"/></td>';
-						tag += '<td style="padding-left:20px;" class="salesPopup">'+Number(payStart[i].substr(5,7))+'월<span class="objectHidden">'+payStart[i]+'</span></td>';
-						tag += '<td class="salesPopup">'+Number(amount[i]).toLocaleString('ko-KR')+'</td>';
-						tag += '<td class="salesPopup">'+Number(amountCard[i]).toLocaleString('ko-KR')+'</td>';
-						tag += '<td class="salesPopup">'+Number(amountCash[i]).toLocaleString('ko-KR')+'</td>';
-						tag += '<td class="salesPopup">'+Number(amount[i])/15000+'</td></tr>';
+						tag += '<ul style="font-"class="adminSalesManagementList cuser_Pointer list_month">';
+						tag += '<li style="padding-left:30px;"><input type="checkbox" name="openList_month"/></li>';
+						tag += '<li style="width:11%; text-align: right;">↳</li>'
+						tag += '<li style="width:9%; text-align: left; padding-left:20px; border-bottom: 1px solid #dee2e6;">'+Number(payStart[i].substr(5,7))+'월<span class="objectHidden">'+payStart[i]+'</span></li>';
+						tag += '<li style="width:20%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amount[i]).toLocaleString('ko-KR')+'</li>';
+						tag += '<li style="width:20%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amountCard[i]).toLocaleString('ko-KR')+'</li>';
+						tag += '<li style="width:20%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amountCash[i]).toLocaleString('ko-KR')+'</li>';
+						tag += '<li style="width:14%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amount[i])/15000+'</li></ul>';
  					}
  				}
 				//클릭한 부모 tr의 다음에다가 태그 추가하기 
@@ -362,12 +384,13 @@
 				//체크 X 
 				$('.list_month').remove(); 
 				$('.list_date').remove();
+				$('.list_year').removeClass('bgc_1');
 			}
 		}); //년도체크박스 선택 end
 			
 		//월 체크를 눌럿을 경우 
 		$(document).on('click', "input[name='openList_month']", function(){
-			var checkDate = $(this).parent().next().children().text();
+			var checkDate = $(this).parent().next().next().children().text();
 			
 			var payStart = []; var amount =[]; var amountCard = []; var amountCash = [];
 			<c:forEach items="${dateList}" var="item">
@@ -376,11 +399,13 @@
 				amountCard.push("${item.amountCard}");
 				amountCash.push("${item.amountCash}");
 			</c:forEach>
-			
+			console.log(payStart);
 			if($(this).context.checked==true){
 				//체크를 눌렀을 경우 
 				//다른리스트 모두 지우기 
 				$('.list_date').remove();
+				$('.list_month').removeClass('bgc_2');
+				$(this).parent().parent().addClass("bgc_2");
 				//체크상태 지우기
 				$("input:checkbox[name='openList_month']").prop("checked", false);
 				$(this).prop("checked", true);
@@ -388,19 +413,23 @@
 				var tag = '';
 				for(var i=0; i<payStart.length; i++){
 					if(checkDate == payStart[i].substr(0,7)){
-						tag += '<tr class="adminSalesManagementList cuser_Pointer list_date">';
-						tag += '<td></td>';
-						tag += '<td style="padding-left:20px;" class="salesPopup">'+Number(payStart[i].substr(8,10))+'일<span class="objectHidden">'+payStart[i]+'</span></td>';
-						tag += '<td class="salesPopup">'+Number(amount[i]).toLocaleString('ko-KR')+'</td>';
-						tag += '<td class="salesPopup">'+Number(amountCard[i]).toLocaleString('ko-KR')+'</td>';
-						tag += '<td class="salesPopup">'+Number(amountCash[i]).toLocaleString('ko-KR')+'</td>';
-						tag += '<td class="salesPopup">'+Number(amount[i])/15000+'</td></tr>';
+						tag += '<ul class="adminSalesManagementList cuser_Pointer list_date">';
+						tag += '<li></li>';
+						tag += '<li style="width:14%; text-align: right;">';
+						if(i==0){ tag += '↳'; }
+						tag+= '</li>';
+						tag += '<li style="width:6%; text-align: left; padding-left:20px; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(payStart[i].substr(8,10))+'일<span class="objectHidden">'+payStart[i]+'</span></li>';
+						tag += '<li style="width:20%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amount[i]).toLocaleString('ko-KR')+'</;i>';
+						tag += '<li style="width:20%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amountCard[i]).toLocaleString('ko-KR')+'</li>';
+						tag += '<li style="width:20%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amountCash[i]).toLocaleString('ko-KR')+'</li>';
+						tag += '<li style="width:14%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amount[i])/15000+'</li></li>';
 					}
 				}
  				$(this).parent().parent().after(tag);
 			}else{
 				//체크를 풀었을 경우 
 				$('.list_date').remove();
+				$('.list_month').removeClass('bgc_2');
 			}
 		});//월 체크박스 선택 end
 		

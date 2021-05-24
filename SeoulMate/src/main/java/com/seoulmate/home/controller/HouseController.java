@@ -170,6 +170,7 @@ public class HouseController {
 		PropensityVO pVO = service.propHouseSelect2(hVO.getPno()); //PropensityVO 값 가져오기
 		String memProfilePic = service.memberProfile(hVO.getUserid());
 		if(userid!=null) {
+			// pcase 가 m 인건 1개뿐. 
 			PropensityVO pVO_log = memService.propMateSelect(userid); //로그인한 사용자의 PropensityVO값 가져오기. (매칭용) 
 			MemberVO mVO_log = memService.memberSelect(userid);//로그인한 사용자의 정보
 			mav.addObject("pVO_log", pVO_log);

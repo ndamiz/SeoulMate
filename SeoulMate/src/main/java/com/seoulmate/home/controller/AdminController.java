@@ -539,13 +539,23 @@ public class AdminController {
 		String selectEndDate = "";
 		if(payVO.getSelectYearMonthDate()!=null){
 			if(payVO.getSelectYearMonthDate().equals("년별")) {
+				System.out.println("payVO.getSelectStartDate()"+payVO.getSelectStartDate());
 				if(payVO.getSelectStartDate()!=null) {
+					try {
 					selectStartDate = (String)(payVO.getSelectStartDate()).substring(0, 4);
 					payVO.setSelectStartDate(selectStartDate);
+					} catch (StringIndexOutOfBoundsException e) {
+						selectStartDate = "";
+					}
 				}
+				System.out.println("payVO.getSelectEndDate()"+payVO.getSelectEndDate());
 				if(payVO.getSelectEndDate()!=null) {
+					try {
 					selectEndDate = (String)(payVO.getSelectEndDate()).substring(0, 4);
 					payVO.setSelectEndDate(selectEndDate);
+					} catch (StringIndexOutOfBoundsException e) {
+						selectEndDate = "";
+					}
 				}
 			}
 		}

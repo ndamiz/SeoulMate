@@ -1,6 +1,7 @@
 package com.seoulmate.home.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.seoulmate.home.vo.ApplyInviteVO;
 import com.seoulmate.home.vo.ChatRoomVO;
@@ -8,6 +9,8 @@ import com.seoulmate.home.vo.HouseRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.LikeMarkVO;
 import com.seoulmate.home.vo.MateWriteVO;
+import com.seoulmate.home.vo.PagingVO;
+import com.seoulmate.home.vo.PayVO;
 
 public interface MypageDAO {
 	// 찜 목록/////////////////////////////////////////////
@@ -90,4 +93,8 @@ public interface MypageDAO {
 	public int pnoConfirm(String userid, String pcase);
 	//매칭완료로 변경
 	public int stateCompleteUpdate(String tableName, String stateName, String no, String userid);
+	//결제내역 목록 레코드 수 구하기
+	public int payRecordCnt(String userid);
+	// 결제내역 목록리스트
+	public List<PayVO> payList(Map<String, Object> map);
 }

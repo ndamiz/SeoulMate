@@ -22,6 +22,8 @@ import com.seoulmate.home.vo.ChatRoomVO;
 import com.seoulmate.home.vo.HouseWriteVO;
 import com.seoulmate.home.vo.LikeMarkVO;
 import com.seoulmate.home.vo.MateWriteVO;
+import com.seoulmate.home.vo.PagingVO;
+import com.seoulmate.home.vo.PayVO;
 @Controller
 public class MypageController {
 	@Inject
@@ -402,9 +404,31 @@ public class MypageController {
 		return likeMarkMap;
 	}
 	//마이페이지 결제내역 확인 페이지
-	@RequestMapping("/payDetailList")
-	public ModelAndView payDetailList() {
+	@RequestMapping(value="/payDetailList", method={RequestMethod.POST, RequestMethod.GET})
+	public ModelAndView payDetailList(HttpSession session, PagingVO pagingVO, PayVO pVO) {
 		ModelAndView mav = new ModelAndView();
+		
+		String userid = (String)session.getAttribute("logId");
+		pVO.setUserid(userid);
+		
+		pagingVO.setTotalPage(service.payRecordCnt(userid));
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("pVO", pVO);
+		map.put("pagingVO", pagingVO);
+		mav.addObject("payList", service.payList(map));
+		if(pagingVO.getPageNum()>pagingVO.getTotalPage()) {
+			pagingVO.setPageNum(pagingVO.getTotalPage());
+		}
+		if(pagingVO.getPageNum()==0) {
+			pagingVO.setPageNum(1);
+		}
+		if(pagingVO.getTotalPage()==0) {
+			pagingVO.setTotalPage(1);
+		}
+		mav.addObject("pVO", pVO);
+		mav.addObject("pagingVO", pagingVO);
+		
 		mav.setViewName("mypage/payDetailList");
 		return mav;
 	}

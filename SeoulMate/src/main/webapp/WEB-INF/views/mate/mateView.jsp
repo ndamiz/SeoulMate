@@ -249,6 +249,9 @@ $(()=>{
 		var score = scoreList[scoreIdx];
 console.log(housename);
 console.log(score);
+		if(housename.length>13){
+			housename = housename.substr(0,13)+"...";
+		}
 		$('#housenameText').text(housename);
 		$('#scoreText').text(score);
 		
@@ -319,9 +322,16 @@ console.log(score);
 	
 	$(document).on('click','#sendInviteBtn', function(){
 		// 초대하기 버튼 눌렀을 경우. 
-		$("#alert_pop").removeClass("objectHidden");
-		$("#myPage_popup_FullScreen").removeClass('objectHidden');
-		$('body').addClass('popup_Stop_Scroll');
+		${pVO.userid != logId }
+		var userid = '<c:out value="${pVO.userid}"/>';
+		var logId = '<c:out value="${logId }"/>';
+		if(userid == logId){
+			alert('본인이 작성한 글입니다.\n초대가 불가합니다.');
+		}else{
+			$("#alert_pop").removeClass("objectHidden");
+			$("#myPage_popup_FullScreen").removeClass('objectHidden');
+			$('body').addClass('popup_Stop_Scroll');
+		}
 		
 	});
 	$(document).on('click','#inviteInsertBtn', function(){
@@ -361,11 +371,14 @@ console.log(score);
 		// 하우스no , 로그인한 유저아이디를 사용하여 찜목록에 내역이 있는지 확인하기. 
 		var no = '<c:out value="${mVO.no }"/>';
 		var userid = '<c:out value="${logId }"/>';
+		var checkid = '<c:out value="${pVO.userid}"/>';
 		var msg = '메이트';
 		// 로그인한 경우에만 실행한다. 
 		if(userid ==null || userid==''){
 			alert('찜하기는 로그인 후 이용이 가능합니다.');
 			location.href='/home/login';
+		}else if(userid == checkid ){
+			alert('본인이 작성한 글입니다.\n찜하기가 불가합니다.');
 		}else {
 			var url = '/home/likemarkerInsert';
 			var data = {"no":no, "userid":userid, "msg":msg};
@@ -821,13 +834,16 @@ console.log(score);
 				</ul>
 			</div>
 		</div>
-		<div>
-		
-		</div>
+		<!--1.본인 글이 아닐것 (pVO.userid != logId)  ,  -->
+		<!-- 2.로그인한 사람이 grade-2 일것( mVO_log.grade ) , -->
+		<!-- 3.로그인한 사람이 house로 pno가 1개이상 있을 것. List<PropensityVO> graph_matching_List  -->
+		<c:if test="${pVO.userid != logId }">
+		<c:if test="${mVO_log.grade == 2 }">
+		<c:if test="${fn:length(pVO_log) >0}">
 		<div class="matchin_Graph">
 			<div>
 				<div>
-					<p class="s_title" id="matchin_housename">[<span id="housenameText"></span>] 하우스의 매칭</p>
+					<p class="s_title" id="matchin_housename">[<span id="housenameText"></span>]</p>
 					<select name="housename" id="selectHousename">
 						<c:set var="listsize" value="${fn:length(pVO_log)}"/>
 						<c:if test="${listsize>0 }">
@@ -868,6 +884,9 @@ console.log(score);
 				</ul>
 			</div>
 		</div>
+		</c:if>
+		</c:if>
+		</c:if>
 	</div> <!-- middleFrm div 종료 -->
 </div> <!-- content div 종료 -->
 </div>
@@ -920,7 +939,13 @@ console.log(score);
 			<c:if test="${hlist>0 }">
 				<c:forEach var="iii" begin="0" end="${hlist }" step="1">
 					<c:if test="${pVO_log[iii].housename != null }">
-						<option value="${pVO_log[iii].housename }">${pVO_log[iii].housename }</option>
+						<c:choose>
+							<c:when test="${fn:contains(pVO_log[iii].housename, '등록 성향')}" >
+							</c:when>
+							<c:otherwise>
+								<option value="${pVO_log[iii].housename }">${pVO_log[iii].housename }</option>
+							</c:otherwise>
+						</c:choose>
 					</c:if>
 				</c:forEach>
 			</c:if>

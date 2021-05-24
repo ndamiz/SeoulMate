@@ -54,41 +54,50 @@ $(function(){
 	});
 	//신청하기.
 	$(document).on('click', '.applyInsert', function(){
+		
 		var userid = '<c:out value="${logId }"/>';
+		var checkId = '<c:out value="${pVO.userid}"/>';
 		var msg = '신청';
 		var no =  '<c:out value="${hVO.no }"/>';
 		
-		var url = '/home/applyInsert';
-		var data = {"no":no, "msg":msg, "userid":userid};
-		$.ajax({
-			url : url,
-			data : data,
-			success : function(result){
-				if(result==-1){
-					alert('로그인 후 이용해 주세요');
-					location.href="login";
-				}else if(result>0){
-					console.log('신청 완료 되었습니다.');
-					alert('신청 완료 되었습니다.');
-				}else if(result==0){
-					console.log('이미 신청한 하우스입니다.');
-					alert('이미 신청한 하우스입니다.');
+		if(userid==checkId){
+			alert('본인이 작성한 글입니다.\n신청이 불가합니다.');
+		}else{
+			var url = '/home/applyInsert';
+			var data = {"no":no, "msg":msg, "userid":userid};
+			$.ajax({
+				url : url,
+				data : data,
+				success : function(result){
+					if(result==-1){
+						alert('로그인 후 이용해 주세요');
+						location.href="login";
+					}else if(result>0){
+						console.log('신청 완료 되었습니다.');
+						alert('신청 완료 되었습니다.');
+					}else if(result==0){
+						console.log('이미 신청한 하우스입니다.');
+						alert('이미 신청한 하우스입니다.');
+					}
+				},error : function(){
+					console.log('신청 insert 에러 ');
 				}
-			},error : function(){
-				console.log('신청 insert 에러 ');
-			}
-		});
+			});
+		}
 	});
 	
 	$(document).on('click','.likeInsert', function(){
 		// 하우스no , 로그인한 유저아이디를 사용하여 찜목록에 내역이 있는지 확인하기. 
 		var no = '<c:out value="${hVO.no }"/>';
 		var userid = '<c:out value="${logId }"/>';
+		var checkId = '<c:out value="${pVO.userid}"/>';
 		var msg = '하우스';
 		// 로그인한 경우에만 실행한다. 
 		if(userid ==null || userid==''){
 			alert('찜하기는 로그인 후 이용이 가능합니다.');
 			location.href='/home/login';
+		}else if(userid == checkid ){
+			alert('본인이 작성한 글입니다.\n찜하기가 불가합니다.');
 		}else {
 			var url = '/home/likemarkerInsert';
 			var data = {"no":no, "userid":userid, "msg":msg};
@@ -656,52 +665,61 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
 				<ul><li></li><li></li><li></li><li></li></ul>
 			</div>
 		</div>
-		<div class="matchin_Graph">
-			<div>
+		<!--1.본인 글이 아닐것 (pVO.userid != logId)  ,  -->
+		<!-- 2.로그인한 사람이 grade-2 일것( mVO_log.grade ) , -->
+		<!-- 3.로그인한 사람이 mate로 pno가 있을 것. (pVO_log.pno != null ) -->
+		<c:if test="${pVO.userid != logId}">
+			<c:if test="${mVO_log.grade==2 }">
+			<c:if test="${pVO_log.pno != null }">
+			<div class="matchin_Graph">
 				<div>
-					<p class="s_title">[ ${logId }  -  ${hVO.housename } ] 매칭</p>
+					<div>
+						<p class="s_title">[ ${logId }  -  ${hVO.housename } ] 매칭</p>
+					</div>
+					<div>
+						<canvas id="matchingChart" height="300" width="300" ></canvas>
+					</div>
 				</div>
-				<div>
-					<canvas id="matchingChart" height="300" width="300" ></canvas>
+				<div class="matching_result">
+					<div><p class="s_title">매칭 결과</p></div>
+					<ul>
+						<li>
+							<span>생 활</span> <span> : </span><c:if test="${graph_matching.life == 0}">맞지 않음</c:if>
+								<c:if test="${graph_matching.life == 1}">보통</c:if>
+								<c:if test="${graph_matching.life == 2}">잘 맞음</c:if>
+						</li>
+						<li>
+							<span>반 려 동 물</span> <span> : </span> <c:if test="${graph_matching.pet == 0}">맞지 않음</c:if>
+								<c:if test="${graph_matching.pet == 1}">보통</c:if>
+								<c:if test="${graph_matching.pet == 2}">잘 맞음</c:if>
+						</li>
+						<li>
+							<span>소 통, 모 임</span> <span> : </span> <c:if test="${graph_matching.communicate == 0}">맞지 않음</c:if>
+								<c:if test="${graph_matching.communicate == 1}">보통</c:if>
+								<c:if test="${graph_matching.communicate == 2}">잘 맞음</c:if>
+						</li>
+						<li>
+							<span>흡 연</span> <span> : </span> <c:if test="${graph_matching.smoke == 0}">맞지 않음</c:if>
+								<c:if test="${graph_matching.smoke == 1}">보통</c:if>
+								<c:if test="${graph_matching.smoke == 2}">잘 맞음</c:if>
+						</li>
+						<li>
+							<span>성 격</span> <span> : </span> <c:if test="${graph_matching.personality == 0}">맞지 않음</c:if>
+								<c:if test="${graph_matching.personality == 1}">보통</c:if>
+								<c:if test="${graph_matching.personality == 2}">잘 맞음</c:if>
+						</li>
+						<li>
+							<span>입 주</span> <span> : </span> <c:if test="${graph_matching.now == 0}">입주일 조정 필요</c:if>
+								<c:if test="${graph_matching.now == 1}">보통</c:if>
+								<c:if test="${graph_matching.now == 2}">잘 맞음</c:if>
+						</li>
+						<li>${graph_matching.score } %</li>
+					</ul>
 				</div>
 			</div>
-			<div class="matching_result">
-				<div><p class="s_title">매칭 결과</p></div>
-				<ul>
-					<li>
-						<span>생 활</span> <span> : </span><c:if test="${graph_matching.life == 0}">맞지 않음</c:if>
-							<c:if test="${graph_matching.life == 1}">보통</c:if>
-							<c:if test="${graph_matching.life == 2}">잘 맞음</c:if>
-					</li>
-					<li>
-						<span>반 려 동 물</span> <span> : </span> <c:if test="${graph_matching.pet == 0}">맞지 않음</c:if>
-							<c:if test="${graph_matching.pet == 1}">보통</c:if>
-							<c:if test="${graph_matching.pet == 2}">잘 맞음</c:if>
-					</li>
-					<li>
-						<span>소 통, 모 임</span> <span> : </span> <c:if test="${graph_matching.communicate == 0}">맞지 않음</c:if>
-							<c:if test="${graph_matching.communicate == 1}">보통</c:if>
-							<c:if test="${graph_matching.communicate == 2}">잘 맞음</c:if>
-					</li>
-					<li>
-						<span>흡 연</span> <span> : </span> <c:if test="${graph_matching.smoke == 0}">맞지 않음</c:if>
-							<c:if test="${graph_matching.smoke == 1}">보통</c:if>
-							<c:if test="${graph_matching.smoke == 2}">잘 맞음</c:if>
-					</li>
-					<li>
-						<span>성 격</span> <span> : </span> <c:if test="${graph_matching.personality == 0}">맞지 않음</c:if>
-							<c:if test="${graph_matching.personality == 1}">보통</c:if>
-							<c:if test="${graph_matching.personality == 2}">잘 맞음</c:if>
-					</li>
-					<li>
-						<span>입 주</span> <span> : </span> <c:if test="${graph_matching.now == 0}">입주일 조정 필요</c:if>
-							<c:if test="${graph_matching.now == 1}">보통</c:if>
-							<c:if test="${graph_matching.now == 2}">잘 맞음</c:if>
-					</li>
-					<li>${graph_matching.score } %</li>
-				</ul>
-			</div>
-		</div>
+			</c:if>
+			</c:if>
+		</c:if>
 	</div> <!-- middleFrm div 종료 -->
 <!-- 	<div id="map_Div"> -->
 <!-- 	지도 부분 -->

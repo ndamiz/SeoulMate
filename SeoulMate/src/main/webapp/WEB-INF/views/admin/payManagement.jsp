@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- jQuery CDN --->
+
 <style>
 .nowPageNum{background-color: #ddd;}
 </style>
@@ -85,7 +87,12 @@
 								<td>${vo.payEnd }</td>
 								<td>${vo.payMethod }</td>
 								<td><c:if test="${vo.grade==1}">일반</c:if><c:if test="${vo.grade==2}">프리미엄</c:if></td>
-								<td><input type="button" value="환불" class="btn btn-outline-secondary btn-sm"/></td>
+								<td>
+									<c:if test="${vo.refund==null }">
+									<input type="button" value="환불" name="cancelPay" class="btn btn-outline-secondary btn-sm cancelPay"/>
+									</c:if>
+									<input type="hidden" name="merchant_uid" value="${vo.merchant_uid }"/>
+								</td>
 							</tr>
 							</c:forEach>
 						</tbody>
@@ -124,6 +131,25 @@
 	</body>
 	<script>
 		$(function(){
+			//환불 요청 .. 
+			$(document).on('click','.cancelPay', function(){
+				var merchant_uid = $(this).parent().children().eq(1).val();
+				console.log(merchant_uid);
+// 				$.ajax({
+// 					"url": "http://www.myservice.com/payments/cancel",
+// 					"type": "POST",
+// 					"contentType": "application/json",
+// 					"data": JSON.stringify({
+// 					"merchant_uid": "mid_" + new Date().getTime(), // 주문번호
+// 					"cancel_request_amount": 2000, // 환불금액
+// 					"reason": "테스트 결제 환불" // 환불사유
+// 					"refund_holder": "홍길동", // [가상계좌 환불시 필수입력] 환불 수령계좌 예금주
+// 					"refund_bank": "88" // [가상계좌 환불시 필수입력] 환불 수령계좌 은행코드(ex. KG이니시스의 경우 신한은행은 88번)
+// 					"refund_account": "56211105948400" // [가상계좌 환불시 필수입력] 환불 수령계좌 번호
+// 		        }),
+// 					"dataType": "json"
+// 		      });
+			});
 			// searchWord에 마우스클릭하면 value 지워주기 
 			$(document).on('click','input[name=searchWord]', function(){
 				$(this).val('');

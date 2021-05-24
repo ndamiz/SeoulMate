@@ -158,6 +158,8 @@
 			h.pdate=m.pdate) 
 	</select>
 	<select id="housePropensityList" parameterType="String" resultType="com.seoulmate.home.vo.PropensityVO">
-		Select * from Propensity where userid=#{param1}
+		Select pno, userid, pcase, housename,h_noise,h_pattern, h_pet, h_petwith,h_smoke, h_mood, h_communication,h_party,
+			h_enter,h_support,h_etc, m_pattern, m_personality, m_pet,m_smoke,m_age , m_gender, m_global, m_now,
+			to_char(pdate, 'YY-MM-DD') AS pdate from Propensity where userid=#{param1} and pcase='h'
 	</select>
   </mapper>
