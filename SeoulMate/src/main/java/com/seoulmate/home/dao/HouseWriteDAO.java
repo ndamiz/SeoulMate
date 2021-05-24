@@ -49,7 +49,10 @@ public interface HouseWriteDAO {
 	public int houseDel(int no, String userid);
 	
 	//하우스 사진 가져오기
-	public String houseProfilePic(String housepic1,int no);
+	public String houseProfilePic(String userid ,int no);
+	
+	//하우스 사진2 가져오기
+	public String houseProfilePic2(String userid, int no);
 	
 	//하우스 인덱스에서 New 하우스 리스트 9개 출력하기
 	public List<HouseWriteVO> getNewIndexHouse(HouseMatePagingVO pVO);

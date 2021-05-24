@@ -341,7 +341,8 @@ public class MateController {
 	//메이트 글 등록 확인
 	@RequestMapping(value = "/mateWriteOk", method = RequestMethod.POST)
 	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
-	public ModelAndView mateWriteOk(MateWriteVO mVO, PropensityVO pVO, @RequestParam("filename") MultipartFile filename, HttpSession session, HttpServletRequest req) {
+	public ModelAndView mateWriteOk(MateWriteVO mVO, PropensityVO pVO, HttpSession session, HttpServletRequest req,
+			@RequestParam("filename") MultipartFile img1, @RequestParam("filename2") MultipartFile img2, @RequestParam("filename3") MultipartFile img3) {
 		String userid = (String)session.getAttribute("logId");
 		mVO.setUserid(userid);
 		pVO.setUserid(userid);
@@ -350,21 +351,21 @@ public class MateController {
 		
 			String path = req.getSession().getServletContext().getRealPath("/matePic"); //파일 저장위치 절대경로 구하기
 
-			String orgName=filename.getOriginalFilename(); // 기존 파일 명
+			String filename1 = img1.getOriginalFilename(); // 기존 파일 명
 			String realName="";
 			
 			try {
-				if(orgName != null && !orgName.equals("")) {
-					File f=new File(path, orgName);
+				if(filename1 != null && !filename1.equals("")) {
+					File f=new File(path, filename1);
 					int i=1;
 					while(f.exists()) {
-						int point=orgName.lastIndexOf(".");
-						String name=orgName.substring(0, point);
-						String extName=orgName.substring(point+1);
+						int point=filename1.lastIndexOf(".");
+						String name=filename1.substring(0, point);
+						String extName=filename1.substring(point+1);
 						
 						f=new File(path, name+"_"+ i++ +"."+extName);
 					}
-					filename.transferTo(f); // 업로드
+					img1.transferTo(f); // 업로드
 					realName=f.getName();
 					mVO.setMatePic1(f.getName());
 				}
@@ -372,6 +373,49 @@ public class MateController {
 				System.out.println("메이트 사진 업로드 에러 발생");
 				e.printStackTrace();
 			}
+			
+			String filename2 = img2.getOriginalFilename();
+			int j = 1;
+			try {
+				if(filename2 != null && !filename2.equals("")) {
+					File f2=new File(path, filename1);
+					while(f2.exists()) {
+						int point=filename2.lastIndexOf(".");
+						String name=filename2.substring(0, point);
+						String extName=filename2.substring(point+1);
+						
+						f2=new File(path, name+"_"+ j++ +"."+extName);
+					}
+					img2.transferTo(f2); // 업로드
+					realName=f2.getName();
+					mVO.setMatePic2(f2.getName());
+				}
+			}catch(Exception e) {
+				System.out.println("메이트 사진 업로드 에러 발생");
+				e.printStackTrace();
+			}
+			
+			String filename3 = img3.getOriginalFilename();
+			int k = 1;
+			try {
+				if(filename3 != null && !filename3.equals("")) {
+					File f3=new File(path, filename3);
+					while(f3.exists()) {
+						int point=filename3.lastIndexOf(".");
+						String name=filename3.substring(0, point);
+						String extName=filename3.substring(point+1);
+						
+						f3=new File(path, name+"_"+ k++ +"."+extName);
+					}
+					img1.transferTo(f3); // 업로드
+					realName=f3.getName();
+					mVO.setMatePic3(f3.getName());
+				}
+			}catch(Exception e) {
+				System.out.println("메이트 사진 업로드 에러 발생");
+				e.printStackTrace();
+			}
+			
 			
 			ModelAndView mav = new ModelAndView();
 			

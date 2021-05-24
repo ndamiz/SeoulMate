@@ -260,6 +260,7 @@ $(function(){
 .title_wrap div{min-height: 300px;}
 #ck{margin:0 auto; width: 60%;}
 #mateImg1{width:150px; height:107px; }
+#mPic img{width: 250px; height: 250px;}
 #matePic1 img{width:150px; height: 150px;}
 #mateWrite1 .checks>label{width:130px;}
 #mateWrite1 .checks {width: 295px;}
@@ -381,13 +382,21 @@ $(function(){
 	<div id="mateWrite2">
 	
 	<div class="title_wrap">
-	<p class="s_title">사진 등록 </p> <!-- 업로드사진1개, 선택하지 않을 경우 기본이미지 중 선택 -->
+	<p class="s_title">사진 등록 </p>
 	<p>&nbsp;</p>
 	</div>
 	
 		<ul class="form_box">
-				<li id="mPic"><img id="mateImg1" name="mateImg1" src="#" alt="upload image" style="width:150px; height:107px;"/></li>
-				<li> <input type="file" accept="image/*" name="filename" id="matePic1" onchange="readURL(this);"/> <br/> </li>
+				<li id="mPic">
+					<img id="mateImg1" name="mateImg1" src="#" alt="upload image" />
+					<img id="mateImg2" name="mateImg2" src="#" alt="upload image" />
+					<img id="mateImg3" name="mateImg3" src="#" alt="upload image" />
+				</li>
+				<li> 
+					<input type="file" accept="image/*" name="filename" id="matePic1" onchange="readURL(this);"/> 
+					<input type="file" accept="image/*" name="filename2" id="matePic2" onchange="readURL(this);"/> 
+					<input type="file" accept="image/*" name="filename3" id="matePic3" onchange="readURL(this);"/> 
+				<br/> </li>
 				
 		</ul>
 		<p>&nbsp;</p> <p>&nbsp;</p> <p>&nbsp;</p> <br/> <br/>

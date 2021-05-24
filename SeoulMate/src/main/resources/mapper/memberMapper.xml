@@ -50,5 +50,8 @@
   	<update id="gradePremiumUpdate">
   		update member set grade=2 where userid=#{param1}
   	</update>
+  	<select id="gradeCheck" resultType="int">
+  		select grade from member where usreird=#{param1}
+  	</select>
   </mapper>
 

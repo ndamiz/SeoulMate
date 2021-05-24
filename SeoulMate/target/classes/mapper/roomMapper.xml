@@ -9,7 +9,7 @@
 				#{roomPeople}, #{furniture}, #{incFurniture}, #{userid} )
   	</insert>
 	<select id="roomSelect" resultType="com.seoulmate.home.vo.HouseRoomVO">
-		select no, hno, userid, roomName, deposit, rent, to_char(enterdate, 'yyyy-mm-dd')enterdate, minStay, maxStay, roomPeople, furniture, incFurniture 
+		select no, hno, userid, roomName, deposit, rent, to_char(enterdate, 'YYYY-MM-DD') enterdate, minStay, maxStay, roomPeople, furniture, incFurniture 
 		from houseroom where no=#{param1} and userid=#{param2}
 	</select>
 	<select id="roomSelect2" resultType="com.seoulmate.home.vo.HouseRoomVO">
@@ -17,8 +17,8 @@
 		from houseroom where no=#{param1}
 	</select>
 	<update id="roomUpdate" parameterType="com.seoulmate.home.vo.HouseRoomVO">
-		update houseroom set roomName=#{roomName}, deposit=#{deposit}, rent=#{rent}, enterdate=#{enterdate}, minStay=#{minStay},
-		maxStay=#{maxStay}, roomPeople=#{roomPeople}, furniture=#{furniture}, incFurniture=#{incFurniture} where userid=#{userid} and no=#{no}
+		update houseroom set roomName=#{roomName}, deposit=#{deposit}, rent=#{rent}, enterdate=to_date(#{enterdate}, 'YYYY-MM-DD'), minStay=#{minStay},
+		maxStay=#{maxStay}, roomPeople=#{roomPeople}, furniture=${furniture}, incFurniture=#{incFurniture} where userid=#{userid} and no=${no}
 	</update>
 	<delete id="roomDel" parameterType="com.seoulmate.home.vo.HouseRoomVO">
 		delete from houseroom where no=#{param1} and userid=#{param2}	
