@@ -764,6 +764,10 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
                 position: coords
             });
         }
+      	// min값만큼 확대
+         map.setMinLevel(3); // 50m
+         // max값만큼 확대
+         map.setMaxLevel(7); // 1km
     });
     
     

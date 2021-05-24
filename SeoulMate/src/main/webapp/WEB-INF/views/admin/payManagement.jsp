@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- jQuery CDN --->
 
 <style>
@@ -92,6 +95,7 @@
 									<input type="button" value="환불" name="cancelPay" class="btn btn-outline-secondary btn-sm cancelPay"/>
 									</c:if>
 									<input type="hidden" name="merchant_uid" value="${vo.merchant_uid }"/>
+									<input type="hidden" name="amount" value="${vo.amount }" />
 								</td>
 							</tr>
 							</c:forEach>
@@ -134,22 +138,22 @@
 			//환불 요청 .. 
 			$(document).on('click','.cancelPay', function(){
 				var merchant_uid = $(this).parent().children().eq(1).val();
+				var userAmount = $(this).parent().children().eq(2).val();
+				var amount = Number(userAmount)/100;
 				console.log(merchant_uid);
-// 				$.ajax({
-// 					"url": "http://www.myservice.com/payments/cancel",
-// 					"type": "POST",
-// 					"contentType": "application/json",
-// 					"data": JSON.stringify({
-// 					"merchant_uid": "mid_" + new Date().getTime(), // 주문번호
-// 					"cancel_request_amount": 2000, // 환불금액
-// 					"reason": "테스트 결제 환불" // 환불사유
-// 					"refund_holder": "홍길동", // [가상계좌 환불시 필수입력] 환불 수령계좌 예금주
-// 					"refund_bank": "88" // [가상계좌 환불시 필수입력] 환불 수령계좌 은행코드(ex. KG이니시스의 경우 신한은행은 88번)
-// 					"refund_account": "56211105948400" // [가상계좌 환불시 필수입력] 환불 수령계좌 번호
-// 		        }),
-// 					"dataType": "json"
-// 		      });
+				console.log(amount);
+				
+				$.ajax({
+					url : "/home/admin/cancelPay",
+					data : {"merchant_uid":merchant_uid, "cancel_request_amount":150},
+					success : function(result){
+						console.log("cancelPay =====>> "+result);
+					},error : function(){
+						console.log('환불 - nodejs - 에러 ');
+					}
+				});
 			});
+			
 			// searchWord에 마우스클릭하면 value 지워주기 
 			$(document).on('click','input[name=searchWord]', function(){
 				$(this).val('');
