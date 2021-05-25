@@ -47,10 +47,8 @@ $(function(){
 	      reader.readAsDataURL(input.files[0]);
 	    }
 	}
-
 $(function(){
 	
-
 	
 //     $('select').change(function(){
 //         var option = $(this).val(); //옵션의 value
@@ -64,13 +62,13 @@ $(function(){
 // 	if(!$('#selectBoxID > option:selected').val()) { //#->셀렉트 의 id 입력
 // 	    alert("선택해주세요");
 // 	}
-
+	//
 	$("#file b").click(function(){
-		$(this).parent().css("display", "none");
-		$(this).parent().next().attr("name", "delFile");
-		$(this).parent().next().next().attr('type', 'file');
-	});
-
+      $(this).parent().css("display", "none");
+      $(this).parent().next().attr("name", "delFile");
+      $(this).parent().next().next().attr('type', 'file');
+   	});
+	//
 
 	$("#roomPlus").click(function(){
 		$("#houseWrite1_ul2").css("display", "block");
@@ -385,54 +383,56 @@ $(function(){
 					<img id="houseImg4" name="houseImg4" src="/home/housePic/${hVO.housepic4}" alt="upload image" />
 					<img id="houseImg5" name="houseImg5" src="/home/housePic/${hVO.housepic5}" alt="upload image" />
 				</li>
+				<!-- /////////// -->
 				<li id="file">
-					<div>${hVO.housepic1 } <b>X</b> </div>
-<!-- 					<input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);" />  -->
-					<input type="hidden" name="" value=${hVO.housepic1 }/>
-					<input type="hidden" name="filename"/>
-					
-					<c:if test="${hVO.housepic2!=null && hVO.housepic2!='' }"> <!-- 두번째 첨부파일이 있을 경우 -->
-					<div>${hVO.housepic2 } <b>X</b> </div>
-					<input type="hidden" name="" value=${hVO.housepic2 }/>
-					<input type="hidden" name="filename"/>
-					</c:if>
-					
-					<c:if test="${hVO.housepic2==null || hVO.housepic2=='' }"> <!-- 두번째 첨부파일이 없을 경우 -->
-					<input type="file" name="filename"/>
-					</c:if>
-					
-					<c:if test="${hVO.housepic3!=null && hVO.housepic3!='' }"> <!-- 세번째 첨부파일이 있을 경우 -->
-					<div>${hVO.housepic3 } <b>X</b> </div>
-					<input type="hidden" name="" value=${hVO.housepic3 }/>
-					<input type="hidden" name="filename"/>
-					</c:if>
-					
-					<c:if test="${hVO.housepic3==null || hVO.housepic3=='' }"> <!-- 세번째 첨부파일이 없을 경우 -->
-					<input type="file" name="filename"/>
-					</c:if>
-					
-					<c:if test="${hVO.housepic4!=null && hVO.housepic4!='' }"> <!-- 네번째 첨부파일이 있을 경우 -->
-					<div>${hVO.housepic4 } <b>X</b> </div>
-					<input type="hidden" name="" value=${hVO.housepic4 }/>
-					<input type="hidden" name="filename"/>
-					</c:if>
-					
-					<c:if test="${hVO.housepic4==null || hVO.housepic4=='' }"> <!-- 네번째 첨부파일이 없을 경우 -->
-					<input type="file" name="filename"/>
-					</c:if>
-					
-					<c:if test="${hVO.housepic5!=null && hVO.housepic5!='' }"> <!-- 다섯번째 첨부파일이 있을 경우 -->
-					<div>${hVO.housepic5 } <b>X</b> </div>
-					<input type="hidden" name="" value=${hVO.housepic5 }/>
-					<input type="hidden" name="filename"/>
-					</c:if>
-					
-					<c:if test="${hVO.housepic5==null || hVO.housepic5=='' }"> <!-- 다섯번째 첨부파일이 없을 경우 -->
-					<input type="file" name="filename"/>
-					</c:if>
-					
-				<br/> 
-				</li>
+	               <div>${hVO.housepic1 } <b>X</b> </div>
+	<!--                <input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);" />  -->
+	               <input type="hidden" name="" value=${hVO.housepic1 }/>
+	               <input type="hidden" name="filename"/>
+	               
+	               <c:if test="${hVO.housepic2!=null && hVO.housepic2!='' }"> <!-- 두번째 첨부파일이 있을 경우 -->
+	               <div>${hVO.housepic2 } <b>X</b> </div>
+	               <input type="hidden" name="" value=${hVO.housepic2 }/>
+	               <input type="hidden" name="filename"/>
+	               </c:if>
+	               
+	               <c:if test="${hVO.housepic2==null || hVO.housepic2=='' }"> <!-- 두번째 첨부파일이 없을 경우 -->
+	               <input type="file" name="filename"/>
+	               </c:if>
+	               
+	               <c:if test="${hVO.housepic3!=null && hVO.housepic3!='' }"> <!-- 세번째 첨부파일이 있을 경우 -->
+	               <div>${hVO.housepic3 } <b>X</b> </div>
+	               <input type="hidden" name="" value=${hVO.housepic3 }/>
+	               <input type="hidden" name="filename"/>
+	               </c:if>
+	               
+	               <c:if test="${hVO.housepic3==null || hVO.housepic3=='' }"> <!-- 세번째 첨부파일이 없을 경우 -->
+	               <input type="file" name="filename"/>
+	               </c:if>
+	               
+	               <c:if test="${hVO.housepic4!=null && hVO.housepic4!='' }"> <!-- 네번째 첨부파일이 있을 경우 -->
+	               <div>${hVO.housepic4 } <b>X</b> </div>
+	               <input type="hidden" name="" value=${hVO.housepic4 }/>
+	               <input type="hidden" name="filename"/>
+	               </c:if>
+	               
+	               <c:if test="${hVO.housepic4==null || hVO.housepic4=='' }"> <!-- 네번째 첨부파일이 없을 경우 -->
+	               <input type="file" name="filename"/>
+	               </c:if>
+	               
+	               <c:if test="${hVO.housepic5!=null && hVO.housepic5!='' }"> <!-- 다섯번째 첨부파일이 있을 경우 -->
+	               <div>${hVO.housepic5 } <b>X</b> </div>
+	               <input type="hidden" name="" value=${hVO.housepic5 }/>
+	               <input type="hidden" name="filename"/>
+	               </c:if>
+	               
+	               <c:if test="${hVO.housepic5==null || hVO.housepic5=='' }"> <!-- 다섯번째 첨부파일이 없을 경우 -->
+	               <input type="file" name="filename"/>
+	               </c:if>
+	               
+	            <br/> 
+	            </li>
+				<!-- /////////// -->
 			</ul>
 				<div class="btnclass">
 					<a class="green" id="hPrev3">이전</a>
@@ -460,8 +460,7 @@ $(function(){
 		</div>	<!-- 등록form4 종료 -->
 		
 		<div id="houseWrite5">
-		
-				<c:forEach var="rVO" items="${rVO_List}" varStatus="index">
+		<c:forEach var="rVO" items="${rVO_List}" varStatus="index">
 			<div class="title_wrap">
 				<p class="s_title">${index.count}번 방 임대료 및 입주정보 </p> <br/>
 				<input type="hidden" name="roomVOList[${index.count-1}].hno" value="${rVO.hno}">
@@ -500,8 +499,7 @@ $(function(){
 				<li><label>포함된 가구</label><input type="text" name="roomVOList[${index.count-1}].incFurniture"/> </li>
 			</ul><br><br>
 		</c:forEach>
-			
-			<a id="roomPlus" class="green"  >방 추가등록 </a> <br/> 
+			<a id="roomPlus" class="green">방 추가등록 </a> <br/> 
 					
 				<div class="btnclass">
 					<a class="green" id="hPrev5">이전</a>
@@ -808,3 +806,4 @@ $(function(){
 
 </div> <!-- content 종료 -->
 </div> <!-- wrap -->
+>>>>>>> refs/remotes/origin/yyy
