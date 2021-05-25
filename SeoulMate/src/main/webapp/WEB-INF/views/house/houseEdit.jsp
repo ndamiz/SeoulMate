@@ -191,7 +191,64 @@ $(function(){
           event.preventDefault();
        };
     });
-	
+	//페이징 로딩시에 기존 성향 값 세팅===================================================================
+		//추가되지롱
+	//페이징 로딩시에 기존 성향 값 세팅===================================================================끝
+  	//성향 버튼 눌렀을때 가져오기========================================================================
+	$('.getPropinfo').click(function(){
+		var housename = $(this).text();
+		var pno = $(this).attr('id');
+		console.log(housename);
+		$.ajax({
+			url : "/home/getPropensity",
+			data : 'userid=${logId}&pno='+pno,
+			success : function(result){
+				console.log(result);
+// 				//1. 생활소음 h_noise
+				$('input:radio[name=h_noise]:radio[value='+result.h_noise+']').prop('checked', true);
+// 				//2. 생활시간 h_pattern
+				$('input:radio[name=h_pattern]:radio[value='+result.h_pattern+']').prop('checked', true);
+// 				//3. 반려동물 여부 h_pet
+				$('input[name=h_pet]:radio[value='+result.h_pet+']').prop('checked', true);
+// 				//4. 반려동물 동반 입주 여부 h_petwith
+				$('input[name=h_petwith]:radio[value='+result.h_petwith+']').prop('checked', true);
+// 				//5. 흡연 h_smoke
+				$('input[name=h_smoke]:radio[value='+result.h_smoke+']').prop('checked', true);
+// 				//6. 분위기 h_mood
+				$('input[name=h_mood]:radio[value='+result.h_mood+']').prop('checked', true);
+// 				//7. 소통방식 h_communication
+				$('input[name=h_communication]:radio[value='+result.h_communication+']').prop('checked', true);
+// 				//8. 모임빈도 h_party
+				$('input[name=h_party]:radio[value='+result.h_party+']').prop('checked', true);
+// 				//9. 모임참가 의무 h_enter
+				$('input[name=h_enter]:radio[value='+result.h_enter+']').prop('checked', true);
+// 				//10. 하우스내 지원서비스 h_support
+				if(result.h_support != null){
+					for(var i=0; i<result.h_support.length; i++){
+						$('input[name=h_support]:checkbox[value='+result.h_support[i]+']').prop('checked', true);
+					}
+				}
+				//11. 메이트 생활시간
+				$('input[name=m_pattern]:radio[value='+result.m_pattern+']').prop('checked', true);
+				//12. 메이트 성격 m_personality m_personality
+				$('input[name=m_personality]:radio[value='+result.m_personality+']').prop('checked', true);
+				//13. 메이트 반려동물 선호도 m_pet
+				$('input[name=m_pet]:radio[value='+result.m_pet+']').prop('checked', true);
+				//14. 메이트 흡연 m_smoke
+				$('input[name=m_smoke]:radio[value='+result.m_smoke+']').prop('checked', true);
+				//15. 메이트 연령대 m_age
+				$('input[name=m_age]:radio[value='+result.m_age+']').prop('checked', true);
+				//16. 메이트 성별 m_gender
+				$('input[name=m_gender]:radio[value='+result.m_gender+']').prop('checked', true);
+				//17. 메이트 외국인입주 가능여부 m_global
+				$('input[name=m_global]:radio[value='+result.m_global+']').prop('checked', true);
+				//18. 메이트 즉시입주 여부 m_now
+				$('input[name=m_now]:radio[value='+result.m_now+']').prop('checked', true);
+			},error : function(){
+				alert("성향 불러오기 실패.")
+			}
+		});
+	})//성향 버튼 눌렀을때 가져오기========================================================================끝
 });
 // autocomplete="off" //자동완성 막아줌
 
@@ -514,9 +571,19 @@ $(function(){
 		
 		<div class="title_wrap">
 		<ul class="s_margin" id="HproUl">
-			<c:forEach var="vo" items="${list}">
-				<li><a href="#">${vo.housename}</a></li>
-			</c:forEach>
+		<!-- ?//////////////////////////////// -->
+		<c:forEach var="vo" items="${list}" varStatus="index">
+			<li>
+				<a id="${vo.pno}" class="getPropinfo">
+					<c:if test="${vo.housename!=null}">${vo.housename}</c:if>
+					<c:if test="${vo.housename==null}">이름없는 집 ${index.count} </c:if>
+				</a>
+			</li>
+		</c:forEach>
+<%-- 			<c:forEach var="vo" items="${list}"> --%>
+<%-- 				<li><a href="#">${vo.housename}</a></li> --%>
+<%-- 			</c:forEach> --%>
+		<!-- ?//////////////////////////////// -->
 		</ul>
 		<p class="s_title">하우스 성향 등록 (생활정보)</p> <br/>
 		
