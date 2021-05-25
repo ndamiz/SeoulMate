@@ -183,24 +183,24 @@
   	
   	<select id="salesList" parameterType="com.seoulmate.home.vo.PayVO"  resultType="com.seoulmate.home.vo.PayVO">
   		SELECT <if test="msg!='total'">payStart ,</if> sum(amount) AS amount, sum(amountCard) AS amountCard, sum(amountCash) AS amountCash,
-  		sum(amountRefoud) as amountRefoud
+  		sum(amountRefund) as amountRefund
   		from
-  		<if test="msg=='year'">(SELECT to_char(payStart, 'YYYY') AS PAYSTART,  AMOUNT , amountCard, amountCash from </if> 
-  		<if test="msg=='month'">(SELECT to_char(payStart, 'YYYY-MM') AS PAYSTART,  AMOUNT , amountCard, amountCash from </if> 
-  		<if test="msg=='date'">(SELECT to_char(payStart, 'YYYY-MM-DD') AS PAYSTART,  AMOUNT , amountCard, amountCash from </if> 
-  		(SELECT PAYSTART, AMOUNT, amountCard, amountCash, amountRefoud
+  		<if test="msg=='year'">(SELECT to_char(payStart, 'YYYY') AS PAYSTART,  AMOUNT , amountCard, amountCash, amountRefund from </if> 
+  		<if test="msg=='month'">(SELECT to_char(payStart, 'YYYY-MM') AS PAYSTART,  AMOUNT , amountCard, amountCash, amountRefund from </if> 
+  		<if test="msg=='date'">(SELECT to_char(payStart, 'YYYY-MM-DD') AS PAYSTART,  AMOUNT , amountCard, amountCash, amountRefund from </if> 
+  		(SELECT PAYSTART, AMOUNT, amountCard, amountCash, amountRefund
   		from 
-  			(SELECT p.payStart, p.amount, p.amountCard, p.amountRefoud,  cash.amountCash 
+  			(SELECT p.payStart, p.amount, p.amountCard, p.amountRefund, cash.amountCash 
 			FROM 
-				(SELECT pay.payStart, pay.amount , pay.amountRefoud, card.amountCard 
+				(SELECT pay.payStart, pay.amount , pay.amountRefund, card.amountCard 
 				FROM 
-					(SELECT pp.payStart, pp.amount, re.amountRefoud
+					(SELECT pp.payStart, pp.amount, re.amountRefund
 					FROM 
 						pay pp
 					join 
-						(SELECT payStart, amount as amountRefund AS amountCard FROM pay WHERE refund is not null) re
+						(SELECT payStart, amount as amountRefund FROM pay WHERE refund is not null) re
 					on 
-						pp.payStart=re.payStart(+)) pay
+						pp.payStart=re.payStart(+)) pay 
 				join 
 					(SELECT payStart, amount AS amountCard FROM pay WHERE payMethod='card') card 
 				on 
