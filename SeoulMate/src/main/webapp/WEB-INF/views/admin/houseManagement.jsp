@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 		<section class="admin_Section">
 			<div class="admin_Content">
 				<div class="m_title managementTitle">하우스 관리</div>
@@ -242,23 +243,48 @@ $(function(){
 	});
 	$(document).on('click', '.house_popup_Edit', function(){
 		var change_state = $('select[name=hw_housestate]').val();
+		console.log(delNo);
 		console.log(delFile);
 		console.log(delFile.length);
 		var Deldata = new Array();
 		for(var i=0; i<delFile.length; i++){
 			var d = new Object();
+			if(delNo[i]=="housePic1"){
+				d.housePic1 = delFile[i];
+				Deldata.push(d);
+			}
+			if(delNo[i]=="housePic2"){
+				d.housePic2 = delFile[i];
+				Deldata.push(d);
+			}if(delNo[i]=="housePic3"){
+				d.housePic3 = delFile[i];
+				Deldata.push(d);
+			}if(delNo[i]=="housePic4"){
+				d.housePic4 = delFile[i];
+				Deldata.push(d);
+			}if(delNo[i]=="housePic5"){
+				d.housePic5 = delFile[i];
+				Deldata.push(d);
+			}
 		}
-		var url = "/admin/house_ManagementEdit";
-// 		$.ajax({
-// 			url : url,
-// 			data : data,
-// 			success : function(result){
-// 				console.log(result);
+		var jsonData = JSON.stringify(Deldata) ;
+		console.log(jsonData);
+		
+		var url = "/home/admin/house_ManagementEdit";
+		$.ajax({
+			url : url,
+			data : jsonData,
+			traditional: true ,
+			contentType:"application/json; charset=UTF-8",
+			type : 'POST',
+			dataType:'JSON',
+			success : function(result){
+				console.log(result);
 				
-// 			},error : function(){
+			},error : function(){
 				
-// 			}
-// 		});
+			}
+		});
 		
 	});
 	
@@ -479,23 +505,23 @@ $(function(){
 				// 이미지 넣기
 				var houseImgTag = '';
 				if(result.hwVO.housepic1!=null && result.hwVO.housepic1!=''){
-					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic1+'" name="housepic1" src="/home/housePic/'+result.hwVO.housepic1+'" alt="housepic1" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
+					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic1+'" name="housePic1" src="/home/housePic/'+result.hwVO.housepic1+'" alt="housepic1" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
 					houseImgTag += '<span class="house_imgDel">삭제</span></div>';
 				}
 				if(result.hwVO.housepic2!=null && result.hwVO.housepic2!=''){
-					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic2+'" name="housepic2" src="/home/housePic/'+result.hwVO.housepic2+'" alt="housepic2" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
+					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic2+'" name="housePic2" src="/home/housePic/'+result.hwVO.housepic2+'" alt="housepic2" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
 					houseImgTag += '<span class="house_imgDel">삭제</span></div>';
 				}
 				if(result.hwVO.housepic3!=null && result.hwVO.housepic3!=''){
-					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic3+'" src="/home/housePic/'+result.hwVO.housepic3+'" alt="housepic3" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
+					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic3+'" name="housePic3" src="/home/housePic/'+result.hwVO.housepic3+'" alt="housepic3" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
 					houseImgTag += '<span class="house_imgDel">삭제</span></div>';
 				}
 				if(result.hwVO.housepic4!=null && result.hwVO.housepic4!=''){
-					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic4+'" src="/home/housePic/'+result.hwVO.housepic4+'" alt="housepic4" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
+					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic4+'" name="housePic4" src="/home/housePic/'+result.hwVO.housepic4+'" alt="housepic4" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
 					houseImgTag += '<span class="house_imgDel">삭제</span></div>';
 				}
 				if(result.hwVO.housepic5!=null && result.hwVO.housepic5!=''){
-					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic5+'" src="/home/housePic/'+result.hwVO.housepic5+'" alt="housepic5" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
+					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic5+'" name="housePic5" src="/home/housePic/'+result.hwVO.housepic5+'" alt="housepic5" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
 					houseImgTag += '<span class="house_imgDel">삭제</span><div>';
 				}
 				$('#hw_housepic').html(houseImgTag);

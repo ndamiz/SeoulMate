@@ -537,8 +537,8 @@ public class AdminController {
 	@RequestMapping(value="/admin/house_ManagementEdit" )
 	@ResponseBody
 	public int houseManagementEdit(HouseWriteVO hwVO) {
-		
-		
+	System.out.println(hwVO.getHousepic1());
+	System.out.println(hwVO.getHousepic2());	
 		return 1;
 	}
 	//관리자 - 하우스메이트 
