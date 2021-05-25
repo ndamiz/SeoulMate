@@ -182,18 +182,25 @@
   	</select>
   	
   	<select id="salesList" parameterType="com.seoulmate.home.vo.PayVO"  resultType="com.seoulmate.home.vo.PayVO">
-  		SELECT <if test="msg!='total'">payStart ,</if> sum(amount) AS amount, sum(amountCard) AS amountCard, sum(amountCash) AS amountCash 
+  		SELECT <if test="msg!='total'">payStart ,</if> sum(amount) AS amount, sum(amountCard) AS amountCard, sum(amountCash) AS amountCash,
+  		sum(amountRefoud) as amountRefoud
   		from
   		<if test="msg=='year'">(SELECT to_char(payStart, 'YYYY') AS PAYSTART,  AMOUNT , amountCard, amountCash from </if> 
   		<if test="msg=='month'">(SELECT to_char(payStart, 'YYYY-MM') AS PAYSTART,  AMOUNT , amountCard, amountCash from </if> 
   		<if test="msg=='date'">(SELECT to_char(payStart, 'YYYY-MM-DD') AS PAYSTART,  AMOUNT , amountCard, amountCash from </if> 
-  		(SELECT PAYSTART, AMOUNT , amountCard, amountCash 
+  		(SELECT PAYSTART, AMOUNT, amountCard, amountCash, amountRefoud
   		from 
-  			(SELECT p.payStart, p.amount , p.amountCard, cash.amountCash 
+  			(SELECT p.payStart, p.amount, p.amountCard, p.amountRefoud,  cash.amountCash 
 			FROM 
-				(SELECT pay.payStart, pay.amount, card.amountCard 
+				(SELECT pay.payStart, pay.amount , pay.amountRefoud, card.amountCard 
 				FROM 
-					pay pay 
+					(SELECT pp.payStart, pp.amount, re.amountRefoud
+					FROM 
+						pay pp
+					join 
+						(SELECT payStart, amount as amountRefund AS amountCard FROM pay WHERE refund is not null) re
+					on 
+						pp.payStart=re.payStart(+)) pay
 				join 
 					(SELECT payStart, amount AS amountCard FROM pay WHERE payMethod='card') card 
 				on 

@@ -294,44 +294,58 @@ $(function(){
 	//성향 버튼 눌렀을때 가져오기
 	$('.getPropinfo').click(function(){
 		var housename = $(this).text();
-		
+		var pno = $(this).attr('id');
+		console.log(housename);
 		$.ajax({
 			url : "/home/getPropensity",
-			data : "userid=${logId}&housename="+housename,
+			data : 'userid=${logId}&pno='+pno,
 			success : function(result){
 				console.log(result);
-				var $result = $(result);
-				
-				$result.each(function(idx, obj){
-					//성향 체크된거 해제
-					$('.houseWrtieProp input:radio').prop('checked', false);
-					//1. 생활소음 h_noise
-					$('input[name=h_noise]').val(obj.h_noise).prop('checked', true);
-					//2. 생활시간 h_pattern
-					$('input[name=h_pattern]').val(obj.h_pattern).prop('checked', true);
-					//3. 반려동물 여부 h_pet
-					$('input[name=h_pet]').val(obj.h_pet).prop('checked', true);
-					//4. 반려동물 동반 입주 여부 h_petwith
-					$('input[name=h_petwith]').val(obj.h_petwith).prop('checked', true);
-					//5. 흡연 h_smoke
-					$('input[name=h_smoke]').val(obj.h_smoke).prop('checked', true);
-					//6. 분위기 h_mood
-					$('input[name=h_mood]').val(obj.h_mood).prop('checked', true);
-					//7. 소통방식 h_communication
-					$('input[name=h_communication]').val(obj.h_communication).prop('checked', true);
-					//8. 모임빈도 h_party
-					$('input[name=h_party]').val(obj.h_party).prop('checked', true);
-					//9. 모임참가 의무 h_enter
-					$('input[name=h_enter]').val(obj.h_enter).prop('checked', true);
-				});
-				//10. 하우스내 지원서비스 h_support
-				var h_support = result.h
-				//$('input[name=h_supportStr]').val(result.h_support).prop('checked', true);
+// 				//1. 생활소음 h_noise
+				$('input:radio[name=h_noise]:radio[value='+result.h_noise+']').prop('checked', true);
+// 				//2. 생활시간 h_pattern
+				$('input:radio[name=h_pattern]:radio[value='+result.h_pattern+']').prop('checked', true);
+// 				//3. 반려동물 여부 h_pet
+				$('input[name=h_pet]:radio[value='+result.h_pet+']').prop('checked', true);
+// 				//4. 반려동물 동반 입주 여부 h_petwith
+				$('input[name=h_petwith]:radio[value='+result.h_petwith+']').prop('checked', true);
+// 				//5. 흡연 h_smoke
+				$('input[name=h_smoke]:radio[value='+result.h_smoke+']').prop('checked', true);
+// 				//6. 분위기 h_mood
+				$('input[name=h_mood]:radio[value='+result.h_mood+']').prop('checked', true);
+// 				//7. 소통방식 h_communication
+				$('input[name=h_communication]:radio[value='+result.h_communication+']').prop('checked', true);
+// 				//8. 모임빈도 h_party
+				$('input[name=h_party]:radio[value='+result.h_party+']').prop('checked', true);
+// 				//9. 모임참가 의무 h_enter
+				$('input[name=h_enter]:radio[value='+result.h_enter+']').prop('checked', true);
+// 				//10. 하우스내 지원서비스 h_support
+				if(result.h_support != null){
+					for(var i=0; i<result.h_support.length; i++){
+						$('input[name=h_support]:checkbox[value='+result.h_support[i]+']').prop('checked', true);
+					}
+				}
+				//11. 메이트 생활시간
+				$('input[name=m_pattern]:radio[value='+result.m_pattern+']').prop('checked', true);
+				//12. 메이트 성격 m_personality m_personality
+				$('input[name=m_personality]:radio[value='+result.m_personality+']').prop('checked', true);
+				//13. 메이트 반려동물 선호도 m_pet
+				$('input[name=m_pet]:radio[value='+result.m_pet+']').prop('checked', true);
+				//14. 메이트 흡연 m_smoke
+				$('input[name=m_smoke]:radio[value='+result.m_smoke+']').prop('checked', true);
+				//15. 메이트 연령대 m_age
+				$('input[name=m_age]:radio[value='+result.m_age+']').prop('checked', true);
+				//16. 메이트 성별 m_gender
+				$('input[name=m_gender]:radio[value='+result.m_gender+']').prop('checked', true);
+				//17. 메이트 외국인입주 가능여부 m_global
+				$('input[name=m_global]:radio[value='+result.m_global+']').prop('checked', true);
+				//18. 메이트 즉시입주 여부 m_now
+				$('input[name=m_now]:radio[value='+result.m_now+']').prop('checked', true);
 			},error : function(){
 				alert("성향 불러오기 실패.")
 			}
 		});
-	})
+	});//성향 버튼 눌렀을때 가져오기========================================================================끝
 });
 // autocomplete="off" //자동완성 막아줌
 
@@ -672,21 +686,9 @@ $(function(){
 							<input type="radio" id="furniture2" value="2" name="furniture"> 
 							<label for="furniture2">없음</label>
 						</div>	</li>
-<<<<<<< HEAD
-				<li><label>포함된 가구</label><input type="text" name="incFurniture"/> </li>
-=======
-				<li><label>포함된 가구</label><input type="text" name="roomVOList[0].incFurniture"/></li>
->>>>>>> refs/heads/yun
-			</ul>
-<<<<<<< HEAD
-=======
 
->>>>>>> refs/heads/yun
-			
-<<<<<<< HEAD
-			<a id="roomPlus" class="green"  >방 추가등록 </a> <br/> 
-					
-=======
+				<li><label>포함된 가구</label><input type="text" name="roomVOList[0].incFurniture"/></li>
+			</ul>
 			<!-- 2번방============================================================================ -->
 			<div class="room2">
 				<br><br>
@@ -813,7 +815,6 @@ $(function(){
 					<a class="green" id="roomPlus">방 추가하기</a>
 					<a class="green" id="roomMinus">방 삭제하기</a>
 				</div>
->>>>>>> refs/heads/yun
 				<div class="btnclass">
 					<a class="green" id="hPrev5">이전</a>
 					<a class="green" id="hNext5" >다음</a> 
@@ -824,12 +825,11 @@ $(function(){
 		
 			
 		<div id=houseWrite6>
-		
 		<div class="title_wrap">
 		<ul class="s_margin" id="HproUl">
 			<c:forEach var="vo" items="${list}">
 				<li>
-					<a class="getPropinfo">
+					<a id="${vo.pno }" class="getPropinfo">
 						<c:if test="${vo.housename!=null}">${vo.housename}</c:if>
 						<c:if test="${vo.housename==null}">성향${vo.pno}</c:if>
 					</a>
