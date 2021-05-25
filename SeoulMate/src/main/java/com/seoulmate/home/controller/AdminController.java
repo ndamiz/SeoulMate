@@ -532,6 +532,15 @@ public class AdminController {
 		resultMap.put("hrVOList", hrVOList);
 		return resultMap;
 	}
+	
+	//하우스 - 수정
+	@RequestMapping(value="/admin/house_ManagementEdit" )
+	@ResponseBody
+	public int houseManagementEdit(HouseWriteVO hwVO) {
+		
+		
+		return 1;
+	}
 	//관리자 - 하우스메이트 
 	@RequestMapping(value="/admin/mateManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView mateManagement(MateWriteVO mwVO, PagingVO pagingVO) {
