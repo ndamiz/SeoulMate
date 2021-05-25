@@ -534,13 +534,13 @@ $(function(){
 				<li>
 					<label>거실</label>
 					<div class="checks">
-						<input type="checkbox" id="소파" name="publicfactility" value="소파"> 
+						<input type="checkbox" id="소파" name="publicfacility" value="소파"> 
 						<label for="소파">소파</label>
-						<input type="checkbox" id="티비" name="publicfactility" value="티비"> 
+						<input type="checkbox" id="티비" name="publicfacility" value="티비"> 
 						<label for="티비">티비</label>
-						<input type="checkbox" id="탁자" name="publicfactility" value="탁자"> 
+						<input type="checkbox" id="탁자" name="publicfacility" value="탁자"> 
 						<label for="탁자">탁자</label>
-						<input type="checkbox" id="카펫" name="publicfactility" value="카펫"> 
+						<input type="checkbox" id="카펫" name="publicfacility" value="카펫"> 
 						<label for="카펫">카펫</label> <br/>
 					</div>
 				</li>
@@ -548,13 +548,13 @@ $(function(){
 				<li>
 					<label>욕실</label>
 					<div class="checks">
-						<input type="checkbox" id="욕조" name="publicfactility" value="욕조"> 
+						<input type="checkbox" id="욕조" name="publicfacility" value="욕조"> 
 						<label for="욕조">욕조</label>
-						<input type="checkbox" id="비데" name="publicfactility" value="비데"> 
+						<input type="checkbox" id="비데" name="publicfacility" value="비데"> 
 						<label for="비데">비데</label>
-						<input type="checkbox" id="샴푸" name="publicfactility" value="샴푸"> 
+						<input type="checkbox" id="샴푸" name="publicfacility" value="샴푸"> 
 						<label for="샴푸">샴푸</label>
-						<input type="checkbox" id="린스" name="publicfactility" value="린스"> 
+						<input type="checkbox" id="린스" name="publicfacility" value="린스"> 
 						<label for="린스">린스</label> <br/>
 					</div>
 				</li>
@@ -562,13 +562,13 @@ $(function(){
 				<li>
 					<label>기타</label>
 					<div class="checks">
-						<input type="checkbox" id="세탁기" name="publicfactility" value="세탁기"> 
+						<input type="checkbox" id="세탁기" name="publicfacility" value="세탁기"> 
 						<label for="세탁기">세탁기</label>
-						<input type="checkbox" id="건조기" name="publicfactility" value="건조기"> 
+						<input type="checkbox" id="건조기" name="publicfacility" value="건조기"> 
 						<label for="건조기">건조기</label>
-						<input type="checkbox" id="베란다" name="publicfactility" value="베란다"> 
+						<input type="checkbox" id="베란다" name="publicfacility" value="베란다"> 
 						<label for="베란다">베란다</label>
-						<input type="checkbox" id="WIFI" name="publicfactility" value="WIFI"> 
+						<input type="checkbox" id="WIFI" name="publicfacility" value="WIFI"> 
 						<label for="WIFI">WIFI</label> 
 					</div>
 				</li>
