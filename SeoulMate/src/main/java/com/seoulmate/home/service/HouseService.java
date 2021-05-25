@@ -62,7 +62,7 @@ public interface HouseService {
 	public int roomDel(int no, String userid, int hno);
 	
 	//하우스 사진 가져오기
-	public String houseProfilePic(String userid, int no);
+	public String[] houseProfilePic(String userid, int no);
 	
 	//하우스 사진2 가져오기
 	public String houseProfilePic2(String userid, int no);
