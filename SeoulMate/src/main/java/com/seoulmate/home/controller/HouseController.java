@@ -564,48 +564,8 @@ public class HouseController {
 		String delFilename = req.getParameter("delFile");
 		String selFilename2 = service.houseProfilePic2(userid, hVO.getNo());
 		String delFilename2 = req.getParameter("delFile2");
-//		
-//		System.out.println(selFilename);
-//		System.out.println(selFilename2);
-		
-//		hVO = service.houseSelect(hVO.getNo(), userid);
 		
 		MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
-		
-		
-//		
-//		MultipartHttpServletRequest mr=(MultipartHttpServletRequest)req;
-//		if(mr.getFile("filename")!=null) {
-//			MultipartFile newName=mr.getFile("filename");
-//
-//			String newUpload="";
-//			
-//			if(newUpload!=null && newName!=null) {
-//				String orgname=newName.getOriginalFilename();
-//				
-//				if(orgname!=null && !orgname.equals("")) {
-//					File ff=new File(path, orgname);
-//					int i=1;
-//					while(ff.exists()) {
-//						int pnt=orgname.lastIndexOf(".");
-//						String firstName=orgname.substring(0, pnt);
-//						String extName=orgname.substring(pnt+1);
-//						
-//						ff=new File(path, firstName+"_"+ i++ +"."+extName);
-//					}
-//					try {
-//						newName.transferTo(ff);
-//					}catch(Exception e) {
-//						System.out.println("새로운 파일 추가 수정 에러 발생");
-//						e.printStackTrace();
-//					}
-//					newUpload=ff.getName();
-//					System.out.println("리네임된 새로운 파일명 : "+newUpload);
-//				}
-//			}
-//			
-		
-//		hVO.setHousepic1(newUpload);
 		
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED); // 트랜잭션 호출
@@ -614,7 +574,6 @@ public class HouseController {
 		try {
 			System.out.println("하우스테이블 no 1확인:"+hVO.getNo());
 //			hVO.setNo(3);
-//			hVO.setPno(22);
 			hVO.setPno(pVO.getPno());
 			System.out.println("하우스테이블 no 2확인:"+hVO.getNo());
 			System.out.println("하우스 테이블 pno 확인:"+hVO.getPno());
