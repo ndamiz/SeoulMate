@@ -191,9 +191,6 @@ $(function(){
           event.preventDefault();
        };
     });
-	//페이징 로딩시에 기존 성향 값 세팅===================================================================
-		//추가되지롱
-	//페이징 로딩시에 기존 성향 값 세팅===================================================================끝
   	//성향 버튼 눌렀을때 가져오기========================================================================
 	$('.getPropinfo').click(function(){
 		var housename = $(this).text();
@@ -249,6 +246,130 @@ $(function(){
 			}
 		});
 	})//성향 버튼 눌렀을때 가져오기========================================================================끝
+	
+	//방 추가하기 제거하기=================================================================================
+		
+	for(var i=1; i<=${rVO_ListSize};i++){
+		$('.room'+i+'').css('display','block');
+	};	
+		$("#roomPlus").click(function(){ //방 추가하기
+		if($(".room2").css("display") == "none"){
+			$('.room2 ul input').eq(0).attr('name','roomVOList[1].roomName');	//1
+			$('.room2 ul input').eq(1).attr('name','roomVOList[1].rent');		//2
+			$('.room2 ul input').eq(2).attr('name','roomVOList[1].deposit');	//3
+			$('.room2 ul input').eq(3).attr('name','roomVOList[1].roomPeople');	//4
+			$('.room2 ul input').eq(4).attr('name','roomVOList[1].enterdate');	//5
+			$('.room2 ul select').eq(0).attr('name','roomVOList[1].minStay');	//6
+			$('.room2 ul select').eq(1).attr('name','roomVOList[1].maxStay');	//7
+			$('.room2 ul input').eq(5).attr('name','roomVOList[1].furniture');	//8
+			$('.room2 ul input').eq(6).attr('name','roomVOList[1].furniture');	//9
+			$('.room2 ul input').eq(7).attr('name','roomVOList[1].incFurniture');	//10
+			$('.room2').show();
+		}else if($(".room3").css("display") == "none"){
+			$('.room3 ul input').eq(0).attr('name','roomVOList[2].roomName');	//1
+			$('.room3 ul input').eq(1).attr('name','roomVOList[2].rent');		//2
+			$('.room3 ul input').eq(2).attr('name','roomVOList[2].deposit');	//3
+			$('.room3 ul input').eq(3).attr('name','roomVOList[2].roomPeople');	//4
+			$('.room3 ul input').eq(4).attr('name','roomVOList[2].enterdate');	//5
+			$('.room3 ul select').eq(0).attr('name','roomVOList[2].minStay');	//6
+			$('.room3 ul select').eq(1).attr('name','roomVOList[2].maxStay');	//7
+			$('.room3 ul input').eq(5).attr('name','roomVOList[2].furniture');	//8
+			$('.room3 ul input').eq(6).attr('name','roomVOList[2].furniture');	//9
+			$('.room3 ul input').eq(7).attr('name','roomVOList[2].incFurniture');	//10
+			$('.room3').show();
+		}else if($(".room4").css("display") == "none"){
+			$('.room4 ul input').eq(0).attr('name','roomVOList[3].roomName');	//1
+			$('.room4 ul input').eq(1).attr('name','roomVOList[3].rent');		//2
+			$('.room4 ul input').eq(2).attr('name','roomVOList[3].deposit');	//3
+			$('.room4 ul input').eq(3).attr('name','roomVOList[3].roomPeople');	//4
+			$('.room4 ul input').eq(4).attr('name','roomVOList[3].enterdate');	//5
+			$('.room4 ul select').eq(0).attr('name','roomVOList[3].minStay');	//6
+			$('.room4 ul select').eq(1).attr('name','roomVOList[3].maxStay');	//7
+			$('.room4 ul input').eq(5).attr('name','roomVOList[3].furniture');	//8
+			$('.room4 ul input').eq(6).attr('name','roomVOList[3].furniture');	//9
+			$('.room4 ul input').eq(7).attr('name','roomVOList[3].incFurniture');	//10
+			$('.room4').show();
+			//$('#roomPlus').css("display",'none');
+			//$('#roomMinus').css("display",'inline-block');
+		}
+	});
+	$("#roomMinus").click(function(){
+		if($(".room4").css("display") == "block"){//닫기
+			if(confirm('방을 제거하면 3번방 정보가 삭제됩니다.')){
+				$('.room4 ul input').eq(0).attr('name','');	//1
+				$('.room4 ul input').eq(0).val('');	
+				$('.room4 ul input').eq(1).attr('name','');		//2
+				$('.room4 ul input').eq(1).val('');	
+				$('.room4 ul input').eq(2).attr('name','');	//3
+				$('.room4 ul input').eq(2).val('');	
+				$('.room4 ul input').eq(3).attr('name','');	//4
+				$('.room4 ul input').eq(3).val('');	
+				$('.room4 ul input').eq(4).attr('name','');	//5
+				$('.room4 ul input').eq(4).val('');
+				
+				$('.room4 ul select').eq(0).attr('name','');	//6
+				$('.room4 ul select').eq(1).attr('name','');	//7
+				
+				$('.room4 ul input').eq(5).attr('name','');	//8
+				$('.room4 ul input').eq(5).val('');	
+				$('.room4 ul input').eq(6).attr('name','');	//9
+				$('.room4 ul input').eq(6).val('');	
+				$('.room4 ul input').eq(7).attr('name','');	//10
+				$('.room4 ul input').eq(7).val('');	
+				$('.room4').hide();
+			}
+		}else if($(".room3").css("display") == "block"){
+			if(confirm('방을 제거하면 3번방 정보가 삭제됩니다.')){
+				$('.room3 ul input').eq(0).attr('name','');	//1
+				$('.room3 ul input').eq(0).val('');	
+				$('.room3 ul input').eq(1).attr('name','');		//2
+				$('.room3 ul input').eq(1).val('');	
+				$('.room3 ul input').eq(2).attr('name','');	//3
+				$('.room3 ul input').eq(2).val('');	
+				$('.room3 ul input').eq(3).attr('name','');	//4
+				$('.room3 ul input').eq(3).val('');	
+				$('.room3 ul input').eq(4).attr('name','');	//5
+				$('.room3 ul input').eq(4).val('');	
+				
+				$('.room3 ul select').eq(0).attr('name','');	//6
+				$('.room3 ul select').eq(1).attr('name','');	//7
+				
+				$('.room3 ul input').eq(5).attr('name','');	//8
+				$('.room3 ul input').eq(5).val('');	
+				$('.room3 ul input').eq(6).attr('name','');	//9
+				$('.room3 ul input').eq(6).val('');	
+				$('.room3 ul input').eq(7).attr('name','');	//10
+				$('.room3 ul input').eq(7).val('');	
+				$('.room3').hide();
+			}
+		}else if($(".room2").css("display") == "block"){
+			if(confirm('방을 제거하면 2번방 정보가 삭제됩니다.')){
+				$('.room2 ul input').eq(0).attr('name','');	//1
+				$('.room2 ul input').eq(0).val('');	
+				$('.room2 ul input').eq(1).attr('name','');		//2
+				$('.room2 ul input').eq(1).val('');	
+				$('.room2 ul input').eq(2).attr('name','');	//3
+				$('.room2 ul input').eq(2).val('');	
+				$('.room2 ul input').eq(3).attr('name','');	//4
+				$('.room2 ul input').eq(3).val('');	
+				$('.room2 ul input').eq(4).attr('name','');	//5
+				$('.room2 ul input').eq(4).val('');	
+	
+				$('.room2 ul select').eq(0).attr('name','');	//6
+				$('.room2 ul select').eq(1).attr('name','');	//7
+				
+				$('.room2 ul input').eq(5).attr('name','');	//8
+				$('.room2 ul input').eq(5).val('');	
+				$('.room2 ul input').eq(6).attr('name','');	//9
+				$('.room2 ul input').eq(6).val('');	
+				$('.room2 ul input').eq(7).attr('name','');	//10
+				$('.room2 ul input').eq(7).val('');	
+				$('#roomMinus').css("display",'none');
+				$('.room2').hide();
+			}	
+		}
+	});
+	//방 추가하기 제거하기=================================================================================끝	
 });
 // autocomplete="off" //자동완성 막아줌
 
@@ -264,7 +385,7 @@ $(function(){
 .form_box.choice li > label {width: 240px;}
 #houseWrite1_ul2{display: none;}
 .btnclass{padding-left:50px;}
-#roomPlus{margin-left:650px;}
+#roomPlus{margin:0 auto;}
 #houseWrite1 .checks { width: 560px;}
 #ck{margin:0 auto; width: 60%;}
 #houseImg1{width:250px; height:250px; position: relative; margin: 0 auto; text-align: center;}
@@ -286,12 +407,15 @@ $(function(){
 .checks{width:800px;}
 .checks>label{width:120px;}
 /* #houseWrite6 input, #houseWrite6 select{width:230px;} */
-
+/*방추가하기 스타일*/
+.room2, .room3, .room4{
+	display:none;
+}
 </style>
 <div class="wrap">
 <div class="content">
 	<form method="post" id="houseEditFrm" name="houseEditFrm" action="houseEditOk" enctype="multipart/form-data">
-	
+	<input type="hidden" name="listSize" value="${rVO_ListSize}">
 	<input type="hidden" name="no" value="${hVO.no}">
 <%-- 	<input type="hidden" name="no" value="${rVO. hno }"> --%>
 	<input type="hidden" name="pno" value="${pVO.pno}">
@@ -517,52 +641,99 @@ $(function(){
 		</div>	<!-- 등록form4 종료 -->
 		
 		<div id="houseWrite5">
+		
 		<c:forEach var="rVO" items="${rVO_List}" varStatus="index">
-			<div class="title_wrap">
-				<p class="s_title">${index.count}번 방 임대료 및 입주정보 </p> <br/>
-				<input type="hidden" name="roomVOList[${index.count-1}].hno" value="${rVO.hno}">
-				
-				<p>&nbsp;</p>
+			<div class="room${index.count}">
+				<div class="title_wrap">
+					<p class="s_title">${index.count}번 방 임대료 및 입주정보 </p> <br/>
+					<input class="hno${index.count}"  type="hidden" name="roomVOList[${index.count-1}].hno" value="${rVO.hno}">
+					<p>&nbsp;</p>
+				</div>
+				<ul class="form_box">
+					<li><label><span class="red_txt">*</span>방${index.count} 이름 </label> <input type="text" name="roomVOList[${index.count-1}].roomName" value="${rVO.roomName }" /></li>
+					<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" name="roomVOList[${index.count-1}].rent" value="${rVO.rent }"/> 
+					<li><label><span class="red_txt">*</span>보증금(조율) </label><input type="number" name="roomVOList[${index.count-1}].deposit" value="${rVO.deposit }"/> </li>
+					<li><label><span class="red_txt">*</span>방 인원</label> <input type="number" name="roomVOList[${index.count-1}].roomPeople" value="${rVO.roomPeople }" /> </li>
+					<li><label><span class="red_txt">*</span>입주 가능일 </label> <input type="date" name="roomVOList[${index.count-1}].enterdate" min="${now}" value="${rVO.enterdate}" /> </li>
+					<li><label><span class="red_txt">*</span>최소 거주 기간</label>
+						<select name="roomVOList[${index.count-1}].minStay" >
+							<option value="1-3개월" <c:if test="${rVO.minStay=='1-3개월' }">selected </c:if> >1~3 개월</option>
+							<option value="4-6개월" <c:if test="${rVO.minStay=='4-6개월' }">selected </c:if> >4~6 개월</option>
+							<option value="7-12개월" <c:if test="${rVO.minStay=='7-12개월' }">selected </c:if> >7~12 개월</option>
+							<option value="1년이상" <c:if test="${rVO.minStay=='1년이상' }">selected </c:if> >1년 이상</option>
+						</select> 
+					<li><label><span class="red_txt">*</span>최대 거주 기간</label>
+						<select name="roomVOList[${index.count-1}].maxStay" >
+							<option value="1-3개월" <c:if test="${rVO.maxStay=='1-3개월' }">selected </c:if> >1~3 개월</option>
+							<option value="4-6개월" <c:if test="${rVO.maxStay=='4-7개월' }">selected </c:if> >4~6 개월</option>
+							<option value="7-12개월" <c:if test="${rVO.maxStay=='7-12개월' }">selected </c:if> >7~12 개월</option>
+							<option value="1년이상" <c:if test="${rVO.maxStay=='1년이상' }">selected </c:if> >1년 이상</option>
+						</select> </li>
+						
+					<li><label><span class="red_txt">*</span>가구 여부</label> 
+						<div class="checks">
+								<input type="radio" id="furniture${index.count}" value="1" name="roomVOList[${index.count-1}].furniture" <c:if test="${rVO.furniture==1}">checked</c:if> > 
+								<label for="furniture1">있음</label>
+								
+								<input type="radio" id="furniture${index.count+1}" value="2" name="roomVOList[${index.count-1}].furniture" <c:if test="${rVO.furniture==2}">checked</c:if> > 
+								<label for="furniture2">없음</label>
+							</div>	</li>
+					<li><label>포함된 가구</label><input type="text" name="roomVOList[${index.count-1}].incFurniture"/> </li>
+				</ul><br><br>
 			</div>
-			<ul class="form_box">
-				<li><label><span class="red_txt">*</span>방${index.count} 이름 </label> <input type="text" name="roomVOList[${index.count-1}].roomName" value="${rVO.roomName }" /></li>
-				<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" name="roomVOList[${index.count-1}].rent" value="${rVO.rent }"/> 
-				<li><label><span class="red_txt">*</span>보증금(조율) </label><input type="number" name="roomVOList[${index.count-1}].deposit" value="${rVO.deposit }"/> </li>
-				<li><label><span class="red_txt">*</span>방 인원</label> <input type="number" name="roomVOList[${index.count-1}].roomPeople" value="${rVO.roomPeople }" /> </li>
-				<li><label><span class="red_txt">*</span>입주 가능일 </label> <input type="date" name="roomVOList[${index.count-1}].enterdate" min="${now}" value="${rVO.enterdate}" /> </li>
-				<li><label><span class="red_txt">*</span>최소 거주 기간</label>
-					<select name="roomVOList[${index.count-1}].minStay" >
-						<option value="1-3개월" <c:if test="${rVO.minStay=='1-3개월' }">selected </c:if> >1~3 개월</option>
-						<option value="4-6개월" <c:if test="${rVO.minStay=='4-6개월' }">selected </c:if> >4~6 개월</option>
-						<option value="7-12개월" <c:if test="${rVO.minStay=='7-12개월' }">selected </c:if> >7~12 개월</option>
-						<option value="1년이상" <c:if test="${rVO.minStay=='1년이상' }">selected </c:if> >1년 이상</option>
-					</select> 
-				<li><label><span class="red_txt">*</span>최대 거주 기간</label>
-					<select name="roomVOList[${index.count-1}].maxStay" >
-						<option value="1-3개월" <c:if test="${rVO.maxStay=='1-3개월' }">selected </c:if> >1~3 개월</option>
-						<option value="4-6개월" <c:if test="${rVO.maxStay=='4-7개월' }">selected </c:if> >4~6 개월</option>
-						<option value="7-12개월" <c:if test="${rVO.maxStay=='7-12개월' }">selected </c:if> >7~12 개월</option>
-						<option value="1년이상" <c:if test="${rVO.maxStay=='1년이상' }">selected </c:if> >1년 이상</option>
-					</select> </li>
-					
-				<li><label><span class="red_txt">*</span>가구 여부</label> 
-					<div class="checks">
-							<input type="radio" id="furniture${index.count}" value="1" name="roomVOList[${index.count-1}].furniture" <c:if test="${rVO.furniture==1}">checked</c:if> > 
-							<label for="furniture1">있음</label>
-							
-							<input type="radio" id="furniture${index.count+1}" value="2" name="roomVOList[${index.count-1}].furniture" <c:if test="${rVO.furniture==2}">checked</c:if> > 
-							<label for="furniture2">없음</label>
-						</div>	</li>
-				<li><label>포함된 가구</label><input type="text" name="roomVOList[${index.count-1}].incFurniture"/> </li>
-			</ul><br><br>
 		</c:forEach>
-			<a id="roomPlus" class="green">방 추가등록 </a> <br/> 
+		
+		<c:forEach var="idx" begin="${rVO_ListSize}" end="3" varStatus="i">
+			<div class="room${rVO_ListSize+i.count}">
+				<br><br>
+				<div class="title_wrap">
+					<p class="s_title">${rVO_ListSize+i.count}번 방 임대료 및 입주정보 </p> <br/>
+					<p>&nbsp;</p>
+				</div><br><br>
+				<ul class="form_box room_box room3">
+					<li><label><span class="red_txt">*</span>세번째 방 이름 </label> <input type="text" name=""/></li>
+					<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" name=""/> </li> 
+						
+					<li><label><span class="red_txt">*</span>보증금 </label><input type="number" name=""/> 	</li>
+					<li><label><span class="red_txt">*</span>방 인원</label> <input type="number" name=""/> </li>
+					<li><label><span class="red_txt">*</span>입주 가능일 </label> <input type="date" name=""  min="${now}"/> </li>
+					<li><label><span class="red_txt">*</span>최소 거주 기간</label>
+						<select name="" id="minStay">
+							<option value="1-3개월">1~3 개월</option>
+							<option value="4-6개월">4~6 개월</option>
+							<option value="7-12개월">7~12 개월</option>
+							<option value="1년이상">1년 이상</option>
+						</select> 
+					<li><label ><span class="red_txt">*</span>최대 거주 기간</label>
+						<select name="" id="maxStay">
+							<option value="1-3개월">1~3 개월</option>
+							<option value="4-6개월">4~6 개월</option>
+							<option value="7-12개월">7~12 개월</option>
+							<option value="1년이상">1년 이상</option>
+						</select> </li>
+						
+					<li><label><span class="red_txt">*</span>가구 여부</label> 
+						<div class="checks">
+								<input type="radio" id="furniture3" value="1" name=""> 
+								<label for="furniture3">있음</label>
+								
+								<input type="radio" id="furniture4" value="2" name=""> 
+								<label for="furniture4">없음</label>
+							</div>	</li>
+					<li><label>포함된 가구</label><input type="text" name=""/></li>
+				</ul><br><br>
+			</div>
+		</c:forEach>
+			<div class="btnclass">
+				<a class="green" id="roomPlus">방 추가하기</a>
+				<a class="green" id="roomMinus">방 삭제하기</a>
+			</div>
 					
-				<div class="btnclass">
-					<a class="green" id="hPrev5">이전</a>
-					<a class="green" id="hNext5" >다음</a> 
-					<a class="green" id="hIndex5" >취소</a>
-				</div> <!-- 버튼div 종료 -->
+			<div class="btnclass">
+				<a class="green" id="hPrev5">이전</a>
+				<a class="green" id="hNext5" >다음</a> 
+				<a class="green" id="hIndex5" >취소</a>
+			</div> <!-- 버튼div 종료 -->
 		
 		</div> <!-- 등록form5 종료 -->
 		
@@ -593,8 +764,8 @@ $(function(){
 			<ul class="form_box choice">
 				<li>
 					<label><span class="red_txt">*</span>생활소음</label>
-					<div class="checks">
-						<input type="radio" id="h_noise1" value="1" name="h_noise" <c:if test="${pVO.h_noise==1}">checked</c:if> > 
+					<div class="checks propDiv">
+						<input type="radio" id="h_noise1" value="1" name="h_noise" <c:if test="${pVO.h_noise==1}">checked</c:if> >   
 						<label for="h_noise1">매우 조용함</label>
 						
 						<input type="radio" id="h_noise2" value="2" name="h_noise" <c:if test="${pVO.h_noise==2}">checked</c:if> > 
@@ -607,7 +778,7 @@ $(function(){
 				
 				<li>
 					<label><span class="red_txt">*</span>생활시간</label>
-					<div class="checks">
+					<div class="checks propDiv">
 						<input type="radio" id="h_pattern1" value="1" name="h_pattern" <c:if test="${pVO.h_pattern==1}">checked</c:if> > 
 						<label for="h_pattern1">주행성</label>
 						
@@ -618,7 +789,7 @@ $(function(){
 				
 					<li>
 					<label><span class="red_txt">*</span>반려동물 여부</label>
-					<div class="checks">
+					<div class="checks propDiv">
 						<input type="radio" id="h_pet3" value="3" name="h_pet" <c:if test="${pVO.h_pet==3}">checked</c:if> > 
 						<label for="h_pet3">있음</label>	
 						
@@ -629,7 +800,7 @@ $(function(){
 				
 				<li>
 					<label><span class="red_txt">*</span>반려동물 동반 입주 여부</label>
-					<div class="checks">
+					<div class="checks propDiv">
 						<input type="radio" id="h_petwith3" value="3" name="h_petwith" <c:if test="${pVO.h_petwith==3}">checked</c:if> > 
 						<label for="h_petwith3">가능</label>
 						
@@ -640,7 +811,7 @@ $(function(){
 				
 				<li>
 					<label><span class="red_txt">*</span>흡연</label>
-					<div class="checks">
+					<div class="checks propDiv">
 						<input type="radio" id="h_smoke1" value="1" name="h_smoke" <c:if test="${pVO.h_smoke==1}">checked</c:if> > 
 						<label for="h_smoke1">비흡연</label>
 						
@@ -671,7 +842,7 @@ $(function(){
 			
 				<li>
 					<label><span class="red_txt">*</span>분위기</label>
-					<div class="checks">
+					<div class="checks propDiv">
 						<input type="radio" id="h_mood1" value="1" name="h_mood" <c:if test="${pVO.h_mood==1}">checked</c:if> > 
 						<label for="h_mood1">화목함</label>
 						
@@ -685,7 +856,7 @@ $(function(){
 				
 					<li>
 					<label><span class="red_txt">*</span>소통방식</label>
-					<div class="checks">
+					<div class="checks propDiv">
 						<input type="radio" id="h_communication3" value="3" name="h_communication" <c:if test="${pVO.h_communication==3}">checked</c:if> > 
 						<label for="h_communication3">대화</label>
 						<input type="radio" id="h_communication1" value="1" name="h_communication" <c:if test="${pVO.h_communication==1}">checked</c:if> > 
@@ -697,7 +868,7 @@ $(function(){
 				
 					<li>
 					<label><span class="red_txt">*</span>모임빈도</label>
-					<div class="checks">
+					<div class="checks propDiv">
 						<input type="radio" id="h_party3" value="3" name="h_party" <c:if test="${pVO.h_party==3}">checked</c:if> > 
 						<label for="h_party3">자주</label>
 						<input type="radio" id="h_party2" value="2" name="h_party" <c:if test="${pVO.h_party==2}">checked</c:if> > 
@@ -709,7 +880,7 @@ $(function(){
 				
 					<li>
 					<label><span class="red_txt">*</span>모임참가 의무</label>
-					<div class="checks">
+					<div class="checks propDiv">
 						<input type="radio" id="h_enter1" value="1" name="h_enter" <c:if test="${pVO.h_enter==1}">checked</c:if> > 
 						<label for="h_enter1">없음</label>
 						<input type="radio" id="h_enter2" value="2" name="h_enter" <c:if test="${pVO.h_enter==2}">checked</c:if> > 
@@ -737,7 +908,7 @@ $(function(){
 			
 				<li>
 					<label><span class="red_txt">*</span>하우스 내 지원서비스</label>
-					<div class="checks">
+					<div class="checks propDiv">
 						<input type="checkbox" id="h_support1" value="1" name="h_support" <c:forEach var="i" items="${pVO.h_support}"><c:if test="${i=='1'}">checked</c:if></c:forEach> > 
 						<label for="h_support1">공용공간 청소지원</label>
 									
@@ -749,7 +920,7 @@ $(function(){
 					</div>
 				</li> <br/><br/>
 				<li><label><span class="red_txt">*</span>기타</label>
-						<div class="checks checkbox">
+						<div class="checks checkbox propDiv">
 							<input type="checkbox" name="h_etc" id="h_etc1" value="1" <c:forEach var="i" items="${pVO.h_etc}"><c:if test="${i=='1'}">checked</c:if></c:forEach> >
 							<label for="h_etc1">보증금 조절 가능</label>
 							<input type="checkbox" name="h_etc" id="h_etc3" value="3" <c:forEach var="i" items="${pVO.h_etc}"><c:if test="${i=='3'}">checked</c:if></c:forEach> >
@@ -775,7 +946,7 @@ $(function(){
 			<ul class="form_box choice">
 				<li>
 					<label><span class="red_txt">*</span>생활 시간</label>
-					<div class="checks">
+					<div class="checks propDiv">
 						<input type="radio" id="m_pattern1" value="1" name="m_pattern" <c:if test="${pVO.m_pattern==1}">checked</c:if> > 
 						<label for="m_pattern1">주행성</label>
 						
@@ -786,7 +957,7 @@ $(function(){
 				
 				<li>
 					<label><span class="red_txt">*</span>성격</label>
-					<div class="checks">
+					<div class="checks propDiv">
 						<input type="radio" id="m_personality1" value="1" name="m_personality" <c:if test="${pVO.m_personality==1}">checked</c:if> > 
 						<label for="m_personality1">내향적</label>
 						<input type="radio" id="m_personality3" value="3" name="m_personality" <c:if test="${pVO.m_personality==3}">checked</c:if> > 
@@ -798,7 +969,7 @@ $(function(){
 				
 				<li>
 					<label><span class="red_txt">*</span>반려동물 선호도</label>
-					<div class="checks">
+					<div class="checks propDiv">
 						<input type="radio" id="m_pet1" value="1" name="m_pet" <c:if test="${pVO.m_pet==1}">checked</c:if> > 
 						<label for="m_pet1">가능</label>
 						<input type="radio" id="m_pet3" value="3" name="m_pet" <c:if test="${pVO.m_pet==3}">checked</c:if> > 
@@ -808,7 +979,7 @@ $(function(){
 				
 				<li>
 					<label><span class="red_txt">*</span>흡연</label>
-					<div class="checks">
+					<div class="checks propDiv">
 						<input type="radio" id="m_smoke1" value="1" name="m_smoke" <c:if test="${pVO.m_smoke==1}">checked</c:if> > 
 						<label for="m_smoke1">비흡연</label>
 						<input type="radio" id="m_smoke3" value="3" name="m_smoke" <c:if test="${pVO.m_smoke==3}">checked</c:if> > 
@@ -820,7 +991,7 @@ $(function(){
 				
 				<li>
 					<label><span class="red_txt">*</span>연령대</label>
-					<div class="checks">
+					<div class="checks propDiv">
 						<input type="radio" id="m_age1" value="1" name="m_age" <c:if test="${pVO.m_age==1}">checked</c:if> > 
 						<label for="m_age1">20~30대</label>
 						<input type="radio" id="m_age3" value="3" name="m_age" <c:if test="${pVO.m_age==3}">checked</c:if> > 
@@ -832,7 +1003,7 @@ $(function(){
 				
 				<li>
 					<label><span class="red_txt">*</span>성별</label>
-					<div class="checks">
+					<div class="checks propDiv">
 						<input type="radio" id="m_gender1" value="1" name="m_gender" <c:if test="${pVO.m_gender==1}">checked</c:if> > 
 						<label for="m_gender1">여성</label>
 						<input type="radio" id="m_gender3" value="3" name="m_gender" <c:if test="${pVO.m_gender==3}">checked</c:if> > 
@@ -844,7 +1015,7 @@ $(function(){
 				
 				<li>
 					<label><span class="red_txt">*</span>외국인입주 가능여부</label>
-					<div class="checks">
+					<div class="checks propDiv">
 						<input type="radio" id="m_global3" value="3" name="m_global" <c:if test="${pVO.m_gender==3}">checked</c:if> > 
 						<label for="m_global3">가능</label>
 						<input type="radio" id="m_global1" value="1" name="m_global" <c:if test="${pVO.m_gender==1}">checked</c:if> > 
@@ -854,7 +1025,7 @@ $(function(){
 				
 				<li>
 					<label><span class="red_txt">*</span>즉시입주 가능여부</label>
-					<div class="checks">
+					<div class="checks propDiv">
 						<input type="radio" id="m_now1" value="1" name="m_now" <c:if test="${pVO.m_now==1}">checked</c:if> > 
 						<label for="m_now1">가능</label>
 						<input type="radio" id="m_now3" value="3" name="m_now" <c:if test="${pVO.m_now==3}">checked</c:if> > 
@@ -873,4 +1044,3 @@ $(function(){
 
 </div> <!-- content 종료 -->
 </div> <!-- wrap -->
->>>>>>> refs/remotes/origin/yyy

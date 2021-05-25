@@ -103,6 +103,7 @@ $(function(){
 			$('.room2 ul input').eq(5).attr('name','roomVOList[1].furniture');	//8
 			$('.room2 ul input').eq(6).attr('name','roomVOList[1].furniture');	//9
 			$('.room2 ul input').eq(7).attr('name','roomVOList[1].incFurniture');	//10
+			$('#roomMinus').css("display",'inline-block');
 			$('.room2').show();
 		}else if($(".room3").css("display") == "none"){
 			$('.room3 ul input').eq(0).attr('name','roomVOList[2].roomName');	//1
@@ -128,49 +129,82 @@ $(function(){
 			$('.room4 ul input').eq(6).attr('name','roomVOList[3].furniture');	//9
 			$('.room4 ul input').eq(7).attr('name','roomVOList[3].incFurniture');	//10
 			$('.room4').show();
-			$('#roomPlus').css("display",'none');
-			$('#roomMinus').css("display",'inline-block');
 		}
 	});
 	$("#roomMinus").click(function(){
 		if($(".room4").css("display") == "block"){//닫기
-			$('.room4 ul input').eq(0).attr('name','');	//1
-			$('.room4 ul input').eq(1).attr('name','');		//2
-			$('.room4 ul input').eq(2).attr('name','');	//3
-			$('.room4 ul input').eq(3).attr('name','');	//4
-			$('.room4 ul input').eq(4).attr('name','');	//5
-			$('.room4 ul select').eq(0).attr('name','');	//6
-			$('.room4 ul select').eq(1).attr('name','');	//7
-			$('.room4 ul input').eq(5).attr('name','');	//8
-			$('.room4 ul input').eq(6).attr('name','');	//9
-			$('.room4 ul input').eq(7).attr('name','');	//10
-			$('.room4').hide();
+			if(confirm('방을 제거하면 3번방 정보가 삭제됩니다.')){
+				$('.room4 ul input').eq(0).attr('name','');	//1
+				$('.room4 ul input').eq(0).val('');	
+				$('.room4 ul input').eq(1).attr('name','');		//2
+				$('.room4 ul input').eq(1).val('');	
+				$('.room4 ul input').eq(2).attr('name','');	//3
+				$('.room4 ul input').eq(2).val('');	
+				$('.room4 ul input').eq(3).attr('name','');	//4
+				$('.room4 ul input').eq(3).val('');	
+				$('.room4 ul input').eq(4).attr('name','');	//5
+				$('.room4 ul input').eq(4).val('');
+				
+				$('.room4 ul select').eq(0).attr('name','');	//6
+				$('.room4 ul select').eq(1).attr('name','');	//7
+				
+				$('.room4 ul input').eq(5).attr('name','');	//8
+				$('.room4 ul input').eq(5).val('');	
+				$('.room4 ul input').eq(6).attr('name','');	//9
+				$('.room4 ul input').eq(6).val('');	
+				$('.room4 ul input').eq(7).attr('name','');	//10
+				$('.room4 ul input').eq(7).val('');	
+				$('.room4').hide();
+			}
 		}else if($(".room3").css("display") == "block"){
-			$('.room3 ul input').eq(0).attr('name','');	//1
-			$('.room3 ul input').eq(1).attr('name','');		//2
-			$('.room3 ul input').eq(2).attr('name','');	//3
-			$('.room3 ul input').eq(3).attr('name','');	//4
-			$('.room3 ul input').eq(4).attr('name','');	//5
-			$('.room3 ul select').eq(0).attr('name','');	//6
-			$('.room3 ul select').eq(1).attr('name','');	//7
-			$('.room3 ul input').eq(5).attr('name','');	//8
-			$('.room3 ul input').eq(6).attr('name','');	//9
-			$('.room3 ul input').eq(7).attr('name','');	//10
-			$('.room3').hide();
+			if(confirm('방을 제거하면 3번방 정보가 삭제됩니다.')){
+				$('.room3 ul input').eq(0).attr('name','');	//1
+				$('.room3 ul input').eq(0).val('');	
+				$('.room3 ul input').eq(1).attr('name','');		//2
+				$('.room3 ul input').eq(1).val('');	
+				$('.room3 ul input').eq(2).attr('name','');	//3
+				$('.room3 ul input').eq(2).val('');	
+				$('.room3 ul input').eq(3).attr('name','');	//4
+				$('.room3 ul input').eq(3).val('');	
+				$('.room3 ul input').eq(4).attr('name','');	//5
+				$('.room3 ul input').eq(4).val('');	
+				
+				$('.room3 ul select').eq(0).attr('name','');	//6
+				$('.room3 ul select').eq(1).attr('name','');	//7
+				
+				$('.room3 ul input').eq(5).attr('name','');	//8
+				$('.room3 ul input').eq(5).val('');	
+				$('.room3 ul input').eq(6).attr('name','');	//9
+				$('.room3 ul input').eq(6).val('');	
+				$('.room3 ul input').eq(7).attr('name','');	//10
+				$('.room3 ul input').eq(7).val('');	
+				$('.room3').hide();
+			}
 		}else if($(".room2").css("display") == "block"){
-			$('.room2 ul input').eq(0).attr('name','');	//1
-			$('.room2 ul input').eq(1).attr('name','');		//2
-			$('.room2 ul input').eq(2).attr('name','');	//3
-			$('.room2 ul input').eq(3).attr('name','');	//4
-			$('.room2 ul input').eq(4).attr('name','');	//5
-			$('.room2 ul select').eq(0).attr('name','');	//6
-			$('.room2 ul select').eq(1).attr('name','');	//7
-			$('.room2 ul input').eq(5).attr('name','');	//8
-			$('.room2 ul input').eq(6).attr('name','');	//9
-			$('.room2 ul input').eq(7).attr('name','');	//10
-			$('.room2').hide();
-			$('#roomPlus').css("display",'inline-block');
-			$('#roomMinus').css("display",'none');
+			if(confirm('방을 제거하면 2번방 정보가 삭제됩니다.')){
+				$('.room2 ul input').eq(0).attr('name','');	//1
+				$('.room2 ul input').eq(0).val('');	
+				$('.room2 ul input').eq(1).attr('name','');		//2
+				$('.room2 ul input').eq(1).val('');	
+				$('.room2 ul input').eq(2).attr('name','');	//3
+				$('.room2 ul input').eq(2).val('');	
+				$('.room2 ul input').eq(3).attr('name','');	//4
+				$('.room2 ul input').eq(3).val('');	
+				$('.room2 ul input').eq(4).attr('name','');	//5
+				$('.room2 ul input').eq(4).val('');	
+	
+				$('.room2 ul select').eq(0).attr('name','');	//6
+				$('.room2 ul select').eq(1).attr('name','');	//7
+				
+				$('.room2 ul input').eq(5).attr('name','');	//8
+				$('.room2 ul input').eq(5).val('');	
+				$('.room2 ul input').eq(6).attr('name','');	//9
+				$('.room2 ul input').eq(6).val('');	
+				$('.room2 ul input').eq(7).attr('name','');	//10
+				$('.room2 ul input').eq(7).val('');	
+				$('#roomMinus').css("display",'none');
+				$('.room2').hide();
+			}	
 		}
 	});
 
@@ -693,7 +727,7 @@ $(function(){
 			<div class="room2">
 				<br><br>
 				<div class="title_wrap">
-					<p class="s_title">두번째 방 임대료 및 입주정보 </p><br/>
+					<p class="s_title">2번 방 임대료 및 입주정보 </p><br/>
 					<p>&nbsp;</p>
 				</div><br><br>
 				<ul class="form_box room_box">
@@ -734,7 +768,7 @@ $(function(){
 			<div class="room3">
 				<br><br>
 				<div class="title_wrap">
-					<p class="s_title">세번째 방 임대료 및 입주정보 </p> <br/>
+					<p class="s_title">3번 방 임대료 및 입주정보 </p> <br/>
 					<p>&nbsp;</p>
 				</div><br><br>
 				<ul class="form_box room_box room3">
@@ -775,7 +809,7 @@ $(function(){
 			<div class="room4">
 				<br><br>
 				<div class="title_wrap">
-					<p class="s_title">네번째 방 임대료 및 입주정보</p><br/>
+					<p class="s_title">4번 방 임대료 및 입주정보</p><br/>
 					<p>&nbsp;</p>
 				</div><br><br>
 				<ul class="form_box room_box ">
