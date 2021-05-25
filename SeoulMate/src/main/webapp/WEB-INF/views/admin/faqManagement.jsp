@@ -53,9 +53,6 @@
 					$("#faqNo").val(data.no);
 					$("#faqSubject").val(data.subject);
 					CKEDITOR.instances.faqContent.setData(data.content);
-
-// 					$("#faqContent").html(data.content);
-					console.log(data.content);
 				},error(){
 					console.log("자주하는 질문 데이터 읽어오기 에러 발생");
 				}
