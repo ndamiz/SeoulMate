@@ -3,6 +3,7 @@ package com.seoulmate.home.controller;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -250,10 +251,13 @@ public class HouseController {
 	//하우스 글 등록 확인
 	@RequestMapping(value="/houseWriteOk", method = RequestMethod.POST)
 	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
-	public ModelAndView houseWriteOk(HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, 
-				@RequestParam("filename") MultipartFile img1, HttpSession session ,HttpServletRequest req,
-				 @RequestParam("filename2") MultipartFile img2, @RequestParam("filename3") MultipartFile img3,
-				 @RequestParam("filename4") MultipartFile img4,  @RequestParam("filename5") MultipartFile img5) {
+	public ModelAndView houseWriteOk(HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, HttpSession session ,HttpServletRequest req
+//				@RequestParam("filename") MultipartFile img1, 
+//				 @RequestParam("filename2") MultipartFile img2, 
+//			@RequestParam("filename3") MultipartFile img3,
+//				 @RequestParam("filename4") MultipartFile img4,  
+//			@RequestParam("filename5") MultipartFile img5
+			) {
 		
 		System.out.println(pVO.getPno());
 		String userid=(String)session.getAttribute("logId");
@@ -602,7 +606,8 @@ public class HouseController {
 	//하우스 수정 확인
 	@RequestMapping(value="/houseEditOk", method = RequestMethod.POST)
 	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
-	public ModelAndView houseEditOk(HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, HttpServletRequest req) {
+	public ModelAndView houseEditOk(HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, HttpServletRequest req,
+			@RequestParam("filename") MultipartFile filename) {
 		ModelAndView mav = new ModelAndView();
 		String userid = (String)req.getSession().getAttribute("logId");
 		hVO.setUserid(userid);
@@ -610,41 +615,50 @@ public class HouseController {
 		pVO.setUserid(userid);
 		//사진 수정
 		String path = req.getSession().getServletContext().getRealPath("/housePic");
-		String selFilename = service.houseProfilePic(userid, hVO.getNo()); //아이디, no
-		String delFilename = req.getParameter("delFile");
-		String selFilename2 = service.houseProfilePic2(userid, hVO.getNo());
-		String delFilename2 = req.getParameter("delFile2");
+//		String selFilename = service.houseProfilePic(userid, hVO.getNo()); //아이디, no
+//		String delFilename = req.getParameter("delFile");
+//		String selFilename2 = service.houseProfilePic2(userid, hVO.getNo());
+//		String delFilename2 = req.getParameter("delFile2");
 //		
 //		System.out.println(selFilename);
 //		System.out.println(selFilename2);
 		
-		hVO = service.houseSelect(hVO.getNo(), userid);
-		
+//		hVO = service.houseSelect(hVO.getNo(), userid);
+		String[] fileName = service.houseProfilePic(userid, hVO.getNo());
+		System.out.println("파일 네임 확인-> "+fileName[0]);
 		//DB의 파일명을 가져온다
-		
+		String housepic1 = fileName[0];
 		List<String> selFile = new ArrayList<String>();
-		selFile.add(hVO.getHousepic1());
-		if(hVO.getHousepic2()!=null && !hVO.getHousepic2().equals("")) {
-			selFile.add(hVO.getHousepic2());
-		}
-		if(hVO.getHousepic3()!=null && !hVO.getHousepic3().equals("")) {
-			selFile.add(hVO.getHousepic3());
-		}
-		if(hVO.getHousepic4()!=null && !hVO.getHousepic4().equals("")) {
-			selFile.add(hVO.getHousepic4());
-		}
-		if(hVO.getHousepic5()!=null && !hVO.getHousepic5().equals("")) {
-			selFile.add(hVO.getHousepic5());
+//		selFile.add(hVO.getHousepic1());
+//		selFile.add(fileName[0]);
+//		System.out.println(hVO.getHousepic1());
+		for(int i=0; i<fileName.length; i++) {
+			if(fileName[i]!=null && !fileName[i].equals("")) {
+				selFile.add(fileName[i]);
+				
+			}
+//			if(fileName[2]!=null && !fileName[2].equals("")) {
+//				selFile.add(fileName[2]);
+//			}
+//			if(fileName[3]!=null && !fileName[3].equals("")) {
+//				selFile.add(fileName[3]);
+//			}
+//			if(fileName[4]!=null && !fileName[4].equals("")) {
+//				selFile.add(fileName[4]);
+//			}
 		}
 		
+		for(int i=0; i<selFile.size(); i++) {
+			System.out.println("selFile 확인=> "+selFile.get(i));
+		}
 		
 		//삭제한 파일 가져오기
 		String delFile[] = req.getParameterValues("delFile"); //파일 수정하여 삭제한 파일을 배열로 받아온다
-		
+//		System.out.println("삭제파일 확인-> "+delFile[0]);
 		MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
 	    List<MultipartFile> list = mr.getFiles("filename");//업로드된 파일목록을가져온다
 	    
-		System.out.println("리스트 확인-> "+list.size());
+		System.out.println("리스트(업로드된 목록) 확인-> "+list.size());
 		
 	    List<String> newUpload = new ArrayList<String>();
 		if(newUpload!=null && list.size()>0) { //새로 수정되어 업로드 된 파일이 있는 경우
@@ -669,41 +683,54 @@ public class HouseController {
 						}
 						newUpload.add(ff.getName());
 						
+						
 					}//if문 종료
 				}//if문 종료
 			}//for문 종료
 		}//if문 종료
-		
+		System.out.println(Arrays.toString(delFile));
 		//DB선택파일 목록에서 삭제한 파일 지우기 -> 최종적으로 DB에 올라갈 파일을 제외한 나머지 파일 삭제
 		if(delFile!=null) { //삭제할 파일이 있는 경우
 			for(String delName : delFile) {
-				selFile.remove(delName); //delName -> 삭제할 파일명
-				
+				File f = new File(path, delName);
+				f.delete(); //delName -> 삭제할 파일명
 			}
 		}
+//		System.out.println("삭제파일 갯수-> "+delFile.length);
+		
+		List<String> orgFile = new ArrayList<String>();
+		
 		
 		//DB선택파일 목록에서 새로 업로드 된 파일명 추가하기
 		for(String newFile : newUpload) {
-			selFile.add(newFile); //newFile -> 새로 업로드 할 파일명
-		}
-		hVO.setHousepic1(selFile.get(0));
-		
-		if(selFile.size()>1) { //filename2 있을 경우
-			hVO.setHousepic2(selFile.get(1));
+			orgFile.add(newFile); //newFile -> 새로 업로드 할 파일명
+			System.out.println("파일명 확인-> "+newFile);
+			System.out.println("sel확인-> "+orgFile.get(0).toString());
 		}
 		
-		if(selFile.size()>2) { //filename3 있을 경우
-			hVO.setHousepic3(selFile.get(2));
+		hVO.setHousepic1(orgFile.get(0));
+		System.out.println("하우스픽1 확인-> "+hVO.getHousepic1());
+			if(orgFile.size()>1) { //filename2 있을 경우
+				hVO.setHousepic2(orgFile.get(1));
+			}
+			
+			if(orgFile.size()>2) { //filename3 있을 경우
+				hVO.setHousepic3(orgFile.get(2));
+			}
+			
+			if(orgFile.size()>3) { //filename4 있을 경우
+				hVO.setHousepic4(orgFile.get(3));
+			}
+			
+			if(orgFile.size()>4) { //filename5 있을 경우
+				hVO.setHousepic5(orgFile.get(4));
+			}
+		
+		for(int i=0; i<orgFile.size(); i++) {
+			System.out.println(orgFile.get(i));
 		}
 		
-		if(selFile.size()>3) { //filename4 있을 경우
-			hVO.setHousepic4(selFile.get(3));
-		}
 		
-		if(selFile.size()>4) { //filename5 있을 경우
-			hVO.setHousepic5(selFile.get(4));
-		}
-
 		System.out.println(hVO.getHousepic1());
 		System.out.println(hVO.getHousepic2());
 		System.out.println(hVO.getHousepic3());
@@ -723,6 +750,18 @@ public class HouseController {
 			pVO.setPno(hVO.getPno());
 			int result1 = service.houseUpdate(hVO);
 			if(result1>0) {
+				if(delFile!=null ) { //삭제한 파일 지우기
+					for(String dFile : delFile) {
+						try {
+							File dFileObj = new File(path, dFile);
+							dFileObj.delete();
+						}catch(Exception e) {
+							System.out.println("파일명 추가 에러");
+							e.printStackTrace();
+							System.out.println("삭제 파일-> "+delFile.length);
+						}
+					}
+				}
 				System.out.println("하우스 업데이트 성공");
 //				if(delFilename!=null) {
 //					try {
@@ -738,32 +777,13 @@ public class HouseController {
 				int result2 = service.roomUpdate(rVO);
 				if(result2>0) {
 					System.out.println("방 수정 성공");
-					if(delFile!=null ) { //삭제한 파일 지우고 글 내용보기로 돌아가기
-						for(String dFile : delFile) {
-							try {
-								File dFileObj = new File(path, dFile);
-								dFileObj.delete();
-							}catch(Exception e) {
-								System.out.println("파일명 추가 에러");
-								e.printStackTrace();
-								
-							}
-						}
-					}
+					
 					pVO.setPno(hVO.getPno());
 					int result3 = service.propHouseUpdate(pVO);
 					if(result3>0) {
 						System.out.println("성향 수정 성공");
-//						if(delFilename!=null) {
-//							try {
-//								File dFileObj=new File(path, delFilename);
-//								dFileObj.delete();
-//							}catch(Exception e) {
-//								System.out.println("글 수정 중 삭제할 파일 삭제 에러 발생");
-//								e.printStackTrace();
-//							}
-//						}
-						if(delFile!=null ) { //삭제한 파일 지우고 글 내용보기로 돌아가기
+//						
+						if(delFile!=null ) { //삭제한 파일 지우기
 							for(String dFile : delFile) {
 								try {
 									File dFileObj = new File(path, dFile);
@@ -789,33 +809,23 @@ public class HouseController {
 						System.out.println("성향 수정 실패");
 						
 						mav.setViewName("redirect:houseEdit");
-						if(newUpload.size()>0) { //새로 업로드 하려 했던 파일 지우고 다시 수정form으로 이동
-							for(String newFile : newUpload) {
-								try {
-									File dFileObj = new File(path, newFile);
-									dFileObj.delete();
-								}catch(Exception e) {
-									System.out.println("수정 실패");
-									e.printStackTrace();
-								}
-							}
-						}
 					}
 				}else {
 					System.out.println("방 수정 실패");
-//					if(newUpload!=null && !newUpload.equals("")){ // 올리려는 새 이미지가 있을 때
-//						try {
-//							File dFileObj=new File(path, newUpload);
-//							dFileObj.delete();
-//						}catch(Exception e) {
-//							System.out.println("새로 업로드된 파일 지우기 에러 발생");
-//							e.printStackTrace();
-//						}
-//					}
-					
 				}
 			}else {
 				System.out.println("하우스 업데이트 실패");
+				if(newUpload.size()>0) { //새로 업로드 하려 했던 파일 지우고 다시 수정form으로 이동
+					for(String newFile : newUpload) {
+						try {
+							File dFileObj = new File(path, newFile);
+							dFileObj.delete();
+						}catch(Exception e) {
+							System.out.println("수정 실패");
+							e.printStackTrace();
+						}
+					}
+				}
 			
 				mav.setViewName("redirect:houseEdit");
 			}
@@ -835,8 +845,7 @@ public class HouseController {
 					}
 				}
 			}
-
-			
+			mav.setViewName("redirect:houseEdit");
 //		}
 		} //filename 종료
 		return mav;

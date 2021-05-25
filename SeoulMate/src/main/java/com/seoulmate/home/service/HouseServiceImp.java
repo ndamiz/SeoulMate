@@ -114,7 +114,7 @@ public class HouseServiceImp implements HouseService {
 	}
 
 	@Override
-	public String houseProfilePic(String userid ,int no) { //하우스사진 가져오기
+	public String[] houseProfilePic(String userid ,int no) { //하우스사진 가져오기
 		return hDAO.houseProfilePic(userid, no);
 	}
 

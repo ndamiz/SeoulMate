@@ -40,11 +40,11 @@
 	</insert>
 	<update id="houseUpdate" parameterType="com.seoulmate.home.vo.HouseWriteVO">
 		update housewrite set addr=#{addr}, 
-		<if test="housepic1!=null and housepic1!=''">housepic1=#{housepic1}, </if>
-		<if test="housepic2!=null and housepic2!=''">housepic2=#{housepic2, jdbcType=VARCHAR}, </if>
-		<if test="housepic3!=null and housepic3!=''">housepic3=#{housepic3, jdbcType=VARCHAR}, </if>
-		<if test="housepic4!=null and housepic4!=''">housepic4=#{housepic4, jdbcType=VARCHAR}, </if>
-		<if test="housepic5!=null and housepic5!=''">housepic5=#{housepic5, jdbcType=VARCHAR}, </if>
+		housepic1=#{housepic1, jdbcType=VARCHAR}, 
+		housepic2=#{housepic2, jdbcType=VARCHAR},
+		housepic3=#{housepic3, jdbcType=VARCHAR}, 
+		housepic4=#{housepic4, jdbcType=VARCHAR}, 
+		housepic5=#{housepic5, jdbcType=VARCHAR}, 
 		room=#{room}, bathroom=#{bathroom}, nowpeople=#{nowpeople}, searchpeople=#{searchpeople},
 		publicfacility=#{publicfacilityStr}, houseprofile=#{houseprofile}, housename=#{housename} where userid=#{userid} and no=${no}
 	</update>
@@ -59,7 +59,7 @@
 		 housestate, houseprofile from housewrite where no=#{param1} and userid=#{param2}
 	</select>
 		<select id="houseSelect2"  resultType="com.seoulmate.home.vo.HouseWriteVO">
-		 select no, pno, userid, addr, housename, housepic1, housepic2, housepic3, housepic4, housepic5, room, bathroom, nowpeople, searchpeople, publicfacility, writedate, enddate, 
+		 select no, pno, userid, addr, housename, housepic1, housepic2, housepic3, housepic4, housepic5, room, bathroom, nowpeople, searchpeople, publicfacility as publicfacilityStr, writedate, enddate, 
 		 housestate, houseprofile from housewrite where no=#{param1}
 	</select>
 	<delete id="houseDel" parameterType="com.seoulmate.home.vo.HouseWriteVO">

@@ -394,41 +394,41 @@ $(function(){
 					<c:if test="${hVO.housepic2!=null && hVO.housepic2!='' }"> <!-- 두번째 첨부파일이 있을 경우 -->
 					<div>${hVO.housepic2 } <b>X</b> </div>
 					<input type="hidden" name="" value=${hVO.housepic2 }/>
-					<input type="hidden" name="filename2"/>
+					<input type="hidden" name="filename"/>
 					</c:if>
 					
 					<c:if test="${hVO.housepic2==null || hVO.housepic2=='' }"> <!-- 두번째 첨부파일이 없을 경우 -->
-					<input type="file" name="filename2"/>
+					<input type="file" name="filename"/>
 					</c:if>
 					
 					<c:if test="${hVO.housepic3!=null && hVO.housepic3!='' }"> <!-- 세번째 첨부파일이 있을 경우 -->
 					<div>${hVO.housepic3 } <b>X</b> </div>
 					<input type="hidden" name="" value=${hVO.housepic3 }/>
-					<input type="hidden" name="filename3"/>
+					<input type="hidden" name="filename"/>
 					</c:if>
 					
 					<c:if test="${hVO.housepic3==null || hVO.housepic3=='' }"> <!-- 세번째 첨부파일이 없을 경우 -->
-					<input type="file" name="filename3"/>
+					<input type="file" name="filename"/>
 					</c:if>
 					
 					<c:if test="${hVO.housepic4!=null && hVO.housepic4!='' }"> <!-- 네번째 첨부파일이 있을 경우 -->
 					<div>${hVO.housepic4 } <b>X</b> </div>
 					<input type="hidden" name="" value=${hVO.housepic4 }/>
-					<input type="hidden" name="filename4"/>
+					<input type="hidden" name="filename"/>
 					</c:if>
 					
 					<c:if test="${hVO.housepic4==null || hVO.housepic4=='' }"> <!-- 네번째 첨부파일이 없을 경우 -->
-					<input type="file" name="filename4"/>
+					<input type="file" name="filename"/>
 					</c:if>
 					
 					<c:if test="${hVO.housepic5!=null && hVO.housepic5!='' }"> <!-- 다섯번째 첨부파일이 있을 경우 -->
 					<div>${hVO.housepic5 } <b>X</b> </div>
 					<input type="hidden" name="" value=${hVO.housepic5 }/>
-					<input type="hidden" name="filename5"/>
+					<input type="hidden" name="filename"/>
 					</c:if>
 					
 					<c:if test="${hVO.housepic5==null || hVO.housepic5=='' }"> <!-- 다섯번째 첨부파일이 없을 경우 -->
-					<input type="file" name="filename5"/>
+					<input type="file" name="filename"/>
 					</c:if>
 					
 				<br/> 
