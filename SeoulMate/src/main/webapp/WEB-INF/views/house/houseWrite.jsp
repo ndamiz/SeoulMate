@@ -617,7 +617,7 @@ $(function(){
 					<input type="file" accept="image/*" name="filename5"  id="housepic5" onchange="readURL(this);"/> 
 					<br/> 
 				</li>
-					<li><span class="btn-delete">삭제</span></li>
+					
 			</ul>
 				<div class="btnclass">
 					<a class="green" id="hPrev3">이전</a>

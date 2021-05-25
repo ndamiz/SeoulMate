@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -543,7 +544,7 @@ public class MateController {
 	@RequestMapping(value = "/mateWriteOk", method = RequestMethod.POST)
 	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
 	public ModelAndView mateWriteOk(MateWriteVO mVO, PropensityVO pVO, HttpSession session, HttpServletRequest req,
-			@RequestParam("filename") MultipartFile img1, @RequestParam("filename2") MultipartFile img2, @RequestParam("filename3") MultipartFile img3) {
+			@RequestParam("filename1") MultipartFile img1, @RequestParam("filename2") MultipartFile img2, @RequestParam("filename3") MultipartFile img3) {
 		String userid = (String)session.getAttribute("logId");
 		mVO.setUserid(userid);
 		pVO.setUserid(userid);
@@ -567,7 +568,7 @@ public class MateController {
 						f=new File(path, name+"_"+ i++ +"."+extName);
 					}
 					img1.transferTo(f); // 업로드
-					realName=f.getName();
+					realName = f.getName();
 					mVO.setMatePic1(f.getName());
 				}
 			}catch(Exception e) {
@@ -588,7 +589,7 @@ public class MateController {
 						f2=new File(path, name+"_"+ j++ +"."+extName);
 					}
 					img2.transferTo(f2); // 업로드
-					realName=f2.getName();
+					realName = f2.getName();
 					mVO.setMatePic2(f2.getName());
 				}
 			}catch(Exception e) {
@@ -609,7 +610,7 @@ public class MateController {
 						f3=new File(path, name+"_"+ k++ +"."+extName);
 					}
 					img1.transferTo(f3); // 업로드
-					realName=f3.getName();
+					realName = f3.getName();
 					mVO.setMatePic3(f3.getName());
 				}
 			}catch(Exception e) {
@@ -771,43 +772,90 @@ public class MateController {
 		
 		//사진 수정
 		String path = req.getSession().getServletContext().getRealPath("/matePic");
-		String selFilename = service.MateProfilePic(userid, mVO.getNo()); //아이디, no
-		String delFilename = req.getParameter("delFile");
 		
-		MultipartHttpServletRequest mr=(MultipartHttpServletRequest)req;
-		if(mr.getFile("filename")!=null) {
-			MultipartFile newName=mr.getFile("filename");
+		String[] fileName = service.MateProfilePic(userid, mVO.getNo()); //아이디, no
+		
+		System.out.println("파일 네임 확인-> "+fileName[0]);
+	      //DB의 파일명을 가져온다
+	      List<String> selFile = new ArrayList<String>(); //DB의 존재하는 matePic을 리스트로 받아옴
 
-			String newUpload="";
-			
-			if(newUpload!=null && newName!=null) {
-				String orgname=newName.getOriginalFilename();
-				
-				if(orgname!=null && !orgname.equals("")) {
-					File ff=new File(path, orgname);
-					int i=1;
-					while(ff.exists()) {
-						int pnt=orgname.lastIndexOf(".");
-						String firstName=orgname.substring(0, pnt);
-						String extName=orgname.substring(pnt+1);
-						
-						ff=new File(path, firstName+"_"+ i++ +"."+extName);
-					}
-					try {
-						newName.transferTo(ff);
-					}catch(Exception e) {
-						System.out.println("새로운 파일 추가 수정 에러 발생");
-						e.printStackTrace();
-					}
-					newUpload=ff.getName();
-					System.out.println("리네임된 새로운 파일명 : "+newUpload);
-				}
-			}
-			
+	      for(int i=0; i<fileName.length; i++) {
+	         if(fileName[i]!=null && !fileName[i].equals("")) {
+	            selFile.add(fileName[i]);
+	         }
+	      } 
+	      for(int i=0; i<selFile.size(); i++) {
+		         System.out.println("selFile 확인=> "+selFile.get(i));
+		      }
 		
-		mVO.setMatePic1(newUpload);
+		MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
 		
-		DefaultTransactionDefinition def=new DefaultTransactionDefinition();
+		//삭제한 파일 가져오기
+		String delFile[] = req.getParameterValues("delFile"); //파일 수정하여 삭제한 파일을 배열로 받아온다
+		
+		List<MultipartFile> list = mr.getFiles("filename");//업로드된 파일목록을가져온다
+		
+		List<String> newUpload = new ArrayList<String>();
+	      if(newUpload!=null && list.size()>0) { //새로 수정되어 업로드 된 파일이 있는 경우
+	         for(MultipartFile mf : list) {
+	            if(mf!=null) {
+	               String orgname = mf.getOriginalFilename(); //원(기존)파일명
+	               if(orgname!=null && !orgname.equals("")) {
+	                  File ff = new File(path, orgname);
+	                  int i = 0;
+	                  while(ff.exists()) {
+	                     int pnt = orgname.lastIndexOf("."); //마지막 . 의 위치 구하기
+	                     String firstName = orgname.substring(0, pnt); //파일명 구하기
+	                     String extName = orgname.substring(pnt+1); //확장자 구하기
+	                     
+	                     ff = new File(path, firstName+"("+ ++i +")."+extName);
+	                  }
+	                  try {
+	                     mf.transferTo(ff); //파일 업로드
+	                  }catch(Exception e) {
+	                     System.out.println("새로 추가 업로드 에러");
+	                     e.printStackTrace();
+	                  }
+	                  newUpload.add(ff.getName());
+	              }//if문 종료
+	            }//if문 종료
+	         }//for문 종료
+	      }//if문 종료
+		
+	      System.out.println(Arrays.toString(delFile));
+	      //DB선택파일 목록에서 삭제한 파일 지우기 -> 최종적으로 DB에 올라갈 파일을 제외한 나머지 파일 삭제
+	      if(delFile!=null) { //삭제할 파일이 있는 경우
+	         for(String delName : delFile) {
+	            File f = new File(path, delName);
+	            f.delete(); //delName -> 삭제할 파일명
+	         }
+	      }
+	      
+	      List<String> orgFile = new ArrayList<String>();
+	      
+	      //DB선택파일 목록에서 새로 업로드 된 파일명 추가하기
+	      for(String newFile : newUpload) {
+	         orgFile.add(newFile); //newFile -> 새로 업로드 할 파일명
+	         System.out.println("파일명 확인-> "+newFile);
+	         System.out.println("sel확인-> "+orgFile.get(0).toString());
+	      }
+	      
+	      mVO.setMatePic1(orgFile.get(0)); //새로 업로드된 index0번째 파일 -> matePic1 로 설정
+	      System.out.println("메이트1 확인-> "+mVO.getMatePic1());
+	         if(orgFile.size()>1) { //filename2 있을 경우
+	            mVO.setMatePic2(orgFile.get(1));
+	         }
+	         
+	         if(orgFile.size()>2) { //filename3 있을 경우
+	            mVO.setMatePic3(orgFile.get(2));
+	         }
+	       
+	      for(int i=0; i<orgFile.size(); i++) {
+	         System.out.println(orgFile.get(i));
+	      }
+	
+		
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED); // 트랜잭션 호출
 		TransactionStatus status=transactionManager.getTransaction(def);
 		
@@ -823,44 +871,54 @@ public class MateController {
 					
 					int result3 = service.mateAreaUpdate(mVO.getArea(), userid);
 					if(result3>0) {
-						System.err.println("회원정보 희망지역 수정 완료");
+						System.out.println("회원정보 희망지역 수정 완료");
+						
+						if(delFile!=null ) { //삭제한 파일 지우기
+		                     for(String dFile : delFile) {
+		                        try {
+		                           File dFileObj = new File(path, dFile);
+		                           dFileObj.delete();
+		                        }catch(Exception e) {
+		                           System.out.println("파일명 추가 에러");
+		                           e.printStackTrace();
+		                           
+		                        }
+		                     }
+		                  }
+						
 						transactionManager.commit(status);
-						if(delFilename!=null) {
-							try {
-								File dFileObj=new File(path, delFilename);
-								dFileObj.delete();
-							}catch(Exception e) {
-								System.out.println("글 수정 중 삭제할 파일 삭제 에러 발생");
-								e.printStackTrace();
-							}
-						}
+					
 						mav.setViewName("redirect:mateIndex");
 						
 					}else {
 						System.out.println("희망지역 수정 실패");
-						if(newUpload!=null && !newUpload.equals("")){ // 올리려는 새 이미지가 있을 때
-							try {
-								File dFileObj=new File(path, newUpload);
-								dFileObj.delete();
-							}catch(Exception e) {
-								System.out.println("새로 업로드된 파일 지우기 에러 발생");
-								e.printStackTrace();
-							}
-						}
+						if(newUpload.size()>0) { //새로 업로드 하려 했던 파일 지우고 다시 수정form으로 이동
+				               for(String newFile : newUpload) {
+				                  try {
+				                     File dFileObj = new File(path, newFile);
+				                     dFileObj.delete();
+				                  }catch(Exception e) {
+				                     System.out.println("수정 실패");
+				                     e.printStackTrace();
+				                  }
+				               }
+				            }
 					}
 					
 					
 				}else {
 					System.out.println("메이트성향 수정 실패");
-					if(newUpload!=null && !newUpload.equals("")){ // 올리려는 새 이미지가 있을 때
-						try {
-							File dFileObj=new File(path, newUpload);
-							dFileObj.delete();
-						}catch(Exception e) {
-							System.out.println("새로 업로드된 파일 지우기 에러 발생");
-							e.printStackTrace();
-						}
-					}
+					if(newUpload.size()>0) { //새로 업로드 하려 했던 파일 지우고 다시 수정form으로 이동
+			               for(String newFile : newUpload) {
+			                  try {
+			                     File dFileObj = new File(path, newFile);
+			                     dFileObj.delete();
+			                  }catch(Exception e) {
+			                     System.out.println("수정 실패");
+			                     e.printStackTrace();
+			                  }
+			               }
+			            }
 					mav.setViewName("redirect:mateEdit");
 				}
 			}else {
@@ -870,18 +928,20 @@ public class MateController {
 		}catch(Exception e) {
 			System.out.println("메이트 글+성향 수정 실패");
 			//사진 수정 트랜잭션 실행문
-			if(newUpload!=null && !newUpload.equals("")){ // 올리려는 새 이미지가 있을 때
-				try {
-					File dFileObj=new File(path, newUpload);
-					dFileObj.delete();
-				}catch(Exception ee) {
-					System.out.println("새로 업로드된 파일 지우기 에러 발생");
-					ee.printStackTrace();
-				}
-			}
+			if(newUpload.size()>0) { //새로 업로드 하려 했던 파일 지우고 다시 수정form으로 이동
+	               for(String newFile : newUpload) {
+	                  try {
+	                     File dFileObj = new File(path, newFile);
+	                     dFileObj.delete();
+	                  }catch(Exception e2) {
+	                     System.out.println("수정 실패");
+	                     e2.printStackTrace();
+	                  }
+	               }
+	            }	
 		
 	}
-	} //filename 종료
+
 		
 		return mav;
 	}
@@ -894,11 +954,15 @@ public class MateController {
 		
 		String userid = (String)req.getSession().getAttribute("logId");
 		
+//		String path = req.getSession().getServletContext().getRealPath("/matePic"); 
+//		String[] dbFilename = service.MateProfilePic(userid, no);
+		
 		
 			int result1 = service.mateDel(mVO.getNo(), userid);
 			
 			if(result1>0) { 
 				System.out.println("메이트 삭제 성공"); // 사진 파일 삭제 어떻게?
+		
 				
 				mav.setViewName("redirect:mateIndex");
 			}else { 

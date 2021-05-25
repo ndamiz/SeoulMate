@@ -28,7 +28,7 @@
 		from matewrite where userid=#{param1}
 	</select>
 	<select id="MateProfilePic" resultType="String">
-  		select matePic1 from matewrite where userid=#{param1} and no=#{param2}
+  		select matePic1, matePic2, matePic3 from matewrite where userid=#{param1} and no=#{param2}
   	</select>
 	
 	<delete id="mateDel" parameterType="com.seoulmate.home.vo.MateWriteVO">

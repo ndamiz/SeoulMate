@@ -63,7 +63,7 @@ $(function(){
 // 	    alert("선택해주세요");
 // 	}
 	//
-	$("#file b").click(function(){
+	$("#file b").click(function(){ //파일 업로드 X 버튼 누르면 삭제
       $(this).parent().css("display", "none");
       $(this).parent().next().attr("name", "delFile");
       $(this).parent().next().next().attr('type', 'file');
@@ -252,7 +252,7 @@ $(function(){
 		</div>
 			
 			<ul class="form_box">
-				<li> <label><span class="red_txt">*</span>주소 </label> <input type="text" name="addr" value="${hVO.addr }" /> </li>
+				<li> <label><span class="red_txt">*</span>주소 </label> <input type="text" name="addr" value="${hVO.addr }" readonly/> </li> <!-- 주소 수정 못하게 막아둠 -->
 				<li><label><span class="red_txt">*</span>하우스 이름 </label> <input type="text" name="housename" value="${hVO.housename }"/></li>
 			<li> <label><span class="red_txt">*</span>총 방 개수 </label><select name="room" >
 						<option value="1" <c:if test="${hVO.room==1 }">selected </c:if> >1</option>
