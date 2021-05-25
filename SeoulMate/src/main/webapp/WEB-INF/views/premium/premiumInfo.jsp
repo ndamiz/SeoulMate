@@ -35,7 +35,7 @@
 		<div id="premiumInfoImg">
 			<ul>
 				<li>	
-					<img src="<%=request.getContextPath()%>/img/premiumAfter.jpg"/>
+					<img src="<%=request.getContextPath()%>/img/premiumbefore.jpg"/>
 					<img src="<%=request.getContextPath()%>/img/img01.jpg"/>
 					<img src="<%=request.getContextPath()%>/img/premiumAfter.jpg"/>
 				</li>

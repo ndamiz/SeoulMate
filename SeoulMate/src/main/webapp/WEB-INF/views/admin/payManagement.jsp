@@ -93,7 +93,9 @@
 								<td>
 									<c:if test="${vo.refund==null }">
 									<input type="button" value="환불" name="cancelPay" class="btn btn-outline-secondary btn-sm cancelPay"/>
+									
 									</c:if>
+									<c:if test="${vo.refund!=null }">환불완료</c:if>
 									<input type="hidden" name="merchant_uid" value="${vo.merchant_uid }"/>
 									<input type="hidden" name="amount" value="${vo.amount }" />
 								</td>
@@ -135,9 +137,32 @@
 	</body>
 	<script>
 		$(function(){
+			var nodeResult = '<c:out value="${nodeResult }"/>';
+			if(nodeResult != null && nodeResult != ''){
+				if( Number(nodeResult) == -2){
+					alert("환불기간 지났음");
+				}else if( Number(nodeResult) == -1){
+					alert("에러");
+				}else if(Number(nodeResult) == 0){
+					alert("업데이트가안댐");
+				}else if(Number(nodeResult) == 1){
+					alert("처리완료");
+				}
+			}
 			//환불 요청 .. 
 			$(document).on('click','.cancelPay', function(){
-				if(confirm("환불 하시겠습니까?")){
+				var payStart = $(this).parent().prev().prev().prev().prev().text();
+				var date1 = new Date(payStart);
+				var date2 = new Date();
+				console.log(date1);
+				console.log(date2);
+				console.log(date1<date2);
+				var dateDiff = Math.ceil((date2.getTime()-date1.getTime())/(1000*3600*24));
+				console.log(dateDiff);
+// 				if(dateDiff>1){
+// 					alert("환불 가능한 일수가 지나 환불이 불가합니다. ");
+// 				}else 
+					if(confirm("환불 하시겠습니까?")){
 					var merchant_uid = $(this).parent().children().eq(1).val();
 					var userAmount = $(this).parent().children().eq(2).val();
 					var amount = Number(userAmount)/100;
@@ -174,12 +199,19 @@
 					$.ajax({
 						url : "/home/admin/cancelPay",
 						data : data,
+						method : 'POST',
 						success : function(result){
 							console.log("cancelPay =====>> "+result);
+							window.location.reload();
 						},error : function(){
 							console.log('환불 - nodejs - 에러 ');
 						}
 					});
+					setTimeout(function() {
+						window.location.reload();
+					}, 1500);
+					
+					
 				}
 			});
 			

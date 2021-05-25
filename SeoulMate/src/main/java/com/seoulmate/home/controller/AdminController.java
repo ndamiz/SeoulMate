@@ -586,6 +586,7 @@ public class AdminController {
 	//관리자 - 결제 
 	@RequestMapping(value="/admin/payManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView payManagement(PayVO payVO, PagingVO pagingVO, String nodeResult) {
+		System.out.println("?? ");
 		ModelAndView mav = new ModelAndView();
 		// 1.총 레코드 
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -611,9 +612,7 @@ public class AdminController {
 		if(pagingVO.getPageNum()>pagingVO.getTotalPage()) {
 			pagingVO.setPageNum(pagingVO.getTotalPage());
 		}
-		if(nodeResult == null || nodeResult.equals("")) {
-			nodeResult = "0";
-		}
+		
 		mav.addObject("payVO", payVO);
 		mav.addObject("pagingVO", pagingVO);
 		mav.addObject("nodeResult", nodeResult);
@@ -854,9 +853,9 @@ public class AdminController {
 		return result;
 	}
 	
-	@RequestMapping("/admin/cancelPay")
+	@RequestMapping(value="/admin/cancelPay" , method=RequestMethod.POST)
 	@ResponseBody
-	public void cancelPay(Model model, String merchant_uid, String cancel_request_amount, String selectYearMonthDate,
+	public String cancelPay(Model model, String merchant_uid, String cancel_request_amount, String selectYearMonthDate,
 				String selectStartDate, String selectEndDate, String orderCondition, String orderUpDown,
 				String searchKey, String searchWord, int pageNum) {
 		JsonObject cancelData = new  JsonObject();
@@ -870,55 +869,57 @@ public class AdminController {
 		cancelData.addProperty("searchKey",searchKey);
 		cancelData.addProperty("searchWord",searchWord);
 		cancelData.addProperty("pageNum",Integer.toString(pageNum));
-		URLConn conn = new URLConn("http://192.168.0.20", 9092);
+		URLConn conn = new URLConn("http://192.168.0.33", 9092);
 		conn.urlPost(cancelData);
-	}
-	@RequestMapping(value="/admin/resultCancelPay", method=RequestMethod.POST, consumes = "application/json")
-	public ModelAndView resultCancelPay(@RequestBody String body) {
-		ModelAndView mav = new ModelAndView();
-		System.out.println(body);
-		PayVO payVO = new PayVO();
-		PagingVO pagingVO = new PagingVO();
-		String result = "";
-		try {
-			JSONObject jObj = new JSONObject(body);
-			result = jObj.getString("result");
-			if(result == null) {
-				result = "0";
-			}
-			payVO.setSelectYearMonthDate(jObj.getString("selectYearMonthDate"));
-			String selectStartDate = jObj.getString("selectStartDate");
-			if(selectStartDate!=null) {
-				payVO.setSelectStartDate(selectStartDate);
-			}
-			String selectEndDate = jObj.getString("selectEndDate");
-			if(selectEndDate!=null) {
-				payVO.setSelectEndDate(selectEndDate);
-			}
-			payVO.setOrderCondition(jObj.getString("orderCondition"));
-			payVO.setOrderUpDown(jObj.getString("orderUpDown"));
-			String searchKey = jObj.getString("searchKey");
-			if(searchKey != null) {
-				pagingVO.setSearchKey(searchKey);
-			}
-			String searchWord = jObj.getString("searchWord");
-			if(searchWord!=null) {
-				pagingVO.setSearchWord(searchWord);
-			}
-			String pageNum = jObj.getString("pageNum");
-			if(pageNum!=null) {
-				pagingVO.setPageNum(Integer.parseInt(pageNum));
-			}else if(pageNum == null) {
-				pagingVO.setPageNum(1);
-			}
-		} catch (NumberFormatException e) {
-			pagingVO.setPageNum(1);
-		}
-		mav.addObject("payVO", payVO);
-		mav.addObject("pagingVO", pagingVO);
-		mav.addObject("nodeResult", result);
-		mav.setView(new RedirectView("home/admin/payManagement"));
 		
-		return mav;
+		
+		return "end";
 	}
+//	@RequestMapping(value="/admin/resultCancelPay", method=RequestMethod.POST, consumes = "application/json")
+//	public ModelAndView resultCancelPay(@RequestBody String body) {
+//		System.out.println(body);
+//		PayVO payVO = new PayVO();
+//		PagingVO pagingVO = new PagingVO();
+//		String result = "";
+//		try {
+//			JSONObject jObj = new JSONObject(body);
+//			result = jObj.getString("result");
+//			if(result == null) {
+//				result = "0";
+//			}
+//			payVO.setSelectYearMonthDate(jObj.getString("selectYearMonthDate"));
+//			String selectStartDate = jObj.getString("selectStartDate");
+//			if(selectStartDate!=null) {
+//				payVO.setSelectStartDate(selectStartDate);
+//			}
+//			String selectEndDate = jObj.getString("selectEndDate");
+//			if(selectEndDate!=null) {
+//				payVO.setSelectEndDate(selectEndDate);
+//			}
+//			payVO.setOrderCondition(jObj.getString("orderCondition"));
+//			payVO.setOrderUpDown(jObj.getString("orderUpDown"));
+//			String searchKey = jObj.getString("searchKey");
+//			if(searchKey != null) {
+//				pagingVO.setSearchKey(searchKey);
+//			}
+//			String searchWord = jObj.getString("searchWord");
+//			if(searchWord!=null) {
+//				pagingVO.setSearchWord(searchWord);
+//			}
+//			String pageNum = jObj.getString("pageNum");
+//			if(pageNum!=null) {
+//				pagingVO.setPageNum(Integer.parseInt(pageNum));
+//			}else if(pageNum == null) {
+//				pagingVO.setPageNum(1);
+//			}
+//		} catch (NumberFormatException e) {
+//			pagingVO.setPageNum(1);
+//		}
+//		ModelAndView mav = new ModelAndView();
+//		mav.addObject("payVO", payVO);
+//		mav.addObject("pagingVO", pagingVO);
+//		mav.addObject("nodeResult", result);
+//		mav.setViewName("admin/resultCancelPay");
+//		return mav;
+//	}
 }

@@ -83,10 +83,8 @@
 								console.log(result);
 								if(result=='200'){
 									//결제 및 DB저장 성공
-									alert(result+"결제 완료 후 DB저장 성공");
 									window.open('','_self').close(); 
 								}else if(result=='300'){
-									alert(result+"결제 완료 후 DB저장 실패함");
 									window.open('','_self').close(); 
 								}
 							},error : function(){
