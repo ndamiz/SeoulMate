@@ -283,10 +283,6 @@ $(function(){
 .checks{width:800px;}
 .checks>label{width:120px;}
 /* #houseWrite6 input, #houseWrite6 select{width:230px;} */
-/*방추가하기 스타일*/
-.room2, .room3, .room4{
-	display:none;
-}
 </style>
 <div class="wrap">
 <div class="content">
@@ -575,7 +571,7 @@ $(function(){
 		<!-- ?//////////////////////////////// -->
 		<c:forEach var="vo" items="${list}" varStatus="index">
 			<li>
-				<a id="${vo.pno}" class="getPropinfo">
+				<a id="${vo.pno}" class="getPropinfo <c:if test="${pVO.pno==vo.pno}"> green</c:if>">
 					<c:if test="${vo.housename!=null}">${vo.housename}</c:if>
 					<c:if test="${vo.housename==null}">이름없는 집 ${index.count} </c:if>
 				</a>
