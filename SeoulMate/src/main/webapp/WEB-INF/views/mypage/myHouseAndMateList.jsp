@@ -593,7 +593,8 @@
 										<li><p>
 											<c:choose>
 												<c:when test="${mwVO.m_now == 1 }">즉시</c:when>
-												<c:when test="${mwVO.m_now == 2 }">${mwVO.enterdate }</c:when>
+												
+												<c:when test="${mwVO.m_now == 3 }">${mwVO.enterdate }</c:when>
 											</c:choose>
 										</p></li>
 									</ul>

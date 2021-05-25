@@ -413,6 +413,15 @@ select[name="searchKey"]{ width: 100px;}
 	width: 110px;
 	float: left;
 }
+.house_imgDel{display: block;
+    position: relative;
+    top: -209px;
+    left: 170px;
+    width: 40px;
+    text-align: center;    
+    color:#fff;
+    background-color: #32528869;
+    cursor: pointer;}
 .house_img, .mate_img{width: 200px; height: 200px; margin: 10px;}
 .admin_Management_popup {
 	width: 60%;
@@ -546,9 +555,11 @@ padding: 0;
 }
 
 .admin_Management_popup_table_img {
-	background-color: #fff;
+	background-color: #fff; overflow: auto;
 }
-
+.admin_Management_popup_table_img>div{
+	float: left;
+}
 .admin_Management_popup_table_btn {
 	text-align: center;
 	height: 60px;

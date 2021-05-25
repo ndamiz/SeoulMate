@@ -117,7 +117,7 @@
 								<li><span id="hw_writedate"></span> ~ <span id="hw_enddate"></span></li>
 								<li>상태</li>
 								<li>
-									<select name="hw_housestate" class="custom-select" style="height: 28px; padding: 2px 10px; vertical-align: top; margin-top: 1px;">
+									<select name="hw_housestate" class="custom-select" id="hw_housestate" style="height: 28px; padding: 2px 10px; vertical-align: top; margin-top: 1px;">
 										<option value="모집중">모집중</option>
 										<option value="매칭 완료">매칭 완료</option>
 										<option value="기간 만료">기간 만료</option>
@@ -189,7 +189,7 @@
 							</ul>
 							<ul class="admin_Management_popup_table_inner0">
 								<li>보증금 / 월세</li>
-								<li><span id="hr_deposit"></span>원 / <span id="hr_rent"></span>원</li>
+								<li><span id="hr_deposit"></span>만원 / <span id="hr_rent"></span>만원</li>
 								<li>총 방인원</li>
 								<li><span id="hr_roomPeople"></span>인</li>
 							</ul>
@@ -212,34 +212,68 @@
 								<li>성격 : <span id="propen_m_personality"></span></li>
 								<li>애완동물 : <span id="propen_m_pet"></span></li>
 								<li>나이대 : <span id="propen_m_age"></span></li>
-								<li>성별 : <span id="proprn_m_gende"></span></li>
+								<li>성별 : <span id="propen_m_gender"></span></li>
 								<li>외국인 여부 : <span id="propen_m_global"></span> </li>
 								<li>즉시입주 : <span id="propen_m_now"></span></li>
 							</ul>
 						</li>
 						<li class="admin_Management_popup_table_title" style="padding-left: 20px;">룸 사진</li>
 						<li class="admin_Management_popup_table_img" id="hw_housepic">
-							<input id="delFile" type="hidden" name="" value=""/>
+							
 						</li>
 					</ul>
 				</div>
 				<div class="admin_Management_popup_table_btn">
 					<a href="javascript:printPage('pop')" class="btn btn-custom">프린트</a>
-					<a href="javascript:managementInfoEdit()" class="btn btn-custom">수정</a>
-					<a href="" class="btn btn-custom popup_Close">닫기</a>
+					<a class="btn btn-custom house_popup_Edit" >수정</a>
+					<input id="change_state" type="hidden" name="change_state" value=""/>
+					<a href="#" class="btn btn-custom popup_Close">닫기</a>
 				</div>
 			</div>
 			<div class="myPage_HouseAndMate_Popup_FullScreen popup_Close popup_hidden" id="myPage_popup_FullScreen"></div>
 	</body>
 <script>
 $(function(){
-	$(document).on('change', 'select[name=hw_housestate]', function(){
-		console.log('체인지 이벵트 ~');
-		var housestate = $(this).val();
-		console.log( 'housestate = '+housestate);
+	var popup_select = '';
+	var delNo = [];
+	var delFile = [];
+	$(document).on('change','#hw_housestate',function(){
+		$('input[name=change_state]').val($(this).val());
+	});
+	$(document).on('click', '.house_popup_Edit', function(){
+		var change_state = $('select[name=hw_housestate]').val();
+		console.log(delFile);
+		console.log(delFile.length);
+		var Deldata = new Array();
+		for(var i=0; i<delFile.length; i++){
+			var d = new Object();
+		}
+		var url = "/admin/house_ManagementEdit";
+// 		$.ajax({
+// 			url : url,
+// 			data : data,
+// 			success : function(result){
+// 				console.log(result);
+				
+// 			},error : function(){
+				
+// 			}
+// 		});
 		
 	});
+	
+	$(document).on('click','.house_imgDel', function(){
+		$(this).prev().addClass("objectHidden");
+		console.log($(this).prev().attr("id"));
+		console.log($(this).prev().attr("name"));
+		delNo.push($(this).prev().attr("name"));
+		delFile.push($(this).prev().attr("id"));
+		
+		
+	})
 	$(document).on('click', '.admin_HouseManagement_DetailInfo',function(){
+		delNo=[];
+		delFile = [];
 		var no = $(this).children().eq(0).text();
 		var userid = $(this).children().eq(1).text();
 		
@@ -254,6 +288,7 @@ $(function(){
 			dataType : 'json',
 			success : function(result){
 				var $hrVOList = $(result.hrVOList);
+				popup_select = result.hwVO.housestate;
 				//hwVO, hrVOList 받아옴
 				$('.admin_Management_popup_title>span').eq(0).text(result.hwVO.userid);
 				$('.admin_Management_popup_title>span').eq(1).text(result.hwVO.housename);
@@ -261,6 +296,7 @@ $(function(){
 				$('#hw_writedate').text(result.hwVO.writedate.substr(0, 10));
 				$('#hw_enddate').text(result.hwVO.enddate.substr(0, 10));
 				$('input[name=hw_housestate]').val(result.hwVO.housestate).prop("selected", true);
+				$('input[name=change_state]').val(result.hwVO.housestate);
 				$('#hw_addr').text(result.hwVO.addr);
 				// grade (1:일반, 2:프리미엄)
 				if(result.hwVO.grade == 1){ $('#hw_grade').text('일반');}
@@ -369,7 +405,7 @@ $(function(){
 					tag += '<li>'+result.hrVOList[cnt].enterdate.substr(0, 10)+'</li></ul>';
 					tag += '<ul class="admin_Management_popup_table_inner0">';
 					tag += '<li>보증금 / 월세</li>';
-					tag += '<li>'+result.hrVOList[cnt].deposit+'원 / '+result.hrVOList[cnt].rent+'원</li>';
+					tag += '<li>'+result.hrVOList[cnt].deposit+'만원 / '+result.hrVOList[cnt].rent+'만원</li>';
 					tag += '<li>총 방인원</li>';
 					tag += '<li>'+result.hrVOList[cnt].roomPeople+'인</li></ul>'
 					tag += '<ul class="admin_Management_popup_table_inner0">';
@@ -385,11 +421,13 @@ $(function(){
 					tag += '<li>가구</li>';
 					if(result.hrVOList[cnt].furniture==1){
 						furniture = '있음';
+						tag += '<li style="width: 84%;">'+furniture+'</li>';
+						tag += '<li style="width: 84%;">'+result.hrVOList[cnt].incFurniture+'</li></ul>';
 					}else{
 						furniture = '없음';
+						tag += '<li style="width: 84%;">'+furniture+'</li>';
+						tag += '<li style="width: 84%;"> </li></ul>';
 					}
-					tag += '<li style="width: 84%;">'+furniture+'</li>';
-					tag += '<li style="width: 84%;">'+result.hrVOList[cnt].incFurniture+'</li></ul>';
 					cnt ++;
 				});
 				$('#admin_Management_popup_roomInfo').html(tag);
@@ -441,19 +479,24 @@ $(function(){
 				// 이미지 넣기
 				var houseImgTag = '';
 				if(result.hwVO.housepic1!=null && result.hwVO.housepic1!=''){
-					houseImgTag += '<img class="house_img" id="housepic1" name="housepic1" src="/home/housePic/'+result.hwVO.housepic1+'" alt="housepic1"/>';
+					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic1+'" name="housepic1" src="/home/housePic/'+result.hwVO.housepic1+'" alt="housepic1" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
+					houseImgTag += '<span class="house_imgDel">삭제</span></div>';
 				}
 				if(result.hwVO.housepic2!=null && result.hwVO.housepic2!=''){
-					houseImgTag += '<img class="house_img" id="housepic2" name="housepic2" src="/home/housePic/'+result.hwVO.housepic2+'" alt="housepic2"/>';
+					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic2+'" name="housepic2" src="/home/housePic/'+result.hwVO.housepic2+'" alt="housepic2" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
+					houseImgTag += '<span class="house_imgDel">삭제</span></div>';
 				}
 				if(result.hwVO.housepic3!=null && result.hwVO.housepic3!=''){
-					houseImgTag += '<img class="house_img" id="housepic3" name="housepic3" src="/home/housePic/'+result.hwVO.housepic3+'" alt="housepic3"/>';
+					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic3+'" src="/home/housePic/'+result.hwVO.housepic3+'" alt="housepic3" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
+					houseImgTag += '<span class="house_imgDel">삭제</span></div>';
 				}
 				if(result.hwVO.housepic4!=null && result.hwVO.housepic4!=''){
-					houseImgTag += '<img class="house_img" id="housepic4" name="housepic4" src="/home/housePic/'+result.hwVO.housepic4+'" alt="housepic4"/>';
+					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic4+'" src="/home/housePic/'+result.hwVO.housepic4+'" alt="housepic4" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
+					houseImgTag += '<span class="house_imgDel">삭제</span></div>';
 				}
 				if(result.hwVO.housepic5!=null && result.hwVO.housepic5!=''){
-					houseImgTag += '<img class="house_img" id="housepic5" name="housepic5" src="/home/housePic/'+result.hwVO.housepic5+'" alt="housepic5"/>';
+					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic5+'" src="/home/housePic/'+result.hwVO.housepic5+'" alt="housepic5" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
+					houseImgTag += '<span class="house_imgDel">삭제</span><div>';
 				}
 				$('#hw_housepic').html(houseImgTag);
 			}, error :function(){

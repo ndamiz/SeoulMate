@@ -14,13 +14,15 @@
 		border-top: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; font-size: 1.2em; font-weight: bold;}
 	.sales_Management_List>ul:first-of-type>li:first-of-type{font-size: 1em;}
 	.sales_Management_List ul>li{text-align: center; height: 40px; line-height: 40px;}
-	.sales_Management_List li:first-of-type { width: 6%;}
+	.sales_Management_List li:first-of-type { width: 5%;}
 	.sales_Management_List li:nth-of-type(2) { width: 0%;}
-	.sales_Management_List li:nth-of-type(3) { width: 20%;}
-	.sales_Management_List li:nth-of-type(4) { width: 20%;}
-	.sales_Management_List li:nth-of-type(5) { width: 20%;}
-	.sales_Management_List li:nth-of-type(6) { width: 20%;}
-	.sales_Management_List li:last-of-type { width: 14%;}
+	.sales_Management_List li:nth-of-type(3) { width: 15%;}
+	.sales_Management_List li:nth-of-type(4) { width: 15%;}
+	.sales_Management_List li:nth-of-type(5) { width: 15%;}
+	.sales_Management_List li:nth-of-type(6) { width: 15%;}
+	.sales_Management_List li:nth-of-type(7) { width: 15%;}
+	.sales_Management_List li:nth-of-type(8) { width: 10%;}
+	.sales_Management_List li:last-of-type { width: 10%;}
 	#total_Sales_List{border-bottom: 1px solid #dee2e6; background-color: #fff; color: #2d4364;
   			 font-weight: bold; font-size: 1.3em; }
  	.bgc_1{background-color: #d4d4d4;}
@@ -94,19 +96,25 @@
 						<li>총 매출액</li>
 						<li>카드</li>
 						<li>그 외</li>
+						<li>환불금액</li>
 						<li>결제 건수</li>
+						<li>환불 건수</li>
 					</ul>
 					<ul id='total_Sales_List'>
 						<li></li>
 						<li></li>
 						<li>총  계</li>
-						<fmt:formatNumber var="totalAmount" value="${totalVO.amount}" />
-						<li>${totalAmount }</li>
+						<fmt:formatNumber var="totalAmount" value="${totalVO.amount-totalVO.amountRefund}" />
+						<li>${totalAmount}</li>
 						<fmt:formatNumber var="totalAmountCard" value="${totalVO.amountCard}" />
 						<li>${totalAmountCard }</li>
 						<fmt:formatNumber var="totalAmountCash" value="${totalVO.amountCash}" />
 						<li>${totalAmountCash }</li>
-						<fmt:formatNumber var="totalAmountNum" value="${totalVO.amount/15000 }" />
+						<fmt:formatNumber var="totalAmountRefund" value="${totalVO.amountRefund}" />
+						<li>${totalAmountRefund }</li>
+						<fmt:formatNumber var="totalAmountNum" value="${(totalVO.amount-totalVO.amountRefund)/15000 }" />
+						<li>${totalAmountNum }</li>
+						<fmt:formatNumber var="totalRefundNum" value="${totalVO.amountRefund/15000 }" />
 						<li>${totalAmountNum }</li>
 					</ul>
 					<c:if test="${payVO.selectYearMonthDate==null || payVO.selectYearMonthDate=='년별'  || payVO.selectYearMonthDate==''}">
@@ -116,15 +124,19 @@
 								<input type="checkbox" name="openList_year"/>
 							</li>
 							<li></li>
-							<li style="border-bottom: 1px solid #dee2e6;">${year.payStart }년<span class="objectHidden">${year.payStart }</span></li>
+							<li style="border-bottom: 1px solid #dee2e6;  padding-right: 30px;">${year.payStart }년<span class="objectHidden">${year.payStart }</span></li>
 							<fmt:formatNumber var="amount" value="${year.amount }" />
 							<li style="border-bottom: 1px solid #dee2e6;" class="salesPopup">${amount}</li>
 							<fmt:formatNumber var="amountCard" value="${year.amountCard }" />
 							<li style="border-bottom: 1px solid #dee2e6;" class="salesPopup">${amountCard}</li>
 							<fmt:formatNumber var="amountCash" value="${year.amountCash }" />
 							<li style="border-bottom: 1px solid #dee2e6;" class="salesPopup">${amountCash }</li>
-							<fmt:formatNumber var="amountNum" type="number" value="${year.amount/15000 }" />
+							<fmt:formatNumber var="amountRefund" value="${year.amountRefund }" />
+							<li style="border-bottom: 1px solid #dee2e6;" class="salesPopup">${amountRefund }</li>
+							<fmt:formatNumber var="amountNum" type="number" value="${(year.amount-year.amountRefund)/15000 }" />
 							<li style="border-bottom: 1px solid #dee2e6;" class="salesPopup">${amountNum }</li>
+							<fmt:formatNumber var="refundNum" type="number" value="${year.amountRefund/15000 }" />
+							<li style="border-bottom: 1px solid #dee2e6;" class="salesPopup">${refundNum }</li>
 						</ul>
 					</c:forEach>
 					</c:if>
@@ -142,8 +154,12 @@
 								<li class="salesPopup">${amountCard}</li>
 								<fmt:formatNumber var="amountCash" value="${month.amountCash }" />
 								<li class="salesPopup">${amountCash }</li>
-								<fmt:formatNumber var="amountNum" type="number" value="${month.amount/15000 }" />
+								<fmt:formatNumber var="amountRefund" value="${month.amountRefund }" />
+								<li class="salesPopup">${amountRefund }</li>
+								<fmt:formatNumber var="amountNum" type="number" value="${(month.amount-month.amountRefund)/15000 }" />
 								<li class="salesPopup">${amountNum }</li>
+								<fmt:formatNumber var="refundNum" type="number" value="${month.amountRefund/15000 }" />
+								<li class="salesPopup">${refundNum }</li>
 							</ul>
 						</c:forEach>
 					</c:if>
@@ -160,8 +176,12 @@
 								<li class="salesPopup">${amountCard}</li>
 								<fmt:formatNumber var="amountCash" value="${date.amountCash }" />
 								<li class="salesPopup">${amountCash }</li>
-								<fmt:formatNumber var="amountNum" type="number" value="${date.amount/15000 }" />
+								<fmt:formatNumber var="amountRefund" value="${date.amountRefund }" />
+								<li class="salesPopup">${amountRefund }</li>
+								<fmt:formatNumber var="amountNum" type="number" value="${(date.amount-date.amountRefund)/15000 }" />
 								<li class="salesPopup">${amountNum }</li>
+								<fmt:formatNumber var="refundNum" type="number" value="${date.amountRefund/15000 }" />
+								<li class="salesPopup">${refundNum }</li>
 							</ul>
 						</c:forEach>
 						</c:if>
@@ -205,12 +225,15 @@
 			var amount=[]; //결제금액합계 
 			var amountCard=[]; //카드결제
 			var amountCash=[]; //그외결제  
+			var amountRefund=[]; //환불금액
+			var totalAmount = [];
 			if(selectYearMonthDate=='년별'){
 				<c:forEach items="${yearList}" var="item">
 					payStart.push("${item.payStart}");
 					amount.push("${item.amount}");
 					amountCard.push("${item.amountCard}");
 					amountCash.push("${item.amountCash}");
+					amountRefund.push("${item.amountRefund}");
 				</c:forEach>
 			}else if(selectYearMonthDate=='월별'){
 				<c:forEach items="${monthList}" var="item">
@@ -218,6 +241,7 @@
 					amount.push("${item.amount}");
 					amountCard.push("${item.amountCard}");
 					amountCash.push("${item.amountCash}");
+					amountRefund.push("${item.amountRefund}");
 				</c:forEach>
 			}else if(selectYearMonthDate=='일별' || selectYearMonthDate=='' || selectYearMonthDate==null){
 				<c:forEach items="${dateList}" var="item">
@@ -225,8 +249,13 @@
 					amount.push("${item.amount}");
 					amountCard.push("${item.amountCard}");
 					amountCash.push("${item.amountCash}");
+					amountRefund.push("${item.amountRefund}");
 				</c:forEach>
 			}
+			for(var ii=0; ii<amount.length; ii++){
+				totalAmount.push(amount[ii]-amountRefund[ii]);
+			}
+			
 			console.log(payStart.length);
 			var title='';
 			if(payStart.length>1){
@@ -246,7 +275,7 @@
 					datasets : [{
 						type : 'line',
 						label : '총매출',
-						data : amount,
+						data : totalAmount,
 						borderColor:  'rgba(194, 0, 0, 1)'
 					},{
 						type : 'bar',
@@ -258,6 +287,11 @@
 						label : '카드결제',
 						data : amountCard,
 						backgroundColor: 'rgba(54, 162, 235, 1)'
+					},{
+						type : 'line',
+						label : '환불금액',
+						data : amountRefund,
+						borderColor:  'rgba(255, 193, 7, 1)'
 					}]
 				},options : {
 					responsive: false,
@@ -342,13 +376,14 @@
 			console.log('adasd');
 			var checkDate = $(this).parent().next().next().children().text();
 			// 2021   년도 숫자를 가져옴. 
-			var payStart = []; var amount =[]; var amountCard = []; var amountCash = [];
+			var payStart = []; var amount =[]; var amountCard = []; var amountCash = []; var amountRefund = [];
 			// jstl 사용가능하도록 처리.. 
 			<c:forEach items="${monthList}" var="item">
 				payStart.push("${item.payStart}");
 				amount.push("${item.amount}");
 				amountCard.push("${item.amountCard}");
 				amountCash.push("${item.amountCash}");
+				amountRefund.push("${item.amountRefund}");
 			</c:forEach>
 			console.log(payStart);
 			if($(this).context.checked==true){
@@ -370,12 +405,14 @@
  					if(checkDate.substr(0,4) == payStart[i].substr(0,4)){
 						tag += '<ul style="font-"class="adminSalesManagementList cuser_Pointer list_month">';
 						tag += '<li style="padding-left:30px;"><input type="checkbox" name="openList_month"/></li>';
-						tag += '<li style="width:11%; text-align: right;">↳</li>'
-						tag += '<li style="width:9%; text-align: left; padding-left:20px; border-bottom: 1px solid #dee2e6;">'+Number(payStart[i].substr(5,7))+'월<span class="objectHidden">'+payStart[i]+'</span></li>';
-						tag += '<li style="width:20%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amount[i]).toLocaleString('ko-KR')+'</li>';
-						tag += '<li style="width:20%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amountCard[i]).toLocaleString('ko-KR')+'</li>';
-						tag += '<li style="width:20%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amountCash[i]).toLocaleString('ko-KR')+'</li>';
-						tag += '<li style="width:14%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amount[i])/15000+'</li></ul>';
+						tag += '<li style="width:7%; text-align: right;">↳</li>'
+						tag += '<li style="width:8%; text-align: left; padding-left:10px; border-bottom: 1px solid #dee2e6;">'+Number(payStart[i].substr(5,7))+'월<span class="objectHidden">'+payStart[i]+'</span></li>';
+						tag += '<li style="width:15%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amount[i]).toLocaleString('ko-KR')+'</li>';
+						tag += '<li style="width:15%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amountCard[i]).toLocaleString('ko-KR')+'</li>';
+						tag += '<li style="width:15%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amountCash[i]).toLocaleString('ko-KR')+'</li>';
+						tag += '<li style="width:15%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amountRefund[i]).toLocaleString('ko-KR')+'</li>';
+						tag += '<li style="width:10%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amount[i]-amountRefund[i])/15000+'</li>';
+						tag += '<li style="width:10%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amountRefund[i])/15000+'</li></ul>';
  					}
  				}
 				//클릭한 부모 tr의 다음에다가 태그 추가하기 
@@ -393,12 +430,13 @@
 		$(document).on('click', "input[name='openList_month']", function(){
 			var checkDate = $(this).parent().next().next().children().text();
 			
-			var payStart = []; var amount =[]; var amountCard = []; var amountCash = [];
+			var payStart = []; var amount =[]; var amountCard = []; var amountCash = []; var amountRefund = [];
 			<c:forEach items="${dateList}" var="item">
 				payStart.push("${item.payStart}");
 				amount.push("${item.amount}");
 				amountCard.push("${item.amountCard}");
 				amountCash.push("${item.amountCash}");
+				amountRefund.push("${item.amountRefund}");
 			</c:forEach>
 			console.log(payStart);
 			if($(this).context.checked==true){
@@ -416,14 +454,16 @@
 					if(checkDate == payStart[i].substr(0,7)){
 						tag += '<ul class="adminSalesManagementList cuser_Pointer list_date">';
 						tag += '<li></li>';
-						tag += '<li style="width:14%; text-align: right;">';
+						tag += '<li style="width:10%; text-align: right;">';
 						if(i==0){ tag += '↳'; }
 						tag+= '</li>';
-						tag += '<li style="width:6%; text-align: left; padding-left:20px; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(payStart[i].substr(8,10))+'일<span class="objectHidden">'+payStart[i]+'</span></li>';
-						tag += '<li style="width:20%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amount[i]).toLocaleString('ko-KR')+'</;i>';
-						tag += '<li style="width:20%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amountCard[i]).toLocaleString('ko-KR')+'</li>';
-						tag += '<li style="width:20%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amountCash[i]).toLocaleString('ko-KR')+'</li>';
-						tag += '<li style="width:14%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amount[i])/15000+'</li></li>';
+						tag += '<li style="width:5%; text-align: left; padding-left:20px; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(payStart[i].substr(8,10))+'일<span class="objectHidden">'+payStart[i]+'</span></li>';
+						tag += '<li style="width:15%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amount[i]).toLocaleString('ko-KR')+'</;i>';
+						tag += '<li style="width:15%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amountCard[i]).toLocaleString('ko-KR')+'</li>';
+						tag += '<li style="width:15%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amountCash[i]).toLocaleString('ko-KR')+'</li>';
+						tag += '<li style="width:15%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amountRefund[i]).toLocaleString('ko-KR')+'</li>';
+						tag += '<li style="width:10%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amount[i]-amountRefund[i])/15000+'</li>';
+						tag += '<li style="width:10%; border-bottom: 1px solid #dee2e6;" class="salesPopup">'+Number(amountRefund[i])/15000+'</li></ul>';
 					}
 				}
  				$(this).parent().parent().after(tag);
