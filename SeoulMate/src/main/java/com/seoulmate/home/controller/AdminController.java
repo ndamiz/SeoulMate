@@ -278,6 +278,7 @@ public class AdminController {
 	@ResponseBody
 	public ReportVO reportDetailInfo(int num, String category) {
 		ReportVO reportVO = service.reportInfo(num, category);
+		reportVO.setProfilepic2(service.getProfilePic2(reportVO.getReportid()));
 		return reportVO;
 	}
 	//TEST 자동 완성==============================================================================

@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.seoulmate.home.service.HomeService;
@@ -489,29 +490,31 @@ public class HouseController {
 					
 					if(houseUpdate>0) {
 						System.out.println("하우스네임 업데이트 성공");
-						//===test
+						//test=================================================================================================================
 						int result3 = 0;
+						System.out.println("방 갯수 : "+rVO.getRoomVOList().size());
+						System.out.println("방 1 : "+rVO.getRoomVOList().get(0).getRent());
 						for(int i=0; i<rVO.getRoomVOList().size(); i++) {
-							if(rVO.getRoomVOList().get(i).getRoomName() != null) {
+							System.out.println(i+"여기야");
+							if(rVO.getRoomVOList().get(i).getRoomName() != null && !rVO.getRoomVOList().get(i).getRoomName().equals("")) {
 								rVO.getRoomVOList().get(i).setUserid(userid);
 								result3 = service.roomInsert(rVO.getRoomVOList().get(i));
 							}
 						}
-						//===test
-						if(result3>0) {
-							System.out.println("방 등록 성공");
-							
-//							 int myHousePnoCnt=listService.myHousePnoCount(userid);
-//					         if(myHousePnoCnt>0) {
-//					            int newHpno=listService.newHpno(userid); // 내 최신 하우스 성향을 세션에 저장한다.
-//					            session.setAttribute("hPno", newHpno);
-//					         }
-							
-							transactionManager.commit(status);
-							mav.setViewName("redirect:houseIndex");
-						}else {
-							System.out.println("방 등록 실패");
-						}
+						//test=================================================================================================================	
+							if(result3>0) {
+								System.out.println("방 등록 성공");
+								
+//									 int myHousePnoCnt=listService.myHousePnoCount(userid);
+//							         if(myHousePnoCnt>0) {
+//							            int newHpno=listService.newHpno(userid); // 내 최신 하우스 성향을 세션에 저장한다.
+//							            session.setAttribute("hPno", newHpno);
+//							         }
+								transactionManager.commit(status);
+								mav.setViewName("redirect:houseIndex");
+							}else {
+								System.out.println("방 등록 실패");
+							}
 					}else {
 						System.out.println("하우스네임 업데이트 실패");
 					}
@@ -574,7 +577,11 @@ public class HouseController {
 
 		rVO.setNo(hVO.getNo());
 		System.out.println("rVO no-> "+rVO.getNo());
-		rVO = service.roomSelect(no, userid);
+		
+		//test=======================================================================================================================
+		List<HouseRoomVO> rVO_List = service.roomListSelect(no); //HouseRoomVO 값 가져오기
+		//test=======================================================================================================================		
+		
 		pVO = service.propHouseSelect(userid, hVO.getPno());
 //		System.out.println("성향 타입-> "+pVO.getPcase());
 //		System.out.println("성향 pno-> "+pVO.getPno());
@@ -594,7 +601,7 @@ public class HouseController {
 		System.out.println("공용-> "+hVO.getPublicfacility());
 		
 		mav.addObject("hVO", hVO);
-		mav.addObject("rVO", rVO);
+		mav.addObject("rVO_List", rVO_List);
 		mav.addObject("pVO", pVO);
 		
 		mav.setViewName("house/houseEdit");
@@ -748,6 +755,18 @@ public class HouseController {
 			System.out.println("하우스테이블 no 2확인:"+hVO.getNo());
 			System.out.println("하우스 테이블 pno 확인:"+hVO.getPno());
 			pVO.setPno(hVO.getPno());
+			//test====================================================================================================
+			System.out.println(hVO.getNo()+"=======================================no");
+			System.out.println(hVO.getPno()+"=======================================pno");
+			System.out.println(hVO.getUserid()+"=======================================userid");
+			System.out.println(hVO.getAddr()+"=======================================addr");
+			System.out.println(hVO.getHousename()+"=======================================housename");
+			System.out.println(hVO.getRoom()+"=======================================room");
+			System.out.println(hVO.getBathroom()+"=======================================bathroom");
+			System.out.println(hVO.getNowpeople()+"=======================================nowppl");
+			System.out.println(hVO.getSearchpeople()+"=======================================searchppl");
+			System.out.println(hVO.getPublicfacilityStr()+"=======================================publicfac");
+			//test====================================================================================================			
 			int result1 = service.houseUpdate(hVO);
 			if(result1>0) {
 				if(delFile!=null ) { //삭제한 파일 지우기
@@ -774,7 +793,26 @@ public class HouseController {
 //				}
 				System.out.println(hVO.getNo());
 				rVO.setNo(hVO.getNo()); //houseWrite의 no을 houseRoom의 no(하우스번호)로 서정
-				int result2 = service.roomUpdate(rVO);
+				//test========================================================================================
+				int result2 = 0;
+				for(int i=0; i<rVO.getRoomVOList().size(); i++) {
+					rVO.getRoomVOList().get(i).setUserid(userid);
+					rVO.getRoomVOList().get(i).setNo(hVO.getNo());
+					result2 = service.roomUpdate(rVO.getRoomVOList().get(i));
+					System.out.println(rVO.getRoomVOList().get(i).getNo()+"------------------------no");
+					System.out.println(rVO.getRoomVOList().get(i).getHno()+"------------------------hno");
+					System.out.println(rVO.getRoomVOList().get(i).getUserid()+"------------------------userid");
+					System.out.println(rVO.getRoomVOList().get(i).getRoomName()+"------------------------roomname");
+					System.out.println(rVO.getRoomVOList().get(i).getDeposit()+"------------------------deposit");
+					System.out.println(rVO.getRoomVOList().get(i).getRent()+"------------------------rent");
+					System.out.println(rVO.getRoomVOList().get(i).getEnterdate()+"------------------------enterdate");
+					System.out.println(rVO.getRoomVOList().get(i).getMinStay()+"------------------------minstay");
+					System.out.println(rVO.getRoomVOList().get(i).getMaxStay()+"------------------------max");
+					System.out.println(rVO.getRoomVOList().get(i).getRoomPeople()+"------------------------roompeople");
+					System.out.println(rVO.getRoomVOList().get(i).getFurniture()+"------------------------fur");
+					System.out.println(rVO.getRoomVOList().get(i).getIncFurniture()+"------------------------incfur");
+				}
+				//test========================================================================================	
 				if(result2>0) {
 					System.out.println("방 수정 성공");
 					
@@ -862,7 +900,10 @@ public class HouseController {
 //		pVO.setUserid(userid);
 		
 		HouseWriteVO hVO = service.houseSelect(no, userid);
-		HouseRoomVO rVO = service.roomSelect(no, userid);
+		//test===============================================================================================
+		HouseRoomVO rVO = new HouseRoomVO(); 
+		rVO.setRoomVOList(service.roomListSelect(no));
+		//test===============================================================================================
 		PropensityVO pVO = service.propHouseSelect(userid, hVO.getPno());
 		
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
@@ -874,8 +915,12 @@ public class HouseController {
 			if(result1>0) {
 				System.out.println("하우스 삭제 성공");
 				
-				rVO.setNo(hVO.getNo());
-				int result2 = service.roomDel(no, userid);
+				//test===============================================================================================
+				int result2 = 0;
+				for(int i=0; i<rVO.getRoomVOList().size(); i++) {
+					result2 = service.roomDel(rVO.getRoomVOList().get(i).getNo(), userid,rVO.getRoomVOList().get(i).getHno());
+				}
+				//test===============================================================================================
 				if(result2>0) {
 					System.out.println("룸 삭제 성공");
 					

@@ -6,10 +6,10 @@
   	<select id="getFullPropensity" resultType="com.seoulmate.home.vo.PropensityVO">
   		select pno, userid, pcase, housename, h_noise, h_pattern, h_pet, h_petwith, h_smoke, h_mood,
   		h_communication, h_party, h_enter, h_support as h_supportStr, h_etc, m_pattern, m_personality, m_pet, m_smoke, m_age, m_gender, m_global, m_now, pdate
-  		 from propensity where userid=#{param1} and pno=#{param2}
+  		 from propensity where userid=#{param1} and pno=#{param2} and pcase='h'
   	</select>
   	<select id="getPropInfo" resultType="com.seoulmate.home.vo.PropensityVO">
-  		select * from propensity where userid=#{param1}
+  		select * from propensity where userid=#{param1} and pcase='h'
   	</select>
 	<select id="houseList" resultType="com.seoulmate.home.vo.HouseWriteVO">
 		select * from housewrite where userid=#{param1}

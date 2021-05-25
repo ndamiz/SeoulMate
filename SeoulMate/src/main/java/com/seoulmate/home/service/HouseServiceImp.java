@@ -109,8 +109,8 @@ public class HouseServiceImp implements HouseService {
 	}
 
 	@Override
-	public int roomDel(int no, String userid) { //방 삭제
-		return dao.roomDel(no, userid);
+	public int roomDel(int no, String userid, int hno) { //방 삭제
+		return dao.roomDel(no, userid, hno);
 	}
 
 	@Override
