@@ -453,11 +453,6 @@ public class HouseController {
 							if(result3>0) {
 								System.out.println("방 등록 성공");
 								
-//									 int myHousePnoCnt=listService.myHousePnoCount(userid);
-//							         if(myHousePnoCnt>0) {
-//							            int newHpno=listService.newHpno(userid); // 내 최신 하우스 성향을 세션에 저장한다.
-//							            session.setAttribute("hPno", newHpno);
-//							         }
 								transactionManager.commit(status);
 								mav.setViewName("redirect:houseIndex");
 							}else {
@@ -501,7 +496,6 @@ public class HouseController {
 		String userid = (String)session.getAttribute("logId");
 
 		System.out.println(rVO.getEnterdate());
-		// <a href="boardEdit?no=${vo.no }">수정</a> 수정할때 글의 번호 가져오기
 		
 		hVO.setUserid(userid);
 		rVO.setUserid(userid);
@@ -510,9 +504,6 @@ public class HouseController {
 		System.out.println("hVO id->"+hVO.getUserid());
 
 		System.out.println(no); 
-//		int num=Integer.parseInt(no);
-//		System.out.println(num);
-//		System.out.println("hVO->"+hVO.getNo());
 		hVO = service.houseSelect(no, userid);
 
 		rVO.setNo(hVO.getNo());
@@ -520,11 +511,10 @@ public class HouseController {
 		
 		//test=======================================================================================================================
 		List<HouseRoomVO> rVO_List = service.roomListSelect(no); //HouseRoomVO 값 가져오기
+		mav.addObject("list", service.getPropInfo(userid));
 		//test=======================================================================================================================		
 		
 		pVO = service.propHouseSelect(userid, hVO.getPno());
-//		System.out.println("성향 타입-> "+pVO.getPcase());
-//		System.out.println("성향 pno-> "+pVO.getPno());
 		System.out.println("hVO Pno-> "+hVO.getPno());
 		
 		
@@ -712,7 +702,9 @@ public class HouseController {
 	                     }
 	                  }
 					pVO.setPno(hVO.getPno());
+					System.out.println(pVO.getPno()+"========================================pno UPDATE");
 					int result3 = service.propHouseUpdate(pVO);
+					
 					if(result3>0) {
 						System.out.println("성향 수정 성공");
 						if(delFile!=null ) { //삭제한 파일 지우기
