@@ -578,12 +578,6 @@ public class MemberController {
 		return mav;
 	}
 	
-	@RequestMapping("/memberExit")
-	public String memberExit() {
-		
-		return "member/memberExit";
-	}
-	
 	@RequestMapping("/memberExitOk")
 	public ModelAndView memberExitOk(String userpwd, HttpSession session) {
 		ModelAndView mav=new ModelAndView();
