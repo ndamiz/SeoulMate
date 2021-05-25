@@ -212,4 +212,6 @@ public class HouseWriteVO {
 		this.score = score;
 	}
 	
+	
+	
 }
