@@ -611,7 +611,7 @@ public class HouseController {
 	@RequestMapping(value="/houseEditOk", method = RequestMethod.POST)
 	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
 	public ModelAndView houseEditOk(HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, HttpServletRequest req,
-			@RequestParam("filename") MultipartFile filename, int listSize) {
+			@RequestParam("filename") MultipartFile filename) {
 		ModelAndView mav = new ModelAndView();
 		String userid = (String)req.getSession().getAttribute("logId");
 		hVO.setUserid(userid);
@@ -620,7 +620,6 @@ public class HouseController {
 		//test====================================================================================================
 		//사진 수정
 	    String path = req.getSession().getServletContext().getRealPath("/housePic");
-	    System.out.println(listSize+"ddddddddddddddddddddddddddddddddddddddd");
 		String[] fileName = service.houseProfilePic(userid, hVO.getNo());
 		      System.out.println("파일 네임 확인-> "+fileName[0]);
 		      //DB의 파일명을 가져온다
@@ -758,7 +757,7 @@ public class HouseController {
 				//test========================================================================================
 				int result2 = 0;
 //				for(int i=0; i<rVO.getRoomVOList().size(); i++) {
-				for(int i=0; i<listSize; i++) {
+				for(int i=0; i<rVO.getRoomVOList().size(); i++) {
 					rVO.getRoomVOList().get(i).setUserid(userid);
 					rVO.getRoomVOList().get(i).setNo(hVO.getNo());
 					result2 = service.roomUpdate(rVO.getRoomVOList().get(i));
