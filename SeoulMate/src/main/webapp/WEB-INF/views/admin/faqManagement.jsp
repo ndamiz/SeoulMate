@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script src="//cdn.ckeditor.com/4.16.1/basic/ckeditor.js"></script>
 <script>
 	$(function(){
 		// 레코드 출력
@@ -48,10 +49,10 @@
 				url:url,
 				data:params,
 				success:function(data){
-					$(document.getElementById("faqId")).val(data.userid);
-					$(document.getElementById("faqNo")).val(data.no);
-					$(document.getElementById("faqSubject")).val(data.subject);
-					$(document.getElementById("faqContent")).val(data.content);
+					$("#faqId").val(data.userid);
+					$("#faqNo").val(data.no);
+					$("#faqSubject").val(data.subject);
+					CKEDITOR.instances.faqContent.setData(data.content);
 				},error(){
 					console.log("자주하는 질문 데이터 읽어오기 에러 발생");
 				}
@@ -60,27 +61,31 @@
 		
 		// 수정 버튼을 누를 때 유효성 검사
 		$(document.getElementById("faqEditBtn")).click(function(){
-			regExp();
-			
-			var url="/home/admin/faqEdit";
-			var params=$("#faqInfoForm").serialize();
-			
-			$.ajax({
-				url:url,
-				data:params,
-				success:function(result){
-					if(result==1){
-						close(); // 팝업창 닫는 함수
-						faqList(); // faq 목록을 출력하는 함수
+			if(regExp()!=false){
+				var txt=CKEDITOR.instances.faqContent.getData();
+				$("#faqContent").val(txt);
+				
+				var url="/home/admin/faqEdit";
+				var params=$("#faqInfoForm").serialize();
+				
+				$.ajax({
+					url:url,
+					data:params,
+					success:function(result){
+						if(result==1){
+							close(); // 팝업창 닫는 함수
+							faqList(); // faq 목록을 출력하는 함수
+						}
+					}, error:function(){
+						console.log("faq 수정 에러 발생...");	
 					}
-				}, error:function(){
-					console.log("faq 수정 에러 발생...");	
-				}
-			});
+				});				
+			}
 		});
 		
 		// 추가 버튼 이벤트
 		$("#faqAddBtn").click(function(){
+			CKEDITOR.instances.faqContent.setData();
 			$("#faqInfo").css("display", "block");
 			$("#faqInsertBtn").css("display", "inline-block"); // 추가 버튼 보이기
 			$("#faqEditBtn").css("display", "none"); // 수정 버튼 숨기기
@@ -94,23 +99,29 @@
 		
 		// faq를 등록하는 이벤트
 		$("#faqInsertBtn").click(function(){
-			regExp(); // 유효성 검사
-			
-			var url="/home/admin/faqInsert";
-			var params=$("#faqInfoForm").serialize();
-			
-			$.ajax({
-				url:url,
-				data:params,
-				success:function(result){
-					if(result==1){
-						faqList();
-						close();
+			if(regExp()!=false){
+				var txt=CKEDITOR.instances.faqContent.getData();
+				$("#faqContent").val(txt);
+				
+				var url="/home/admin/faqInsert";
+				var params=$("#faqInfoForm").serialize();
+				
+				
+				$.ajax({
+					url:url,
+					data:params,
+					success:function(result){
+						if(result==1){
+							faqList();
+							close();
+						}
+					}, error:function(){
+						console.log("faq 등록 에러 발생...");	
 					}
-				}, error:function(){
-					console.log("faq 수정 에러 발생...");	
-				}
-			});
+				});
+			} // 유효성 검사
+			
+			
 		});
 		
 		// 팝업창을 닫는 이벤트
@@ -143,7 +154,8 @@
 				alert("질문을 입력하세요.");
 				return false;
 			}
-			if($("#faqContent").val()==""){
+			var txt=CKEDITOR.instances.faqContent.getData();
+			if(txt=="" || txt==null){
 				alert("답변을 입력하세요.");
 				return false;
 			}
@@ -200,7 +212,10 @@
 							<input type="hidden" name="no" id="faqNo" value=""/>
 							<ul class="faqUl">
 								<li><div class="faq_label"><span class="red_txt">*</span>질문</div><textarea name="subject" id="faqSubject" maxlength="100"></textarea></li>
-								<li><div class="faq_label"><span class="red_txt">*</span>답변</div><textarea name="content" id="faqContent"></textarea></li>
+								<li>
+									<div class="faq_label"><span class="red_txt">*</span>답변</div><textarea name="content" id="faqContent"></textarea>
+									<script>CKEDITOR.replace("content");</script>
+								</li>
 							</ul>
 						</div>
 					</div>
