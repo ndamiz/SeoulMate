@@ -89,7 +89,9 @@
 					}
 				});
 			}else if(result.category=='채팅'){
-				$('#reportLink').attr('href', 'http://192.168.0.118:9091/chatView?no='+result.no+'&userid='+result.reportid+'&otherid='+result.userid+'&admin=true');
+				alert(result.profilepic1)
+				alert(result.profilepic2)
+				$('#reportLink').attr('href', 'http://192.168.0.118:9091/chatView?no='+result.no+'&userid='+result.reportid+'&otherid='+result.userid+'&userpic='+result.profilepic1+'&otherpic='+result.profilepic2+'&admin=true');
 				$('#toggle_1').prop('checked',true);
 				$('#showOrNOt').css('display','none');
 				$('.pup_body').css('height','510px');

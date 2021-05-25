@@ -69,6 +69,13 @@ $(function(){
 	
 		areaEdit(); // 희망 지역 수정을 위한 함수
 	});
+	
+	$("#file b").click(function(){ //파일 업로드 X 버튼 누르면 삭제
+	      $(this).parent().css("display", "none");
+	      $(this).parent().next().attr("name", "delFile");
+	      $(this).parent().next().next().attr('type', 'file');
+	   	});
+	
 	$("#mPrev1").click(function(){
 		$("#mateWrite1").css("display", "none");
 		$("#mateWrite1").css("display", "block"); //등록form1에서 이전 어디로?
@@ -381,9 +388,35 @@ $(function(){
 	</div>
 	
 		<ul class="form_box">
-				<li id="mPic"><img id="mateImg1" name="mateImg1" src="/home/matePic/${mVO.matePic1}" alt="upload image" style="width:150px; height:107px;"/></li>
-				<li> <input type="file" accept="image/*" name="filename" id="matePic1" onchange="readURL(this);"/> <br/> </li>
-			
+				<li id="mPic">
+					<img id="mateImg1" name="mateImg1" src="/home/matePic/${mVO.matePic1}" alt="upload image" />
+					<img id="mateImg2" name="mateImg2" src="/home/matePic/${mVO.matePic2}" alt="upload image" />
+					<img id="mateImg3" name="mateImg3" src="/home/matePic/${mVO.matePic3}" alt="upload image" />
+				
+				<li id="file">
+	               <div>${mVO.matePic1 } <b>X</b> </div>
+	               <input type="hidden" name="" value=${mVO.matePic1 }/>
+	               <input type="hidden" name="filename"/>
+	               
+	               <c:if test="${mVO.matePic2!=null && mVO.matePic2!='' }"> <!-- 두번째 첨부파일이 있을 경우 -->
+	               <div>${mVO.matePic2 } <b>X</b> </div>
+	               <input type="hidden" name="" value=${mVO.matePic2 }/>
+	               <input type="hidden" name="filename"/>
+	               </c:if>
+	               
+	               <c:if test="${mVO.matePic2==null || mVO.matePic2=='' }"> <!-- 두번째 첨부파일이 없을 경우 -->
+	               <input type="file" name="filename"/>
+	               </c:if>
+	               
+	               <c:if test="${mVO.matePic3!=null && mVO.matePic3!='' }"> <!-- 세번째 첨부파일이 있을 경우 -->
+	               <div>${hVO.housepic3 } <b>X</b> </div>
+	               <input type="hidden" name="" value=${mVO.matePic3 }/>
+	               <input type="hidden" name="filename"/>
+	               </c:if>
+	               
+	               <c:if test="${mVO.matePic3==null || mVO.matePic3=='' }"> <!-- 세번째 첨부파일이 없을 경우 -->
+	               <input type="file" name="filename"/>
+	               </c:if>
 		</ul>
 		<p>&nbsp;</p> <p>&nbsp;</p> <p>&nbsp;</p> <br/> <br/>
 			<div class="btnclass">

@@ -238,4 +238,9 @@ public class AdminServiceImp implements AdminService {
 		// 일반 프리미엄
 		return dao.getMemberGrade(grade);
 	}
+	@Override
+	public String getProfilePic2(String reportid) {
+		// 신고관리- 신고자 프로필 사진명 가져오기
+		return dao.getProfilePic2(reportid);
+	}
 }

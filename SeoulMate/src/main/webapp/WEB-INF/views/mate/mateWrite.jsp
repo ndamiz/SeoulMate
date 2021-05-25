@@ -393,7 +393,7 @@ $(function(){
 					<img id="mateImg3" name="mateImg3" src="#" alt="upload image" />
 				</li>
 				<li> 
-					<input type="file" accept="image/*" name="filename" id="matePic1" onchange="readURL(this);"/> 
+					<input type="file" accept="image/*" name="filename1" id="matePic1" onchange="readURL(this);"/> 
 					<input type="file" accept="image/*" name="filename2" id="matePic2" onchange="readURL(this);"/> 
 					<input type="file" accept="image/*" name="filename3" id="matePic3" onchange="readURL(this);"/> 
 				<br/> </li>

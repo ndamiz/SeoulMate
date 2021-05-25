@@ -22,6 +22,7 @@ $(function(){
 			return false;
 		}return true;
 	});
+	
 });
 
 
@@ -90,8 +91,87 @@ $(function(){
 // 	}
 
 
-	$("#roomPlus").click(function(){
-		$("#houseWrite1_ul2").css("display", "block");
+	$("#roomPlus").click(function(){ //방 추가하기
+		if($(".room2").css("display") == "none"){
+			$('.room2 ul input').eq(0).attr('name','roomVOList[1].roomName');	//1
+			$('.room2 ul input').eq(1).attr('name','roomVOList[1].rent');		//2
+			$('.room2 ul input').eq(2).attr('name','roomVOList[1].deposit');	//3
+			$('.room2 ul input').eq(3).attr('name','roomVOList[1].roomPeople');	//4
+			$('.room2 ul input').eq(4).attr('name','roomVOList[1].enterdate');	//5
+			$('.room2 ul select').eq(0).attr('name','roomVOList[1].minStay');	//6
+			$('.room2 ul select').eq(1).attr('name','roomVOList[1].maxStay');	//7
+			$('.room2 ul input').eq(5).attr('name','roomVOList[1].furniture');	//8
+			$('.room2 ul input').eq(6).attr('name','roomVOList[1].furniture');	//9
+			$('.room2 ul input').eq(7).attr('name','roomVOList[1].incFurniture');	//10
+			$('.room2').show();
+		}else if($(".room3").css("display") == "none"){
+			$('.room3 ul input').eq(0).attr('name','roomVOList[2].roomName');	//1
+			$('.room3 ul input').eq(1).attr('name','roomVOList[2].rent');		//2
+			$('.room3 ul input').eq(2).attr('name','roomVOList[2].deposit');	//3
+			$('.room3 ul input').eq(3).attr('name','roomVOList[2].roomPeople');	//4
+			$('.room3 ul input').eq(4).attr('name','roomVOList[2].enterdate');	//5
+			$('.room3 ul select').eq(0).attr('name','roomVOList[2].minStay');	//6
+			$('.room3 ul select').eq(1).attr('name','roomVOList[2].maxStay');	//7
+			$('.room3 ul input').eq(5).attr('name','roomVOList[2].furniture');	//8
+			$('.room3 ul input').eq(6).attr('name','roomVOList[2].furniture');	//9
+			$('.room3 ul input').eq(7).attr('name','roomVOList[2].incFurniture');	//10
+			$('.room3').show();
+		}else if($(".room4").css("display") == "none"){
+			$('.room4 ul input').eq(0).attr('name','roomVOList[3].roomName');	//1
+			$('.room4 ul input').eq(1).attr('name','roomVOList[3].rent');		//2
+			$('.room4 ul input').eq(2).attr('name','roomVOList[3].deposit');	//3
+			$('.room4 ul input').eq(3).attr('name','roomVOList[3].roomPeople');	//4
+			$('.room4 ul input').eq(4).attr('name','roomVOList[3].enterdate');	//5
+			$('.room4 ul select').eq(0).attr('name','roomVOList[3].minStay');	//6
+			$('.room4 ul select').eq(1).attr('name','roomVOList[3].maxStay');	//7
+			$('.room4 ul input').eq(5).attr('name','roomVOList[3].furniture');	//8
+			$('.room4 ul input').eq(6).attr('name','roomVOList[3].furniture');	//9
+			$('.room4 ul input').eq(7).attr('name','roomVOList[3].incFurniture');	//10
+			$('.room4').show();
+			$('#roomPlus').css("display",'none');
+			$('#roomMinus').css("display",'inline-block');
+		}
+	});
+	$("#roomMinus").click(function(){
+		if($(".room4").css("display") == "block"){//닫기
+			$('.room4 ul input').eq(0).attr('name','');	//1
+			$('.room4 ul input').eq(1).attr('name','');		//2
+			$('.room4 ul input').eq(2).attr('name','');	//3
+			$('.room4 ul input').eq(3).attr('name','');	//4
+			$('.room4 ul input').eq(4).attr('name','');	//5
+			$('.room4 ul select').eq(0).attr('name','');	//6
+			$('.room4 ul select').eq(1).attr('name','');	//7
+			$('.room4 ul input').eq(5).attr('name','');	//8
+			$('.room4 ul input').eq(6).attr('name','');	//9
+			$('.room4 ul input').eq(7).attr('name','');	//10
+			$('.room4').hide();
+		}else if($(".room3").css("display") == "block"){
+			$('.room3 ul input').eq(0).attr('name','');	//1
+			$('.room3 ul input').eq(1).attr('name','');		//2
+			$('.room3 ul input').eq(2).attr('name','');	//3
+			$('.room3 ul input').eq(3).attr('name','');	//4
+			$('.room3 ul input').eq(4).attr('name','');	//5
+			$('.room3 ul select').eq(0).attr('name','');	//6
+			$('.room3 ul select').eq(1).attr('name','');	//7
+			$('.room3 ul input').eq(5).attr('name','');	//8
+			$('.room3 ul input').eq(6).attr('name','');	//9
+			$('.room3 ul input').eq(7).attr('name','');	//10
+			$('.room3').hide();
+		}else if($(".room2").css("display") == "block"){
+			$('.room2 ul input').eq(0).attr('name','');	//1
+			$('.room2 ul input').eq(1).attr('name','');		//2
+			$('.room2 ul input').eq(2).attr('name','');	//3
+			$('.room2 ul input').eq(3).attr('name','');	//4
+			$('.room2 ul input').eq(4).attr('name','');	//5
+			$('.room2 ul select').eq(0).attr('name','');	//6
+			$('.room2 ul select').eq(1).attr('name','');	//7
+			$('.room2 ul input').eq(5).attr('name','');	//8
+			$('.room2 ul input').eq(6).attr('name','');	//9
+			$('.room2 ul input').eq(7).attr('name','');	//10
+			$('.room2').hide();
+			$('#roomPlus').css("display",'inline-block');
+			$('#roomMinus').css("display",'none');
+		}
 	});
 
 	$("#hNext1").click(function(){
@@ -211,7 +291,7 @@ $(function(){
     });
 	
 	
-	//성향 버튼 눌렀을때 가져오기========================================================================
+	//성향 버튼 눌렀을때 가져오기
 	$('.getPropinfo').click(function(){
 		var housename = $(this).text();
 		var pno = $(this).attr('id');
@@ -265,7 +345,7 @@ $(function(){
 				alert("성향 불러오기 실패.")
 			}
 		});
-	})//성향 버튼 눌렀을때 가져오기========================================================================끝
+	});//성향 버튼 눌렀을때 가져오기========================================================================끝
 });
 // autocomplete="off" //자동완성 막아줌
 
@@ -335,7 +415,7 @@ $(function(){
 .form_box.choice li > label {width: 240px;}
 #houseWrite1_ul2{display: none;}
 .btnclass{padding-left:50px;}
-#roomPlus{margin-left:650px;}
+#roomPlus{margin:0 auto;}
 #houseWrite1 .checks { width: 560px;}
 #ck{margin:0 auto; width: 60%;}
 #hPic img{width: 250px; height: 250px; }
@@ -361,7 +441,10 @@ $(function(){
 .checks{width:800px;}
 .checks>label{width:120px;}
 /* #houseWrite6 input, #houseWrite6 select{width:230px;} */
-
+/*방추가하기 스타일*/
+.room2, .room3, .room4, #roomMinus{
+	display:none;
+}
 </style>
 <div class="wrap">
 <div class="content">
@@ -465,13 +548,13 @@ $(function(){
 				<li>
 					<label>거실</label>
 					<div class="checks">
-						<input type="checkbox" id="소파" name="publicfactility" value="소파"> 
+						<input type="checkbox" id="소파" name="publicfacility" value="소파"> 
 						<label for="소파">소파</label>
-						<input type="checkbox" id="티비" name="publicfactility" value="티비"> 
+						<input type="checkbox" id="티비" name="publicfacility" value="티비"> 
 						<label for="티비">티비</label>
-						<input type="checkbox" id="탁자" name="publicfactility" value="탁자"> 
+						<input type="checkbox" id="탁자" name="publicfacility" value="탁자"> 
 						<label for="탁자">탁자</label>
-						<input type="checkbox" id="카펫" name="publicfactility" value="카펫"> 
+						<input type="checkbox" id="카펫" name="publicfacility" value="카펫"> 
 						<label for="카펫">카펫</label> <br/>
 					</div>
 				</li>
@@ -479,13 +562,13 @@ $(function(){
 				<li>
 					<label>욕실</label>
 					<div class="checks">
-						<input type="checkbox" id="욕조" name="publicfactility" value="욕조"> 
+						<input type="checkbox" id="욕조" name="publicfacility" value="욕조"> 
 						<label for="욕조">욕조</label>
-						<input type="checkbox" id="비데" name="publicfactility" value="비데"> 
+						<input type="checkbox" id="비데" name="publicfacility" value="비데"> 
 						<label for="비데">비데</label>
-						<input type="checkbox" id="샴푸" name="publicfactility" value="샴푸"> 
+						<input type="checkbox" id="샴푸" name="publicfacility" value="샴푸"> 
 						<label for="샴푸">샴푸</label>
-						<input type="checkbox" id="린스" name="publicfactility" value="린스"> 
+						<input type="checkbox" id="린스" name="publicfacility" value="린스"> 
 						<label for="린스">린스</label> <br/>
 					</div>
 				</li>
@@ -493,13 +576,13 @@ $(function(){
 				<li>
 					<label>기타</label>
 					<div class="checks">
-						<input type="checkbox" id="세탁기" name="publicfactility" value="세탁기"> 
+						<input type="checkbox" id="세탁기" name="publicfacility" value="세탁기"> 
 						<label for="세탁기">세탁기</label>
-						<input type="checkbox" id="건조기" name="publicfactility" value="건조기"> 
+						<input type="checkbox" id="건조기" name="publicfacility" value="건조기"> 
 						<label for="건조기">건조기</label>
-						<input type="checkbox" id="베란다" name="publicfactility" value="베란다"> 
+						<input type="checkbox" id="베란다" name="publicfacility" value="베란다"> 
 						<label for="베란다">베란다</label>
-						<input type="checkbox" id="WIFI" name="publicfactility" value="WIFI"> 
+						<input type="checkbox" id="WIFI" name="publicfacility" value="WIFI"> 
 						<label for="WIFI">WIFI</label> 
 					</div>
 				</li>
@@ -528,14 +611,18 @@ $(function(){
 				</li>
 				
 				<li> 
-					<input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);" required /> 
-					<input type="file" accept="image/*" name="filename2"  id="housepic2" onchange="readURL(this);"/>
-					<input type="file" accept="image/*" name="filename3"  id="housepic3" onchange="readURL(this);"/>
-					<input type="file" accept="image/*" name="filename4"  id="housepic4" onchange="readURL(this);"/>
-					<input type="file" accept="image/*" name="filename5"  id="housepic5" onchange="readURL(this);"/> 
+					<input type="file" accept="image/*" name="filename"   onchange="readURL(this);" required /> 
+					<input type="file" accept="image/*" name="filename"   onchange="readURL(this);"  /> 
+					<input type="file" accept="image/*" name="filename"   onchange="readURL(this);" /> 
+					<input type="file" accept="image/*" name="filename"   onchange="readURL(this);" /> 
+					<input type="file" accept="image/*" name="filename"   onchange="readURL(this);"  /> 
+<!-- 					<input type="file" accept="image/*" name="filename2"  id="housepic2" onchange="readURL(this);"/> -->
+<!-- 					<input type="file" accept="image/*" name="filename3"  id="housepic3" onchange="readURL(this);"/> -->
+<!-- 					<input type="file" accept="image/*" name="filename4"  id="housepic4" onchange="readURL(this);"/> -->
+<!-- 					<input type="file" accept="image/*" name="filename5"  id="housepic5" onchange="readURL(this);"/>  -->
 					<br/> 
 				</li>
-					<li><span class="btn-delete">삭제</span></li>
+					
 			</ul>
 				<div class="btnclass">
 					<a class="green" id="hPrev3">이전</a>
@@ -569,7 +656,7 @@ $(function(){
 			<p>&nbsp;</p>
 		</div>
 		
-			<ul class="form_box room_box">
+			<ul class="form_box">
 				<li><label><span class="red_txt">*</span>방 이름 </label> <input type="text" name="roomVOList[0].roomName"/></li>
 				<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" name="roomVOList[0].rent"/> </li> 
 					
@@ -599,45 +686,135 @@ $(function(){
 							<input type="radio" id="furniture2" value="2" name="roomVOList[0].furniture"> 
 							<label for="furniture2">없음</label>
 						</div>	</li>
-				<li><label>포함된 가구</label><input type="text" name="roomVOList[0].incFurniture"/> </li>
+
+				<li><label>포함된 가구</label><input type="text" name="roomVOList[0].incFurniture"/></li>
 			</ul>
-			<div class="title_wrap">
-				<p class="s_title">임대료 및 입주정보 </p> <br/>
-				<p>&nbsp;</p>
+			<!-- 2번방============================================================================ -->
+			<div class="room2">
+				<br><br>
+				<div class="title_wrap">
+					<p class="s_title">두번째 방 임대료 및 입주정보 </p><br/>
+					<p>&nbsp;</p>
+				</div><br><br>
+				<ul class="form_box room_box">
+					<li><label><span class="red_txt">*</span>두번째 방 이름 </label> <input type="text" name=""/></li>
+					<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" name=""/> </li> 
+						
+					<li><label><span class="red_txt">*</span>보증금 </label><input type="number" name=""/> 	</li>
+					<li><label><span class="red_txt">*</span>방 인원</label> <input type="number" name=""/> </li>
+					<li><label><span class="red_txt">*</span>입주 가능일 </label> <input type="date" name=""  min="${now}"/> </li>
+					<li><label><span class="red_txt">*</span>최소 거주 기간</label>
+						<select name="" id="minStay">
+							<option value="1-3개월">1~3 개월</option>
+							<option value="4-6개월">4~6 개월</option>
+							<option value="7-12개월">7~12 개월</option>
+							<option value="1년이상">1년 이상</option>
+						</select> 
+					<li><label ><span class="red_txt">*</span>최대 거주 기간</label>
+						<select name="" id="maxStay">
+							<option value="1-3개월">1~3 개월</option>
+							<option value="4-6개월">4~6 개월</option>
+							<option value="7-12개월">7~12 개월</option>
+							<option value="1년이상">1년 이상</option>
+						</select> </li>
+						
+					<li><label><span class="red_txt">*</span>가구 여부</label> 
+						<div class="checks">
+								<input type="radio" id="furniture3" value="1" name=""> 
+								<label for="furniture3">있음</label>
+								
+								<input type="radio" id="furniture4" value="2" name=""> 
+								<label for="furniture4">없음</label>
+							</div>	</li>
+					<li><label>포함된 가구</label><input type="text" name=""/> </li>
+				</ul>
 			</div>
-			
-			<ul class="form_box room_box">
-				<li><label><span class="red_txt">*</span>방 이름 </label> <input type="text" name="roomVOList[1].roomName"/></li>
-				<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" name="roomVOList[1].rent"/> </li> 
-					
-				<li><label><span class="red_txt">*</span>보증금 </label><input type="number" name="roomVOList[1].deposit"/> 	</li>
-				<li><label><span class="red_txt">*</span>방 인원</label> <input type="number" name="roomVOList[1].roomPeople"/> </li>
-				<li><label><span class="red_txt">*</span>입주 가능일 </label> <input type="date" name="roomVOList[1].enterdate"  min="${now}"/> </li>
-				<li><label><span class="red_txt">*</span>최소 거주 기간</label>
-					<select name="roomVOList[1].minStay" id="minStay">
-						<option value="1-3개월">1~3 개월</option>
-						<option value="4-6개월">4~6 개월</option>
-						<option value="7-12개월">7~12 개월</option>
-						<option value="1년이상">1년 이상</option>
-					</select> 
-				<li><label ><span class="red_txt">*</span>최대 거주 기간</label>
-					<select name="roomVOList[1].maxStay" id="maxStay">
-						<option value="1-3개월">1~3 개월</option>
-						<option value="4-6개월">4~6 개월</option>
-						<option value="7-12개월">7~12 개월</option>
-						<option value="1년이상">1년 이상</option>
-					</select> </li>
-					
-				<li><label><span class="red_txt">*</span>가구 여부</label> 
-					<div class="checks">
-							<input type="radio" id="furniture3" value="1" name="roomVOList[1].furniture"> 
-							<label for="furniture3">있음</label>
-							
-							<input type="radio" id="furniture4" value="2" name="roomVOList[1].furniture"> 
-							<label for="furniture4">없음</label>
-						</div>	</li>
-				<li><label>포함된 가구</label><input type="text" name="roomVOList[1].incFurniture"/> </li>
-			</ul>
+
+			<!-- 3번방============================================================================ -->
+			<div class="room3">
+				<br><br>
+				<div class="title_wrap">
+					<p class="s_title">세번째 방 임대료 및 입주정보 </p> <br/>
+					<p>&nbsp;</p>
+				</div><br><br>
+				<ul class="form_box room_box room3">
+					<li><label><span class="red_txt">*</span>세번째 방 이름 </label> <input type="text" name=""/></li>
+					<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" name=""/> </li> 
+						
+					<li><label><span class="red_txt">*</span>보증금 </label><input type="number" name=""/> 	</li>
+					<li><label><span class="red_txt">*</span>방 인원</label> <input type="number" name=""/> </li>
+					<li><label><span class="red_txt">*</span>입주 가능일 </label> <input type="date" name=""  min="${now}"/> </li>
+					<li><label><span class="red_txt">*</span>최소 거주 기간</label>
+						<select name="" id="minStay">
+							<option value="1-3개월">1~3 개월</option>
+							<option value="4-6개월">4~6 개월</option>
+							<option value="7-12개월">7~12 개월</option>
+							<option value="1년이상">1년 이상</option>
+						</select> 
+					<li><label ><span class="red_txt">*</span>최대 거주 기간</label>
+						<select name="" id="maxStay">
+							<option value="1-3개월">1~3 개월</option>
+							<option value="4-6개월">4~6 개월</option>
+							<option value="7-12개월">7~12 개월</option>
+							<option value="1년이상">1년 이상</option>
+						</select> </li>
+						
+					<li><label><span class="red_txt">*</span>가구 여부</label> 
+						<div class="checks">
+								<input type="radio" id="furniture3" value="1" name=""> 
+								<label for="furniture3">있음</label>
+								
+								<input type="radio" id="furniture4" value="2" name=""> 
+								<label for="furniture4">없음</label>
+							</div>	</li>
+					<li><label>포함된 가구</label><input type="text" name=""/></li>
+				</ul>
+			</div>
+
+			<!-- 마지막방 4번째============================================================================ -->
+			<div class="room4">
+				<br><br>
+				<div class="title_wrap">
+					<p class="s_title">네번째 방 임대료 및 입주정보</p><br/>
+					<p>&nbsp;</p>
+				</div><br><br>
+				<ul class="form_box room_box ">
+					<li><label><span class="red_txt">*</span>네번째 방 이름 </label> <input type="text" name=""/></li>
+					<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" name=""/> </li> 
+						
+					<li><label><span class="red_txt">*</span>보증금 </label><input type="number" name=""/> 	</li>
+					<li><label><span class="red_txt">*</span>방 인원</label> <input type="number" name=""/> </li>
+					<li><label><span class="red_txt">*</span>입주 가능일 </label> <input type="date" name=""  min="${now}"/> </li>
+					<li><label><span class="red_txt">*</span>최소 거주 기간</label>
+						<select name="" id="minStay">
+							<option value="1-3개월">1~3 개월</option>
+							<option value="4-6개월">4~6 개월</option>
+							<option value="7-12개월">7~12 개월</option>
+							<option value="1년이상">1년 이상</option>
+						</select> 
+					<li><label ><span class="red_txt">*</span>최대 거주 기간</label>
+						<select name="" id="maxStay">
+							<option value="1-3개월">1~3 개월</option>
+							<option value="4-6개월">4~6 개월</option>
+							<option value="7-12개월">7~12 개월</option>
+							<option value="1년이상">1년 이상</option>
+						</select> </li>
+						
+					<li><label><span class="red_txt">*</span>가구 여부</label> 
+						<div class="checks">
+								<input type="radio" id="furniture3" value="1" name=""> 
+								<label for="furniture3">있음</label>
+								
+								<input type="radio" id="furniture4" value="2" name=""> 
+								<label for="furniture4">없음</label>
+							</div>	</li>
+					<li><label>포함된 가구</label><input type="text" name=""/> </li>
+				</ul>
+			</div>
+				<div class="btnclass">
+					<a class="green" id="roomPlus">방 추가하기</a>
+					<a class="green" id="roomMinus">방 삭제하기</a>
+				</div>
 				<div class="btnclass">
 					<a class="green" id="hPrev5">이전</a>
 					<a class="green" id="hNext5" >다음</a> 
@@ -648,14 +825,13 @@ $(function(){
 		
 			
 		<div id=houseWrite6>
-		
 		<div class="title_wrap">
 		<ul class="s_margin" id="HproUl">
-			<c:forEach var="vo" items="${list}" varStatus="index">
+			<c:forEach var="vo" items="${list}">
 				<li>
-					<a id="${vo.pno}" class="getPropinfo">
+					<a id="${vo.pno }" class="getPropinfo">
 						<c:if test="${vo.housename!=null}">${vo.housename}</c:if>
-						<c:if test="${vo.housename==null}">이름없는 집 ${index.count} </c:if>
+						<c:if test="${vo.housename==null}">성향${vo.pno}</c:if>
 					</a>
 				</li>
 			</c:forEach>

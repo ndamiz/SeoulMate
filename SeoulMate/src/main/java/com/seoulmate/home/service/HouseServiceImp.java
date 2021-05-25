@@ -109,12 +109,12 @@ public class HouseServiceImp implements HouseService {
 	}
 
 	@Override
-	public int roomDel(int no, String userid) { //방 삭제
-		return dao.roomDel(no, userid);
+	public int roomDel(int no, String userid, int hno) { //방 삭제
+		return dao.roomDel(no, userid, hno);
 	}
 
 	@Override
-	public String houseProfilePic(String userid ,int no) { //하우스사진 가져오기
+	public String[] houseProfilePic(String userid ,int no) { //하우스사진 가져오기
 		return hDAO.houseProfilePic(userid, no);
 	}
 
