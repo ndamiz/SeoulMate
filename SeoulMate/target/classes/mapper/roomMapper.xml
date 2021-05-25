@@ -18,13 +18,18 @@
 	</select>
 	<update id="roomUpdate" parameterType="com.seoulmate.home.vo.HouseRoomVO">
 		update houseroom set roomName=#{roomName}, deposit=#{deposit}, rent=#{rent}, enterdate=to_date(#{enterdate}, 'YYYY-MM-DD'), minStay=#{minStay},
-		maxStay=#{maxStay}, roomPeople=#{roomPeople}, furniture=${furniture}, incFurniture=#{incFurniture} where userid=#{userid} and no=${no}
+		maxStay=#{maxStay}, roomPeople=#{roomPeople}, furniture=${furniture}, 
+		incFurniture=#{incFurniture} where userid=#{userid} and no=${no} and hno=${hno}
 	</update>
-	<delete id="roomDel" parameterType="com.seoulmate.home.vo.HouseRoomVO">
-		delete from houseroom where no=#{param1} and userid=#{param2}	
+	<delete id="roomDel">
+		delete from houseroom where no=${param1} and userid=#{param2} and hno=${param3}	
 	</delete>
-	<select id="roomListSelect" parameterType="int" resultType="com.seoulmate.home.vo.HouseRoomVO" >
+	<select id="roomListSelect" parameterType="int" resultType="com.seoulmate.home.vo.HouseRoomVO">
 		select no, hno, userid, roomName, deposit, rent, to_char(enterdate,'YYYY-MM-DD') as enterdate, minStay, maxStay, roomPeople, furniture, incFurniture 
 		from houseroom where no=#{param1 }
 	</select>
+	<select id="getNumOfRooms" resultType="int">
+		select count(no) from houseroom where no=${param1} and userid=#{param2}
+	</select>
   </mapper>
+  
