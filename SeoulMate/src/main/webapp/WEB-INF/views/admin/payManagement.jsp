@@ -137,21 +137,23 @@
 		$(function(){
 			//환불 요청 .. 
 			$(document).on('click','.cancelPay', function(){
-				var merchant_uid = $(this).parent().children().eq(1).val();
-				var userAmount = $(this).parent().children().eq(2).val();
-				var amount = Number(userAmount)/100;
-				console.log(merchant_uid);
-				console.log(amount);
-				
-				$.ajax({
-					url : "/home/admin/cancelPay",
-					data : {"merchant_uid":merchant_uid, "cancel_request_amount":150},
-					success : function(result){
-						console.log("cancelPay =====>> "+result);
-					},error : function(){
-						console.log('환불 - nodejs - 에러 ');
-					}
-				});
+				if(confirm("환불 하시겠습니까?")){
+					var merchant_uid = $(this).parent().children().eq(1).val();
+					var userAmount = $(this).parent().children().eq(2).val();
+					var amount = Number(userAmount)/100;
+					console.log(merchant_uid);
+					console.log(amount);
+					
+					$.ajax({
+						url : "/home/admin/cancelPay",
+						data : {"merchant_uid":merchant_uid, "cancel_request_amount":150},
+						success : function(result){
+							console.log("cancelPay =====>> "+result);
+						},error : function(){
+							console.log('환불 - nodejs - 에러 ');
+						}
+					});
+				}
 			});
 			
 			// searchWord에 마우스클릭하면 value 지워주기 

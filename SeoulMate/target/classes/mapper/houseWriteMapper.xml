@@ -6,10 +6,10 @@
   	<select id="getFullPropensity" resultType="com.seoulmate.home.vo.PropensityVO">
   		select pno, userid, pcase, housename, h_noise, h_pattern, h_pet, h_petwith, h_smoke, h_mood,
   		h_communication, h_party, h_enter, h_support as h_supportStr, h_etc, m_pattern, m_personality, m_pet, m_smoke, m_age, m_gender, m_global, m_now, pdate
-  		 from propensity where userid=#{param1} and pno=#{param2}
+  		 from propensity where userid=#{param1} and pno=#{param2} and pcase='h'
   	</select>
   	<select id="getPropInfo" resultType="com.seoulmate.home.vo.PropensityVO">
-  		select * from propensity where userid=#{param1}
+  		select * from propensity where userid=#{param1} and pcase='h'
   	</select>
 	<select id="houseList" resultType="com.seoulmate.home.vo.HouseWriteVO">
 		select * from housewrite where userid=#{param1}
@@ -40,11 +40,11 @@
 	</insert>
 	<update id="houseUpdate" parameterType="com.seoulmate.home.vo.HouseWriteVO">
 		update housewrite set addr=#{addr}, 
-		<if test="housepic1!=null and housepic1!=''">housepic1=#{housepic1}, </if>
-		<if test="housepic2!=null and housepic2!=''">housepic2=#{housepic2}, </if>
-		<if test="housepic3!=null and housepic3!=''">housepic3=#{housepic3}, </if>
-		<if test="housepic4!=null and housepic4!=''">housepic4=#{housepic4}, </if>
-		<if test="housepic5!=null and housepic5!=''">housepic5=#{housepic5}, </if>
+		housepic1=#{housepic1, jdbcType=VARCHAR}, 
+		housepic2=#{housepic2, jdbcType=VARCHAR},
+		housepic3=#{housepic3, jdbcType=VARCHAR}, 
+		housepic4=#{housepic4, jdbcType=VARCHAR}, 
+		housepic5=#{housepic5, jdbcType=VARCHAR}, 
 		room=#{room}, bathroom=#{bathroom}, nowpeople=#{nowpeople}, searchpeople=#{searchpeople},
 		publicfacility=#{publicfacilityStr}, houseprofile=#{houseprofile}, housename=#{housename} where userid=#{userid} and no=${no}
 	</update>
@@ -59,7 +59,7 @@
 		 housestate, houseprofile from housewrite where no=#{param1} and userid=#{param2}
 	</select>
 		<select id="houseSelect2"  resultType="com.seoulmate.home.vo.HouseWriteVO">
-		 select no, pno, userid, addr, housename, housepic1, housepic2, housepic3, housepic4, housepic5, room, bathroom, nowpeople, searchpeople, publicfacility, writedate, enddate, 
+		 select no, pno, userid, addr, housename, housepic1, housepic2, housepic3, housepic4, housepic5, room, bathroom, nowpeople, searchpeople, publicfacility as publicfacilityStr, writedate, enddate, 
 		 housestate, houseprofile from housewrite where no=#{param1}
 	</select>
 	<delete id="houseDel" parameterType="com.seoulmate.home.vo.HouseWriteVO">
@@ -82,7 +82,7 @@
 	FROM (SELECT * FROM PROPENSITY WHERE pcase='h') p
 	JOIN (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, writedate FROM HOUSEWRITE 
 	WHERE housestate='모집중' and houseshow='공개') hw ON p.pno=hw.pno) hw2
-	JOIN (SELECT z1.NO, z1.rent, deposit FROM (SELECT NO, min(rent) AS rent FROM houseroom GROUP BY NO)z1 
+	JOIN (SELECT distinct(z1.NO), z1.rent, deposit FROM (SELECT NO, min(rent) AS rent FROM houseroom GROUP BY NO)z1 
 	JOIN (SELECT NO, rent, deposit FROM houseroom)z2 ON z1.NO=z2.NO AND z1.rent=z2.rent) hr ON hw2.NO=hr.NO 
 	<if test='addr != null'>AND addr LIKE '%${addr}%'</if>) 
 	<if test='rent != null and rent>0'>where <![CDATA[rent<=#{rent}]]></if>)
@@ -101,7 +101,7 @@
 		FROM (SELECT NO, hw.pno, hw.userid, m_gender, addr, hw.housename, housepic1, room, bathroom, nowpeople, writedate 
 		FROM (SELECT * FROM PROPENSITY WHERE pcase='h') p
 		JOIN (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, writedate FROM HOUSEWRITE WHERE housestate='모집중' and houseshow='공개') hw ON p.pno=hw.pno) hw2
-		JOIN (SELECT z1.NO, z1.rent, deposit FROM (SELECT NO, min(rent) AS rent FROM houseroom GROUP BY NO)z1 
+		JOIN (SELECT distinct(z1.NO), z1.rent, deposit FROM (SELECT NO, min(rent) AS rent FROM houseroom GROUP BY NO)z1 
 		JOIN (SELECT NO, rent, deposit FROM houseroom)z2 ON z1.NO=z2.NO AND z1.rent=z2.rent) hr ON hw2.NO=hr.NO 
 		<if test='addr != null'>AND addr LIKE '%${addr}%'</if>) 
 		<if test='rent != null and rent>0'>where <![CDATA[rent<=#{rent}]]></if>)

@@ -1,6 +1,8 @@
 package com.seoulmate.home.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.UUID;
@@ -200,6 +202,21 @@ public class MemberController {
 				filename.transferTo(f); // 업로드
 				realName=f.getName();
 				vo.setProfilePic(f.getName());
+				
+				// 파일을 복사하여 Node서버에 올린다.
+				File f2 = new File("D:/workspaceWeb/SeoulMateChat/img/profilePic", realName);
+				FileInputStream fi = new FileInputStream(f);
+				FileOutputStream fo = new FileOutputStream(f2);
+				
+				while(true) {
+					int inData = fi.read();
+					if (inData == -1) {
+						break;
+					}
+					fo.write(inData);
+				}
+				fo.flush();
+				fo.close();
 			}
 		}catch(Exception e) {
 			System.out.println("프로필 사진 업로드 에러 발생");
@@ -436,6 +453,21 @@ public class MemberController {
 					}
 					try {
 						newName.transferTo(ff);
+						
+						// 파일을 복사하여 Node서버에 올린다.
+						File f2 = new File("D:/workspaceWeb/SeoulMateChat/img/profilePic", ff.getName());
+						FileInputStream fi = new FileInputStream(ff);
+						FileOutputStream fo = new FileOutputStream(f2);
+						
+						while(true) {
+							int inData = fi.read();
+							if (inData == -1) {
+								break;
+							}
+							fo.write(inData);
+						}
+						fo.flush();
+						fo.close();
 					}catch(Exception e) {
 						System.out.println("새로운 파일 추가 수정 에러 발생");
 						e.printStackTrace();
@@ -445,7 +477,7 @@ public class MemberController {
 				}
 			}
 			vo.setProfilePic(newUpload);
-						
+			
 			if(!vo.getUserpwd().equals("")) { // 비밀번호를 바꾸려는 경우
 				if(service.memberUpdatePwdY(vo)>0) {
 					System.out.println("비밀번호 포함 회원수정 변경 성공");
@@ -544,12 +576,6 @@ public class MemberController {
 		*/
 		mav.setViewName("redirect:memberEditForm");
 		return mav;
-	}
-	
-	@RequestMapping("/memberExit")
-	public String memberExit() {
-		
-		return "member/memberExit";
 	}
 	
 	@RequestMapping("/memberExitOk")

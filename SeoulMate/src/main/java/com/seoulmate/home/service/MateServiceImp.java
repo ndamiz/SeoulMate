@@ -65,8 +65,8 @@ public class MateServiceImp implements MateService {
 		return dao.getNewIndexMate(pVO);
 	}
 	@Override
-	public String MateProfilePic(String matePic1, int no) {
-		return dao.MateProfilePic(matePic1, no);
+	public String[] MateProfilePic(String userid, int no) {
+		return dao.MateProfilePic(userid, no);
 	}
 
 	@Override

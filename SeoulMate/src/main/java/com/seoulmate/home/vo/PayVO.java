@@ -9,6 +9,7 @@ public class PayVO {
 	private int amount;	//결제완료된 금액
 	private int amountCard;
 	private int amountCash;
+	private int amountRefund;
 	private String payStart;	//결제일 
 	private String payEnd;		//결제 종료일 (결제일로부터 한달) 
 	private String payMethod; 	//결제수단 
@@ -112,6 +113,13 @@ public class PayVO {
 	}
 	public void setAmount(int amount) {
 		this.amount = amount;
+	}
+	
+	public int getAmountRefund() {
+		return amountRefund;
+	}
+	public void setAmountRefund(int amountRefund) {
+		this.amountRefund = amountRefund;
 	}
 	public String getPayStart() {
 		return payStart;

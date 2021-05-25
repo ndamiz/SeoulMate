@@ -47,10 +47,8 @@ $(function(){
 	      reader.readAsDataURL(input.files[0]);
 	    }
 	}
-
 $(function(){
 	
-
 	
 //     $('select').change(function(){
 //         var option = $(this).val(); //옵션의 value
@@ -64,7 +62,13 @@ $(function(){
 // 	if(!$('#selectBoxID > option:selected').val()) { //#->셀렉트 의 id 입력
 // 	    alert("선택해주세요");
 // 	}
-
+	//
+	$("#file b").click(function(){ //파일 업로드 X 버튼 누르면 삭제
+      $(this).parent().css("display", "none");
+      $(this).parent().next().attr("name", "delFile");
+      $(this).parent().next().next().attr('type', 'file');
+   	});
+	//
 
 	$("#roomPlus").click(function(){
 		$("#houseWrite1_ul2").css("display", "block");
@@ -187,7 +191,64 @@ $(function(){
           event.preventDefault();
        };
     });
-	
+	//페이징 로딩시에 기존 성향 값 세팅===================================================================
+		//추가되지롱
+	//페이징 로딩시에 기존 성향 값 세팅===================================================================끝
+  	//성향 버튼 눌렀을때 가져오기========================================================================
+	$('.getPropinfo').click(function(){
+		var housename = $(this).text();
+		var pno = $(this).attr('id');
+		console.log(housename);
+		$.ajax({
+			url : "/home/getPropensity",
+			data : 'userid=${logId}&pno='+pno,
+			success : function(result){
+				console.log(result);
+// 				//1. 생활소음 h_noise
+				$('input:radio[name=h_noise]:radio[value='+result.h_noise+']').prop('checked', true);
+// 				//2. 생활시간 h_pattern
+				$('input:radio[name=h_pattern]:radio[value='+result.h_pattern+']').prop('checked', true);
+// 				//3. 반려동물 여부 h_pet
+				$('input[name=h_pet]:radio[value='+result.h_pet+']').prop('checked', true);
+// 				//4. 반려동물 동반 입주 여부 h_petwith
+				$('input[name=h_petwith]:radio[value='+result.h_petwith+']').prop('checked', true);
+// 				//5. 흡연 h_smoke
+				$('input[name=h_smoke]:radio[value='+result.h_smoke+']').prop('checked', true);
+// 				//6. 분위기 h_mood
+				$('input[name=h_mood]:radio[value='+result.h_mood+']').prop('checked', true);
+// 				//7. 소통방식 h_communication
+				$('input[name=h_communication]:radio[value='+result.h_communication+']').prop('checked', true);
+// 				//8. 모임빈도 h_party
+				$('input[name=h_party]:radio[value='+result.h_party+']').prop('checked', true);
+// 				//9. 모임참가 의무 h_enter
+				$('input[name=h_enter]:radio[value='+result.h_enter+']').prop('checked', true);
+// 				//10. 하우스내 지원서비스 h_support
+				if(result.h_support != null){
+					for(var i=0; i<result.h_support.length; i++){
+						$('input[name=h_support]:checkbox[value='+result.h_support[i]+']').prop('checked', true);
+					}
+				}
+				//11. 메이트 생활시간
+				$('input[name=m_pattern]:radio[value='+result.m_pattern+']').prop('checked', true);
+				//12. 메이트 성격 m_personality m_personality
+				$('input[name=m_personality]:radio[value='+result.m_personality+']').prop('checked', true);
+				//13. 메이트 반려동물 선호도 m_pet
+				$('input[name=m_pet]:radio[value='+result.m_pet+']').prop('checked', true);
+				//14. 메이트 흡연 m_smoke
+				$('input[name=m_smoke]:radio[value='+result.m_smoke+']').prop('checked', true);
+				//15. 메이트 연령대 m_age
+				$('input[name=m_age]:radio[value='+result.m_age+']').prop('checked', true);
+				//16. 메이트 성별 m_gender
+				$('input[name=m_gender]:radio[value='+result.m_gender+']').prop('checked', true);
+				//17. 메이트 외국인입주 가능여부 m_global
+				$('input[name=m_global]:radio[value='+result.m_global+']').prop('checked', true);
+				//18. 메이트 즉시입주 여부 m_now
+				$('input[name=m_now]:radio[value='+result.m_now+']').prop('checked', true);
+			},error : function(){
+				alert("성향 불러오기 실패.")
+			}
+		});
+	})//성향 버튼 눌렀을때 가져오기========================================================================끝
 });
 // autocomplete="off" //자동완성 막아줌
 
@@ -248,7 +309,7 @@ $(function(){
 		</div>
 			
 			<ul class="form_box">
-				<li> <label><span class="red_txt">*</span>주소 </label> <input type="text" name="addr" value="${hVO.addr }" /> </li>
+				<li> <label><span class="red_txt">*</span>주소 </label> <input type="text" name="addr" value="${hVO.addr }" readonly/> </li> <!-- 주소 수정 못하게 막아둠 -->
 				<li><label><span class="red_txt">*</span>하우스 이름 </label> <input type="text" name="housename" value="${hVO.housename }"/></li>
 			<li> <label><span class="red_txt">*</span>총 방 개수 </label><select name="room" >
 						<option value="1" <c:if test="${hVO.room==1 }">selected </c:if> >1</option>
@@ -379,14 +440,56 @@ $(function(){
 					<img id="houseImg4" name="houseImg4" src="/home/housePic/${hVO.housepic4}" alt="upload image" />
 					<img id="houseImg5" name="houseImg5" src="/home/housePic/${hVO.housepic5}" alt="upload image" />
 				</li>
-				<li>
-					<input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);" /> 
-					<input type="file" accept="image/*" name="filename2"  id="housepic2" onchange="readURL(this);"/>
-					<input type="file" accept="image/*" name="filename3"  id="housepic3" onchange="readURL(this);"/>
-					<input type="file" accept="image/*" name="filename4"  id="housepic4" onchange="readURL(this);"/>
-					<input type="file" accept="image/*" name="filename5"  id="housepic5" onchange="readURL(this);"/>
-				<br/> 
-				</li>
+				<!-- /////////// -->
+				<li id="file">
+	               <div>${hVO.housepic1 } <b>X</b> </div>
+	<!--                <input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);" />  -->
+	               <input type="hidden" name="" value=${hVO.housepic1 }/>
+	               <input type="hidden" name="filename"/>
+	               
+	               <c:if test="${hVO.housepic2!=null && hVO.housepic2!='' }"> <!-- 두번째 첨부파일이 있을 경우 -->
+	               <div>${hVO.housepic2 } <b>X</b> </div>
+	               <input type="hidden" name="" value=${hVO.housepic2 }/>
+	               <input type="hidden" name="filename"/>
+	               </c:if>
+	               
+	               <c:if test="${hVO.housepic2==null || hVO.housepic2=='' }"> <!-- 두번째 첨부파일이 없을 경우 -->
+	               <input type="file" name="filename"/>
+	               </c:if>
+	               
+	               <c:if test="${hVO.housepic3!=null && hVO.housepic3!='' }"> <!-- 세번째 첨부파일이 있을 경우 -->
+	               <div>${hVO.housepic3 } <b>X</b> </div>
+	               <input type="hidden" name="" value=${hVO.housepic3 }/>
+	               <input type="hidden" name="filename"/>
+	               </c:if>
+	               
+	               <c:if test="${hVO.housepic3==null || hVO.housepic3=='' }"> <!-- 세번째 첨부파일이 없을 경우 -->
+	               <input type="file" name="filename"/>
+	               </c:if>
+	               
+	               <c:if test="${hVO.housepic4!=null && hVO.housepic4!='' }"> <!-- 네번째 첨부파일이 있을 경우 -->
+	               <div>${hVO.housepic4 } <b>X</b> </div>
+	               <input type="hidden" name="" value=${hVO.housepic4 }/>
+	               <input type="hidden" name="filename"/>
+	               </c:if>
+	               
+	               <c:if test="${hVO.housepic4==null || hVO.housepic4=='' }"> <!-- 네번째 첨부파일이 없을 경우 -->
+	               <input type="file" name="filename"/>
+	               </c:if>
+	               
+	               <c:if test="${hVO.housepic5!=null && hVO.housepic5!='' }"> <!-- 다섯번째 첨부파일이 있을 경우 -->
+	               <div>${hVO.housepic5 } <b>X</b> </div>
+	               <input type="hidden" name="" value=${hVO.housepic5 }/>
+	               <input type="hidden" name="filename"/>
+	               </c:if>
+	               
+	               <c:if test="${hVO.housepic5==null || hVO.housepic5=='' }"> <!-- 다섯번째 첨부파일이 없을 경우 -->
+	               <input type="file" name="filename"/>
+	               </c:if>
+	               
+	            <br/> 
+	            </li>
+				<!-- /////////// -->
 			</ul>
 				<div class="btnclass">
 					<a class="green" id="hPrev3">이전</a>
@@ -414,27 +517,28 @@ $(function(){
 		</div>	<!-- 등록form4 종료 -->
 		
 		<div id="houseWrite5">
-		
-		<div class="title_wrap">
-			<p class="s_title">임대료 및 입주정보 </p> <br/>
-			<p>&nbsp;</p>
-		</div>
-		
+		<c:forEach var="rVO" items="${rVO_List}" varStatus="index">
+			<div class="title_wrap">
+				<p class="s_title">${index.count}번 방 임대료 및 입주정보 </p> <br/>
+				<input type="hidden" name="roomVOList[${index.count-1}].hno" value="${rVO.hno}">
+				
+				<p>&nbsp;</p>
+			</div>
 			<ul class="form_box">
-				<li><label><span class="red_txt">*</span>방 이름 </label> <input type="text" name="roomName" value="${rVO.roomName }" /></li>
-				<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" name="rent" value="${rVO.rent }"/> 
-				<li><label><span class="red_txt">*</span>보증금(조율) </label><input type="number" name="deposit" value="${rVO.deposit }"/> </li>
-				<li><label><span class="red_txt">*</span>방 인원</label> <input type="number" name="roomPeople" value="${rVO.roomPeople }" /> </li>
-				<li><label><span class="red_txt">*</span>입주 가능일 </label> <input type="date" name="enterdate" min="${now}" value="${rVO.enterdate}" /> </li>
+				<li><label><span class="red_txt">*</span>방${index.count} 이름 </label> <input type="text" name="roomVOList[${index.count-1}].roomName" value="${rVO.roomName }" /></li>
+				<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" name="roomVOList[${index.count-1}].rent" value="${rVO.rent }"/> 
+				<li><label><span class="red_txt">*</span>보증금(조율) </label><input type="number" name="roomVOList[${index.count-1}].deposit" value="${rVO.deposit }"/> </li>
+				<li><label><span class="red_txt">*</span>방 인원</label> <input type="number" name="roomVOList[${index.count-1}].roomPeople" value="${rVO.roomPeople }" /> </li>
+				<li><label><span class="red_txt">*</span>입주 가능일 </label> <input type="date" name="roomVOList[${index.count-1}].enterdate" min="${now}" value="${rVO.enterdate}" /> </li>
 				<li><label><span class="red_txt">*</span>최소 거주 기간</label>
-					<select name="minStay" >
+					<select name="roomVOList[${index.count-1}].minStay" >
 						<option value="1-3개월" <c:if test="${rVO.minStay=='1-3개월' }">selected </c:if> >1~3 개월</option>
 						<option value="4-6개월" <c:if test="${rVO.minStay=='4-6개월' }">selected </c:if> >4~6 개월</option>
 						<option value="7-12개월" <c:if test="${rVO.minStay=='7-12개월' }">selected </c:if> >7~12 개월</option>
 						<option value="1년이상" <c:if test="${rVO.minStay=='1년이상' }">selected </c:if> >1년 이상</option>
 					</select> 
 				<li><label><span class="red_txt">*</span>최대 거주 기간</label>
-					<select name="maxStay" >
+					<select name="roomVOList[${index.count-1}].maxStay" >
 						<option value="1-3개월" <c:if test="${rVO.maxStay=='1-3개월' }">selected </c:if> >1~3 개월</option>
 						<option value="4-6개월" <c:if test="${rVO.maxStay=='4-7개월' }">selected </c:if> >4~6 개월</option>
 						<option value="7-12개월" <c:if test="${rVO.maxStay=='7-12개월' }">selected </c:if> >7~12 개월</option>
@@ -443,16 +547,16 @@ $(function(){
 					
 				<li><label><span class="red_txt">*</span>가구 여부</label> 
 					<div class="checks">
-							<input type="radio" id="furniture1" value="1" name="furniture" <c:if test="${rVO.furniture==1}">checked</c:if> > 
+							<input type="radio" id="furniture${index.count}" value="1" name="roomVOList[${index.count-1}].furniture" <c:if test="${rVO.furniture==1}">checked</c:if> > 
 							<label for="furniture1">있음</label>
 							
-							<input type="radio" id="furniture2" value="2" name="furniture" <c:if test="${rVO.furniture==2}">checked</c:if> > 
+							<input type="radio" id="furniture${index.count+1}" value="2" name="roomVOList[${index.count-1}].furniture" <c:if test="${rVO.furniture==2}">checked</c:if> > 
 							<label for="furniture2">없음</label>
 						</div>	</li>
-				<li><label>포함된 가구</label><input type="text" name="incFurniture"/> </li>
-			</ul>
-			
-			<a id="roomPlus" class="green"  >방 추가등록 </a> <br/> 
+				<li><label>포함된 가구</label><input type="text" name="roomVOList[${index.count-1}].incFurniture"/> </li>
+			</ul><br><br>
+		</c:forEach>
+			<a id="roomPlus" class="green">방 추가등록 </a> <br/> 
 					
 				<div class="btnclass">
 					<a class="green" id="hPrev5">이전</a>
@@ -467,9 +571,19 @@ $(function(){
 		
 		<div class="title_wrap">
 		<ul class="s_margin" id="HproUl">
-			<c:forEach var="vo" items="${list}">
-				<li><a href="#">${vo.housename}</a></li>
-			</c:forEach>
+		<!-- ?//////////////////////////////// -->
+		<c:forEach var="vo" items="${list}" varStatus="index">
+			<li>
+				<a id="${vo.pno}" class="getPropinfo">
+					<c:if test="${vo.housename!=null}">${vo.housename}</c:if>
+					<c:if test="${vo.housename==null}">이름없는 집 ${index.count} </c:if>
+				</a>
+			</li>
+		</c:forEach>
+<%-- 			<c:forEach var="vo" items="${list}"> --%>
+<%-- 				<li><a href="#">${vo.housename}</a></li> --%>
+<%-- 			</c:forEach> --%>
+		<!-- ?//////////////////////////////// -->
 		</ul>
 		<p class="s_title">하우스 성향 등록 (생활정보)</p> <br/>
 		
@@ -759,3 +873,4 @@ $(function(){
 
 </div> <!-- content 종료 -->
 </div> <!-- wrap -->
+>>>>>>> refs/remotes/origin/yyy
