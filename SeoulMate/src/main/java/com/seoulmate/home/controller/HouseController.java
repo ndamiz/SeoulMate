@@ -634,7 +634,7 @@ public class HouseController {
 		String[] fileName = service.houseProfilePic(userid, hVO.getNo());
 		System.out.println("파일 네임 확인-> "+fileName[0]);
 		//DB의 파일명을 가져온다
-		String housepic1 = fileName[0];
+//		String housepic1 = fileName[0];
 		List<String> selFile = new ArrayList<String>();
 //		selFile.add(hVO.getHousepic1());
 //		selFile.add(fileName[0]);

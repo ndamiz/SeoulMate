@@ -642,22 +642,22 @@ $(function(){
 			<p>&nbsp;</p>
 		</div>
 		
-			<ul class="form_box">
-				<li><label><span class="red_txt">*</span>방 이름 </label> <input type="text" name="roomName"/></li>
-				<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" name="rent"/> </li> 
+			<ul class="form_box room_box">
+				<li><label><span class="red_txt">*</span>방 이름 </label> <input type="text" name="roomVOList[0].roomName"/></li>
+				<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" name="roomVOList[0].rent"/> </li> 
 					
-				<li><label><span class="red_txt">*</span>보증금 </label><input type="number" name="deposit"/> 	</li>
-				<li><label><span class="red_txt">*</span>방 인원</label> <input type="number" name="roomPeople"/> </li>
-				<li><label><span class="red_txt">*</span>입주 가능일 </label> <input type="date" name="enterdate"  min="${now}"/> </li>
+				<li><label><span class="red_txt">*</span>보증금 </label><input type="number" name="roomVOList[0].deposit"/> 	</li>
+				<li><label><span class="red_txt">*</span>방 인원</label> <input type="number" name="roomVOList[0].roomPeople"/> </li>
+				<li><label><span class="red_txt">*</span>입주 가능일 </label> <input type="date" name="roomVOList[0].enterdate"  min="${now}"/> </li>
 				<li><label><span class="red_txt">*</span>최소 거주 기간</label>
-					<select name="minStay" id="minStay">
+					<select name="roomVOList[0].minStay" id="minStay">
 						<option value="1-3개월">1~3 개월</option>
 						<option value="4-6개월">4~6 개월</option>
 						<option value="7-12개월">7~12 개월</option>
 						<option value="1년이상">1년 이상</option>
 					</select> 
 				<li><label ><span class="red_txt">*</span>최대 거주 기간</label>
-					<select name="maxStay" id="maxStay">
+					<select name="roomVOList[0].maxStay" id="maxStay">
 						<option value="1-3개월">1~3 개월</option>
 						<option value="4-6개월">4~6 개월</option>
 						<option value="7-12개월">7~12 개월</option>
@@ -666,27 +666,17 @@ $(function(){
 					
 				<li><label><span class="red_txt">*</span>가구 여부</label> 
 					<div class="checks">
-							<input type="radio" id="furniture1" value="1" name="furniture"> 
+							<input type="radio" id="furniture1" value="1" name="roomVOList[0].furniture"> 
 							<label for="furniture1">있음</label>
 							
-							<input type="radio" id="furniture2" value="2" name="furniture"> 
+							<input type="radio" id="furniture2" value="2" name="roomVOList[0].furniture"> 
 							<label for="furniture2">없음</label>
 						</div>	</li>
-<<<<<<< HEAD
-				<li><label>포함된 가구</label><input type="text" name="incFurniture"/> </li>
-=======
 				<li><label>포함된 가구</label><input type="text" name="roomVOList[0].incFurniture"/></li>
->>>>>>> refs/heads/yun
 			</ul>
-<<<<<<< HEAD
-=======
 
->>>>>>> refs/heads/yun
-			
-<<<<<<< HEAD
-			<a id="roomPlus" class="green"  >방 추가등록 </a> <br/> 
-					
-=======
+
+
 			<!-- 2번방============================================================================ -->
 			<div class="room2">
 				<br><br>
@@ -813,7 +803,6 @@ $(function(){
 					<a class="green" id="roomPlus">방 추가하기</a>
 					<a class="green" id="roomMinus">방 삭제하기</a>
 				</div>
->>>>>>> refs/heads/yun
 				<div class="btnclass">
 					<a class="green" id="hPrev5">이전</a>
 					<a class="green" id="hNext5" >다음</a> 
