@@ -1,12 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <style>
-	#premiumInfoImg {border: 2px solid #4DA69E; border-radius: 30px; margin-bottom: 50px;}
-	#premiumInfoImg ul {overflow: auto;}
-	#premiumInfoImg img {width: 33%; border-radius: 30px;}
+	#premiumInfoImg {border: 2px solid #4DA69E; border-radius: 30px; margin-bottom: 30px;}
+	#premiumInfoImg ul {overflow: auto; text-align: center; margin: 10px}
+	#premiumInfoImg ul>li:first-of-type{font-family: SsangmunDong; font-size: 2.2em; width: 100%; margin-top: 50px;}
+	#premiumInfoImg img {width: 32%; border-radius: 30px;}
 	#premiunPoint {color:#4DA69E; font-weight: 900;}
 	#premiumInfoTable th{height: 50px; line-height: 50px; }
-	#premiumInfoTable{border-bottom:2px solid #4DA69E; }
+	#premiumInfoTable{border-bottom:2px solid #4DA69E; margin-bottom: 20px;}
+	#premiumContent{width: 70%;}
 	#premiumContent>button, #premiumContent>a{float: right; margin: 20px 0px;}
 </style>
 <div class="wrap">
@@ -34,10 +36,18 @@
 		</div>
 		<div id="premiumInfoImg">
 			<ul>
+				<li>매칭률 확인</li>
 				<li>	
-					<img src="<%=request.getContextPath()%>/img/premiumbefore.jpg"/>
+					<img src="<%=request.getContextPath()%>/img/premiumBefore.jpg"/>
 					<img src="<%=request.getContextPath()%>/img/img01.jpg"/>
 					<img src="<%=request.getContextPath()%>/img/premiumAfter.jpg"/>
+				</li>
+			</ul>
+			<ul>
+				<li>그래프 및 매칭률 확인</li>
+				<li>	
+					<img src="<%=request.getContextPath()%>/img/machingGraph.jpg"/>
+					<img src="<%=request.getContextPath()%>/img/maching.jpg"/>
 				</li>
 			</ul>
 		</div>
@@ -56,16 +66,6 @@
 					<th>15,000원 / 월</th>
 				</tr>
 				<tr>
-					<th>쉐어하우스 신청</th>
-					<th>일 3회</th>
-					<th>무제한</th>
-				</tr>
-				<tr>
-					<th>하우스메이트 초대/조회</th>
-					<th>일 3회</th>
-					<th>무제한</th>
-				</tr>
-				<tr>
 					<th id="premiunPoint">성향 매칭</th>
 					<th>지원 안함</th>
 					<th>지원</th>
@@ -74,11 +74,6 @@
 					<th>등록 작성 가능 개수</th>
 					<th>총 1건</th>
 					<th>총 3건</th>
-				</tr>
-				<tr>
-					<th>검색 및 목록 순위</th>
-					<th>없음</th>
-					<th>상위 노출</th>
 				</tr>
 			</tbody>
 		</table>
@@ -91,5 +86,6 @@
 		<c:if test="${logId==null && memberVO.userid==null }">
 			<a href="login" class="b_btn white" >로그인 후 멤버십 가입 가능</a>
 		</c:if>
+		
 	</div>
 </div>
