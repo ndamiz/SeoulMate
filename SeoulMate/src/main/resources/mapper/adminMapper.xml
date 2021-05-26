@@ -404,6 +404,41 @@
    	<select id="getProfilePic2" resultType="String">
    		select profilepic from member where userid=#{param2}
    	</select>
+   <update id="housePicUpdate" parameterType="java.util.HashMap"  >
+   		update housewrite set 
+   		<if test="housepic1 != '10000'"> housepic1='${housepic1}'</if>
+   		<if test="housepic2 != '10000'">, housepic2='${housepic2}'</if>
+   		<if test="housepic2 == '10000'">, housepic2 = null</if>
+   		<if test="housepic3 != '10000'">, housepic3='${housepic3}'</if>
+   		<if test="housepic3 == '10000'">, housepic3 = null</if>
+   		<if test="housepic4 != '10000'">, housepic4='${housepic4}'</if>
+   		<if test="housepic4 == '10000'">, housepic4 = null</if>
+   		<if test="housepic5 != '10000'">, housepic5='${housepic5}'</if>
+   		<if test="housepic5 == '10000'">, housepic5 = null</if>
+   		where pno=${pno}
+   </update>
+   <update id="matePicUpdate" parameterType="java.util.HashMap"  >
+   		update matewrite set 
+   		<if test="matePic1 != '10000'"> matePic1='${matePic1}'</if>
+   		<if test="matePic2 != '10000'">, matePic2='${matePic2}'</if>
+   		<if test="matePic2 == '10000'">, matePic2 = null</if>
+   		<if test="matePic3 != '10000'">, matePic3='${matePic3}'</if>
+   		<if test="matePic3 == '10000'">, matePic3 = null</if>
+   		where pno=${pno}
+   </update>
+   <update id="houseStateUpdate" parameterType="com.seoulmate.home.vo.HouseWriteVO">
+   		update housewrite set housestate='${housestate}' where pno=${pno}
+   </update>
+   <update id="mateStateUpdate" parameterType="com.seoulmate.home.vo.MateWriteVO">
+   		update matewrite set matestate='${matestate}' where pno=${pno}
+   </update>
+   <select id="housepicSelect" parameterType="int" resultType="com.seoulmate.home.vo.HouseWriteVO" >
+		select housepic1, housepic2, housepic3, housepic4, housepic5 from housewrite where pno=${param1}
+   </select>
+   <select id="matepicSelect" parameterType="int" resultType="com.seoulmate.home.vo.MateWriteVO" >
+		select matePic1, matePic2, matePic3 from matewrite where pno=${param1}
+   </select>
+   
 </mapper>
 
 

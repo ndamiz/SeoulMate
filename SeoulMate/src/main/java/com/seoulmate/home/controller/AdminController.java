@@ -72,7 +72,6 @@ public class AdminController {
 	@Autowired
 	private DataSourceTransactionManager transactionManager;
 
-
 	// 관리자-로그인
 	@RequestMapping("/admin/login")
 	public String adminLogin() {
@@ -534,13 +533,189 @@ public class AdminController {
 	}
 	
 	//하우스 - 수정
-	@RequestMapping(value="/admin/house_ManagementEdit" )
+	@RequestMapping(value="/admin/house_ManagementEdit", method={RequestMethod.POST, RequestMethod.GET})
 	@ResponseBody
-	public int houseManagementEdit(HouseWriteVO hwVO) {
-	System.out.println(hwVO.getHousepic1());
-	System.out.println(hwVO.getHousepic2());	
-		return 1;
+	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
+	public int houseManagementEdit(HouseWriteVO hwVO, HttpSession session, HttpServletRequest req) {
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED);
+		TransactionStatus status = transactionManager.getTransaction(def);
+		
+		String path = session.getServletContext().getRealPath("/housePic");
+		
+		List<String> delFile = new ArrayList<String>();
+		if(hwVO.getHousepic1()!=null && !hwVO.getHousepic1().equals("")) { 
+			delFile.add(hwVO.getHousepic1()); }
+		if(hwVO.getHousepic2()!=null && !hwVO.getHousepic2().equals("")) { 
+			delFile.add(hwVO.getHousepic2()); }
+		if(hwVO.getHousepic3()!=null && !hwVO.getHousepic3().equals("")) { 
+			delFile.add(hwVO.getHousepic3()); }
+		if(hwVO.getHousepic4()!=null && !hwVO.getHousepic4().equals("")) { 
+			delFile.add(hwVO.getHousepic4()); }
+		if(hwVO.getHousepic5()!=null && !hwVO.getHousepic5().equals("")) { 
+			delFile.add(hwVO.getHousepic5()); }
+		System.out.println(delFile);
+		
+		HouseWriteVO dbHvo = service.housepicSelect(hwVO.getPno());
+		List<String> dbFile = new ArrayList<String>();
+		
+		if(dbHvo.getHousepic1()!=null && !dbHvo.getHousepic1().equals("")) { 
+			dbFile.add(dbHvo.getHousepic1()); }
+		if(dbHvo.getHousepic2()!=null && !dbHvo.getHousepic2().equals("")) { 
+			dbFile.add(dbHvo.getHousepic2()); }
+		if(dbHvo.getHousepic3()!=null && !dbHvo.getHousepic3().equals("")) { 
+			dbFile.add(dbHvo.getHousepic3()); }
+		if(dbHvo.getHousepic4()!=null && !dbHvo.getHousepic4().equals("")) { 
+			dbFile.add(dbHvo.getHousepic4()); }
+		if(dbHvo.getHousepic5()!=null && !dbHvo.getHousepic5().equals("")) { 
+			dbFile.add(dbHvo.getHousepic5()); }
+		System.out.println(dbFile);
+		
+		
+		Map<String, String> map = new HashMap<String, String>();
+		for(int del=0; del<delFile.size(); del++) {
+			dbFile.remove(delFile.get(del));
+		}
+		System.out.println("dbFile2222 "+dbFile);
+		for(int d=0; d<dbFile.size(); d++) {
+			String key = "housepic"+(d+1);
+			map.put(key, dbFile.get(d));
+		}
+		System.out.println(map);
+		//게재상태 수정
+		System.out.println(hwVO.getHousestate());
+		int re = service.houseStateUpdate(hwVO);
+		if(re>0) {
+			if(map.size()==0) {
+				return 200;
+			}else {
+System.out.println("state 업데이트 완료");
+				// db에서 update 하기  
+				for(int a=(map.size()); a<5; a++ ) {
+					String key = "housepic"+(a+1);
+					map.put(key, "10000");
+				}
+				map.put("pno", Integer.toString(hwVO.getPno()));
+				System.out.println(map);
+				
+				int result = service.housePicUpdate(map);
+				if(result>0) {
+System.out.println("DB파일 업데이트 완료");
+					// update 완료
+					// 파일 삭제
+					try {
+						for(int i=0; i<delFile.size(); i++) {
+							File f = new File(path, delFile.get(i)) ;
+							f.delete();
+						}
+						System.out.println("파일삭제완료");
+					} catch (Exception e) {
+						System.out.println("파일삭제에러");
+						return  200;
+					}
+					transactionManager.commit(status);
+System.out.println("사진파일 삭제 완료, 커밋");
+					return 1;
+				}else {
+					// update 실패
+					transactionManager.rollback(status);
+					return 200;
+				}
+			}
+		}else {
+			transactionManager.rollback(status);
+			return 200;
+		}
 	}
+	// 메이트 수정
+	@RequestMapping(value="/admin/mate_ManagementEdit", method={RequestMethod.POST, RequestMethod.GET})
+	@ResponseBody
+	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
+	public int mateManagementEdit(MateWriteVO mwVO, HttpSession session, HttpServletRequest req) {
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED);
+		TransactionStatus status = transactionManager.getTransaction(def);
+		
+		String path = session.getServletContext().getRealPath("/matePic");
+		
+		List<String> delFile = new ArrayList<String>();
+		if(mwVO.getMatePic1()!=null && !mwVO.getMatePic1().equals("")) { 
+			delFile.add(mwVO.getMatePic1()); }
+		if(mwVO.getMatePic2()!=null && !mwVO.getMatePic2().equals("")) { 
+			delFile.add(mwVO.getMatePic2()); }
+		if(mwVO.getMatePic3()!=null && !mwVO.getMatePic3().equals("")) { 
+			delFile.add(mwVO.getMatePic3()); }
+		System.out.println("delFile"+delFile);
+		
+		MateWriteVO dbHvo = service.matepicSelect(mwVO.getPno());
+		List<String> dbFile = new ArrayList<String>();
+		
+		if(dbHvo.getMatePic1()!=null && !dbHvo.getMatePic1().equals("")) { 
+			dbFile.add(dbHvo.getMatePic1()); }
+		if(dbHvo.getMatePic2()!=null && !dbHvo.getMatePic2().equals("")) { 
+			dbFile.add(dbHvo.getMatePic2()); }
+		if(dbHvo.getMatePic3()!=null && !dbHvo.getMatePic3().equals("")) { 
+			dbFile.add(dbHvo.getMatePic3()); }
+		System.out.println("dbFile"+dbFile);
+		
+		Map<String, String> map = new HashMap<String, String>();
+		
+		for(int del=0; del<delFile.size(); del++) {
+			dbFile.remove(delFile.get(del));
+		}
+		System.out.println("dbFile2222 "+dbFile);
+		for(int d=0; d<dbFile.size(); d++) {
+			String key = "matePic"+(d+1);
+			map.put(key, dbFile.get(d));
+		}
+		System.out.println("map"+map);
+		//게재상태 수정
+		System.out.println(mwVO.getMatestate());
+		int re = service.mateStateUpdate(mwVO);
+		if(re>0) {
+			if(map.size()==0) {
+				return 200;
+			}else {
+System.out.println("state 업데이트 완료");
+				// db에서 update 하기  
+				for(int a=(map.size()); a<3; a++ ) {
+					String key = "matePic"+(a+1);
+					map.put(key, "10000");
+				}
+				map.put("pno", Integer.toString(mwVO.getPno()));
+				System.out.println("map2"+map);
+				
+				
+				int result = service.matePicUpdate(map);
+				if(result>0) {
+System.out.println("DB파일 업데이트 완료");
+					// update 완료
+					// 파일 삭제
+					try {
+						for(int i=0; i<delFile.size(); i++) {
+							File f = new File(path, delFile.get(i)) ;
+							f.delete();
+						}
+						System.out.println("파일삭제완료");
+					} catch (Exception e) {
+						System.out.println("파일삭제에러");
+						return  200;
+					}
+					transactionManager.commit(status);
+System.out.println("사진파일 삭제 완료, 커밋");
+					return 1;
+				}else {
+					// update 실패
+					transactionManager.rollback(status);
+					return 200;
+				}
+			}
+		}else {
+			transactionManager.rollback(status);
+			return 200;
+		}
+	}
+	
 	//관리자 - 하우스메이트 
 	@RequestMapping(value="/admin/mateManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView mateManagement(MateWriteVO mwVO, PagingVO pagingVO) {

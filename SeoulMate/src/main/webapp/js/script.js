@@ -3,8 +3,8 @@ $(document).ready(function(){
 });
 $(function(){
 	$('#premiumPayPopup, #premiumPayBtn').on('click', function(){
-		var popWidth = 850;
-		var popHeight = 650;
+		var popWidth = 650;
+		var popHeight = 550;
 		var popLeft = Math.ceil((window.screen.width - popWidth)/2);
 		var popTop = Math.ceil((window.screen.height - popHeight)/2);
 		window.open("premiumPay","프리미엄 멤버십 결제 페이지", "width="+popWidth+", height="+popHeight+", left="+popLeft+", top="+popTop);

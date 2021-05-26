@@ -238,4 +238,31 @@ public class AdminServiceImp implements AdminService {
 		// 일반 프리미엄
 		return dao.getMemberGrade(grade);
 	}
+	//사진 및 게재상태 수정
+	@Override
+	public int housePicUpdate(Map<String, String> map) {
+		return dao.housePicUpdate(map);
+	}
+	// 게재상태 수정 
+	@Override
+	public int houseStateUpdate(HouseWriteVO hwVO) {
+		return dao.houseStateUpdate(hwVO);
+	}
+	//현재 사진 가져오기 
+	@Override
+	public HouseWriteVO housepicSelect(int pno) {
+		return dao.housepicSelect(pno);
+	}
+	@Override
+	public MateWriteVO matepicSelect(int pno) {
+		return dao.matepicSelect(pno);
+	}
+	@Override
+	public int mateStateUpdate(MateWriteVO mwVO) {
+		return dao.mateStateUpdate(mwVO);
+	}
+	@Override
+	public int matePicUpdate(Map<String, String> map) {
+		return dao.matePicUpdate(map);
+	}
 }

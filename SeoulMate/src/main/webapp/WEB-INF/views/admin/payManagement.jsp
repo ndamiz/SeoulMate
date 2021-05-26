@@ -224,26 +224,38 @@
 				
 				if($(this).text().indexOf('결제번호') != -1){
 					if($('input[name=orderCondition]').val()=='no'){
-						$('input[name=orderUpDown]').attr('value','asc');
+						if($('input[name=orderUpDown]').val()=='asc'){
+							$('input[name=orderUpDown]').val('desc');
+						}else{
+							$('input[name=orderUpDown]').val('asc');
+						}
 					}else{
-						$('input[name=orderCondition]').attr('value','no');
-						$('input[name=orderUpDown]').attr('value','desc');
+						$('input[name=orderCondition]').val('no');
+						$('input[name=orderUpDown]').val('desc');
 					}
 				}
 				if($(this).text().indexOf('결제일') != -1){
 					if($('input[name=orderCondition]').val()=='payStart'){
-						$('input[name=orderUpDown]').attr('value','asc');
+						if($('input[name=orderUpDown]').val()=='asc'){
+							$('input[name=orderUpDown]').val('desc');
+						}else{
+							$('input[name=orderUpDown]').val('asc');
+						}
 					}else{
-						$('input[name=orderCondition]').attr('value','payStart');
-						$('input[name=orderUpDown]').attr('value','desc');
+						$('input[name=orderCondition]').val('payStart');
+						$('input[name=orderUpDown]').val('desc');
 					}
 				}
 				if($(this).text().indexOf('결제종료일') != -1){
 					if($('input[name=orderCondition]').val()=='payEnd'){;
-						$('input[name=orderUpDown]').attr('value','asc');
+						if($('input[name=orderUpDown]').val()=='asc'){
+							$('input[name=orderUpDown]').val('desc');
+						}else{
+							$('input[name=orderUpDown]').val('asc');
+						}
 					}else{
-						$('input[name=orderCondition]').attr('value','payEnd');
-						$('input[name=orderUpDown]').attr('value','desc');
+						$('input[name=orderCondition]').val('payEnd');
+						$('input[name=orderUpDown]').val('desc');
 					}
 				}
 				$('#payManagementForm').submit();

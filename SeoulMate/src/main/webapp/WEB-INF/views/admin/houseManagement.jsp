@@ -50,7 +50,7 @@
 							<col width="15%">
 						</colgroup>
 						<thead class="thead-light">
-							<tr>
+							<tr class="admin_HouseManagement_DetailInfo_Header">
 								<th>No.</th>
 								<th>아이디</th>
 								<th>하우스이름</th>
@@ -118,7 +118,7 @@
 								<li><span id="hw_writedate"></span> ~ <span id="hw_enddate"></span></li>
 								<li>상태</li>
 								<li>
-									<select name="hw_housestate" class="custom-select" id="hw_housestate" style="height: 28px; padding: 2px 10px; vertical-align: top; margin-top: 1px;">
+									<select name="hw_housestate" class="custom-select" id="hw_housestate" style="height: 28px; padding: 2px 10px; vertical-align: middel; margin-bottom: 5px;">
 										<option value="모집중">모집중</option>
 										<option value="매칭 완료">매칭 완료</option>
 										<option value="기간 만료">기간 만료</option>
@@ -152,8 +152,8 @@
 								<li>생활소음 : <span id="propen_h_noise"></span></li>
 								<li>생활시간 : <span id="propen_h_pattern"></span></li>
 								<li>흡연 : <span id="propen_h_smoke"></span></li>
-								<li style="width: 42%;">하우스 내 애완동물 여부 : <span id="propen_h_pet"></span></li>
-								<li style="width: 42%;">애완동물 동반입실(거주) 여부 : <span id="propen_h_petwith"></span></li>
+								<li style="width: 42%;">하우스 내 반려동물 여부 : <span id="propen_h_pet"></span></li>
+								<li style="width: 42%;">반려동물 동반입실(거주) 여부 : <span id="propen_h_petwith"></span></li>
 							</ul>
 						</li>
 						<li>
@@ -196,14 +196,14 @@
 							</ul>
 							<ul class="admin_Management_popup_table_inner0">
 								<li>최소거주기간</li>
-								<li id="hr_minStay">4-6 개월</li>
+								<li id="hr_minStay"></li>
 								<li>최대거주기간</li>
-								<li id="hr_maxStay">1년 이상</li>
+								<li id="hr_maxStay"></li>
 							</ul>
 							<ul class="admin_Management_popup_table_inner2">
 								<li>가구</li>
-								<li style="width: 84%; border-bottom: 1px solid #dee2e6;" id="hr_furniture">있음</li>
-								<li style="width: 84%;" id="hr_incFurniture">포함된 가구 목록 뽑아내얋...</li>
+								<li style="width: 84%; border-bottom: 1px solid #dee2e6;" id="hr_furniture"></li>
+								<li style="width: 84%;" id="hr_incFurniture"></li>
 							</ul>
 						</li>
 						<li class="admin_Management_popup_table_title" style="padding-left: 20px;">희망하는 메이트의 성향</li>
@@ -211,7 +211,7 @@
 							<ul class="admin_Management_popup_table_inner3">
 								<li>생활시간 : <span id="propen_m_pattern"></span></li>
 								<li>성격 : <span id="propen_m_personality"></span></li>
-								<li>애완동물 : <span id="propen_m_pet"></span></li>
+								<li>반려동물 : <span id="propen_m_pet"></span></li>
 								<li>나이대 : <span id="propen_m_age"></span></li>
 								<li>성별 : <span id="propen_m_gender"></span></li>
 								<li>외국인 여부 : <span id="propen_m_global"></span> </li>
@@ -228,6 +228,7 @@
 					<a href="javascript:printPage('pop')" class="btn btn-custom">프린트</a>
 					<a class="btn btn-custom house_popup_Edit" >수정</a>
 					<input id="change_state" type="hidden" name="change_state" value=""/>
+					<input id="selectPno" type="hidden" name="selectPno" value=""/>
 					<a href="#" class="btn btn-custom popup_Close">닫기</a>
 				</div>
 			</div>
@@ -238,51 +239,54 @@ $(function(){
 	var popup_select = '';
 	var delNo = [];
 	var delFile = [];
+	var housepic1 = '';
+	var housepic2 = '';
+	var housepic3 = '';
+	var housepic4 = '';
+	var housepic5 = '';
+	
 	$(document).on('change','#hw_housestate',function(){
 		$('input[name=change_state]').val($(this).val());
 	});
 	$(document).on('click', '.house_popup_Edit', function(){
-		var change_state = $('select[name=hw_housestate]').val();
+		var change_state = $('input[name=change_state]').val();
+		var selectPno = $('input[name=selectPno]').val();
+		console.log("selectPno==="+selectPno);
 		console.log(delNo);
 		console.log(delFile);
 		console.log(delFile.length);
 		var Deldata = new Array();
+		
 		for(var i=0; i<delFile.length; i++){
-			var d = new Object();
-			if(delNo[i]=="housePic1"){
-				d.housePic1 = delFile[i];
-				Deldata.push(d);
-			}
-			if(delNo[i]=="housePic2"){
-				d.housePic2 = delFile[i];
-				Deldata.push(d);
-			}if(delNo[i]=="housePic3"){
-				d.housePic3 = delFile[i];
-				Deldata.push(d);
-			}if(delNo[i]=="housePic4"){
-				d.housePic4 = delFile[i];
-				Deldata.push(d);
-			}if(delNo[i]=="housePic5"){
-				d.housePic5 = delFile[i];
-				Deldata.push(d);
+			if(delNo[i]=="housepic1"){
+				housepic1 = delFile[i];
+			}if(delNo[i]=="housepic2"){
+				housepic2 = delFile[i];
+			}if(delNo[i]=="housepic3"){
+				housepic3 = delFile[i];
+			}if(delNo[i]=="housepic4"){
+				housepic4 = delFile[i];
+			}if(delNo[i]=="housepic5"){
+				housepic5 = delFile[i];
 			}
 		}
-		var jsonData = JSON.stringify(Deldata) ;
-		console.log(jsonData);
+		var data = {'pno':selectPno,'housepic1':housepic1, 'housepic2':housepic2, "housepic3":housepic3,"housepic4":housepic4, "housepic5":housepic5,"housestate":change_state };
 		
 		var url = "/home/admin/house_ManagementEdit";
 		$.ajax({
 			url : url,
-			data : jsonData,
-			traditional: true ,
-			contentType:"application/json; charset=UTF-8",
+			data : data,
 			type : 'POST',
-			dataType:'JSON',
 			success : function(result){
 				console.log(result);
-				
+				if(result==1){
+					console.log("수정이 완료되었습니다.");
+					alert('수정이 완료되었습니다');
+				}else if(result==200){
+					console.log("house_ManagementEdit 에러발생 update 실패 ");
+				}
 			},error : function(){
-				
+				console.log("house_ManagementEdit ajax 에러");
 			}
 		});
 		
@@ -294,9 +298,7 @@ $(function(){
 		console.log($(this).prev().attr("name"));
 		delNo.push($(this).prev().attr("name"));
 		delFile.push($(this).prev().attr("id"));
-		
-		
-	})
+	});
 	$(document).on('click', '.admin_HouseManagement_DetailInfo',function(){
 		delNo=[];
 		delFile = [];
@@ -321,8 +323,9 @@ $(function(){
 				console.log(result);
 				$('#hw_writedate').text(result.hwVO.writedate.substr(0, 10));
 				$('#hw_enddate').text(result.hwVO.enddate.substr(0, 10));
-				$('input[name=hw_housestate]').val(result.hwVO.housestate).prop("selected", true);
+				$('select[name=hw_housestate]').val(result.hwVO.housestate).prop("selected", true);
 				$('input[name=change_state]').val(result.hwVO.housestate);
+				$('input[name=selectPno]').val(result.hwVO.pno);
 				$('#hw_addr').text(result.hwVO.addr);
 				// grade (1:일반, 2:프리미엄)
 				if(result.hwVO.grade == 1){ $('#hw_grade').text('일반');}
@@ -505,23 +508,23 @@ $(function(){
 				// 이미지 넣기
 				var houseImgTag = '';
 				if(result.hwVO.housepic1!=null && result.hwVO.housepic1!=''){
-					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic1+'" name="housePic1" src="/home/housePic/'+result.hwVO.housepic1+'" alt="housepic1" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
+					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic1+'" name="housepic1" src="/home/housePic/'+result.hwVO.housepic1+'" alt="housepic1" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
 					houseImgTag += '<span class="house_imgDel">삭제</span></div>';
 				}
 				if(result.hwVO.housepic2!=null && result.hwVO.housepic2!=''){
-					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic2+'" name="housePic2" src="/home/housePic/'+result.hwVO.housepic2+'" alt="housepic2" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
+					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic2+'" name="housepic2" src="/home/housePic/'+result.hwVO.housepic2+'" alt="housepic2" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
 					houseImgTag += '<span class="house_imgDel">삭제</span></div>';
 				}
 				if(result.hwVO.housepic3!=null && result.hwVO.housepic3!=''){
-					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic3+'" name="housePic3" src="/home/housePic/'+result.hwVO.housepic3+'" alt="housepic3" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
+					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic3+'" name="housepic3" src="/home/housePic/'+result.hwVO.housepic3+'" alt="housepic3" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
 					houseImgTag += '<span class="house_imgDel">삭제</span></div>';
 				}
 				if(result.hwVO.housepic4!=null && result.hwVO.housepic4!=''){
-					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic4+'" name="housePic4" src="/home/housePic/'+result.hwVO.housepic4+'" alt="housepic4" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
+					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic4+'" name="housepic4" src="/home/housePic/'+result.hwVO.housepic4+'" alt="housepic4" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
 					houseImgTag += '<span class="house_imgDel">삭제</span></div>';
 				}
 				if(result.hwVO.housepic5!=null && result.hwVO.housepic5!=''){
-					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic5+'" name="housePic5" src="/home/housePic/'+result.hwVO.housepic5+'" alt="housepic5" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
+					houseImgTag += '<div><img class="house_img" id="'+result.hwVO.housepic5+'" name="housepic5" src="/home/housePic/'+result.hwVO.housepic5+'" alt="housepic5" onerror="this.src=\'/home/img/comm/no_house_pic.png\'"/>';
 					houseImgTag += '<span class="house_imgDel">삭제</span><div>';
 				}
 				$('#hw_housepic').html(houseImgTag);
