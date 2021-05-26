@@ -31,7 +31,7 @@
 		var popupY=(window.screen.height/2)-(popupHeight/2);
 		
 		$("#idCheck").click(function(){
-			if(regExpCheck()==false){
+			if(regIdCheck()==false){
 				return false;
 			}
 			$(document.body).css("overflow","hidden");
@@ -436,6 +436,14 @@
 				return false;
 			}
 		}
+		// 아이디 중복확인 정규식 표현
+		function regIdCheck(){
+			var regId=/^[a-zA-Z]{1}[a-zA-Z0-9]{5,11}$/;
+			if(!regId.test(document.getElementById("userid").value)){
+				alert("아이디는 영문과 숫자를 조합한 6~12자리여야 합니다.");
+				return false;
+			}
+		}
 		// 팝업 아이디 정규식 표현
 		function regPopCheck(){
 			var regIdPop=/^[a-zA-Z]{1}[a-zA-Z0-9]{5,11}$/;
@@ -559,10 +567,10 @@
 					<li><label><span class="red_txt">*</span>이메일</label>
 						<input type="text" name="emailid" id="emailid" placeholder="이메일"  autocomplete="off"/><span>@</span> 
 						<select name="emaildomain" id="emaildomain">
-							<option value="naver.com">naver.com</option>
+							<option value="naver.com" selected>naver.com</option>
 							<option value="nate.com">nate.com</option>
 							<option value="hanmail.net">hamail.net</option>
-							<option value="gmail.com" selected>gmail.com</option>
+							<option value="gmail.com">gmail.com</option>
 						</select>
 						<a class="green" id="emailBtn">인증번호 전송</a>
 					</li>
