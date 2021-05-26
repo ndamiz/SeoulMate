@@ -223,11 +223,25 @@ public class HouseController {
 		
 		//프리미엄 가입자인지 확인 grade : 2 -> 프리미엄 일 경우 등록한 글 갯수 확인 -> 최대 3개까지 가능
 		//일반 grade : 1 -> 1개만 등록 가능
-		int grade = service.gradeCheck(userid);
+		int grade = service.gradeCheck(userid); //등급 확인
+		int hwCnt = service.houseWriteCheck(userid); //하우스글 작성 개수 확인
+		int hsCnt = service.houseStateCheck(userid); //하우스 글 중 모집중인 글 확인
+		
 		if(grade==1) { //일반 등급 -> 무조건 1개 글 등록
-			
-		}else { //프리미엄 등급 -> 모집중인 글이 최종적으로 3개까지 등록 가능
-			
+			if(hsCnt<0) { //모집중인 하우스 글이 없을 경우
+				System.out.println("하우스 글 등록 가능");
+								
+			}else {
+				System.out.println("모집중인 하우스 글 1개 초과"); //추가 글 등록 불가능
+			}
+		}else { //프리미엄 등급 -> 모집중인 글이 3개까지 등록 가능
+			if(hsCnt>3) {
+				System.out.println("모집중인 하우스 글 등록 3개 초과"); //글 작성 불가능
+			}else {
+				System.out.println("모집중인 하우스 글 등록 3개 미만"); //글 작성 가능
+				
+				
+			}
 		}
 		
 		if(houseCheck<0) { //하우스 등록 안했을 경우(가입할때 성향은 존재, 하우스 글 등록x)
@@ -252,13 +266,7 @@ public class HouseController {
 	//하우스 글 등록 확인
 	@RequestMapping(value="/houseWriteOk", method = RequestMethod.POST)
 	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
-	public ModelAndView houseWriteOk(HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, HttpSession session ,HttpServletRequest req
-//				@RequestParam("filename") MultipartFile img1, 
-//				 @RequestParam("filename2") MultipartFile img2, 
-//			@RequestParam("filename3") MultipartFile img3,
-//				 @RequestParam("filename4") MultipartFile img4,  
-//			@RequestParam("filename5") MultipartFile img5
-			) {
+	public ModelAndView houseWriteOk(HouseWriteVO hVO, HouseRoomVO rVO, PropensityVO pVO, HttpSession session ,HttpServletRequest req) {
 		
 		System.out.println(pVO.getPno());
 		String userid=(String)session.getAttribute("logId");
@@ -276,128 +284,6 @@ public class HouseController {
 		//사진 업로드		
 		String path = req.getSession().getServletContext().getRealPath("/housePic"); //파일 저장위치 절대경로 구하기
 
-//		String filename1 = img1.getOriginalFilename(); // 기존 파일 명
-//		String realName = "";
-//	
-//		 
-//		try {
-//			if(filename1 != null && !filename1.equals("")) {
-//				File f=new File(path, filename1);
-//				int i = 1;
-//				while(f.exists()) {
-//					int point = filename1.lastIndexOf(".");
-//					String name = filename1.substring(0, point);
-//					String extName = filename1.substring(point+1);
-//					
-//					f = new File(path, name+"_"+ i++ +"."+extName);
-//				}
-//				img1.transferTo(f); // 업로드
-//				
-//				realName = f.getName();
-//				
-//				hVO.setHousepic1(f.getName());
-//			}
-//		}catch(Exception e) {
-//			System.out.println("하우스 사진 업로드 에러 발생");
-//			e.printStackTrace();
-//		}
-//		
-//		String filename2 = img2.getOriginalFilename();
-//		int j = 1;
-//		if(filename2!=null && !filename2.equals("")) {
-//			File f2 = new File(path, filename2);
-//			while(f2.exists()) {
-//				
-//				int point2 = filename2.lastIndexOf(".");
-//				String name2 = filename2.substring(0, point2);
-//				String extName2 = filename2.substring(point2+1);
-//				
-//				f2 = new File(path, name2+"_"+(j++)+"."+extName2);
-//			}
-//			try {
-//				if(filename2!=null && !filename2.equals("")) {
-//					img2.transferTo(f2);
-//				}
-//			} catch(Exception e) {
-//				System.out.println("filename2 업로드 에러 발생");
-//			}
-//			
-//			realName = f2.getName();
-//			hVO.setHousepic2(f2.getName());
-//		}
-//		
-//		String filename3 = img3.getOriginalFilename();
-//		int k = 1;
-//		if(filename2!=null && !filename3.equals("")) {
-//			File f3 = new File(path, filename3);
-//			while(f3.exists()) {
-//				
-//				int point3 = filename3.lastIndexOf(".");
-//				String name3 = filename3.substring(0, point3);
-//				String extName3 = filename3.substring(point3+1);
-//				
-//				f3 = new File(path, name3+"_"+(k++)+"."+extName3);
-//			}
-//			try {
-//				if(filename3!=null && !filename3.equals("")) {
-//					img3.transferTo(f3);
-//				}
-//			} catch(Exception e) {
-//				System.out.println("filename3 업로드 에러 발생");
-//			}
-//			
-//			realName = f3.getName();
-//			hVO.setHousepic3(f3.getName());
-//		}
-//		
-//		String filename4 = img4.getOriginalFilename();
-//		int l = 1;
-//		if(filename4!=null && !filename4.equals("")) {
-//			File f4 = new File(path, filename4);
-//			while(f4.exists()) {
-//				
-//				int point4 = filename4.lastIndexOf(".");
-//				String name4 = filename4.substring(0, point4);
-//				String extName4 = filename4.substring(point4+1);
-//				
-//				f4 = new File(path, name4+"_"+(j++)+"."+extName4);
-//			}
-//			try {
-//				if(filename4!=null && !filename4.equals("")) {
-//					img4.transferTo(f4);
-//				}
-//			} catch(Exception e) {
-//				System.out.println("filename4 업로드 에러 발생");
-//			}
-//			
-//			realName = f4.getName();
-//			hVO.setHousepic4(f4.getName());
-//		}
-//		
-//		String filename5 = img5.getOriginalFilename();
-//		int m = 1;
-//		if(filename5!=null && !filename5.equals("")) {
-//			File f5 = new File(path, filename5);
-//			while(f5.exists()) {
-//				
-//				int point5 = filename5.lastIndexOf(".");
-//				String name5 = filename5.substring(0, point5);
-//				String extName5 = filename5.substring(point5+1);
-//				
-//				f5 = new File(path, name5+"_"+(m++)+"."+extName5);
-//			}
-//			try {
-//				if(filename5!=null && !filename5.equals("")) {
-//					img5.transferTo(f5);
-//				}
-//			} catch(Exception e) {
-//				System.out.println("filename5 업로드 에러 발생");
-//			}
-//			
-//			realName = f5.getName();
-//			hVO.setHousepic5(f5.getName());
-//		}
-		
 		MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
 		
 		//mr객체에서 업로드파일 목록을 구한다
@@ -661,7 +547,7 @@ public class HouseController {
 		            }//if문 종료
 		         }//for문 종료
 		      }//if문 종료
-		      System.out.println(Arrays.toString(delFile));
+//		      System.out.println(Arrays.toString(delFile));
 		      //DB선택파일 목록에서 삭제한 파일 지우기 -> 최종적으로 DB에 올라갈 파일을 제외한 나머지 파일 삭제
 		      if(delFile!=null) { //삭제할 파일이 있는 경우
 		         for(String delName : delFile) {
@@ -677,9 +563,9 @@ public class HouseController {
 		         System.out.println("파일명 확인-> "+newFile);
 		         System.out.println("sel확인-> "+orgFile.get(0).toString());
 		      }
-		      
-		      hVO.setHousepic1(orgFile.get(0));
-		      System.out.println("하우스픽1 확인-> "+hVO.getHousepic1());
+		           
+//		      	hVO.setHousepic1(orgFile.get(0));
+		      	
 		         if(orgFile.size()>1) { //filename2 있을 경우
 		            hVO.setHousepic2(orgFile.get(1));
 		         }
@@ -695,7 +581,13 @@ public class HouseController {
 		         if(orgFile.size()>4) { //filename5 있을 경우
 		            hVO.setHousepic5(orgFile.get(4));
 		         }
-		      
+		         else if(orgFile.size()==1) {
+		        	 hVO.setHousepic1(orgFile.get(0));
+		         }
+		         else {
+		        	 hVO.setHousepic1(selFile.get(0));
+		         }
+		          System.out.println("하우스픽1 확인-> "+hVO.getHousepic1());
 		      for(int i=0; i<orgFile.size(); i++) {
 		         System.out.println(orgFile.get(i));
 		      }

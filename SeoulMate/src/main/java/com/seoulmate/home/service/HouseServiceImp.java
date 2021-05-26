@@ -203,4 +203,15 @@ public class HouseServiceImp implements HouseService {
 	public int gradeCheck(String userid) { //회원 등급 확인
 		return mDAO.gradeCheck(userid);
 	}
+	
+	@Override
+	public int houseWriteCheck(String userid) { //하우스 글 작성 확인
+		return hDAO.houseWriteCheck(userid);
+	}
+	
+	@Override
+	public int houseStateCheck(String userid) { //하우스 모집중인지 확인
+		return hDAO.houseStateCheck(userid);
+	}
+
 }
