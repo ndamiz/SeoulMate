@@ -53,12 +53,11 @@
 							<a href="memberForm">회원가입</a>
 						</c:if>
 						<c:if test="${logId!=null}">
-							<a href="logout">로그아웃</a>
 							<a href="memberEdit">회원정보 관리</a>
 							<a href="memberProEdit">나의성향 관리</a>
 							<a href="myHouseAndMateList">하우스&메이트 관리</a>
 							<a href="payDetailList">결제내역</a>
-							<a href="memberExit">회원탈퇴</a>
+							<a href="logout">로그아웃</a>
 						</c:if>
 					</li>
 					<li></li>

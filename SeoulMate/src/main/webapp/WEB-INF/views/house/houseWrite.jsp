@@ -425,50 +425,7 @@ $(function(){
     }
 
 </script>
-<style>
-/* input[type="date"] {width:200px;} */
-/* .house_wrap{width:800px; margin:0 auto; } */
-.content ul li{word-break:keep-all;}
-.form_box li input, .form_box li select{margin:0px; width:300px;}
-.form_box{width:800px; margin:0 auto; padding-left: 100px;}
-.content label{width:180px;}
-.form_box.choice li > label {width: 240px;}
-#houseWrite1_ul2{display: none;}
-.btnclass{padding-left:50px;}
-#roomPlus{margin:0 auto;}
-#houseWrite1 .checks { width: 560px;}
-#ck{margin:0 auto; width: 60%;}
-
-#houseWrite3 .form_box li{width: 900px;}
-#hPic img{width: 250px; height: 250px; }
-#houseImg1{width:250px; height:250px; position: relative; margin:0 auto; text-align: center;}
-#housepic1, #housepic2, #housepic3, #housepic4, #housepic5 {width:200px; height: 200px; margin:0 auto;}
-
-#multiple-container{width: 100%; margin:0 auto; float:left; position: relative;}
-#multiple-container img{width:250px; height: 250px; margin:0 auto; float:left;}
-#houseWrite2, #houseWrite3, #houseWrite4, #houseWrite5, 
-#houseWrite6, #houseWrite7, #houseWrite8, #houseWrite9 {display:none; margin: 0 auto;}
-
-#houseWrite2 .form_box.choice li > label {width: 110px;}
-#houseWrite2 .checks{height: 21px;}
-#houseWrite2 .checks label{height: 21px;}
-#hosueWrite5 .checks>label{width:100px;}
-#houseWrite5 .checks {width: 295px;}
-#houseWrite8{width: 800px;}
-#houseWrite8 .checks>label{width:200px;}
-#hPic{height:250px; width: 250px; margin:0 auto; text-align: center;}
-#HproUl>li{float: right;}
-
-.title_wrap div{min-height:300px;}
-.checks{width:800px;}
-.checks>label{width:120px;}
-/* #houseWrite6 input, #houseWrite6 select{width:230px;} */
-/*방추가하기 스타일*/
-.room2, .room3, .room4, #roomMinus{
-	display:none;
-}
-</style>
-<div class="wrap">
+<div class="wrap hwWrap">
 <div class="content">
 
 	
@@ -489,15 +446,18 @@ $(function(){
 		</div>
 			
 			<ul class="form_box">
-				<li> <label><span class="red_txt">*</span>주소 
-				<a class="green" onclick="sample4_execDaumPostcode()" >주소 검색</a> </label> <!-- <input type="text" name="addr"/> --> 
-				
-				<input type="text" id="sample4_postcode" placeholder="우편번호"></li>
+				<li> 
+					<label><span class="red_txt">*</span>주소 
+					</label> <!-- <input type="text" name="addr"/> --> 
+					
+					<input type="text" id="sample4_postcode" placeholder="우편번호">
+					<a class="green btn_addr" onclick="sample4_execDaumPostcode()" >주소 검색</a>
+				</li>
 				<li><label><span class="red_txt"></span></label><input type="text" id="sample4_roadAddress" placeholder="도로명주소"></li>
 				<li><label><span class="red_txt"></span></label><input type="text" name="addr" id="sample4_jibunAddress" placeholder="지번주소"> <br/></li>
-				<li><label><span class="red_txt"></span></label><span id="guide" style="color:#999;display:none"></span></li>
 				<li><label><span class="red_txt"></span></label><input type="text" id="sample4_detailAddress" placeholder="상세주소"> <br/> </li>
-				<li><label><span class="red_txt"></span></label><input type="text" id="sample4_extraAddress" placeholder="참고항목"> </li>
+				<li class="hideLi"><label><span class="red_txt"></span></label><span id="guide" style="color:#999;display:none"></span></li>
+				<li class="hideLi"><label><span class="red_txt"></span></label><input type="hidden" id="sample4_extraAddress" placeholder="참고항목"> </li>
 				
 				
 				
@@ -566,7 +526,7 @@ $(function(){
 						<label for="토스트기">토스트기</label> 
 					</div>
 				</li> 
-				<p>&nbsp;</p>
+				<p style="margin: 10px 0;">&nbsp;</p>
 				<li>
 					<label>거실</label>
 					<div class="checks">
@@ -623,13 +583,13 @@ $(function(){
 		<p>&nbsp;</p>
 		</div>
 		
-			<ul class="form_box">
+			<ul class="form_box preview_img">
 				<li id="hPic">
-					<div><img id="houseImg1" name="houseImg1" src="#" alt="등록할 사진을 업로드 해주세요" /></div>
-					<div><img id="houseImg2" name="houseImg2" src="#" alt="등록할 사진을 업로드 해주세요" /></div>
-					<div><img id="houseImg3" name="houseImg3" src="#" alt="등록할 사진을 업로드 해주세요" /></div>
-					<div><img id="houseImg4" name="houseImg4" src="#" alt="등록할 사진을 업로드 해주세요" /></div>
-					<div><img id="houseImg5" name="houseImg5" src="#" alt="등록할 사진을 업로드 해주세요" /></div>
+					<img id="houseImg1" name="houseImg1" src="#" alt="upload image" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'" />
+					<img id="houseImg2" name="houseImg2" src="#" alt="upload image" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'" />
+					<img id="houseImg3" name="houseImg3" src="#" alt="upload image" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'" />
+					<img id="houseImg4" name="houseImg4" src="#" alt="upload image" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'" />
+					<img id="houseImg5" name="houseImg5" src="#" alt="upload image" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'" />
 				</li>
 				
 				<li> 
@@ -829,9 +789,9 @@ $(function(){
 					<li><label>포함된 가구</label><input type="text" name=""/> </li>
 				</ul>
 			</div>
-				<div class="btnclass">
-					<a class="green" id="roomPlus">방 추가하기</a>
-					<a class="green" id="roomMinus">방 삭제하기</a>
+				<div class="room_btn">
+					<a class="" id="roomPlus">방 추가하기</a>
+					<a class="" id="roomMinus">방 삭제하기</a>
 				</div>
 				<div class="btnclass">
 					<a class="green" id="hPrev5">이전</a>
@@ -844,6 +804,10 @@ $(function(){
 			
 		<div id=houseWrite6>
 		<div class="title_wrap">
+			<p class="s_title">하우스 성향 등록 (생활정보)</p><br/>
+		
+		<p>&nbsp;</p>
+		</div>
 		<ul class="s_margin" id="HproUl">
 			<c:forEach var="vo" items="${list}">
 				<li>
@@ -854,11 +818,6 @@ $(function(){
 				</li>
 			</c:forEach>
 		</ul>
-		<p class="s_title">하우스 성향 등록 (생활정보)</p><br/>
-		
-		<p>&nbsp;</p>
-		</div>
-		
 			<ul class="form_box choice">
 				<li>
 					<label><span class="red_txt">*</span>생활소음</label>
