@@ -199,7 +199,7 @@
 				<div class="admin_Management_popup_table_btn" id="sales_popupBtn">
 					<a href="javascript:printPage('popSalesExcel')" class="btn btn-custom">엑셀</a>
 					<a href="javascript:printPage('pop')" class="btn btn-custom">프린트</a>
-					<a href="" class="btn btn-custom popup_Close">닫기</a>
+					<a href="#" class="btn btn-custom popup_Close">닫기</a>
 				</div>
 			</div>
 			<div class="myPage_HouseAndMate_Popup_FullScreen popup_Close popup_hidden" id="myPage_popup_FullScreen"></div>
@@ -218,7 +218,7 @@
 			$('#sales_popupBtn').empty();
 			var btnTag = '';
 			btnTag += '<a href="javascript:printPage("pop")" class="btn btn-custom " >프린트</a>';
-			btnTag += '<a href="" class="btn btn-custom popup_Close">닫기</a>';
+			btnTag += '<a href="#" class="btn btn-custom popup_Close">닫기</a>';
 			$('#sales_popupBtn').html(btnTag);
 			
 			var payStart=[]; //결제일
@@ -318,7 +318,7 @@
 			var excelTag = '';
 			excelTag += '<a href="javascript:printPage("popSalesExcel")" class="btn btn-custom">엑셀</a>';
 			excelTag += '<a href="javascript:printPage("pop")" class="btn btn-custom">프린트</a>';
-			excelTag+= '<a href="" class="btn btn-custom popup_Close">닫기</a>';
+			excelTag+= '<a href="#" class="btn btn-custom popup_Close">닫기</a>';
 			$('#sales_popupBtn').empty();
 			$('#sales_popupBtn').html(excelTag);
 			$(".admin_Management_popup_head").text('매출 상세 정보 리스트');

@@ -112,12 +112,13 @@ public class MypageController {
 		}
 		mav.addObject("memberCheck", memberCheck);
 		if(msg==null || msg.equals("")) {
+			if(service.pnoConfirm(userid, "m")>0) {
+				// mate 로 등록된 pno가 있다면
+				msg = "mate";
+			}
 			if(service.pnoConfirm(userid, "h")>0) {
 				// house 로 등록된 pno가 있다면, 
 				msg = "house";
-			}else if(service.pnoConfirm(userid, "m")>0) {
-				// mate 로 등록된 pno가 있다면
-				msg = "mate";
 			}
 		}
 		mav.addObject("msg", msg);

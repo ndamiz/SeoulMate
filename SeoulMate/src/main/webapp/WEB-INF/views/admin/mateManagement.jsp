@@ -207,10 +207,10 @@
 				</div>
 				<div class="admin_Management_popup_table_btn">
 					<a href="javascript:printPage('pop')" class="btn btn-custom">프린트</a>
-					<a class="btn btn-custom mate_popup_Edit">수정</a>
+					<a href="#" class="btn btn-custom mate_popup_Edit">수정</a>
 					<input id="change_state" type="hidden" name="change_state" value=""/>
 					<input id="selectPno" type="hidden" name="selectPno" value=""/>
-					<a class="btn btn-custom popup_Close">닫기</a>
+					<a href="#" class="btn btn-custom popup_Close">닫기</a>
 				</div>
 			</div>
 			<div class="myPage_HouseAndMate_Popup_FullScreen popup_Close popup_hidden" id="myPage_popup_FullScreen"></div>

@@ -254,7 +254,9 @@
 		select nvl(max(count(no)), 0) as no from ${param2} WHERE no=${param1} GROUP BY no
 	</select>
 	<select id="pnoConfirm" parameterType="String" resultType="int">
-		select nvl(max(count(pno)), 0) as pno from PROPENSITY WHERE userid=#{param1} and pcase=#{param2} GROUP BY pno
+		select nvl(max(count(pno)), 0) as pno from PROPENSITY 
+		WHERE userid=#{param1} and pcase=#{param2} 
+		GROUP BY pno
 	</select>
 	<select id="pno_Select" parameterType="int" resultType="int" >
 		SELECT pno FROM HOUSEWRITE WHERE NO=${param1}
