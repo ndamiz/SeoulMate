@@ -66,10 +66,13 @@
 		delete from housewrite where no=#{param1} and userid=#{param2}	
 	</delete>
 	<select id="houseProfilePic" resultType="String">
-	select housepic1, housepic2, housepic3, housepic4, housepic5 from housewrite where userid=#{param1} and no=#{param2}
+		select housepic1, housepic2, housepic3, housepic4, housepic5 from housewrite where userid=#{param1} and no=#{param2}
 	</select>
-	<select id="houseProfilePic2" resultType="String">
-	select housepic2 from housewrite where userid=#{param1} and no=#{param2}
+	<select id="houseStateCheck" resultType="int">
+		select count(pno) pno from housewrite where userid=#{param1} and housestate='모집중'
+	</select>
+	<select id="houseWriteCheck" resultType="int">
+		select count(no) no from housewrite where userid=#{param1}
 	</select>
 	<select id="getNewIndexHouse" parameterType="com.seoulmate.home.vo.HouseMatePagingVO" resultType="com.seoulmate.home.vo.HouseWriteVO">
 	SELECT * 

@@ -26,12 +26,6 @@ $(function(){
 });
 
 
-
-// 	$(function() {
-// 	    $("#input-image").on('change', function(){
-// 	        readURL(this);
-// 	    });
-// 	});
 	
 	function readURL(input) {
 	    if (input.files && input.files[0]) {
@@ -42,55 +36,54 @@ $(function(){
 			}
 			reader.readAsDataURL(input.files[0]);
 		}
-
-// 		for (var image of event.target.files) { 
-// 			var reader = new FileReader(); 
-// 			reader.onload = function(event) { 
-// 				var img = document.createElement("img"); 
-// 				img.setAttribute("src", event.target.result); 
-// 				document.querySelector("#multiple-container").appendChild(img); 
-// 			}; 
-// 				console.log(image); 
-// 				reader.readAsDataURL(image); 
-// 		}
-
-// 		var reader = new FileReader(); 
-// 		reader.onload = function(event) { 
-// 			var img = document.createElement("img"); 
-// 			img.setAttribute("src", event.target.result); 
-// 			document.querySelector("#hPic").append(img); 
-// 			}; 
-// 			reader.readAsDataURL(event.target.files[0]);
-// 			reader.readAsDataURL(event.target.files[1]);
-// 			reader.readAsDataURL(event.target.files[2]);
-// 			reader.readAsDataURL(event.target.files[3]);
-// 			reader.readAsDataURL(event.target.files[4]);
-// 	}
-
 	}
 	
-
-// $(document).ready(function() {
-//     $('#houseProfile').summernote();
-//   });
-
-
+    function readURL1(input) {
+	    if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	
+	    reader.onload = function (e) {
+	            $('#houseImg2').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+    }
+    
+    function readURL2(input) {
+	    if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	
+	    reader.onload = function (e) {
+	            $('#houseImg3').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+    }
+    
+    function readURL3(input) {
+	    if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	
+	    reader.onload = function (e) {
+	            $('#houseImg4').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+    }
+    
+    function readURL4(input) {
+	    if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	
+	    reader.onload = function (e) {
+	            $('#houseImg5').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+    }
+    
 $(function(){
 	
-//     $('select').change(function(){
-//         var option = $(this).val(); //옵션의 value
-
-//         if(option=='value값){
-//            $('td:contains("텍스트이름")').parents('tr').css('display','');
-//            $('td:contains("텍스트이름")').parents('tr').css('display','none');
-//         }         
-//      });
-
-// 	if(!$('#selectBoxID > option:selected').val()) { //#->셀렉트 의 id 입력
-// 	    alert("선택해주세요");
-// 	}
-
-
 	$("#roomPlus").click(function(){ //방 추가하기
 		if($(".room2").css("display") == "none"){
 			$('.room2 ul input').eq(0).attr('name','roomVOList[1].roomName');	//1
@@ -207,9 +200,36 @@ $(function(){
 			}	
 		}
 	});
+		
+// 	     $('select').change(function(){
+//      var option = $(this).val(); //옵션의 value
+
+//      if(option=='value값){
+//         $('td:contains("텍스트이름")').parents('tr').css('display','');
+//         $('td:contains("텍스트이름")').parents('tr').css('display','none');
+//      }         
+//   });
+
+// 	if(!$('#selectBoxID > option:selected').val()) { //#->셀렉트 의 id 입력
+// 	    alert("선택해주세요");
+// 	}
 
 	$("#hNext1").click(function(){
-
+		
+		if($("#sample4_jibunAddress").val()==""){
+			alert("주소를 입력해주세요");
+			return false;
+		}
+		if($("#housename").val()==""){
+			alert("하우스 이름을 입력해주세요");
+			return false;
+		}
+		if($("#room").option=""){
+			alert("방 개수를 선택해주세요");
+			return false;
+		}
+		
+		
 		$("#houseWrite1").css("display", "none");
 		$("#houseWrite2").css("display", "block");
 		
@@ -447,7 +467,7 @@ $(function(){
 	<p class="m_title">하우스 등록하기 </p> 
 	<p>&nbsp;</p>
 	</div>
-		<form method="post" id="houseWriteFrm" action="houseWriteOk" enctype="multipart/form-data">
+		<form method="post" name="form" id="houseWriteFrm" action="houseWriteOk" enctype="multipart/form-data">
 		
 		<input type="hidden" name="pno" value="${housePno }"/>
 <%-- 		<input type="hidden" name="no" value="${hVO.no }"/> --%>
@@ -475,8 +495,8 @@ $(function(){
 				
 				
 				
-				<li><label><span class="red_txt">*</span>하우스 이름 </label> <input type="text" name="housename"/></li>
-			<li> <label><span class="red_txt">*</span>총 방 개수 </label><select name="room">
+				<li><label><span class="red_txt">*</span>하우스 이름 </label> <input type="text" id="housename" name="housename"/></li>
+			<li> <label><span class="red_txt">*</span>총 방 개수 </label><select name="room" >
 						<option value="1">1</option>
 						<option value="2">2</option>
 						<option value="3">3</option>
@@ -505,7 +525,7 @@ $(function(){
 		
 				<div class="btnclass">
 					<a id="hPrev1" class="green" >이전</a>
-					<a id="hNext1" class="green" >다음</a>
+					<a id="hNext1" class="green" onclick="Check1" >다음</a>
 					<a id="hIndex1" class="green" >취소</a>
 				</div> <!-- 버튼div 종료 -->
 
@@ -607,15 +627,11 @@ $(function(){
 				</li>
 				
 				<li> 
-					<input type="file" accept="image/*" name="filename"   onchange="readURL(this);" required /> 
-					<input type="file" accept="image/*" name="filename"   onchange="readURL(this);"  /> 
-					<input type="file" accept="image/*" name="filename"   onchange="readURL(this);" /> 
-					<input type="file" accept="image/*" name="filename"   onchange="readURL(this);" /> 
-					<input type="file" accept="image/*" name="filename"   onchange="readURL(this);"  /> 
-<!-- 					<input type="file" accept="image/*" name="filename2"  id="housepic2" onchange="readURL(this);"/> -->
-<!-- 					<input type="file" accept="image/*" name="filename3"  id="housepic3" onchange="readURL(this);"/> -->
-<!-- 					<input type="file" accept="image/*" name="filename4"  id="housepic4" onchange="readURL(this);"/> -->
-<!-- 					<input type="file" accept="image/*" name="filename5"  id="housepic5" onchange="readURL(this);"/>  -->
+					<input type="file" accept="image/*" id="housepic1" name="filename"   onchange="readURL(this);" required /> 
+					<input type="file" accept="image/*" id="housepic2" name="filename"   onchange="readURL1(this);"  /> 
+					<input type="file" accept="image/*" id="housepic3" name="filename"   onchange="readURL2(this);" /> 
+					<input type="file" accept="image/*" id="housepic4" name="filename"   onchange="readURL3(this);" /> 
+					<input type="file" accept="image/*" id="housepic5" name="filename"   onchange="readURL4(this);"  /> 
 					<br/> 
 				</li>
 					
@@ -1046,9 +1062,9 @@ $(function(){
 					<label><span class="red_txt">*</span>반려동물 선호도</label>
 					<div class="checks">
 						<input type="radio" id="m_pet1" value="1" name="m_pet"> 
-						<label for="m_pet1">가능</label>
+						<label for="m_pet1">긍정적</label>
 						<input type="radio" id="m_pet3" value="3" name="m_pet"> 
-						<label for="m_pet3">불가능</label>
+						<label for="m_pet3">부정적</label>
 					</div>
 				</li>
 				

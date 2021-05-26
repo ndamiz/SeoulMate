@@ -29,24 +29,60 @@ $(function(){
 	
 });
 
+function readURL(input) {
+    if (input.files && input.files[0]) {
+    var reader = new FileReader();
 
-// 	$(function() {
-// 	    $("#input-image").on('change', function(){
-// 	        readURL(this);
-// 	    });
-// 	});
-	
-	function readURL(input) {
-	    if (input.files && input.files[0]) {
-	    var reader = new FileReader();
-	
-	    reader.onload = function (e) {
-	            $('#houseImg1').attr('src', e.target.result);
-	        }
-	
-	      reader.readAsDataURL(input.files[0]);
-	    }
+    reader.onload = function (e) {
+            $('#houseImg1').attr('src', e.target.result);
+		}
+		reader.readAsDataURL(input.files[0]);
 	}
+}
+
+function readURL2(input) {
+    if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+            $('#houseImg2').attr('src', e.target.result);
+		}
+		reader.readAsDataURL(input.files[0]);
+	}
+}
+
+function readURL3(input) {
+    if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+            $('#houseImg3').attr('src', e.target.result);
+		}
+		reader.readAsDataURL(input.files[0]);
+	}
+}
+
+function readURL4(input) {
+    if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+            $('#houseImg4').attr('src', e.target.result);
+		}
+		reader.readAsDataURL(input.files[0]);
+	}
+}
+
+function readURL5(input) {
+    if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+            $('#houseImg5').attr('src', e.target.result);
+		}
+		reader.readAsDataURL(input.files[0]);
+	}
+}
 $(function(){
 	
 	
@@ -264,8 +300,12 @@ $(function(){
 #roomPlus{margin:0 auto;}
 #houseWrite1 .checks { width: 560px;}
 #ck{margin:0 auto; width: 60%;}
-#houseImg1{width:250px; height:250px; position: relative; margin: 0 auto; text-align: center;}
-#housepic1{width: 250px; height: 250px; margin: 0 auto;}
+
+#houseWrite3 .form_box li{width: 900px;}
+#hPic img{width: 250px; height: 250px; }
+#houseImg1{width:250px; height:250px; position: relative; margin:0 auto; text-align: center;}
+#housepic1, #housepic2, #housepic3, #housepic4, #housepic5 {width:200px; height: 200px; margin:0 auto;}
+
 #houseWrite2, #houseWrite3, #houseWrite4, #houseWrite5, 
 #houseWrite6, #houseWrite7, #houseWrite8, #houseWrite9 {display:none; margin: 0 auto;}
 
@@ -430,57 +470,56 @@ $(function(){
 		
 			<ul class="form_box">
 				<li id="hPic">
-					<img id="houseImg1" name="houseImg1" src="/home/housePic/${hVO.housepic1}" alt="upload image" />
-					<img id="houseImg2" name="houseImg2" src="/home/housePic/${hVO.housepic2}" alt="upload image" />
-					<img id="houseImg3" name="houseImg3" src="/home/housePic/${hVO.housepic3}" alt="upload image" />
-					<img id="houseImg4" name="houseImg4" src="/home/housePic/${hVO.housepic4}" alt="upload image" />
-					<img id="houseImg5" name="houseImg5" src="/home/housePic/${hVO.housepic5}" alt="upload image" />
+					<img id="houseImg1" name="houseImg1" src="/home/housePic/${hVO.housepic1}" />
+					<img id="houseImg2" name="houseImg2" src="/home/housePic/${hVO.housepic2}" />
+					<img id="houseImg3" name="houseImg3" src="/home/housePic/${hVO.housepic3}" />
+					<img id="houseImg4" name="houseImg4" src="/home/housePic/${hVO.housepic4}" />
+					<img id="houseImg5" name="houseImg5" src="/home/housePic/${hVO.housepic5}" />
 				</li>
 				<!-- /////////// -->
 				<li id="file">
 	               <div>${hVO.housepic1 } <b>X</b> </div>
-	<!--                <input type="file" accept="image/*" name="filename"  id="housepic1" onchange="readURL(this);" />  -->
 	               <input type="hidden" name="" value=${hVO.housepic1 }/>
-	               <input type="hidden" name="filename"/>
+	               <input type="hidden" name="filename" />
 	               
 	               <c:if test="${hVO.housepic2!=null && hVO.housepic2!='' }"> <!-- 두번째 첨부파일이 있을 경우 -->
 	               <div>${hVO.housepic2 } <b>X</b> </div>
 	               <input type="hidden" name="" value=${hVO.housepic2 }/>
-	               <input type="hidden" name="filename"/>
+	               <input type="hidden" name="filename" onchange="readURL2(this);"/>
 	               </c:if>
 	               
 	               <c:if test="${hVO.housepic2==null || hVO.housepic2=='' }"> <!-- 두번째 첨부파일이 없을 경우 -->
-	               <input type="file" name="filename"/>
+	               <input type="file" name="filename" onchange="readURL2(this);"/>
 	               </c:if>
 	               
 	               <c:if test="${hVO.housepic3!=null && hVO.housepic3!='' }"> <!-- 세번째 첨부파일이 있을 경우 -->
 	               <div>${hVO.housepic3 } <b>X</b> </div>
 	               <input type="hidden" name="" value=${hVO.housepic3 }/>
-	               <input type="hidden" name="filename"/>
+	               <input type="hidden" name="filename" onchange="readURL3(this);"/>
 	               </c:if>
 	               
 	               <c:if test="${hVO.housepic3==null || hVO.housepic3=='' }"> <!-- 세번째 첨부파일이 없을 경우 -->
-	               <input type="file" name="filename"/>
+	               <input type="file" name="filename" onchange="readURL3(this);"/>
 	               </c:if>
 	               
 	               <c:if test="${hVO.housepic4!=null && hVO.housepic4!='' }"> <!-- 네번째 첨부파일이 있을 경우 -->
 	               <div>${hVO.housepic4 } <b>X</b> </div>
 	               <input type="hidden" name="" value=${hVO.housepic4 }/>
-	               <input type="hidden" name="filename"/>
+	               <input type="hidden" name="filename" onchange="readURL4(this);"/>
 	               </c:if>
 	               
 	               <c:if test="${hVO.housepic4==null || hVO.housepic4=='' }"> <!-- 네번째 첨부파일이 없을 경우 -->
-	               <input type="file" name="filename"/>
+	               <input type="file" name="filename" onchange="readURL4(this);"/>
 	               </c:if>
 	               
 	               <c:if test="${hVO.housepic5!=null && hVO.housepic5!='' }"> <!-- 다섯번째 첨부파일이 있을 경우 -->
 	               <div>${hVO.housepic5 } <b>X</b> </div>
 	               <input type="hidden" name="" value=${hVO.housepic5 }/>
-	               <input type="hidden" name="filename"/>
+	               <input type="hidden" name="filename" onchange="readURL5(this);"/>
 	               </c:if>
 	               
 	               <c:if test="${hVO.housepic5==null || hVO.housepic5=='' }"> <!-- 다섯번째 첨부파일이 없을 경우 -->
-	               <input type="file" name="filename"/>
+	               <input type="file" name="filename" onchange="readURL5(this);"/>
 	               </c:if>
 	               
 	            <br/> 
@@ -797,9 +836,9 @@ $(function(){
 					<label><span class="red_txt">*</span>반려동물 선호도</label>
 					<div class="checks propDiv">
 						<input type="radio" id="m_pet1" value="1" name="m_pet" <c:if test="${pVO.m_pet==1}">checked</c:if> > 
-						<label for="m_pet1">가능</label>
+						<label for="m_pet1">긍정적</label>
 						<input type="radio" id="m_pet3" value="3" name="m_pet" <c:if test="${pVO.m_pet==3}">checked</c:if> > 
-						<label for="m_pet3">불가능</label>
+						<label for="m_pet3">부정적</label>
 					</div>
 				</li>
 				
@@ -841,10 +880,10 @@ $(function(){
 				
 				<li>
 					<label><span class="red_txt">*</span>외국인입주 가능여부</label>
-					<div class="checks propDiv">
-						<input type="radio" id="m_global3" value="3" name="m_global" <c:if test="${pVO.m_gender==3}">checked</c:if> > 
+					<div class="checks">
+						<input type="radio" id="m_global3" value="3" name="m_global" <c:if test="${pVO.m_global==3}">checked</c:if> > 
 						<label for="m_global3">가능</label>
-						<input type="radio" id="m_global1" value="1" name="m_global" <c:if test="${pVO.m_gender==1}">checked</c:if> > 
+						<input type="radio" id="m_global1" value="1" name="m_global" <c:if test="${pVO.m_global==1}">checked</c:if> > 
 						<label for="m_global1">불가능</label>
 					</div>
 				</li>

@@ -113,4 +113,10 @@ public interface HouseService {
 
 	//회원 등급 확인
 	public int gradeCheck(String userid);
+	
+	//하우스 글 작성 확인
+	public int houseWriteCheck(String userid);
+	
+	//하우스 모집중인지 확인
+	public int houseStateCheck(String userid);
 }
