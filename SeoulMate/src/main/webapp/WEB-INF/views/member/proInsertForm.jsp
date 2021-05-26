@@ -94,7 +94,7 @@
 							<label for="h_pattern3">야행성</label>
 						</div>
 					</li>
-					<li><label><span  class="red_txt">*</span>하우스 내 애완동물 여부</label>
+					<li><label><span  class="red_txt">*</span>반려동물 여부</label>
 						<div class="checks">
 							<input type="radio" name="h_pet" id="h_pet3" value="3" checked/>
 							<label for="h_pet3">있음</label>
@@ -102,7 +102,7 @@
 							<label for="h_pet1">없음</label>
 						</div>
 					</li>
-					<li><label><span  class="red_txt">*</span>애완동물 동반 입주 여부</label>
+					<li><label><span  class="red_txt">*</span>반려동물 동반 입실 여부</label>
 						<div class="checks">
 							<input type="radio" name="h_petwith" id="h_petwith3" value="3" checked/>
 							<label for="h_petwith3">가능</label>
@@ -233,12 +233,12 @@
 							<label for="m_personality2">상관없음</label>
 						</div>
 					</li>
-					<li><label><span  class="red_txt">*</span>애완동물</label>
+					<li><label><span  class="red_txt">*</span>반려동물</label>
 						<div class="checks">
 							<input type="radio" name="m_pet" id="m_pet1" value="1" checked/>
-							<label for="m_pet1">가능</label>
+							<label for="m_pet1">긍정적</label>
 							<input type="radio" name="m_pet" id="m_pet3" value="3"/>
-							<label for="m_pet3">불가능</label>
+							<label for="m_pet3">부정적</label>
 						</div>
 					</li>
 					<li><label><span  class="red_txt">*</span>흡연</label>
