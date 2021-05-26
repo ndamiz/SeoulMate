@@ -70,5 +70,11 @@ public class BoardServiceImp implements BoardService {
 		return dao.stateCheck(no); //, userid
 	}
 
+	@Override
+	public int reportCheck(int no) {
+		// 신고된 게시글인지 확인
+		return dao.reportCheck(no);
+	}
+
 	
 }

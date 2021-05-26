@@ -350,7 +350,7 @@ public class AdminController {
 		}
 		//블랙리스트 상태가 true면 해당 회원 블랙리스트 추가
 		if(blacklist && reportVO.getState().equals("처리완료")) {
-			System.out.println("????????????");
+			System.out.println(reportVO.getUserid()+"---------->blacklist userid");
 			service.addBlacklist(reportVO.getUserid());
 			result = "added to blacklist";
 		}

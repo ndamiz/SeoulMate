@@ -72,18 +72,18 @@
 
 			//신고 글 링크 걸기
 			if(result.category=='하우스'){
-				$('#reportLink').attr('href', '/home/houseView?no='+result.no)
+				$('#reportLink').attr('href', '/home/houseView?no='+result.no+'&admin=true')
 			}else if(result.category=='메이트'){
-				$('#reportLink').attr('href', '/home/mateView?no='+result.no)
+				$('#reportLink').attr('href', '/home/mateView?no='+result.no+'&admin=true')
 			}else if(result.category=='커뮤니티'){
-				$('#reportLink').attr('href', '/home/communityView?no='+result.no)
+				$('#reportLink').attr('href', '/home/communityView?no='+result.no+'&admin=true')
 			}else if(result.category=='댓글'){
 				//댓글의 원글번호가 필요하다
 				$.ajax({
 					url : '/home/replyOriNum',
 					data : 'no='+result.no,
 					success : function(replyOriNum){
-						$('#reportLink').attr('href', '/home/communityView?no='+replyOriNum+'&reply='+result.no);
+						$('#reportLink').attr('href', '/home/communityView?no='+replyOriNum+'&reply='+result.no+'&admin=true');
 					}, error :function(){
 						console.log('댓글 원번호 가져오기 에러')
 					}

@@ -99,12 +99,13 @@ public class BoardController {
 	
 	//글 내용보기
 	@RequestMapping("/communityView")
-	public ModelAndView boardView(int no, HttpServletRequest req, PageVO pVO, String searchKey, String searchWord, String category) {
+	public ModelAndView boardView(int no, HttpServletRequest req, PageVO pVO, String searchKey, String searchWord, String category, String admin) {
 		ModelAndView mav = new ModelAndView();
 		
 		//get방식으로 타고올때 우연히 비공개 글인 경우
 		int numState = service.stateCheck(no);//, (String)req.getSession().getAttribute("logId")
-		if(numState>0) {
+		int checkReport = service.reportCheck(no); //비공개일때 신고관리에서도 못보기때문에
+		if(numState>0 || admin != null && checkReport>0) {
 			//조회수 올리기
 			service.hitUpdate(no);
 			
@@ -123,11 +124,13 @@ public class BoardController {
 			System.out.println(category+"22");
 			//다음글 이전글
 			pVO = service.nextPrevSelect(no, pVO.getCategory(), pVO.getSearchKey(), pVO.getSearchWord());
-			System.out.println(pVO.getNextNo());
+			//System.out.println(pVO.getNextNo());
+			if(pVO != null) {
 			if(pVO.getSearchKey()==null && pVO.getSearchWord() == null) {//nextPrevSelect가 실행되면 pVO에 검색키 검색어가 리셋되어서 다시 세팅
 				pVO.setSearchKey(searchKey);
 				pVO.setSearchWord(searchWord);
 				pVO.setCategory(category);
+			}
 			}
 			mav.addObject("pVO", pVO);
 		}else {
