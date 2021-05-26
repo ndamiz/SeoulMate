@@ -412,7 +412,9 @@ console.log(score);
 		});
 		$("#shareBtn").click(function(){
 			$("#pup_wrap_share").css("display", "block");
-			
+		});
+		$(".pup_wrap_share_close").click(function(){ //공유하기 버튼 공유하기팝업창
+			$("#pup_wrap_share").css("display", "none");
 		});
        var slides = document.querySelector('.slides'),
         slide = document.querySelectorAll('.slides li'),
@@ -435,23 +437,11 @@ console.log(score);
         console.log(currentIdx);
         if(currentIdx < slideCount - 1){
            moveSlide(currentIdx + 1);
-           if(currentIdx>0){
-              prevBtn.style.display = 'block';
-           }
-           if(currentIdx==slideCount-5){
-              nextBtn.style.display = 'none';
-           }
         }
      });
      prevBtn.addEventListener('click',function(){
         if(currentIdx >0){
            moveSlide(currentIdx - 1);
-           if(currentIdx==0){
-              prevBtn.style.display = 'none';
-           }
-           if(currentIdx==slideCount-5){
-              nextBtn.style.display = 'block';
-           }
         }
      });
    });
@@ -972,9 +962,8 @@ console.log(score);
 						</div>
 					</div>
 					<div class="pup_bottom">
-						<a href="" class="btn_cancel">닫기</a>
-						<a href="" class="btn_save">확인</a>
+						<a class="btn_cancel pup_wrap_share_close">닫기</a>
 					</div>
-				<a href="" class="btn_close">닫기</a>
+				<a href="" class="btn_close pup_wrap_share_close">닫기</a>
 			</div>
 		</div>

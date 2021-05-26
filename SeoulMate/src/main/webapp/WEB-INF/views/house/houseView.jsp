@@ -132,6 +132,7 @@ $(function(){
     overflow: auto;
     line-height: 90px;}
 #peopleExplain{    position: relative;
+	background-color: #fff;
     float: right;
     top: -430px;
     width: 300px;
@@ -842,8 +843,6 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
 		</form>
 	</div>
 </div>
-
-
 		<div class="pup_wrap" id="pup_wrap_share">
 			<div class="pup_form">
 				<div class="pup_head">공유하기</div>
@@ -859,10 +858,9 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
 						</div>
 					</div>
 					<div class="pup_bottom">
-						<a class="btn_cancel">닫기</a>
-						<a class="btn_save">확인</a>
+						<a class="btn_cancel pup_wrap_share_close">닫기</a>
 					</div>
-				<a class="btn_close">닫기</a>
+				<a class="btn_close pup_wrap_share_close">닫기</a>
 			</div>
 		</div>
 <script>
@@ -883,6 +881,10 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
 		$("#shareBtn").click(function(){ //공유하기 버튼 공유하기팝업창
 			$("#pup_wrap_share").css("display", "block");
 		});
+		$(".pup_wrap_share_close").click(function(){ //공유하기 버튼 공유하기팝업창
+			$("#pup_wrap_share").css("display", "none");
+		});
+		
      var slides = document.querySelector('.slides'),
      slide = document.querySelectorAll('.slides li'),
      currentIdx =0,   //현재인덱스
@@ -905,23 +907,11 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
         console.log(currentIdx);
         if(currentIdx < slideCount - 1){
            moveSlide(currentIdx + 1);
-           if(currentIdx>0){
-              prevBtn.style.display = 'block';
-           }
-           if(currentIdx==slideCount-5){
-              nextBtn.style.display = 'none';
-           }
         }
      });
      prevBtn.addEventListener('click',function(){
         if(currentIdx >0){
            moveSlide(currentIdx - 1);
-           if(currentIdx==0){
-              prevBtn.style.display = 'none';
-           }
-           if(currentIdx==slideCount-5){
-              nextBtn.style.display = 'block';
-           }
         }
      });
      
