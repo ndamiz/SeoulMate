@@ -483,24 +483,24 @@
 				<p class="d_title">회원 정보 입력, 이메일 인증, 라이프 스타일을 등록 후 회원가입이 가능합니다.</p>
 				<ul class="form_box choice" id="mem">
 					<li><label><span class="red_txt">*</span>아이디</label>
-						<input type="text" name="userid" id="userid" maxlength="12" value="testtest" placeholder="영문과 숫자를 조합한 6~12자리" autocomplete="off"/>
+						<input type="text" name="userid" id="userid" maxlength="12" placeholder="영문과 숫자를 조합한 6~12자리" autocomplete="off"/>
 						<a class="white" id="idCheck">중복 확인</a>
 					<input type="hidden" name="hiddenCheck" id="hiddenCheck" value="Y"/>
 					</li>
 						<li><label><span class="red_txt">*</span>비밀번호</label>
-					<input type="password" name="userpwd" id="userpwd" value="qwer1234!" placeholder="영문과 숫자, 특수문자를 조합한 8~15자리"/></li>
+					<input type="password" name="userpwd" id="userpwd" placeholder="영문과 숫자, 특수문자를 조합한 8~15자리"/></li>
 						<li><label><span class="red_txt">*</span>비밀번호 확인</label>
-					<input type="password" name="userpwd2" id="userpwd2" value="qwer1234!" placeholder="비밀번호를 재입력해주세요"/></li>
+					<input type="password" name="userpwd2" id="userpwd2" placeholder="비밀번호를 재입력해주세요"/></li>
 					<li><label><span class="red_txt">*</span>이름</label>
-						<input type="text" name="username" id="username" value="홍길동" maxlength="4" placeholder="이름을 입력해주세요" autocomplete="off"/></li>
+						<input type="text" name="username" id="username" maxlength="4" placeholder="이름을 입력해주세요" autocomplete="off"/></li>
 					<li><label><span class="red_txt">*</span>연락처</label>
 						<select name="tel1" id="tel1">
 							<c:forEach var="i1" items="${arr1}">
 								<option value="${i1}">${i1}</option>
 							</c:forEach>
 						</select><span class="multi">-</span>
-						<input type="text" name="tel2" id="tel2" value="1111" maxlength="4"/><span class="multi">-</span>
-						<input type="text" name="tel3" id="tel3" value="1111" maxlength="4"/>
+						<input type="text" name="tel2" id="tel2" maxlength="4"/><span class="multi">-</span>
+						<input type="text" name="tel3" id="tel3" maxlength="4"/>
 					</li>
 					<li><label><span class="red_txt">*</span>생년월일</label>
 						<input type="date" name="birth" id="birth" min="1960-01-01" max="${now}"/>
@@ -557,7 +557,7 @@
 						<input type="hidden" name="area3" id="area3" placeholder=""/>
 					</li>
 					<li><label><span class="red_txt">*</span>이메일</label>
-						<input type="text" name="emailid" id="emailid" value="0905cjw" placeholder="이메일"  autocomplete="off"/><span>@</span> 
+						<input type="text" name="emailid" id="emailid" placeholder="이메일"  autocomplete="off"/><span>@</span> 
 						<select name="emaildomain" id="emaildomain">
 							<option value="naver.com">naver.com</option>
 							<option value="nate.com">nate.com</option>
@@ -570,7 +570,7 @@
 						<label></label>
 						<input type="text" name="emailCheck" id="emailCheck" value="" placeholder="" disabled autocomplete="off"/>
 						<a class="green" id="emailCheckBtn">인증번호 확인</a>
-						<input type="hidden" name="emailResult" id="emailResult" value="Y"/>
+						<input type="hidden" name="emailResult" id="emailResult" value="N"/>
 					</li>
 				</ul>
 				<a class="q_btn green" id="memNext1">다음</a>
