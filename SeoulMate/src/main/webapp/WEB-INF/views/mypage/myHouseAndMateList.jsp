@@ -573,7 +573,7 @@
 					<div class="myHouseMateList <c:if test="${msg!='mate' }">objectHidden</c:if>" id="myPage_MateList">
 						<div class="myPage_HouseAndMate_oneBlock" >
 							<div class="myPage_HouseAndMate_Img">
-								<a href="mateView?no=${mwVO.no }"><img alt="" src="/home/matePic/${mwVO.matePic1 }"/></a>
+								<a href="mateView?no=${mwVO.no }"><img alt="" src="/home/matePic/${mwVO.matePic1 }" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'"/></a>
 							</div>
 							<ul class="myPage_HouseAndMate_Info">
 								<li>${mwVO.userid }</li>
@@ -639,7 +639,7 @@
 							<c:if test="${logGrade==2 and memberCheck=='mateMem' }">
 							<div>매칭 <br /><span>${like_hwVO.score }</span> %</div>
 							</c:if>
-							<a href="houseView?no=${like_hwVO.no }"><img alt="" src="/home/housePic/${like_hwVO.housepic1 }"/></a>
+							<a href="houseView?no=${like_hwVO.no }"><img alt="" src="/home/housePic/${like_hwVO.housepic1 }" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'"/></a>
 						</div>
 						<ul class="myPage_HouseAndMate_Info">
 							<li>${like_hwVO.housename }</li>
@@ -670,7 +670,7 @@
 							<c:if test="${logGrade==2  and memberCheck=='houseMem' }">
 							<div>매칭 <br /><span>${like_mwVO.score }</span> %</div>
 							</c:if>
-							<a href="mateView?no=${like_mwVO.no }"><img alt="" src="/home/matePic/${like_mwVO.matePic1 }"/></a>
+							<a href="mateView?no=${like_mwVO.no }"><img alt="" src="/home/matePic/${like_mwVO.matePic1 }" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'"/></a>
 						</div>
 						<ul class="myPage_HouseAndMate_Info">
 							<li>${like_mwVO.userid }</li>

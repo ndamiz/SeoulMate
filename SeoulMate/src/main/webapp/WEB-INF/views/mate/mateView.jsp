@@ -560,12 +560,12 @@ console.log(score);
 	      	<div class="slide_wraper">
 	         	<div class="slides">
 	            	<ul>
-						<li><img src="/home/matePic/${mVO.matePic1}"></li>
+						<li><img src="/home/matePic/${mVO.matePic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'"></li>
 						<c:if test="${mVO.matePic2 != null}">
-						<li><img src="/home/matePic/${mVO.matePic2}"></li>
+						<li><img src="/home/matePic/${mVO.matePic2}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'"></li>
 						</c:if>
 						<c:if test="${mVO.matePic3 != null}">
-						<li><img src="/home/matePic/${mVO.matePic3}"></li>
+						<li><img src="/home/matePic/${mVO.matePic3}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'"></li>
 						</c:if>
 	           		</ul>
 	         	</div> <!-- "slides" -->
@@ -574,7 +574,7 @@ console.log(score);
 		</div>
 		<div  id="peopleExplain">
 			<ul>
-				<li ><img src="/home/profilePic/${memProfilePic}" id="profilepic"/> </li>
+				<li ><img src="/home/profilePic/${memProfilePic}" id="profilepic" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'"/> </li>
 				<li>${mVO.userid }</li>
 				<c:forEach var="hPcaseCheck" items="${pVO_log }">
 					<c:if test="${hPcaseCheck.pcase == 'h' }">

@@ -90,13 +90,13 @@ $(function(){
 		// 하우스no , 로그인한 유저아이디를 사용하여 찜목록에 내역이 있는지 확인하기. 
 		var no = '<c:out value="${hVO.no }"/>';
 		var userid = '<c:out value="${logId }"/>';
-		var checkId = '<c:out value="${pVO.userid}"/>';
+		var checkId = '<c:out value="${pVO.userid }"/>';
 		var msg = '하우스';
 		// 로그인한 경우에만 실행한다. 
 		if(userid ==null || userid==''){
 			alert('찜하기는 로그인 후 이용이 가능합니다.');
 			location.href='/home/login';
-		}else if(userid == checkid ){
+		}else if(userid == checkId ){
 			alert('본인이 작성한 글입니다.\n찜하기가 불가합니다.');
 		}else {
 			var url = '/home/likemarkerInsert';

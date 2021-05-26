@@ -123,7 +123,7 @@ public class MypageController {
 		mav.addObject("msg", msg);
 		mav.setViewName("mypage/myHouseAndMateList");
 		} catch (Exception e) {
-			mav.setViewName("/login");
+			mav.setViewName("mypage/myHouseAndMateList");
 		}
 		return mav;
 	}
