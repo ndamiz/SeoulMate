@@ -159,11 +159,11 @@
 					<li><label><span class="red_txt">*</span>소통 방식</label>
 						<div class="checks checkbox">
 							<input type="radio" name="h_communication" id="h_communication3" value="3" <c:if test="${pVO.h_communication==3}">checked</c:if>/>
-							<label for="h_communication3">대화</label>
+							<label class="amm" for="h_communication3">대화</label>
 							<input type="radio" name="h_communication" id="h_communication1" value="1" <c:if test="${pVO.h_communication==1}">checked</c:if>/>
-							<label for="h_communication1">메신저</label>
+							<label class="amm" for="h_communication1">메신저</label>
 							<input type="radio" name="h_communication" id="h_communication2" value="2" <c:if test="${pVO.h_communication==2}">checked</c:if>/>
-							<label for="h_communication2">기타</label>
+							<label class="amm" for="h_communication2">기타</label>
 						</div>
 					</li>
 					<li><label><span class="red_txt">*</span>모임 빈도</label>
