@@ -161,7 +161,7 @@ public class AdminController {
 			session.setAttribute("adminId", userid);
 			session.setAttribute("adminStatus", "Y");
 			session.setAttribute("loginTime", loginTime);
-			mav.setViewName("/admin/adminDashboard");
+			mav.setViewName("redirect:/admin");
 		}else {
 			System.out.println("어드민 로그인 실패");
 			mav.setViewName("redirect:/admin/login");

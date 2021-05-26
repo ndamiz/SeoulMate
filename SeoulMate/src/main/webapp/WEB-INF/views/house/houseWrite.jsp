@@ -26,12 +26,6 @@ $(function(){
 });
 
 
-
-// 	$(function() {
-// 	    $("#input-image").on('change', function(){
-// 	        readURL(this);
-// 	    });
-// 	});
 	
 	function readURL(input) {
 	    if (input.files && input.files[0]) {
@@ -42,55 +36,54 @@ $(function(){
 			}
 			reader.readAsDataURL(input.files[0]);
 		}
-
-// 		for (var image of event.target.files) { 
-// 			var reader = new FileReader(); 
-// 			reader.onload = function(event) { 
-// 				var img = document.createElement("img"); 
-// 				img.setAttribute("src", event.target.result); 
-// 				document.querySelector("#multiple-container").appendChild(img); 
-// 			}; 
-// 				console.log(image); 
-// 				reader.readAsDataURL(image); 
-// 		}
-
-// 		var reader = new FileReader(); 
-// 		reader.onload = function(event) { 
-// 			var img = document.createElement("img"); 
-// 			img.setAttribute("src", event.target.result); 
-// 			document.querySelector("#hPic").append(img); 
-// 			}; 
-// 			reader.readAsDataURL(event.target.files[0]);
-// 			reader.readAsDataURL(event.target.files[1]);
-// 			reader.readAsDataURL(event.target.files[2]);
-// 			reader.readAsDataURL(event.target.files[3]);
-// 			reader.readAsDataURL(event.target.files[4]);
-// 	}
-
 	}
 	
-
-// $(document).ready(function() {
-//     $('#houseProfile').summernote();
-//   });
-
-
+    function readURL1(input) {
+	    if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	
+	    reader.onload = function (e) {
+	            $('#houseImg2').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+    }
+    
+    function readURL2(input) {
+	    if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	
+	    reader.onload = function (e) {
+	            $('#houseImg3').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+    }
+    
+    function readURL3(input) {
+	    if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	
+	    reader.onload = function (e) {
+	            $('#houseImg4').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+    }
+    
+    function readURL4(input) {
+	    if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	
+	    reader.onload = function (e) {
+	            $('#houseImg5').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+    }
+    
 $(function(){
 	
-//     $('select').change(function(){
-//         var option = $(this).val(); //옵션의 value
-
-//         if(option=='value값){
-//            $('td:contains("텍스트이름")').parents('tr').css('display','');
-//            $('td:contains("텍스트이름")').parents('tr').css('display','none');
-//         }         
-//      });
-
-// 	if(!$('#selectBoxID > option:selected').val()) { //#->셀렉트 의 id 입력
-// 	    alert("선택해주세요");
-// 	}
-
-
 	$("#roomPlus").click(function(){ //방 추가하기
 		if($(".room2").css("display") == "none"){
 			$('.room2 ul input').eq(0).attr('name','roomVOList[1].roomName');	//1
@@ -103,6 +96,7 @@ $(function(){
 			$('.room2 ul input').eq(5).attr('name','roomVOList[1].furniture');	//8
 			$('.room2 ul input').eq(6).attr('name','roomVOList[1].furniture');	//9
 			$('.room2 ul input').eq(7).attr('name','roomVOList[1].incFurniture');	//10
+			$('#roomMinus').css("display",'inline-block');
 			$('.room2').show();
 		}else if($(".room3").css("display") == "none"){
 			$('.room3 ul input').eq(0).attr('name','roomVOList[2].roomName');	//1
@@ -128,54 +122,114 @@ $(function(){
 			$('.room4 ul input').eq(6).attr('name','roomVOList[3].furniture');	//9
 			$('.room4 ul input').eq(7).attr('name','roomVOList[3].incFurniture');	//10
 			$('.room4').show();
-			$('#roomPlus').css("display",'none');
-			$('#roomMinus').css("display",'inline-block');
 		}
 	});
 	$("#roomMinus").click(function(){
 		if($(".room4").css("display") == "block"){//닫기
-			$('.room4 ul input').eq(0).attr('name','');	//1
-			$('.room4 ul input').eq(1).attr('name','');		//2
-			$('.room4 ul input').eq(2).attr('name','');	//3
-			$('.room4 ul input').eq(3).attr('name','');	//4
-			$('.room4 ul input').eq(4).attr('name','');	//5
-			$('.room4 ul select').eq(0).attr('name','');	//6
-			$('.room4 ul select').eq(1).attr('name','');	//7
-			$('.room4 ul input').eq(5).attr('name','');	//8
-			$('.room4 ul input').eq(6).attr('name','');	//9
-			$('.room4 ul input').eq(7).attr('name','');	//10
-			$('.room4').hide();
+			if(confirm('방을 제거하면 3번방 정보가 삭제됩니다.')){
+				$('.room4 ul input').eq(0).attr('name','');	//1
+				$('.room4 ul input').eq(0).val('');	
+				$('.room4 ul input').eq(1).attr('name','');		//2
+				$('.room4 ul input').eq(1).val('');	
+				$('.room4 ul input').eq(2).attr('name','');	//3
+				$('.room4 ul input').eq(2).val('');	
+				$('.room4 ul input').eq(3).attr('name','');	//4
+				$('.room4 ul input').eq(3).val('');	
+				$('.room4 ul input').eq(4).attr('name','');	//5
+				$('.room4 ul input').eq(4).val('');
+				
+				$('.room4 ul select').eq(0).attr('name','');	//6
+				$('.room4 ul select').eq(1).attr('name','');	//7
+				
+				$('.room4 ul input').eq(5).attr('name','');	//8
+				$('.room4 ul input').eq(5).val('');	
+				$('.room4 ul input').eq(6).attr('name','');	//9
+				$('.room4 ul input').eq(6).val('');	
+				$('.room4 ul input').eq(7).attr('name','');	//10
+				$('.room4 ul input').eq(7).val('');	
+				$('.room4').hide();
+			}
 		}else if($(".room3").css("display") == "block"){
-			$('.room3 ul input').eq(0).attr('name','');	//1
-			$('.room3 ul input').eq(1).attr('name','');		//2
-			$('.room3 ul input').eq(2).attr('name','');	//3
-			$('.room3 ul input').eq(3).attr('name','');	//4
-			$('.room3 ul input').eq(4).attr('name','');	//5
-			$('.room3 ul select').eq(0).attr('name','');	//6
-			$('.room3 ul select').eq(1).attr('name','');	//7
-			$('.room3 ul input').eq(5).attr('name','');	//8
-			$('.room3 ul input').eq(6).attr('name','');	//9
-			$('.room3 ul input').eq(7).attr('name','');	//10
-			$('.room3').hide();
+			if(confirm('방을 제거하면 3번방 정보가 삭제됩니다.')){
+				$('.room3 ul input').eq(0).attr('name','');	//1
+				$('.room3 ul input').eq(0).val('');	
+				$('.room3 ul input').eq(1).attr('name','');		//2
+				$('.room3 ul input').eq(1).val('');	
+				$('.room3 ul input').eq(2).attr('name','');	//3
+				$('.room3 ul input').eq(2).val('');	
+				$('.room3 ul input').eq(3).attr('name','');	//4
+				$('.room3 ul input').eq(3).val('');	
+				$('.room3 ul input').eq(4).attr('name','');	//5
+				$('.room3 ul input').eq(4).val('');	
+				
+				$('.room3 ul select').eq(0).attr('name','');	//6
+				$('.room3 ul select').eq(1).attr('name','');	//7
+				
+				$('.room3 ul input').eq(5).attr('name','');	//8
+				$('.room3 ul input').eq(5).val('');	
+				$('.room3 ul input').eq(6).attr('name','');	//9
+				$('.room3 ul input').eq(6).val('');	
+				$('.room3 ul input').eq(7).attr('name','');	//10
+				$('.room3 ul input').eq(7).val('');	
+				$('.room3').hide();
+			}
 		}else if($(".room2").css("display") == "block"){
-			$('.room2 ul input').eq(0).attr('name','');	//1
-			$('.room2 ul input').eq(1).attr('name','');		//2
-			$('.room2 ul input').eq(2).attr('name','');	//3
-			$('.room2 ul input').eq(3).attr('name','');	//4
-			$('.room2 ul input').eq(4).attr('name','');	//5
-			$('.room2 ul select').eq(0).attr('name','');	//6
-			$('.room2 ul select').eq(1).attr('name','');	//7
-			$('.room2 ul input').eq(5).attr('name','');	//8
-			$('.room2 ul input').eq(6).attr('name','');	//9
-			$('.room2 ul input').eq(7).attr('name','');	//10
-			$('.room2').hide();
-			$('#roomPlus').css("display",'inline-block');
-			$('#roomMinus').css("display",'none');
+			if(confirm('방을 제거하면 2번방 정보가 삭제됩니다.')){
+				$('.room2 ul input').eq(0).attr('name','');	//1
+				$('.room2 ul input').eq(0).val('');	
+				$('.room2 ul input').eq(1).attr('name','');		//2
+				$('.room2 ul input').eq(1).val('');	
+				$('.room2 ul input').eq(2).attr('name','');	//3
+				$('.room2 ul input').eq(2).val('');	
+				$('.room2 ul input').eq(3).attr('name','');	//4
+				$('.room2 ul input').eq(3).val('');	
+				$('.room2 ul input').eq(4).attr('name','');	//5
+				$('.room2 ul input').eq(4).val('');	
+	
+				$('.room2 ul select').eq(0).attr('name','');	//6
+				$('.room2 ul select').eq(1).attr('name','');	//7
+				
+				$('.room2 ul input').eq(5).attr('name','');	//8
+				$('.room2 ul input').eq(5).val('');	
+				$('.room2 ul input').eq(6).attr('name','');	//9
+				$('.room2 ul input').eq(6).val('');	
+				$('.room2 ul input').eq(7).attr('name','');	//10
+				$('.room2 ul input').eq(7).val('');	
+				$('#roomMinus').css("display",'none');
+				$('.room2').hide();
+			}	
 		}
 	});
+		
+// 	     $('select').change(function(){
+//      var option = $(this).val(); //옵션의 value
+
+//      if(option=='value값){
+//         $('td:contains("텍스트이름")').parents('tr').css('display','');
+//         $('td:contains("텍스트이름")').parents('tr').css('display','none');
+//      }         
+//   });
+
+// 	if(!$('#selectBoxID > option:selected').val()) { //#->셀렉트 의 id 입력
+// 	    alert("선택해주세요");
+// 	}
 
 	$("#hNext1").click(function(){
-
+		
+		if($("#sample4_jibunAddress").val()==""){
+			alert("주소를 입력해주세요");
+			return false;
+		}
+		if($("#housename").val()==""){
+			alert("하우스 이름을 입력해주세요");
+			return false;
+		}
+		if($("#room").option=""){
+			alert("방 개수를 선택해주세요");
+			return false;
+		}
+		
+		
 		$("#houseWrite1").css("display", "none");
 		$("#houseWrite2").css("display", "block");
 		
@@ -405,48 +459,7 @@ $(function(){
     }
 
 </script>
-<style>
-/* input[type="date"] {width:200px;} */
-/* .house_wrap{width:800px; margin:0 auto; } */
-.content ul li{word-break:keep-all;}
-.form_box li input, .form_box li select{margin:0px; width:300px;}
-.form_box{width:800px; margin:0 auto; padding-left: 100px;}
-.content label{width:180px;}
-.form_box.choice li > label {width: 240px;}
-#houseWrite1_ul2{display: none;}
-.btnclass{padding-left:50px;}
-#roomPlus{margin:0 auto;}
-#houseWrite1 .checks { width: 560px;}
-#ck{margin:0 auto; width: 60%;}
-#hPic img{width: 250px; height: 250px; }
-#houseImg1{width:250px; height:250px; position: relative; margin:0 auto; text-align: center;}
-#housepic1, #housepic2, #housepic3 {width:200px; height: 200px; margin:0 auto;}
-
-#multiple-container{width: 100%; margin:0 auto; float:left; position: relative;}
-#multiple-container img{width:250px; height: 250px; margin:0 auto; float:left;}
-#houseWrite2, #houseWrite3, #houseWrite4, #houseWrite5, 
-#houseWrite6, #houseWrite7, #houseWrite8, #houseWrite9 {display:none; margin: 0 auto;}
-
-#houseWrite2 .form_box.choice li > label {width: 110px;}
-#houseWrite2 .checks{height: 21px;}
-#houseWrite2 .checks label{height: 21px;}
-#hosueWrite5 .checks>label{width:100px;}
-#houseWrite5 .checks {width: 295px;}
-#houseWrite8{width: 800px;}
-#houseWrite8 .checks>label{width:200px;}
-#hPic{height:250px; width: 250px; margin:0 auto; text-align: center;}
-#HproUl>li{float: right;}
-
-.title_wrap div{min-height:300px;}
-.checks{width:800px;}
-.checks>label{width:120px;}
-/* #houseWrite6 input, #houseWrite6 select{width:230px;} */
-/*방추가하기 스타일*/
-.room2, .room3, .room4, #roomMinus{
-	display:none;
-}
-</style>
-<div class="wrap">
+<div class="wrap hwWrap">
 <div class="content">
 
 	
@@ -454,7 +467,7 @@ $(function(){
 	<p class="m_title">하우스 등록하기 </p> 
 	<p>&nbsp;</p>
 	</div>
-		<form method="post" id="houseWriteFrm" action="houseWriteOk" enctype="multipart/form-data">
+		<form method="post" name="form" id="houseWriteFrm" action="houseWriteOk" enctype="multipart/form-data">
 		
 		<input type="hidden" name="pno" value="${housePno }"/>
 <%-- 		<input type="hidden" name="no" value="${hVO.no }"/> --%>
@@ -467,20 +480,23 @@ $(function(){
 		</div>
 			
 			<ul class="form_box">
-				<li> <label><span class="red_txt">*</span>주소 
-				<a class="green" onclick="sample4_execDaumPostcode()" >주소 검색</a> </label> <!-- <input type="text" name="addr"/> --> 
-				
-				<input type="text" id="sample4_postcode" placeholder="우편번호"></li>
+				<li> 
+					<label><span class="red_txt">*</span>주소 
+					</label> <!-- <input type="text" name="addr"/> --> 
+					
+					<input type="text" id="sample4_postcode" placeholder="우편번호">
+					<a class="green btn_addr" onclick="sample4_execDaumPostcode()" >주소 검색</a>
+				</li>
 				<li><label><span class="red_txt"></span></label><input type="text" id="sample4_roadAddress" placeholder="도로명주소"></li>
 				<li><label><span class="red_txt"></span></label><input type="text" name="addr" id="sample4_jibunAddress" placeholder="지번주소"> <br/></li>
-				<li><label><span class="red_txt"></span></label><span id="guide" style="color:#999;display:none"></span></li>
 				<li><label><span class="red_txt"></span></label><input type="text" id="sample4_detailAddress" placeholder="상세주소"> <br/> </li>
-				<li><label><span class="red_txt"></span></label><input type="text" id="sample4_extraAddress" placeholder="참고항목"> </li>
+				<li class="hideLi"><label><span class="red_txt"></span></label><span id="guide" style="color:#999;display:none"></span></li>
+				<li class="hideLi"><label><span class="red_txt"></span></label><input type="hidden" id="sample4_extraAddress" placeholder="참고항목"> </li>
 				
 				
 				
-				<li><label><span class="red_txt">*</span>하우스 이름 </label> <input type="text" name="housename"/></li>
-			<li> <label><span class="red_txt">*</span>총 방 개수 </label><select name="room">
+				<li><label><span class="red_txt">*</span>하우스 이름 </label> <input type="text" id="housename" name="housename"/></li>
+			<li> <label><span class="red_txt">*</span>총 방 개수 </label><select name="room" >
 						<option value="1">1</option>
 						<option value="2">2</option>
 						<option value="3">3</option>
@@ -509,7 +525,7 @@ $(function(){
 		
 				<div class="btnclass">
 					<a id="hPrev1" class="green" >이전</a>
-					<a id="hNext1" class="green" >다음</a>
+					<a id="hNext1" class="green" onclick="Check1" >다음</a>
 					<a id="hIndex1" class="green" >취소</a>
 				</div> <!-- 버튼div 종료 -->
 
@@ -544,7 +560,7 @@ $(function(){
 						<label for="토스트기">토스트기</label> 
 					</div>
 				</li> 
-				<p>&nbsp;</p>
+				<p style="margin: 10px 0;">&nbsp;</p>
 				<li>
 					<label>거실</label>
 					<div class="checks">
@@ -601,25 +617,21 @@ $(function(){
 		<p>&nbsp;</p>
 		</div>
 		
-			<ul class="form_box">
+			<ul class="form_box preview_img">
 				<li id="hPic">
-					<img id="houseImg1" name="houseImg1" src="#" alt="upload image" />
-					<img id="houseImg2" name="houseImg2" src="#" alt="upload image" />
-					<img id="houseImg3" name="houseImg3" src="#" alt="upload image" />
-					<img id="houseImg4" name="houseImg4" src="#" alt="upload image" />
-					<img id="houseImg5" name="houseImg5" src="#" alt="upload image" />
+					<img id="houseImg1" name="houseImg1" src="#" alt="upload image" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'" />
+					<img id="houseImg2" name="houseImg2" src="#" alt="upload image" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'" />
+					<img id="houseImg3" name="houseImg3" src="#" alt="upload image" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'" />
+					<img id="houseImg4" name="houseImg4" src="#" alt="upload image" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'" />
+					<img id="houseImg5" name="houseImg5" src="#" alt="upload image" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'" />
 				</li>
 				
 				<li> 
-					<input type="file" accept="image/*" name="filename"   onchange="readURL(this);" required /> 
-					<input type="file" accept="image/*" name="filename"   onchange="readURL(this);"  /> 
-					<input type="file" accept="image/*" name="filename"   onchange="readURL(this);" /> 
-					<input type="file" accept="image/*" name="filename"   onchange="readURL(this);" /> 
-					<input type="file" accept="image/*" name="filename"   onchange="readURL(this);"  /> 
-<!-- 					<input type="file" accept="image/*" name="filename2"  id="housepic2" onchange="readURL(this);"/> -->
-<!-- 					<input type="file" accept="image/*" name="filename3"  id="housepic3" onchange="readURL(this);"/> -->
-<!-- 					<input type="file" accept="image/*" name="filename4"  id="housepic4" onchange="readURL(this);"/> -->
-<!-- 					<input type="file" accept="image/*" name="filename5"  id="housepic5" onchange="readURL(this);"/>  -->
+					<input type="file" accept="image/*" id="housepic1" name="filename"   onchange="readURL(this);" required /> 
+					<input type="file" accept="image/*" id="housepic2" name="filename"   onchange="readURL1(this);"  /> 
+					<input type="file" accept="image/*" id="housepic3" name="filename"   onchange="readURL2(this);" /> 
+					<input type="file" accept="image/*" id="housepic4" name="filename"   onchange="readURL3(this);" /> 
+					<input type="file" accept="image/*" id="housepic5" name="filename"   onchange="readURL4(this);"  /> 
 					<br/> 
 				</li>
 					
@@ -693,7 +705,7 @@ $(function(){
 			<div class="room2">
 				<br><br>
 				<div class="title_wrap">
-					<p class="s_title">두번째 방 임대료 및 입주정보 </p><br/>
+					<p class="s_title">2번 방 임대료 및 입주정보 </p><br/>
 					<p>&nbsp;</p>
 				</div><br><br>
 				<ul class="form_box room_box">
@@ -734,7 +746,7 @@ $(function(){
 			<div class="room3">
 				<br><br>
 				<div class="title_wrap">
-					<p class="s_title">세번째 방 임대료 및 입주정보 </p> <br/>
+					<p class="s_title">3번 방 임대료 및 입주정보 </p> <br/>
 					<p>&nbsp;</p>
 				</div><br><br>
 				<ul class="form_box room_box room3">
@@ -775,7 +787,7 @@ $(function(){
 			<div class="room4">
 				<br><br>
 				<div class="title_wrap">
-					<p class="s_title">네번째 방 임대료 및 입주정보</p><br/>
+					<p class="s_title">4번 방 임대료 및 입주정보</p><br/>
 					<p>&nbsp;</p>
 				</div><br><br>
 				<ul class="form_box room_box ">
@@ -811,9 +823,9 @@ $(function(){
 					<li><label>포함된 가구</label><input type="text" name=""/> </li>
 				</ul>
 			</div>
-				<div class="btnclass">
-					<a class="green" id="roomPlus">방 추가하기</a>
-					<a class="green" id="roomMinus">방 삭제하기</a>
+				<div class="room_btn">
+					<a class="" id="roomPlus">방 추가하기</a>
+					<a class="" id="roomMinus">방 삭제하기</a>
 				</div>
 				<div class="btnclass">
 					<a class="green" id="hPrev5">이전</a>
@@ -826,6 +838,10 @@ $(function(){
 			
 		<div id=houseWrite6>
 		<div class="title_wrap">
+			<p class="s_title">하우스 성향 등록 (생활정보)</p><br/>
+		
+		<p>&nbsp;</p>
+		</div>
 		<ul class="s_margin" id="HproUl">
 			<c:forEach var="vo" items="${list}">
 				<li>
@@ -836,11 +852,6 @@ $(function(){
 				</li>
 			</c:forEach>
 		</ul>
-		<p class="s_title">하우스 성향 등록 (생활정보)</p><br/>
-		
-		<p>&nbsp;</p>
-		</div>
-		
 			<ul class="form_box choice">
 				<li>
 					<label><span class="red_txt">*</span>생활소음</label>
@@ -1051,9 +1062,9 @@ $(function(){
 					<label><span class="red_txt">*</span>반려동물 선호도</label>
 					<div class="checks">
 						<input type="radio" id="m_pet1" value="1" name="m_pet"> 
-						<label for="m_pet1">가능</label>
+						<label for="m_pet1">긍정적</label>
 						<input type="radio" id="m_pet3" value="3" name="m_pet"> 
-						<label for="m_pet3">불가능</label>
+						<label for="m_pet3">부정적</label>
 					</div>
 				</li>
 				

@@ -346,7 +346,7 @@
       var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
       
       // min값만큼 확대
-      map.setMinLevel(3); // 50m
+      map.setMinLevel(4); // 100m
       // max값만큼 확대
       map.setMaxLevel(7); // 1km
 	  <c:if test="${logId==null}">

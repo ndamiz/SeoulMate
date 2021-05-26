@@ -78,4 +78,9 @@ public interface HouseWriteDAO {
 	//선택한 성향 정보 가져오기
 	public PropensityVO getFullPropensity(String userid, int pno);
 
+	//하우스 글 작성 확인
+	public int houseWriteCheck(String userid);
+	
+	//하우스 모집중인지 확인
+	public int houseStateCheck(String userid);
 }

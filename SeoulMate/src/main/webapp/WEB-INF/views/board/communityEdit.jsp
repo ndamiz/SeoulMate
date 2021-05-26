@@ -19,10 +19,10 @@
 				<li id="comWriteLi">
 					<select id="category" name="category">
 						<option disabled selected hidden>카테고리 선택</option>
-						<option>우리집 자랑</option>
-						<option>중고장터</option>
-						<option>쉐어TIP</option>
-						<option>자유게시판</option>
+						<option <c:if test="${list.category == '우리집 자랑'}"> selected</c:if> >우리집 자랑</option>
+						<option <c:if test="${list.category == '중고장터'}"> selected</c:if> >중고장터</option>
+						<option <c:if test="${list.category == '쉐어TIP'}"> selected</c:if> >쉐어TIP</option>
+						<option <c:if test="${list.category == '자유게시판'}"> selected</c:if> >자유게시판</option>
 					</select>
 				</li>
 				<li id="comWriteSubject"><input id="subject" name="subject" type="text" value="${list.subject}"></li>
@@ -58,7 +58,7 @@
 				}
 			});
 			//카테고리 선택
-			$("#category").val('${list.category}').prop('selected', true);
+			//$("#category").val('${list.category}').prop('selected', true);
 	    </script>
 	</div>
 </div>
