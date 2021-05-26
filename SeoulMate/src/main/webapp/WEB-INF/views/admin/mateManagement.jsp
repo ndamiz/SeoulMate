@@ -40,13 +40,13 @@
 				<div class="table-responsive, managementList">
 					<table class="table table-hover table-sm table-bordered">
 						<thead class="thead-light">
-							<tr>
+							<tr class="admin_HouseManagement_DetailInfo_Header">
 								<th>No.</th>
 								<th>이름</th>
 								<th>아이디</th>
 								<th>희망지역</th>
 								<th>등급</th>
-								<th>신고누적수</th>
+								<th>신고수</th>
 								<th>글 개제 상태</th>
 							</tr>
 						</thead>
@@ -125,7 +125,7 @@
 								<li><span id="mw_writedate"></span> ~ <span id="mw_enddate"></span></li>
 								<li>상태</li>
 								<li>
-									<select name="mw_matestate" class="custom-select" style="height: 28px; padding: 2px 10px; vertical-align: top; margin-top: 1px;">
+									<select name="mw_matestate" class="custom-select" style="height: 28px; padding: 2px 10px; vertical-align: middel; margin-bottom: 5px;">
 										<option value="모집중" selected>모집중</option>
 										<option value="매칭 완료">매칭 완료</option>
 										<option value="기간 만료">기간 만료</option>
@@ -144,7 +144,7 @@
 								<ul class="admin_Management_popup_table_inner3">
 									<li>생활시간 : <span id="propen_m_pattern"></span></li>
 									<li>성격 : <span id="propen_m_personality"></span></li>
-									<li>애완동물 : <span id="propen_m_pet"></span></li>
+									<li>반려동물 : <span id="propen_m_pet"></span></li>
 									<li>흡연여부 : <span id="propen_m_smoke"></span></li>
 									<li>나이대 : <span id="propen_m_age"></span></li>
 									<li>성별 : <span id="propen_m_gender"></span></li>
@@ -178,8 +178,8 @@
 								<li>생활소음 : <span id="propen_h_noise"></span></li>
 								<li>생활시간 : <span id="propen_h_pattern"></span></li>
 								<li>흡연 : <span id="propen_h_smoke"></span></li>
-								<li style="width: 42%;">하우스 내 애완동물 여부 : <span id="propen_h_pet"></span></li>
-								<li style="width: 42%;">애완동물 동반입실(거주) 여부 : <span id="propen_h_petwith"></span></li>
+								<li style="width: 42%;">하우스 내 반려동물 여부 : <span id="propen_h_pet"></span></li>
+								<li style="width: 42%;">반려동물 동반입실(거주) 여부 : <span id="propen_h_petwith"></span></li>
 							</ul>
 							<ul class="admin_Management_popup_table_inner2">
 								<li>소통</li>
@@ -202,20 +202,76 @@
 						</li>
 						<li class="admin_Management_popup_table_title" style="padding-left: 20px;">메이트 사진</li>
 						<li class="admin_Management_popup_table_img" id="mw_matePic">
-							<input id="delFile" type="hidden" name="" value=""/>
 						</li>
 					</ul>
 				</div>
 				<div class="admin_Management_popup_table_btn">
 					<a href="javascript:printPage('pop')" class="btn btn-custom">프린트</a>
-					<a href="" class="btn btn-custom">수정</a>
-					<a href="" class="btn btn-custom popup_Close">닫기</a>
+					<a class="btn btn-custom mate_popup_Edit">수정</a>
+					<input id="change_state" type="hidden" name="change_state" value=""/>
+					<input id="selectPno" type="hidden" name="selectPno" value=""/>
+					<a class="btn btn-custom popup_Close">닫기</a>
 				</div>
 			</div>
 			<div class="myPage_HouseAndMate_Popup_FullScreen popup_Close popup_hidden" id="myPage_popup_FullScreen"></div>
 	</body>
 <script>
 $(function(){
+	var popup_select = '';
+	var delNo = [];
+	var delFile = [];
+	var matePic1 = '';
+	var matePic2 = '';
+	var matePic3 = '';
+	$(document).on('change','#mw_matePic',function(){
+		$('input[name=change_state]').val($(this).val());
+	});
+	$(document).on('click','.mate_imgDel', function(){
+		$(this).prev().addClass("objectHidden");
+		console.log($(this).prev().attr("id"));
+		console.log($(this).prev().attr("name"));
+		delNo.push($(this).prev().attr("name"));
+		delFile.push($(this).prev().attr("id"));
+	});
+	$(document).on('click', '.mate_popup_Edit', function(){
+		var change_state = $('input[name=change_state]').val();
+		var selectPno = $('input[name=selectPno]').val();
+		console.log("selectPno==="+selectPno);
+		console.log(delNo);
+		console.log(delFile);
+		console.log(delFile.length);
+		var Deldata = new Array();
+		
+		for(var i=0; i<delFile.length; i++){
+			if(delNo[i]=="matePic1"){
+				matePic1 = delFile[i];
+			}if(delNo[i]=="matePic2"){
+				matePic2 = delFile[i];
+			}if(delNo[i]=="matePic3"){
+				matePic3 = delFile[i];
+			}
+		}
+		var data = {'pno':selectPno,'matePic1':matePic1, 'matePic2':matePic2, "matePic3":matePic3,"matestate":change_state };
+		
+		var url = "/home/admin/mate_ManagementEdit";
+		$.ajax({
+			url : url,
+			data : data,
+			type : 'POST',
+			success : function(result){
+				console.log(result);
+				if(result==1){
+					console.log("수정이 완료되었습니다.");
+					alert('수정이 완료되었습니다');
+				}else if(result==200){
+					console.log("mate_ManagementEdit 에러발생 update 실패 ");
+				}
+			},error : function(){
+				console.log("mate_ManagementEdit ajax 에러");
+			}
+		});
+		
+	});
 	$('.admin_HouseManagement_DetailInfo').on('click', function(){
 		var no = $(this).children().eq(0).text();
 		var userid = $(this).children().eq(2).text();
@@ -241,7 +297,9 @@ $(function(){
 				$('#mem_email').text(result.memVO.email);
 				$('#mw_writedate').text(result.mwVO.writedate.substr(0, 10));
 				$('#mw_enddate').text(result.mwVO.enddate.substr(0, 10));
-				$('input[name=mw_matestate]').val(result.mwVO.matestate).prop("selected", true);
+				$('select[name=mw_matestate]').val(result.mwVO.matestate).prop("selected", true);
+				$('input[name=change_state]').val(result.mwVO.matestate);
+				$('input[name=selectPno]').val(result.mwVO.pno);
 				// grade (1:일반, 2:프리미엄)
 				if(result.memVO.grade == 1){ $('#mem_grade').text('일반');}
 				else if(result.memVO.grade == 2){ $('#mem_grade').text('프리미엄');}
@@ -383,13 +441,16 @@ $(function(){
 				// 이미지 넣기
 				var mateImgTag = '';
 				if(result.mwVO.matePic1!=null && result.mwVO.matePic1!=''){
-					mateImgTag += '<img class="mate_img" id="matePic1" name="matePic1" src="/home/matePic/'+result.mwVO.matePic1+'" alt="matePic1"/>';
+					mateImgTag += '<div><img class="mate_img" id="'+result.mwVO.matePic1+'" name="matePic1" src="/home/matePic/'+result.mwVO.matePic1+'" alt="matePic1" onerror="this.src=\'/home/img/comm/no_mate_pic.png\'"/>';
+					mateImgTag += '<span class="mate_imgDel">삭제</span></div>';
 				}
 				if(result.mwVO.matePic2!=null && result.mwVO.matePic2!=''){
-					mateImgTag += '<img class="mate_img" id="matePic2" name="matePic2" src="/home/matePic/'+result.mwVO.matePic2+'" alt="matePic2"/>';
+					mateImgTag += '<div><img class="mate_img" id="'+result.mwVO.matePic2+'" name="matePic2" src="/home/matePic/'+result.mwVO.matePic2+'" alt="matePic2" onerror="this.src=\'/home/img/comm/no_mate_pic.png\'"/>';
+					mateImgTag += '<span class="mate_imgDel">삭제</span></div>';
 				}
 				if(result.mwVO.matePic3!=null && result.mwVO.matePic3!=''){
-					mateImgTag += '<img class="mate_img" id="matePic3" name="matePic3" src="/home/matePic/'+result.mwVO.matePic3+'" alt="matePic3"/>';
+					mateImgTag += '<div><img class="mate_img" id="'+result.mwVO.matePic3+'" name="matePic3" src="/home/matePic/'+result.mwVO.matePic3+'" alt="matePic3" onerror="this.src=\'/home/img/comm/no_mate_pic.png\'"/>';
+					mateImgTag += '<span class="mate_imgDel">삭제</span></div>';
 				}
 				$('#mw_matePic').html(mateImgTag);
 			}, error : function(){

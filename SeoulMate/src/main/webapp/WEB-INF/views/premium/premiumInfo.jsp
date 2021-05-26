@@ -35,7 +35,7 @@
 		<div id="premiumInfoImg">
 			<ul>
 				<li>	
-					<img src="<%=request.getContextPath()%>/img/premiumAfter.jpg"/>
+					<img src="<%=request.getContextPath()%>/img/premiumbefore.jpg"/>
 					<img src="<%=request.getContextPath()%>/img/img01.jpg"/>
 					<img src="<%=request.getContextPath()%>/img/premiumAfter.jpg"/>
 				</li>
@@ -83,7 +83,7 @@
 			</tbody>
 		</table>
 		<c:if test="${memberVO.grade=='1' && logId!=null && memberVO.userid==logId }">
-			<a href="" class="b_btn green" id="premiumPayBtn">프리미엄 멤버십 가입하기</a>
+			<a class="b_btn green" id="premiumPayBtn">프리미엄 멤버십 가입하기</a>
 		</c:if>
 		<c:if test="${membetVO.grade=='2' && logId!=null && memberVO.userid==logId }">
 			<button class="b_btn white" disabled>프리미엄 멤버쉽 이용중</button>

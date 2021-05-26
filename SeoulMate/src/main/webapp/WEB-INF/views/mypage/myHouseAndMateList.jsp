@@ -469,7 +469,7 @@
 			$('#myPage_LikeMarkerList').addClass('objectHidden');
 		}else if(msg=='mate'){
 			$('.mypage_HouseList').removeClass('on');
-			$('.myPage_MateList').addClass('on');
+			$('.mypage_MateList').addClass('on');
 			$('.mypage_likeMarkList').removeClass('on');
 			
 			$('#myPage_HouseList').addClass('objectHidden');
@@ -500,10 +500,10 @@
 			</c:choose>
 			<c:choose>
 				<c:when test="${msg=='mate'}">
-					<li><a href="javascript:viewMyHouseAndMateList('mate')" class="mypage_Mate on">하우스메이트</a></li>
+					<li><a href="javascript:viewMyHouseAndMateList('mate')" class="mypage_MateList mypage_Mate on">하우스메이트</a></li>
 				</c:when>
 				<c:otherwise>
-					<li><a href="javascript:viewMyHouseAndMateList('mate')" class="mypage_Mate">하우스메이트</a></li>
+					<li><a href="javascript:viewMyHouseAndMateList('mate')" class="mypage_MateList mypage_Mate">하우스메이트</a></li>
 				</c:otherwise>
 			</c:choose>
 			<c:choose>
@@ -593,7 +593,8 @@
 										<li><p>
 											<c:choose>
 												<c:when test="${mwVO.m_now == 1 }">즉시</c:when>
-												<c:when test="${mwVO.m_now == 2 }">${mwVO.enterdate }</c:when>
+												
+												<c:when test="${mwVO.m_now == 3 }">${mwVO.enterdate }</c:when>
 											</c:choose>
 										</p></li>
 									</ul>

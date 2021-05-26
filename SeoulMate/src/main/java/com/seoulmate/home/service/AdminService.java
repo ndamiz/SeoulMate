@@ -51,6 +51,12 @@ public interface AdminService {
 	public List<HouseRoomVO> houseRoomInfoSelect(HouseWriteVO hwVO);
 	//하우스관리 조건에맞는 총레코드 리스트
 	public List<HouseWriteVO> houseListSelect(Map<String, Object> map);
+	//현재 사진 가져오기 
+	public HouseWriteVO housepicSelect(int pno);
+	//사진 및 게재상태 수정
+	public int housePicUpdate(Map<String, String> map);
+	// 게재상태 수정 
+	public int houseStateUpdate(HouseWriteVO hwVO);
 // 하우스,메이트 관리 
 	// propensity 확인 
 	public PropensityVO propensitySelect(int pno);
@@ -64,6 +70,12 @@ public interface AdminService {
 	public MemberVO mateDetailInfoSelectMember(String userid);
 	//메이트관리 조건에맞는 총레코드 리스트
 	public List<MateWriteVO> mateListSelect(Map<String, Object> map);
+	//현재 사진 가져오기 
+	public MateWriteVO matepicSelect(int pno);
+	// 게재상태 수정 
+	public int mateStateUpdate(MateWriteVO mwVO);
+	//선택사진 수정 
+	public int matePicUpdate(Map<String, String> map);
 //pay management /////////////////////////////////////////
 	// 결제관리 페이지 총 레코드 수 확인 
 	public int payTotalRecode(Map<String, Object> map);

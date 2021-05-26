@@ -114,7 +114,6 @@ public class PayVO {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
-	
 	public int getAmountRefund() {
 		return amountRefund;
 	}

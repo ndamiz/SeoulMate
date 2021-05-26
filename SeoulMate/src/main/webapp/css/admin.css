@@ -412,6 +412,18 @@ select[name="searchKey"]{ width: 100px;}
 	width: 110px;
 	float: left;
 }
+.admin_HouseManagement_DetailInfo, .admin_HouseManagement_DetailInfo_Header, .orderConditionTable, .admin_List_table{
+	height: 40px; line-height: 40px;
+}
+.house_imgDel, .mate_imgDel{display: block;
+    position: relative;
+    top: -209px;
+    left: 170px;
+    width: 40px;
+    text-align: center;    
+    color:#fff;
+    background-color: #32528869;
+    cursor: pointer;}
 .house_img, .mate_img{width: 200px; height: 200px; margin: 10px;}
 .admin_Management_popup {
 	width: 60%;
@@ -478,17 +490,18 @@ select[name="searchKey"]{ width: 100px;}
 .admin_Management_popup_table_inner2,
 .admin_Management_popup_table_inner1,
 .admin_Management_popup_table_inner3 {
-border-bottom: 1px solid #dee2e6;
-overflow: auto;
+	border-bottom: 1px solid #dee2e6;
+	overflow: auto;
 }
 
 .admin_Management_popup_table_inner0>li:nth-of-type(1),
 .admin_Management_popup_table_inner0>li:nth-of-type(3) {
 width: 16%; ,
-height: 30px;
-line-height: 30px;
+height: 40px;
+line-height: 40px;
 text-align: center;
 font-weight: bold;
+
 font-size: 1em;
 background-color: #e9ecef;
 padding: 0;
@@ -505,9 +518,9 @@ padding: 0;
 .admin_Management_popup_table_inner0>li,
 	.admin_Management_popup_table_inner2>li {
 	float: left;
-	height: 30px;
+	height: 40px;
 	width: 28%;
-	line-height: 30px;
+	line-height: 40px;
 	padding-left: 10px;
 	background-color: #fff;
 }
@@ -515,17 +528,17 @@ padding: 0;
 .admin_Management_popup_table_inner1>li,
 	.admin_Management_popup_table_inner3>li {
 	float: left;
-	height: 30px;
+	height: 40px;
 	width: 28%;
-	line-height: 30px;
+	line-height: 40px;
 	padding-left: 10px;
 	background-color: #fff;
 }
 
 .admin_Management_popup_table_inner2>li:first-of-type {
-	height: 60px;
+	height: 80px;
 	width: 16%;
-	line-height: 60px;
+	line-height: 80px;
 	text-align: center;
 	font-weight: bold;
 	font-size: 1em;
@@ -534,9 +547,9 @@ padding: 0;
 }
 
 .admin_Management_popup_table_inner1>li:first-of-type {
-	height: 30px;
+	height: 40px;
 	width: 16%;
-	line-height: 30px;
+	line-height: 40px;
 	text-align: center;
 	font-weight: bold;
 	font-size: 1em;
@@ -545,13 +558,15 @@ padding: 0;
 }
 
 .admin_Management_popup_table_img {
-	background-color: #fff;
+	background-color: #fff; overflow: auto;
 }
-
+.admin_Management_popup_table_img>div{
+	float: left;
+}
 .admin_Management_popup_table_btn {
 	text-align: center;
-	height: 60px;
-	line-height: 60px;
+	height: 80px;
+	line-height: 80px;
 	background-color: #fff;
 	border-radius: 0px 0px 10px 10px;
 }

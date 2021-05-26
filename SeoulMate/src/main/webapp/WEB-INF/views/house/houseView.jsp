@@ -265,18 +265,18 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
 	      	<div class="slide_wraper">
 	         	<div class="slides">
 	            	<ul>
-		               <li><img src="/home/housePic/${hVO.housepic1}"></li>
+		               <li><img src="/home/housePic/${hVO.housepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'"></li>
 		               <c:if test="${hVO.housepic2 != null}">
-		               <li><img src="/home/housePic/${hVO.housepic2}"></li>
+		               <li><img src="/home/housePic/${hVO.housepic2}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'"></li>
 		               </c:if>
 		                <c:if test="${hVO.housepic3 != null}">
-		               <li><img src="/home/housePic/${hVO.housepic3}"></li>
+		               <li><img src="/home/housePic/${hVO.housepic3}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'"></li>
 		               </c:if>
 		                <c:if test="${hVO.housepic4 != null}">
-		               <li><img src="/home/housePic/${hVO.housepic4}"></li>
+		               <li><img src="/home/housePic/${hVO.housepic4}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'"></li>
 		               </c:if>
 		                <c:if test="${hVO.housepic5 != null}">
-		               <li><img src="/home/housePic/${hVO.housepic5}"></li>
+		               <li><img src="/home/housePic/${hVO.housepic5}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'"></li>
 		               </c:if>
 	           		</ul>
 	         	</div> <!-- "slides" -->
@@ -285,7 +285,7 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
 		</div>
 		<div  id="peopleExplain">
 			<ul>
-				<li ><img src="/home/profilePic/${memProfilePic}" id="profilepic"/> </li>
+				<li ><img src="/home/profilePic/${memProfilePic}" id="profilepic" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'"/> </li>
 				<li>${hVO.userid }</li>
 				<c:if test="${pVO_log.pcase == 'm' }">
 				<li><button class="q_btn green applyInsert" >신청하기</button></li>

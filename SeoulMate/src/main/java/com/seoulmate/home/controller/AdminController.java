@@ -17,6 +17,7 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -26,15 +27,21 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.ui.Model;
+
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.seoulmate.home.service.AdminService;
 import com.seoulmate.home.service.MemberService;
 import com.seoulmate.home.vo.FaqVO;
@@ -46,6 +53,9 @@ import com.seoulmate.home.vo.PagingVO;
 import com.seoulmate.home.vo.PayVO;
 import com.seoulmate.home.vo.PropensityVO;
 import com.seoulmate.home.vo.ReportVO;
+
+import jdk.nashorn.internal.parser.JSONParser;
+
 import com.seoulmate.home.vo.ContactVO;
 
 @Controller
@@ -61,7 +71,6 @@ public class AdminController {
 	
 	@Autowired
 	private DataSourceTransactionManager transactionManager;
-
 
 	// 관리자-로그인
 	@RequestMapping("/admin/login")
@@ -523,6 +532,191 @@ public class AdminController {
 		resultMap.put("hrVOList", hrVOList);
 		return resultMap;
 	}
+	
+	//하우스 - 수정
+	@RequestMapping(value="/admin/house_ManagementEdit", method={RequestMethod.POST, RequestMethod.GET})
+	@ResponseBody
+	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
+	public int houseManagementEdit(HouseWriteVO hwVO, HttpSession session, HttpServletRequest req) {
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED);
+		TransactionStatus status = transactionManager.getTransaction(def);
+		
+		String path = session.getServletContext().getRealPath("/housePic");
+		
+		List<String> delFile = new ArrayList<String>();
+		if(hwVO.getHousepic1()!=null && !hwVO.getHousepic1().equals("")) { 
+			delFile.add(hwVO.getHousepic1()); }
+		if(hwVO.getHousepic2()!=null && !hwVO.getHousepic2().equals("")) { 
+			delFile.add(hwVO.getHousepic2()); }
+		if(hwVO.getHousepic3()!=null && !hwVO.getHousepic3().equals("")) { 
+			delFile.add(hwVO.getHousepic3()); }
+		if(hwVO.getHousepic4()!=null && !hwVO.getHousepic4().equals("")) { 
+			delFile.add(hwVO.getHousepic4()); }
+		if(hwVO.getHousepic5()!=null && !hwVO.getHousepic5().equals("")) { 
+			delFile.add(hwVO.getHousepic5()); }
+		System.out.println(delFile);
+		
+		HouseWriteVO dbHvo = service.housepicSelect(hwVO.getPno());
+		List<String> dbFile = new ArrayList<String>();
+		
+		if(dbHvo.getHousepic1()!=null && !dbHvo.getHousepic1().equals("")) { 
+			dbFile.add(dbHvo.getHousepic1()); }
+		if(dbHvo.getHousepic2()!=null && !dbHvo.getHousepic2().equals("")) { 
+			dbFile.add(dbHvo.getHousepic2()); }
+		if(dbHvo.getHousepic3()!=null && !dbHvo.getHousepic3().equals("")) { 
+			dbFile.add(dbHvo.getHousepic3()); }
+		if(dbHvo.getHousepic4()!=null && !dbHvo.getHousepic4().equals("")) { 
+			dbFile.add(dbHvo.getHousepic4()); }
+		if(dbHvo.getHousepic5()!=null && !dbHvo.getHousepic5().equals("")) { 
+			dbFile.add(dbHvo.getHousepic5()); }
+		System.out.println(dbFile);
+		
+		
+		Map<String, String> map = new HashMap<String, String>();
+		for(int del=0; del<delFile.size(); del++) {
+			dbFile.remove(delFile.get(del));
+		}
+		System.out.println("dbFile2222 "+dbFile);
+		for(int d=0; d<dbFile.size(); d++) {
+			String key = "housepic"+(d+1);
+			map.put(key, dbFile.get(d));
+		}
+		System.out.println(map);
+		//게재상태 수정
+		System.out.println(hwVO.getHousestate());
+		int re = service.houseStateUpdate(hwVO);
+		if(re>0) {
+			if(map.size()==0) {
+				return 200;
+			}else {
+System.out.println("state 업데이트 완료");
+				// db에서 update 하기  
+				for(int a=(map.size()); a<5; a++ ) {
+					String key = "housepic"+(a+1);
+					map.put(key, "10000");
+				}
+				map.put("pno", Integer.toString(hwVO.getPno()));
+				System.out.println(map);
+				
+				int result = service.housePicUpdate(map);
+				if(result>0) {
+System.out.println("DB파일 업데이트 완료");
+					// update 완료
+					// 파일 삭제
+					try {
+						for(int i=0; i<delFile.size(); i++) {
+							File f = new File(path, delFile.get(i)) ;
+							f.delete();
+						}
+						System.out.println("파일삭제완료");
+					} catch (Exception e) {
+						System.out.println("파일삭제에러");
+						return  200;
+					}
+					transactionManager.commit(status);
+System.out.println("사진파일 삭제 완료, 커밋");
+					return 1;
+				}else {
+					// update 실패
+					transactionManager.rollback(status);
+					return 200;
+				}
+			}
+		}else {
+			transactionManager.rollback(status);
+			return 200;
+		}
+	}
+	// 메이트 수정
+	@RequestMapping(value="/admin/mate_ManagementEdit", method={RequestMethod.POST, RequestMethod.GET})
+	@ResponseBody
+	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
+	public int mateManagementEdit(MateWriteVO mwVO, HttpSession session, HttpServletRequest req) {
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED);
+		TransactionStatus status = transactionManager.getTransaction(def);
+		
+		String path = session.getServletContext().getRealPath("/matePic");
+		
+		List<String> delFile = new ArrayList<String>();
+		if(mwVO.getMatePic1()!=null && !mwVO.getMatePic1().equals("")) { 
+			delFile.add(mwVO.getMatePic1()); }
+		if(mwVO.getMatePic2()!=null && !mwVO.getMatePic2().equals("")) { 
+			delFile.add(mwVO.getMatePic2()); }
+		if(mwVO.getMatePic3()!=null && !mwVO.getMatePic3().equals("")) { 
+			delFile.add(mwVO.getMatePic3()); }
+		System.out.println("delFile"+delFile);
+		
+		MateWriteVO dbHvo = service.matepicSelect(mwVO.getPno());
+		List<String> dbFile = new ArrayList<String>();
+		
+		if(dbHvo.getMatePic1()!=null && !dbHvo.getMatePic1().equals("")) { 
+			dbFile.add(dbHvo.getMatePic1()); }
+		if(dbHvo.getMatePic2()!=null && !dbHvo.getMatePic2().equals("")) { 
+			dbFile.add(dbHvo.getMatePic2()); }
+		if(dbHvo.getMatePic3()!=null && !dbHvo.getMatePic3().equals("")) { 
+			dbFile.add(dbHvo.getMatePic3()); }
+		System.out.println("dbFile"+dbFile);
+		
+		Map<String, String> map = new HashMap<String, String>();
+		
+		for(int del=0; del<delFile.size(); del++) {
+			dbFile.remove(delFile.get(del));
+		}
+		System.out.println("dbFile2222 "+dbFile);
+		for(int d=0; d<dbFile.size(); d++) {
+			String key = "matePic"+(d+1);
+			map.put(key, dbFile.get(d));
+		}
+		System.out.println("map"+map);
+		//게재상태 수정
+		System.out.println(mwVO.getMatestate());
+		int re = service.mateStateUpdate(mwVO);
+		if(re>0) {
+			if(map.size()==0) {
+				return 200;
+			}else {
+System.out.println("state 업데이트 완료");
+				// db에서 update 하기  
+				for(int a=(map.size()); a<3; a++ ) {
+					String key = "matePic"+(a+1);
+					map.put(key, "10000");
+				}
+				map.put("pno", Integer.toString(mwVO.getPno()));
+				System.out.println("map2"+map);
+				
+				
+				int result = service.matePicUpdate(map);
+				if(result>0) {
+System.out.println("DB파일 업데이트 완료");
+					// update 완료
+					// 파일 삭제
+					try {
+						for(int i=0; i<delFile.size(); i++) {
+							File f = new File(path, delFile.get(i)) ;
+							f.delete();
+						}
+						System.out.println("파일삭제완료");
+					} catch (Exception e) {
+						System.out.println("파일삭제에러");
+						return  200;
+					}
+					transactionManager.commit(status);
+System.out.println("사진파일 삭제 완료, 커밋");
+					return 1;
+				}else {
+					// update 실패
+					transactionManager.rollback(status);
+					return 200;
+				}
+			}
+		}else {
+			transactionManager.rollback(status);
+			return 200;
+		}
+	}
+	
 	//관리자 - 하우스메이트 
 	@RequestMapping(value="/admin/mateManagement", method={RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView mateManagement(MateWriteVO mwVO, PagingVO pagingVO) {
@@ -550,7 +744,7 @@ public class AdminController {
 		return mav;
 	}
 	
-	@RequestMapping(value="admin/mateDetailInfo", method= {RequestMethod.POST, RequestMethod.GET})
+	@RequestMapping(value="/admin/mateDetailInfo", method= {RequestMethod.POST, RequestMethod.GET})
 	@ResponseBody
 	public Map<String, Object> mateDetailInfo(HttpServletRequest req){
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -576,7 +770,8 @@ public class AdminController {
 	
 	//관리자 - 결제 
 	@RequestMapping(value="/admin/payManagement", method={RequestMethod.POST, RequestMethod.GET})
-	public ModelAndView payManagement(PayVO payVO, PagingVO pagingVO) {
+	public ModelAndView payManagement(PayVO payVO, PagingVO pagingVO, String nodeResult) {
+		System.out.println("?? ");
 		ModelAndView mav = new ModelAndView();
 		// 1.총 레코드 
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -602,8 +797,10 @@ public class AdminController {
 		if(pagingVO.getPageNum()>pagingVO.getTotalPage()) {
 			pagingVO.setPageNum(pagingVO.getTotalPage());
 		}
+		
 		mav.addObject("payVO", payVO);
 		mav.addObject("pagingVO", pagingVO);
+		mav.addObject("nodeResult", nodeResult);
 		mav.setViewName("admin/payManagement");
 		return mav;
 	}		
@@ -841,16 +1038,26 @@ public class AdminController {
 		return result;
 	}
 	
-	@RequestMapping("/admin/cancelPay")
+	@RequestMapping(value="/admin/cancelPay" , method=RequestMethod.POST)
 	@ResponseBody
-	public String cancelPay(Model model, String merchant_uid, String cancel_request_amount) {
+	public String cancelPay(Model model, String merchant_uid, String cancel_request_amount, String selectYearMonthDate,
+				String selectStartDate, String selectEndDate, String orderCondition, String orderUpDown,
+				String searchKey, String searchWord, int pageNum) {
 		JsonObject cancelData = new  JsonObject();
 		cancelData.addProperty("merchant_uid", merchant_uid);
 		cancelData.addProperty("cancel_request_amount", cancel_request_amount);
-		
-		URLConn conn = new URLConn("http://192.168.0.20", 9092);
+		cancelData.addProperty("selectYearMonthDate",selectYearMonthDate);
+		cancelData.addProperty("selectStartDate",selectStartDate);
+		cancelData.addProperty("selectEndDate",selectEndDate);
+		cancelData.addProperty("orderCondition",orderCondition);
+		cancelData.addProperty("orderUpDown",orderUpDown);
+		cancelData.addProperty("searchKey",searchKey);
+		cancelData.addProperty("searchWord",searchWord);
+		cancelData.addProperty("pageNum",Integer.toString(pageNum));
+		URLConn conn = new URLConn("http://192.168.0.33", 9092);
 		conn.urlPost(cancelData);
 		
-		return "a";
+		
+		return "end";
 	}
 }

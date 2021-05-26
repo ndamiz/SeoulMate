@@ -29,6 +29,9 @@
 		payMoney = 15 * payMonthCheck;
 		msg = payMoney+",000 원"
 		$('#payMoney>div').text(msg);
+		
+		$(".chat_wrap").css({"display":"none"});
+		$(".btn_chat").css({"display":"none"});
 	});
 	$(function(){
 		$('input[type="radio"]').on('click',function(){
@@ -83,21 +86,17 @@
 								console.log(result);
 								if(result=='200'){
 									//결제 및 DB저장 성공
-									alert(result+"결제 완료 후 DB저장 성공");
 									window.open('','_self').close(); 
 								}else if(result=='300'){
-									alert(result+"결제 완료 후 DB저장 실패함");
 									window.open('','_self').close(); 
 								}
 							},error : function(){
-								alert("에러가 발생하였습니다. 고객센터에 문의해 주세요.");
+								console.log("DB저장 에러");
 								window.open('','_self').close(); 
 							}
 						});
 					}else{
-						var msg = '결제에 실패하였습니다\n';
-						msg += '에러내용 : '+rsp.error_msg;
-						alert(msg);
+						alert(rsp.error_msg);
 					}
 				});
 			}else{
