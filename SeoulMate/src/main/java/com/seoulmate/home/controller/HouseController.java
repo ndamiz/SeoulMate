@@ -457,19 +457,24 @@ public class HouseController {
 		
 		try {
 			int result1 = 0;
-			System.out.println("0->"+pVO.getPno());
-			if(pVO.getPno()==0) { //성향 테이블이 존재하지 않음 -> 성향 등록
-				System.out.println("1->"+pVO.getPno());
-				result1 = service.propInsert(pVO);
-				pVO.setPno(service.proPnoCheck(userid));
-				System.out.println("2->"+pVO.getPno());
-				System.out.println("성향 등록 시도");
-			}else { //성향 테이블이 이미 존재 -> 성향 업데이트
-				System.out.println("3->"+pVO.getPno());
-				result1 = service.propHouseUpdate(pVO);
-				System.out.println("성향 업데이트 시도");
-			}
-			
+			//수정부분=============== 하우스 등록시에는 성향은 항상 insert가 되어야한다.
+			result1 = service.propInsert(pVO);
+			pVO.setPno(service.proPnoCheck(userid));
+			//수정부분===============
+			//=========기존코드 시작===========
+//			System.out.println("0->"+pVO.getPno());
+//			if(pVO.getPno()==0) { //성향 테이블이 존재하지 않음 -> 성향 등록
+//				System.out.println("1->"+pVO.getPno());
+//				result1 = service.propInsert(pVO);
+//				pVO.setPno(service.proPnoCheck(userid));
+//				System.out.println("2->"+pVO.getPno());
+//				System.out.println("성향 등록 시도");
+//			}else { //성향 테이블이 이미 존재 -> 성향 업데이트
+//				System.out.println("3->"+pVO.getPno());
+//				result1 = service.propHouseUpdate(pVO);
+//				System.out.println("성향 업데이트 시도");
+//			}
+			//=========기존코드 끝===========			
 			System.out.println("성향 insert 값 확인->"+result1);
 			System.out.println("아이디:"+pVO.getUserid());
 			System.out.println("케이스 확인:"+pVO.getPcase());
@@ -590,8 +595,10 @@ public class HouseController {
 		System.out.println("Str-> "+hVO.getPublicfacilityStr());	
 		System.out.println("공용-> "+hVO.getPublicfacility());
 		
+		System.out.println(rVO_List.size()+"++++++++++++++++++++++++++++++++++++++");
 		mav.addObject("hVO", hVO);
 		mav.addObject("rVO_List", rVO_List);
+		mav.addObject("rVO_ListSize", rVO_List.size());
 		mav.addObject("pVO", pVO);
 		
 		mav.setViewName("house/houseEdit");
@@ -613,7 +620,6 @@ public class HouseController {
 		//test====================================================================================================
 		//사진 수정
 	    String path = req.getSession().getServletContext().getRealPath("/housePic");
-
 		String[] fileName = service.houseProfilePic(userid, hVO.getNo());
 		      System.out.println("파일 네임 확인-> "+fileName[0]);
 		      //DB의 파일명을 가져온다
@@ -678,8 +684,10 @@ public class HouseController {
 		         System.out.println("sel확인-> "+orgFile.get(0).toString());
 		      }
 		      
-		      hVO.setHousepic1(orgFile.get(0));
 		      System.out.println("하우스픽1 확인-> "+hVO.getHousepic1());
+			      if(orgFile.size()>0) { //filename1 있을 경우
+			      	hVO.setHousepic1(orgFile.get(0));
+			      }
 		         if(orgFile.size()>1) { //filename2 있을 경우
 		            hVO.setHousepic2(orgFile.get(1));
 		         }
@@ -748,6 +756,7 @@ public class HouseController {
 				rVO.setNo(hVO.getNo()); //houseWrite의 no을 houseRoom의 no(하우스번호)로 서정
 				//test========================================================================================
 				int result2 = 0;
+//				for(int i=0; i<rVO.getRoomVOList().size(); i++) {
 				for(int i=0; i<rVO.getRoomVOList().size(); i++) {
 					rVO.getRoomVOList().get(i).setUserid(userid);
 					rVO.getRoomVOList().get(i).setNo(hVO.getNo());
@@ -776,7 +785,6 @@ public class HouseController {
 	                        }catch(Exception e) {
 	                           System.out.println("파일명 추가 에러");
 	                           e.printStackTrace();
-	                           
 	                        }
 	                     }
 	                  }
