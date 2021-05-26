@@ -150,7 +150,9 @@
 					JOIN 
 						HOUSEWRITE house 
 					ON
-						house.NO=room.NO AND 1>=rownum) h2
+						house.NO=room.NO AND 1>=rownum
+					WHERE 
+						housestate='모집중') h2
 				ON h.pno=h2.pno) h3 
 			ON m.pdate=h3.pdate) h4) 
 		where pno=${pno} AND 1>=rownum
@@ -195,7 +197,7 @@
 								FROM 
 									MEMBER) mem
 							ON 
-								mate.userid=mem.userid) mw 
+								mate.userid=mem.userid where matestate='모집중') mw 
 						JOIN 
 							(SELECT * FROM PROPENSITY WHERE pcase='m') p
 						ON 
