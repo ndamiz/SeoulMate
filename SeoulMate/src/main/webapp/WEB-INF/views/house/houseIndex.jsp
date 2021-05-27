@@ -221,7 +221,9 @@
 							<p><span>매칭</span>${newHouseVO.score}<b>%</b></p>
 						</c:if>
 					</c:if>
-					<button class="btn_star houselike" value="${newHouseVO.no}"></button>
+					<c:if test="${logId != null}">
+						<button class="btn_star houselike" value="${newHouseVO.no}"></button>
+					</c:if>	
 					<a href="houseView?no=${newHouseVO.no}
 						<c:if test='${pVO.pageNum!=null && pVO.pageNum!=1}'>&pageNum=${pVO.pageNum}</c:if>
 						<c:if test='${pVO.addr!=null && pVO.addr!=""}'>&addr=${pVO.addr}</c:if>
