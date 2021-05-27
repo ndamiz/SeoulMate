@@ -859,10 +859,9 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
 						</div>
 					</div>
 					<div class="pup_bottom">
-						<a class="btn_cancel">닫기</a>
-						<a class="btn_save">확인</a>
+						<a class="btn_cancel shareClose">닫기</a>
 					</div>
-				<a class="btn_close">닫기</a>
+				<a class="btn_close shareClose">닫기</a>
 			</div>
 		</div>
 <script>
@@ -927,6 +926,12 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
      
    });
 
+    //공유하기================================================
+    	$(document).on('click', '.shareClose', function(){
+    		$("#pup_wrap_share").css('display', 'none');
+	});
+    	
+    	
 	//신고하기=================================================
 	$(document).on('click','#reportBtn', function(){
 		var	reportid = '${hVO.userid}';

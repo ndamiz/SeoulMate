@@ -34,6 +34,36 @@ function readURL(input) {
 $(function(){
 	
 	$("#mNext1").click(function(){
+		
+		if($("#rent").val()==""){
+			alert("월세를 입력해주세요");
+			return false;
+		}
+		if($("#deposit").val()==""){
+			alert("보증금을 입력해주세요");
+			return false;
+		}
+		if($("#gu1Edit").val()==""){
+			alert("주소를 입력해주세요");
+			return false;
+		}
+		if($("#dong1Edit").val()==""){
+			alert("주소를 입력해주세요");
+			return false;
+		}
+		if($("#enterdate").val()==""){
+			alert("입주가능일을 입력해주세요");
+			return false;
+		}
+		if($("#minStay").val()==""){
+			alert("최소 거주 기간을 선택해주세요");
+			return false;
+		}
+		if($("#maxStay").val()==""){
+			alert("최대 거주 기간을 선택해주세요");
+			return false;
+		}
+		
 		$("#mateWrite1").css("display", "none");
 		$("#mateWrite2").css("display", "block");
 		// 희망 지역1
@@ -297,8 +327,8 @@ $(function(){
 		<input type="hidden" name="no" value="${mVO.no }"/>
 		
 		<ul class="form_box">
-			<li><label><span class="red_txt">*</span>월세(관리비)</label> <input type="number" name="rent" value="${mVO.rent }" /> </li>	
-			<li><label><span class="red_txt">*</span>보증금(조율) </label><input type="number" name="deposit" value="${mVO.deposit }" /> </li>			
+			<li><label><span class="red_txt">*</span>월세(관리비)</label> <input type="number" id="rent" name="rent" value="${mVO.rent }" /> </li>	
+			<li><label><span class="red_txt">*</span>보증금 </label><input type="number" id="deposit" name="deposit" value="${mVO.deposit }" /> </li>			
 <!-- 			<li> <label><span class="red_txt">*</span> 희망 지역 </label> -->
 <!-- 					<input type="text" name="area" id="area"/>  -->
 <!-- 					<input type="text" name="area" id="area2"/> <input type="text" name="area" id="area3"/> </li> -->
@@ -356,16 +386,18 @@ $(function(){
 					<input type="hidden" name="area3" id="area3Edit" value="${mVO.area3}" readonly/>
 					
 				</li>	
-			<li> <label><span class="red_txt">*</span>입주가능일 </label><input type="date" name="enterdate" value="${mVO.enterdate }"  > </li>
+			<li> <label><span class="red_txt">*</span>입주가능일 </label><input type="date" id="enterdate" name="enterdate" value="${mVO.enterdate }"  > </li>
 			<li> <label><span class="red_txt">*</span>최소 거주 기간</label>
-				 	<select name="minStay">
+				 	<select name="minStay" id="minStay">
+						<option value="">선택하세요</option>
 						<option value="1-3개월" <c:if test="${mVO.minStay=='1-3개월' }">selected </c:if> >1~3 개월</option>
 						<option value="4-6개월" <c:if test="${mVO.minStay=='4-6개월' }">selected </c:if> >4~6 개월</option>
 						<option value="7-12개월" <c:if test="${mVO.minStay=='7-12개월' }">selected </c:if> >7~12 개월</option>
 						<option value="1년 이상" <c:if test="${mVO.minStay=='1년이상' }">selected </c:if> >1년 이상</option> 
 					</select> </li>
 			<li> <label><span class="red_txt">*</span>최대 거주 기간</label>
-					<select name="maxStay">
+					<select name="maxStay" id="maxStay">
+						<option value="">선택하세요</option>
 						<option value="1-3개월" <c:if test="${mVO.maxStay=='1-3개월' }">selected </c:if> >1~3 개월</option>
 						<option value="4-6개월" <c:if test="${mVO.maxStay=='4-6개월' }">selected </c:if> >4~6 개월</option>
 						<option value="7-12개월" <c:if test="${mVO.maxStay=='7-12개월' }">selected </c:if> >7~12 개월</option>
@@ -487,7 +519,7 @@ $(function(){
 				</li>
 				
 				<li>
-					<label><span class="red_txt">*</span>반려동물 동반 입주 여부</label>
+					<label><span class="red_txt">*</span>반려동물 동반 입실 여부</label>
 					<div class="checks">
 						<input type="radio" id="h_petwith3" value="3" name="h_petwith" <c:if test="${pVO.h_petwith==3}">checked</c:if> > 
 						<label for="h_petwith3">가능</label>
@@ -605,6 +637,14 @@ $(function(){
 					<label for="h_support3">기본 식품 지원</label>
 				</div>
 			</li> <br/><br/>
+			<li><label><span class="red_txt">*</span>기타</label>
+						<div class="checks checkbox">
+							<input type="checkbox" name="h_etc" id="h_etc1" value="1" <c:forEach var="i" items="${pVO.h_etc}"><c:if test="${i=='1'}">checked</c:if></c:forEach> >
+							<label for="h_etc1">보증금 조절 가능</label>
+							<input type="checkbox" name="h_etc" id="h_etc3" value="3" <c:forEach var="i" items="${pVO.h_etc}"><c:if test="${i=='3'}">checked</c:if></c:forEach> >
+							<label for="h_etc3">즉시 입주 가능</label>
+						</div>
+					</li>
 		</ul>
 			<div class="btnclass">
 				<a id="mPrev6" class="green" >이전</a>
@@ -644,7 +684,7 @@ $(function(){
 			</li>
 			
 			<li>
-				<label><span class="red_txt">*</span>반려동물 선호도</label>
+				<label><span class="red_txt">*</span>반려동물</label>
 				<div class="checks">
 					<input type="radio" id="m_pet1" value="1" name="m_pet" <c:if test="${pVO.m_pet==1}">checked</c:if> > 
 					<label for="m_pet1">긍정적</label>

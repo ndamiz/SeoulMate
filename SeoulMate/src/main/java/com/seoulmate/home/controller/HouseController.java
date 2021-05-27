@@ -230,31 +230,45 @@ public class HouseController {
 		if(grade==1) { //일반 등급 -> 무조건 1개 글 등록
 			if(hsCnt<0) { //모집중인 하우스 글이 없을 경우
 				System.out.println("하우스 글 등록 가능");
+				if(houseCheck<0) { //하우스 등록 안했을 경우(가입할때 성향은 존재, 하우스 글 등록x)
+					int housePno = service.housePnoCheck(userid); //pno(성향테이블 no) 값 가져오기
+					mav.addObject("housePno", housePno);
+				}else {
+					mav.addObject("housePno", 0); //하우스 글이 없을경우 pno 에 0 값을 넣어줌
+				}
+				if(pcaseH>0) {
+					mav.addObject("list", service.getPropInfo(userid)); //사용자가 등록해 놓은 성향 이름 불러오기
+				}
+				mav.setViewName("house/houseWrite");
 								
 			}else {
 				System.out.println("모집중인 하우스 글 1개 초과"); //추가 글 등록 불가능
+				mav.addObject("bCnt", "Y");
+				mav.setViewName("redirect:houseIndex");
 			}
 		}else { //프리미엄 등급 -> 모집중인 글이 3개까지 등록 가능
 			if(hsCnt>3) {
 				System.out.println("모집중인 하우스 글 등록 3개 초과"); //글 작성 불가능
+				mav.addObject("pCnt", "Y");
+				mav.setViewName("redirect:houseIndex");
 			}else {
 				System.out.println("모집중인 하우스 글 등록 3개 미만"); //글 작성 가능
-				
+				if(houseCheck<0) { //하우스 등록 안했을 경우(가입할때 성향은 존재, 하우스 글 등록x)
+					int housePno = service.housePnoCheck(userid); //pno(성향테이블 no) 값 가져오기
+					mav.addObject("housePno", housePno);
+				}else {
+					mav.addObject("housePno", 0); //하우스 글이 없을경우 pno 에 0 값을 넣어줌
+				}
+				if(pcaseH>0) {
+					mav.addObject("list", service.getPropInfo(userid)); //사용자가 등록해 놓은 성향 이름 불러오기
+				}
+				mav.setViewName("house/houseWrite");
 				
 			}
 		}
 		
-		if(houseCheck<0) { //하우스 등록 안했을 경우(가입할때 성향은 존재, 하우스 글 등록x)
-			int housePno = service.housePnoCheck(userid); //pno(성향테이블 no) 값 가져오기
-			mav.addObject("housePno", housePno);
-		}else {
-			mav.addObject("housePno", 0); //하우스 글이 없을경우 pno 에 0 값을 넣어줌
-		}
-		if(pcaseH>0) {
-			mav.addObject("list", service.getPropInfo(userid)); //사용자가 등록해 놓은 성향 이름 불러오기
-		}
-		mav.setViewName("house/houseWrite");
 		return mav;
+		
 	}
 	//하우스 등록시 선택한 성향 불러오기
 	@RequestMapping("/getPropensity")
@@ -585,7 +599,7 @@ public class HouseController {
 		        	 hVO.setHousepic1(orgFile.get(0));
 		         }
 		         else {
-		        	 hVO.setHousepic1(selFile.get(0));
+		        	 hVO.setHousepic1(selFile.get(0)); //변경된 파일이 없으면 기존파일로 housepic1 설정
 		         }
 		          System.out.println("하우스픽1 확인-> "+hVO.getHousepic1());
 		      for(int i=0; i<orgFile.size(); i++) {
