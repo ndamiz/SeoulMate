@@ -288,8 +288,10 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
 			<ul>
 				<li ><img src="/home/profilePic/${memProfilePic}" id="profilepic" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'"/> </li>
 				<li>${hVO.userid }</li>
+				<c:if test="${logGrade == null }">
 				<c:if test="${pVO_log.pcase == 'm' }">
 				<li><button class="q_btn green applyInsert" >신청하기</button></li>
+				</c:if>
 				</c:if>
 				<c:if test="${logId!=hVO.userid }">
 				<li><button class="q_btn white likeInsert">찜하기</button> </li>
@@ -673,6 +675,7 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
 		<!-- 3.로그인한 사람이 mate로 pno가 있을 것. (pVO_log.pno != null ) -->
 		<c:if test="${pVO.userid != logId}">
 			<c:if test="${mVO_log.grade==2 }">
+			<c:if test="${logGrade == null }">
 			<c:if test="${pVO_log.pno != null }">
 			<div class="matchin_Graph">
 				<div>
@@ -720,6 +723,7 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
 					</ul>
 				</div>
 			</div>
+			</c:if>
 			</c:if>
 			</c:if>
 		</c:if>
