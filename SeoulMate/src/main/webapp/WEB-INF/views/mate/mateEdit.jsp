@@ -419,6 +419,7 @@ $(function(){
 							</c:forEach>
 					</select>
 				</div>
+				
 					<input type="hidden" name="area3" id="area3Edit" value="${mVO.area3}" readonly/>
 					
 				</li>	
@@ -455,7 +456,7 @@ $(function(){
 	<p>&nbsp;</p>
 	</div>
 	
-		<ul class="form_box">
+		<ul class="form_box preview_img">
 				<li id="mPic">
 					<img id="mateImg1" name="mateImg1" src="/home/matePic/${mVO.matePic1}" alt="upload image" />
 					<img id="mateImg2" name="mateImg2" src="/home/matePic/${mVO.matePic2}" alt="upload image" />
