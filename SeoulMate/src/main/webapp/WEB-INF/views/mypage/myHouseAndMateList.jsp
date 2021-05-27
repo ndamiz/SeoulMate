@@ -148,6 +148,7 @@
 					//1은 완료  //완료되면 매칭완료 처리되었다는 팝업 뜨게하구, 페이지 재실행, 
 					if(result==1){
 						// 매칭완료 처리가 된 하우스는 버튼을 다르게 처리된다.. (재등록, 글삭제) 
+						alert("매칭완료 처리 되었습니다.");
 						location.href="/home/myHouseAndMateList";
 					}else if(result==200){
 						console.log('매칭완료 처리 에러');
@@ -197,6 +198,9 @@
 							$('#myPage_popup_FullScreen').removeClass('popup_hidden');
 							$('body').addClass('popup_Stop_Scroll');
 						}
+						setTimeout(function() {
+							window.location.reload();
+						}, 1000);
 					}else if(result==200){
 						// 이미 채팅방이있다. 
 						$('.alert_pop_Content').html('<p>이미 채팅이 활성화 되어있습니다.</p><p>채팅으로 약속을 잡아보세요!</p>');
