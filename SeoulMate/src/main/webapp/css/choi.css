@@ -77,6 +77,9 @@ input[type=text]:readonly {background:#ddd;}
 #proId .s_title{
 	margin:40px 0;
 }
+.amm{
+	width:120px !important;	
+}
 
 /* #proTitle{margin-bottom:30px;} */
 #proId>#memDiv3{display:block;}

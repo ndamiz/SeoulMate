@@ -23,6 +23,7 @@
 					<th>서비스기간</th>
 					<th>결제수단</th>
 					<th>금액</th>
+					<th>환불여부</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -39,61 +40,11 @@
 					</td>
 					<fmt:formatNumber var="amount" value="${pVO.amount}" />
 					<td>₩ ${amount }</td>
+					<td><c:if test="${pVO.refund==null or pVO.refund=='' }">X</c:if>
+					<c:if test="${pVO.refund!=null and pVO.refund!='' }">O</c:if></td>
 				</tr>
 				</c:forEach>
 			</tbody>
 		</table>
-		<div class="paging">
-			<c:if test="${pagingVO.pageNum>1 }">
-				<a href="javascript:pageClick('first_page')" class="first_page"></a>
-				<a href="javascript:pageClick('prev_page')"  class="prev_page"></a>
-			</c:if>
-			<c:if test="${pagingVO.pageNum==1 }">
-				<a href="#" class="first_page"></a>
-				<a href="#"  class="prev_page"></a>
-			</c:if>
-			<c:forEach var="pageNum" begin="${pagingVO.startPageNum }" end="${pagingVO.startPageNum + pagingVO.onePageNum-1 }">
-				<c:if test="${pageNum<=pagingVO.totalPage }">
-					<c:if test="${pageNum==pagingVO.pageNum }">
-						<a href="javascript:pageClick('${pageNum }')" class="nowPageNum">${pageNum }</a>
-					</c:if>
-					<c:if test="${pageNum!=pagingVO.pageNum }">
-						<a href="javascript:pageClick('${pageNum }')" class="pageBtn">${pageNum }</a>
-					</c:if>
-				</c:if>
-			</c:forEach>
-			<c:if test="${pagingVO.pageNum < pagingVO.totalPage }">
-				<a href="javascript:pageClick('next_page')" class="next_page pageBtn"></a>
-				<a href="javascript:pageClick('last_page')" class="last_page pageBtn"></a>
-			</c:if>
-			<c:if test="${pagingVO.pageNum == pagingVO.totalPage }">
-				<a href="#" class="next_page"></a>
-				<a href="#" class="last_page"></a>
-			</c:if>
-		</div>
 	</div>
 </div>
-<script>
-//페이징
-function pageClick(msg){
-	var pageNum = '<c:out value="${pagingVO.pageNum }"/>';  //현재 눌려있는 페이지
-	var startPageNum = '<c:out value="${pagingVO.startPageNum }"/>'; // 페이징 시작 페이지
-	var totalPage = '<c:out value="${pagingVO.totalPage }"/>'; //마지막 페이징
-	var changePageNum = 0;
-	if(msg=='next_page'){
-		changePageNum = Number(pageNum)+1;
-	}else if(msg=='last_page'){
-		changePageNum = Number(totalPage);
-	}else if(msg=='first_page'){
-		changePageNum = 1;
-	}else if(msg=='prev_page'){
-		changePageNum = Number(pageNum)-1;
-	}else{
-		changePageNum = Number(msg);
-	}
-	// 히든에 값넣고
-	$('#hiddenPageNum').val(changePageNum);
-	// 서브밋 실행 
-	$('#payForm').submit();
-}
-</script>

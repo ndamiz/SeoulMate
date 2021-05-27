@@ -312,7 +312,8 @@ public class AdminController {
 		
 		//게시글 공개 상태가 true면 당연히 state는 처리완료.
 		if(visibility && reportVO.getState().equals("처리완료")) {
-			
+			System.out.println(reportVO.getNo()+"------원글번호");
+			System.out.println(reportVO.getUserid()+"------신고당한 아이디");
 			try {
 				if(!reportVO.getCategory().equals("채팅")) {
 					service.allStateUdate(reportVO.getNo(), reportVO.getUserid(), reportVO.getCategory(), reportVO.getState()); //글 상태 비공개로 변경
@@ -359,7 +360,7 @@ public class AdminController {
 		}
 		//블랙리스트 상태가 true면 해당 회원 블랙리스트 추가
 		if(blacklist && reportVO.getState().equals("처리완료")) {
-			System.out.println("????????????");
+			System.out.println(reportVO.getUserid()+"---------->blacklist userid");
 			service.addBlacklist(reportVO.getUserid());
 			result = "added to blacklist";
 		}
@@ -1054,7 +1055,7 @@ System.out.println("사진파일 삭제 완료, 커밋");
 		cancelData.addProperty("searchKey",searchKey);
 		cancelData.addProperty("searchWord",searchWord);
 		cancelData.addProperty("pageNum",Integer.toString(pageNum));
-		URLConn conn = new URLConn("http://192.168.0.33", 9092);
+		URLConn conn = new URLConn("http://192.168.1.161", 9092);
 		conn.urlPost(cancelData);
 		
 		

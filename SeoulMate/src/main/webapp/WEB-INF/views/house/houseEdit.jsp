@@ -111,17 +111,48 @@ $(function(){
 	});
 
 	$("#hNext1").click(function(){
+		
+		if($("#sample4_jibunAddress").val()==""){
+			alert("주소를 입력해주세요");
+			return false;
+		}
+		if($("#housename").val()==""){
+			alert("하우스 이름을 입력해주세요");
+			return false;
+		}
+		if($("#room").val()==""){
+			alert("방 개수를 선택해주세요");
+			return false;
+		}
+		if($("#bathroom").val()==""){
+			alert("욕실 수를 선택해주세요");
+			return false;
+		}
+		if($("#nowpeople").val()==""){
+			alert("현재 인원을 선택해주세요");
+			return false;
+		}
+		if($("#searchpeople").val()==""){
+			alert("찾는 인원을 선택해주세요");
+			return false;
+		}
 		$("#houseWrite1").css("display", "none");
 		$("#houseWrite2").css("display", "block");
 	});
 	$("#hPrev1").click(function(){
-		location.href="<%=request.getContextPath()%>/houseIndex"; //등록form1에서 이전 어디로?
+		location.href="<%=request.getContextPath()%>/houseIndex"; 
 	});
 	$("#hIndex1").click(function(){
 		location.href="<%=request.getContextPath()%>/houseIndex";
 	});
 
 	$("#hNext2").click(function(){
+		
+		if ($("input[name=publicfacility]:checked").length < 1) {
+			alert("1개 이상 선택해주세요")
+    		return false;
+		}
+		
 		$("#houseWrite2").css("display", "none");
 		$("#houseWrite3").css("display", "block");
 	});
@@ -134,6 +165,12 @@ $(function(){
 	});
 	
 	$("#hNext3").click(function(){
+		
+		if($("#housepic1").val()==""){
+			alert("(첫번째 파일부터)사진을 1장이상 등록해주세요");
+			return false;
+		}
+		
 		$("#houseWrite3").css("display", "none");
 		$("#houseWrite4").css("display", "block");
 	});
@@ -158,6 +195,45 @@ $(function(){
 	});
 	
 	$("#hNext5").click(function(){
+		
+		if($("#roomName").val()==""){
+			alert("방 이름을 입력해주세요");
+			return false;
+		}
+		if($("#rent").val()==""){
+			alert("월세를 입력해주세요");
+			return false;
+		}
+		if($("#deposit").val()==""){
+			alert("보증금을 입력해주세요");
+			return false;
+		}
+		if($("#roomPeople").val()==""){
+			alert("방 인원을 입력해주세요");
+			return false;
+		}
+		if($("#enterdate").val()==""){
+			alert("입주가능일을 입력해주세요");
+			return false;
+		}
+		if($("#minStay").val()==""){
+			alert("최소 거주 기간을 선택해주세요");
+			return false;
+		}
+		if($("#maxStay").val()==""){
+			alert("최대 거주 기간을 선택해주세요");
+			return false;
+		}
+		//라디오버튼 체크 확인 여부
+		if($("input:radio[name='roomVOList[0].furniture']").is(":checked")==true){
+// 			if($("input:radio[name='roomVOList[0].furniture']").is(":checked").val()=="2"){
+// 				$("#incFurniture").css("display", "none");
+// 	}
+		}else{
+			alert("가구 여부를 선택해주세요");
+			return false;
+		}
+		
 		$("#houseWrite5").css("display", "none");
 		$("#houseWrite6").css("display", "block");
 	});
@@ -170,6 +246,28 @@ $(function(){
 	});
 	
 	$("#hNext6").click(function(){
+		
+		if($("input:radio[name='h_noise']").is(":checked")==false){
+			alert("생활소음을 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='h_pattern']").is(":checked")==false){
+			alert("생활시간을 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='h_pet']").is(":checked")==false){
+			alert("반려동물 여부를 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='h_petwith']").is(":checked")==false){
+			alert("반려동물 동반 입실 여부를 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='h_smoke']").is(":checked")==false){
+			alert("흡연을 선택해주세요");
+			return false;
+		}
+		
 		$("#houseWrite6").css("display", "none");
 		$("#houseWrite7").css("display", "block");
 	});
@@ -182,6 +280,24 @@ $(function(){
 	});
 	
 	$("#hNext7").click(function(){
+		
+		if($("input:radio[name='h_mood']").is(":checked")==false){
+			alert("분위기를 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='h_communication']").is(":checked")==false){
+			alert("소통방식을 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='h_party']").is(":checked")==false){
+			alert("모임빈도을 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='h_enter']").is(":checked")==false){
+			alert("모임참가 의무를 선택해주세요");
+			return false;
+		}
+		
 		$("#houseWrite7").css("display", "none");
 		$("#houseWrite8").css("display", "block");
 	});
@@ -206,6 +322,40 @@ $(function(){
 	});
 	
 	$("#hNext9").click(function(){
+		
+		if($("input:radio[name='m_pattern']").is(":checked")==false){
+			alert("생활시간을 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='m_personality']").is(":checked")==false){
+			alert("성격을 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='m_pet']").is(":checked")==false){
+			alert("반려동물을 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='m_smoke']").is(":checked")==false){
+			alert("흡연을 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='m_age']").is(":checked")==false){
+			alert("연령대를 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='m_gender']").is(":checked")==false){
+			alert("성별을 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='m_global']").is(":checked")==false){
+			alert("외국인입주 가능여부를 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='m_now']").is(":checked")==false){
+			alert("즉시입주 가능여부를 선택해주세요");
+			return false;
+		}
+		
 		if(confirm("하우스 정보를 수정하시겠습니까?")){
 			$('#houseEditFrm').submit();
 			alert("하우스 정보가 수정되었습니다.");
@@ -345,28 +495,32 @@ $(function(){
 		</div>
 			
 			<ul class="form_box">
-				<li> <label><span class="red_txt">*</span>주소 </label> <input type="text" name="addr" value="${hVO.addr }" readonly/> </li> <!-- 주소 수정 못하게 막아둠 -->
-				<li><label><span class="red_txt">*</span>하우스 이름 </label> <input type="text" name="housename" value="${hVO.housename }"/></li>
-			<li> <label><span class="red_txt">*</span>총 방 개수 </label><select name="room" >
+				<li> <label><span class="red_txt">*</span>주소 </label> <input type="text" id="addr" name="addr" value="${hVO.addr }" readonly/> </li> <!-- 주소 수정 못하게 막아둠 -->
+				<li><label><span class="red_txt">*</span>하우스 이름 </label> <input type="text" id="housename" name="housename" value="${hVO.housename }"/></li>
+			<li> <label><span class="red_txt">*</span>총 방 개수 </label><select name="room" id="room">
+						<option value="">선택하세요</option>
 						<option value="1" <c:if test="${hVO.room==1 }">selected </c:if> >1</option>
 						<option value="2" <c:if test="${hVO.room==2 }">selected </c:if> >2</option>
 						<option value="3" <c:if test="${hVO.room==3 }">selected </c:if> >3</option>
 						<option value="4" <c:if test="${hVO.room==4 }">selected </c:if> >4</option>
 					</select> </li>
-			<li> <label><span class="red_txt">*</span>총 욕실 수</label> <select name="bathroom">
+			<li> <label><span class="red_txt">*</span>총 욕실 수</label> <select name="bathroom" id="bathroom">
+						<option value="">선택하세요</option>
 						<option value="1" <c:if test="${hVO.bathroom==1 }">selected </c:if> >1</option>
 						<option value="2" <c:if test="${hVO.bathroom==2 }">selected </c:if> >2</option>
 						<option value="3" <c:if test="${hVO.bathroom==3 }">selected </c:if> >3</option>
 						<option value="4" <c:if test="${hVO.bathroom==4 }">selected </c:if> >4</option>
 					</select> </li>
-			<li><label><span class="red_txt">*</span>현재 인원</label> <select name="nowpeople">
+			<li><label><span class="red_txt">*</span>현재 인원</label> <select name="nowpeople" id="nowpeople">
+						<option value="">선택하세요</option>
 						<option value="0" <c:if test="${hVO.nowpeople==0 }">selected </c:if> >0</option>
 						<option value="1" <c:if test="${hVO.nowpeople==1 }">selected </c:if> >1</option>
 						<option value="2" <c:if test="${hVO.nowpeople==2 }">selected </c:if> >2</option>
 						<option value="3" <c:if test="${hVO.nowpeople==3 }">selected </c:if> >3</option>
 						<option value="4" <c:if test="${hVO.nowpeople==4 }">selected </c:if> >4</option>
 					</select> </li>
-			<li><label><span class="red_txt">*</span>찾는 인원</label> <select name="searchpeople">
+			<li><label><span class="red_txt">*</span>찾는 인원</label> <select name="searchpeople" id="searchpeople">
+						<option value="">선택하세요</option>
 						<option value="1" <c:if test="${hVO.searchpeople==1 }">selected </c:if> >1</option>
 						<option value="2" <c:if test="${hVO.searchpeople==2 }">selected </c:if> >2</option>
 						<option value="3" <c:if test="${hVO.searchpeople==3 }">selected </c:if> >3</option>
@@ -545,7 +699,7 @@ $(function(){
 		</div>	
 				<div class="btnclass">
 					<a class="green" id="hPrev4" >이전</a>
-					<a class="green" id="hNext4" >등록</a> 
+					<a class="green" id="hNext4" >다음</a> 
 					<a class="green" id="hIndex4" >취소</a>
 				</div> <!-- 버튼div 종료 -->
 		
@@ -592,6 +746,42 @@ $(function(){
 					<li><label>포함된 가구</label><input type="text" name="roomVOList[${index.count-1}].incFurniture"/> </li>
 				</ul><br><br>
 			</div>
+<<<<<<< HEAD
+=======
+			<ul class="form_box">
+				<li><label><span class="red_txt">*</span>방${index.count} 이름 </label> <input type="text" id="roomName" name="roomVOList[${index.count-1}].roomName" value="${rVO.roomName }" /></li>
+				<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" id="rent" name="roomVOList[${index.count-1}].rent" value="${rVO.rent }"/> 
+				<li><label><span class="red_txt">*</span>보증금(조율) </label><input type="number" id="deposit" name="roomVOList[${index.count-1}].deposit" value="${rVO.deposit }"/> </li>
+				<li><label><span class="red_txt">*</span>방 인원</label> <input type="number" id="roomPeople" name="roomVOList[${index.count-1}].roomPeople" value="${rVO.roomPeople }" /> </li>
+				<li><label><span class="red_txt">*</span>입주 가능일 </label> <input type="date" id="enterdate" name="roomVOList[${index.count-1}].enterdate" min="${now}" value="${rVO.enterdate}" /> </li>
+				<li><label><span class="red_txt">*</span>최소 거주 기간</label>
+					<select name="roomVOList[${index.count-1}].minStay" id="minStay" >
+						<option value="">선택하세요</option>
+						<option value="1-3개월" <c:if test="${rVO.minStay=='1-3개월' }">selected </c:if> >1~3 개월</option>
+						<option value="4-6개월" <c:if test="${rVO.minStay=='4-6개월' }">selected </c:if> >4~6 개월</option>
+						<option value="7-12개월" <c:if test="${rVO.minStay=='7-12개월' }">selected </c:if> >7~12 개월</option>
+						<option value="1년이상" <c:if test="${rVO.minStay=='1년이상' }">selected </c:if> >1년 이상</option>
+					</select> 
+				<li><label><span class="red_txt">*</span>최대 거주 기간</label>
+					<select name="roomVOList[${index.count-1}].maxStay" id="maxStay">
+						<option value="">선택하세요</option>
+						<option value="1-3개월" <c:if test="${rVO.maxStay=='1-3개월' }">selected </c:if> >1~3 개월</option>
+						<option value="4-6개월" <c:if test="${rVO.maxStay=='4-7개월' }">selected </c:if> >4~6 개월</option>
+						<option value="7-12개월" <c:if test="${rVO.maxStay=='7-12개월' }">selected </c:if> >7~12 개월</option>
+						<option value="1년이상" <c:if test="${rVO.maxStay=='1년이상' }">selected </c:if> >1년 이상</option>
+					</select> </li>
+					
+				<li><label><span class="red_txt">*</span>가구 여부</label> 
+					<div class="checks">
+							<input type="radio" id="furniture${index.count}" value="1" name="roomVOList[${index.count-1}].furniture" <c:if test="${rVO.furniture==1}">checked</c:if> > 
+							<label for="furniture1">있음</label>
+							
+							<input type="radio" id="furniture${index.count+1}" value="2" name="roomVOList[${index.count-1}].furniture" <c:if test="${rVO.furniture==2}">checked</c:if> > 
+							<label for="furniture2">없음</label>
+						</div>	</li>
+				<li><label>포함된 가구</label><input type="text" name="roomVOList[${index.count-1}].incFurniture"/> </li>
+			</ul><br><br>
+>>>>>>> refs/remotes/origin/yeonju3
 		</c:forEach>
 		
 			<div class="btnclass">
@@ -612,7 +802,7 @@ $(function(){
 			<li>
 				<a id="${vo.pno}" class="getPropinfo <c:if test="${pVO.pno==vo.pno}"> green</c:if>">
 					<c:if test="${vo.housename!=null}">${vo.housename}</c:if>
-					<c:if test="${vo.housename==null}">이름없는 집 ${index.count} </c:if>
+					<c:if test="${vo.housename==null}">이름없는 집 ${index.count}</c:if>
 				</a>
 			</li>
 		</c:forEach>

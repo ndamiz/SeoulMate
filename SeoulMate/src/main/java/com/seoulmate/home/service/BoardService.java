@@ -28,4 +28,6 @@ public interface BoardService {
 	public PageVO nextPrevSelect(int no, String category, String searchKey, String searchWord);
 	//비정상적 get방식 체크
 	public int stateCheck(int no); //, String userid
+	//신고된 게시글인지 확인
+	public int reportCheck(int no);
 }

@@ -1,6 +1,6 @@
 $(function(){	 
 	 //팝업 닫기
-	$('.popup_Close').on('click',function(){
+	$(document).on('click','.popup_Close',function(){
 		$('.admin_Management_popup').addClass('popup_hidden');
 		$('#myPage_popup_FullScreen').addClass('popup_hidden');
 		$('body').removeClass('popup_Stop_Scroll');

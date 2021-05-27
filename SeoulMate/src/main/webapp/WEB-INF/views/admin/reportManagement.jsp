@@ -72,25 +72,23 @@
 
 			//신고 글 링크 걸기
 			if(result.category=='하우스'){
-				$('#reportLink').attr('href', '/home/houseView?no='+result.no)
+				$('#reportLink').attr('href', '/home/houseView?no='+result.no+'&admin=true')
 			}else if(result.category=='메이트'){
-				$('#reportLink').attr('href', '/home/mateView?no='+result.no)
+				$('#reportLink').attr('href', '/home/mateView?no='+result.no+'&admin=true')
 			}else if(result.category=='커뮤니티'){
-				$('#reportLink').attr('href', '/home/communityView?no='+result.no)
+				$('#reportLink').attr('href', '/home/communityView?no='+result.no+'&admin=true')
 			}else if(result.category=='댓글'){
 				//댓글의 원글번호가 필요하다
 				$.ajax({
 					url : '/home/replyOriNum',
 					data : 'no='+result.no,
 					success : function(replyOriNum){
-						$('#reportLink').attr('href', '/home/communityView?no='+replyOriNum+'&reply='+result.no);
+						$('#reportLink').attr('href', '/home/communityView?no='+replyOriNum+'&reply='+result.no+'&admin=true');
 					}, error :function(){
 						console.log('댓글 원번호 가져오기 에러')
 					}
 				});
 			}else if(result.category=='채팅'){
-				alert(result.profilepic1)
-				alert(result.profilepic2)
 				$('#reportLink').attr('href', 'http://192.168.0.118:9091/chatView?no='+result.no+'&userid='+result.reportid+'&otherid='+result.userid+'&userpic='+result.profilepic1+'&otherpic='+result.profilepic2+'&admin=true');
 				$('#toggle_1').prop('checked',true);
 				$('#showOrNOt').css('display','none');
@@ -158,54 +156,54 @@
 		});
 		
 		//검색어 자동완성============================================================================================================
-		jQuery.curCSS = function(element, prop, val) {//jquery a.Cur샬라샬라에러떠서
-		    return jQuery(element).css(prop, val);
-		};
-		$('input[name=searchWord]').autocomplete({
-			source : function(req, res){
-				$.ajax({
-					type: 'get',
-					url : '/home/admin/json',
-					dataType: 'json',
-					data : "keyword="+$("input[name=searchWord]").val(),
-					success: function(data){
-						res(
-							$.map(data, function(item){
-								return {
-									label : item, //뷰단에서 보여지는 글자
-									value : item, //사용자 설정값.
-									test : item+'test'
-								}//return end
-							})//map end	
-						)//res end
-					}
-				});// ajax end
-			},//source end source는 자동 완성 대상
-			select : function(event, ui){
-				console.log(ui)
-				console.log(ui.item.label);
-				console.log(ui.item.value);
-				console.log(ui.item.test);
-			},
-			focus : function(event, ui){
-				return false;
-			},
-			minLength : 1,//최소 글자수
-			autoFocus: true,
-			classes : {
-				'ui-autocomplete' : 'highlight'	
-			},
-			delay : 500,
-			position : {my : 'right top', at : 'right bottom'},
-			close : function(event){
-				console.log(event);
-			}
-		}).autocomplete("instance")._renderItem = function(ul, item){//input에 자동완성 걸어주기
-			return $('<li>')
-			.attr('data-value', item.value)
-			.append(item.label)
-			.appendTo(ul);
-		}
+// 		jQuery.curCSS = function(element, prop, val) {//jquery a.Cur샬라샬라에러떠서
+// 		    return jQuery(element).css(prop, val);
+// 		};
+// 		$('input[name=searchWord]').autocomplete({
+// 			source : function(req, res){
+// 				$.ajax({
+// 					type: 'get',
+// 					url : '/home/admin/json',
+// 					dataType: 'json',
+// 					data : "keyword="+$("input[name=searchWord]").val(),
+// 					success: function(data){
+// 						res(
+// 							$.map(data, function(item){
+// 								return {
+// 									label : item, //뷰단에서 보여지는 글자
+// 									value : item, //사용자 설정값.
+// 									test : item+'test'
+// 								}//return end
+// 							})//map end	
+// 						)//res end
+// 					}
+// 				});// ajax end
+// 			},//source end source는 자동 완성 대상
+// 			select : function(event, ui){
+// 				console.log(ui)
+// 				console.log(ui.item.label);
+// 				console.log(ui.item.value);
+// 				console.log(ui.item.test);
+// 			},
+// 			focus : function(event, ui){
+// 				return false;
+// 			},
+// 			minLength : 1,//최소 글자수
+// 			autoFocus: true,
+// 			classes : {
+// 				'ui-autocomplete' : 'highlight'	
+// 			},
+// 			delay : 500,
+// 			position : {my : 'right top', at : 'right bottom'},
+// 			close : function(event){
+// 				console.log(event);
+// 			}
+// 		}).autocomplete("instance")._renderItem = function(ul, item){//input에 자동완성 걸어주기
+// 			return $('<li>')
+// 			.attr('data-value', item.value)
+// 			.append(item.label)
+// 			.appendTo(ul);
+// 		}
 		//============================================================================================================
 	});
 </script>

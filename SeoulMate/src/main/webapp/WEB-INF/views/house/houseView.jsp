@@ -90,13 +90,13 @@ $(function(){
 		// 하우스no , 로그인한 유저아이디를 사용하여 찜목록에 내역이 있는지 확인하기. 
 		var no = '<c:out value="${hVO.no }"/>';
 		var userid = '<c:out value="${logId }"/>';
-		var checkId = '<c:out value="${pVO.userid}"/>';
+		var checkId = '<c:out value="${pVO.userid }"/>';
 		var msg = '하우스';
 		// 로그인한 경우에만 실행한다. 
 		if(userid ==null || userid==''){
 			alert('찜하기는 로그인 후 이용이 가능합니다.');
 			location.href='/home/login';
-		}else if(userid == checkid ){
+		}else if(userid == checkId ){
 			alert('본인이 작성한 글입니다.\n찜하기가 불가합니다.');
 		}else {
 			var url = '/home/likemarkerInsert';
@@ -132,6 +132,7 @@ $(function(){
     overflow: auto;
     line-height: 90px;}
 #peopleExplain{    position: relative;
+	background-color: #fff;
     float: right;
     top: -430px;
     width: 300px;
@@ -257,7 +258,7 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
 	 		<a class="white" id="houseDel" >삭제</a> 
 	 		</c:if>
 	 		 <a class="reportBtn" id="reportBtn">
-				<img title="신고" alt="신고" src="<%=request.getContextPath()%>/img/comm/ico_report.png">
+				<img style="margin: 0px 10px;" title="신고" alt="신고" src="<%=request.getContextPath()%>/img/comm/ico_report.png">
 			</a>
  		</div>
  		<div class="slide_Img">
@@ -290,7 +291,9 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
 				<c:if test="${pVO_log.pcase == 'm' }">
 				<li><button class="q_btn green applyInsert" >신청하기</button></li>
 				</c:if>
+				<c:if test="${logId!=hVO.userid }">
 				<li><button class="q_btn white likeInsert">찜하기</button> </li>
+				</c:if>
 				<li><button class="q_btn white" id="shareBtn" >공유하기</button></li>
 			</ul>
 		</div> <!-- peopleExplain div 종료 -->
@@ -842,8 +845,6 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
 		</form>
 	</div>
 </div>
-
-
 		<div class="pup_wrap" id="pup_wrap_share">
 			<div class="pup_form">
 				<div class="pup_head">공유하기</div>
@@ -859,10 +860,9 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
 						</div>
 					</div>
 					<div class="pup_bottom">
-						<a class="btn_cancel">닫기</a>
-						<a class="btn_save">확인</a>
+						<a class="btn_cancel shareClose">닫기</a>
 					</div>
-				<a class="btn_close">닫기</a>
+				<a class="btn_close shareClose">닫기</a>
 			</div>
 		</div>
 <script>
@@ -883,6 +883,10 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
 		$("#shareBtn").click(function(){ //공유하기 버튼 공유하기팝업창
 			$("#pup_wrap_share").css("display", "block");
 		});
+		$(".pup_wrap_share_close").click(function(){ //공유하기 버튼 공유하기팝업창
+			$("#pup_wrap_share").css("display", "none");
+		});
+		
      var slides = document.querySelector('.slides'),
      slide = document.querySelectorAll('.slides li'),
      currentIdx =0,   //현재인덱스
@@ -905,28 +909,22 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
         console.log(currentIdx);
         if(currentIdx < slideCount - 1){
            moveSlide(currentIdx + 1);
-           if(currentIdx>0){
-              prevBtn.style.display = 'block';
-           }
-           if(currentIdx==slideCount-5){
-              nextBtn.style.display = 'none';
-           }
         }
      });
      prevBtn.addEventListener('click',function(){
         if(currentIdx >0){
            moveSlide(currentIdx - 1);
-           if(currentIdx==0){
-              prevBtn.style.display = 'none';
-           }
-           if(currentIdx==slideCount-5){
-              nextBtn.style.display = 'block';
-           }
         }
      });
      
    });
 
+    //공유하기================================================
+    	$(document).on('click', '.shareClose', function(){
+    		$("#pup_wrap_share").css('display', 'none');
+	});
+    	
+    	
 	//신고하기=================================================
 	$(document).on('click','#reportBtn', function(){
 		var	reportid = '${hVO.userid}';

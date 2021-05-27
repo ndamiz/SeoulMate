@@ -18,7 +18,8 @@
     width: 300px;
     height: 520px;
     border: 1px solid #ddd;
-    border-radius: 3px; }
+    border-radius: 3px;
+    background-color: #fff; }
 #peopleExplain img{width: 270px; height: 270px;}
 #peopleExplain li{width: 90%;
     margin: 5px auto;
@@ -412,7 +413,9 @@ console.log(score);
 		});
 		$("#shareBtn").click(function(){
 			$("#pup_wrap_share").css("display", "block");
-			
+		});
+		$(".pup_wrap_share_close").click(function(){ //공유하기 버튼 공유하기팝업창
+			$("#pup_wrap_share").css("display", "none");
 		});
        var slides = document.querySelector('.slides'),
         slide = document.querySelectorAll('.slides li'),
@@ -435,23 +438,11 @@ console.log(score);
         console.log(currentIdx);
         if(currentIdx < slideCount - 1){
            moveSlide(currentIdx + 1);
-           if(currentIdx>0){
-              prevBtn.style.display = 'block';
-           }
-           if(currentIdx==slideCount-5){
-              nextBtn.style.display = 'none';
-           }
         }
      });
      prevBtn.addEventListener('click',function(){
         if(currentIdx >0){
            moveSlide(currentIdx - 1);
-           if(currentIdx==0){
-              prevBtn.style.display = 'none';
-           }
-           if(currentIdx==slideCount-5){
-              nextBtn.style.display = 'block';
-           }
         }
      });
    });
@@ -562,7 +553,7 @@ console.log(score);
 	 		<a class="white" id="mateDel" >삭제</a> 
 	 		</c:if>
 	 		 <a class="reportBtn" id="reportBtn">
-				<img title="신고" alt="신고" src="<%=request.getContextPath()%>/img/comm/ico_report.png">
+				<img style="margin: 0px 10px;" title="신고" alt="신고" src="<%=request.getContextPath()%>/img/comm/ico_report.png">
 			</a>
  		</div>	
  		<div class="slide_Img">
@@ -570,12 +561,12 @@ console.log(score);
 	      	<div class="slide_wraper">
 	         	<div class="slides">
 	            	<ul>
-						<li><img src="/home/matePic/${mVO.matePic1}"></li>
+						<li><img src="/home/matePic/${mVO.matePic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'"></li>
 						<c:if test="${mVO.matePic2 != null}">
-						<li><img src="/home/matePic/${mVO.matePic2}"></li>
+						<li><img src="/home/matePic/${mVO.matePic2}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'"></li>
 						</c:if>
 						<c:if test="${mVO.matePic3 != null}">
-						<li><img src="/home/matePic/${mVO.matePic3}"></li>
+						<li><img src="/home/matePic/${mVO.matePic3}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'"></li>
 						</c:if>
 	           		</ul>
 	         	</div> <!-- "slides" -->
@@ -584,17 +575,19 @@ console.log(score);
 		</div>
 		<div  id="peopleExplain">
 			<ul>
-				<li ><img src="/home/profilePic/${memProfilePic}" id="profilepic"/> </li>
+				<li ><img src="/home/profilePic/${memProfilePic}" id="profilepic" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'"/> </li>
 				<li>${mVO.userid }</li>
 				<c:forEach var="hPcaseCheck" items="${pVO_log }">
 					<c:if test="${hPcaseCheck.pcase == 'h' }">
 						<c:set var="hPcase" value="Y"/>
 					</c:if>
 				</c:forEach>
-					<c:if test="${hPcase=='Y' }">
-					<li><button class="q_btn green" id="sendInviteBtn">초대하기</button></li>
-					</c:if>
+				<c:if test="${hPcase=='Y' }">
+				<li><button class="q_btn green" id="sendInviteBtn">초대하기</button></li>
+				</c:if>
+				<c:if test="${logId!=mVO.userid }">
 				<li><button class="q_btn white likeInsert" id="likemark">찜하기</button> </li>
+				</c:if>
 				<li><button class="q_btn white" id="shareBtn" >공유하기</button></li>
 			</ul>
 		</div> <!-- peopleExplain div 종료 -->
@@ -972,9 +965,8 @@ console.log(score);
 						</div>
 					</div>
 					<div class="pup_bottom">
-						<a href="" class="btn_cancel">닫기</a>
-						<a href="" class="btn_save">확인</a>
+						<a class="btn_cancel pup_wrap_share_close">닫기</a>
 					</div>
-				<a href="" class="btn_close">닫기</a>
+				<a href="" class="btn_close pup_wrap_share_close">닫기</a>
 			</div>
 		</div>

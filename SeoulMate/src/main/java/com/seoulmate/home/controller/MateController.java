@@ -495,7 +495,7 @@ public class MateController {
 		String userid = (String)session.getAttribute("logId");
 		ModelAndView mav = new ModelAndView();
 //		PropensityVO pVO = service.mateSelect(userid); //메이트 성향
-		PropensityVO pVO=memService.propMateSelect(userid);
+		PropensityVO pVO = new PropensityVO();
 		
 		int result1 = service.mateCount(userid); //메이트글 몇개인지 카운트
 		if(result1>0) {
@@ -503,6 +503,8 @@ public class MateController {
 			System.out.println("이미 메이트 글 존재");
 		}
 		else {
+		
+			pVO=memService.propMateSelect(userid);	
 		// 구
 		String guArr[]=memService.gu();
 		
@@ -530,10 +532,12 @@ public class MateController {
 		mav.setViewName("redirect:memberProEdit"); //성향수정 페이지로 이동
 		}else { //메이트 성향이 있을 경우 id 기준으로 값 가져감
 		MemberVO mVO = memService.memberSelect(userid);
+		System.out.println(mVO.getGender());
 				
 		mav.setViewName("mate/mateWrite");
 		mav.addObject("pVO",pVO);
 		mav.addObject("mVO", mVO);
+		
 		}
 //		System.out.println(pVO.getH_supportStr());
 		}
@@ -543,8 +547,7 @@ public class MateController {
 	//메이트 글 등록 확인
 	@RequestMapping(value = "/mateWriteOk", method = RequestMethod.POST)
 	@Transactional(rollbackFor= {Exception.class, RuntimeException.class})
-	public ModelAndView mateWriteOk(MateWriteVO mVO, PropensityVO pVO, HttpSession session, HttpServletRequest req,
-			@RequestParam("filename1") MultipartFile img1, @RequestParam("filename2") MultipartFile img2, @RequestParam("filename3") MultipartFile img3) {
+	public ModelAndView mateWriteOk(MateWriteVO mVO, PropensityVO pVO, HttpSession session, HttpServletRequest req) {
 		String userid = (String)session.getAttribute("logId");
 		mVO.setUserid(userid);
 		pVO.setUserid(userid);
@@ -553,69 +556,49 @@ public class MateController {
 		
 			String path = req.getSession().getServletContext().getRealPath("/matePic"); //파일 저장위치 절대경로 구하기
 
-			String filename1 = img1.getOriginalFilename(); // 기존 파일 명
-			String realName="";
+			MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
 			
-			try {
-				if(filename1 != null && !filename1.equals("")) {
-					File f=new File(path, filename1);
-					int i=1;
-					while(f.exists()) {
-						int point=filename1.lastIndexOf(".");
-						String name=filename1.substring(0, point);
-						String extName=filename1.substring(point+1);
+			//mr객체에서 업로드파일 목록을 구한다
+			List<MultipartFile> files = mr.getFiles("filename"); //
+			
+			List<String> uploadFilename = new ArrayList<String>();
+			if(files.size()>0) { //첨부파일의 갯수가 0보다 클 경우 -> 첨부파일이 있을 경우
+				
+				for (MultipartFile mf : files){//첨부파일 갯수만큼 반복
+					String orgFilename = mf.getOriginalFilename(); //원 파일명 구하기
+					
+					if(!orgFilename.equals("")) { //filename1,2의 name이 둘다 filename이기 때문에 if를 두번 해줘야함
+					File f = new File(path, orgFilename);
+					int i = 1;
+					while(f.exists()) { //파일이 존재하면 true / 존재하지 않으면 false
+						int point = orgFilename.lastIndexOf("."); // 마지막 . 의 위치
+						String name = orgFilename.substring(0, point); //파일명 -> 첫 글자부터 마지막 . 의 위치 앞까지 문자열 구하기 (확장자 전의 글자까지 구하기)
+						String extName = orgFilename.substring(point+1); //확장자 -> 마지막 . 의 위치 다음부터 문자열 구하기
 						
-						f=new File(path, name+"_"+ i++ +"."+extName);
+						f = new File(path, name+"_"+ i++ +"."+ extName); // 반복되는 파일명이 있을경우 파일1, 파일2, 파일3... 으로 변경하여 저장해줌
+						
+					} //while문 종료
+					
+					//업로드하기
+					try { 
+						mf.transferTo(f); //업로드
+					}catch(Exception e) {
+						System.out.println("파일업로드 실패");
+						e.printStackTrace();
 					}
-					img1.transferTo(f); // 업로드
-					realName = f.getName();
-					mVO.setMatePic1(f.getName());
-				}
-			}catch(Exception e) {
-				System.out.println("메이트 사진 업로드 에러 발생");
-				e.printStackTrace();
+					uploadFilename.add(f.getName()); //변경된 파일명 -> 위쪽에 설정한 f 의 이름 얻어오기
+					
+					}//if문 종료
+				}//for문 종료
+			}//if문 종료
+			
+			mVO.setMatePic1(uploadFilename.get(0)); //uploadFilename 에서 0번째 -> filename1
+			
+			if(uploadFilename.size()==2) {
+				mVO.setMatePic2(uploadFilename.get(1));
 			}
-			
-			String filename2 = img2.getOriginalFilename();
-			int j = 1;
-			try {
-				if(filename2 != null && !filename2.equals("")) {
-					File f2=new File(path, filename1);
-					while(f2.exists()) {
-						int point=filename2.lastIndexOf(".");
-						String name=filename2.substring(0, point);
-						String extName=filename2.substring(point+1);
-						
-						f2=new File(path, name+"_"+ j++ +"."+extName);
-					}
-					img2.transferTo(f2); // 업로드
-					realName = f2.getName();
-					mVO.setMatePic2(f2.getName());
-				}
-			}catch(Exception e) {
-				System.out.println("메이트 사진 업로드 에러 발생");
-				e.printStackTrace();
-			}
-			
-			String filename3 = img3.getOriginalFilename();
-			int k = 1;
-			try {
-				if(filename3 != null && !filename3.equals("")) {
-					File f3=new File(path, filename3);
-					while(f3.exists()) {
-						int point=filename3.lastIndexOf(".");
-						String name=filename3.substring(0, point);
-						String extName=filename3.substring(point+1);
-						
-						f3=new File(path, name+"_"+ k++ +"."+extName);
-					}
-					img1.transferTo(f3); // 업로드
-					realName = f3.getName();
-					mVO.setMatePic3(f3.getName());
-				}
-			}catch(Exception e) {
-				System.out.println("메이트 사진 업로드 에러 발생");
-				e.printStackTrace();
+			if(uploadFilename.size()==3) {
+				mVO.setMatePic3(uploadFilename.get(2));
 			}
 			
 			
@@ -639,23 +622,7 @@ public class MateController {
 
 
 			try {
-//				
-//				int result1 = 0;
-//				System.out.println("pVO pno 확인1 -> "+pVO.getPno());
-//				if(pVO.getPno()==0) {
-//					System.out.println("pVO pno 확인2 -> "+pVO.getPno());
-//					result1 = service.propInsert(pVO); //성향등록
-//					pVO.setPno(service.proPnoCheck(userid));
-//					System.out.println("pVO pno 확인3 -> "+pVO.getPno());
-//					System.out.println("메이트 성향 등록");
-//					
-//				}else {
-//					System.out.println("pVO pno 확인4 -> "+pVO.getPno());
-//					result1 = service.propMateUpdate(pVO);
-//					System.out.println("메이트 성향 업데이트");
-//				}
-//					System.out.println("pVO pno 확인5 -> "+pVO.getPno());
-//				
+				
 					int result2 = service.mateInsert(mVO);
 					if(result2>0) {//메이트 등록 
 						System.out.println("메이트 등록 성공");
@@ -674,8 +641,10 @@ public class MateController {
 				}catch(Exception e) {
 					System.out.println("메이트 글 등록 실패");
 					try { //파일업로드 트랜잭션
-						File dFileObj = new File(path, realName);
-						dFileObj.delete();
+						for(String delFile : uploadFilename) {//파일삭제
+							File del = new File(path, delFile);
+							del.delete();
+						}
 					}catch(Exception ee) {
 						System.out.println("파일 업로드 실패 (트랜잭션) 실행");
 						ee.printStackTrace();
@@ -840,8 +809,8 @@ public class MateController {
 	         System.out.println("sel확인-> "+orgFile.get(0).toString());
 	      }
 	      
-	      mVO.setMatePic1(orgFile.get(0)); //새로 업로드된 index0번째 파일 -> matePic1 로 설정
-	      System.out.println("메이트1 확인-> "+mVO.getMatePic1());
+//	      mVO.setMatePic1(orgFile.get(0)); //새로 업로드된 index0번째 파일 -> matePic1 로 설정
+	      
 	         if(orgFile.size()>1) { //filename2 있을 경우
 	            mVO.setMatePic2(orgFile.get(1));
 	         }
@@ -849,7 +818,13 @@ public class MateController {
 	         if(orgFile.size()>2) { //filename3 있을 경우
 	            mVO.setMatePic3(orgFile.get(2));
 	         }
-	       
+	         else if(orgFile.size()==1) {
+	        	 mVO.setMatePic1(orgFile.get(0));
+	         }
+	         else {
+	        	 mVO.setMatePic1(selFile.get(0)); //변경된 파일이 없으면 기존파일로 matePic1 설정
+	         }
+	          System.out.println("메이트1 확인-> "+mVO.getMatePic1());
 	      for(int i=0; i<orgFile.size(); i++) {
 	         System.out.println(orgFile.get(i));
 	      }

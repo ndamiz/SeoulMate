@@ -12,9 +12,7 @@ public class MateWriteVO {
 	private String area2;
 	private String area3;
 	
-	private String filename1;
-	private String filename2;
-	private String filename3;
+	private String filename;
 	
 	private String matePic1;
 	private String matePic2;
