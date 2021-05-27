@@ -12,7 +12,7 @@
 }
 
 .hwWrap #houseWrite1,
-.hwWrap #houseWrite5{
+.hwWrap #houseWrite5, #houseWrite1{
 	width: 600px;
 	margin: 0 auto;
 }
