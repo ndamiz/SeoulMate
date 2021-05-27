@@ -461,7 +461,7 @@
 		// msg = house, mate, likemark
 		if(msg=='house'){
 			$('.mypage_HouseList').addClass('on');
-			$('.mypage_Mate').removeClass('on');
+			$('.mypage_MateList').removeClass('on');
 			$('.mypage_likeMarkList').removeClass('on');
 			
 			$('#myPage_HouseList').removeClass('objectHidden');
@@ -477,7 +477,7 @@
 			$('#myPage_LikeMarkerList').addClass('objectHidden');
 		}else if(msg=='likemark'){
 			$('.mypage_HouseList').removeClass('on');
-			$('.mypage_Mate').removeClass('on');
+			$('.mypage_MateList').removeClass('on');
 			$('.mypage_likeMarkList').addClass('on');
 			
 			$('#myPage_HouseList').addClass('objectHidden');
@@ -631,9 +631,9 @@
 			
 			<!-- 찜목록  -->
 			<div class="myHouseMateList <c:if test="${msg!='likeMark' }">objectHidden</c:if>" id="myPage_LikeMarkerList">
-				<c:if test="${not empty houseLikeList}">
+				<c:if test="${fn:length(houseLikeList)!=0 }">
 					<c:forEach var="like_hwVO" items="${houseLikeList }">
-					<c:if test="${like_hwVO.no!=null}">
+					<c:if test="${like_hwVO.no != null}">
 					<div class="myPage_HouseAndMate_oneBlock" >
 						<div class="myPage_HouseAndMate_Img">
 							<c:if test="${logGrade==2 and memberCheck=='mateMem' }">
@@ -662,9 +662,9 @@
 					</c:if>
 					</c:forEach>
 				</c:if>
-				<c:if test="${not empty mateLikeList }">
+				<c:if test="${fn:length(mateLikeList)!=0 }">
 					<c:forEach var="like_mwVO" items="${mateLikeList }">
-					<c:if test="${like_mwVO.no!=null }">
+					<c:if test="${like_mwVO.no!=null}">
 					<div class="myPage_HouseAndMate_oneBlock">
 						<div class="myPage_HouseAndMate_Img">
 							<c:if test="${logGrade==2  and memberCheck=='houseMem' }">
@@ -709,14 +709,12 @@
 					</c:if>
 					</c:forEach>
 				</c:if>
-				<c:if test="${empty houseLikeList && empty mateLikeList}">
-					<div class="myHouseMateList " id="mypage_likeMarkList">
-						<div class="myPage_HouseAndMate_oneBlock" >
-							<ul class="myPage_HouseAndMate_empty">
-								<li>찜목록이 비어있습니다. </li>
-								<li>마음에 드는 모집글에 찜버튼을 눌러주세요 !</li>
-							</ul>
-						</div>
+				<c:if test="${fn:length(houseLikeList)==0 and fn:length(mateLikeList)==0 }">
+					<div class="myPage_HouseAndMate_oneBlock" >
+						<ul class="myPage_HouseAndMate_empty">
+							<li>찜목록이 비어있습니다. </li>
+							<li>마음에 드는 모집글에 찜버튼을 눌러주세요 !</li>
+						</ul>
 					</div>
 				</c:if>
 			</div>

@@ -552,7 +552,7 @@ console.log(score);
 	 		<a class="white" id="mateDel" >삭제</a> 
 	 		</c:if>
 	 		 <a class="reportBtn" id="reportBtn">
-				<img title="신고" alt="신고" src="<%=request.getContextPath()%>/img/comm/ico_report.png">
+				<img style="margin: 0px 10px;" title="신고" alt="신고" src="<%=request.getContextPath()%>/img/comm/ico_report.png">
 			</a>
  		</div>	
  		<div class="slide_Img">
@@ -581,10 +581,12 @@ console.log(score);
 						<c:set var="hPcase" value="Y"/>
 					</c:if>
 				</c:forEach>
-					<c:if test="${hPcase=='Y' }">
-					<li><button class="q_btn green" id="sendInviteBtn">초대하기</button></li>
-					</c:if>
+				<c:if test="${hPcase=='Y' }">
+				<li><button class="q_btn green" id="sendInviteBtn">초대하기</button></li>
+				</c:if>
+				<c:if test="${logId!=mVO.userid }">
 				<li><button class="q_btn white likeInsert" id="likemark">찜하기</button> </li>
+				</c:if>
 				<li><button class="q_btn white" id="shareBtn" >공유하기</button></li>
 			</ul>
 		</div> <!-- peopleExplain div 종료 -->

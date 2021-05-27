@@ -47,6 +47,9 @@ public class MypageController {
 			//1개이상 작성된 글이 있는 경우. 
 			//1-1. 후 목록 가져오기 (모집중이 아닌것도 모두 가져온다,) 
 			hwList = service.myPageHouseWriteSelect(userid);
+			if(!hwList.isEmpty()) {
+				msg = "house";
+			}
 			mav.addObject("hwList", hwList);
 		}
 		//2. 메이트로 등록된 성향+글이 있는지 확인. 
@@ -54,7 +57,9 @@ public class MypageController {
 		if(service.mateConfirm(userid)>0) {
 			//2-1. 후 목록 가져오기
 			mwVO= service.myPageMateWriteSelect(userid);
-			
+			if(mwVO.getUserid()!=null) {
+				msg = "mate";
+			}
 			mav.addObject("mwVO", mwVO);
 			// 하우스 글이 없을 경우엔 mate로 메세지 변경.
 		}
@@ -65,11 +70,12 @@ public class MypageController {
 			 List<HouseWriteVO> houseLikeList = new ArrayList<HouseWriteVO>();
 			 List<MateWriteVO> mateLikeList = new ArrayList<MateWriteVO>();
 			 LikeMarkVO lmVO = new LikeMarkVO();
+			 HouseWriteVO hCheckVO = new HouseWriteVO();
+			 MateWriteVO mCheckVO = new MateWriteVO();
 			int no=0;
-			int pno=0;
 			String category = "";
 			if(lmConfirm.size()>0) {
-				System.out.println("lmConfirm = "+ lmConfirm.size());
+	System.out.println("lmConfirm = "+ lmConfirm);
 				for(int i=0; i<lmConfirm.size(); i++) {
 					no = lmConfirm.get(i).getNo();
 					lmVO.setNo(no);
@@ -78,26 +84,30 @@ public class MypageController {
 					if(category.equals("하우스")){
 						// 하우스일경우엔 houseWriteVO 를 넣는다. 
 						//하우스를 찜 했을 경우. 
-						pno = service.pno_Select(no);
-						lmVO.setPno(pno);
+//						pno = service.pno_Select(no);
 						// 로그인한사람이 메이트, 글번호는 하우스의 글번호. 
-						houseLikeList.add(service.houseLikeSelect(lmVO));
-						mav.addObject("houseLikeList", houseLikeList);
+						hCheckVO = service.houseLikeSelect(lmVO);
+						if(hCheckVO!=null) {
+							houseLikeList.add(hCheckVO);
+						}
 					}
 					if(category.equals("메이트")){
 						// 메이트글 일경우엔 mateWriteVO를 넣는다.
 						//메이트를 찜 했을 경우
-						if(session.getAttribute("hPno")!=null) {
-							pno = (Integer)session.getAttribute("hPno");
-							lmVO.setPno(pno);
-						}else {
-							pno=0;
-						}
+//						if(session.getAttribute("hPno")!=null) {
+//							pno = (Integer)session.getAttribute("hPno");
+//						}else {
+//							pno=0;
+//						}
 						// 로그인한 사람이 하우스. 
-						mateLikeList.add(service.mateLikeSelect(lmVO));
-						mav.addObject("mateLikeList", mateLikeList);
+						mCheckVO = service.mateLikeSelect(lmVO);
+						if(mCheckVO!=null) {
+							mateLikeList.add(mCheckVO);
+						}
 					}
 				}
+				mav.addObject("houseLikeList", houseLikeList);
+				mav.addObject("mateLikeList", mateLikeList);
 			}	
 		}  
 		List<ApplyInviteVO> aiVO_List = new ArrayList<ApplyInviteVO>();
@@ -110,20 +120,25 @@ public class MypageController {
 			memberCheck = "mateMem";
 
 		}
-		mav.addObject("memberCheck", memberCheck);
 		if(msg==null || msg.equals("")) {
-			if(service.pnoConfirm(userid, "h")>0) {
-				// house 로 등록된 pno가 있다면, 
-				msg = "house";
-			}else if(service.pnoConfirm(userid, "m")>0) {
-				// mate 로 등록된 pno가 있다면
-				msg = "mate";
-			}
+			msg = "house";
 		}
+//		mav.addObject("memberCheck", memberCheck);
+//		if(msg==null || msg.equals("")) {
+//			if(service.pnoConfirm(userid, "m")>0) {
+//				// mate 로 등록된 pno가 있다면
+//				msg = "mate";
+//			}
+//			if(service.pnoConfirm(userid, "h")>0) {
+//				// house 로 등록된 pno가 있다면, 
+//				msg = "house";
+//			}
+//		}
 		mav.addObject("msg", msg);
 		mav.setViewName("mypage/myHouseAndMateList");
 		} catch (Exception e) {
 			mav.setViewName("mypage/myHouseAndMateList");
+			e.printStackTrace();
 		}
 		return mav;
 	}

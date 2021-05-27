@@ -190,7 +190,7 @@
 			</div>
 			<div class="admin_Management_popup popup_hidden">
 				<div class="admin_Management_popup_head">매출 정보 그래프<span class="admin_Management_popup_head_close popup_Close">X</span></div>
-				<div class="admin_Management_popup_body" id="admin_Management_popup_print" style="overflow-y: hidden;">
+				<div class="admin_Management_popup_body" id="admin_Management_popup_print" style="overflow-y: scroll;">
 					<div class="admin_Management_popup_title" id="salesManagementView"></div>
 					<div>
 						<canvas id="salesChart"style="height:55vh; width:55vw" ></canvas>
@@ -199,7 +199,7 @@
 				<div class="admin_Management_popup_table_btn" id="sales_popupBtn">
 					<a href="javascript:printPage('popSalesExcel')" class="btn btn-custom">엑셀</a>
 					<a href="javascript:printPage('pop')" class="btn btn-custom">프린트</a>
-					<a href="" class="btn btn-custom popup_Close">닫기</a>
+					<a href="#" class="btn btn-custom popup_Close">닫기</a>
 				</div>
 			</div>
 			<div class="myPage_HouseAndMate_Popup_FullScreen popup_Close popup_hidden" id="myPage_popup_FullScreen"></div>
@@ -217,8 +217,7 @@
 			//버튼 변경 
 			$('#sales_popupBtn').empty();
 			var btnTag = '';
-			btnTag += '<a href="javascript:printPage("pop")" class="btn btn-custom " >프린트</a>';
-			btnTag += '<a href="" class="btn btn-custom popup_Close">닫기</a>';
+			btnTag += '<a href="#" class="btn btn-custom popup_Close">닫기</a>';
 			$('#sales_popupBtn').html(btnTag);
 			
 			var payStart=[]; //결제일
@@ -318,7 +317,7 @@
 			var excelTag = '';
 			excelTag += '<a href="javascript:printPage("popSalesExcel")" class="btn btn-custom">엑셀</a>';
 			excelTag += '<a href="javascript:printPage("pop")" class="btn btn-custom">프린트</a>';
-			excelTag+= '<a href="" class="btn btn-custom popup_Close">닫기</a>';
+			excelTag+= '<a href="#" class="btn btn-custom popup_Close">닫기</a>';
 			$('#sales_popupBtn').empty();
 			$('#sales_popupBtn').html(excelTag);
 			$(".admin_Management_popup_head").text('매출 상세 정보 리스트');
