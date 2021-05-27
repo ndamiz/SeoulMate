@@ -237,7 +237,7 @@ public class HomeController {
 									int calDateDays = Math.round(calDate / (24*60*60*1000));
 									
 									String enterDay = "";
-									if (calDateDays > 0 && calDateDays <=7) {
+									if (calDateDays >= 0 && calDateDays <=7) {
 										enterDay = "즉시";
 									}else {
 										enterDay = (calDateDays) + "일";
@@ -352,7 +352,7 @@ public class HomeController {
 			int calDateDays = Math.round(calDate / (24*60*60*1000));
 			
 			String enterDay = "";
-			if (calDateDays > 0 && calDateDays <=7) {
+			if (calDateDays >= 0 && calDateDays <=7) {
 				enterDay = "즉시";
 			}else {
 				enterDay = (calDateDays) + "일";
