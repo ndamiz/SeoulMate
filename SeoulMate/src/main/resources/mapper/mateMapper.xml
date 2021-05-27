@@ -8,15 +8,18 @@
 		<if test="matePic2!=null and matePic2!=''">matePic2, </if>
 		<if test="matePic3!=null and matePic3!=''">matePic3, </if>
   		deposit, rent, enterdate, minStay, maxStay,
-  		writedate, enddate, matestate, mateProfile) 
-		values (housematesq.nextval, #{pno}, #{userid}, #{area}, #{matePic1}, #{deposit}, #{rent}, 
-		#{enterdate}, #{minStay}, #{maxStay}, sysdate, sysdate+7, '모집중', #{mateProfile} )
+  		writedate, enddate, matestate, mateProfile, mateshow) 
+		values (housematesq.nextval, #{pno}, #{userid}, #{area}, #{matePic1}, 
+		<if test="matePic2!=null and matePic2!=''">#{matePic2}, </if>
+		<if test="matePic3!=null and matePic3!=''">#{matePic3}, </if>
+		#{deposit}, #{rent}, 
+		#{enterdate}, #{minStay}, #{maxStay}, sysdate, sysdate+7, '모집중', #{mateProfile}, '공개' )
   	</insert>
 	<update id="mateUpdate" parameterType="com.seoulmate.home.vo.MateWriteVO">
 		update matewrite set 
-		<if test="matePic1!=null and matePic1!=''">matePic1=#{matePic1}, </if>
-		<if test="matePic2!=null and matePic2!=''">matePic2=#{matePic2}, </if>
-		<if test="matePic3!=null and matePic3!=''">matePic3=#{matePic3}, </if>
+		matePic1=#{matePic1, jdbcType=VARCHAR}, 
+		matePic2=#{matePic2, jdbcType=VARCHAR},
+		matePic3=#{matePic3, jdbcType=VARCHAR}, 
 		deposit=#{deposit}, rent=#{rent}, enterdate=#{enterdate}, area=#{area},
 		minStay=#{minStay}, maxStay=#{maxStay}, mateProfile=#{mateProfile} where userid=#{userid} and pno=#{pno}
 	</update>

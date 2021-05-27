@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/housemate.css">
 <script>
 $(function(){
+	console.log("${mVO.gender}");
 	CKEDITOR.replace("mateProfile", {
 		height:300,
 		width:'100%'
@@ -34,6 +35,36 @@ function readURL(input) {
 $(function(){
 	
 	$("#mNext1").click(function(){
+		
+		if($("#rent").val()==""){
+			alert("월세를 입력해주세요");
+			return false;
+		}
+		if($("#deposit").val()==""){
+			alert("보증금을 입력해주세요");
+			return false;
+		}
+		if($("#gu1Edit").val()==""){
+			alert("주소를 입력해주세요");
+			return false;
+		}
+		if($("#dong1Edit").val()==""){
+			alert("주소를 입력해주세요");
+			return false;
+		}
+		if($("#enterdate").val()==""){
+			alert("입주가능일을 입력해주세요");
+			return false;
+		}
+		if($("#minStay").val()==""){
+			alert("최소 거주 기간을 선택해주세요");
+			return false;
+		}
+		if($("#maxStay").val()==""){
+			alert("최대 거주 기간을 선택해주세요");
+			return false;
+		}
+		
 		$("#mateWrite1").css("display", "none");
 		$("#mateWrite2").css("display", "block");
 	});
@@ -46,6 +77,12 @@ $(function(){
 	});
 	
 	$("#mNext2").click(function(){
+		
+		if($("#matePic1").val()==""){
+			alert("(첫번째 파일부터)사진을 1장이상 등록해주세요");
+			return false;
+		}
+		
 		$("#mateWrite2").css("display", "none");
 		$("#mateWrite3").css("display", "block");
 	});
@@ -70,6 +107,28 @@ $(function(){
 	});
 	
 	$("#mNext4").click(function(){
+		
+		if($("input:radio[name='h_noise']").is(":checked")==false){
+			alert("생활소음을 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='h_pattern']").is(":checked")==false){
+			alert("생활시간을 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='h_pet']").is(":checked")==false){
+			alert("반려동물 여부를 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='h_petwith']").is(":checked")==false){
+			alert("반려동물 동반 입실 여부를 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='h_smoke']").is(":checked")==false){
+			alert("흡연을 선택해주세요");
+			return false;
+		}
+		
 		$("#mateWrite4").css("display", "none");
 		$("#mateWrite5").css("display", "block");
 	});
@@ -82,6 +141,24 @@ $(function(){
 	});
 	
 	$("#mNext5").click(function(){
+		
+		if($("input:radio[name='h_mood']").is(":checked")==false){
+			alert("분위기를 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='h_communication']").is(":checked")==false){
+			alert("소통방식을 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='h_party']").is(":checked")==false){
+			alert("모임빈도을 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='h_enter']").is(":checked")==false){
+			alert("모임참가 의무를 선택해주세요");
+			return false;
+		}
+		
 		$("#mateWrite5").css("display", "none");
 		$("#mateWrite6").css("display", "block");
 	});
@@ -105,7 +182,42 @@ $(function(){
 		location.href="<%=request.getContextPath()%>/mateIndex";
 	});
 	$("#mNext7").click(function(){
+		
+		if($("input:radio[name='m_pattern']").is(":checked")==false){
+			alert("생활시간을 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='m_personality']").is(":checked")==false){
+			alert("성격을 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='m_pet']").is(":checked")==false){
+			alert("반려동물을 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='m_smoke']").is(":checked")==false){
+			alert("흡연을 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='m_age']").is(":checked")==false){
+			alert("연령대를 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='m_gender']").is(":checked")==false){
+			alert("성별을 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='m_global']").is(":checked")==false){
+			alert("외국인입주 가능여부를 선택해주세요");
+			return false;
+		}
+		if($("input:radio[name='m_now']").is(":checked")==false){
+			alert("즉시입주 가능여부를 선택해주세요");
+			return false;
+		}
+		
 		var hopeGender = document.mateFrm.m_gender.value;
+		console.log(hopeGender);
 		if(hopeGender==${mVO.gender}||hopeGender==2){ //자신과 다른 성별 선택불가
 			if(confirm("메이트 정보를 등록하시겠습니까?")){
 				$("#mateFrm").submit();
@@ -115,6 +227,10 @@ $(function(){
 			alert("희망성별은 자신과 다른 성별을 선택할 수 없습니다.");
 			return false;
 		}
+		
+		
+		
+		
 		location.href="<%=request.getContextPath()%>/mateIndex";
 	});
 	$("#mPrev7").click(function(){
@@ -296,8 +412,8 @@ $(function(){
 		<input type="hidden" name="pno" value="${pVO.pno }"/>
 		
 		<ul class="form_box">
-			<li><label><span class="red_txt">*</span>월세(관리비)</label> <input type="number" name="rent"/> </li>	
-			<li><label><span class="red_txt">*</span>보증금(조율) </label><input type="number" name="deposit"/> </li>			
+			<li><label><span class="red_txt">*</span>월세(관리비)</label> <input type="number" id="rent" name="rent"/> </li>	
+			<li><label><span class="red_txt">*</span>보증금(조율) </label><input type="number" id="deposit" name="deposit"/> </li>			
 <!-- 			<li> <label><span class="red_txt">*</span> 희망 지역 </label> -->
 <!-- 					<input type="text" name="area" id="area"/>  -->
 <!-- 					<input type="text" name="area" id="area2"/> <input type="text" name="area" id="area3"/> </li> -->
@@ -355,16 +471,18 @@ $(function(){
 					<input type="hidden" name="area3" id="area3Edit" value="${mVO.area3}" readonly/>
 					
 				</li>
-			<li> <label><span class="red_txt">*</span>입주가능일 </label><input type="date" name="enterdate" > </li>
+			<li> <label><span class="red_txt">*</span>입주가능일 </label><input type="date" id="enterdate" name="enterdate" > </li>
 			<li> <label><span class="red_txt">*</span>최소 거주 기간</label>
-				 	<select name="minStay">
+				 	<select name="minStay" id="minStay">
+				 		<option value="">선택하세요</option>
 						<option value="1-3개월">1~3 개월</option>
 						<option value="4-6개월">4~6 개월</option>
 						<option value="7-12개월">7~12 개월</option>
 						<option value="1년 이상">1년 이상</option> 
 					</select> </li>
 			<li> <label><span class="red_txt">*</span>최대 거주 기간</label>
-					<select name="maxStay">
+					<select name="maxStay" id="maxStay">
+						<option value="">선택하세요</option>
 						<option value="1-3개월">1~3 개월</option>
 						<option value="4-6개월">4~6 개월</option>
 						<option value="7-9개월">7~12 개월</option>
@@ -393,9 +511,9 @@ $(function(){
 					<img id="mateImg3" name="mateImg3" src="#" alt="upload image" />
 				</li>
 				<li> 
-					<input type="file" accept="image/*" name="filename1" id="matePic1" onchange="readURL(this);"/> 
-					<input type="file" accept="image/*" name="filename2" id="matePic2" onchange="readURL(this);"/> 
-					<input type="file" accept="image/*" name="filename3" id="matePic3" onchange="readURL(this);"/> 
+					<input type="file" accept="image/*" name="filename" id="matePic1" onchange="readURL(this);"/> 
+					<input type="file" accept="image/*" name="filename" id="matePic2" onchange="readURL(this);"/> 
+					<input type="file" accept="image/*" name="filename" id="matePic3" onchange="readURL(this);"/> 
 				<br/> </li>
 				
 		</ul>
@@ -415,7 +533,7 @@ $(function(){
 	<p>&nbsp;</p>
 	</div>
 	<div id="ck">
-		<textarea id="write" name="mateProfile" ></textarea><br/>
+		<textarea id="write" name="mateProfile" id="mateProfile"></textarea><br/>
 	</div>		
 			<div class="btnclass">
 				<a id="mPrev3" class="green" >이전</a>
@@ -468,7 +586,7 @@ $(function(){
 				</li>
 				
 				<li>
-					<label><span class="red_txt">*</span>반려동물 동반 입주 여부</label>
+					<label><span class="red_txt">*</span>반려동물 동반 입실 여부</label>
 					<div class="checks">
 						<input type="radio" id="h_petwith3" value="3" name="h_petwith" <c:if test="${pVO.h_petwith==3}">checked</c:if> > 
 						<label for="h_petwith3">가능</label>
@@ -586,6 +704,14 @@ $(function(){
 					<label for="h_support3">기본 식품 지원</label>
 				</div>
 			</li> <br/><br/>
+			<li><label><span class="red_txt">*</span>기타</label>
+						<div class="checks checkbox">
+							<input type="checkbox" name="h_etc" id="h_etc1" value="1"/>
+							<label for="h_etc1">보증금 조절 가능</label>
+							<input type="checkbox" name="h_etc" id="h_etc3" value="3"/>
+							<label for="h_etc3">즉시 입주 가능</label>
+						</div>
+					</li>
 		</ul>
 			<div class="btnclass">
 				<a id="mPrev6" class="green" >이전</a>
@@ -625,7 +751,7 @@ $(function(){
 			</li>
 			
 			<li>
-				<label><span class="red_txt">*</span>반려동물 선호도</label>
+				<label><span class="red_txt">*</span>반려동물</label>
 				<div class="checks">
 					<input type="radio" id="m_pet1" value="1" name="m_pet" <c:if test="${pVO.m_pet==1}">checked</c:if> > 
 					<label for="m_pet1">긍정적</label>

@@ -96,7 +96,26 @@
 		$('#hiddenPageNum').val(changePageNum);
 		// 서브밋 실행 
 		$('#houseIndexForm').submit();
+		
 	}
+	
+	$(function(){
+		console.log("${bCnt}");
+		$("#roomWrite").click(function(){
+// 			if(pCnt=='Y'){
+// 				alert("글 작성개수를 초과하였습니다.");
+// 				return false;
+// 			}
+// 			if(bCnt=='Y'){
+// 				alert("글 작성개수를 초과하였습니다.");
+// 				return false;
+// 			}
+// 			else{
+// 				return true;
+// 			}
+			location.href="<%=request.getContextPath()%>/houseWrite";
+		});
+});
 </script>
 <div class="wrap houseSearch_wrap">
 	<div class="boxClass"> <!-- 상단부분 div -->
@@ -135,7 +154,7 @@
 				<li><button class="green search"></button></li>
 			</ul>
 		</form>
-		<button class="green room" onclick="location.href='<%=request.getContextPath()%>/houseWrite'">방 등록하기</button> <br/>
+		<a class="green room" id="roomWrite">방 등록하기</a><br/>
 	</div>
 <!-- 프리미엄 추천 쉐어하우스 -->
 <c:if test="${logGrade==2}">
