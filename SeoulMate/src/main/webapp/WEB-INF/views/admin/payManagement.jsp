@@ -159,9 +159,9 @@
 				console.log(date1<date2);
 				var dateDiff = Math.ceil((date2.getTime()-date1.getTime())/(1000*3600*24));
 				console.log(dateDiff);
-// 				if(dateDiff>1){
-// 					alert("환불 가능한 일수가 지나 환불이 불가합니다. ");
-// 				}else 
+				if(dateDiff>1){
+					alert("환불 가능한 일수가 지나 환불이 불가합니다. ");
+				}else 
 					if(confirm("환불 하시겠습니까?")){
 					var merchant_uid = $(this).parent().children().eq(1).val();
 					var userAmount = $(this).parent().children().eq(2).val();

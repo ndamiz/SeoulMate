@@ -376,6 +376,7 @@
 	         // 주소로 좌표를 검색합니다
 	         geocoder.addressSearch('${hmVO.addr}', function(result, status) {
 	             // 정상적으로 검색이 완료됐으면 
+	             console.log('${hmVO.addr}');
 	              if (status === kakao.maps.services.Status.OK) {
 	                 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 	                 
@@ -400,7 +401,7 @@
 		           // 커스텀 오버레이에 표시할 컨텐츠 입니다
 		           // 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
 		           // 별도의 이벤트 메소드를 제공하지 않습니다 
-		           var content = '<div class="map_wrap">' + 
+		           var content = '<div class="map_wrap">' +  
 		                       '    <div class="info">' + 
 		                       '        <div class="title">' + 
 		                       '            ${hmVO.housename}' + 
@@ -411,7 +412,7 @@
 		                       '                <img alt="" src="<%=request.getContextPath()%>/housePic/${hmVO.housepic1}" onerror="this.src=' + "'<%=request.getContextPath()%>/img/comm/no_house_pic.png'" + '" width="73" height="70">' +
 		                       '           </div>' + 
 		                       '            <div class="desc">' + 
-		                       '                <div class="ellipsis">${hmVO.addr}</div>' + 
+		                       '                <div class="ellipsis">${hmVO.short_addr}</div>' + 
 		                       '                <div class="jibun ellipsis">${hmVO.deposit} / ${hmVO.rent}</div>' + 
 		                       '                <div><a href="houseView?no=${hmVO.no}" target="_blank" class="link">자세히보기</a></div>' + 
 		                       '            </div>' + 
