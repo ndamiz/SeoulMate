@@ -7,7 +7,6 @@
 		var msg ='<c:out value="${msg}"/>';
 		var date = new Date();
 		var filename = '';
-		alert(msg);
 		if(msg!='payExcel' && msg!='salesExcel' && msg!='houseExcel' && msg!='mateExcel'){
 			var p_body = document.body.innerHTML;
 			window.onbeforeprint = function(){

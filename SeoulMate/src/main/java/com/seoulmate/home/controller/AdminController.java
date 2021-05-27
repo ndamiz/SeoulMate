@@ -1055,7 +1055,7 @@ System.out.println("사진파일 삭제 완료, 커밋");
 		cancelData.addProperty("searchKey",searchKey);
 		cancelData.addProperty("searchWord",searchWord);
 		cancelData.addProperty("pageNum",Integer.toString(pageNum));
-		URLConn conn = new URLConn("http://192.168.1.161", 9092);
+		URLConn conn = new URLConn("http://192.168.0.33", 9092);
 		conn.urlPost(cancelData);
 		
 		
