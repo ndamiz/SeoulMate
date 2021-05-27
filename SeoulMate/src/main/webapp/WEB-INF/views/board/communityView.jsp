@@ -99,7 +99,6 @@
 	}//1.end
 	
 	function moveToReply(num){
-		alert(num);
 		document.getElementById(num).scrollIntoView();
 		document.getElementById(num).style.backgroundColor = '#d0d9e8';
 		
@@ -166,7 +165,6 @@
 		$(document).on('submit','.replyEditForm', function(){
 			var url = "/home/replyEdit";
 			var params = $(this).serialize();
-			alert(url);
 			$.ajax({
 				url : url,
 				data : params,
@@ -188,7 +186,6 @@
 				var no = $(this).parent().parent().next().next().children().children().eq(1).val();
 				var userid = $(this).parent().parent().next().next().children().children().eq(2).val();
 				var params = 'num='+num+"&userid="+userid+"&no="+no;
-				alert(params)
 		
 				$.ajax({
 					url : url,
@@ -229,7 +226,6 @@
 		function reReply(replyid, taggedId, replyidCnt, taggedNum){//대댓글시 아이디값 넣어주는 함수
 			$("#taggedNum").val(taggedNum);
 			$("#comment_content").val(taggedId);
-			alert(taggedId);
 			$("#replyBtn").text(replyid+'님에게 답글 달기');
 			//아이디뒤에 커서 위치하게 만들기 위한 제이쿼리 플러그인
 			$.fn.setCursorPosition = function( pos )
@@ -248,7 +244,6 @@
 			  return this;
 			};
 			$("#comment_content").focus().setCursorPosition(replyidCnt); // 아이디 뒤에 커서 위치시키기
-			alert(replyidCnt+"!!");
 		}
 		
 		//글 신고하기=========================================

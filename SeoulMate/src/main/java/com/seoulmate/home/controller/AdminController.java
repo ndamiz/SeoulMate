@@ -303,7 +303,8 @@ public class AdminController {
 		
 		//게시글 공개 상태가 true면 당연히 state는 처리완료.
 		if(visibility && reportVO.getState().equals("처리완료")) {
-			
+			System.out.println(reportVO.getNo()+"------원글번호");
+			System.out.println(reportVO.getUserid()+"------신고당한 아이디");
 			try {
 				if(!reportVO.getCategory().equals("채팅")) {
 					service.allStateUdate(reportVO.getNo(), reportVO.getUserid(), reportVO.getCategory(), reportVO.getState()); //글 상태 비공개로 변경
