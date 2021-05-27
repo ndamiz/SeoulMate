@@ -190,7 +190,7 @@
 			</div>
 			<div class="admin_Management_popup popup_hidden">
 				<div class="admin_Management_popup_head">매출 정보 그래프<span class="admin_Management_popup_head_close popup_Close">X</span></div>
-				<div class="admin_Management_popup_body" id="admin_Management_popup_print" style="overflow-y: hidden;">
+				<div class="admin_Management_popup_body" id="admin_Management_popup_print" style="overflow-y: scroll;">
 					<div class="admin_Management_popup_title" id="salesManagementView"></div>
 					<div>
 						<canvas id="salesChart"style="height:55vh; width:55vw" ></canvas>
@@ -217,7 +217,6 @@
 			//버튼 변경 
 			$('#sales_popupBtn').empty();
 			var btnTag = '';
-			btnTag += '<a href="javascript:printPage("pop")" class="btn btn-custom " >프린트</a>';
 			btnTag += '<a href="#" class="btn btn-custom popup_Close">닫기</a>';
 			$('#sales_popupBtn').html(btnTag);
 			
