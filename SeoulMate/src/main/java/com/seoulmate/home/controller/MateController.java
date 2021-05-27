@@ -791,7 +791,7 @@ public class MateController {
 	         }//for문 종료
 	      }//if문 종료
 		
-	      System.out.println(Arrays.toString(delFile));
+//	      System.out.println(Arrays.toString(delFile));
 	      //DB선택파일 목록에서 삭제한 파일 지우기 -> 최종적으로 DB에 올라갈 파일을 제외한 나머지 파일 삭제
 	      if(delFile!=null) { //삭제할 파일이 있는 경우
 	         for(String delName : delFile) {
@@ -810,7 +810,9 @@ public class MateController {
 	      }
 	      
 //	      mVO.setMatePic1(orgFile.get(0)); //새로 업로드된 index0번째 파일 -> matePic1 로 설정
-	      
+	      	if(orgFile.size()>0) {
+	      		mVO.setMatePic1(orgFile.get(0));
+	      	}
 	         if(orgFile.size()>1) { //filename2 있을 경우
 	            mVO.setMatePic2(orgFile.get(1));
 	         }

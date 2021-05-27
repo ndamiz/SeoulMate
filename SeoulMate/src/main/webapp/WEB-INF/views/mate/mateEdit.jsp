@@ -290,7 +290,6 @@ $(function(){
 	}
 	
     function readURL2(input) {
-    	alert("사진2 확인");
 	    if (input.files && input.files[0]) {
 	    var reader = new FileReader();
 	
@@ -478,7 +477,7 @@ $(function(){
 	               </c:if>
 	               
 	               <c:if test="${mVO.matePic3!=null && mVO.matePic3!='' }"> <!-- 세번째 첨부파일이 있을 경우 -->
-	               <div>${hVO.housepic3 } <b>X</b> </div>
+	               <div>${mVO.matePic3 } <b>X</b> </div>
 	               <input type="hidden" name="" value=${mVO.matePic3 }/>
 	               <input type="hidden" name="filename"  onchange="readURL3(this);"/>
 	               </c:if>

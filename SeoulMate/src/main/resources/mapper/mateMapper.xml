@@ -27,7 +27,7 @@
 <!-- 		select no from matewrite where userid=#{param1} -->
 <!-- 	</select> -->
 	<select id="mateSelect" resultType="com.seoulmate.home.vo.MateWriteVO">
-		select no, pno, userid, area, matePic1, deposit, rent, to_char(enterdate, 'yyyy-mm-dd')enterdate, minStay, maxStay, writedate, enddate, matestate, mateProfile 
+		select no, pno, userid, area, matePic1, matePic2, matePic3, deposit, rent, to_char(enterdate, 'yyyy-mm-dd')enterdate, minStay, maxStay, writedate, enddate, matestate, mateProfile 
 		from matewrite where userid=#{param1}
 	</select>
 	<select id="MateProfilePic" resultType="String">
