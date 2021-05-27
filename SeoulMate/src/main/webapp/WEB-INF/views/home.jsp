@@ -376,6 +376,7 @@
 	         // 주소로 좌표를 검색합니다
 	         geocoder.addressSearch('${hmVO.addr}', function(result, status) {
 	             // 정상적으로 검색이 완료됐으면 
+	             console.log('${hmVO.addr}');
 	              if (status === kakao.maps.services.Status.OK) {
 	                 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 	                 
@@ -411,7 +412,7 @@
 		                       '                <img alt="" src="<%=request.getContextPath()%>/housePic/${hmVO.housepic1}" onerror="this.src=' + "'<%=request.getContextPath()%>/img/comm/no_house_pic.png'" + '" width="73" height="70">' +
 		                       '           </div>' + 
 		                       '            <div class="desc">' + 
-		                       '                <div class="ellipsis">${hmVO.addr}</div>' + 
+		                       '                <div class="ellipsis">${hmVO.short_addr}</div>' + 
 		                       '                <div class="jibun ellipsis">${hmVO.deposit} / ${hmVO.rent}</div>' + 
 		                       '                <div><a href="houseView?no=${hmVO.no}" target="_blank" class="link">자세히보기</a></div>' + 
 		                       '            </div>' + 

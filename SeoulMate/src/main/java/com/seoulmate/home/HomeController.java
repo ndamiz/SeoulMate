@@ -89,7 +89,9 @@ public class HomeController {
 				int dongIdx=gu1.indexOf(" ");
 				
 				String dong=gu1.substring(0, dongIdx); // 'XX동'
-				hwVO.setAddr(gu+dong);
+				//hwVO.setAddr(gu+dong);
+				
+				hwVO.setShort_addr(gu+dong);
 	         }
 	         mav.addObject("houseMapList", houseMapList);
 	      }

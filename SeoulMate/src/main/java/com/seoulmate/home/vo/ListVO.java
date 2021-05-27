@@ -31,6 +31,7 @@ public class ListVO {
 	private String area3;
 	
 	private int m_gender;
+	private String short_addr;
 	
 	private MateWriteVO mw;
 	
@@ -201,4 +202,11 @@ public class ListVO {
 	public void setM_gender(int m_gender) {
 		this.m_gender = m_gender;
 	}
+	public String getShort_addr() {
+		return short_addr;
+	}
+	public void setShort_addr(String short_addr) {
+		this.short_addr = short_addr;
+	}
+	
 }
