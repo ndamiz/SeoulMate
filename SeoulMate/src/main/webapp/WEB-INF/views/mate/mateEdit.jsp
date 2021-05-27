@@ -175,7 +175,9 @@ $(function(){
 	});
 	$("#mNext7").click(function(){
 		var hopeGender = document.mateFrm.m_gender.value;
-		if(hopeGender==${mVO.gender}||hopeGender==2){ //자신과 다른 성별 선택불가
+		console.log(hopeGender);
+		console.log(${vo.gender});
+		if(hopeGender==${vo.gender}||hopeGender==2){ //자신과 다른 성별 선택불가
 			if(confirm("메이트 등록 정보를 수정하시겠습니까?")){
 				$("#mateFrm").submit();
 				return true;
@@ -275,6 +277,40 @@ $(function(){
 		
 	}
 	
+	
+	function readURL1(input) {
+	    if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	
+	    reader.onload = function (e) {
+	            $('#mateImg1').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+	
+    function readURL2(input) {
+    	alert("사진2 확인");
+	    if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	
+	    reader.onload = function (e) {
+	            $('#mateImg2').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+    }
+    
+    function readURL3(input) {
+	    if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	
+	    reader.onload = function (e) {
+	            $('#mateImg3').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+    }
 	
 </script>
 <style>
@@ -393,7 +429,7 @@ $(function(){
 						<option value="1-3개월" <c:if test="${mVO.minStay=='1-3개월' }">selected </c:if> >1~3 개월</option>
 						<option value="4-6개월" <c:if test="${mVO.minStay=='4-6개월' }">selected </c:if> >4~6 개월</option>
 						<option value="7-12개월" <c:if test="${mVO.minStay=='7-12개월' }">selected </c:if> >7~12 개월</option>
-						<option value="1년 이상" <c:if test="${mVO.minStay=='1년이상' }">selected </c:if> >1년 이상</option> 
+						<option value="1년 이상" <c:if test="${mVO.minStay=='1년 이상' }">selected </c:if> >1년 이상</option> 
 					</select> </li>
 			<li> <label><span class="red_txt">*</span>최대 거주 기간</label>
 					<select name="maxStay" id="maxStay">
@@ -401,7 +437,7 @@ $(function(){
 						<option value="1-3개월" <c:if test="${mVO.maxStay=='1-3개월' }">selected </c:if> >1~3 개월</option>
 						<option value="4-6개월" <c:if test="${mVO.maxStay=='4-6개월' }">selected </c:if> >4~6 개월</option>
 						<option value="7-12개월" <c:if test="${mVO.maxStay=='7-12개월' }">selected </c:if> >7~12 개월</option>
-						<option value="1년 이상" <c:if test="${mVO.maxStay=='1년이상' }">selected </c:if> >1년 이상</option>
+						<option value="1년 이상" <c:if test="${mVO.maxStay=='1년 이상' }">selected </c:if> >1년 이상</option>
 					</select> </li>
 		</ul>
 			<div class="btnclass">
@@ -428,29 +464,29 @@ $(function(){
 				<li id="file">
 	               <div>${mVO.matePic1 } <b>X</b> </div>
 	               <input type="hidden" name="" value=${mVO.matePic1 }/>
-	               <input type="hidden" name="filename"/>
+	               <input type="hidden" name="filename"  onchange="readURL1(this);"/>
 	               
 	               <c:if test="${mVO.matePic2!=null && mVO.matePic2!='' }"> <!-- 두번째 첨부파일이 있을 경우 -->
 	               <div>${mVO.matePic2 } <b>X</b> </div>
 	               <input type="hidden" name="" value=${mVO.matePic2 }/>
-	               <input type="hidden" name="filename"/>
+	               <input type="hidden" name="filename"  onchange="readURL2(this);"/>
 	               </c:if>
 	               
 	               <c:if test="${mVO.matePic2==null || mVO.matePic2=='' }"> <!-- 두번째 첨부파일이 없을 경우 -->
-	               <input type="file" name="filename"/>
+	               <input type="file" name="filename"  onchange="readURL2(this);"/>
 	               </c:if>
 	               
 	               <c:if test="${mVO.matePic3!=null && mVO.matePic3!='' }"> <!-- 세번째 첨부파일이 있을 경우 -->
 	               <div>${hVO.housepic3 } <b>X</b> </div>
 	               <input type="hidden" name="" value=${mVO.matePic3 }/>
-	               <input type="hidden" name="filename"/>
+	               <input type="hidden" name="filename"  onchange="readURL3(this);"/>
 	               </c:if>
 	               
 	               <c:if test="${mVO.matePic3==null || mVO.matePic3=='' }"> <!-- 세번째 첨부파일이 없을 경우 -->
-	               <input type="file" name="filename"/>
+	               <input type="file" name="filename"  onchange="readURL3(this);"/>
 	               </c:if>
 		</ul>
-		<p>&nbsp;</p> <p>&nbsp;</p> <p>&nbsp;</p> <br/> <br/>
+		
 			<div class="btnclass">
 				<a id="mPrev2" class="green" >이전</a>
 				<a id="mNext2" class="green" >다음</a>

@@ -474,7 +474,7 @@ $(function(){
 .checks>label{width:120px;}
 /* #houseWrite6 input, #houseWrite6 select{width:230px;} */
 </style>
-<div class="wrap">
+<div class="wrap .hwWrap">
 <div class="content">
 	<form method="post" id="houseEditFrm" name="houseEditFrm" action="houseEditOk" enctype="multipart/form-data">
 	<input type="hidden" name="listSize" value="${rVO_ListSize}">
@@ -622,13 +622,13 @@ $(function(){
 		<p>&nbsp;</p>
 		</div>
 		
-			<ul class="form_box">
+			<ul class="form_box preview_img">
 				<li id="hPic">
-					<img id="houseImg1" name="houseImg1" src="/home/housePic/${hVO.housepic1}" />
-					<img id="houseImg2" name="houseImg2" src="/home/housePic/${hVO.housepic2}" />
-					<img id="houseImg3" name="houseImg3" src="/home/housePic/${hVO.housepic3}" />
-					<img id="houseImg4" name="houseImg4" src="/home/housePic/${hVO.housepic4}" />
-					<img id="houseImg5" name="houseImg5" src="/home/housePic/${hVO.housepic5}" />
+					<img id="houseImg1" name="houseImg1" src="/home/housePic/${hVO.housepic1}" onerror="this.src='/home/img/comm/no_house_pic.png'" />
+					<img id="houseImg2" name="houseImg2" src="/home/housePic/${hVO.housepic2}" onerror="this.src='/home/img/comm/no_house_pic.png'" />
+					<img id="houseImg3" name="houseImg3" src="/home/housePic/${hVO.housepic3}" onerror="this.src='/home/img/comm/no_house_pic.png'" />
+					<img id="houseImg4" name="houseImg4" src="/home/housePic/${hVO.housepic4}" onerror="this.src='/home/img/comm/no_house_pic.png'" />
+					<img id="houseImg5" name="houseImg5" src="/home/housePic/${hVO.housepic5}" onerror="this.src='/home/img/comm/no_house_pic.png'" />
 				</li>
 				<!-- /////////// -->
 				<li id="file">
