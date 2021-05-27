@@ -911,10 +911,10 @@ $(function(){
 						
 					<li><label><span class="red_txt">*</span>가구 여부</label> 
 						<div class="checks">
-								<input type="radio" id="furniture3" value="1" name=""> 
+								<input type="radio" id="furniture5" value="1" name=""> 
 								<label for="furniture3">있음</label>
 								
-								<input type="radio" id="furniture4" value="2" name=""> 
+								<input type="radio" id="furniture6" value="2" name=""> 
 								<label for="furniture4">없음</label>
 							</div>	</li>
 					<li><label>포함된 가구</label><input type="text" name=""/></li>
@@ -952,10 +952,10 @@ $(function(){
 						
 					<li><label><span class="red_txt">*</span>가구 여부</label> 
 						<div class="checks">
-								<input type="radio" id="furniture3" value="1" name=""> 
+								<input type="radio" id="furniture7" value="1" name=""> 
 								<label for="furniture3">있음</label>
 								
-								<input type="radio" id="furniture4" value="2" name=""> 
+								<input type="radio" id="furniture8" value="2" name=""> 
 								<label for="furniture4">없음</label>
 							</div>	</li>
 					<li><label>포함된 가구</label><input type="text" name=""/> </li>

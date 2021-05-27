@@ -20,17 +20,39 @@ $(function(){
 	
 // });
 
-function readURL(input) {
-    if (input.files && input.files[0]) {
-    var reader = new FileReader();
-
-    reader.onload = function (e) {
-            $('#mateImg1').attr('src', e.target.result);
-        }
-
-      reader.readAsDataURL(input.files[0]);
+	function readURL1(input) {
+	    if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	
+	    reader.onload = function (e) {
+	            $('#mateImg1').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+	
+    function readURL2(input) {
+	    if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	
+	    reader.onload = function (e) {
+	            $('#mateImg2').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
     }
-}
+    
+    function readURL3(input) {
+	    if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	
+	    reader.onload = function (e) {
+	            $('#mateImg3').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+    }
+    
 
 $(function(){
 	
@@ -506,14 +528,14 @@ $(function(){
 	
 		<ul class="form_box">
 				<li id="mPic">
-					<img id="mateImg1" name="mateImg1" src="#" alt="upload image" />
-					<img id="mateImg2" name="mateImg2" src="#" alt="upload image" />
-					<img id="mateImg3" name="mateImg3" src="#" alt="upload image" />
+					<img id="mateImg1" name="mateImg1" src="#" alt="upload image" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'"  />
+					<img id="mateImg2" name="mateImg2" src="#" alt="upload image" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'"  />
+					<img id="mateImg3" name="mateImg3" src="#" alt="upload image" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_house_pic.png'"  />
 				</li>
 				<li> 
-					<input type="file" accept="image/*" name="filename" id="matePic1" onchange="readURL(this);"/> 
-					<input type="file" accept="image/*" name="filename" id="matePic2" onchange="readURL(this);"/> 
-					<input type="file" accept="image/*" name="filename" id="matePic3" onchange="readURL(this);"/> 
+					<input type="file" accept="image/*" name="filename" id="matePic1" onchange="readURL1(this);"/> 
+					<input type="file" accept="image/*" name="filename" id="matePic2" onchange="readURL2(this);"/> 
+					<input type="file" accept="image/*" name="filename" id="matePic3" onchange="readURL3(this);"/> 
 				<br/> </li>
 				
 		</ul>
@@ -694,21 +716,21 @@ $(function(){
 			<li>
 			<label><span class="red_txt">*</span>하우스 내 지원서비스</label>
 				<div class="checks">
-					<input type="checkbox" id="h_support1" value="1" name="h_support" <c:forEach var="i" items="${pVO.h_supportStr}"><c:if test="${i=='1'}">checked</c:if></c:forEach> > 
+					<input type="checkbox" id="h_support1" value="1" name="h_support" <c:forEach var="i" items="${pVO.h_support}"><c:if test="${i=='1'}">checked</c:if></c:forEach> > 
 					<label for="h_support1">공용공간 청소지원</label>
 								
-					<input type="checkbox" id="h_support2" value="2" name="h_support" <c:forEach var="i" items="${pVO.h_supportStr}"><c:if test="${i=='2'}">checked</c:if></c:forEach> > 
+					<input type="checkbox" id="h_support2" value="2" name="h_support" <c:forEach var="i" items="${pVO.h_support}"><c:if test="${i=='2'}">checked</c:if></c:forEach> > 
 					<label for="h_support2">공용생필품 지원</label> <br/>
 								
-					<input type="checkbox" id="h_support3" value="3" name="h_support" <c:forEach var="i" items="${pVO.h_supportStr}"><c:if test="${i=='3'}">checked</c:if></c:forEach> > 
+					<input type="checkbox" id="h_support3" value="3" name="h_support" <c:forEach var="i" items="${pVO.h_support}"><c:if test="${i=='3'}">checked</c:if></c:forEach> > 
 					<label for="h_support3">기본 식품 지원</label>
 				</div>
 			</li> <br/><br/>
 			<li><label><span class="red_txt">*</span>기타</label>
 						<div class="checks checkbox">
-							<input type="checkbox" name="h_etc" id="h_etc1" value="1"/>
+							<input type="checkbox" name="h_etc" id="h_etc1" value="1" <c:forEach var="i" items="${pVO.h_etc}"><c:if test="${i=='1'}">checked</c:if></c:forEach> />
 							<label for="h_etc1">보증금 조절 가능</label>
-							<input type="checkbox" name="h_etc" id="h_etc3" value="3"/>
+							<input type="checkbox" name="h_etc" id="h_etc3" value="3" <c:forEach var="i" items="${pVO.h_etc}"><c:if test="${i=='3'}">checked</c:if></c:forEach> />
 							<label for="h_etc3">즉시 입주 가능</label>
 						</div>
 					</li>
