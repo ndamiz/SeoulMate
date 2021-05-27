@@ -18,7 +18,8 @@
     width: 300px;
     height: 520px;
     border: 1px solid #ddd;
-    border-radius: 3px; }
+    border-radius: 3px;
+    background-color: #fff; }
 #peopleExplain img{width: 270px; height: 270px;}
 #peopleExplain li{width: 90%;
     margin: 5px auto;
