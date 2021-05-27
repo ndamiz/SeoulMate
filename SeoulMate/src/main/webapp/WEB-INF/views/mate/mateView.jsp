@@ -552,9 +552,13 @@ console.log(score);
 	 		<a id="mEdit" class="white" href="mateEdit?no=${mVO.no }" >수정</a> 
 	 		<a class="white" id="mateDel" >삭제</a> 
 	 		</c:if>
+	 		<c:if test="${logId!=null }">
+	 		<c:if test="${logId!=mVO.userid }">
 	 		 <a class="reportBtn" id="reportBtn">
 				<img style="margin: 0px 10px;" title="신고" alt="신고" src="<%=request.getContextPath()%>/img/comm/ico_report.png">
 			</a>
+			</c:if>
+			</c:if>
  		</div>	
  		<div class="slide_Img">
  			<div class="controlls_prev">◀</div>
@@ -585,8 +589,10 @@ console.log(score);
 				<c:if test="${hPcase=='Y' }">
 				<li><button class="q_btn green" id="sendInviteBtn">초대하기</button></li>
 				</c:if>
+				<c:if test="${logId!=null }">
 				<c:if test="${logId!=mVO.userid }">
 				<li><button class="q_btn white likeInsert" id="likemark">찜하기</button> </li>
+				</c:if>
 				</c:if>
 				<li><button class="q_btn white" id="shareBtn" >공유하기</button></li>
 			</ul>

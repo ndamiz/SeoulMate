@@ -4,7 +4,6 @@ function likeInsert(no, category, userid, obj){
 		url : "/home/likemarkInsert",
 		data : 'no='+no+'&category='+category+'&userid='+userid,
 		success : function(result){
-			alert('찜 목록에 추가되었습니다.')
 			$(obj).addClass("on");
 			$('.btn_star[value='+no+']').addClass('on');
 		}, error : function(){
@@ -19,7 +18,6 @@ function likeDelete(no, userid, obj){
 		url : "/home/likemarkDelete",
 		data : "no="+no+"&userid="+userid,
 		success : function(){
-			alert('찜 목록에 삭제되었습니다.');
 			$(obj).removeClass('on');
 			$('.btn_star[value='+no+']').removeClass('on');
 		}, error : function(){

@@ -990,7 +990,7 @@ $(function(){
 				</li>
 			</c:forEach>
 		</ul>
-			<ul class="form_box choice">
+			<ul class="form_box choice" style="width:720px;">
 				<li>
 					<label><span class="red_txt">*</span>생활소음</label>
 					<div class="checks houseWrtieProp">
@@ -1172,7 +1172,7 @@ $(function(){
 		<p>&nbsp;</p>
 		</div>
 		
-			<ul class="form_box choice">
+			<ul class="form_box choice" style="width: 630px;">
 				<li>
 					<label><span class="red_txt">*</span>생활 시간</label>
 					<div class="checks">
@@ -1243,7 +1243,7 @@ $(function(){
 				</li>	
 				
 				<li>
-					<label><span class="red_txt">*</span>외국인입주 가능여부</label>
+					<label style="width: 240px;"><span class="red_txt">*</span>외국인입주 가능여부</label>
 					<div class="checks">
 						<input type="radio" id="m_global3" value="3" name="m_global"> 
 						<label for="m_global3">가능</label>

@@ -257,9 +257,13 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
 	 		<a id="hEdit" class="white" href="houseEdit?no=${hVO.no }" >수정</a> 
 	 		<a class="white" id="houseDel" >삭제</a> 
 	 		</c:if>
+	 		<c:if test="${logId!=null }">
+	 		<c:if test="${logId!=hVO.userid }">
 	 		 <a class="reportBtn" id="reportBtn">
 				<img style="margin: 0px 10px;" title="신고" alt="신고" src="<%=request.getContextPath()%>/img/comm/ico_report.png">
 			</a>
+			</c:if>
+			</c:if>
  		</div>
  		<div class="slide_Img">
  			<div class="controlls_prev">◀</div>
@@ -288,13 +292,15 @@ height:140px; line-height: 140px; font-size:4em; text-align: center; font-weight
 			<ul>
 				<li ><img src="/home/profilePic/${memProfilePic}" id="profilepic" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'"/> </li>
 				<li>${hVO.userid }</li>
-				<c:if test="${logGrade == null }">
+				<c:if test="${logGrade != null }">
 				<c:if test="${pVO_log.pcase == 'm' }">
 				<li><button class="q_btn green applyInsert" >신청하기</button></li>
 				</c:if>
 				</c:if>
+				<c:if test="${logId!=null }">
 				<c:if test="${logId!=hVO.userid }">
 				<li><button class="q_btn white likeInsert">찜하기</button> </li>
+				</c:if>
 				</c:if>
 				<li><button class="q_btn white" id="shareBtn" >공유하기</button></li>
 			</ul>

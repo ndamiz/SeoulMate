@@ -163,7 +163,9 @@
 			            <li>
 			               <div class="list_img">
 			                  <p><span>매칭</span>${pmList.score}<b>%</b></p>
-			                  <button class="btn_star matelike" value="${pmList.no}"></button>
+			                  <c:if test="${logId != null}">
+			                  	<button class="btn_star matelike" value="${pmList.no}"></button>
+			                  </c:if>
 			                  <a href="mateView?no=${pmList.no}">
 			                     <img alt="" src="<%=request.getContextPath()%>/matePic/${pmList.matepic1}" onerror="this.src='<%=request.getContextPath()%>/img/comm/no_mate_pic.png'">
 			                  </a>
@@ -220,7 +222,9 @@
 	                  		<p><span>매칭</span>${newMateVO.score}<b>%</b></p>
 	                  	</c:if>
 	                 </c:if>
-	                  <button class="btn_star matelike" value="${newMateVO.no}"></button>
+	                 <c:if test="${logId != null}">
+		                 <button class="btn_star matelike" value="${newMateVO.no}"></button>
+		              </c:if> 
 	                  <a href="mateView?no=${newMateVO.no}
 						<c:if test='${pVO.pageNum!=null && pVO.pageNum != 1}'>&pagenum=${pVO.pageNum}</c:if>
 						<c:if test='${pVO.area!=null && pVO.area!=""}'>&area=${pVO.area}</c:if>
