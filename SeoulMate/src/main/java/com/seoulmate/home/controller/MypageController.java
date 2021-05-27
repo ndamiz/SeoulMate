@@ -75,7 +75,7 @@ public class MypageController {
 			int no=0;
 			String category = "";
 			if(lmConfirm.size()>0) {
-	System.out.println("lmConfirm = "+ lmConfirm);
+	System.out.println("lmConfirm = "+ lmConfirm.size());
 				for(int i=0; i<lmConfirm.size(); i++) {
 					no = lmConfirm.get(i).getNo();
 					lmVO.setNo(no);
@@ -86,8 +86,10 @@ public class MypageController {
 						//하우스를 찜 했을 경우. 
 //						pno = service.pno_Select(no);
 						// 로그인한사람이 메이트, 글번호는 하우스의 글번호. 
+						// 메이트가 작성한 no가 없기때문에 문제가 생긴다. 
 						hCheckVO = service.houseLikeSelect(lmVO);
 						if(hCheckVO!=null) {
+	System.out.println("hCheckVO"+ hCheckVO.getNo());
 							houseLikeList.add(hCheckVO);
 						}
 					}
@@ -102,6 +104,7 @@ public class MypageController {
 						// 로그인한 사람이 하우스. 
 						mCheckVO = service.mateLikeSelect(lmVO);
 						if(mCheckVO!=null) {
+System.out.println("mCheckVO"+ mCheckVO.getNo());							
 							mateLikeList.add(mCheckVO);
 						}
 					}

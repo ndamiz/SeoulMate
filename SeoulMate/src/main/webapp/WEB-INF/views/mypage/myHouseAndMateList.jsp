@@ -631,7 +631,7 @@
 			
 			<!-- 찜목록  -->
 			<div class="myHouseMateList <c:if test="${msg!='likeMark' }">objectHidden</c:if>" id="myPage_LikeMarkerList">
-				<c:if test="${fn:length(houseLikeList)!=0 }">
+				<c:if test="${not empty houseLikeList}">
 					<c:forEach var="like_hwVO" items="${houseLikeList }">
 					<c:if test="${like_hwVO.no != null}">
 					<div class="myPage_HouseAndMate_oneBlock" >
@@ -661,8 +661,8 @@
 					</div>
 					</c:if>
 					</c:forEach>
-				</c:if>
-				<c:if test="${fn:length(mateLikeList)!=0 }">
+					</c:if>
+					<c:if test="${not empty mateLikeList}">
 					<c:forEach var="like_mwVO" items="${mateLikeList }">
 					<c:if test="${like_mwVO.no!=null}">
 					<div class="myPage_HouseAndMate_oneBlock">
