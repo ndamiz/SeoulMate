@@ -154,7 +154,7 @@
 				<li><button class="green search"></button></li>
 			</ul>
 		</form>
-		<a class="green room" id="roomWrite">방 등록하기</a><br/>
+		<button class="green room" id="roomWrite">방 등록하기</button><br/>
 	</div>
 <!-- 프리미엄 추천 쉐어하우스 -->
 <c:if test="${logGrade==2}">
