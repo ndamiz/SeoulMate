@@ -981,11 +981,11 @@ $(function(){
 		<p>&nbsp;</p>
 		</div>
 		<ul class="s_margin" id="HproUl">
-			<c:forEach var="vo" items="${list}">
+			<c:forEach var="vo" items="${list}" varStatus="index">
 				<li>
-					<a id="${vo.pno }" class="getPropinfo">
+					<a id="${vo.pno }" class="getPropinfo <c:if test="${pVO.pno==vo.pno}"> green</c:if>">
 						<c:if test="${vo.housename!=null}">${vo.housename}</c:if>
-						<c:if test="${vo.housename==null}">성향${vo.pno}</c:if>
+						<c:if test="${vo.housename==null}">이름없는 집 ${index.count}</c:if>
 					</a>
 				</li>
 			</c:forEach>
