@@ -204,19 +204,14 @@ public class MemberController {
 				vo.setProfilePic(f.getName());
 				
 				// 파일을 복사하여 Node서버에 올린다.
-				File f2 = new File("D:/workspaceWeb/SeoulMateChat/img/profilePic", realName);
-				FileInputStream fi = new FileInputStream(f);
-				FileOutputStream fo = new FileOutputStream(f2);
-				
-				while(true) {
-					int inData = fi.read();
-					if (inData == -1) {
-						break;
-					}
-					fo.write(inData);
-				}
-				fo.flush();
-				fo.close();
+				/*
+				 * File f2 = new File("D:/workspaceWeb/SeoulMateChat/img/profilePic", realName);
+				 * FileInputStream fi = new FileInputStream(f); FileOutputStream fo = new
+				 * FileOutputStream(f2);
+				 * 
+				 * while(true) { int inData = fi.read(); if (inData == -1) { break; }
+				 * fo.write(inData); } fo.flush(); fo.close();
+				 */
 			}
 		}catch(Exception e) {
 			System.out.println("프로필 사진 업로드 에러 발생");
@@ -455,19 +450,14 @@ public class MemberController {
 						newName.transferTo(ff);
 						
 						// 파일을 복사하여 Node서버에 올린다.
-						File f2 = new File("D:/workspaceWeb/SeoulMateChat/img/profilePic", ff.getName());
-						FileInputStream fi = new FileInputStream(ff);
-						FileOutputStream fo = new FileOutputStream(f2);
-						
-						while(true) {
-							int inData = fi.read();
-							if (inData == -1) {
-								break;
-							}
-							fo.write(inData);
-						}
-						fo.flush();
-						fo.close();
+						/*
+						 * File f2 = new File("D:/workspaceWeb/SeoulMateChat/img/profilePic",
+						 * ff.getName()); FileInputStream fi = new FileInputStream(ff); FileOutputStream
+						 * fo = new FileOutputStream(f2);
+						 * 
+						 * while(true) { int inData = fi.read(); if (inData == -1) { break; }
+						 * fo.write(inData); } fo.flush(); fo.close();
+						 */
 					}catch(Exception e) {
 						System.out.println("새로운 파일 추가 수정 에러 발생");
 						e.printStackTrace();

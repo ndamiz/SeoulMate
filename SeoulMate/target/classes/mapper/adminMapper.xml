@@ -284,7 +284,7 @@
   			communityreply set 
 			<if test="param4 == '처리완료'">state='비공개' </if>
   			<if test="param4 == '허위신고'">state='공개' </if>
-  			where no=#{param1} and userid=#{param2}
+  			where num=#{param1} and userid=#{param2}
   		</if>
   	</update>
   	<update id="reportStateUpdate">

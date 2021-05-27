@@ -15,7 +15,7 @@
   		order by writedate desc) <![CDATA[where rownum<= 3]]>
 	</select>
  	<select id="getDesposit" resultType="com.seoulmate.home.vo.HouseRoomVO">
-  		select distinct(rent), deposit from houseroom where no=${param1} and rent = (select min(rent) from houseroom where no=${param1})
+  		select * from (select distinct(rent), deposit from houseroom where no=${param1} and rent = (select min(rent) from houseroom where no=${param1})) <![CDATA[where rownum<= 1]]>
 	</select>
  	<select id="getNewMate" resultType="com.seoulmate.home.vo.MateWriteVO">
   		select * from (select * from matewrite where matestate='모집중' and mateshow='공개' 
