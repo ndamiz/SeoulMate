@@ -16,6 +16,9 @@
 	width: 600px;
 	margin: 0 auto;
 }
+#mateWrite2 .form_box.preview_img{
+	padding-left: 0;
+}
 
 .preview_img li{
 	display: inherit;
@@ -136,7 +139,7 @@
 /* #mate_party checks{width:600px;} */
 .btnclass{padding-left:50px; padding-top:50px;}
 #mateWrite2, #mateWrite3, #mateWrite4, #mateWrite5, #mateWrite6, #mateWrite7 {display:none; }
-#mPic{height:max-content;}
+#mPic, #mateWrite2 #mPic{height:max-content;}
 #area1, #area2, #area3{width:120px;}
 #gu1Edit, #dong1Edit, #gu2Edit, #dong2Edit, #gu3Edit, #dong3Edit{width:230px; float:left;}
 #area1Edit, #area2Edit, #area3Edit{width:284px;}
