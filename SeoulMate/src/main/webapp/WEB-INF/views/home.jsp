@@ -8,7 +8,6 @@
 			var hpno=$(this).attr("id");
 			location.href="hpnoDefault?pno="+hpno;
 		});
-		
 		$("#select_house").click(function(){
 			$("#addr_search").attr("type","text");
 			$("#area_search").attr("type","hidden");
@@ -46,7 +45,7 @@
 				   console.log(result.mateNum)
 				   likeButtonOn(result); // 찜한거 불 넣기 & 자기글 버튼 안보이게 하기
 			   },error : function(){
-				   alert('찜 목록 불러오기 실패')
+				   console.log('찜 목록 불러오기 실패');
 			   }
 		   });
 	   }
