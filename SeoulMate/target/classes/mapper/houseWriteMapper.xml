@@ -86,7 +86,7 @@
 	JOIN (SELECT NO, pno, userid, addr, housename, housepic1, room, bathroom, nowpeople, writedate FROM HOUSEWRITE 
 	WHERE housestate='모집중' and houseshow='공개') hw ON p.pno=hw.pno) hw2
 	JOIN (SELECT distinct(z1.NO), z1.rent, deposit FROM (SELECT NO, min(rent) AS rent FROM houseroom GROUP BY NO)z1 
-	JOIN (SELECT NO, rent, deposit FROM houseroom)z2 ON z1.NO=z2.NO AND z1.rent=z2.rent) hr ON hw2.NO=hr.NO 
+	JOIN (SELECT NO, min(deposit) as deposit FROM houseroom group by no)z2 ON z1.NO=z2.NO) hr ON hw2.NO=hr.NO 
 	<if test='addr != null'>AND addr LIKE '%${addr}%'</if>) 
 	<if test='rent != null and rent>0'>where <![CDATA[rent<=#{rent}]]></if>)
 	<if test='deposit != null and deposit>0'>where <![CDATA[deposit<=#{deposit}]]></if>)

@@ -233,9 +233,9 @@ public class HouseController {
 		int hsCnt = service.houseStateCheck(userid); //하우스 글 중 모집중인 글 확인
 		
 		if(grade==1) { //일반 등급 -> 무조건 1개 글 등록
-			if(hsCnt<0) { //모집중인 하우스 글이 없을 경우
+			if(hsCnt<1) { //모집중인 하우스 글이 없을 경우
 				System.out.println("하우스 글 등록 가능");
-				if(houseCheck<0) { //하우스 등록 안했을 경우(가입할때 성향은 존재, 하우스 글 등록x)
+				if(houseCheck<1) { //하우스 등록 안했을 경우(가입할때 성향은 존재, 하우스 글 등록x)
 					int housePno = service.housePnoCheck(userid); //pno(성향테이블 no) 값 가져오기
 					mav.addObject("housePno", housePno);
 				}else {

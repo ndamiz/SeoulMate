@@ -802,7 +802,7 @@ $(function(){
 			<li>
 				<a id="${vo.pno}" class="getPropinfo <c:if test="${pVO.pno==vo.pno}"> green</c:if>">
 					<c:if test="${vo.housename!=null}">${vo.housename}</c:if>
-					<c:if test="${vo.housename==null}">이름없는 집 ${index.count} </c:if>
+					<c:if test="${vo.housename==null}">이름없는 집 ${index.count}</c:if>
 				</a>
 			</li>
 		</c:forEach>
