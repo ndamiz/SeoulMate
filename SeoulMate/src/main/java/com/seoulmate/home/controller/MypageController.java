@@ -67,27 +67,34 @@ public class MypageController {
 		if(service.likeMarkConfirm(userid)>0) {
 			//3. likemark List 확인. (lno, no, category(하우스 or 메이트) 
 			 List<LikeMarkVO> lmConfirm = service.likeMarkSelect(userid);
+			 
 			 List<HouseWriteVO> houseLikeList = new ArrayList<HouseWriteVO>();
 			 List<MateWriteVO> mateLikeList = new ArrayList<MateWriteVO>();
+			 
 			 LikeMarkVO lmVO = new LikeMarkVO();
 			 HouseWriteVO hCheckVO = new HouseWriteVO();
 			 MateWriteVO mCheckVO = new MateWriteVO();
 			int no=0;
 			String category = "";
 			if(lmConfirm.size()>0) {
-	System.out.println("lmConfirm = "+ lmConfirm);
+	System.out.println("lmConfirm = "+ lmConfirm.size());
 				for(int i=0; i<lmConfirm.size(); i++) {
-					no = lmConfirm.get(i).getNo();
+					no = lmConfirm.get(i).getNo(); //하우스 글번호.
 					lmVO.setNo(no);
 					lmVO.setUserid(userid);
+					
 					category = lmConfirm.get(i).getCategory();
-					if(category.equals("하우스")){
-						// 하우스일경우엔 houseWriteVO 를 넣는다. 
+					if(category.equals("하우스")){ //
 						//하우스를 찜 했을 경우. 
-//						pno = service.pno_Select(no);
-						// 로그인한사람이 메이트, 글번호는 하우스의 글번호. 
+						
+						// 1. 로그인한 사람이 메이트인경우, 
+						
+						// 2, 로그인한 사람이 하우스인경우 
+						
+						// 메이트가 작성한 no가 없기때문에 문제가 생긴다. 
 						hCheckVO = service.houseLikeSelect(lmVO);
 						if(hCheckVO!=null) {
+	System.out.println("hCheckVO"+ hCheckVO.getNo());
 							houseLikeList.add(hCheckVO);
 						}
 					}
@@ -102,6 +109,7 @@ public class MypageController {
 						// 로그인한 사람이 하우스. 
 						mCheckVO = service.mateLikeSelect(lmVO);
 						if(mCheckVO!=null) {
+System.out.println("mCheckVO"+ mCheckVO.getNo());							
 							mateLikeList.add(mCheckVO);
 						}
 					}
@@ -118,12 +126,11 @@ public class MypageController {
 			memberCheck = "houseMem";
 		}else{
 			memberCheck = "mateMem";
-
 		}
 		if(msg==null || msg.equals("")) {
 			msg = "house";
 		}
-//		mav.addObject("memberCheck", memberCheck);
+		mav.addObject("memberCheck", memberCheck);
 //		if(msg==null || msg.equals("")) {
 //			if(service.pnoConfirm(userid, "m")>0) {
 //				// mate 로 등록된 pno가 있다면

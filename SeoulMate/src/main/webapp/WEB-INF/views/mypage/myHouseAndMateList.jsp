@@ -656,7 +656,9 @@
 						<div class="myPage_HouseAndMate_LikeMarker_Btn">
 							<input type="hidden" name="no" value="${like_hwVO.no }" />
 							<a href="#" class="b_btn white likeMarkDel">찜 삭제</a>
+							<c:if test="${not empty mwVO }">
 							<a href="#" class="b_btn white applyInsert">신청하기</a>
+							</c:if>
 						</div>
 					</div>
 					</c:if>
@@ -702,7 +704,12 @@
 							<input type="hidden" name="no" value="${like_mwVO.no }" />
 							<a href="#" class="b_btn white likeMarkDel">찜 삭제</a>
 							<c:if test="${memberCheck=='houseMem' }">
+							<c:forEach var="hw" items="${hwList }">
+								<c:if test="${hw.housestate == '모집중' }"><c:set var="checkHw" value="ok"/></c:if>
+							</c:forEach>
+							<c:if test="${checkHw == 'ok' }">
 							<a href="#" class="b_btn white inviteHouseSelect">초대하기</a>
+							</c:if>
 							</c:if>
 						</div>
 					</div>

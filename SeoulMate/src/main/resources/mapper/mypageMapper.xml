@@ -155,7 +155,6 @@
 						housestate='모집중') h2
 				ON h.pno=h2.pno) h3 
 			ON m.pdate=h3.pdate) h4) 
-		where pno=${pno} AND 1>=rownum
 	</select>
 	<select id="mateLikeSelect" parameterType="com.seoulmate.home.vo.LikeMarkVO" resultType="com.seoulmate.home.vo.MateWriteVO">
 		SELECT userid, NO, pno, deposit, rent, to_char(enterdate, 'mm/dd') as enterdate, area, matepic1, gender, age, m_m_now AS m_now,
