@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="//cdn.ckeditor.com/4.16.0/basic/ckeditor.js"></script>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/housemate.css">
+<c:set var="today" value="<%=new java.util.Date()%>"/>
+<c:set var="now"><fmt:formatDate value="${today}" pattern="yyyy-MM-dd"/></c:set>
 <script>
 $(function(){
 	console.log("${mVO.gender}");
@@ -20,41 +23,11 @@ $(function(){
 	
 // });
 
-	function readURL1(input) {
-	    if (input.files && input.files[0]) {
-	    var reader = new FileReader();
 	
-	    reader.onload = function (e) {
-	            $('#mateImg1').attr('src', e.target.result);
-			}
-			reader.readAsDataURL(input.files[0]);
-		}
-	}
-	
-    function readURL2(input) {
-	    if (input.files && input.files[0]) {
-	    var reader = new FileReader();
-	
-	    reader.onload = function (e) {
-	            $('#mateImg2').attr('src', e.target.result);
-			}
-			reader.readAsDataURL(input.files[0]);
-		}
-    }
-    
-    function readURL3(input) {
-	    if (input.files && input.files[0]) {
-	    var reader = new FileReader();
-	
-	    reader.onload = function (e) {
-	            $('#mateImg3').attr('src', e.target.result);
-			}
-			reader.readAsDataURL(input.files[0]);
-		}
-    }
-    
 
 $(function(){
+	
+	
 	
 	$("#mNext1").click(function(){
 		
@@ -377,44 +350,45 @@ $(function(){
 	}
 	
 	
+	function readURL1(input) {
+	    if (input.files && input.files[0]) {
+	    var reader = new FileReader();
 	
+	    reader.onload = function (e) {
+	            $('#mateImg1').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+	
+    function readURL2(input) {
+	    if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	
+	    reader.onload = function (e) {
+	            $('#mateImg2').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+    }
+    
+    function readURL3(input) {
+	    if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	
+	    reader.onload = function (e) {
+	            $('#mateImg3').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+    }
+    
 	
 	
 	
 	
 
 </script>
-<style>
-/* input[type="date"] {width:200px;} */
-/* input[type="text"] {width:200px;} */
-.content ul li{word-break:keep-all;}
-.content label{width:150px; }
-/* #mate_date, #mate_area, #mate_rent{width:110px;} */
-.form_box{width:850px; margin:0 auto; padding-left:100px;}
-.form_box li input, .form_box li select{margin:0px; width:230px;}
-.form_box.choice li > label {width: 240px;}
-.checks{width:850px;}
-.checks>label{width:120px;}
-.title_wrap div{min-height: 300px;}
-#ck{margin:0 auto; width: 60%;}
-#mateImg1{width:150px; height:107px; }
-#mPic img{width: 250px; height: 250px;}
-#matePic1 img{width:150px; height: 150px;}
-#mateWrite1 .checks>label{width:130px;}
-#mateWrite1 .checks {width: 295px;}
-#mate_area{width:150px;}
-#area1, #area2, #area3{width:130px; }
-/* #mateWrite6{width: 800px;} */
-#mateWrite6 .checks>label{width:200px;}
-/* #mate_party checks{width:600px;} */
-.btnclass{padding-left:50px; padding-top:50px;}
-#mateWrite2, #mateWrite3, #mateWrite4, #mateWrite5, #mateWrite6, #mateWrite7 {display:none; }
-#mPic{height:125px;}
-#area1, #area2, #area3{width:120px;}
-#gu1Edit, #dong1Edit, #gu2Edit, #dong2Edit, #gu3Edit, #dong3Edit{width:230px; float:left;}
-#area1Edit, #area2Edit, #area3Edit{width:284px;}
-
-</style>
 <div class="wrap">
 <div class="content">
 	
@@ -493,7 +467,7 @@ $(function(){
 					<input type="hidden" name="area3" id="area3Edit" value="${mVO.area3}" readonly/>
 					
 				</li>
-			<li> <label><span class="red_txt">*</span>입주가능일 </label><input type="date" id="enterdate" name="enterdate" > </li>
+			<li> <label><span class="red_txt">*</span>입주가능일 </label><input type="date" id="enterdate" min=${now } name="enterdate" > </li>
 			<li> <label><span class="red_txt">*</span>최소 거주 기간</label>
 				 	<select name="minStay" id="minStay">
 				 		<option value="">선택하세요</option>
@@ -539,7 +513,6 @@ $(function(){
 				<br/> </li>
 				
 		</ul>
-		<p>&nbsp;</p> <p>&nbsp;</p> <p>&nbsp;</p> <br/> <br/>
 			<div class="btnclass">
 				<a id="mPrev2" class="green" >이전</a>
 				<a id="mNext2" class="green" >다음</a>
