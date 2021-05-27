@@ -66,6 +66,16 @@
 /* input[type="date"] {width:200px;} */
 /* .house_wrap{width:800px; margin:0 auto; } */
 .content ul li{/* word-break:keep-all; */}
+
+#mateWrite2 ul li:nth-child(2){
+	display: inherit;
+}
+
+#mateWrite2 ul li:nth-child(2) input{
+	display: block;
+	margin: 10px 0;
+}
+
 .form_box li input, .form_box li select{margin:0px; width:300px;}
 .form_box{width:800px;margin:0 auto;/* padding-left: 100px; */}
 .content label{width:150px;}
@@ -101,3 +111,32 @@
 .room2, .room3, .room4, #roomMinus{
 	display:none;
 }
+
+/* input[type="date"] {width:200px;} */
+/* input[type="text"] {width:200px;} */
+.content ul li{word-break:keep-all;}
+.content label{width:150px; }
+/* #mate_date, #mate_area, #mate_rent{width:110px;} */
+.form_box{width:850px; margin:0 auto;}
+.form_box li input, .form_box li select{margin:0px; width:230px;}
+.form_box.choice li > label {width: 240px;}
+.checks{width:850px;}
+.checks>label{width:120px;}
+.title_wrap div{min-height: 300px;}
+#ck{margin:0 auto; width: 60%;}
+#mateImg1{width:150px; height:107px; }
+#mPic img{width: 250px; height: 250px;}
+#matePic1 img{width:150px; height: 150px;}
+#mateWrite1 .checks>label{width:130px;}
+#mateWrite1 .checks {width: 295px;}
+#mate_area{width:150px;}
+#area1, #area2, #area3{width:130px; }
+/* #mateWrite6{width: 800px;} */
+#mateWrite6 .checks>label{width:200px;}
+/* #mate_party checks{width:600px;} */
+.btnclass{padding-left:50px; padding-top:50px;}
+#mateWrite2, #mateWrite3, #mateWrite4, #mateWrite5, #mateWrite6, #mateWrite7 {display:none; }
+#mPic{height:max-content;}
+#area1, #area2, #area3{width:120px;}
+#gu1Edit, #dong1Edit, #gu2Edit, #dong2Edit, #gu3Edit, #dong3Edit{width:230px; float:left;}
+#area1Edit, #area2Edit, #area3Edit{width:284px;}
