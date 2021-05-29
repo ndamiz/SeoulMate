@@ -714,40 +714,6 @@ $(function(){
 					<input class="hno${index.count}"  type="hidden" name="roomVOList[${index.count-1}].hno" value="${rVO.hno}">
 					<p>&nbsp;</p>
 				</div>
-				<ul class="form_box">
-					<li><label><span class="red_txt">*</span>방${index.count} 이름 </label> <input type="text" name="roomVOList[${index.count-1}].roomName" value="${rVO.roomName }" /></li>
-					<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" name="roomVOList[${index.count-1}].rent" value="${rVO.rent }"/> 
-					<li><label><span class="red_txt">*</span>보증금(조율) </label><input type="number" name="roomVOList[${index.count-1}].deposit" value="${rVO.deposit }"/> </li>
-					<li><label><span class="red_txt">*</span>방 인원</label> <input type="number" name="roomVOList[${index.count-1}].roomPeople" value="${rVO.roomPeople }" /> </li>
-					<li><label><span class="red_txt">*</span>입주 가능일 </label> <input type="date" name="roomVOList[${index.count-1}].enterdate" min="${now}" value="${rVO.enterdate}" /> </li>
-					<li><label><span class="red_txt">*</span>최소 거주 기간</label>
-						<select name="roomVOList[${index.count-1}].minStay" >
-							<option value="1-3개월" <c:if test="${rVO.minStay=='1-3개월' }">selected </c:if> >1~3 개월</option>
-							<option value="4-6개월" <c:if test="${rVO.minStay=='4-6개월' }">selected </c:if> >4~6 개월</option>
-							<option value="7-12개월" <c:if test="${rVO.minStay=='7-12개월' }">selected </c:if> >7~12 개월</option>
-							<option value="1년이상" <c:if test="${rVO.minStay=='1년이상' }">selected </c:if> >1년 이상</option>
-						</select> 
-					<li><label><span class="red_txt">*</span>최대 거주 기간</label>
-						<select name="roomVOList[${index.count-1}].maxStay" >
-							<option value="1-3개월" <c:if test="${rVO.maxStay=='1-3개월' }">selected </c:if> >1~3 개월</option>
-							<option value="4-6개월" <c:if test="${rVO.maxStay=='4-7개월' }">selected </c:if> >4~6 개월</option>
-							<option value="7-12개월" <c:if test="${rVO.maxStay=='7-12개월' }">selected </c:if> >7~12 개월</option>
-							<option value="1년이상" <c:if test="${rVO.maxStay=='1년이상' }">selected </c:if> >1년 이상</option>
-						</select> </li>
-						
-					<li><label><span class="red_txt">*</span>가구 여부</label> 
-						<div class="checks">
-								<input type="radio" id="furniture${index.count}" value="1" name="roomVOList[${index.count-1}].furniture" <c:if test="${rVO.furniture==1}">checked</c:if> > 
-								<label for="furniture1">있음</label>
-								
-								<input type="radio" id="furniture${index.count+1}" value="2" name="roomVOList[${index.count-1}].furniture" <c:if test="${rVO.furniture==2}">checked</c:if> > 
-								<label for="furniture2">없음</label>
-							</div>	</li>
-					<li><label>포함된 가구</label><input type="text" name="roomVOList[${index.count-1}].incFurniture"/> </li>
-				</ul><br><br>
-			</div>
-<<<<<<< HEAD
-=======
 			<ul class="form_box">
 				<li><label><span class="red_txt">*</span>방${index.count} 이름 </label> <input type="text" id="roomName" name="roomVOList[${index.count-1}].roomName" value="${rVO.roomName }" /></li>
 				<li><label><span class="red_txt">*</span>월세(관리비포함)</label> <input type="number" id="rent" name="roomVOList[${index.count-1}].rent" value="${rVO.rent }"/> 
@@ -781,7 +747,7 @@ $(function(){
 						</div>	</li>
 				<li><label>포함된 가구</label><input type="text" name="roomVOList[${index.count-1}].incFurniture"/> </li>
 			</ul><br><br>
->>>>>>> refs/remotes/origin/yeonju3
+			</div>
 		</c:forEach>
 		
 			<div class="btnclass">

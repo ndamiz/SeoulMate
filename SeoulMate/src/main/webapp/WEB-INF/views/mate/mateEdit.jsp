@@ -393,7 +393,7 @@ $(function(){
 						<option value="1-3개월" <c:if test="${mVO.minStay=='1-3개월' }">selected </c:if> >1~3 개월</option>
 						<option value="4-6개월" <c:if test="${mVO.minStay=='4-6개월' }">selected </c:if> >4~6 개월</option>
 						<option value="7-12개월" <c:if test="${mVO.minStay=='7-12개월' }">selected </c:if> >7~12 개월</option>
-						<option value="1년 이상" <c:if test="${mVO.minStay=='1년이상' }">selected </c:if> >1년 이상</option> 
+						<option value="1년 이상" <c:if test="${mVO.minStay=='1년 이상' }">selected </c:if> >1년 이상</option> 
 					</select> </li>
 			<li> <label><span class="red_txt">*</span>최대 거주 기간</label>
 					<select name="maxStay" id="maxStay">
@@ -401,7 +401,7 @@ $(function(){
 						<option value="1-3개월" <c:if test="${mVO.maxStay=='1-3개월' }">selected </c:if> >1~3 개월</option>
 						<option value="4-6개월" <c:if test="${mVO.maxStay=='4-6개월' }">selected </c:if> >4~6 개월</option>
 						<option value="7-12개월" <c:if test="${mVO.maxStay=='7-12개월' }">selected </c:if> >7~12 개월</option>
-						<option value="1년 이상" <c:if test="${mVO.maxStay=='1년이상' }">selected </c:if> >1년 이상</option>
+						<option value="1년 이상" <c:if test="${mVO.maxStay=='1년 이상' }">selected </c:if> >1년 이상</option>
 					</select> </li>
 		</ul>
 			<div class="btnclass">
