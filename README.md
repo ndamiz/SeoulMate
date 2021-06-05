@@ -1,5 +1,5 @@
 <br/>
-<h1 align="center"><img src="https://0905cjw.github.io/seoulmate_logo.png" height="30px"/>SeoulMate</h1>
+<img src="https://0905cjw.github.io/seoulmate_logo.png" height="30px" align="center"/>
 <br/>
 <img src="info1.png" style="width:100%;"/>
 <br/>
