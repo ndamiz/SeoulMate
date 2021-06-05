@@ -1,5 +1,5 @@
 <br/>
-<div style="margin:0 auto;"><img src="https://0905cjw.github.io/seoulmate_logo.png" height="30px"/></div>
+<p align="center"><img src="https://0905cjw.github.io/seoulmate_logo.png" height="30px"/></p>
 <br/>
 <img src="info1.png" style="width:100%;"/>
 <br/>
