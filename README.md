@@ -8,8 +8,8 @@
 <br/>
 <h2 align="center">✨저희 팀원들을 소개합니다 !✨</h2>
 <p align="center">
-  <img height="50%" src="https://0905cjw.github.io/info1.png"/>
+  <img height="20%" src="https://0905cjw.github.io/info1.png"/>
 </p>
 <p align="center">
-  <img height="50%" src="https://0905cjw.github.io/info2.png"/>
+  <img height="20%" src="https://0905cjw.github.io/info2.png"/>
 </p>
