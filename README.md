@@ -7,4 +7,14 @@
 <br/>
 <br/>
 <h2>저희 팀원들을 소개합니다 !</h2>
-<img src="https://0905cjw.github.io/view2.png" style="width:100%;"/>
+<div style="width:80%; margin:0 auto;">
+  <img style="width:30%;" src="https://0905cjw.github.io/mem1.png"/>
+  <img style="width:30%;" src="https://0905cjw.github.io/mem2.png"/>
+</div>
+<div style="width:80%; margin:0 auto;">
+  <img style="width:30%;" src="https://0905cjw.github.io/mem3.png"/>
+  <img style="width:30%;" src="https://0905cjw.github.io/mem4.png"/>
+</div>
+<div style="width:80%; margin:0 auto;">
+  <img style="width:30%;" src="https://0905cjw.github.io/mem5.png"/>
+</div>
