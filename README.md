@@ -8,11 +8,11 @@
 <br/>
 <h2>저희 팀원들을 소개합니다 !</h2>
 <p align="center">
-  <img style="width:20%;" src="https://0905cjw.github.io/mem1.png"/>
-  <img style="width:20%;" src="https://0905cjw.github.io/mem2.png"/>
-  <img style="width:20%;" src="https://0905cjw.github.io/mem3.png"/>
+  <img width="30%" src="https://0905cjw.github.io/mem1.png"/>
+  <img width="30%" src="https://0905cjw.github.io/mem2.png"/>
+  <img width="30%" src="https://0905cjw.github.io/mem3.png"/>
 </p>
 <p align="center">
-  <img style="width:30%;" src="https://0905cjw.github.io/mem4.png"/>
-  <img style="width:30%;" src="https://0905cjw.github.io/mem5.png"/>
+  <img width="30%" src="https://0905cjw.github.io/mem4.png"/>
+  <img width="30%" src="https://0905cjw.github.io/mem5.png"/>
 </p>
