@@ -58,7 +58,7 @@
 					pay_method: 'card',
 					merchant_uid : 'merchant_' + new Date().getTime(),
 					name : '프리미엄멤버십 '+payMonthCheck+"개월", //주문명
-					amount : 150, //payMoney*1000, //결제할 금액
+					amount : payMoney*1000, //결제할 금액
 					buyer_name : username,
 					buyer_tel : tel,
 					buyer_email : email,
