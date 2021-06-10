@@ -1,16 +1,16 @@
 <p align="center"><img src="https://0905cjw.github.io/seoulmate_logo.png" height="50px"/></p>
 <h2>프로젝트 : 쉐어하우스&하우스메이트 매칭 웹서비스</h2>
 <p>> 개발 기간 : 2021.04.15 ~ 2021.05.25</p>
-<p>> 역할 담당</p>
-<div style='background-color:#eee;'>
-<p>  윤민 : 커뮤니티, 신고, 찜 | 대쉬보드, 신고/문의 관리</p>
-<p>  지연주 : 하우스/메이트 등록·수정·삭제, 하우스/메이트 공유하기</p>
-<p>  김현아 : 마이페이지, 하우스/메이트 상세정보, 프리미엄 결제 | 하우스/메이트/매출/결제</p>
-<p>  김두별 : INDEX, 로그인, 지도, 채팅</p>
-<p>  최정원 : 매칭 시스템, 회원, FAQ | 회원/FAQ 관리</p>
-</div>
+<p>> 역할</p>
+<span>&nbsp;&nbsp;&nbsp;&nbsp;윤민 : 커뮤니티, 신고, 찜 | 대쉬보드, 신고/문의 관리</span><br/>
+<span>&nbsp;&nbsp;&nbsp;&nbsp;지연주 : 하우스/메이트 등록·수정·삭제, 하우스/메이트 공유하기</span><br/>
+<span>&nbsp;&nbsp;&nbsp;&nbsp;김현아 : 마이페이지, 하우스/메이트 상세정보, 프리미엄 결제 | 하우스/메이트/매출/결제</span><br/>
+<span>&nbsp;&nbsp;&nbsp;&nbsp;김두별 : INDEX, 로그인, 지도, 채팅</span><br/>
+<span>&nbsp;&nbsp;&nbsp;&nbsp;최정원 : 매칭 시스템, 회원, FAQ | 회원/FAQ 관리</span><br/>
 <br/>
-<p>협업 툴</p>
+<p>>협업 툴</p>
+<span>&nbsp;&nbsp;&nbsp;&nbsp;notion : 공지, 일정, 메모</span><br/>
+<span>&nbsp;&nbsp;&nbsp;&nbsp;oven : 화면 설계</span><br/><br/>
 <details>
   <summary>프로젝트 샅샅이 살펴보기↓</summary>
   <p align="center"><img src="https://0905cjw.github.io/seoulmate/project01.png" width="80%"/></p>
