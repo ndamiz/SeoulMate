@@ -12,7 +12,7 @@
 <span>&nbsp;&nbsp;&nbsp;&nbsp;notion : 공지, 일정, 메모</span><br/>
 <span>&nbsp;&nbsp;&nbsp;&nbsp;oven : 화면 설계</span><br/><br/>
 <details>
-  <summary>프로젝트 샅샅이 살펴보기↓</summary>
+  <summary>프로젝트 샅샅이 살펴보기(펼침)</summary>
   <p align="center"><img src="https://0905cjw.github.io/seoulmate/project01.png" width="80%"/></p>
   <p align="center"><img src="https://0905cjw.github.io/seoulmate/project02.png" width="80%"/></p>
   <p align="center"><img src="https://0905cjw.github.io/seoulmate/project03.png" width="80%"/></p>
