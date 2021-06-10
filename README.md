@@ -4,7 +4,7 @@
 <br/>
 <p>협업 툴</p>
 <details>
-  <summary>프로젝트 샅샅이 살펴보기▼</summary>
+  <summary>프로젝트 샅샅이 살펴보기↓</summary>
   <p align="center"><img src="https://0905cjw.github.io/seoulmate/project01.png" width="80%"/></p>
   <p align="center"><img src="https://0905cjw.github.io/seoulmate/project02.png" width="80%"/></p>
   <p align="center"><img src="https://0905cjw.github.io/seoulmate/project03.png" width="80%"/></p>
