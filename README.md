@@ -1,6 +1,6 @@
 <p align="center"><img src="https://0905cjw.github.io/seoulmate_logo.png" height="50px"/></p>
 <h2>프로젝트 : 쉐어하우스&하우스메이트 매칭 웹서비스</h2>
-<p font-weight=600>> 목적 : 공용 주거공간에서 거주하고자하는 사람과 거주자가 필요한 쉐어하우스 간 매칭 플랫폼</p>
+<p font-weight="600">> 목적 : 공용 주거공간에서 거주하고자하는 사람과 거주자가 필요한 쉐어하우스 간 매칭 플랫폼</p>
 <p>> 개발 기간 : 2021.04.15 ~ 2021.05.25</p>
 <p>> 역할</p>
 <span>&nbsp;&nbsp;&nbsp;&nbsp;윤민 : 커뮤니티, 신고, 찜 | 대쉬보드, 신고/문의 관리</span><br/>
